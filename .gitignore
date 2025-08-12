@@ -1,0 +1,20 @@
+﻿# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+*.code-workspace
+
+# Python
+__pycache__/
+*.py[cod]
+.env
+
+# Node / Expo
+mobile/node_modules/
+mobile/.expo/
+mobile/.expo-shared/
+mobile/dist/
+mobile/.cache/
+
+# Docker
+infra/db_data/
