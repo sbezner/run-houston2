@@ -18,3 +18,6 @@ mobile/.cache/
 
 # Docker
 infra/db_data/
+
+# Local requirements (do not track in git)
+requirements.md

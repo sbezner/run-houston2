@@ -1,0 +1,154 @@
+import React, { useEffect, useRef, useState } from "react";
+import { View, ActivityIndicator, Text, Linking, Pressable } from "react-native";
+import MapView, { Marker, Callout } from "react-native-maps";
+import { fetchRaces } from "../api";
+import type { Race } from "../types";
+import { MaterialIcons } from "@expo/vector-icons";
+
+const HOUSTON_REGION = {
+  latitude: 29.7604,
+  longitude: -95.3698,
+  latitudeDelta: 0.4,
+  longitudeDelta: 0.4,
+};
+
+import { StyleSheet } from "react-native";
+
+const styles = StyleSheet.create({
+  recenterBtn: {
+    position: "absolute",
+    bottom: 32,
+    right: 24,
+    backgroundColor: "white",
+    borderRadius: 24,
+    paddingVertical: 10,
+    paddingHorizontal: 18,
+    elevation: 4,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+  },
+  recenterText: {
+    color: "#1b73e8",
+    fontWeight: "bold",
+    fontSize: 16,
+    letterSpacing: 0.5,
+  },
+});
+
+export default function RaceMap() {
+  const [races, setRaces] = useState<Race[]>([]);
+  const [loading, setLoading] = useState(true);
+  const mapRef = useRef<MapView>(null);
+
+  const fitAllOrHouston = () => {
+    if (mapRef.current && races.length > 0) {
+      mapRef.current.fitToCoordinates(
+        races.map((r) => ({ latitude: r.latitude, longitude: r.longitude })),
+        { edgePadding: { top: 60, right: 60, bottom: 60, left: 60 }, animated: true }
+      );
+    } else {
+      mapRef.current?.animateToRegion(HOUSTON_REGION, 300);
+    }
+  };
+
+  useEffect(() => {
+    let alive = true;
+    fetchRaces()
+      .then((rs) => {
+        if (!alive) return;
+        setRaces(rs);
+      })
+      .finally(() => {
+        if (alive) setLoading(false);
+      });
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  // Fit the camera to all pins once markers are available
+  useEffect(() => {
+    if (!mapRef.current || races.length < 1) return;
+    const ids = races.map((r) => `race-${r.id}`);
+    // Small timeout helps ensure markers are on the map before fitting
+    const t = setTimeout(() => {
+      mapRef.current?.fitToSuppliedMarkers(ids, {
+        edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
+        animated: true,
+      });
+    }, 300);
+    return () => clearTimeout(t);
+  }, [races]);
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <ActivityIndicator />
+        <Text style={{ marginTop: 8 }}>Loading map…</Text>
+      </View>
+    );
+  }
+
+  if (races.length === 0) {
+    return (
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center", padding: 16 }}>
+        <Text>No races with map locations yet.</Text>
+      </View>
+    );
+  }
+    
+ 
+  
+  return (
+    <View style={{ flex: 1 }}>
+      <MapView
+        ref={mapRef}
+        style={{ flex: 1 }}
+        initialRegion={HOUSTON_REGION}
+      >
+        {races.map((r) => (
+          <Marker
+            key={r.id}
+            identifier={`race-${r.id}`}
+            coordinate={{ latitude: r.latitude, longitude: r.longitude }}
+            title={r.name}
+            description={new Date(r.date).toLocaleDateString()}
+          >
+            <Callout
+              onPress={() => {
+                if (r.official_website_url) {
+                  Linking.openURL(r.official_website_url).catch(() => {});
+                }
+              }}
+            >
+              <View style={{ maxWidth: 260 }}>
+                <Text style={{ fontWeight: "600", marginBottom: 4 }}>{r.name}</Text>
+                <Text>
+                  {new Date(r.date).toDateString()}
+                  {r.start_time ? ` at ${r.start_time.slice(0, 5)}` : ""}
+                </Text>
+                <Text>
+                  {[r.city, r.state].filter(Boolean).join(", ") || "Houston area"}
+                </Text>
+                {r.official_website_url ? (
+                  <Text style={{ color: "#1b73e8", marginTop: 6 }}>
+                    Tap to open website
+                  </Text>
+                ) : null}
+              </View>
+            </Callout>
+          </Marker>
+        ))}
+      </MapView>
+      <Pressable
+        style={styles.recenterBtn}
+        onPress={fitAllOrHouston}
+        accessibilityLabel="Recenter map on Houston"
+      >
+        <Text style={styles.recenterText}>Recenter</Text>
+      </Pressable>
+    </View>
+  );
+}
