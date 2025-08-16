@@ -69,39 +69,57 @@ const styles = StyleSheet.create({
     color: "#666",
   },
   calloutContainer: {
-    padding: 12,
+    padding: 16,
     backgroundColor: "white",
-    borderRadius: 8,
-    width: 260,
-    // Add subtle shadow
+    borderRadius: 12,
+    width: 280,
+    // Enhanced shadow for better depth
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 6,
+    borderWidth: 1,
+    borderColor: "#e1e5e9",
   },
   calloutTitle: {
-    fontWeight: "700",
-    marginBottom: 6,
-    fontSize: 16,
-    color: "#333",
+    fontWeight: "800",
+    marginBottom: 8,
+    fontSize: 18,
+    color: "#1a1a1a",
+    lineHeight: 22,
   },
   calloutDate: {
-    marginBottom: 6,
-    fontSize: 14,
-    color: "#5f6368",
-    fontWeight: "500",
+    marginBottom: 8,
+    fontSize: 15,
+    color: "#007AFF",
+    fontWeight: "600",
   },
   calloutLocation: {
-    marginBottom: 8,
+    marginBottom: 10,
     fontSize: 14,
     color: "#333",
+    fontWeight: "500",
+  },
+  raceDetails: {
+    fontSize: 13,
+    color: "#666",
+    marginBottom: 6,
+    lineHeight: 18,
   },
   calloutLink: {
     color: "#007AFF",
     fontSize: 14,
-    fontWeight: "600",
+    fontWeight: "700",
     textDecorationLine: "underline",
+    marginTop: 8,
+    textAlign: "center",
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    backgroundColor: "#f0f8ff",
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#007AFF",
   },
 });
 
@@ -113,7 +131,9 @@ export default function RaceMap() {
   const fitAllOrHouston = () => {
     if (mapRef.current && races.length > 0) {
       mapRef.current.fitToCoordinates(
-        races.map((r) => ({ latitude: r.latitude, longitude: r.longitude })),
+        races
+          .filter((r) => r.latitude !== undefined && r.longitude !== undefined)
+          .map((r) => ({ latitude: r.latitude!, longitude: r.longitude! })),
         { edgePadding: { top: 60, right: 60, bottom: 60, left: 60 }, animated: true }
       );
     } else {
@@ -178,36 +198,55 @@ export default function RaceMap() {
         style={{ flex: 1 }}
         initialRegion={HOUSTON_REGION}
       >
-        {races.map((r) => (
+        {races
+          .filter((r) => r.latitude !== undefined && r.longitude !== undefined)
+          .map((r) => (
           <Marker
             key={r.id}
             identifier={`race-${r.id}`}
-            coordinate={{ latitude: r.latitude, longitude: r.longitude }}
+            coordinate={{ latitude: r.latitude!, longitude: r.longitude! }}
             title={r.name}
             description={new Date(r.date).toLocaleDateString()}
           >
             <Callout
               onPress={() => {
                 if (r.official_website_url) {
-                  Linking.openURL(r.official_website_url).catch(() => {});
+                  // Normalize URL to ensure it has proper protocol
+                  const normalizedUrl = r.official_website_url.match(/^https?:\/\//) 
+                    ? r.official_website_url 
+                    : `https://${r.official_website_url}`;
+                  Linking.openURL(normalizedUrl).catch(() => {});
                 }
               }}
             >
-              <View style={styles.calloutContainer}>
-                <Text style={styles.calloutTitle}>{r.name}</Text>
-                <Text style={styles.calloutDate}>
-                  {new Date(r.date).toDateString()}
-                  {r.start_time ? ` at ${r.start_time.slice(0, 5)}` : ""}
-                </Text>
-                <Text style={styles.calloutLocation}>
-                  {[r.city, r.state].filter(Boolean).join(", ") || "Houston area"}
-                </Text>
-                {r.official_website_url ? (
-                  <Text style={styles.calloutLink}>
-                    Tap to open website
-                  </Text>
-                ) : null}
-              </View>
+                             <View style={styles.calloutContainer}>
+                 <Text style={styles.calloutTitle}>{r.name}</Text>
+                 
+                 <Text style={styles.calloutDate}>
+                   📅 {new Date(r.date).toDateString()}
+                   {r.start_time ? ` at ${r.start_time.slice(0, 5)}` : ""}
+                 </Text>
+                 
+                 <Text style={styles.calloutLocation}>
+                   📍 {[r.city, r.state].filter(Boolean).join(", ") || "Houston area"}
+                 </Text>
+                 
+                 {r.surface && (
+                   <Text style={styles.raceDetails}>
+                     🏃 {r.surface.charAt(0).toUpperCase() + r.surface.slice(1)} Surface
+                   </Text>
+                 )}
+                 
+                 <Text style={styles.raceDetails}>
+                   👶 Kid Run: {r.kid_run ? "Yes" : "No"}
+                 </Text>
+                 
+                 {r.official_website_url ? (
+                   <Text style={styles.calloutLink}>
+                     🌐 Tap to open website
+                   </Text>
+                 ) : null}
+               </View>
             </Callout>
           </Marker>
         ))}

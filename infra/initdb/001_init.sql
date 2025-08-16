@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS races (
   distance_categories TEXT[] NOT NULL,
   price_min NUMERIC,
   price_max NUMERIC,
-  surface TEXT CHECK (surface IN ('road','trail')),
+  surface TEXT NOT NULL DEFAULT 'road' CHECK (surface IN ('road','trail')),
   kid_run BOOLEAN DEFAULT FALSE,
   official_website_url TEXT NOT NULL,
   registration_url TEXT,

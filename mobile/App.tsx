@@ -15,6 +15,43 @@ import { fetchRaces } from "./src/api";
 import RaceMap from "./src/components/RaceMap";
 import AboutScreen from "./src/components/AboutScreen";
 
+// Helper function to capitalize first letter of surface type and add "Surface"
+const capitalizeSurface = (surface: string | null | undefined): string => {
+  if (!surface) return '';
+  return surface.charAt(0).toUpperCase() + surface.slice(1) + ' Surface';
+};
+
+// Helper function to format time with AM/PM
+const formatTimeWithAMPM = (timeString: string): string => {
+  if (!timeString) return '';
+  
+  // Extract hours and minutes from the time string (assuming format like "14:30:00")
+  const [hours, minutes] = timeString.split(':');
+  const hour = parseInt(hours, 10);
+  const minute = parseInt(minutes, 10);
+  
+  // Convert to 12-hour format
+  const period = hour >= 12 ? 'PM' : 'AM';
+  const displayHour = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
+  
+  // Format with leading zero for minutes if needed
+  const displayMinute = minute.toString().padStart(2, '0');
+  
+  return `${displayHour}:${displayMinute} ${period}`;
+};
+
+// Helper function to normalize URLs and ensure they have proper protocol
+const normalizeURL = (url: string): string => {
+  if (!url) return '';
+  
+  // If URL doesn't start with http:// or https://, add https://
+  if (!url.match(/^https?:\/\//)) {
+    return `https://${url}`;
+  }
+  
+  return url;
+};
+
 export default function App() {
   const [races, setRaces] = useState<Race[]>([]);
   const [loading, setLoading] = useState(true);
@@ -45,14 +82,12 @@ export default function App() {
 
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Normalize to midnight
-  const in30 = new Date(today);
-  in30.setDate(today.getDate() + 30);
 
   const visibleRaces = races
     .filter((r) => {
       const d = new Date(r.date);
       d.setHours(0, 0, 0, 0);
-      return d >= today && d <= in30;
+      return d >= today; // Show any race in the future
     })
     .sort((a, b) => a.date.localeCompare(b.date));
 
@@ -116,19 +151,23 @@ export default function App() {
                 <Text style={styles.title}>{item.name}</Text>
                 
                 <View style={styles.raceInfo}>
-                  <Text style={styles.raceDate}>
-                    {new Date(item.date).toDateString()}
-                    {item.start_time ? ` at ${item.start_time.slice(0, 5)}` : ""}
-                  </Text>
-                  
-                  <Text style={styles.raceLocation}>
-                    {[item.city, item.state].filter(Boolean).join(", ") || "Houston area"}
+                  <Text style={styles.raceDetails}>
+                   📅 {new Date(item.date).toDateString()}
+                    {item.start_time ? ` at ${formatTimeWithAMPM(item.start_time)}` : ""}
                   </Text>
                   
                   <Text style={styles.raceDetails}>
-                    {[item.surface || undefined, item.kid_run ? "Kid run: Yes" : "Kid run: No"]
-                      .filter(Boolean)
-                      .join(" • ")}
+                  📍 {[item.city, item.state].filter(Boolean).join(", ") || "Houston area"}
+                  </Text>
+                  
+                  {item.surface && (
+                    <Text style={styles.raceDetails}>
+                      🏃 {capitalizeSurface(item.surface)}
+                    </Text>
+                  )}
+                  
+                  <Text style={styles.raceDetails}>
+                    👶 Kid Run: {item.kid_run ? "Yes" : "No"}
                   </Text>
                 </View>
                 
@@ -136,7 +175,7 @@ export default function App() {
                   <Text
                     style={styles.link}
                     onPress={() =>
-                      Linking.openURL(item.official_website_url!).catch(() =>
+                      Linking.openURL(normalizeURL(item.official_website_url!)).catch(() =>
                         Alert.alert("Could not open link")
                       )
                     }
@@ -280,17 +319,8 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginBottom: 12,
   },
-  raceDate: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#5f6368",
-    marginBottom: 4,
-  },
-  raceLocation: {
-    fontSize: 14,
-    color: "#333",
-    marginBottom: 4,
-  },
+  
+
   raceDetails: {
     fontSize: 14,
     color: "#5f6368",

@@ -105,11 +105,11 @@ def admin_list_races(current_admin: dict = Depends(get_current_admin)):
 def create_race(race_data: RaceCreate, current_admin: dict = Depends(get_current_admin)):
     """Create a new race (admin only)."""
     sql = """
-        INSERT INTO races (name, date, start_time, address, city, state, zip, surface, kid_run, 
-                          official_website_url, latitude, longitude)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-        RETURNING id, name, date, start_time, address, city, state, zip, surface, kid_run, 
-                  official_website_url, latitude, longitude
+        INSERT INTO races (name, date, start_time, tz, address, city, state, zip, latitude, longitude, 
+                          distance_categories, surface, kid_run, official_website_url)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        RETURNING id, name, date, start_time, address, city, state, zip, latitude, longitude,
+                  surface, kid_run, official_website_url
     """
     
     with get_conn() as conn, conn.cursor() as cur:
@@ -124,16 +124,16 @@ def create_race(race_data: RaceCreate, current_admin: dict = Depends(get_current
             race_start_time = time.fromisoformat(race_start_time)
             
         cur.execute(sql, (
-            race_data.name, race_date, race_start_time, race_data.address,
-            race_data.city, race_data.state, race_data.zip, race_data.surface, race_data.kid_run,
-            str(race_data.official_website_url) if race_data.official_website_url else None,
-            race_data.latitude, race_data.longitude
+            race_data.name, race_date, race_start_time, 'America/Chicago', race_data.address,
+            race_data.city, race_data.state, race_data.zip, race_data.latitude, race_data.longitude,
+            ['5K'], race_data.surface, race_data.kid_run,
+            str(race_data.official_website_url) if race_data.official_website_url else None
         ))
         row = cur.fetchone()
         conn.commit()
     
-    cols = ["id","name","date","start_time","address","city","state","zip","surface","kid_run",
-            "official_website_url","latitude","longitude"]
+    cols = ["id","name","date","start_time","address","city","state","zip","latitude","longitude",
+            "surface","kid_run","official_website_url"]
     return dict(zip(cols, row))
 
 @app.put("/races/{race_id}", response_model=RaceResponse)

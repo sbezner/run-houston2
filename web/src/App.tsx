@@ -2,6 +2,12 @@ import React from 'react';
 import type { Race } from './types';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
+// Helper function to capitalize first letter of surface type
+const capitalizeSurface = (surface: string | null | undefined): string => {
+  if (!surface) return '';
+  return surface.charAt(0).toUpperCase() + surface.slice(1);
+};
+
 // Enhanced Marketing Home Component - Phase 3
 const MarketingHome = () => (
   <div style={{ 
@@ -237,6 +243,23 @@ const AdminDashboard = () => {
     longitude: ''
   });
 
+  const [createForm, setCreateForm] = React.useState({
+    name: '',
+    date: '',
+    start_time: '',
+    address: '',
+    city: '',
+    state: '',
+    zip: '',
+    surface: 'road',
+    kid_run: false,
+    official_website_url: '',
+    latitude: '',
+    longitude: ''
+  });
+
+  const [showCreateForm, setShowCreateForm] = React.useState(false);
+
   // Check if user is already logged in
   React.useEffect(() => {
     const token = localStorage.getItem('adminToken');
@@ -423,7 +446,7 @@ const AdminDashboard = () => {
         city: '',
         state: '',
         zip: '',
-        surface: '',
+        surface: 'road',
         kid_run: false,
         official_website_url: '',
         latitude: '',
@@ -431,6 +454,76 @@ const AdminDashboard = () => {
       });
     } catch (err: any) {
       console.error('Edit race error:', err);
+      setError(err.message);
+    }
+  };
+
+  const handleCreateRace = async () => {
+    try {
+      const token = localStorage.getItem('adminToken');
+      
+      // Validate required fields
+      if (!createForm.name || !createForm.date || !createForm.surface) {
+        setError('Race name, date, and surface type are required');
+        return;
+      }
+
+      // Clear any previous errors
+      setError('');
+
+      console.log('Creating race with data:', createForm);
+
+      const response = await fetch('http://localhost:8000/races', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          name: createForm.name,
+          date: createForm.date,
+          start_time: createForm.start_time || null,
+          address: createForm.address || null,
+          city: createForm.city || null,
+          state: createForm.state || null,
+          zip: createForm.zip || null,
+          surface: createForm.surface || null,
+          kid_run: createForm.kid_run,
+          official_website_url: createForm.official_website_url || null,
+          latitude: createForm.latitude ? parseFloat(createForm.latitude) : null,
+          longitude: createForm.longitude ? parseFloat(createForm.longitude) : null
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        let errorMessage = 'Failed to create race';
+        if (errorData.detail && Array.isArray(errorData.detail)) {
+          errorMessage = errorData.detail.map((err: any) => err.msg || err.message || err).join(', ');
+        } else if (errorData.detail) {
+          errorMessage = errorData.detail;
+        }
+        throw new Error(errorMessage);
+      }
+
+      // Refresh races and close create form
+      await fetchAdminRaces();
+      setShowCreateForm(false);
+      setCreateForm({
+        name: '',
+        date: '',
+        start_time: '',
+        address: '',
+        city: '',
+        state: '',
+        zip: '',
+        surface: '',
+        kid_run: false,
+        official_website_url: '',
+        latitude: '',
+        longitude: ''
+      });
+    } catch (err: any) {
       setError(err.message);
     }
   };
@@ -466,16 +559,10 @@ const AdminDashboard = () => {
   if (!isLoggedIn) {
     return (
       <div style={{ 
-        width: '100vw', 
+        width: '100%', 
         minHeight: '100vh',
         padding: '20px',
-        boxSizing: 'border-box',
-        margin: 0,
-        position: 'relative',
-        left: '50%',
-        right: '50%',
-        marginLeft: '-50vw',
-        marginRight: '-50vw'
+        boxSizing: 'border-box'
       }}>
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <h1 style={{ fontSize: '36px', marginBottom: '10px', color: '#333' }}>🔧 Admin Dashboard</h1>
@@ -581,16 +668,10 @@ const AdminDashboard = () => {
   // Admin Dashboard (After Login)
   return (
     <div style={{ 
-      width: '100vw', 
+      width: '100%', 
       minHeight: '100vh',
       padding: '20px',
-      boxSizing: 'border-box',
-      margin: 0,
-      position: 'relative',
-      left: '50%',
-      right: '50%',
-      marginLeft: '-50vw',
-      marginRight: '-50vw'
+      boxSizing: 'border-box'
     }}>
       <div style={{ 
         display: 'flex', 
@@ -680,16 +761,19 @@ const AdminDashboard = () => {
           marginBottom: '30px'
         }}>
           <h2 style={{ fontSize: '28px', color: '#333', margin: 0 }}>Race Management</h2>
-          <button style={{
-            backgroundColor: '#28a745',
-            color: 'white',
-            border: 'none',
-            padding: '12px 24px',
-            borderRadius: '8px',
-            cursor: 'pointer',
-            fontSize: '14px',
-            fontWeight: '600'
-          }}>
+          <button 
+            onClick={() => setShowCreateForm(true)}
+            style={{
+              backgroundColor: '#28a745',
+              color: 'white',
+              border: 'none',
+              padding: '12px 24px',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              fontSize: '14px',
+              fontWeight: '600'
+            }}
+          >
             ➕ Add New Race
           </button>
         </div>
@@ -766,8 +850,8 @@ const AdminDashboard = () => {
                   {race.address && <div>🏠 {race.address}</div>}
                   {race.city && <div>📍 {race.city}</div>}
                   {race.zip && <div>📮 {race.zip}</div>}
-                  {race.surface && <div>🏃 {race.surface} surface</div>}
-                  {race.kid_run && <div style={{ color: '#007AFF' }}>👶 Kid-friendly</div>}
+                  {race.surface && <div>🏃 {capitalizeSurface(race.surface)} Surface</div>}
+                  <div style={{ color: '#666' }}>👶 Kid Run: {race.kid_run ? "Yes" : "No"}</div>
                   {race.latitude && race.longitude && (
                     <div style={{ color: '#28a745', fontSize: '12px' }}>
                       🌍 {race.latitude.toFixed(4)}, {race.longitude.toFixed(4)}
@@ -921,19 +1005,20 @@ const AdminDashboard = () => {
             
             <div style={{ marginBottom: '15px' }}>
               <label style={{ display: 'block', marginBottom: '5px', fontWeight: '500' }}>Surface Type</label>
-              <input
-                type="text"
-                value={editForm.surface}
-                onChange={(e) => setEditForm({...editForm, surface: e.target.value})}
-                placeholder="e.g., Road, Trail, Track"
-                style={{
-                  width: '100%',
-                  padding: '10px',
-                  border: '1px solid #ddd',
-                  borderRadius: '6px',
-                  fontSize: '14px'
-                }}
-              />
+                                <select
+                    value={editForm.surface}
+                    onChange={(e) => setEditForm({...editForm, surface: e.target.value})}
+                    style={{
+                      width: '100%',
+                      padding: '10px',
+                      border: '1px solid #ddd',
+                      borderRadius: '6px',
+                      fontSize: '14px'
+                    }}
+                  >
+                    <option value="road">Road</option>
+                    <option value="trail">Trail</option>
+                  </select>
             </div>
             
             <div style={{ marginBottom: '15px' }}>
@@ -1079,6 +1164,417 @@ const AdminDashboard = () => {
         </div>
       )}
 
+      {/* Fast Race Entry Grid */}
+      {showCreateForm && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000
+        }}>
+          <div style={{
+            backgroundColor: 'white',
+            padding: '20px',
+            borderRadius: '15px',
+            width: '95%',
+            maxWidth: '1200px',
+            maxHeight: '90vh',
+            overflow: 'auto'
+          }}>
+            <div style={{ 
+              display: 'flex', 
+              justifyContent: 'space-between', 
+              alignItems: 'center',
+              marginBottom: '20px'
+            }}>
+              <h2 style={{ fontSize: '24px', color: '#333', margin: 0 }}>🚀 Fast Race Entry</h2>
+              <button
+                onClick={() => setShowCreateForm(false)}
+                style={{
+                  backgroundColor: '#6c757d',
+                  color: 'white',
+                  border: 'none',
+                  padding: '8px 16px',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  fontSize: '14px'
+                }}
+              >
+                ✕ Close
+              </button>
+            </div>
+
+            {/* Quick Entry Row */}
+            <div style={{ 
+              backgroundColor: '#f8f9fa', 
+              padding: '15px', 
+              borderRadius: '10px',
+              marginBottom: '20px',
+              border: '2px solid #e9ecef'
+            }}>
+              <h3 style={{ fontSize: '16px', marginBottom: '15px', color: '#495057' }}>⚡ Quick Entry (Most Common Fields)</h3>
+              <div style={{ 
+                display: 'grid', 
+                gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr 80px 120px',
+                gap: '10px',
+                alignItems: 'end'
+              }}>
+                <div>
+                  <label style={{ display: 'block', marginBottom: '5px', fontSize: '12px', color: '#666', fontWeight: '500' }}>Race Name *</label>
+                  <input
+                    type="text"
+                    value={createForm.name}
+                    onChange={(e) => setCreateForm({...createForm, name: e.target.value})}
+                    placeholder="e.g., Houston Marathon"
+                    style={{
+                      width: '100%',
+                      padding: '8px',
+                      border: '1px solid #ddd',
+                      borderRadius: '4px',
+                      fontSize: '14px'
+                    }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', marginBottom: '5px', fontSize: '12px', color: '#666', fontWeight: '500' }}>Date *</label>
+                  <input
+                    type="date"
+                    value={createForm.date}
+                    onChange={(e) => setCreateForm({...createForm, date: e.target.value})}
+                    style={{
+                      width: '100%',
+                      padding: '8px',
+                      border: '1px solid #ddd',
+                      borderRadius: '4px',
+                      fontSize: '14px'
+                    }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', marginBottom: '5px', fontSize: '12px', color: '#666', fontWeight: '500' }}>City</label>
+                  <input
+                    type="text"
+                    value={createForm.city}
+                    onChange={(e) => setCreateForm({...createForm, city: e.target.value})}
+                    placeholder="Houston"
+                    style={{
+                      width: '100%',
+                      padding: '8px',
+                      border: '1px solid #ddd',
+                      borderRadius: '4px',
+                      fontSize: '14px'
+                    }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', marginBottom: '5px', fontSize: '12px', color: '#666', fontWeight: '500' }}>State</label>
+                  <input
+                    type="text"
+                    value={createForm.state}
+                    onChange={(e) => setCreateForm({...createForm, state: e.target.value})}
+                    placeholder="TX"
+                    style={{
+                      width: '100%',
+                      padding: '8px',
+                      border: '1px solid #ddd',
+                      borderRadius: '4px',
+                      fontSize: '14px'
+                    }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', marginBottom: '5px', fontSize: '12px', color: '#666', fontWeight: '500' }}>Surface</label>
+                  <select
+                    value={createForm.surface}
+                    onChange={(e) => setCreateForm({...createForm, surface: e.target.value})}
+                    style={{
+                      width: '100%',
+                      padding: '8px',
+                      border: '1px solid #ddd',
+                      borderRadius: '4px',
+                      fontSize: '14px'
+                    }}
+                  >
+                    <option value="road">Road</option>
+                    <option value="trail">Trail</option>
+                  </select>
+                </div>
+                <div>
+                  <label style={{ display: 'block', marginBottom: '5px', fontSize: '12px', color: '#666', fontWeight: '500' }}>Kid Run</label>
+                  <input
+                    type="checkbox"
+                    checked={createForm.kid_run}
+                    onChange={(e) => setCreateForm({...createForm, kid_run: e.target.checked})}
+                    style={{ transform: 'scale(1.2)' }}
+                  />
+                </div>
+                <div>
+                  <button
+                    onClick={handleCreateRace}
+                    disabled={!createForm.name || !createForm.date || !createForm.surface}
+                    style={{
+                      backgroundColor: createForm.name && createForm.date && createForm.surface ? '#28a745' : '#ccc',
+                      color: 'white',
+                      border: 'none',
+                      padding: '8px 12px',
+                      borderRadius: '4px',
+                      cursor: createForm.name && createForm.date && createForm.surface ? 'pointer' : 'not-allowed',
+                      fontSize: '12px',
+                      fontWeight: '600',
+                      width: '100%',
+                      transition: 'all 0.2s ease'
+                    }}
+                    title={!createForm.name || !createForm.date || !createForm.surface ? 'Please enter race name, date, and surface type' : 'Click to add race'}
+                  >
+                    {createForm.name && createForm.date && createForm.surface ? '➕ Add' : '⏳ Fill Required'}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Advanced Fields */}
+            <div style={{ 
+              backgroundColor: '#fff', 
+              padding: '15px', 
+              borderRadius: '10px',
+              border: '1px solid #e9ecef'
+            }}>
+              <h3 style={{ fontSize: '16px', marginBottom: '15px', color: '#495057' }}>🔧 Advanced Fields (Optional)</h3>
+              <div style={{ 
+                display: 'grid', 
+                gridTemplateColumns: '1fr 1fr 1fr 1fr',
+                gap: '15px'
+              }}>
+                <div>
+                  <label style={{ display: 'block', marginBottom: '5px', fontSize: '12px', color: '#666', fontWeight: '500' }}>Start Time</label>
+                  <input
+                    type="time"
+                    value={createForm.start_time}
+                    onChange={(e) => setCreateForm({...createForm, start_time: e.target.value})}
+                    style={{
+                      width: '100%',
+                      padding: '8px',
+                      border: '1px solid #ddd',
+                      borderRadius: '4px',
+                      fontSize: '14px'
+                    }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', marginBottom: '5px', fontSize: '12px', color: '#666', fontWeight: '500' }}>Address</label>
+                  <input
+                    type="text"
+                    value={createForm.address}
+                    onChange={(e) => setCreateForm({...createForm, address: e.target.value})}
+                    placeholder="123 Main Street"
+                    style={{
+                      width: '100%',
+                      padding: '8px',
+                      border: '1px solid #ddd',
+                      borderRadius: '4px',
+                      fontSize: '14px'
+                    }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', marginBottom: '5px', fontSize: '12px', color: '#666', fontWeight: '500' }}>Zip Code</label>
+                  <input
+                    type="text"
+                    value={createForm.zip}
+                    onChange={(e) => setCreateForm({...createForm, zip: e.target.value})}
+                    placeholder="77002"
+                    style={{
+                      width: '100%',
+                      padding: '8px',
+                      border: '1px solid #ddd',
+                      borderRadius: '4px',
+                      fontSize: '14px'
+                    }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', marginBottom: '5px', fontSize: '12px', color: '#666', fontWeight: '500' }}>Website</label>
+                  <input
+                    type="url"
+                    value={createForm.official_website_url}
+                    onChange={(e) => setCreateForm({...createForm, official_website_url: e.target.value})}
+                    placeholder="https://..."
+                    style={{
+                      width: '100%',
+                      padding: '8px',
+                      border: '1px solid #ddd',
+                      borderRadius: '4px',
+                      fontSize: '14px'
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* Coordinates Section */}
+              <div style={{ marginTop: '15px' }}>
+                <div style={{ 
+                  display: 'flex', 
+                  gap: '10px', 
+                  alignItems: 'center', 
+                  marginBottom: '10px' 
+                }}>
+                  <span style={{ fontSize: '14px', color: '#666', fontWeight: '500' }}>Coordinates:</span>
+                  <button 
+                    type="button" 
+                    onClick={async () => {
+                      let searchQuery = '';
+                      if (createForm.address && createForm.city && createForm.state && createForm.zip) {
+                        searchQuery = `${createForm.address}, ${createForm.city}, ${createForm.state} ${createForm.zip}`;
+                      } else if (createForm.address && createForm.city && createForm.state) {
+                        searchQuery = `${createForm.address}, ${createForm.city}, ${createForm.state}`;
+                      } else if (createForm.city && createForm.state && createForm.zip) {
+                        searchQuery = `${createForm.city}, ${createForm.state} ${createForm.zip}`;
+                      } else if (createForm.city && createForm.state) {
+                        searchQuery = `${createForm.city}, ${createForm.state}`;
+                      }
+                      
+                      if (searchQuery) {
+                        try {
+                          const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(searchQuery)}`);
+                          const data = await response.json();
+                          if (data && data[0]) {
+                            setCreateForm({
+                              ...createForm,
+                              latitude: data[0].lat,
+                              longitude: data[0].lon
+                            });
+                          }
+                        } catch (error) {
+                          console.error('Geocoding error:', error);
+                        }
+                      }
+                    }}
+                    style={{
+                      backgroundColor: '#007AFF',
+                      color: 'white',
+                      border: 'none',
+                      padding: '6px 12px',
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                      fontSize: '12px'
+                    }}
+                  >
+                    🌍 Auto-fill
+                  </button>
+                </div>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  <div style={{ flex: 1 }}>
+                    <label style={{ display: 'block', marginBottom: '5px', fontSize: '12px', color: '#666' }}>Latitude</label>
+                    <input
+                      type="number"
+                      step="any"
+                      value={createForm.latitude}
+                      onChange={(e) => setCreateForm({...createForm, latitude: e.target.value})}
+                      placeholder="29.7633"
+                      style={{
+                        width: '100%',
+                        padding: '8px',
+                        border: '1px solid #ddd',
+                        borderRadius: '4px',
+                        fontSize: '14px'
+                      }}
+                    />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <label style={{ display: 'block', marginBottom: '5px', fontSize: '12px', color: '#666' }}>Longitude</label>
+                    <input
+                      type="number"
+                      step="any"
+                      value={createForm.longitude}
+                      onChange={(e) => setCreateForm({...createForm, longitude: e.target.value})}
+                      placeholder="-95.3819"
+                      style={{
+                        width: '100%',
+                        padding: '8px',
+                        border: '1px solid #ddd',
+                        borderRadius: '4px',
+                        fontSize: '14px'
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Actions */}
+            <div style={{ 
+              display: 'flex', 
+              gap: '10px', 
+              justifyContent: 'center',
+              marginTop: '20px',
+              paddingTop: '20px',
+              borderTop: '1px solid #e9ecef'
+            }}>
+              <button
+                onClick={() => {
+                  setCreateForm({
+                    name: '',
+                    date: '',
+                    start_time: '',
+                    address: '',
+                    city: '',
+                    state: '',
+                    zip: '',
+                    surface: '',
+                    kid_run: false,
+                    official_website_url: '',
+                    latitude: '',
+                    longitude: ''
+                  });
+                }}
+                style={{
+                  backgroundColor: '#6c757d',
+                  color: 'white',
+                  border: 'none',
+                  padding: '10px 20px',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  fontSize: '14px'
+                }}
+              >
+                🗑️ Clear Form
+              </button>
+              <button
+                onClick={() => {
+                  // Copy city/state from previous race if available
+                  if (races.length > 0) {
+                    const lastRace = races[races.length - 1];
+                    setCreateForm({
+                      ...createForm,
+                      city: lastRace.city || '',
+                      state: lastRace.state || '',
+                      surface: lastRace.surface || ''
+                    });
+                  }
+                }}
+                style={{
+                  backgroundColor: '#17a2b8',
+                  color: 'white',
+                  border: 'none',
+                  padding: '10px 20px',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  fontSize: '14px'
+                }}
+              >
+                📋 Copy Last Race Location
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Delete Confirmation Modal */}
       {deletingRace && (
         <div style={{
@@ -1197,16 +1693,10 @@ const RacesPage = () => {
   if (error) {
     return (
       <div style={{ 
-        width: '100vw', 
+        width: '100%', 
         minHeight: '100vh',
         padding: '20px',
-        boxSizing: 'border-box',
-        margin: 0,
-        position: 'relative',
-        left: '50%',
-        right: '50%',
-        marginLeft: '-50vw',
-        marginRight: '-50vw'
+        boxSizing: 'border-box'
       }}>
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <h1 style={{ fontSize: '36px', marginBottom: '10px', color: '#333' }}>🏃‍♂️ Upcoming Races</h1>
@@ -1241,16 +1731,10 @@ const RacesPage = () => {
 
   return (
     <div style={{ 
-      width: '100vw', 
+      width: '100%', 
       minHeight: '100vh',
       padding: '20px',
-      boxSizing: 'border-box',
-      margin: 0,
-      position: 'relative',
-      left: '50%',
-      right: '50%',
-      marginLeft: '-50vw',
-      marginRight: '-50vw'
+      boxSizing: 'border-box'
     }}>
       <div style={{ textAlign: 'center', marginBottom: '40px' }}>
         <h1 style={{ fontSize: '36px', marginBottom: '10px', color: '#333' }}>🏃‍♂️ Upcoming Races</h1>
@@ -1276,7 +1760,7 @@ const RacesPage = () => {
       ) : (
         <div style={{ 
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
           gap: '20px',
           width: '100%'
         }}>
@@ -1347,21 +1831,21 @@ const RacesPage = () => {
                     color: '#666'
                   }}>
                     <span>🏃</span>
-                    <span>{race.surface} surface</span>
+                    <span>{capitalizeSurface(race.surface)} Surface</span>
                   </div>
                 )}
                 
                 {race.kid_run && (
-                  <div style={{ 
+                  <div style={{
                     display: 'flex', 
                     alignItems: 'center', 
                     gap: '8px', 
                     marginBottom: '8px',
-                    color: '#007AFF',
-                    fontWeight: '500'
+                    color: '#666',
+                    fontWeight: '400'
                   }}>
                     <span>👶</span>
-                    <span>Kid-friendly race available</span>
+                    <span>Kid Run: Yes</span>
                   </div>
                 )}
               </div>
