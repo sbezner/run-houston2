@@ -13,12 +13,13 @@ import {
 import { Race } from "./src/types";
 import { fetchRaces } from "./src/api";
 import RaceMap from "./src/components/RaceMap";
+import AboutScreen from "./src/components/AboutScreen";
 
 export default function App() {
   const [races, setRaces] = useState<Race[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [mode, setMode] = useState<"list" | "map">("list");
+  const [mode, setMode] = useState<"list" | "map" | "about">("list");
   const [refreshing, setRefreshing] = useState(false); // 1. Add refreshing state
 
   // 2. Create reload function
@@ -94,6 +95,14 @@ export default function App() {
             Map
           </Text>
         </Pressable>
+        <Pressable
+          onPress={() => setMode("about")}
+          style={[styles.toggleBtn, mode === "about" ? styles.toggleActive : styles.toggleIdle]}
+        >
+          <Text style={[styles.toggleText, mode === "about" ? styles.toggleTextActive : styles.toggleTextIdle]}>
+            About
+          </Text>
+        </Pressable>
       </View>
 
       <View style={{ flex: 1 }}>
@@ -134,8 +143,10 @@ export default function App() {
             refreshing={refreshing} // 4. Add refreshing prop
             onRefresh={reload}      // 5. Add onRefresh prop
           />
-        ) : (
+        ) : mode === "map" ? (
           <RaceMap />
+        ) : (
+          <AboutScreen />
         )}
       </View>
     </SafeAreaView>
