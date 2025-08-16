@@ -123,15 +123,22 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function RaceMap() {
+interface RaceMapProps {
+  races?: Race[];
+}
+
+export default function RaceMap({ races: propRaces }: RaceMapProps) {
   const [races, setRaces] = useState<Race[]>([]);
   const [loading, setLoading] = useState(true);
   const mapRef = useRef<MapView>(null);
 
+  // Use prop races if provided, otherwise fetch from API
+  const displayRaces = propRaces || races;
+
   const fitAllOrHouston = () => {
-    if (mapRef.current && races.length > 0) {
+    if (mapRef.current && displayRaces.length > 0) {
       mapRef.current.fitToCoordinates(
-        races
+        displayRaces
           .filter((r) => r.latitude !== undefined && r.longitude !== undefined)
           .map((r) => ({ latitude: r.latitude!, longitude: r.longitude! })),
         { edgePadding: { top: 60, right: 60, bottom: 60, left: 60 }, animated: true }
@@ -158,8 +165,8 @@ export default function RaceMap() {
 
   // Fit the camera to all pins once markers are available
   useEffect(() => {
-    if (!mapRef.current || races.length < 1) return;
-    const ids = races.map((r) => `race-${r.id}`);
+    if (!mapRef.current || displayRaces.length < 1) return;
+    const ids = displayRaces.map((r) => `race-${r.id}`);
     // Small timeout helps ensure markers are on the map before fitting
     const t = setTimeout(() => {
       mapRef.current?.fitToSuppliedMarkers(ids, {
@@ -168,9 +175,10 @@ export default function RaceMap() {
       });
     }, 300);
     return () => clearTimeout(t);
-  }, [races]);
+  }, [displayRaces]);
 
-  if (loading) {
+  // Only show loading if we're fetching races (not using prop races)
+  if (loading && !propRaces) {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#007AFF" />
@@ -179,12 +187,16 @@ export default function RaceMap() {
     );
   }
 
-  if (races.length === 0) {
+  if (displayRaces.length === 0) {
     return (
       <View style={styles.emptyContainer}>
         <Text style={styles.emptyTitle}>No Races Found</Text>
-        <Text style={styles.emptyText}>No races with map locations yet.</Text>
-        <Text style={styles.emptySubtext}>Check back later for upcoming races!</Text>
+        <Text style={styles.emptyText}>
+          {propRaces ? "No races match your current filter." : "No races with map locations yet."}
+        </Text>
+        <Text style={styles.emptySubtext}>
+          {propRaces ? "Try adjusting your time filter above." : "Check back later for upcoming races!"}
+        </Text>
       </View>
     );
   }
@@ -198,9 +210,9 @@ export default function RaceMap() {
         style={{ flex: 1 }}
         initialRegion={HOUSTON_REGION}
       >
-        {races
-          .filter((r) => r.latitude !== undefined && r.longitude !== undefined)
-          .map((r) => (
+                 {displayRaces
+           .filter((r) => r.latitude !== undefined && r.longitude !== undefined)
+           .map((r) => (
           <Marker
             key={r.id}
             identifier={`race-${r.id}`}

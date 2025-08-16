@@ -5,7 +5,6 @@ import { APP_VERSION, DB_VERSION } from "../config";
 export default function AboutScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Run Houston</Text>
       <Text style={styles.subtitle}>Race Discovery App</Text>
 
       <View style={styles.versionContainer}>
@@ -36,7 +35,8 @@ const styles = StyleSheet.create({
     padding: 24,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
+    paddingTop: 40,
   },
   title: {
     fontSize: 28,
@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#666",
     marginBottom: 32,
+    marginTop: 4,
     textAlign: "center",
   },
   versionContainer: {

@@ -58,6 +58,7 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
   const [mode, setMode] = useState<"list" | "map" | "about">("list");
   const [refreshing, setRefreshing] = useState(false); // 1. Add refreshing state
+  const [timeFilter, setTimeFilter] = useState<"30" | "60" | "90" | "all">("30"); // Time filter state
 
   // 2. Create reload function
   const reload = async () => {
@@ -83,11 +84,38 @@ export default function App() {
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Normalize to midnight
 
+  // Calculate filter date based on selected time range
+  const getFilterDate = () => {
+    switch (timeFilter) {
+      case "30":
+        const in30 = new Date(today);
+        in30.setDate(today.getDate() + 30);
+        return in30;
+      case "60":
+        const in60 = new Date(today);
+        in60.setDate(today.getDate() + 60);
+        return in60;
+      case "90":
+        const in90 = new Date(today);
+        in90.setDate(today.getDate() + 90);
+        return in90;
+      case "all":
+        return null; // No upper limit
+      default:
+        return null;
+    }
+  };
+
+  const filterDate = getFilterDate();
+
   const visibleRaces = races
     .filter((r) => {
       const d = new Date(r.date);
       d.setHours(0, 0, 0, 0);
-      return d >= today; // Show any race in the future
+      if (filterDate) {
+        return d >= today && d <= filterDate;
+      }
+      return d >= today; // Show all future races
     })
     .sort((a, b) => a.date.localeCompare(b.date));
 
@@ -111,34 +139,35 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.header}>Run Houston — Upcoming Races</Text>
+      <Text style={styles.header}>
+        {mode === "about" ? "About Run Houston" : "Run Houston — Upcoming Races"}
+      </Text>
 
-      <View style={styles.toggleRow}>
-        <Pressable
-          onPress={() => setMode("list")}
-          style={[styles.toggleBtn, mode === "list" ? styles.toggleActive : styles.toggleIdle]}
-        >
-          <Text style={[styles.toggleText, mode === "list" ? styles.toggleTextActive : styles.toggleTextIdle]}>
-            List
-          </Text>
-        </Pressable>
-        <Pressable
-          onPress={() => setMode("map")}
-          style={[styles.toggleBtn, mode === "map" ? styles.toggleActive : styles.toggleIdle]}
-        >
-          <Text style={[styles.toggleText, mode === "map" ? styles.toggleTextActive : styles.toggleTextIdle]}>
-            Map
-          </Text>
-        </Pressable>
-        <Pressable
-          onPress={() => setMode("about")}
-          style={[styles.toggleBtn, mode === "about" ? styles.toggleActive : styles.toggleIdle]}
-        >
-          <Text style={[styles.toggleText, mode === "about" ? styles.toggleTextActive : styles.toggleTextIdle]}>
-            About
-          </Text>
-        </Pressable>
-      </View>
+      {/* Time Filter Chips - Only show for List and Map modes */}
+      {mode !== "about" && (
+        <View style={styles.filterContainer}>
+          <Text style={styles.filterLabel}>Show races in:</Text>
+          <View style={styles.filterChips}>
+            {(["30", "60", "90", "all"] as const).map((filter) => (
+              <Pressable
+                key={filter}
+                style={[
+                  styles.filterChip,
+                  timeFilter === filter ? styles.filterChipActive : styles.filterChipInactive
+                ]}
+                onPress={() => setTimeFilter(filter)}
+              >
+                <Text style={[
+                  styles.filterChipText,
+                  timeFilter === filter ? styles.filterChipTextActive : styles.filterChipTextInactive
+                ]}>
+                  {filter === "all" ? "All" : `${filter} Days`}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
+        </View>
+      )}
 
       <View style={{ flex: 1 }}>
         {mode === "list" ? (
@@ -191,10 +220,38 @@ export default function App() {
             onRefresh={reload}      // 5. Add onRefresh prop
           />
         ) : mode === "map" ? (
-          <RaceMap />
+          <RaceMap races={visibleRaces} />
         ) : (
           <AboutScreen />
         )}
+      </View>
+
+      {/* Bottom Navigation Tabs */}
+      <View style={styles.bottomNav}>
+        <Pressable
+          onPress={() => setMode("list")}
+          style={[styles.bottomNavTab, mode === "list" ? styles.bottomNavTabActive : styles.bottomNavTabInactive]}
+        >
+          <Text style={[styles.bottomNavText, mode === "list" ? styles.bottomNavTextActive : styles.bottomNavTextInactive]}>
+            📋 List
+          </Text>
+        </Pressable>
+        <Pressable
+          onPress={() => setMode("map")}
+          style={[styles.bottomNavTab, mode === "map" ? styles.bottomNavTabActive : styles.bottomNavTabInactive]}
+        >
+          <Text style={[styles.bottomNavText, mode === "map" ? styles.bottomNavTextActive : styles.bottomNavTextInactive]}>
+            🗺️ Map
+          </Text>
+        </Pressable>
+        <Pressable
+          onPress={() => setMode("about")}
+          style={[styles.bottomNavTab, mode === "about" ? styles.bottomNavTabActive : styles.bottomNavTabInactive]}
+        >
+          <Text style={[styles.bottomNavText, mode === "about" ? styles.bottomNavTextActive : styles.bottomNavTextInactive]}>
+            ℹ️ About
+          </Text>
+        </Pressable>
       </View>
     </SafeAreaView>
   );
@@ -324,5 +381,91 @@ const styles = StyleSheet.create({
   raceDetails: {
     fontSize: 14,
     color: "#5f6368",
+  },
+  // Filter styles
+  filterContainer: {
+    backgroundColor: "#fff",
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: "#e1e5e9",
+  },
+  filterLabel: {
+    fontSize: 12,
+    fontWeight: "600",
+    color: "#666",
+    marginBottom: 8,
+  },
+  filterChips: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 6,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  filterChip: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 16,
+    borderWidth: 1,
+    minWidth: 60,
+    alignItems: "center",
+  },
+  filterChipActive: {
+    backgroundColor: "#007AFF",
+    borderColor: "#007AFF",
+  },
+  filterChipInactive: {
+    backgroundColor: "#f8f9fa",
+    borderColor: "#dee2e6",
+  },
+  filterChipText: {
+    fontSize: 12,
+    fontWeight: "600",
+  },
+  filterChipTextActive: {
+    color: "#fff",
+  },
+  filterChipTextInactive: {
+    color: "#6c757d",
+  },
+  // Bottom navigation styles
+  bottomNav: {
+    flexDirection: "row",
+    backgroundColor: "#fff",
+    borderTopWidth: 1,
+    borderTopColor: "#e1e5e9",
+    paddingBottom: 20, // Extra padding for safe area
+    paddingTop: 12,
+    // Enhanced shadow for depth
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 8,
+  },
+  bottomNavTab: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 8,
+    paddingHorizontal: 4,
+  },
+  bottomNavTabActive: {
+    // Active state styling
+  },
+  bottomNavTabInactive: {
+    // Inactive state styling
+  },
+  bottomNavText: {
+    fontSize: 12,
+    fontWeight: "600",
+    textAlign: "center",
+  },
+  bottomNavTextActive: {
+    color: "#007AFF",
+  },
+  bottomNavTextInactive: {
+    color: "#8e8e93",
   },
 });
