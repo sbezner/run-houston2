@@ -7,17 +7,17 @@ export default function AboutScreen() {
     <View style={styles.container}>
       <Text style={styles.title}>Run Houston</Text>
       <Text style={styles.subtitle}>Race Discovery App</Text>
-      
+
       <View style={styles.versionContainer}>
         <Text style={styles.versionLabel}>App Version:</Text>
         <Text style={styles.versionValue}>{APP_VERSION}</Text>
       </View>
-      
+
       <View style={styles.versionContainer}>
         <Text style={styles.versionLabel}>Database Version:</Text>
         <Text style={styles.versionValue}>{DB_VERSION}</Text>
       </View>
-      
+
       <View style={styles.infoContainer}>
         <Text style={styles.infoText}>
           Discover and explore running races in the Greater Houston area.
@@ -43,11 +43,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#333",
     marginBottom: 8,
+    textAlign: "center",
   },
   subtitle: {
     fontSize: 18,
     color: "#666",
     marginBottom: 32,
+    textAlign: "center",
   },
   versionContainer: {
     flexDirection: "row",
@@ -58,6 +60,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#f8f9fa",
     borderRadius: 8,
     minWidth: 200,
+    // Enhanced shadows for depth
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3, // Android shadow
   },
   versionLabel: {
     fontSize: 16,

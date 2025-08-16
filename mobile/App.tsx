@@ -114,16 +114,24 @@ export default function App() {
             renderItem={({ item }) => (
               <View style={styles.row}>
                 <Text style={styles.title}>{item.name}</Text>
-                <Text>
-                  {new Date(item.date).toDateString()}
-                  {item.start_time ? ` at ${item.start_time.slice(0, 5)}` : ""}
-                </Text>
-                <Text>{[item.city, item.state].filter(Boolean).join(", ") || "Houston area"}</Text>
-                <Text>
-                  {[item.surface || undefined, item.kid_run ? "Kid run: Yes" : "Kid run: No"]
-                    .filter(Boolean)
-                    .join(" • ")}
-                </Text>
+                
+                <View style={styles.raceInfo}>
+                  <Text style={styles.raceDate}>
+                    {new Date(item.date).toDateString()}
+                    {item.start_time ? ` at ${item.start_time.slice(0, 5)}` : ""}
+                  </Text>
+                  
+                  <Text style={styles.raceLocation}>
+                    {[item.city, item.state].filter(Boolean).join(", ") || "Houston area"}
+                  </Text>
+                  
+                  <Text style={styles.raceDetails}>
+                    {[item.surface || undefined, item.kid_run ? "Kid run: Yes" : "Kid run: No"]
+                      .filter(Boolean)
+                      .join(" • ")}
+                  </Text>
+                </View>
+                
                 {item.official_website_url ? (
                   <Text
                     style={styles.link}
@@ -154,20 +162,137 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fff" },
-  header: { fontSize: 18, fontWeight: "600", padding: 16 },
-  row: { paddingHorizontal: 16, paddingVertical: 8 },
-  title: { fontSize: 16, fontWeight: "600", marginBottom: 2 },
-  sep: { height: 1, backgroundColor: "#eee", marginLeft: 16 },
-  center: { flex: 1, alignItems: "center", justifyContent: "center", padding: 16, gap: 8 },
-  error: { color: "red", fontWeight: "600" },
-  link: { color: "#1b73e8", marginTop: 6 },
+  container: { 
+    flex: 1, 
+    backgroundColor: "#f8f9fa" // Light background for better contrast
+  },
+  header: { 
+    fontSize: 20, 
+    fontWeight: "700", 
+    padding: 20, 
+    paddingBottom: 16,
+    color: "#333",
+    textAlign: "center",
+    backgroundColor: "#fff",
+    // Add subtle shadow
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  row: { 
+    paddingHorizontal: 16, 
+    paddingVertical: 16,
+    backgroundColor: "#fff",
+    marginHorizontal: 16,
+    marginVertical: 4,
+    borderRadius: 12,
+    // Enhanced shadows for depth
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+    elevation: 4,
+  },
+  title: { 
+    fontSize: 18, 
+    fontWeight: "700", 
+    marginBottom: 8,
+    color: "#333",
+    lineHeight: 22,
+  },
+  sep: { 
+    height: 8, // Increased spacing between cards
+    backgroundColor: "transparent", // Remove separator line
+    marginLeft: 16 
+  },
+  center: { 
+    flex: 1, 
+    alignItems: "center", 
+    justifyContent: "center", 
+    padding: 24, 
+    gap: 16,
+    backgroundColor: "#f8f9fa",
+  },
+  error: { 
+    color: "#dc3545", 
+    fontWeight: "600",
+    fontSize: 16,
+    textAlign: "center",
+  },
+  link: { 
+    color: "#007AFF", 
+    marginTop: 12,
+    fontSize: 14,
+    fontWeight: "500",
+    textDecorationLine: "underline",
+  },
 
-  toggleRow: { flexDirection: "row", paddingHorizontal: 16, gap: 8, marginBottom: 8 },
-  toggleBtn: { paddingVertical: 8, paddingHorizontal: 12, borderRadius: 8 },
-  toggleActive: { backgroundColor: "#222" },
-  toggleIdle: { backgroundColor: "#eee" },
-  toggleText: { fontSize: 14 },
-  toggleTextActive: { color: "#fff" },
-  toggleTextIdle: { color: "#111" },
+  toggleRow: { 
+    flexDirection: "row", 
+    paddingHorizontal: 16, 
+    paddingVertical: 12,
+    gap: 8, 
+    marginBottom: 8,
+    backgroundColor: "#fff",
+    // Add subtle shadow
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  toggleBtn: { 
+    paddingVertical: 10, 
+    paddingHorizontal: 16, 
+    borderRadius: 10,
+    minWidth: 80,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  toggleActive: { 
+    backgroundColor: "#007AFF",
+    // Enhanced shadow for active state
+    shadowColor: "#007AFF",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 6,
+  },
+  toggleIdle: { 
+    backgroundColor: "#f1f3f4",
+    borderWidth: 1,
+    borderColor: "#e1e5e9",
+  },
+  toggleText: { 
+    fontSize: 14,
+    fontWeight: "600",
+  },
+  toggleTextActive: { 
+    color: "#fff" 
+  },
+  toggleTextIdle: { 
+    color: "#5f6368" 
+  },
+
+  raceInfo: {
+    marginTop: 8,
+    marginBottom: 12,
+  },
+  raceDate: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#5f6368",
+    marginBottom: 4,
+  },
+  raceLocation: {
+    fontSize: 14,
+    color: "#333",
+    marginBottom: 4,
+  },
+  raceDetails: {
+    fontSize: 14,
+    color: "#5f6368",
+  },
 });

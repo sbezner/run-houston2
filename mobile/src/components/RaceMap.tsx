@@ -19,21 +19,89 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 32,
     right: 24,
-    backgroundColor: "white",
+    backgroundColor: "#fff",
     borderRadius: 24,
-    paddingVertical: 10,
-    paddingHorizontal: 18,
-    elevation: 4,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    // Enhanced shadows for better depth
+    elevation: 8,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    // Add border for better definition
+    borderWidth: 1,
+    borderColor: "#e1e5e9",
   },
   recenterText: {
-    color: "#1b73e8",
-    fontWeight: "bold",
+    color: "#007AFF",
+    fontWeight: "700",
     fontSize: 16,
     letterSpacing: 0.5,
+  },
+  loadingContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 16,
+  },
+  loadingText: {
+    marginTop: 8,
+    color: "#007AFF",
+  },
+  emptyContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 16,
+  },
+  emptyTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 8,
+  },
+  emptyText: {
+    fontSize: 18,
+    marginBottom: 8,
+  },
+  emptySubtext: {
+    fontSize: 14,
+    color: "#666",
+  },
+  calloutContainer: {
+    padding: 12,
+    backgroundColor: "white",
+    borderRadius: 8,
+    width: 260,
+    // Add subtle shadow
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  calloutTitle: {
+    fontWeight: "700",
+    marginBottom: 6,
+    fontSize: 16,
+    color: "#333",
+  },
+  calloutDate: {
+    marginBottom: 6,
+    fontSize: 14,
+    color: "#5f6368",
+    fontWeight: "500",
+  },
+  calloutLocation: {
+    marginBottom: 8,
+    fontSize: 14,
+    color: "#333",
+  },
+  calloutLink: {
+    color: "#007AFF",
+    fontSize: 14,
+    fontWeight: "600",
+    textDecorationLine: "underline",
   },
 });
 
@@ -84,17 +152,19 @@ export default function RaceMap() {
 
   if (loading) {
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <ActivityIndicator />
-        <Text style={{ marginTop: 8 }}>Loading map…</Text>
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#007AFF" />
+        <Text style={styles.loadingText}>Loading map…</Text>
       </View>
     );
   }
 
   if (races.length === 0) {
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center", padding: 16 }}>
-        <Text>No races with map locations yet.</Text>
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyTitle}>No Races Found</Text>
+        <Text style={styles.emptyText}>No races with map locations yet.</Text>
+        <Text style={styles.emptySubtext}>Check back later for upcoming races!</Text>
       </View>
     );
   }
@@ -123,17 +193,17 @@ export default function RaceMap() {
                 }
               }}
             >
-              <View style={{ maxWidth: 260 }}>
-                <Text style={{ fontWeight: "600", marginBottom: 4 }}>{r.name}</Text>
-                <Text>
+              <View style={styles.calloutContainer}>
+                <Text style={styles.calloutTitle}>{r.name}</Text>
+                <Text style={styles.calloutDate}>
                   {new Date(r.date).toDateString()}
                   {r.start_time ? ` at ${r.start_time.slice(0, 5)}` : ""}
                 </Text>
-                <Text>
+                <Text style={styles.calloutLocation}>
                   {[r.city, r.state].filter(Boolean).join(", ") || "Houston area"}
                 </Text>
                 {r.official_website_url ? (
-                  <Text style={{ color: "#1b73e8", marginTop: 6 }}>
+                  <Text style={styles.calloutLink}>
                     Tap to open website
                   </Text>
                 ) : null}

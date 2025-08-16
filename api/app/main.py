@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import os
 import psycopg
-from datetime import timedelta
+from datetime import timedelta, date, time
 
 from .auth import verify_password, create_access_token, verify_token, ACCESS_TOKEN_EXPIRE_MINUTES
 from .models import AdminLogin, AdminLoginResponse, RaceCreate, RaceUpdate, RaceResponse
@@ -44,7 +44,7 @@ def health():
 @app.get("/races")
 def list_races():
     sql = """
-        SELECT id, name, date, start_time, city, state, latitude, longitude,
+        SELECT id, name, date, start_time, address, city, state, zip, latitude, longitude,
                surface, kid_run, official_website_url
         FROM races
         ORDER BY date ASC
@@ -54,7 +54,7 @@ def list_races():
         cur.execute(sql)
         rows = cur.fetchall()
 
-    cols = ["id","name","date","start_time","city","state","latitude","longitude",
+    cols = ["id","name","date","start_time","address","city","state","zip","latitude","longitude",
             "surface","kid_run","official_website_url"]
     return [dict(zip(cols, r)) for r in rows]
 
@@ -88,7 +88,7 @@ def admin_login(login_data: AdminLogin):
 def admin_list_races(current_admin: dict = Depends(get_current_admin)):
     """Admin endpoint to get all races (no 30-day filter)."""
     sql = """
-        SELECT id, name, date, start_time, city, state, latitude, longitude,
+        SELECT id, name, date, start_time, address, city, state, zip, latitude, longitude,
                surface, kid_run, official_website_url
         FROM races
         ORDER BY date ASC
@@ -97,7 +97,7 @@ def admin_list_races(current_admin: dict = Depends(get_current_admin)):
         cur.execute(sql)
         rows = cur.fetchall()
 
-    cols = ["id","name","date","start_time","city","state","latitude","longitude",
+    cols = ["id","name","date","start_time","address","city","state","zip","latitude","longitude",
             "surface","kid_run","official_website_url"]
     return [dict(zip(cols, r)) for r in rows]
 
@@ -105,24 +105,34 @@ def admin_list_races(current_admin: dict = Depends(get_current_admin)):
 def create_race(race_data: RaceCreate, current_admin: dict = Depends(get_current_admin)):
     """Create a new race (admin only)."""
     sql = """
-        INSERT INTO races (name, date, start_time, city, state, surface, kid_run, 
+        INSERT INTO races (name, date, start_time, address, city, state, zip, surface, kid_run, 
                           official_website_url, latitude, longitude)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-        RETURNING id, name, date, start_time, city, state, surface, kid_run, 
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        RETURNING id, name, date, start_time, address, city, state, zip, surface, kid_run, 
                   official_website_url, latitude, longitude
     """
     
     with get_conn() as conn, conn.cursor() as cur:
+        # Convert string date to Python date object if needed
+        race_date = race_data.date
+        if isinstance(race_date, str):
+            race_date = date.fromisoformat(race_date)
+            
+        # Convert string time to Python time object if needed
+        race_start_time = race_data.start_time
+        if isinstance(race_start_time, str):
+            race_start_time = time.fromisoformat(race_start_time)
+            
         cur.execute(sql, (
-            race_data.name, race_data.date, race_data.start_time, race_data.city,
-            race_data.state, race_data.surface, race_data.kid_run,
+            race_data.name, race_date, race_start_time, race_data.address,
+            race_data.city, race_data.state, race_data.zip, race_data.surface, race_data.kid_run,
             str(race_data.official_website_url) if race_data.official_website_url else None,
             race_data.latitude, race_data.longitude
         ))
         row = cur.fetchone()
         conn.commit()
     
-    cols = ["id","name","date","start_time","city","state","surface","kid_run",
+    cols = ["id","name","date","start_time","address","city","state","zip","surface","kid_run",
             "official_website_url","latitude","longitude"]
     return dict(zip(cols, row))
 
@@ -138,16 +148,30 @@ def update_race(race_id: int, race_data: RaceUpdate, current_admin: dict = Depen
         values.append(race_data.name)
     if race_data.date is not None:
         update_fields.append("date = %s")
-        values.append(race_data.date)
+        # Convert string date to Python date object if needed
+        if isinstance(race_data.date, str):
+            values.append(date.fromisoformat(race_data.date))
+        else:
+            values.append(race_data.date)
     if race_data.start_time is not None:
         update_fields.append("start_time = %s")
-        values.append(race_data.start_time)
+        # Convert string time to Python time object if needed
+        if isinstance(race_data.start_time, str):
+            values.append(time.fromisoformat(race_data.start_time))
+        else:
+            values.append(race_data.start_time)
+    if race_data.address is not None:
+        update_fields.append("address = %s")
+        values.append(race_data.address)
     if race_data.city is not None:
         update_fields.append("city = %s")
         values.append(race_data.city)
     if race_data.state is not None:
         update_fields.append("state = %s")
         values.append(race_data.state)
+    if race_data.zip is not None:
+        update_fields.append("zip = %s")
+        values.append(race_data.zip)
     if race_data.surface is not None:
         update_fields.append("surface = %s")
         values.append(race_data.surface)
@@ -174,7 +198,7 @@ def update_race(race_id: int, race_data: RaceUpdate, current_admin: dict = Depen
         UPDATE races 
         SET {', '.join(update_fields)}, updated_at = NOW()
         WHERE id = %s
-        RETURNING id, name, date, start_time, city, state, surface, kid_run, 
+        RETURNING id, name, date, start_time, address, city, state, zip, surface, kid_run, 
                   official_website_url, latitude, longitude
     """
     
@@ -185,7 +209,7 @@ def update_race(race_id: int, race_data: RaceUpdate, current_admin: dict = Depen
             raise HTTPException(status_code=404, detail="Race not found")
         conn.commit()
     
-    cols = ["id","name","date","start_time","city","state","surface","kid_run",
+    cols = ["id","name","date","start_time","address","city","state","zip","surface","kid_run",
             "official_website_url","latitude","longitude"]
     return dict(zip(cols, row))
 
