@@ -1,0 +1,7 @@
+id,name,date,start_time,address,city,state,zip,surface,kid_run,official_website_url,latitude,longitude
+1,Bayou City 5k!!,8/19/2025,19:30:00,600 Memorial Dr,Houston,tx,77007,road,FALSE,https://runsignup.com/Race/TX/Houston/BayouCityClassic10k,29.7633,-95.3819
+2,Galveston Beach 10K,9/1/2025,8:00 AM,Stewart Beach,Galveston,TX,77550,road,No,https://example.com/galv10k,29.3,-94.7667
+25,Houston Marathon,9/1/2025,7:00:00,1001 Avenida de las Americas,Houston,TX,77010,road,TRUE,https://www.chevronhoustonmarathon.com/,29.7517931,-95.3581139
+7,Test Race - Database Fixed!!!!!,8/25/2027,8:00,16123 Capri Drive,Jersey Village,TX,77040,road,1,www.yahoo.com,29.8902025,-95.566397
+8,Second Race,8/25/2025,8:00,16123 Capri Drive,Jersey Village,TX,77040,road,1,www.yahoo.com,29.8902025,-95.566397
+11,Third Race,8/25/2025,8:00,16123 Capri Drive,Jersey Village,TX,77040,road,1,www.yahoo.com,29.8902025,-95.566397

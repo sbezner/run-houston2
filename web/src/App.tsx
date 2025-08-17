@@ -1,6 +1,10 @@
 import React from 'react';
 import type { Race } from './types';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { parseCsvFile } from './import/parseCsv';
+import { validateAndTransform } from './import/validation';
+import { downloadErrorsCsv } from './import/download';
+import type { RaceCsvRow, RaceUpsert, ImportError } from './import/errors';
 
 // Helper function to capitalize first letter of surface type
 const capitalizeSurface = (surface: string | null | undefined): string => {
@@ -259,6 +263,42 @@ const AdminDashboard = () => {
   });
 
   const [showCreateForm, setShowCreateForm] = React.useState(false);
+  const [csvFile, setCsvFile] = React.useState<File | null>(null);
+  // const [bulkOperation, setBulkOperation] = React.useState<'none' | 'delete' | 'update'>('none');
+  const [selectedRaces, setSelectedRaces] = React.useState<Set<number>>(new Set());
+
+  // CSV Import State
+  const [importState, setImportState] = React.useState<'idle' | 'parsed' | 'validated' | 'committing' | 'done' | 'error'>('idle');
+  const [rawRows, setRawRows] = React.useState<RaceCsvRow[]>([]);
+  const [previewRows, setPreviewRows] = React.useState<RaceUpsert[]>([]);
+  const [importErrors, setImportErrors] = React.useState<ImportError[]>([]);
+  const [importWarnings, setImportWarnings] = React.useState<ImportError[]>([]);
+  const [commitProgress, setCommitProgress] = React.useState({ total: 0, done: 0, succeeded: 0, failed: 0, created: 0, updated: 0 });
+  const [aborter, setAborter] = React.useState<AbortController | null>(null);
+
+  // Define fetchAdminRaces before it's used in useEffect
+  const fetchAdminRaces = async () => {
+    setRacesLoading(true);
+    try {
+      const token = localStorage.getItem('adminToken');
+      const response = await fetch('http://localhost:8000/admin/races', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch races');
+      }
+
+      const data = await response.json();
+      setRaces(data);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setRacesLoading(false);
+    }
+  };
 
   // Check if user is already logged in
   React.useEffect(() => {
@@ -302,29 +342,6 @@ const AdminDashboard = () => {
     localStorage.removeItem('adminToken');
     setIsLoggedIn(false);
     setRaces([]);
-  };
-
-  const fetchAdminRaces = async () => {
-    setRacesLoading(true);
-    try {
-      const token = localStorage.getItem('adminToken');
-      const response = await fetch('http://localhost:8000/admin/races', {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch races');
-      }
-
-      const data = await response.json();
-      setRaces(data);
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setRacesLoading(false);
-    }
   };
 
   const handleEditRace = (race: Race) => {
@@ -458,6 +475,259 @@ const AdminDashboard = () => {
     }
   };
 
+  const exportToCSV = () => {
+    console.log('Export CSV clicked, races count:', races.length);
+    console.log('Races data:', races);
+    
+    if (races.length === 0) {
+      setError('No races to export');
+      return;
+    }
+
+    try {
+      // Create CSV content
+      const headers = [
+        'id', 'name', 'date', 'start_time', 'address', 'city', 'state', 'zip',
+        'surface', 'kid_run', 'official_website_url', 'latitude', 'longitude'
+      ];
+      
+      const csvContent = [
+        headers.join(','),
+        ...races.map(race => [
+          race.id,
+          `"${race.name.replace(/"/g, '""')}"`,
+          race.date,
+          race.start_time || '',
+          `"${(race.address || '').replace(/"/g, '""')}"`,
+          `"${(race.city || '').replace(/"/g, '""')}"`,
+          `"${(race.state || '').replace(/"/g, '""')}"`,
+          `"${(race.zip || '').replace(/"/g, '""')}"`,
+          race.surface || '',
+          race.kid_run ? 'true' : 'false',
+          `"${(race.official_website_url || '').replace(/"/g, '""')}"`,
+          race.latitude || '',
+          race.longitude || ''
+        ].join(','))
+      ].join('\n');
+
+      console.log('CSV content created:', csvContent);
+
+      // Create and download file
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `races_export_${new Date().toISOString().split('T')[0]}.csv`;
+      a.style.display = 'none';
+      
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+      
+      console.log('CSV export completed successfully');
+      setError('CSV exported successfully!'); // Show success message
+      // Clear success message after 3 seconds
+      setTimeout(() => setError(''), 3000);
+    } catch (error) {
+      console.error('CSV export error:', error);
+      setError(`CSV export failed: ${error}`);
+    }
+  };
+
+  // CSV Import Functions
+  const handleCSVParse = async () => {
+    if (!csvFile) {
+      setError('Please select a CSV file');
+      return;
+    }
+
+    try {
+      setError('');
+      const result = await parseCsvFile(csvFile);
+      
+      if (result.headerErrors.length > 0) {
+        setError(`CSV header errors: ${result.headerErrors.join(', ')}`);
+        return;
+      }
+
+      if (result.rows.length === 0) {
+        setError('No data rows found in CSV file');
+        return;
+      }
+
+      // Store raw rows and validate
+      setRawRows(result.rows);
+      const validation = validateAndTransform(result.rows);
+      
+      setPreviewRows(validation.valid);
+      setImportErrors(validation.errors);
+      setImportWarnings(validation.warnings);
+      
+      // Move to validation step
+      setImportState('parsed');
+      
+    } catch (err: any) {
+      setError(`CSV parsing failed: ${err.message}`);
+    }
+  };
+
+  const handleCSVCommit = async () => {
+    if (previewRows.length === 0) {
+      setError('No valid races to import');
+      return;
+    }
+
+    // Create abort controller for cancellation
+    const controller = new AbortController();
+    setAborter(controller);
+    setImportState('committing');
+    
+    // Initialize progress
+    setCommitProgress({
+      total: previewRows.length,
+      done: 0,
+      succeeded: 0,
+      failed: 0,
+      created: 0,
+      updated: 0
+    });
+
+    const token = localStorage.getItem('adminToken');
+    const batchSize = 100;
+    const concurrency = 3;
+    const batches = [];
+    
+    // Split into batches
+    for (let i = 0; i < previewRows.length; i += batchSize) {
+      batches.push(previewRows.slice(i, i + batchSize));
+    }
+
+    let totalSucceeded = 0;
+    let totalFailed = 0;
+    let totalCreated = 0;
+    let totalUpdated = 0;
+
+    try {
+      for (let batchIndex = 0; batchIndex < batches.length; batchIndex++) {
+        if (controller.signal.aborted) break;
+        
+        const batch = batches[batchIndex];
+        const batchPromises = [];
+        
+        // Process batch with concurrency limit
+        for (let i = 0; i < batch.length; i += concurrency) {
+          if (controller.signal.aborted) break;
+          
+          const concurrentRaces = batch.slice(i, i + concurrency);
+          const concurrentPromises = concurrentRaces.map(async (race) => {
+            // const raceIndex = batchIndex * batchSize + i + index; // Unused variable
+            
+            try {
+              const response = await fetch('http://localhost:8000/races', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify(race),
+                signal: controller.signal
+              });
+
+              if (response.ok) {
+                totalSucceeded++;
+                
+                // Get operation type from response body (more reliable than headers)
+                const responseData = await response.json();
+                const operationType = responseData.operation_type;
+                console.log(`Race ${race.id || 'new'}: Operation type from body: "${operationType}"`);
+                
+                if (operationType && operationType.trim().toLowerCase() === 'updated') {
+                  totalUpdated++;
+                  console.log(`Race ${race.id || 'new'}: Counted as UPDATE`);
+                } else {
+                  totalCreated++;
+                  console.log(`Race ${race.id || 'new'}: Counted as CREATE`);
+                }
+                
+                return { success: true, race, operationType };
+              } else {
+                totalFailed++;
+                const errorData = await response.json();
+                return { 
+                  success: false, 
+                  race, 
+                  error: errorData.detail || 'Unknown error' 
+                };
+              }
+            } catch (err: any) {
+              if (err.name === 'AbortError') {
+                throw err;
+              }
+              totalFailed++;
+              return { 
+                success: false, 
+                race, 
+                error: err.message 
+              };
+            } finally {
+              setCommitProgress(prev => ({
+                ...prev,
+                done: prev.done + 1,
+                succeeded: totalSucceeded,
+                failed: totalFailed,
+                created: totalCreated,
+                updated: totalUpdated
+              }));
+            }
+          });
+          
+          batchPromises.push(...concurrentPromises);
+        }
+        
+        // Wait for current batch to complete
+        await Promise.all(batchPromises);
+        
+        if (controller.signal.aborted) break;
+      }
+      
+      // Import completed
+      setImportState('done');
+      await fetchAdminRaces();
+      
+    } catch (err: any) {
+      if (err.name === 'AbortError') {
+        setError('Import was cancelled');
+      } else {
+        setError(`Import failed: ${err.message}`);
+      }
+      setImportState('error');
+    } finally {
+      setAborter(null);
+    }
+  };
+
+  const cancelImport = () => {
+    if (aborter) {
+      aborter.abort();
+      setAborter(null);
+    }
+    setImportState('error');
+    setError('Import was cancelled');
+  };
+
+  const resetImport = () => {
+    setImportState('idle');
+    setCsvFile(null);
+    setRawRows([]);
+    setPreviewRows([]);
+    setImportErrors([]);
+    setImportWarnings([]);
+    setCommitProgress({ total: 0, done: 0, succeeded: 0, failed: 0, created: 0, updated: 0 });
+    setAborter(null);
+    setError('');
+  };
+
   const handleCreateRace = async () => {
     try {
       const token = localStorage.getItem('adminToken');
@@ -553,6 +823,69 @@ const AdminDashboard = () => {
     } catch (err: any) {
       setError(err.message);
     }
+  };
+
+  const handleBulkDelete = async () => {
+    if (selectedRaces.size === 0) {
+      setError('No races selected for deletion');
+      return;
+    }
+
+    if (!confirm(`Are you sure you want to delete ${selectedRaces.size} races?`)) {
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('adminToken');
+      let successCount = 0;
+      let errorCount = 0;
+
+      for (const raceId of selectedRaces) {
+        try {
+          const response = await fetch(`http://localhost:8000/races/${raceId}`, {
+            method: 'DELETE',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+            },
+          });
+
+          if (response.ok) {
+            successCount++;
+          } else {
+            errorCount++;
+          }
+        } catch (err) {
+          errorCount++;
+        }
+      }
+
+      setError(`Bulk delete complete: ${successCount} races deleted, ${errorCount} failed`);
+      setSelectedRaces(new Set());
+      // setBulkOperation('none');
+      
+      // Refresh races list
+      await fetchAdminRaces();
+    } catch (err: any) {
+      setError(`Bulk delete failed: ${err.message}`);
+    }
+  };
+
+  const toggleRaceSelection = (raceId: number) => {
+    const newSelected = new Set(selectedRaces);
+    if (newSelected.has(raceId)) {
+      newSelected.delete(raceId);
+    } else {
+      newSelected.add(raceId);
+    }
+    setSelectedRaces(newSelected);
+  };
+
+  const selectAllRaces = () => {
+    setSelectedRaces(new Set(races.map(r => r.id)));
+  };
+
+  const clearSelection = () => {
+    setSelectedRaces(new Set());
   };
 
   // Login Form
@@ -698,6 +1031,21 @@ const AdminDashboard = () => {
           Sign Out
         </button>
       </div>
+
+      {/* Error Display */}
+      {error && (
+        <div style={{ 
+          backgroundColor: error.includes('successfully') ? '#d4edda' : '#fff3cd', 
+          border: `1px solid ${error.includes('successfully') ? '#c3e6cb' : '#ffeaa7'}`, 
+          color: error.includes('successfully') ? '#155724' : '#856404',
+          padding: '12px', 
+          borderRadius: '8px',
+          marginBottom: '20px',
+          textAlign: 'center'
+        }}>
+          {error.includes('successfully') ? '✅' : '⚠️'} {error}
+        </div>
+      )}
       
       {/* Quick Stats */}
       <div style={{ 
@@ -761,22 +1109,400 @@ const AdminDashboard = () => {
           marginBottom: '30px'
         }}>
           <h2 style={{ fontSize: '28px', color: '#333', margin: 0 }}>Race Management</h2>
-          <button 
-            onClick={() => setShowCreateForm(true)}
-            style={{
-              backgroundColor: '#28a745',
-              color: 'white',
-              border: 'none',
-              padding: '12px 24px',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              fontSize: '14px',
-              fontWeight: '600'
-            }}
-          >
-            ➕ Add New Race
-          </button>
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+            <button 
+              onClick={exportToCSV}
+              style={{
+                backgroundColor: '#17a2b8',
+                color: 'white',
+                border: 'none',
+                padding: '12px 20px',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: '600'
+              }}
+            >
+              📥 Export CSV
+            </button>
+            <button 
+              onClick={() => setShowCreateForm(true)}
+              style={{
+                backgroundColor: '#28a745',
+                color: 'white',
+                border: 'none',
+                padding: '12px 24px',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: '600'
+              }}
+            >
+              ➕ Add New Race
+            </button>
+          </div>
         </div>
+
+        {/* CSV Import Section */}
+        <div style={{ 
+          backgroundColor: '#f8f9fa', 
+          padding: '20px', 
+          borderRadius: '12px',
+          marginBottom: '20px',
+          border: '1px solid #e9ecef'
+        }}>
+          <h3 style={{ fontSize: '18px', color: '#333', marginBottom: '15px' }}>📤 Import Races from CSV</h3>
+          
+          {/* Step 1: Select + Parse */}
+          {importState === 'idle' && (
+            <div>
+              <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap', marginBottom: '15px' }}>
+                <input
+                  type="file"
+                  accept=".csv"
+                  onChange={(e) => setCsvFile(e.target.files?.[0] || null)}
+                  style={{
+                    padding: '8px',
+                    border: '1px solid #ddd',
+                    borderRadius: '6px',
+                    fontSize: '14px'
+                  }}
+                />
+                <button 
+                  onClick={handleCSVParse}
+                  disabled={!csvFile}
+                  style={{
+                    backgroundColor: csvFile ? '#007bff' : '#6c757d',
+                    color: 'white',
+                    border: 'none',
+                    padding: '10px 20px',
+                    borderRadius: '6px',
+                    cursor: csvFile ? 'pointer' : 'not-allowed',
+                    fontSize: '14px',
+                    fontWeight: '500'
+                  }}
+                >
+                  📋 Parse CSV
+                </button>
+                {csvFile && (
+                  <span style={{ color: '#666', fontSize: '14px' }}>
+                    Selected: {csvFile.name}
+                  </span>
+                )}
+              </div>
+              <p style={{ fontSize: '12px', color: '#666', margin: 0 }}>
+                CSV should have columns: name, date, start_time, address, city, state, zip, surface, kid_run, official_website_url, latitude, longitude
+              </p>
+            </div>
+          )}
+
+          {/* Step 2: Validate + Preview */}
+          {importState === 'parsed' && (
+            <div>
+              <div style={{ marginBottom: '15px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                  <h4 style={{ fontSize: '16px', color: '#333', margin: 0 }}>Validation Results</h4>
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <button 
+                      onClick={downloadErrorsCsv.bind(null, importErrors)}
+                      disabled={importErrors.length === 0}
+                      style={{
+                        backgroundColor: importErrors.length > 0 ? '#dc3545' : '#6c757d',
+                        color: 'white',
+                        border: 'none',
+                        padding: '6px 12px',
+                        borderRadius: '6px',
+                        cursor: importErrors.length > 0 ? 'pointer' : 'not-allowed',
+                        fontSize: '12px'
+                      }}
+                    >
+                      📥 Download Errors
+                    </button>
+                    <button 
+                      onClick={resetImport}
+                      style={{
+                        backgroundColor: '#6c757d',
+                        color: 'white',
+                        border: 'none',
+                        padding: '6px 12px',
+                        borderRadius: '6px',
+                        cursor: 'pointer',
+                        fontSize: '12px'
+                      }}
+                    >
+                      🔄 Re-Select File
+                    </button>
+                  </div>
+                </div>
+                
+                {/* Stats */}
+                <div style={{ display: 'flex', gap: '20px', fontSize: '14px', color: '#666' }}>
+                  <span>Total: {rawRows.length}</span>
+                  <span style={{ color: '#28a745' }}>Valid: {previewRows.length}</span>
+                  <span style={{ color: '#dc3545' }}>Invalid: {importErrors.length}</span>
+                  <span style={{ color: '#ffc107' }}>Duplicates: {importWarnings.length}</span>
+                </div>
+              </div>
+
+              {/* Preview Grid */}
+              {previewRows.length > 0 && (
+                <div style={{ maxHeight: '300px', overflowY: 'auto', border: '1px solid #ddd', borderRadius: '6px' }}>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12px' }}>
+                    <thead style={{ backgroundColor: '#f8f9fa', position: 'sticky', top: 0 }}>
+                      <tr>
+                        <th style={{ padding: '8px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>Name</th>
+                        <th style={{ padding: '8px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>Date</th>
+                        <th style={{ padding: '8px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>Time</th>
+                        <th style={{ padding: '8px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>City</th>
+                        <th style={{ padding: '8px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>State</th>
+                        <th style={{ padding: '8px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>Surface</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {previewRows.slice(0, 10).map((race, index) => (
+                        <tr key={index} style={{ borderBottom: '1px solid #eee' }}>
+                          <td style={{ padding: '8px' }}>{race.name}</td>
+                          <td style={{ padding: '8px' }}>{race.date}</td>
+                          <td style={{ padding: '8px' }}>{race.start_time}</td>
+                          <td style={{ padding: '8px' }}>{race.city}</td>
+                          <td style={{ padding: '8px' }}>{race.state}</td>
+                          <td style={{ padding: '8px' }}>{race.surface}</td>
+                        </tr>
+                      ))}
+                      {previewRows.length > 10 && (
+                        <tr>
+                          <td colSpan={6} style={{ padding: '8px', textAlign: 'center', color: '#666', fontStyle: 'italic' }}>
+                            ... and {previewRows.length - 10} more races
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+
+              {/* Error Display */}
+              {importErrors.length > 0 && (
+                <div style={{ marginTop: '15px' }}>
+                  <h5 style={{ fontSize: '14px', color: '#dc3545', marginBottom: '10px' }}>Validation Errors:</h5>
+                  <div style={{ maxHeight: '200px', overflowY: 'auto', fontSize: '12px' }}>
+                    {importErrors.slice(0, 5).map((error, index) => (
+                      <div key={index} style={{ 
+                        padding: '6px 8px', 
+                        backgroundColor: '#f8d7da', 
+                        border: '1px solid #f5c6cb',
+                        borderRadius: '4px',
+                        marginBottom: '4px'
+                      }}>
+                        <strong>Row {error.rowIndex}:</strong> {error.message}
+                        {error.hint && <span style={{ color: '#721c24' }}> - {error.hint}</span>}
+                      </div>
+                    ))}
+                    {importErrors.length > 5 && (
+                      <div style={{ padding: '6px 8px', color: '#666', fontStyle: 'italic' }}>
+                        ... and {importErrors.length - 5} more errors
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Action Buttons */}
+              <div style={{ marginTop: '20px', display: 'flex', gap: '12px' }}>
+                <button 
+                  onClick={handleCSVCommit}
+                  disabled={importErrors.length > 0}
+                  style={{
+                    backgroundColor: importErrors.length === 0 ? '#28a745' : '#6c757d',
+                    color: 'white',
+                    border: 'none',
+                    padding: '12px 24px',
+                    borderRadius: '6px',
+                    cursor: importErrors.length === 0 ? 'pointer' : 'not-allowed',
+                    fontSize: '14px',
+                    fontWeight: '500'
+                  }}
+                >
+                  🚀 Proceed to Import
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Step 3: Commit */}
+          {importState === 'committing' && (
+            <div>
+              <h4 style={{ fontSize: '16px', color: '#333', marginBottom: '15px' }}>Importing Races...</h4>
+              
+              {/* Progress Bar */}
+              <div style={{ marginBottom: '15px' }}>
+                <div style={{ 
+                  width: '100%', 
+                  height: '20px', 
+                  backgroundColor: '#e9ecef', 
+                  borderRadius: '10px',
+                  overflow: 'hidden'
+                }}>
+                  <div style={{ 
+                    width: `${(commitProgress.done / commitProgress.total) * 100}%`,
+                    height: '100%',
+                    backgroundColor: '#007bff',
+                    transition: 'width 0.3s ease'
+                  }} />
+                </div>
+                <div style={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  fontSize: '12px', 
+                  color: '#666',
+                  marginTop: '5px',
+                  flexWrap: 'wrap',
+                  gap: '10px'
+                }}>
+                  <span>Progress: {commitProgress.done}/{commitProgress.total}</span>
+                  <span>Success: {commitProgress.succeeded}</span>
+                  {commitProgress.created > 0 && <span>Created: {commitProgress.created}</span>}
+                  {commitProgress.updated > 0 && <span>Updated: {commitProgress.updated}</span>}
+                  <span>Failed: {commitProgress.failed}</span>
+                </div>
+              </div>
+
+              {/* Cancel Button */}
+              <button 
+                onClick={cancelImport}
+                style={{
+                  backgroundColor: '#dc3545',
+                  color: 'white',
+                  border: 'none',
+                  padding: '10px 20px',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  fontWeight: '500'
+                }}
+              >
+                ❌ Cancel Import
+              </button>
+            </div>
+          )}
+
+          {/* Success State */}
+          {importState === 'done' && (
+            <div style={{ textAlign: 'center', padding: '20px' }}>
+              <div style={{ 
+                fontSize: '48px', 
+                marginBottom: '15px',
+                color: '#28a745'
+              }}>✅</div>
+              <h4 style={{ fontSize: '18px', color: '#28a745', marginBottom: '10px' }}>
+                Import Complete!
+              </h4>
+              <p style={{ color: '#666', marginBottom: '20px' }}>
+                {commitProgress.created > 0 && commitProgress.updated > 0 ? (
+                  <>
+                    Successfully processed {commitProgress.succeeded} races:
+                    <br />
+                    • {commitProgress.created} new races created
+                    <br />
+                    • {commitProgress.updated} existing races updated
+                  </>
+                ) : commitProgress.updated > 0 ? (
+                  `Successfully updated ${commitProgress.updated} existing races`
+                ) : (
+                  `Successfully created ${commitProgress.created} new races`
+                )}
+                {commitProgress.failed > 0 && (
+                  <>
+                    <br />
+                    ⚠️ {commitProgress.failed} races failed to process
+                  </>
+                )}
+              </p>
+              <button 
+                onClick={resetImport}
+                style={{
+                  backgroundColor: '#007bff',
+                  color: 'white',
+                  border: 'none',
+                  padding: '10px 20px',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  fontWeight: '500'
+                }}
+              >
+                🔄 Import Another File
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Bulk Operations */}
+        {races.length > 0 && (
+          <div style={{ 
+            backgroundColor: '#fff3cd', 
+            padding: '15px', 
+            borderRadius: '8px',
+            marginBottom: '20px',
+            border: '1px solid #ffeaa7'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+              <h3 style={{ fontSize: '16px', color: '#856404', margin: 0 }}>⚡ Bulk Operations</h3>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button 
+                  onClick={selectAllRaces}
+                  style={{
+                    backgroundColor: '#6c757d',
+                    color: 'white',
+                    border: 'none',
+                    padding: '6px 12px',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    fontSize: '12px'
+                  }}
+                >
+                  Select All
+                </button>
+                <button 
+                  onClick={clearSelection}
+                  style={{
+                    backgroundColor: '#6c757d',
+                    color: 'white',
+                    border: 'none',
+                    padding: '6px 12px',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    fontSize: '12px'
+                  }}
+                >
+                  Clear
+                </button>
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              <span style={{ fontSize: '14px', color: '#856404' }}>
+                {selectedRaces.size} race{selectedRaces.size !== 1 ? 's' : ''} selected
+              </span>
+              {selectedRaces.size > 0 && (
+                <button 
+                  onClick={handleBulkDelete}
+                  style={{
+                    backgroundColor: '#dc3545',
+                    color: 'white',
+                    border: 'none',
+                    padding: '8px 16px',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    fontSize: '14px',
+                    fontWeight: '500'
+                  }}
+                >
+                  🗑️ Delete Selected
+                </button>
+              )}
+            </div>
+          </div>
+        )}
         
         {racesLoading ? (
           <div style={{ textAlign: 'center', padding: '40px' }}>
@@ -799,13 +1525,34 @@ const AdminDashboard = () => {
                 border: '1px solid #e9ecef', 
                 borderRadius: '12px', 
                 padding: '20px',
-                backgroundColor: '#f8f9fa'
+                backgroundColor: '#f8f9fa',
+                position: 'relative'
               }}>
+                {/* Bulk Selection Checkbox */}
+                <div style={{ 
+                  position: 'absolute', 
+                  top: '15px', 
+                  left: '15px',
+                  zIndex: 1
+                }}>
+                  <input
+                    type="checkbox"
+                    checked={selectedRaces.has(race.id)}
+                    onChange={() => toggleRaceSelection(race.id)}
+                    style={{
+                      width: '18px',
+                      height: '18px',
+                      cursor: 'pointer'
+                    }}
+                  />
+                </div>
+                
                 <div style={{ 
                   display: 'flex', 
                   justifyContent: 'space-between', 
                   alignItems: 'flex-start',
-                  marginBottom: '15px'
+                  marginBottom: '15px',
+                  marginLeft: '30px' // Add left margin to accommodate checkbox
                 }}>
                   <h3 style={{ 
                     fontSize: '18px', 
@@ -2007,3 +2754,5 @@ function App() {
 }
 
 export default App;
+
+

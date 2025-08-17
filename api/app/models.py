@@ -12,6 +12,7 @@ class AdminLoginResponse(BaseModel):
     username: str
 
 class RaceCreate(BaseModel):
+    id: Optional[int] = None  # Add optional ID for upserts
     name: str
     date: Union[date, str]
     start_time: Optional[Union[time, str]] = None

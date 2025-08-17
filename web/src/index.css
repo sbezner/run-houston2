@@ -26,6 +26,29 @@ body {
   margin: 0;
   min-height: 100vh;
   overflow-x: hidden;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Edge-specific fixes */
+@supports (-ms-ime-align: auto) {
+  body {
+    width: 100vw;
+    max-width: 100vw;
+  }
+  
+  #root {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+}
+
+/* Chrome/Safari normalization */
+@supports not (-ms-ime-align: auto) {
+  body {
+    width: 100%;
+  }
 }
 
 h1 {
@@ -62,5 +85,24 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+}
+
+/* Global container fixes for cross-browser compatibility */
+* {
+  box-sizing: border-box;
+}
+
+#root {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Fix for Edge flexbox issues */
+@supports (-ms-ime-align: auto) {
+  .card, [style*="backgroundColor: white"] {
+    max-width: calc(100% - 20px);
+    margin: 0 10px;
   }
 }

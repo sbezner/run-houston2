@@ -56,7 +56,16 @@ def list_races():
 
     cols = ["id","name","date","start_time","address","city","state","zip","latitude","longitude",
             "surface","kid_run","official_website_url"]
-    return [dict(zip(cols, r)) for r in rows]
+    races = []
+    for r in rows:
+        race = dict(zip(cols, r))
+        # Convert date and time objects to strings for JSON serialization
+        if race['date']:
+            race['date'] = race['date'].isoformat()
+        if race['start_time']:
+            race['start_time'] = race['start_time'].isoformat()
+        races.append(race)
+    return races
 
 @app.post("/admin/login", response_model=AdminLoginResponse)
 def admin_login(login_data: AdminLogin):
@@ -99,42 +108,111 @@ def admin_list_races(current_admin: dict = Depends(get_current_admin)):
 
     cols = ["id","name","date","start_time","address","city","state","zip","latitude","longitude",
             "surface","kid_run","official_website_url"]
-    return [dict(zip(cols, r)) for r in rows]
+    races = []
+    for r in rows:
+        race = dict(zip(cols, r))
+        # Convert date and time objects to strings for JSON serialization
+        if race['date']:
+            race['date'] = race['date'].isoformat()
+        if race['start_time']:
+            race['start_time'] = race['start_time'].isoformat()
+        races.append(race)
+    return races
 
 @app.post("/races", response_model=RaceResponse)
 def create_race(race_data: RaceCreate, current_admin: dict = Depends(get_current_admin)):
-    """Create a new race (admin only)."""
-    sql = """
-        INSERT INTO races (name, date, start_time, tz, address, city, state, zip, latitude, longitude, 
-                          distance_categories, surface, kid_run, official_website_url)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-        RETURNING id, name, date, start_time, address, city, state, zip, latitude, longitude,
-                  surface, kid_run, official_website_url
-    """
+    """Create or update a race (admin only)."""
+    
+    # Convert string date to Python date object if needed
+    race_date = race_data.date
+    if isinstance(race_date, str):
+        race_date = date.fromisoformat(race_date)
+        
+    # Convert string time to Python time object if needed
+    race_start_time = race_data.start_time
+    if isinstance(race_start_time, str):
+        race_start_time = time.fromisoformat(race_start_time)
+    
+    operation_type = "created"  # Default to created
     
     with get_conn() as conn, conn.cursor() as cur:
-        # Convert string date to Python date object if needed
-        race_date = race_data.date
-        if isinstance(race_date, str):
-            race_date = date.fromisoformat(race_date)
+        if race_data.id is not None:
+            # Check if race with this ID already exists
+            cur.execute("SELECT id FROM races WHERE id = %s", (race_data.id,))
+            existing_race = cur.fetchone()
             
-        # Convert string time to Python time object if needed
-        race_start_time = race_data.start_time
-        if isinstance(race_start_time, str):
-            race_start_time = time.fromisoformat(race_start_time)
+            if existing_race:
+                operation_type = "updated"
             
-        cur.execute(sql, (
-            race_data.name, race_date, race_start_time, 'America/Chicago', race_data.address,
-            race_data.city, race_data.state, race_data.zip, race_data.latitude, race_data.longitude,
-            ['5K'], race_data.surface, race_data.kid_run,
-            str(race_data.official_website_url) if race_data.official_website_url else None
-        ))
+            # UPSERT: Insert or update based on ID
+            sql = """
+                INSERT INTO races (id, name, date, start_time, tz, address, city, state, zip, latitude, longitude, 
+                                  distance_categories, surface, kid_run, official_website_url)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                ON CONFLICT (id) DO UPDATE SET
+                    name = EXCLUDED.name,
+                    date = EXCLUDED.date,
+                    start_time = EXCLUDED.start_time,
+                    address = EXCLUDED.address,
+                    city = EXCLUDED.city,
+                    state = EXCLUDED.state,
+                    zip = EXCLUDED.zip,
+                    latitude = EXCLUDED.latitude,
+                    longitude = EXCLUDED.longitude,
+                    surface = EXCLUDED.surface,
+                    kid_run = EXCLUDED.kid_run,
+                    official_website_url = EXCLUDED.official_website_url,
+                    updated_at = NOW()
+                RETURNING id, name, date, start_time, address, city, state, zip, latitude, longitude,
+                          surface, kid_run, official_website_url
+            """
+            values = (
+                race_data.id, race_data.name, race_date, race_start_time, 'America/Chicago', race_data.address,
+                race_data.city, race_data.state, race_data.zip, race_data.latitude, race_data.longitude,
+                ['5K'], race_data.surface, race_data.kid_run,
+                str(race_data.official_website_url) if race_data.official_website_url else None
+            )
+        else:
+            # INSERT: Create new race without ID
+            sql = """
+                INSERT INTO races (name, date, start_time, tz, address, city, state, zip, latitude, longitude, 
+                                  distance_categories, surface, kid_run, official_website_url)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                RETURNING id, name, date, start_time, address, city, state, zip, latitude, longitude,
+                          surface, kid_run, official_website_url
+            """
+            values = (
+                race_data.name, race_date, race_start_time, 'America/Chicago', race_data.address,
+                race_data.city, race_data.state, race_data.zip, race_data.latitude, race_data.longitude,
+                ['5K'], race_data.surface, race_data.kid_run,
+                str(race_data.official_website_url) if race_data.official_website_url else None
+            )
+        
+        cur.execute(sql, values)
         row = cur.fetchone()
         conn.commit()
     
     cols = ["id","name","date","start_time","address","city","state","zip","latitude","longitude",
             "surface","kid_run","official_website_url"]
-    return dict(zip(cols, row))
+    result = dict(zip(cols, row))
+    
+    # Convert date and time objects to strings for JSON serialization
+    if result['date']:
+        result['date'] = result['date'].isoformat()
+    if result['start_time']:
+        result['start_time'] = result['start_time'].isoformat()
+    
+    # Add operation type to response body for frontend tracking (more reliable than headers)
+    from fastapi.responses import JSONResponse
+    print(f"DEBUG: Setting operation_type to: '{operation_type}' for race ID: {result.get('id')}")
+    
+    # Include operation type in response body
+    result_with_operation = {
+        **result,
+        "operation_type": operation_type
+    }
+    
+    return JSONResponse(content=result_with_operation)
 
 @app.put("/races/{race_id}", response_model=RaceResponse)
 def update_race(race_id: int, race_data: RaceUpdate, current_admin: dict = Depends(get_current_admin)):
@@ -211,7 +289,15 @@ def update_race(race_id: int, race_data: RaceUpdate, current_admin: dict = Depen
     
     cols = ["id","name","date","start_time","address","city","state","zip","surface","kid_run",
             "official_website_url","latitude","longitude"]
-    return dict(zip(cols, row))
+    result = dict(zip(cols, row))
+    
+    # Convert date and time objects to strings for JSON serialization
+    if result['date']:
+        result['date'] = result['date'].isoformat()
+    if result['start_time']:
+        result['start_time'] = result['start_time'].isoformat()
+    
+    return result
 
 @app.delete("/races/{race_id}")
 def delete_race(race_id: int, current_admin: dict = Depends(get_current_admin)):
