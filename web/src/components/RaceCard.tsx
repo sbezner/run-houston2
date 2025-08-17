@@ -9,7 +9,7 @@ interface RaceCardProps {
   isAdmin?: boolean;
 }
 
-export const RaceCard: React.FC<RaceCardProps> = ({ race, onEdit, onDelete, isAdmin = false }) => (
+export const RaceCard: React.FC<RaceCardProps> = React.memo(({ race, onEdit, onDelete, isAdmin = false }) => (
   <div style={{ 
     backgroundColor: 'white', 
     padding: '20px', 
@@ -78,4 +78,4 @@ export const RaceCard: React.FC<RaceCardProps> = ({ race, onEdit, onDelete, isAd
       )}
     </div>
   </div>
-);
+));

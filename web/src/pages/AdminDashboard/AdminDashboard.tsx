@@ -316,13 +316,15 @@ export const AdminDashboard: React.FC = () => {
         />
       )}
 
-      {/* Races List */}
+      {/* Races List - Fixed Width Layout */}
+      {/* Each race card is exactly 400px wide for consistent sizing */}
+      {/* Cards wrap to new rows and align to the left edge */}
       {racesLoading ? (
         <Loading />
       ) : (
         <div style={{ 
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fill, 400px)',
           gap: '20px'
         }}>
           {races.map((race) => (

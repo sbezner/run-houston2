@@ -96,9 +96,12 @@ export const RacesPage: React.FC = () => {
           </p>
         </div>
       ) : (
+        {/* Race Cards Grid - Fixed Width Layout */}
+        {/* Each race card is exactly 400px wide for consistent sizing */}
+        {/* Cards wrap to new rows and align to the left edge */}
         <div style={{ 
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fill, 400px)',
           gap: '20px',
           width: '100%'
         }}>

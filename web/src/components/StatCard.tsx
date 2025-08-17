@@ -6,7 +6,7 @@ interface StatCardProps {
   label: string;
 }
 
-export const StatCard: React.FC<StatCardProps> = ({ icon, value, label }) => (
+export const StatCard: React.FC<StatCardProps> = React.memo(({ icon, value, label }) => (
   <div style={{ 
     backgroundColor: 'white', 
     padding: '25px', 
@@ -18,4 +18,4 @@ export const StatCard: React.FC<StatCardProps> = ({ icon, value, label }) => (
     <div style={{ fontSize: '24px', fontWeight: '600', color: '#333' }}>{value}</div>
     <div style={{ color: '#666' }}>{label}</div>
   </div>
-);
+));
