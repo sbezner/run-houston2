@@ -96,15 +96,16 @@ export const RacesPage: React.FC = () => {
           </p>
         </div>
       ) : (
-        {/* Race Cards Grid - Fixed Width Layout */}
-        {/* Each race card is exactly 400px wide for consistent sizing */}
-        {/* Cards wrap to new rows and align to the left edge */}
-        <div style={{ 
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, 400px)',
-          gap: '20px',
-          width: '100%'
-        }}>
+        <React.Fragment>
+          {/* Race Cards Grid - Fixed Width Layout */}
+          {/* Each race card is exactly 400px wide for consistent sizing */}
+          {/* Cards wrap to new rows and align to the left edge */}
+          <div style={{ 
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, 400px)',
+            gap: '20px',
+            width: '100%'
+          }}>
           {races.map((race) => (
             <div key={race.id} style={{ 
               backgroundColor: 'white', 
@@ -213,6 +214,7 @@ export const RacesPage: React.FC = () => {
             </div>
           ))}
         </div>
+        </React.Fragment>
       )}
     </div>
   );
