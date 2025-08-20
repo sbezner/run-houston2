@@ -177,19 +177,17 @@ export const RacesPage: React.FC = () => {
                   </div>
                 )}
                 
-                {race.kid_run && (
-                  <div style={{
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    gap: '8px', 
-                    marginBottom: '8px',
-                    color: '#666',
-                    fontWeight: '400'
-                  }}>
-                    <span>👶</span>
-                    <span>Kid Run: Yes</span>
-                  </div>
-                )}
+                <div style={{
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: '8px', 
+                  marginBottom: '8px',
+                  color: '#666',
+                  fontWeight: '400'
+                }}>
+                  <span>👶</span>
+                  <span>Kid-friendly: {race.kid_run ? 'Yes' : 'No'}</span>
+                </div>
               </div>
               
               {race.official_website_url && (

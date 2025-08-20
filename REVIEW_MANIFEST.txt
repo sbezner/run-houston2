@@ -1,0 +1,109 @@
+﻿# Review Manifest generated 2025-08-18T20:05:21
+Included files: 77
+Exclusion patterns:
+  - \\.git($|\\)
+  - \\.gitattributes$
+  - \\.gitmodules$
+  - \\.DS_Store$
+  - Thumbs\.db$
+  - (^|\\)__pycache__($|\\)
+  - \\.pytest_cache($|\\)
+  - api\\\.venv($|\\)
+  - (^|\\)\\.expo($|\\)
+  - (^|\\)\\.expo-shared($|\\)
+  - (^|\\)package-lock\.json$
+  - (^|\\)pnpm-lock\.yaml$
+  - (^|\\)yarn\.lock$
+  - web\\dist($|\\)
+  - web\\build($|\\)
+  - mobile\\build($|\\)
+  - mobile\\dist($|\\)
+  - \.map$
+  - (^|\\)node_modules($|\\)
+  - (^|\\)\\.env(\..*)?$
+  - (^|\\)GoogleService-Info\.plist$
+  - (^|\\)google-services\.json$
+  - \.keystore$
+  - \.jks$
+  - \.p12$
+  - \.pem$
+  - \.key$
+  - \.crt$
+Sample paths:
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\.gitignore
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\DEPLOYMENT_TODO.md
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\MOBILE_STYLE_GUIDELINES.md
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\requirements.md
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\REVIEW_DIAGNOSTICS.txt
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\REVIEW_MANIFEST.txt
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\ss.py
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\WEEKEND_ACTION_PLAN.md
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\api\Dockerfile
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\api\requirements.txt
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\api\app\auth.py
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\api\app\main.py
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\api\app\models.py
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\infra\docker-compose.yml
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\infra\initdb\001_init.sql
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\infra\initdb\002_admin_users.sql
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\infra\initdb\003_fix_race_constraints.sql
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\mobile\.gitignore
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\mobile\app.json
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\mobile\App.tsx
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\mobile\index.ts
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\mobile\package.json
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\mobile\tsconfig.json
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\mobile\.expo\devices.json
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\mobile\.expo\README.md
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\mobile\.expo\web\cache\production\images\favicon\favicon-24272cdaeff82cc5facdaccd982a6f05b60c4504704bbf94c19a6388659880bb-contain-transparent\favicon-48.png
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\mobile\assets\adaptive-icon.png
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\mobile\assets\favicon.png
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\mobile\assets\icon.png
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\mobile\assets\splash-icon.png
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\mobile\src\api.ts
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\mobile\src\config.ts
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\mobile\src\types.ts
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\mobile\src\components\AboutScreen.tsx
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\mobile\src\components\RaceMap.tsx
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\.gitignore
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\eslint.config.js
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\index.html
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\package.json
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\README.md
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\sample-races-with-errors.csv
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\sample-races.csv
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\tsconfig.app.json
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\tsconfig.json
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\tsconfig.node.json
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\vite.config.ts
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\public\vite.svg
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\src\App.css
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\src\App.tsx
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\src\config.ts
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\src\index.css
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\src\main.tsx
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\src\types.ts
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\src\vite-env.d.ts
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\src\assets\react.svg
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\src\components\Alert.tsx
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\src\components\Loading.tsx
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\src\components\RaceCard.tsx
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\src\components\StatCard.tsx
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\src\hooks\useAuth.ts
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\src\hooks\useRaces.ts
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\src\pages\AboutPage.tsx
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\src\pages\MarketingHome.tsx
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\src\pages\RacesPage.tsx
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\src\pages\AdminDashboard\AdminDashboard.tsx
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\src\pages\AdminDashboard\BulkBar.tsx
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\src\pages\AdminDashboard\CreateRaceModal.tsx
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\src\pages\AdminDashboard\DeleteRaceModal.tsx
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\src\pages\AdminDashboard\EditRaceModal.tsx
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\src\pages\AdminDashboard\ImportCsv\download.ts
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\src\pages\AdminDashboard\ImportCsv\errors.ts
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\src\pages\AdminDashboard\ImportCsv\ImportPanel.tsx
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\src\pages\AdminDashboard\ImportCsv\parseCsv.ts
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\src\pages\AdminDashboard\ImportCsv\validation.ts
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\src\services\api.ts
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\src\services\auth.ts
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web\src\utils\formatting.ts
