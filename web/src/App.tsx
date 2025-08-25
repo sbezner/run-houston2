@@ -4,6 +4,8 @@ import { AdminDashboard } from './pages/AdminDashboard/AdminDashboard';
 import { RacesPage } from './pages/RacesPage';
 import { AboutPage } from './pages/AboutPage';
 import { ClubsPage } from './pages/ClubsPage';
+import { ReportsPage } from './pages/ReportsPage';
+import { ReportDetail } from './pages/ReportDetail';
 
 // Main App Component
 function App() {
@@ -36,6 +38,7 @@ function App() {
           <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
             <Link to="/" style={{ color: '#5F6368', textDecoration: 'none', fontWeight: '500' }}>Home</Link>
             <Link to="/races" style={{ color: '#5F6368', textDecoration: 'none', fontWeight: '500' }}>Races</Link>
+            <Link to="/race_reports" style={{ color: '#5F6368', textDecoration: 'none', fontWeight: '500' }}>Race Reports</Link>
             <Link to="/clubs" style={{ color: '#5F6368', textDecoration: 'none', fontWeight: '500' }}>Clubs</Link>
             <Link to="/admin" style={{ color: '#5F6368', textDecoration: 'none', fontWeight: '500' }}>Admin</Link>
             <Link to="/about" style={{ color: '#5F6368', textDecoration: 'none', fontWeight: '500' }}>About</Link>
@@ -48,6 +51,8 @@ function App() {
             <Route path="/" element={<MarketingHome />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/races" element={<RacesPage />} />
+            <Route path="/race_reports" element={<ReportsPage />} />
+            <Route path="/race_reports/:id" element={<ReportDetail />} />
             <Route path="/clubs" element={<ClubsPage />} />
             <Route path="/about" element={<AboutPage />} />
           </Routes>

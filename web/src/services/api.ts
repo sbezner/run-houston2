@@ -139,3 +139,116 @@ export const clubs = {
     return api.post('/admin/clubs/import-csv', formData, token);
   },
 };
+
+export const raceReports = {
+  list: (params?: {
+    race_id?: number;
+    q?: string;
+    date_from?: string;
+    date_to?: string;
+    order_by?: 'created_at' | 'race_date';
+    limit?: number;
+    offset?: number;
+    include_race?: boolean;
+  }) => {
+    const searchParams = new URLSearchParams();
+    if (params?.race_id) searchParams.append('race_id', params.race_id.toString());
+    if (params?.q) searchParams.append('q', params.q);
+    if (params?.date_from) searchParams.append('date_from', params.date_from);
+    if (params?.date_to) searchParams.append('date_to', params.date_to);
+    if (params?.order_by) searchParams.append('order_by', params.order_by);
+    if (params?.limit) searchParams.append('limit', params.limit.toString());
+    if (params?.offset) searchParams.append('offset', params.offset.toString());
+    if (params?.include_race) searchParams.append('include_race', params.include_race.toString());
+    
+    const queryString = searchParams.toString();
+    const endpoint = queryString ? `/race_reports?${queryString}` : '/race_reports';
+    return api.get(endpoint);
+  },
+  
+  getById: (id: number, includeRace?: boolean) => {
+    const endpoint = includeRace ? `/race_reports/${id}?include_race=true` : `/race_reports/${id}`;
+    return api.get(endpoint);
+  },
+  
+  create: (body: any, adminSecret: string) => {
+    const headers = { 'X-Admin-Secret': adminSecret };
+    return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}/race_reports`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...headers },
+      body: JSON.stringify(body),
+    }).then(res => {
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return res.json();
+    });
+  },
+  
+  update: (id: number, body: any, adminSecret: string) => {
+    const headers = { 'X-Admin-Secret': adminSecret };
+    return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}/race_reports/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', ...headers },
+      body: JSON.stringify(body),
+    }).then(res => {
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return res.json();
+    });
+  },
+  
+  remove: (id: number, adminSecret: string) => {
+    const headers = { 'X-Admin-Secret': adminSecret };
+    return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}/race_reports/${id}`, {
+      method: 'DELETE',
+      headers,
+    }).then(res => {
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return res.json();
+    });
+  },
+  
+  exportCsv: (params?: {
+    race_id?: number;
+    q?: string;
+    date_from?: string;
+    date_to?: string;
+  }, adminSecret?: string) => {
+    const searchParams = new URLSearchParams();
+    if (params?.race_id) searchParams.append('race_id', params.race_id.toString());
+    if (params?.q) searchParams.append('q', params.q);
+    if (params?.date_from) searchParams.append('date_from', params.date_from);
+    if (params?.date_to) searchParams.append('date_to', params.date_to);
+    
+    const queryString = searchParams.toString();
+    const endpoint = queryString ? `/race_reports/export.csv?${queryString}` : '/race_reports/export.csv';
+    
+    const headers: Record<string, string> = {};
+    if (adminSecret) {
+      headers['X-Admin-Secret'] = adminSecret;
+    }
+    return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}${endpoint}`, {
+      headers,
+    }).then(res => {
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return res.blob();
+    });
+  },
+  
+  importCsv: (file: File, dryRun: boolean = true, adminSecret?: string) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('dry_run', dryRun.toString());
+    
+    const headers: Record<string, string> = {};
+    if (adminSecret) {
+      headers['X-Admin-Secret'] = adminSecret;
+    }
+    return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}/admin/race_reports/import?dry_run=${dryRun}`, {
+      method: 'POST',
+      headers,
+      body: formData,
+    }).then(res => {
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return res.json();
+    });
+  },
+};
