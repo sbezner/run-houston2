@@ -4,6 +4,7 @@ import { Loading } from '../../components/Loading';
 import { Alert } from '../../components/Alert';
 import { AdminClubsPage } from './AdminClubsPage';
 import { AdminRacesPage } from './AdminRacesPage';
+import { AdminRaceReportsPage } from './AdminRaceReportsPage';
 import { useState } from 'react';
 
 export const AdminDashboard: React.FC = () => {
@@ -20,7 +21,7 @@ export const AdminDashboard: React.FC = () => {
     logout
   } = useAuth();
 
-  const [activeTab, setActiveTab] = useState<'races' | 'clubs'>('races');
+  const [activeTab, setActiveTab] = useState<'races' | 'clubs' | 'race_reports'>('races');
 
   if (loading) {
     return <Loading />;
@@ -215,11 +216,40 @@ export const AdminDashboard: React.FC = () => {
         >
           🏃‍♂️ Clubs
         </button>
+        <button
+          onClick={() => setActiveTab('race_reports')}
+          style={{
+            padding: '12px 24px',
+            border: 'none',
+            backgroundColor: activeTab === 'race_reports' ? '#3b82f6' : 'transparent',
+            color: activeTab === 'race_reports' ? 'white' : '#6b7280',
+            cursor: 'pointer',
+            fontSize: '16px',
+            fontWeight: '500',
+            borderBottom: activeTab === 'race_reports' ? '2px solid #3b82f6' : 'none',
+            borderRadius: '8px 8px 0 0',
+            transition: 'all 0.2s ease',
+            boxShadow: activeTab === 'race_reports' ? '0 2px 4px rgba(59, 130, 246, 0.2)' : 'none'
+          }}
+          onMouseEnter={(e) => {
+            if (activeTab !== 'race_reports') {
+              e.currentTarget.style.backgroundColor = '#f3f4f6';
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (activeTab !== 'race_reports') {
+              e.currentTarget.style.backgroundColor = 'transparent';
+            }
+          }}
+        >
+          📰 Race Reports
+        </button>
       </div>
 
       {/* Tab Content */}
       {activeTab === 'races' && <AdminRacesPage />}
       {activeTab === 'clubs' && <AdminClubsPage />}
+      {activeTab === 'race_reports' && <AdminRaceReportsPage />}
     </div>
   );
 };
