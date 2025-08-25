@@ -1,15 +1,19 @@
-from fastapi import FastAPI, Depends, HTTPException, status, UploadFile, File
+from fastapi import FastAPI, Depends, HTTPException, status, UploadFile, File, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse, Response
 import os
 import psycopg
 from datetime import timedelta, date, time
 import csv
 import io
+from typing import Optional
 
 from .auth import verify_password, create_access_token, verify_token, ACCESS_TOKEN_EXPIRE_MINUTES
-from .models import AdminLogin, AdminLoginResponse, RaceCreate, RaceUpdate, RaceResponse, ClubCreate, ClubUpdate, ClubResponse
+from .models import (
+    AdminLogin, AdminLoginResponse, RaceCreate, RaceUpdate, RaceResponse, 
+    ClubCreate, ClubUpdate, ClubResponse, RaceReportCreate, RaceReportUpdate
+)
 
 app = FastAPI(title="Run Houston API", version="0.1")
 
@@ -609,4 +613,691 @@ def import_clubs_csv(
         
     except Exception as e:
         print(f"Import error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Import failed: {str(e)}")
+
+
+# Race Reports API Endpoints
+
+def get_admin_secret():
+    """Get admin secret from environment variable."""
+    return os.getenv("ADMIN_SECRET", "default-admin-secret")
+
+def verify_admin_secret(request: Request):
+    """Verify admin secret header."""
+    admin_secret = request.headers.get("X-Admin-Secret")
+    if not admin_secret or admin_secret != get_admin_secret():
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid admin secret"
+        )
+    return True
+
+@app.get("/race_reports", response_model=dict)
+def list_race_reports(
+    race_id: Optional[int] = None,
+    q: Optional[str] = None,
+    date_from: Optional[str] = None,
+    date_to: Optional[str] = None,
+    order_by: str = "created_at",
+    limit: int = 20,
+    offset: int = 0,
+    include_race: bool = False
+):
+    """List race reports with optional filtering and ordering."""
+    if limit > 100:
+        limit = 100
+    
+    if order_by not in ["created_at", "race_date"]:
+        order_by = "created_at"
+    
+    # Build base query
+    base_sql = """
+        SELECT rr.id, rr.race_id, rr.race_date, rr.title, rr.author_name, 
+               rr.content_md, rr.photos, rr.created_at, rr.updated_at
+    """
+    
+    if include_race:
+        base_sql += """,
+               r.id as race_id_detail, r.name as race_name, r.date as race_date_detail,
+               r.city, r.state, r.surface, r.latitude, r.longitude, r.official_website_url
+        """
+    
+    base_sql += """
+        FROM race_reports rr
+    """
+    
+    if include_race:
+        base_sql += " JOIN races r ON rr.race_id = r.id"
+    
+    # Build WHERE clause
+    where_conditions = []
+    params = []
+    param_count = 0
+    
+    if race_id:
+        param_count += 1
+        where_conditions.append(f"rr.race_id = %s")
+        params.append(race_id)
+    
+    if q:
+        param_count += 1
+        search_sql = f"""
+            (rr.title ILIKE %s OR rr.content_md ILIKE %s OR 
+             COALESCE(rr.author_name, '') ILIKE %s)
+        """
+        where_conditions.append(search_sql)
+        params.extend([f"%{q}%", f"%{q}%", f"%{q}%"])
+    
+    if date_from:
+        param_count += 1
+        where_conditions.append(f"rr.race_date >= %s")
+        params.append(date_from)
+    
+    if date_to:
+        param_count += 1
+        where_conditions.append(f"rr.race_date <= %s")
+        params.append(date_to)
+    
+    if where_conditions:
+        base_sql += " WHERE " + " AND ".join(where_conditions)
+    
+    # Add ordering
+    base_sql += f" ORDER BY rr.{order_by} DESC, rr.created_at DESC"
+    
+    # Add pagination
+    base_sql += " LIMIT %s OFFSET %s"
+    params.extend([limit, offset])
+    
+    # Get total count
+    count_sql = """
+        SELECT COUNT(*) FROM race_reports rr
+    """
+    if where_conditions:
+        count_sql += " WHERE " + " AND ".join(where_conditions)
+    
+    with get_conn() as conn, conn.cursor() as cur:
+        # Get total count
+        cur.execute(count_sql, params[:-2] if len(params) > 2 else [])
+        total = cur.fetchone()[0]
+        
+        # Get reports
+        cur.execute(base_sql, params)
+        rows = cur.fetchall()
+    
+    # Process results
+    reports = []
+    for row in rows:
+        if include_race:
+            report = {
+                "id": str(row[0]),
+                "race_id": row[1],
+                "race_date": row[2].isoformat() if row[2] else None,
+                "title": row[3],
+                "author_name": row[4],
+                "content_md": row[5],
+                "photos": row[6] if row[6] else [],
+                "created_at": row[7].isoformat() if row[7] else None,
+                "updated_at": row[8].isoformat() if row[8] else None,
+                "race": {
+                    "id": row[9],
+                    "name": row[10],
+                    "date": row[11].isoformat() if row[11] else None,
+                    "city": row[12],
+                    "state": row[13],
+                    "surface": row[14],
+                    "latitude": row[15],
+                    "longitude": row[16],
+                    "official_website_url": row[17]
+                }
+            }
+        else:
+            report = {
+                "id": str(row[0]),
+                "race_id": row[1],
+                "race_date": row[2].isoformat() if row[2] else None,
+                "title": row[3],
+                "author_name": row[4],
+                "content_md": row[5],
+                "photos": row[6] if row[6] else [],
+                "created_at": row[7].isoformat() if row[7] else None,
+                "updated_at": row[8].isoformat() if row[8] else None
+            }
+        reports.append(report)
+    
+    return {
+        "items": reports,
+        "total": total,
+        "limit": limit,
+        "offset": offset
+    }
+
+@app.get("/race_reports/{report_id}", response_model=dict)
+def get_race_report(report_id: str, include_race: bool = False):
+    """Get a single race report by ID."""
+    base_sql = """
+        SELECT rr.id, rr.race_id, rr.race_date, rr.title, rr.author_name, 
+               rr.content_md, rr.photos, rr.created_at, rr.updated_at
+    """
+    
+    if include_race:
+        base_sql += """,
+               r.id as race_id_detail, r.name as race_name, r.date as race_date_detail,
+               r.city, r.state, r.surface, r.latitude, r.longitude, r.official_website_url
+        """
+    
+    base_sql += """
+        FROM race_reports rr
+    """
+    
+    if include_race:
+        base_sql += " JOIN races r ON rr.race_id = r.id"
+    
+    base_sql += " WHERE rr.id = %s"
+    
+    with get_conn() as conn, conn.cursor() as cur:
+        cur.execute(base_sql, (report_id,))
+        row = cur.fetchone()
+        
+        if not row:
+            raise HTTPException(status_code=404, detail="Race report not found")
+    
+    # Process result
+    if include_race:
+        report = {
+            "id": str(row[0]),
+            "race_id": row[1],
+            "race_date": row[2].isoformat() if row[2] else None,
+            "title": row[3],
+            "author_name": row[4],
+            "content_md": row[5],
+            "photos": row[6] if row[6] else [],
+            "created_at": row[7].isoformat() if row[7] else None,
+            "updated_at": row[8].isoformat() if row[8] else None,
+            "race": {
+                "id": row[9],
+                "name": row[10],
+                "date": row[11].isoformat() if row[11] else None,
+                "city": row[12],
+                "state": row[13],
+                "surface": row[14],
+                "latitude": row[15],
+                "longitude": row[16],
+                "official_website_url": row[17]
+            }
+        }
+    else:
+        report = {
+            "id": str(row[0]),
+            "race_id": row[1],
+            "race_date": row[2].isoformat() if row[2] else None,
+            "title": row[3],
+            "author_name": row[4],
+            "content_md": row[5],
+            "photos": row[6] if row[6] else [],
+            "created_at": row[7].isoformat() if row[7] else None,
+            "updated_at": row[8].isoformat() if row[8] else None
+        }
+    
+    return report
+
+@app.post("/race_reports", response_model=dict)
+def create_race_report(report: RaceReportCreate, request: Request):
+    """Create a new race report (admin only)."""
+    verify_admin_secret(request)
+    
+    # Check if race_date is provided (should not be)
+    if hasattr(report, 'race_date'):
+        raise HTTPException(
+            status_code=400,
+            detail="race_date is server managed"
+        )
+    
+    # Get race date from the referenced race
+    with get_conn() as conn, conn.cursor() as cur:
+        cur.execute("SELECT date FROM races WHERE id = %s", (report.race_id,))
+        race_result = cur.fetchone()
+        
+        if not race_result:
+            raise HTTPException(status_code=400, detail="Referenced race not found")
+        
+        race_date = race_result[0]
+        if not race_date:
+            raise HTTPException(
+                status_code=400, 
+                detail="Cannot create report for race with no date"
+            )
+        
+        # Check for unique constraint violation
+        cur.execute(
+            "SELECT id FROM race_reports WHERE race_id = %s AND lower(title) = lower(%s)",
+            (report.race_id, report.title)
+        )
+        if cur.fetchone():
+            raise HTTPException(
+                status_code=409,
+                detail="A report with this title already exists for this race"
+            )
+        
+        # Insert the report
+        cur.execute("""
+            INSERT INTO race_reports (race_id, race_date, title, author_name, content_md, photos)
+            VALUES (%s, %s, %s, %s, %s, %s)
+            RETURNING id, created_at, updated_at
+        """, (
+            report.race_id, race_date, report.title, report.author_name,
+            report.content_md, report.photos
+        ))
+        
+        result = cur.fetchone()
+        conn.commit()
+    
+    return {
+        "id": str(result[0]),
+        "race_id": report.race_id,
+        "race_date": race_date.isoformat(),
+        "title": report.title,
+        "author_name": report.author_name,
+        "content_md": report.content_md,
+        "photos": report.photos,
+        "created_at": result[1].isoformat(),
+        "updated_at": result[2].isoformat()
+    }
+
+@app.put("/race_reports/{report_id}", response_model=dict)
+def update_race_report(report_id: str, report: RaceReportUpdate, request: Request):
+    """Update a race report (admin only)."""
+    verify_admin_secret(request)
+    
+    # Check if race_date is provided (should not be)
+    if hasattr(report, 'race_date'):
+        raise HTTPException(
+            status_code=400,
+            detail="race_date is server managed"
+        )
+    
+    with get_conn() as conn, conn.cursor() as cur:
+        # Check if report exists
+        cur.execute("SELECT id, race_id FROM race_reports WHERE id = %s", (report_id,))
+        existing = cur.fetchone()
+        if not existing:
+            raise HTTPException(status_code=404, detail="Race report not found")
+        
+        current_race_id = existing[1]
+        new_race_id = report.race_id if report.race_id is not None else current_race_id
+        
+        # If race_id is changing, validate the new race has a date
+        if new_race_id != current_race_id:
+            cur.execute("SELECT date FROM races WHERE id = %s", (new_race_id,))
+            race_result = cur.fetchone()
+            
+            if not race_result:
+                raise HTTPException(status_code=400, detail="Referenced race not found")
+            
+            race_date = race_result[0]
+            if not race_date:
+                raise HTTPException(
+                    status_code=400,
+                    detail="Cannot link report to race with no date"
+                )
+        else:
+            # Get current race date
+            cur.execute("SELECT date FROM races WHERE id = %s", (current_race_id,))
+            race_result = cur.fetchone()
+            race_date = race_result[0] if race_result else None
+        
+        # Check for unique constraint violation if title is changing
+        if report.title is not None:
+            cur.execute(
+                "SELECT id FROM race_reports WHERE race_id = %s AND lower(title) = lower(%s) AND id != %s",
+                (new_race_id, report.title, report_id)
+            )
+            if cur.fetchone():
+                raise HTTPException(
+                    status_code=409,
+                    detail="A report with this title already exists for this race"
+                )
+        
+        # Build update query
+        update_fields = []
+        params = []
+        
+        if report.race_id is not None:
+            update_fields.append("race_id = %s")
+            params.append(report.race_id)
+            # Update race_date when race_id changes
+            update_fields.append("race_date = %s")
+            params.append(race_date)
+        
+        if report.title is not None:
+            update_fields.append("title = %s")
+            params.append(report.title)
+        
+        if report.author_name is not None:
+            update_fields.append("author_name = %s")
+            params.append(report.author_name)
+        
+        if report.content_md is not None:
+            update_fields.append("content_md = %s")
+            params.append(report.content_md)
+        
+        if report.photos is not None:
+            update_fields.append("photos = %s")
+            params.append(report.photos)
+        
+        if not update_fields:
+            raise HTTPException(status_code=400, detail="No fields to update")
+        
+        # Add report_id to params
+        params.append(report_id)
+        
+        # Execute update
+        update_sql = f"""
+            UPDATE race_reports 
+            SET {', '.join(update_fields)}, updated_at = now()
+            WHERE id = %s
+            RETURNING id, race_id, race_date, title, author_name, content_md, photos, created_at, updated_at
+        """
+        
+        cur.execute(update_sql, params)
+        result = cur.fetchone()
+        
+        if not result:
+            raise HTTPException(status_code=404, detail="Race report not found")
+        
+        conn.commit()
+    
+    return {
+        "id": str(result[0]),
+        "race_id": result[1],
+        "race_date": result[2].isoformat() if result[2] else None,
+        "title": result[3],
+        "author_name": result[4],
+        "content_md": result[5],
+        "photos": result[6] if result[6] else [],
+        "created_at": result[7].isoformat() if result[7] else None,
+        "updated_at": result[8].isoformat() if result[8] else None
+    }
+
+@app.delete("/race_reports/{report_id}")
+def delete_race_report(report_id: str, request: Request):
+    """Delete a race report (admin only)."""
+    verify_admin_secret(request)
+    
+    with get_conn() as conn, conn.cursor() as cur:
+        cur.execute("DELETE FROM race_reports WHERE id = %s", (report_id,))
+        if cur.rowcount == 0:
+            raise HTTPException(status_code=404, detail="Race report not found")
+        conn.commit()
+    
+    return {"message": "Race report deleted successfully"}
+
+@app.get("/race_reports/export.csv")
+def export_race_reports_csv(
+    request: Request,
+    race_id: Optional[int] = None,
+    q: Optional[str] = None,
+    date_from: Optional[str] = None,
+    date_to: Optional[str] = None
+):
+    """Export race reports to CSV (admin only)."""
+    verify_admin_secret(request)
+    
+    # Build query similar to list endpoint
+    base_sql = """
+        SELECT rr.id, rr.race_id, r.name as race_name, rr.race_date, rr.title, 
+               rr.author_name, rr.content_md, rr.photos
+        FROM race_reports rr
+        JOIN races r ON rr.race_id = r.id
+    """
+    
+    where_conditions = []
+    params = []
+    
+    if race_id:
+        where_conditions.append("rr.race_id = %s")
+        params.append(race_id)
+    
+    if q:
+        search_sql = """
+            (rr.title ILIKE %s OR rr.content_md ILIKE %s OR 
+             COALESCE(rr.author_name, '') ILIKE %s)
+        """
+        where_conditions.append(search_sql)
+        params.extend([f"%{q}%", f"%{q}%", f"%{q}%"])
+    
+    if date_from:
+        where_conditions.append("rr.race_date >= %s")
+        params.append(date_from)
+    
+    if date_to:
+        where_conditions.append("rr.race_date <= %s")
+        params.append(date_to)
+    
+    if where_conditions:
+        base_sql += " WHERE " + " AND ".join(where_conditions)
+    
+    base_sql += " ORDER BY rr.race_date DESC, rr.created_at DESC"
+    
+    with get_conn() as conn, conn.cursor() as cur:
+        cur.execute(base_sql, params)
+        rows = cur.fetchall()
+    
+    # Generate CSV content
+    csv_content = "race_id,race_name,race_date,title,author_name,content_md,photos\n"
+    
+    for row in rows:
+        race_id, race_name, race_date, title, author_name, content_md, photos = row
+        
+        # Escape CSV fields
+        def escape_csv_field(field):
+            if field is None:
+                return ""
+            field_str = str(field)
+            if '"' in field_str or ',' in field_str or '\n' in field_str:
+                return f'"{field_str.replace('"', '""')}"'
+            return field_str
+        
+        # Convert photos array to semicolon-separated string
+        photos_str = ";".join(photos) if photos else ""
+        
+        csv_content += f"{escape_csv_field(race_id)},{escape_csv_field(race_name)},{escape_csv_field(race_date)},{escape_csv_field(title)},{escape_csv_field(author_name)},{escape_csv_field(content_md)},{escape_csv_field(photos_str)}\n"
+    
+    return Response(
+        content=csv_content,
+        media_type="text/csv",
+        headers={"Content-Disposition": "attachment; filename=race_reports.csv"}
+    )
+
+@app.post("/admin/race_reports/import")
+def import_race_reports_csv(
+    request: Request,
+    file: UploadFile = File(...),
+    dry_run: bool = Query(True, description="Dry run mode - validate without importing")
+):
+    """Import race reports from CSV (admin only)."""
+    verify_admin_secret(request)
+    
+    if not file.filename.endswith('.csv'):
+        raise HTTPException(status_code=400, detail="File must be a CSV")
+    
+    if file.size and file.size > 5 * 1024 * 1024:  # 5MB limit
+        raise HTTPException(status_code=400, detail="File size must be less than 5MB")
+    
+    try:
+        content = file.file.read().decode('utf-8')
+        lines = content.strip().split('\n')
+        
+        if len(lines) < 2:  # Need header + at least one data row
+            raise HTTPException(status_code=400, detail="CSV must have header and at least one data row")
+        
+        if len(lines) > 2002:  # Header + 2000 rows max
+            raise HTTPException(status_code=400, detail="CSV cannot exceed 2000 rows")
+        
+        # Parse header
+        header = lines[0].split(',')
+        expected_headers = ['race_id', 'race_name', 'race_date', 'title', 'author_name', 'content_md', 'photos']
+        
+        if header != expected_headers:
+            raise HTTPException(
+                status_code=400, 
+                detail=f"Invalid CSV headers. Expected: {expected_headers}, got: {header}"
+            )
+        
+        # Process data rows
+        processed_data = []
+        errors = []
+        
+        for line_num, line in enumerate(lines[1:], 2):
+            if not line.strip():
+                continue
+            
+            # Simple CSV parsing (assumes no commas in content fields)
+            parts = line.split(',')
+            if len(parts) != 7:
+                errors.append(f"Line {line_num}: Expected 7 columns, got {len(parts)}")
+                continue
+            
+            race_id, race_name, race_date, title, author_name, content_md, photos_str = parts
+            
+            # Validate required fields
+            if not title.strip():
+                errors.append(f"Line {line_num}: Title is required")
+                continue
+            
+            if not content_md.strip():
+                errors.append(f"Line {line_num}: Content is required")
+                continue
+            
+            # Validate title length
+            if len(title.strip()) < 3 or len(title.strip()) > 120:
+                errors.append(f"Line {line_num}: Title must be 3-120 characters")
+                continue
+            
+            # Validate content length
+            if len(content_md.strip()) < 10 or len(content_md.strip()) > 20000:
+                errors.append(f"Line {line_num}: Content must be 10-20,000 characters")
+                continue
+            
+            # Validate author name if provided
+            if author_name.strip() and (len(author_name.strip()) < 2 or len(author_name.strip()) > 80):
+                errors.append(f"Line {line_num}: Author name must be 2-80 characters if provided")
+                continue
+            
+            # Parse photos (semicolon-separated)
+            photos = [p.strip() for p in photos_str.split(';') if p.strip()]
+            for photo in photos:
+                if not photo.startswith(('http://', 'https://')):
+                    errors.append(f"Line {line_num}: Photo URL must be absolute (http:// or https://)")
+                    continue
+            
+            # Validate race_id or resolve by race_name + race_date
+            resolved_race_id = None
+            if race_id.strip() and race_id.strip().lower() != 'null':
+                try:
+                    resolved_race_id = int(race_id.strip())
+                except ValueError:
+                    errors.append(f"Line {line_num}: Invalid race_id format")
+                    continue
+            elif race_name.strip() and race_date.strip():
+                # Try to resolve by name and date
+                try:
+                    with get_conn() as conn, conn.cursor() as cur:
+                        cur.execute(
+                            "SELECT id FROM races WHERE name = %s AND date = %s",
+                            (race_name.strip(), race_date.strip())
+                        )
+                        race_result = cur.fetchone()
+                        if race_result:
+                            resolved_race_id = race_result[0]
+                        else:
+                            errors.append(f"Line {line_num}: Race not found with name '{race_name.strip()}' and date '{race_date.strip()}'")
+                            continue
+                except Exception as e:
+                    errors.append(f"Line {line_num}: Error resolving race: {str(e)}")
+                    continue
+            else:
+                errors.append(f"Line {line_num}: Must provide either race_id or both race_name and race_date")
+                continue
+            
+            # Check if race has a date
+            try:
+                with get_conn() as conn, conn.cursor() as cur:
+                    cur.execute("SELECT date FROM races WHERE id = %s", (resolved_race_id,))
+                    race_result = cur.fetchone()
+                    if not race_result or not race_result[0]:
+                        errors.append(f"Line {line_num}: Race has no date")
+                        continue
+            except Exception as e:
+                errors.append(f"Line {line_num}: Error checking race date: {str(e)}")
+                continue
+            
+            processed_data.append({
+                'line_num': line_num,
+                'race_id': resolved_race_id,
+                'title': title.strip(),
+                'author_name': author_name.strip() if author_name.strip() else None,
+                'content_md': content_md.strip(),
+                'photos': photos
+            })
+        
+        if errors:
+            return {
+                "message": "Import validation failed",
+                "errors": errors,
+                "dry_run": dry_run
+            }
+        
+        if dry_run:
+            return {
+                "message": "Dry run validation successful",
+                "rows_to_process": len(processed_data),
+                "dry_run": dry_run
+            }
+        
+        # Process import
+        imported_count = 0
+        updated_count = 0
+        
+        with get_conn() as conn, conn.cursor() as cur:
+            for data in processed_data:
+                # Check for existing report (upsert key: race_id + lower(title))
+                cur.execute(
+                    "SELECT id FROM race_reports WHERE race_id = %s AND lower(title) = lower(%s)",
+                    (data['race_id'], data['title'])
+                )
+                existing = cur.fetchone()
+                
+                if existing:
+                    # Update existing
+                    cur.execute("""
+                        UPDATE race_reports 
+                        SET author_name = %s, content_md = %s, photos = %s, updated_at = now()
+                        WHERE id = %s
+                    """, (
+                        data['author_name'], data['content_md'], data['photos'], existing[0]
+                    ))
+                    updated_count += 1
+                else:
+                    # Insert new
+                    # Get race date
+                    cur.execute("SELECT date FROM races WHERE id = %s", (data['race_id'],))
+                    race_date = cur.fetchone()[0]
+                    
+                    cur.execute("""
+                        INSERT INTO race_reports (race_id, race_date, title, author_name, content_md, photos)
+                        VALUES (%s, %s, %s, %s, %s, %s)
+                    """, (
+                        data['race_id'], race_date, data['title'], data['author_name'],
+                        data['content_md'], data['photos']
+                    ))
+                    imported_count += 1
+            
+            conn.commit()
+        
+        return {
+            "message": f"Import completed successfully: {imported_count} new reports created, {updated_count} existing reports updated",
+            "dry_run": dry_run
+        }
+        
+    except Exception as e:
         raise HTTPException(status_code=500, detail=f"Import failed: {str(e)}")

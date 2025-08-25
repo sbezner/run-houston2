@@ -457,3 +457,149 @@ class ClubResponse(ClubBase):
     id: int
     class Config:
         orm_mode = True
+
+
+# Race Report Models
+class RaceSummary(BaseModel):
+    id: int
+    name: str
+    date: Union[date, str]
+    city: Optional[str] = None
+    state: Optional[str] = None
+    surface: Optional[str] = None
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+    official_website_url: Optional[str] = None
+
+class RaceReportBase(BaseModel):
+    race_id: int
+    title: str
+    author_name: Optional[str] = None
+    content_md: str
+    photos: list[str] = []
+
+    @field_validator('title')
+    @classmethod
+    @cached_validation
+    def validate_title(cls, v: str) -> str:
+        if not v or len(v.strip()) < 3:
+            raise ValueError('Title must be at least 3 characters')
+        if len(v.strip()) > 120:
+            raise ValueError('Title must be less than 120 characters')
+        return v.strip()
+
+    @field_validator('author_name')
+    @classmethod
+    @cached_validation
+    def validate_author_name(cls, v: Optional[str]) -> Optional[str]:
+        if v is None:
+            return v
+        if not v or len(v.strip()) < 2:
+            raise ValueError('Author name must be at least 2 characters if provided')
+        if len(v.strip()) > 80:
+            raise ValueError('Author name must be less than 80 characters')
+        return v.strip()
+
+    @field_validator('content_md')
+    @classmethod
+    @cached_validation
+    def validate_content_md(cls, v: str) -> str:
+        if not v or len(v.strip()) < 10:
+            raise ValueError('Content must be at least 10 characters')
+        if len(v.strip()) > 20000:
+            raise ValueError('Content must be less than 20,000 characters')
+        return v.strip()
+
+    @field_validator('photos')
+    @classmethod
+    @cached_validation
+    def validate_photos(cls, v: list[str]) -> list[str]:
+        if not isinstance(v, list):
+            raise ValueError('Photos must be a list')
+        
+        for i, photo_url in enumerate(v):
+            if not photo_url or not isinstance(photo_url, str):
+                raise ValueError(f'Photo {i+1} must be a non-empty string')
+            
+            # Validate absolute URL format
+            if not photo_url.startswith(('http://', 'https://')):
+                raise ValueError(f'Photo {i+1} must be an absolute URL starting with http:// or https://')
+        
+        return v
+
+class RaceReportCreate(RaceReportBase):
+    pass
+
+class RaceReportUpdate(BaseModel):
+    race_id: Optional[int] = None
+    title: Optional[str] = None
+    author_name: Optional[str] = None
+    content_md: Optional[str] = None
+    photos: Optional[list[str]] = None
+
+    @field_validator('title')
+    @classmethod
+    @cached_validation
+    def validate_title(cls, v: Optional[str]) -> Optional[str]:
+        if v is not None:
+            if not v or len(v.strip()) < 3:
+                raise ValueError('Title must be at least 3 characters')
+            if len(v.strip()) > 120:
+                raise ValueError('Title must be less than 120 characters')
+            return v.strip()
+        return v
+
+    @field_validator('author_name')
+    @classmethod
+    @cached_validation
+    def validate_author_name(cls, v: Optional[str]) -> Optional[str]:
+        if v is not None:
+            if not v or len(v.strip()) < 2:
+                raise ValueError('Author name must be at least 2 characters if provided')
+            if len(v.strip()) > 80:
+                raise ValueError('Author name must be less than 80 characters')
+            return v.strip()
+        return v
+
+    @field_validator('content_md')
+    @classmethod
+    @cached_validation
+    def validate_content_md(cls, v: Optional[str]) -> Optional[str]:
+        if v is not None:
+            if not v or len(v.strip()) < 10:
+                raise ValueError('Content must be at least 10 characters')
+            if len(v.strip()) > 20000:
+                raise ValueError('Content must be less than 20,000 characters')
+            return v.strip()
+        return v
+
+    @field_validator('photos')
+    @classmethod
+    @cached_validation
+    def validate_photos(cls, v: Optional[list[str]]) -> Optional[list[str]]:
+        if v is not None:
+            if not isinstance(v, list):
+                raise ValueError('Photos must be a list')
+            
+            for i, photo_url in enumerate(v):
+                if not photo_url or not isinstance(photo_url, str):
+                    raise ValueError(f'Photo {i+1} must be a non-empty string')
+                
+                # Validate absolute URL format
+                if not photo_url.startswith(('http://', 'https://')):
+                    raise ValueError(f'Photo {i+1} must be an absolute URL starting with http:// or https://')
+        
+        return v
+
+class RaceReportResponse(BaseModel):
+    id: int
+    race_id: int
+    race_date: str  # YYYY-MM-DD format
+    title: str
+    author_name: Optional[str] = None
+    content_md: str
+    photos: list[str]
+    created_at: str
+    updated_at: str
+    # Optional race summary when include_race=true
+    race: Optional[RaceSummary] = None
