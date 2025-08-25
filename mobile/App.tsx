@@ -145,11 +145,13 @@ export default function App() {
   return (
     <View style={[styles.container, { paddingTop: SAFE_TOP }] }>
       <Text style={styles.header}>
-        {mode === "about" ? "About Run Houston" : "Run Houston — Upcoming Races"}
+        {mode === "about" ? "About Run Houston" : 
+         mode === "clubs" ? "Run Houston — Running Clubs" : 
+         "Run Houston — Upcoming Races"}
       </Text>
 
-      {/* Time Filter Chips - Only show for List and Map modes */}
-      {mode !== "about" && (
+      {/* Time Filter Chips - Only show for List and Map modes (not for About or Clubs) */}
+      {(mode === "list" || mode === "map") && (
         <View style={styles.filterContainer}>
           <Text style={styles.filterLabel}>Show races in:</Text>
           <View style={styles.filterChips}>
