@@ -1,10 +1,3 @@
-id,name,date,start_time,address,city,state,zip,surface,kid_run,official_website_url,latitude,longitude
-1,Valid Race,8/19/2025,19:30:00,600 Memorial Dr,Houston,TX,77007,road,TRUE,https://example.com,29.7633,-95.3819
-2,,9/1/2025,8:00 AM,Stewart Beach,Galveston,TX,77550,road,No,https://example.com,29.3,-94.7667
-3,Invalid Date Race,invalid-date,7:00:00,1001 Avenida de las Americas,Houston,TX,77010,road,TRUE,https://example.com,29.7517931,-95.3581139
-4,Invalid Time Race,8/25/2027,invalid-time,16123 Capri Drive,Jersey Village,TX,77040,road,1,https://example.com,29.8902025,-95.566397
-5,Invalid Surface Race,8/26/2027,8:00,16123 Capri Drive,Jersey Village,TX,77040,invalid_surface,1,https://example.com,29.8902025,-95.566397
-6,Invalid State Race,8/27/2027,8:00,16123 Capri Drive,Jersey Village,TEXAS,77040,road,1,https://example.com,29.8902025,-95.566397
-7,Invalid Coordinates Race,8/28/2027,8:00,16123 Capri Drive,Jersey Village,TX,77040,road,1,https://example.com,200,200
-8,Missing Coordinates Race,8/29/2027,8:00,16123 Capri Drive,Jersey Village,TX,77040,road,1,https://example.com,29.8902025,
-9,Invalid URL Race,8/30/2027,8:00,16123 Capri Drive,Jersey Village,TX,77040,road,1,not-a-url,29.8902025,-95.566397
+id,name,date,start_time,address,city,state,zip,surface,distance,kid_run,official_website_url,latitude,longitude
+1,Invalid Race,invalid-date,invalid-time,Invalid Address,Invalid City,Invalid State,invalid-zip,invalid-surface,invalid-distance,invalid-kid-run,invalid-url,invalid-lat,invalid-lon
+2,Valid Race,2025-12-25,08:00:00,123 Main St,Houston,TX,77001,road,"5K",true,https://example.com,29.7604,-95.3698

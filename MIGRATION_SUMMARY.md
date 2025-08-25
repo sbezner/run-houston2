@@ -208,3 +208,136 @@ This test script:
 - **Constraint Name**: Stable name `races_latlon_pair` for future reference
 - **No Indexes**: Intentionally omitted for this small dataset
 - **Rollback Safe**: Previous geom values remain unless explicitly cleared
+
+---
+
+## Migration 3: Expand Surface Constraint
+
+### Overview
+This migration expands the allowed surface values for races from the original `('road', 'trail')` to a more comprehensive set:
+- **Expanded Values**: `('road', 'trail', 'track', 'virtual', 'other')`
+- **Maintains TEXT Type**: No schema changes to column type
+- **CHECK Constraint**: Enforces allowed values at database level
+- **Backward Compatible**: Existing 'road' and 'trail' values remain valid
+
+### Files Modified
+
+#### 1. New Migration File
+- **Created**: `infra/initdb/006_expand_surface_constraint.sql`
+- **Purpose**: Replaces existing surface constraint with expanded version
+- **Rollback**: Includes commented rollback statements for easy reversal
+
+#### 2. Updated Schema File
+- **Modified**: `infra/initdb/001_init.sql`
+- **Changes**: Updated CREATE TABLE statement with expanded surface constraint
+
+### Migration Details
+
+#### Forward Migration (Apply)
+```sql
+-- Run this to apply the migration:
+\i infra/initdb/006_expand_surface_constraint.sql
+```
+
+#### Rollback Migration (If needed)
+```sql
+-- Remove expanded constraint
+ALTER TABLE races DROP CONSTRAINT IF EXISTS surface_check;
+
+-- Restore original constraint (if needed)
+ALTER TABLE races ADD CONSTRAINT surface_check CHECK (surface IN ('road','trail'));
+```
+
+### Allowed Surface Values
+
+#### ✅ Valid Surface Types:
+- **`'road'`**: Traditional paved surface races (5Ks, 10Ks, marathons)
+- **`'trail'`**: Off-road, natural surface races (trail runs, cross-country)
+- **`'track'`**: Running track/oval races (track meets, indoor races)
+- **`'virtual'`**: Virtual/online races (Strava challenges, virtual events)
+- **`'other'** : Miscellaneous or unique race surfaces
+
+#### ❌ Invalid Examples:
+- `'grass'` - Not in allowed list
+- `'beach'` - Not in allowed list  
+- `'mountain'` - Not in allowed list
+- `'asphalt'` - Not in allowed list
+
+### Verification Steps
+
+#### 1. Apply Migration
+```bash
+psql -d <DB_NAME> -f infra/initdb/006_expand_surface_constraint.sql
+```
+
+#### 2. Test Valid Surface Values
+```sql
+-- These should all succeed:
+INSERT INTO races (name, date, surface) VALUES ('Road Race', '2025-02-01', 'road');
+INSERT INTO races (name, date, surface) VALUES ('Trail Run', '2025-02-02', 'trail');
+INSERT INTO races (name, date, surface) VALUES ('Track Meet', '2025-02-03', 'track');
+INSERT INTO races (name, date, surface) VALUES ('Virtual Race', '2025-02-04', 'virtual');
+INSERT INTO races (name, date, surface) VALUES ('Unique Race', '2025-02-05', 'other');
+```
+
+#### 3. Test Invalid Surface Values
+```sql
+-- These should all fail:
+INSERT INTO races (name, date, surface) VALUES ('Invalid Race', '2025-02-06', 'grass');
+INSERT INTO races (name, date, surface) VALUES ('Invalid Race', '2025-02-07', 'beach');
+INSERT INTO races (name, date, surface) VALUES ('Invalid Race', '2025-02-08', 'mountain');
+```
+
+#### 4. Verify Constraint
+```sql
+-- Check that constraint is active:
+SELECT conname, pg_get_constraintdef(oid) 
+FROM pg_constraint 
+WHERE conrelid = 'races'::regclass AND conname = 'surface_check';
+```
+
+### Impact Analysis
+
+#### ✅ No Impact On:
+- **Existing Data**: All current 'road' and 'trail' races remain valid
+- **API Endpoints**: No changes required in existing endpoints
+- **Frontend Code**: No changes required in web/mobile apps
+- **Performance**: CHECK constraint has minimal overhead
+
+#### 🔄 What Changed:
+- **Constraint**: Surface validation now allows 5 values instead of 2
+- **Data Entry**: Users can now specify more race surface types
+- **Validation**: Database enforces expanded set of allowed values
+
+### Future Extensions
+
+#### Adding New Surface Types
+To add more surface types in the future:
+
+1. **Create New Migration**:
+```sql
+-- Example: Adding 'beach' and 'mountain'
+ALTER TABLE races 
+  DROP CONSTRAINT IF EXISTS surface_check,
+  ADD CONSTRAINT surface_check 
+  CHECK (surface IN ('road', 'trail', 'track', 'virtual', 'other', 'beach', 'mountain'));
+```
+
+2. **Update Schema File**: Modify `001_init.sql` to include new values
+3. **Update Tests**: Add test cases for new surface types
+4. **Update Documentation**: Reflect new allowed values
+
+#### Best Practices for Extensions:
+- **Use Migration Files**: Always create numbered migration files
+- **Include Rollback**: Provide clear rollback instructions
+- **Test Thoroughly**: Validate both new and existing values
+- **Update Schema**: Keep `001_init.sql` in sync with migrations
+- **Document Changes**: Update this summary document
+
+### Notes
+
+- **Idempotent**: Migration can be run multiple times safely
+- **Constraint Name**: Uses `surface_check` for consistency
+- **TEXT Type Maintained**: No changes to column data type
+- **No Lookup Table**: Keeps design simple and performant
+- **Rollback Ready**: Easy to revert to previous constraint if needed

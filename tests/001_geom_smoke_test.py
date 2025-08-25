@@ -27,17 +27,16 @@ def run_docker_command(cmd):
 def copy_script_to_container():
     """Copy this script to the Docker container."""
     script_path = os.path.abspath(__file__)
-    print(f"📁 Copying script to container: {script_path}")
+    print(f"Copying Copying script to container: {script_path}")
     
     cmd = f'docker cp "{script_path}" {CONTAINER_NAME}:/home/smoke_test.py'
     stdout, stderr = run_docker_command(cmd)
     
     if stderr:
-        print(f"❌ Failed to copy script: {stderr}")
-        return False
+        print(f"FAIL Failed to copy script: {stderr}")
+        raise Exception(f"Failed to copy script: {stderr}")
     
-    print("✅ Script copied successfully")
-    return True
+    print("PASS Script copied successfully")
 
 def parse_test_results(output):
     """Parse the SQL output to extract test results."""
@@ -62,15 +61,15 @@ def parse_test_results(output):
         
         # Look for PASS/FAIL results
         if 'PASS -' in line and current_test:
-            test_results[current_test] = "✅ PASS"
+            test_results[current_test] = "PASS PASS"
         elif 'FAIL -' in line and current_test:
-            test_results[current_test] = "❌ FAIL"
+            test_results[current_test] = "FAIL FAIL"
     
     return test_results
 
 def run_smoke_test_in_container():
     """Run the smoke test inside the Docker container."""
-    print("🚀 Starting Geom Trigger Smoke Test in container...\n")
+    print("Starting Starting Geom Trigger Smoke Test in container...\n")
     
     # Create a temporary SQL file with all commands
     sql_content = """
@@ -182,26 +181,26 @@ FROM races WHERE name LIKE 'SMOKE_TEST_%%';
     
     try:
         # Copy the SQL file to the container
-        print("📝 Copying SQL commands to container...")
+        print("Copying SQL commands to container...")
         cmd = f'docker cp "{temp_sql_file}" {CONTAINER_NAME}:/home/smoke_test.sql'
         stdout, stderr = run_docker_command(cmd)
         
         if stderr:
-            print(f"❌ Failed to copy SQL file: {stderr}")
-            return False
+            print(f"Failed to copy SQL file: {stderr}")
+            raise Exception(f"Failed to copy SQL file: {stderr}")
         
         # Execute the SQL file in the container
-        print("⚡ Executing smoke test...")
+        print("Executing smoke test...")
         cmd = f'docker exec -i {CONTAINER_NAME} psql -U {DB_USER} -d {DB_NAME} -f /home/smoke_test.sql'
         stdout, stderr = run_docker_command(cmd)
         
         if stdout:
-            print("📊 Test Results:")
+            print("Test Results:")
             print("=" * 50)
             print(stdout)
             
             # Parse and display test status
-            print("\n🎯 Test Status Summary:")
+            print("\nTest Status Summary:")
             print("=" * 50)
             test_results = parse_test_results(stdout)
             
@@ -213,18 +212,18 @@ FROM races WHERE name LIKE 'SMOKE_TEST_%%';
             fail_count = sum(1 for status in test_results.values() if "FAIL" in status)
             total_tests = len(test_results)
             
-            print(f"\n📈 Overall Results:")
+            print(f"\nOverall Results:")
             print(f"   Total Tests: {total_tests}")
-            print(f"   ✅ Passed: {pass_count}")
-            print(f"   ❌ Failed: {fail_count}")
+            print(f"   PASSED: {pass_count}")
+            print(f"   FAILED: {fail_count}")
             
             if fail_count == 0:
-                print("\n🎉 ALL TESTS PASSED! Your geom trigger system is working perfectly!")
+                print("\nALL TESTS PASSED! Your geom trigger system is working perfectly!")
             else:
-                print(f"\n⚠️  {fail_count} test(s) failed. Please check the results above.")
+                print(f"\n{fail_count} test(s) failed. Please check the results above.")
         
         if stderr:
-            print(f"\n⚠️  Warnings/Errors:")
+            print(f"\nWarnings/Errors:")
             print(stderr)
             
     finally:
@@ -234,30 +233,29 @@ FROM races WHERE name LIKE 'SMOKE_TEST_%%';
 
 def main():
     """Main function to orchestrate the smoke test."""
-    print(" Geom Trigger Smoke Test - Auto-Docker Edition")
+    print("Geom Trigger Smoke Test - Auto-Docker Edition")
     print("=" * 60)
     
     # Check if Docker is running
-    print("🐳 Checking Docker status...")
+    print("Checking Docker status...")
     stdout, stderr = run_docker_command("docker ps")
     if stderr:
-        print(f"❌ Docker is not running: {stderr}")
+        print(f"Docker is not running: {stderr}")
         print("Please start Docker and try again.")
-        return False
+        raise Exception(f"Docker is not running: {stderr}")
     
     # Check if our container is running
     if CONTAINER_NAME not in stdout:
-        print(f"❌ Container '{CONTAINER_NAME}' is not running.")
+        print(f"Container '{CONTAINER_NAME}' is not running.")
         print("Please start your database container and try again.")
-        return False
+        raise Exception(f"Container '{CONTAINER_NAME}' is not running")
     
-    print(f"✅ Container '{CONTAINER_NAME}' is running")
+    print(f"Container '{CONTAINER_NAME}' is running")
     
     # Run the smoke test
     run_smoke_test_in_container()
     
-    print("\n🎉 Smoke test completed!")
-    return True
+    print("\nSmoke test completed!")
 
 if __name__ == "__main__":
     success = main()

@@ -1,8 +1,8 @@
-id,name,date,start_time,address,city,state,zip,surface,kid_run,official_website_url,latitude,longitude
-1,delte me  Bayou City 5k!!,8/19/2025,19:30:00,600 Memorial Dr,Houston,tx,77007,road,FALSE,https://runsignup.com/Race/TX/Houston/BayouCityClassic10k,29.7633,-95.3819
-2,delte me  Galveston Beach 10K,9/1/2025,8:00 AM,Stewart Beach,Galveston,TX,77550,road,No,https://example.com/galv10k,29.3,-94.7667
-25,delte me  Houston Marathon,9/1/2025,7:00:00,1001 Avenida de las Americas,Houston,TX,77010,road,TRUE,https://www.chevronhoustonmarathon.com/,29.7517931,-95.3581139
-7,delte me  Test Race - Database Fixed!!!!!,8/25/2027,8:00,16123 Capri Drive,Jersey Village,TX,77040,road,1,www.yahoo.com,29.8902025,-95.566397
-8,delte me  Second Race,8/25/2025,8:00,16123 Capri Drive,Jersey Village,TX,77040,road,1,www.yahoo.com,29.8902025,-95.566397
-11,delte me  Third Race,8/25/2025,8:00,16123 Capri Drive,Jersey Village,TX,77040,road,1,www.yahoo.com,29.8902025,-95.566397
-12,hahahaha,8/25/2025,8:00,16123 Capri Drive,Jersey Village,TX,77040,road,1,www.yahoo.com,29.8902025,-95.566397
+id,name,date,start_time,address,city,state,zip,surface,distance,kid_run,official_website_url,latitude,longitude
+1,Bayou City 5K,2025-08-19,07:30:00,600 Memorial Dr,Houston,TX,77007,road,"5K",true,https://example.com/bayou5k,29.7633,-95.3819
+2,Galveston Beach 10K,2025-09-01,08:00:00,Stewart Beach,Galveston,TX,77550,road,"10K",false,https://example.com/galv10k,29.3000,-94.7667
+25,delte me  Houston Marathon,9/1/2025,7:00:00,1001 Avenida de las Americas,Houston,TX,77010,road,"Marathon,Half",TRUE,https://www.chevronhoustonmarathon.com/,29.7517931,-95.3581139
+7,delte me  Track Meet Championship,8/25/2027,8:00,16123 Capri Drive,Jersey Village,TX,77040,track,"5K,10K",1,www.yahoo.com,29.8902025,-95.566397
+8,delte me  Virtual 5K Challenge,8/25/2025,8:00,Virtual Event,Online,TX,00000,virtual,"5K",1,www.yahoo.com,,
+11,delte me  Forest Trail Run,8/25/2025,8:00,Memorial Park,Houston,TX,77007,trail,"10K,Half",1,www.yahoo.com,29.7633,-95.3819
+12,delte me  Unique Beach Run,8/25/2025,8:00,Galveston Beach,Galveston,TX,77550,other,"5K,10K,Half",1,www.yahoo.com,29.3,-94.7667

@@ -58,7 +58,7 @@ export function parseCsvFile(file: File): Promise<{ rows: RaceCsvRow[], headerEr
           Object.keys(row).forEach(key => {
             const normalizedKey = key.trim().toLowerCase();
             if (REQUIRED_HEADERS.includes(normalizedKey) || 
-                ['id', 'address', 'zip', 'official_website_url', 'latitude', 'longitude'].includes(normalizedKey)) {
+                ['id', 'address', 'zip', 'official_website_url', 'official_w', 'source', 'latitude', 'longitude'].includes(normalizedKey)) {
               raceRow[normalizedKey as keyof RaceCsvRow] = row[key];
             }
           });

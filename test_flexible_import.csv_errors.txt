@@ -1,0 +1,27 @@
+Import Errors for test_flexible_import.csv
+==================================================
+
+Row 2: really delt
+Error: Row 2: Invalid time format '7:00:00'. Expected HH:MM or HH:MM:SS
+Data: {'id': '1', 'name': 'really delt', 'date': '8/23/2025', 'start_time': '7:00:00', 'tz': 'America/(18427 SW', 'address': '18427 SW', 'city': 'Sugar Lan', 'state': 'TX', 'zip': '77479', 'surface': 'road', 'distance': '5K', 'kid_run': 'FALSE', 'official_w': 'https://ww', 'source': 'manual', 'created_at': '2025-08-22T23:38:49.851793+00:00', 'updated_at': '2025-08-22T23:38:49.851793+00:00'}
+
+Row 3: Summer S
+Error: Row 3: Invalid time format '9:21:00'. Expected HH:MM or HH:MM:SS
+Data: {'id': '117', 'name': 'Summer S', 'date': '9/1/2025', 'start_time': '9:21:00', 'tz': 'America/(Galveston', 'address': 'Galveston', 'city': 'Galveston', 'state': 'TX', 'zip': '77550', 'surface': 'road', 'distance': '5K', 'kid_run': 'TRUE', 'official_w': 'https://exa', 'source': 'manual', 'created_at': '2025-08-22T23:38:49.851793+00:00', 'updated_at': '2025-08-22T23:38:49.851793+00:00'}
+
+Row 5: Memorial
+Error: Row 5: Invalid time format '7:00:00'. Expected HH:MM or HH:MM:SS
+Data: {'id': '49', 'name': 'Memorial', 'date': '8/23/2025', 'start_time': '7:00:00', 'tz': 'America/(Memorial', 'address': 'Memorial', 'city': 'Jersey Vill', 'state': 'TX', 'zip': '77010', 'surface': 'road', 'distance': '5K, Half, U', 'kid_run': 'FALSE', 'official_w': 'manual', 'source': 'manual', 'created_at': '2025-08-22T23:38:49.851793+00:00', 'updated_at': '2025-08-22T23:38:49.851793+00:00'}
+
+Row 6: 1001 Aven
+Error: Row 6: Invalid time format '9:21:00'. Expected HH:MM or HH:MM:SS
+Data: {'id': '12', 'name': '1001 Aven', 'date': '9/1/2025', 'start_time': '9:21:00', 'tz': 'America/(1001 Aven', 'address': '1001 Aven', 'city': 'Houston', 'state': 'TX', 'zip': '77040', 'surface': 'road', 'distance': 'Other', 'kid_run': 'TRUE', 'official_w': 'manual', 'source': 'manual', 'created_at': '2025-08-22T23:38:49.851793+00:00', 'updated_at': '2025-08-22T25:38:49.851793+00:00'}
+
+Row 8: 16213 Cap
+Error: Row 8: Invalid time format '7:00:00'. Expected HH:MM or HH:MM:SS
+Data: {'id': '11', 'name': '16213 Cap', 'date': '8/23/2025', 'start_time': '7:00:00', 'tz': 'America/(16213 Cap', 'address': '16213 Cap', 'city': 'Houston', 'state': 'TX', 'zip': '77007', 'surface': 'road', 'distance': '5K', 'kid_run': 'TRUE', 'official_w': 'manual', 'source': 'manual', 'created_at': '2025-08-22T23:38:49.851793+00:00', 'updated_at': '2025-08-22T23:38:49.851793+00:00'}
+
+Row 9: Test Race 1
+Error: Row 9: Invalid time format '9:00:00'. Expected HH:MM or HH:MM:SS
+Data: {'id': '25', 'name': 'Test Race 1', 'date': '8/21/2025', 'start_time': '9:00:00', 'tz': 'America/(Test 1', 'address': 'Test Address 1', 'city': 'Houston', 'state': 'TX', 'zip': '77001', 'surface': 'trail', 'distance': '5K, Half', 'kid_run': 'FALSE', 'official_w': 'https://example.com/race1', 'source': 'https://example.com/race1', 'created_at': '2025-08-22T23:38:49.851793+00:00', 'updated_at': '2025-08-22T23:38:49.851793+00:00'}
+

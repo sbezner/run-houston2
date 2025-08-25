@@ -1,0 +1,7 @@
+id,name,date,start_time,tz,address,city,state,zip,latitude,longitude,geom,surface,distance
+119,zzzHAHAH,8/19/2025,19:30:00,America/Chicago,600 Memo,Houston,TX,77007,29.76881,-95.4302,010100002,road,5K
+1,HAHAHA r,8/23/2025,7:00:00,America/Chicago,18427 SW,Sugar Lan,TX,77479,29.5933,-95.6287,010100002,road,5K
+117,Summer S,9/1/2025,8:00:00,America/Chicago,Virtual Eve,Online,TX,77010,29.3,-94.7667,010100002,virtual,5K, Half, Ultra, Other, Marathon, 10K, Half Marathon
+8,delte me V,8/25/2025,9:00:00,America/Chicago,123 Main St,Galveston,TX,0,,,010100002,other,5K
+49,Summer S,8/20/2025,6:00:00,America/Chicago,456 Oak Ave,Jersey Vill,TX,77040,29.9,-95.5,010100002,trail,5K, Half, Ultra, Other, Marathon, 10K, Half Marathon
+12,delte me U,8/22/2025,7:30:00,America/Chicago,789 Pine St,Houston,TX,77001,29.8,-95.4,010100002,road,Other

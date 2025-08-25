@@ -13,8 +13,8 @@ CREATE TABLE IF NOT EXISTS races (
   latitude DOUBLE PRECISION,
   longitude DOUBLE PRECISION,
   geom GEOGRAPHY(POINT, 4326),
-  distance_categories TEXT[] NOT NULL,
-  surface TEXT NOT NULL DEFAULT 'road' CHECK (surface IN ('road','trail')),
+  distance TEXT[] NOT NULL,
+  surface TEXT NOT NULL DEFAULT 'road' CHECK (surface IN ('road', 'trail', 'track', 'virtual', 'other')),
   kid_run BOOLEAN DEFAULT FALSE,
   official_website_url TEXT NOT NULL,
   created_at TIMESTAMPTZ DEFAULT NOW(),
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS audit_logs (
 );
 
 INSERT INTO races
-(name, date, start_time, address, city, state, zip, latitude, longitude, geom, distance_categories, surface, kid_run, official_website_url)
+(name, date, start_time, address, city, state, zip, latitude, longitude, geom, distance, surface, kid_run, official_website_url)
 VALUES
 ('Bayou City 5K', CURRENT_DATE + INTERVAL '7 day', '07:30', '600 Memorial Dr', 'Houston', 'TX', '77007', 29.7633, -95.3819, ST_SetSRID(ST_MakePoint(-95.3819, 29.7633), 4326)::geography, ARRAY['5K'], 'road', true, 'https://example.com/bayou5k'),
 ('Galveston Beach 10K', CURRENT_DATE + INTERVAL '20 day', '08:00', 'Stewart Beach', 'Galveston', 'TX', '77550', 29.3000, -94.7667, ST_SetSRID(ST_MakePoint(-94.7667, 29.3000), 4326)::geography, ARRAY['10K'], 'road', false, 'https://example.com/galv10k');

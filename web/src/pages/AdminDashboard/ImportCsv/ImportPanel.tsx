@@ -89,9 +89,40 @@ export const ImportPanel: React.FC<ImportPanelProps> = ({ onImportComplete }) =>
         const batch = previewRows.slice(i, i + batchSize);
         const promises = batch.map(async (race) => {
           try {
-            const response = await api.post('/races', race, token);
+            // Normalize the race data before sending to API
+            const normalizedRace = { 
+              ...race,
+              source: race.source || 'csv_import' // Set source for CSV imports
+            };
+            
+                         // Convert date to ISO format if it exists (must match backend expectation)
+             if (normalizedRace.date) {
+               try {
+                 const date = new Date(normalizedRace.date);
+                 if (!isNaN(date.getTime())) {
+                   const isoDate = date.toISOString().split('T')[0];
+                   // Verify the ISO format matches backend expectation
+                   if (/^\d{4}-\d{2}-\d{2}$/.test(isoDate)) {
+                     normalizedRace.date = isoDate; // Convert to YYYY-MM-DD
+                   } else {
+                     console.error('Date conversion failed for backend:', normalizedRace.date, '->', isoDate);
+                     throw new Error(`Date ${normalizedRace.date} cannot be converted to required format`);
+                   }
+                 } else {
+                   throw new Error(`Invalid date: ${normalizedRace.date}`);
+                 }
+               } catch (e) {
+                 console.error('Date normalization failed:', e.message);
+                 throw new Error(`Date validation failed: ${e.message}`);
+               }
+             }
+            
+            const response = await api.post('/races', normalizedRace, token);
             const responseData = await response;
             const operationType = responseData.operation_type;
+            
+            // Log the operation type for debugging
+            console.log(`Race ${normalizedRace.id ? `ID ${normalizedRace.id}` : 'new'}: ${operationType}`);
             
             if (operationType && operationType.trim().toLowerCase() === 'updated') {
               totalUpdated++;
@@ -214,6 +245,50 @@ export const ImportPanel: React.FC<ImportPanelProps> = ({ onImportComplete }) =>
         return (
           <div style={baseStyle}>
             <Alert message={`Found ${importErrors.length} errors. Please fix them before proceeding.`} type="error" />
+            
+            {/* Display detailed error list */}
+            {importErrors.length > 0 && (
+              <div style={{ marginBottom: '20px' }}>
+                <h4 style={{ fontSize: '16px', marginBottom: '10px', color: '#333' }}>Error Details:</h4>
+                <div style={{ 
+                  maxHeight: '300px', 
+                  overflowY: 'auto', 
+                  border: '1px solid #ddd', 
+                  borderRadius: '8px',
+                  padding: '10px',
+                  backgroundColor: '#f8f9fa'
+                }}>
+                  {importErrors.map((error, index) => (
+                    <div key={index} style={{ 
+                      marginBottom: '10px', 
+                      padding: '10px', 
+                      backgroundColor: 'white', 
+                      border: '1px solid #f5c6cb',
+                      borderRadius: '6px',
+                      borderLeft: '4px solid #dc3545'
+                    }}>
+                                              <div style={{ fontWeight: 'bold', color: '#721c24', marginBottom: '5px' }}>
+                          Row {error.rowIndex}: {String(error.field)}
+                        </div>
+                      <div style={{ color: '#721c24', marginBottom: '5px' }}>
+                        {error.message}
+                      </div>
+                      {error.originalValue && (
+                        <div style={{ color: '#666', fontSize: '12px', marginBottom: '5px' }}>
+                          <strong>Value:</strong> {error.originalValue}
+                        </div>
+                      )}
+                      {error.hint && (
+                        <div style={{ color: '#856404', fontSize: '12px', backgroundColor: '#fff3cd', padding: '5px', borderRadius: '4px' }}>
+                          💡 {error.hint}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {importErrors.length > 0 && (
               <button
                 onClick={() => downloadErrorsCsv(importErrors)}
@@ -231,6 +306,7 @@ export const ImportPanel: React.FC<ImportPanelProps> = ({ onImportComplete }) =>
                 Download Errors CSV
               </button>
             )}
+            
             <div style={{ display: 'flex', gap: '10px' }}>
               <button
                 onClick={resetImport}
@@ -271,9 +347,118 @@ export const ImportPanel: React.FC<ImportPanelProps> = ({ onImportComplete }) =>
           <div style={baseStyle}>
             <div style={{ marginBottom: '15px' }}>
               <p>Preview: {previewRows.length} valid rows ready to import</p>
+              
+              {/* Display detailed warnings */}
               {importWarnings.length > 0 && (
-                <p style={{ color: '#856404' }}>⚠️ {importWarnings.length} warnings (duplicates, etc.)</p>
+                <div style={{ marginBottom: '20px' }}>
+                  <h4 style={{ fontSize: '16px', marginBottom: '10px', color: '#856404' }}>⚠️ Warnings ({importWarnings.length}):</h4>
+                  <div style={{ 
+                    maxHeight: '200px', 
+                    overflowY: 'auto', 
+                    border: '1px solid #ffeaa7', 
+                    borderRadius: '8px',
+                    padding: '10px',
+                    backgroundColor: '#fffbf0'
+                  }}>
+                    {importWarnings.map((warning, index) => (
+                      <div key={index} style={{ 
+                        marginBottom: '8px', 
+                        padding: '8px', 
+                        backgroundColor: 'white', 
+                        border: '1px solid #ffeaa7',
+                        borderRadius: '6px',
+                        borderLeft: '4px solid #f39c12'
+                      }}>
+                        <div style={{ fontWeight: 'bold', color: '#856404', marginBottom: '3px' }}>
+                          Row {warning.rowIndex}: {String(warning.field)}
+                        </div>
+                        <div style={{ color: '#856404', marginBottom: '3px' }}>
+                          {warning.message}
+                        </div>
+                        {warning.hint && (
+                          <div style={{ color: '#856404', fontSize: '12px', backgroundColor: '#fff3cd', padding: '4px', borderRadius: '4px' }}>
+                            💡 {warning.hint}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
               )}
+              
+                             {/* Preview valid rows */}
+               <div style={{ marginBottom: '20px' }}>
+                 <h4 style={{ fontSize: '16px', marginBottom: '10px', color: '#28a745' }}>✅ Valid Rows ({previewRows.length}):</h4>
+                 
+                 {/* Show update vs create summary */}
+                 {(() => {
+                   const racesWithId = previewRows.filter(race => race.id);
+                   const newRaces = previewRows.filter(race => !race.id);
+                   
+                   return (
+                     <div style={{ 
+                       marginBottom: '15px', 
+                       padding: '10px', 
+                       backgroundColor: '#e8f5e8', 
+                       borderRadius: '6px',
+                       border: '1px solid #d4edda'
+                     }}>
+                       <div style={{ fontSize: '14px', color: '#155724' }}>
+                         📊 Import Summary:
+                         {racesWithId.length > 0 && (
+                           <span style={{ marginLeft: '10px' }}>
+                             🔄 {racesWithId.length} race{racesWithId.length !== 1 ? 's' : ''} will be updated
+                           </span>
+                         )}
+                         {newRaces.length > 0 && (
+                           <span style={{ marginLeft: '10px' }}>
+                             ➕ {newRaces.length} new race{newRaces.length !== 1 ? 's' : ''} will be created
+                           </span>
+                         )}
+                       </div>
+                     </div>
+                   );
+                 })()}
+                 
+                 <div style={{ 
+                   maxHeight: '300px', 
+                   overflowY: 'auto', 
+                   border: '1px solid #d4edda', 
+                   borderRadius: '8px',
+                   padding: '10px',
+                   backgroundColor: '#f8fff9'
+                 }}>
+                   {previewRows.slice(0, 10).map((race, index) => (
+                     <div key={index} style={{ 
+                       marginBottom: '8px', 
+                       padding: '8px', 
+                       backgroundColor: 'white', 
+                       border: '1px solid #d4edda',
+                       borderRadius: '6px',
+                       borderLeft: `4px solid ${race.id ? '#ffc107' : '#28a745'}`
+                     }}>
+                       <div style={{ fontWeight: 'bold', color: '#155724', marginBottom: '3px' }}>
+                         {race.id ? `🔄 Update: ${race.name}` : `➕ New: ${race.name}`}
+                       </div>
+                       <div style={{ color: '#155724', fontSize: '12px' }}>
+                         {race.date} • {race.city}, {race.state} • {race.surface}
+                         {race.id && <span style={{ color: '#856404', marginLeft: '10px' }}>(ID: {race.id})</span>}
+                       </div>
+                     </div>
+                   ))}
+                   {previewRows.length > 10 && (
+                     <div style={{ 
+                       textAlign: 'center', 
+                       color: '#666', 
+                       fontSize: '12px', 
+                       fontStyle: 'italic',
+                       padding: '10px'
+                     }}>
+                       ... and {previewRows.length - 10} more rows
+                     </div>
+                   )}
+                 </div>
+               </div>
             </div>
             <div style={{ display: 'flex', gap: '10px' }}>
               <button

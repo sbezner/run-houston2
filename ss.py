@@ -33,18 +33,18 @@ def update_mobile_config(ip_address):
     config_file = "mobile/src/config.ts"
     
     try:
-        # Read current config
-        with open(config_file, 'r') as f:
+        # Read current config with explicit UTF-8 encoding
+        with open(config_file, 'r', encoding='utf-8') as f:
             content = f.read()
         
-        # Update IP address using regex
+        # Update IP address using regex - look for the API_BASE line
         old_ip_pattern = r'export const API_BASE = "http://\d+\.\d+\.\d+\.\d+:8000"'
         new_ip_line = f'export const API_BASE = "http://{ip_address}:8000"'
         
         if re.search(old_ip_pattern, content):
             # Replace existing IP
             updated_content = re.sub(old_ip_pattern, new_ip_line, content)
-            with open(config_file, 'w') as f:
+            with open(config_file, 'w', encoding='utf-8') as f:
                 f.write(updated_content)
             print(f"✅ Updated mobile config with IP: {ip_address}")
         else:
@@ -56,11 +56,14 @@ def update_mobile_config(ip_address):
 def start_services_in_windows():
     """Start all services in separate PowerShell windows"""
     try:
-        # Start Database & API in first window
+        # Start Database & API together using Docker Compose
         subprocess.Popen([
             'powershell', '-NoExit', '-Command',
-            'cd "C:/Users/sbezn/OneDrive/Documents/vsCodeProjects/run-houston/infra"; Write-Host "Starting Database & API..." -ForegroundColor Green; docker compose up'
+            'cd "C:/Users/sbezn/OneDrive/Documents/vsCodeProjects/run-houston/infra"; Write-Host "Starting Database & API with Docker..." -ForegroundColor Green; docker compose up'
         ])
+        
+        # Wait a moment for Docker services to start
+        time.sleep(5)
         
         # Start Mobile App in second window
         subprocess.Popen([
@@ -76,12 +79,7 @@ def start_services_in_windows():
         
         print("🚀 All services started in separate windows!")
         print("📱 Mobile app will use the updated IP address")
-        
-    except Exception as e:
-        print(f"❌ Error starting services: {e}")
-
-        print("🚀 All services started in tabs!")
-        print("📱 Mobile app will use the updated IP address")
+        print("🐳 Database & API are running in Docker (more reliable)")
         
     except Exception as e:
         print(f"❌ Error starting services: {e}")

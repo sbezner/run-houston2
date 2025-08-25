@@ -8,6 +8,7 @@ export const useAuth = () => {
   const [password, setPassword] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState('');
+  const [tokenExpired, setTokenExpired] = React.useState(false);
 
   const login = React.useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,6 +29,13 @@ export const useAuth = () => {
   const logout = React.useCallback(() => {
     auth.removeToken();
     setIsLoggedIn(false);
+    setTokenExpired(false);
+  }, []);
+
+  const handleTokenExpiration = React.useCallback(() => {
+    auth.removeToken();
+    setIsLoggedIn(false);
+    setTokenExpired(true);
   }, []);
 
   const checkAuth = React.useCallback(() => {
@@ -49,7 +57,9 @@ export const useAuth = () => {
     setPassword,
     loading,
     error,
+    tokenExpired,
     login,
     logout,
+    handleTokenExpiration,
   };
 };

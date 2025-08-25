@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import {
-  SafeAreaView,
   View,
   Text,
   FlatList,
@@ -14,6 +13,7 @@ import { Race } from "./src/types";
 import { fetchRaces } from "./src/api";
 import RaceMap from "./src/components/RaceMap";
 import AboutScreen from "./src/components/AboutScreen";
+import { ClubsScreen } from "./src/screens/ClubsScreen";
 
 // Helper function to capitalize first letter of surface type and add "Surface"
 const capitalizeSurface = (surface: string | null | undefined): string => {
@@ -56,7 +56,7 @@ export default function App() {
   const [races, setRaces] = useState<Race[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [mode, setMode] = useState<"list" | "map" | "about">("list");
+  const [mode, setMode] = useState<"list" | "map" | "about" | "clubs">("list");
   const [refreshing, setRefreshing] = useState(false); // 1. Add refreshing state
   const [timeFilter, setTimeFilter] = useState<"30" | "60" | "90" | "all">("30"); // Time filter state
 
@@ -121,24 +121,24 @@ export default function App() {
 
   if (loading) {
     return (
-      <SafeAreaView style={styles.center}>
+      <View style={styles.center}>
         <ActivityIndicator />
         <Text>Loading races…</Text>
-      </SafeAreaView>
+      </View>
     );
   }
 
   if (error) {
     return (
-      <SafeAreaView style={styles.center}>
+      <View style={styles.center}>
         <Text style={styles.error}>Error: {error}</Text>
         <Text>Check that your backend is running and your device can reach it.</Text>
-      </SafeAreaView>
+      </View>
     );
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <Text style={styles.header}>
         {mode === "about" ? "About Run Houston" : "Run Houston — Upcoming Races"}
       </Text>
@@ -221,6 +221,8 @@ export default function App() {
           />
         ) : mode === "map" ? (
           <RaceMap races={visibleRaces} />
+        ) : mode === "clubs" ? (
+          <ClubsScreen />
         ) : (
           <AboutScreen />
         )}
@@ -245,6 +247,14 @@ export default function App() {
           </Text>
         </Pressable>
         <Pressable
+          onPress={() => setMode("clubs")}
+          style={[styles.bottomNavTab, mode === "clubs" ? styles.bottomNavTabActive : styles.bottomNavTabInactive]}
+        >
+          <Text style={[styles.bottomNavText, mode === "clubs" ? styles.bottomNavTextActive : styles.bottomNavTextInactive]}>
+            🏃‍♂️ Clubs
+          </Text>
+        </Pressable>
+        <Pressable
           onPress={() => setMode("about")}
           style={[styles.bottomNavTab, mode === "about" ? styles.bottomNavTabActive : styles.bottomNavTabInactive]}
         >
@@ -253,7 +263,7 @@ export default function App() {
           </Text>
         </Pressable>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 

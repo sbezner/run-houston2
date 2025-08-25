@@ -1,465 +1,554 @@
 // import { z } from 'zod'; // Commented out since schema is not used
-import type { RaceCsvRow, RaceUpsert, ImportError, ValidationResult, ImportStats } from './errors';
+import type { CsvRow, ValidationError, NormalizedRow } from './errors';
 
-// Helper functions for data transformation
-function normalizeString(value: string | undefined): string {
-  if (!value) return '';
-  return value.trim().replace(/\s+/g, ' ');
+// Validation functions
+export function validateRequired(value: string | undefined, fieldName: string): string | null {
+  if (!value || value.trim() === '') {
+    return `${fieldName} is required`;
+  }
+  return null;
 }
 
-function parseDate(dateStr: string): string | null {
-  if (!dateStr) return null;
+export function validateName(name: string): string | null {
+  if (name.length < 2) {
+    return 'Name must be at least 2 characters long';
+  }
+  if (name.length > 100) {
+    return 'Name must be less than 100 characters';
+  }
+  return null;
+}
+
+export function validateDate(dateStr: string): string | null {
+  // Parse the date string and create a date object
+  const date = new Date(dateStr);
+  if (isNaN(date.getTime())) {
+    return 'Invalid date format';
+  }
   
-  const normalized = normalizeString(dateStr);
-  console.log('=== DATE PARSING DEBUG ===');
-  console.log('Input date:', dateStr);
-  console.log('Normalized:', normalized);
-  console.log('Length:', normalized.length);
-  console.log('Contains slash:', normalized.includes('/'));
-  console.log('Contains dash:', normalized.includes('-'));
+  // Check if it can be converted to ISO format (backend requirement)
+  try {
+    const isoDate = date.toISOString().split('T')[0];
+    // Verify the ISO format is valid
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(isoDate)) {
+      return 'Date cannot be converted to required format (YYYY-MM-DD)';
+    }
+  } catch (e) {
+    return 'Date cannot be converted to required format (YYYY-MM-DD)';
+  }
   
-  // Test the specific patterns we expect
-  const testPattern = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
-  const testMatch = normalized.match(testPattern);
-  console.log('Test pattern:', testPattern.source);
-  console.log('Test match:', testMatch);
+  return null;
+}
+
+export function validateTime(timeStr: string): string | null {
+  // First check basic format
+  const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$/;
+  if (!timeRegex.test(timeStr)) {
+    return 'Invalid time format (use HH:MM or HH:MM:SS)';
+  }
   
-  // Try various date formats (order matters - more specific first)
-  const formats = [
-    // YYYY-MM-DD (ISO format) - check this FIRST
-    /^(\d{4})-(\d{1,2})-(\d{1,2})$/,
-    // MM/DD/YYYY or M/D/YYYY
-    /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/,
-    // MMM-DD-YY or MMM-DD-YYYY
-    /^(\w{3})-(\d{1,2})-(\d{2,4})$/,
-    // DD-MMM-YY or DD-MMM-YYYY
-    /^(\d{1,2})-(\w{3})-(\d{2,4})$/
-  ];
-  
-  for (let i = 0; i < formats.length; i++) {
-    const format = formats[i];
-    const match = normalized.match(format);
-    console.log(`Format ${i + 1}:`, format.source, '-> match:', match);
+  // Check if it can be converted to ISO format (backend requirement)
+  try {
+    // Parse the time and create a Date object to test ISO conversion
+    const [hours, minutes, seconds] = timeStr.split(':').map(Number);
+    const testDate = new Date(2000, 0, 1, hours, minutes, seconds || 0);
+    const isoTime = testDate.toTimeString().split(' ')[0];
     
-    if (match) {
-      console.log('Processing match:', match);
-      console.log('Format source:', format.source);
-      console.log('Format source includes YYYY:', format.source.includes('YYYY'));
-      try {
-        if (format.source.includes('(\\d{4})')) {
-          if (format.source.includes('(\\w{3})')) {
-            // Month name format
-            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
-                               'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            const monthIndex = monthNames.findIndex(m => m === match[2]);
-            if (monthIndex !== -1) {
-              const month = (monthIndex + 1).toString().padStart(2, '0');
-              const day = match[1].padStart(2, '0');
-              const year = match[3].length === 2 ? '20' + match[3] : match[3];
-              console.log('Month name format - month:', month, 'day:', day, 'year:', year);
-              return `${year}-${month}-${day}`;
-            }
-          } else if (format.source.includes('(\\d{4})-')) {
-            // YYYY-MM-DD (ISO format) - already in correct format
-            const year = match[1];
-            const month = match[2].padStart(2, '0');
-            const day = match[3].padStart(2, '0');
-            console.log('ISO format - year:', year, 'month:', month, 'day:', day);
-            console.log('Returning:', `${year}-${month}-${day}`);
-            return `${year}-${month}-${day}`;
-          } else {
-            // MM/DD/YYYY format
-            const month = match[1].padStart(2, '0');
-            const day = match[2].padStart(2, '0');
-            const year = match[3];
-            console.log('MM/DD/YYYY format - month:', month, 'day:', day, 'year:', year);
-            console.log('Returning:', `${year}-${month}-${day}`);
-            return `${year}-${month}-${day}`;
-          }
-        } else if (format.source.includes('(\\d{2,4})')) {
-          if (format.source.includes('MMM')) {
-            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
-                               'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            const monthIndex = monthNames.findIndex(m => m === match[2]);
-            if (monthIndex !== -1) {
-              const month = (monthIndex + 1).toString().padStart(2, '0');
-              const day = match[1].padStart(2, '0');
-              const year = '20' + match[3];
-              console.log('MMM-DD-YY format - month:', month, 'day:', day, 'year:', year);
-              return `${year}-${month}-${day}`;
-            }
-          }
-        }
-      } catch (err) {
-        console.log('Error parsing format:', err);
-        continue;
-      }
+    // Verify the ISO format is valid
+    if (!/^\d{2}:\d{2}:\d{2}$/.test(isoTime)) {
+      return 'Time cannot be converted to required format (HH:MM:SS)';
     }
-  }
-  
-  console.log('=== NO VALID DATE FORMAT FOUND ===');
-  console.log('Final result: null');
-  return null;
-}
-
-// Removed isValidDate function since we're not using it anymore
-
-function parseTime(timeStr: string): string | null {
-  if (!timeStr) return null;
-  
-  const normalized = normalizeString(timeStr);
-  
-  // Try various time formats
-  const formats = [
-    // HH:mm:ss
-    /^(\d{1,2}):(\d{2}):(\d{2})$/,
-    // H:mm or HH:mm
-    /^(\d{1,2}):(\d{2})$/,
-    // h:mm A or h:mm AM/PM
-    /^(\d{1,2}):(\d{2})\s*(AM|PM)$/i
-  ];
-  
-  for (const format of formats) {
-    const match = normalized.match(format);
-    if (match) {
-      try {
-        if (format.source.includes('AM|PM')) {
-          // 12-hour format
-          let hour = parseInt(match[1]);
-          const minute = parseInt(match[2]);
-          const period = match[3].toUpperCase();
-          
-          if (period === 'PM' && hour !== 12) hour += 12;
-          if (period === 'AM' && hour === 12) hour = 0;
-          
-          return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:00`;
-        } else if (format.source.includes('HH:mm:ss')) {
-          // Already in correct format
-          return normalized;
-        } else {
-          // HH:mm format
-          const hour = parseInt(match[1]);
-          const minute = parseInt(match[2]);
-          return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:00`;
-        }
-      } catch {
-        continue;
-      }
-    }
+  } catch (e) {
+    return 'Time cannot be converted to required format (HH:MM:SS)';
   }
   
   return null;
 }
 
-function normalizeSurface(surface: string): string | null {
-  if (!surface) return null;
-  
-  const normalized = normalizeString(surface).toLowerCase();
-  
-  const surfaceMap: Record<string, string> = {
-    'road': 'road',
-    'trail': 'trail',
-    'track': 'track',
-    'mixed': 'mixed',
-    'asphalt': 'road',
-    'concrete': 'road',
-    'dirt': 'trail',
-    'grass': 'trail',
-    'gravel': 'trail'
-  };
-  
-  return surfaceMap[normalized] || null;
-}
-
-function parseKidRun(value: string): boolean | null {
-  if (!value) return null;
-  
-  const normalized = normalizeString(value).toLowerCase();
-  
-  const trueValues = ['true', 'yes', 'y', '1', 'on'];
-  const falseValues = ['false', 'no', 'n', '0', 'off'];
-  
-  if (trueValues.includes(normalized)) return true;
-  if (falseValues.includes(normalized)) return false;
-  
+export function validateSurface(surface: string): string | null {
+  const validSurfaces = ['road', 'trail', 'track', 'virtual', 'other'];
+  if (!validSurfaces.includes(surface.toLowerCase())) {
+    return `Surface must be one of: ${validSurfaces.join(', ')}`;
+  }
   return null;
 }
 
-function normalizeUrl(url: string): string | null {
-  if (!url) return null;
-  
-  const normalized = normalizeString(url);
+export function validateDistance(distance: string): string | null {
+  const validDistances = ['5K', '10K', 'Half Marathon', 'Marathon', 'Ultra', 'Other'];
+  if (!validDistances.includes(distance)) {
+    return `Distance must be one of: ${validDistances.join(', ')}`;
+  }
+  return null;
+}
+
+export function validateKidRun(kidRunStr: string): string | null {
+  const validValues = ['true', 'false', 'yes', 'no', '1', '0'];
+  if (!validValues.includes(kidRunStr.toLowerCase())) {
+    return 'Kid run must be true/false, yes/no, or 1/0';
+  }
+  return null;
+}
+
+export function validateUrl(url: string): string | null {
+  if (!url) return null; // URL is optional
   
   try {
-    // If it already has a scheme, validate it
-    if (normalized.includes('://')) {
-      new URL(normalized);
-      return normalized;
-    }
-    
-    // If it looks like a domain, add https://
-    if (normalized.includes('.') && !normalized.includes(' ')) {
-      const urlWithScheme = `https://${normalized}`;
-      new URL(urlWithScheme);
-      return urlWithScheme;
-    }
-    
+    new URL(url);
     return null;
   } catch {
-    return null;
+    return 'Invalid URL format';
   }
 }
 
-function parseCoordinate(value: string): number | null {
-  if (!value) return null;
+export function validateId(idStr: string): string | null {
+  if (!idStr) return null; // ID is optional
   
-  const parsed = parseFloat(normalizeString(value));
-  return isNaN(parsed) ? null : parsed;
-}
-
-function validateCoordinates(lat: number | null, lon: number | null): boolean {
-  if (lat === null && lon === null) return true;
-  if (lat !== null && lon !== null) {
-    return lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180;
+  const id = parseInt(idStr);
+  if (isNaN(id)) {
+    return 'ID must be a valid number';
   }
-  return false;
+  if (id <= 0) {
+    return 'ID must be a positive number';
+  }
+  return null;
 }
 
-// Validation schema - commented out for now
-// const raceSchema = z.object({
-//   name: z.string().min(1, "Name is required"),
-//   date: z.string().min(1, "Date is required"),
-//   start_time: z.string().min(1, "Start time is required"),
-//   address: z.string().nullable(),
-//   city: z.string().min(1, "City is required"),
-//   state: z.string().min(1, "State is required"),
-//   zip: z.string().nullable(),
-//   surface: z.string().min(1, "Surface is required"),
-//   kid_run: z.boolean(),
-//   official_website_url: z.string().nullable(),
-//   latitude: z.number().nullable(),
-//   longitude: z.number().nullable()
-// });
+// Validate that the normalized data is compatible with backend expectations
+export function validateBackendCompatibility(normalized: NormalizedRow, rowNumber: number): import('./errors').ImportError[] {
+  const errors: import('./errors').ImportError[] = [];
+  
+  // Check that required fields are present (backend will fail without these)
+  if (!normalized.name || normalized.name.trim() === '') {
+    errors.push({
+      rowIndex: rowNumber,
+      field: 'name',
+      code: 'REQUIRED',
+      message: 'Name is required by backend',
+      originalValue: normalized.name || ''
+    });
+  }
+  
+  // Check that date can be converted to ISO format (backend requirement)
+  if (normalized.date) {
+    try {
+      const date = new Date(normalized.date);
+      if (isNaN(date.getTime())) {
+        errors.push({
+          rowIndex: rowNumber,
+          field: 'date',
+          code: 'INVALID_DATE',
+          message: 'Date cannot be converted to ISO format for backend',
+          originalValue: normalized.date
+        });
+      }
+    } catch (e) {
+      errors.push({
+        rowIndex: rowNumber,
+        field: 'date',
+        code: 'INVALID_DATE',
+        message: 'Date conversion failed for backend compatibility',
+        originalValue: normalized.date
+      });
+    }
+  }
+  
+  // Check that time can be converted to ISO format (backend requirement)
+  if (normalized.start_time) {
+    try {
+      const [hours, minutes, seconds] = normalized.start_time.split(':').map(Number);
+      if (isNaN(hours) || isNaN(minutes) || hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
+        errors.push({
+          rowIndex: rowNumber,
+          field: 'start_time',
+          code: 'INVALID_TIME',
+          message: 'Time format invalid for backend compatibility',
+          originalValue: normalized.start_time
+        });
+      }
+    } catch (e) {
+      errors.push({
+        rowIndex: rowNumber,
+        field: 'start_time',
+        code: 'INVALID_TIME',
+        message: 'Time conversion failed for backend compatibility',
+        originalValue: normalized.start_time
+      });
+    }
+  }
+  
+  // Check that surface is one of the expected values (backend accepts any string, but frontend should be consistent)
+  if (normalized.surface && !['road', 'trail', 'track', 'virtual', 'other'].includes(normalized.surface)) {
+    errors.push({
+      rowIndex: rowNumber,
+      field: 'surface',
+      code: 'INVALID_SURFACE',
+      message: 'Surface should be one of: road, trail, track, virtual, other',
+      originalValue: normalized.surface
+    });
+  }
+  
+  // Check that distance array is valid (backend expects list of strings)
+  if (normalized.distance && !Array.isArray(normalized.distance)) {
+    errors.push({
+      rowIndex: rowNumber,
+      field: 'distance',
+      code: 'INVALID_DISTANCE',
+      message: 'Distance must be an array of strings for backend compatibility',
+      originalValue: JSON.stringify(normalized.distance)
+    });
+  }
+  
+  // Check that kid_run is boolean (backend expects boolean)
+  if (typeof normalized.kid_run !== 'boolean') {
+    errors.push({
+      rowIndex: rowNumber,
+      field: 'kid_run',
+      code: 'INVALID_KID_RUN',
+      message: 'Kid run must be true/false for backend compatibility',
+      originalValue: String(normalized.kid_run)
+    });
+  }
+  
+  // Check that coordinates are valid numbers (backend expects float)
+  if (normalized.latitude !== undefined && (typeof normalized.latitude !== 'number' || isNaN(normalized.latitude))) {
+    errors.push({
+      rowIndex: rowNumber,
+      field: 'latitude',
+      code: 'INVALID_LATITUDE',
+      message: 'Latitude must be a valid number for backend compatibility',
+      originalValue: String(normalized.latitude)
+    });
+  }
+  
+  if (normalized.longitude !== undefined && (typeof normalized.longitude !== 'number' || isNaN(normalized.longitude))) {
+    errors.push({
+      rowIndex: rowNumber,
+      field: 'longitude',
+      code: 'INVALID_LONGITUDE',
+      message: 'Longitude must be a valid number for backend compatibility',
+      originalValue: String(normalized.longitude)
+    });
+  }
+  
+  return errors;
+}
 
-export function validateAndTransform(rows: RaceCsvRow[]): ValidationResult {
-  const errors: ImportError[] = [];
-  const warnings: ImportError[] = [];
-  const valid: RaceUpsert[] = [];
+export function validateLatitude(latStr: string): string | null {
+  if (!latStr) return null; // Latitude is optional
   
-  // Track duplicates by natural key (name, date, city)
-  const duplicateTracker = new Map<string, number>();
+  const lat = parseFloat(latStr);
+  if (isNaN(lat)) {
+    return 'Latitude must be a valid number';
+  }
+  if (lat < -90 || lat > 90) {
+    return 'Latitude must be between -90 and 90';
+  }
+  return null;
+}
+
+export function validateLongitude(lonStr: string): string | null {
+  if (!lonStr) return null; // Longitude is optional
   
-  rows.forEach((row, index) => {
-    const rowIndex = index + 1; // 1-based for user display
-    const rowErrors: ImportError[] = [];
-    
-    // Normalize and transform data
-    const normalized = {
-      name: normalizeString(row.name),
-      date: parseDate(row.date || ''),
-      start_time: parseTime(row.start_time || ''),
-      address: normalizeString(row.address),
-      city: normalizeString(row.city),
-      state: normalizeString(row.state),
-      zip: normalizeString(row.zip),
-      surface: normalizeSurface(row.surface || ''),
-      kid_run: parseKidRun(row.kid_run || ''),
-      official_website_url: normalizeUrl(row.official_website_url || ''),
-      latitude: row.latitude ? parseCoordinate(row.latitude) : null,
-      longitude: row.longitude ? parseCoordinate(row.longitude) : null
-    };
-    
-    // Check for required fields
-    if (!normalized.name) {
-      rowErrors.push({
-        rowIndex,
+  const lon = parseFloat(lonStr);
+  if (isNaN(lon)) {
+    return 'Longitude must be a valid number';
+  }
+  if (lon < -180 || lon > 180) {
+    return 'Longitude must be between -180 and 180';
+  }
+  return null;
+}
+
+// Parsing functions
+export function parseDistances(distanceStr: string): string[] {
+  if (!distanceStr) return ['5K'];
+  
+  return distanceStr
+    .split(',')
+    .map(d => d.trim())
+    .filter(d => d.length > 0)
+    .map(d => {
+      // Handle common variations
+      if (d.toLowerCase() === 'half') return 'Half Marathon';
+      if (d.toLowerCase() === 'marathon') return 'Marathon';
+      if (d.toLowerCase() === 'ultra') return 'Ultra';
+      if (d.toLowerCase() === 'other') return 'Other';
+      if (d.toLowerCase() === '5k') return '5K';
+      if (d.toLowerCase() === '10k') return '10K';
+      return d;
+    });
+}
+
+export function parseKidRun(kidRunStr: string): boolean {
+  if (!kidRunStr) return false;
+  
+  const lower = kidRunStr.toLowerCase();
+  return lower === 'true' || lower === 'yes' || lower === '1';
+}
+
+export function parseNumber(numStr: string): number | null {
+  if (!numStr) return null;
+  
+  const num = parseFloat(numStr);
+  return isNaN(num) ? null : num;
+}
+
+// Main validation function
+export function validateCsvRow(row: CsvRow, rowNumber: number): ValidationError[] {
+  const errors: ValidationError[] = [];
+
+  // Required fields
+  const nameError = validateRequired(row.name, 'Name');
+  if (nameError) {
+    errors.push({
+      row: rowNumber,
+      field: 'name',
+      message: nameError,
+      originalValue: row.name || ''
+    });
+  }
+
+  const dateError = validateRequired(row.date, 'Date');
+  if (dateError) {
+    errors.push({
+      row: rowNumber,
+      field: 'date',
+      message: dateError,
+      originalValue: row.date || ''
+    });
+  }
+
+  const cityError = validateRequired(row.city, 'City');
+  if (cityError) {
+    errors.push({
+      row: rowNumber,
+      field: 'city',
+      message: cityError,
+      originalValue: row.city || ''
+    });
+  }
+
+  const stateError = validateRequired(row.state, 'State');
+  if (stateError) {
+    errors.push({
+      row: rowNumber,
+      field: 'state',
+      message: stateError,
+      originalValue: row.state || ''
+    });
+  }
+
+  const surfaceError = validateRequired(row.surface, 'Surface');
+  if (surfaceError) {
+    errors.push({
+      row: rowNumber,
+      field: 'surface',
+      message: surfaceError,
+      originalValue: row.surface || ''
+    });
+  }
+
+  // Optional ID validation
+  if (row.id) {
+    const idValidationError = validateId(row.id);
+    if (idValidationError) {
+      errors.push({
+        row: rowNumber,
+        field: 'id',
+        message: idValidationError,
+        originalValue: row.id
+      });
+    }
+  }
+
+  // Field-specific validation
+  if (row.name) {
+    const nameValidationError = validateName(row.name);
+    if (nameValidationError) {
+      errors.push({
+        row: rowNumber,
         field: 'name',
-        code: 'REQUIRED',
-        message: 'Name is required',
+        message: nameValidationError,
         originalValue: row.name
       });
     }
-    
-    if (!normalized.date) {
-      rowErrors.push({
-        rowIndex,
+  }
+
+  if (row.date) {
+    const dateValidationError = validateDate(row.date);
+    if (dateValidationError) {
+      errors.push({
+        row: rowNumber,
         field: 'date',
-        code: 'INVALID_DATE',
-        message: 'Invalid date format',
-        originalValue: row.date,
-        hint: 'Use MM/DD/YYYY, MMM-DD-YYYY, or YYYY-MM-DD format'
+        message: dateValidationError,
+        originalValue: row.date
       });
     }
-    
-    if (!normalized.start_time) {
-      rowErrors.push({
-        rowIndex,
+  }
+
+  if (row.start_time) {
+    const timeValidationError = validateTime(row.start_time);
+    if (timeValidationError) {
+      errors.push({
+        row: rowNumber,
         field: 'start_time',
-        code: 'INVALID_TIME',
-        message: 'Invalid time format',
-        originalValue: row.start_time,
-        hint: 'Use HH:mm, HH:mm:ss, or h:mm AM/PM format'
+        message: timeValidationError,
+        originalValue: row.start_time
       });
     }
-    
-    if (!normalized.city) {
-      rowErrors.push({
-        rowIndex,
-        field: 'city',
-        code: 'REQUIRED',
-        message: 'City is required',
-        originalValue: row.city
-      });
-    }
-    
-    if (!normalized.state) {
-      rowErrors.push({
-        rowIndex,
-        field: 'state',
-        code: 'REQUIRED',
-        message: 'State is required',
-        originalValue: row.state
-      });
-    } else if (normalized.state.length !== 2) {
-      rowErrors.push({
-        rowIndex,
-        field: 'state',
-        code: 'OUT_OF_RANGE',
-        message: 'State must be exactly 2 characters',
-        originalValue: row.state,
-        hint: 'Use 2-letter state code (e.g., TX, CA)'
-      });
-    }
-    
-    if (!normalized.surface) {
-      rowErrors.push({
-        rowIndex,
+  }
+
+  if (row.surface) {
+    const surfaceValidationError = validateSurface(row.surface);
+    if (surfaceValidationError) {
+      errors.push({
+        row: rowNumber,
         field: 'surface',
-        code: 'REQUIRED',
-        message: 'Surface is required',
-        originalValue: row.surface,
-        hint: 'Must be one of: road, trail, track, mixed'
+        message: surfaceValidationError,
+        originalValue: row.surface
       });
     }
-    
-    if (normalized.kid_run === null) {
-      rowErrors.push({
-        rowIndex,
+  }
+
+  if (row.distance) {
+    const distances = parseDistances(row.distance);
+    const invalidDistances = distances.filter(d => !validateDistance(d));
+    if (invalidDistances.length > 0) {
+      errors.push({
+        row: rowNumber,
+        field: 'distance',
+        message: `Invalid distances: ${invalidDistances.join(', ')}`,
+        originalValue: row.distance
+      });
+    }
+  }
+
+  if (row.kid_run) {
+    const kidRunValidationError = validateKidRun(row.kid_run);
+    if (kidRunValidationError) {
+      errors.push({
+        row: rowNumber,
         field: 'kid_run',
-        code: 'REQUIRED',
-        message: 'Kid run value is required',
-        originalValue: row.kid_run,
-        hint: 'Use TRUE/FALSE, Yes/No, Y/N, or 1/0'
+        message: kidRunValidationError,
+        originalValue: row.kid_run
       });
     }
-    
-    if (normalized.official_website_url === null && row.official_website_url) {
-      rowErrors.push({
-        rowIndex,
+  }
+
+  if (row.official_website_url) {
+    const urlValidationError = validateUrl(row.official_website_url);
+    if (urlValidationError) {
+      errors.push({
+        row: rowNumber,
         field: 'official_website_url',
-        code: 'INVALID_URL',
-        message: 'Invalid URL format',
-        originalValue: row.official_website_url,
-        hint: 'Must be a valid URL or domain (e.g., www.example.com)'
+        message: urlValidationError,
+        originalValue: row.official_website_url
       });
     }
-    
-    // Check coordinate consistency
-    if (!validateCoordinates(normalized.latitude, normalized.longitude)) {
-      rowErrors.push({
-        rowIndex,
+  }
+
+  if (row.latitude) {
+    const latValidationError = validateLatitude(row.latitude);
+    if (latValidationError) {
+      errors.push({
+        row: rowNumber,
         field: 'latitude',
-        code: 'INCONSISTENT_COORDS',
-        message: 'Both latitude and longitude must be provided together',
-        originalValue: `${row.latitude}, ${row.longitude}`,
-        hint: 'Provide both coordinates or neither'
+        message: latValidationError,
+        originalValue: row.latitude
       });
     }
-    
-    // Check coordinate ranges
-    if (normalized.latitude !== null && (normalized.latitude < -90 || normalized.latitude > 90)) {
-      rowErrors.push({
-        rowIndex,
-        field: 'latitude',
-        code: 'OUT_OF_RANGE',
-        message: 'Latitude must be between -90 and 90',
-        originalValue: row.latitude,
-        hint: 'Valid range: -90 to 90 degrees'
-      });
-    }
-    
-    if (normalized.longitude !== null && (normalized.longitude < -180 || normalized.longitude > 180)) {
-      rowErrors.push({
-        rowIndex,
+  }
+
+  if (row.longitude) {
+    const lonValidationError = validateLongitude(row.longitude);
+    if (lonValidationError) {
+      errors.push({
+        row: rowNumber,
         field: 'longitude',
-        code: 'OUT_OF_RANGE',
-        message: 'Longitude must be between -180 and 180',
-        originalValue: row.longitude,
-        hint: 'Valid range: -180 to 180 degrees'
+        message: lonValidationError,
+        originalValue: row.longitude
       });
     }
-    
-         // Check for duplicates (only for races without IDs - new insertions)
-     if (!row.id && normalized.name && normalized.date && normalized.city) {
-       const naturalKey = `${normalized.name.toLowerCase()}-${normalized.date}-${normalized.city.toLowerCase()}`;
-       
-       if (duplicateTracker.has(naturalKey)) {
-         const firstOccurrence = duplicateTracker.get(naturalKey)!;
-         warnings.push({
-           rowIndex: firstOccurrence,
-           field: 'row',
-           code: 'DUPLICATE',
-           message: 'Duplicate race found',
-           hint: 'This row will be skipped in favor of the last occurrence'
-         });
-       } else {
-         duplicateTracker.set(naturalKey, rowIndex);
-       }
-     }
-    
-         // If no errors, add to valid races
-     if (rowErrors.length === 0) {
-       valid.push({
-         id: row.id ? parseInt(row.id) : undefined, // Preserve ID for updates
-         name: normalized.name,
-         date: normalized.date!,
-         start_time: normalized.start_time!,
-         address: normalized.address || null,
-         city: normalized.city,
-         state: normalized.state.toUpperCase(),
-         zip: normalized.zip || null,
-         surface: normalized.surface as any,
-         kid_run: normalized.kid_run!,
-         official_website_url: normalized.official_website_url,
-         latitude: normalized.latitude,
-         longitude: normalized.longitude
-       });
-     } else {
-       errors.push(...rowErrors);
-     }
-  });
-  
-  // Filter out warnings for rows that are now valid (keep only warnings for skipped duplicates)
-  const finalWarnings = warnings.filter(warning => 
-    warning.code === 'DUPLICATE' && 
-    !valid.some(race => 
-      race.name.toLowerCase() === rows[warning.rowIndex - 1]?.name?.toLowerCase() &&
-      race.date === parseDate(rows[warning.rowIndex - 1]?.date || '') &&
-      race.city.toLowerCase() === rows[warning.rowIndex - 1]?.city?.toLowerCase()
-    )
-  );
-  
-  const stats: ImportStats = {
-    total: rows.length,
-    valid: valid.length,
-    invalid: errors.length,
-    duplicates: finalWarnings.length
-  };
-  
+  }
+
+  return errors;
+}
+
+// Normalization function
+export function normalizeCsvRow(row: CsvRow): NormalizedRow {
   return {
-    valid,
-    errors,
-    warnings: finalWarnings,
-    stats
+    id: row.id ? parseInt(row.id) : undefined,
+    name: row.name || '',
+    date: row.date || '',
+    start_time: row.start_time,
+    address: row.address,
+    city: row.city || '',
+    state: row.state || '',
+    zip: row.zip,
+    surface: row.surface || 'road',
+    distance: parseDistances(row.distance || '5K'),
+    kid_run: parseKidRun(row.kid_run || 'false'),
+    official_website_url: row.official_website_url || row.official_w,
+    source: row.source || 'manual',
+    latitude: row.latitude ? parseNumber(row.latitude) ?? undefined : undefined,
+    longitude: row.longitude ? parseNumber(row.longitude) ?? undefined : undefined
   };
+}
+
+// Main validation and transformation function
+export function validateAndTransform(rows: CsvRow[]): {
+  valid: import('./errors').RaceUpsert[];
+  errors: import('./errors').ImportError[];
+  warnings: import('./errors').ImportError[];
+} {
+  const valid: import('./errors').RaceUpsert[] = [];
+  const errors: import('./errors').ImportError[] = [];
+  const warnings: import('./errors').ImportError[] = [];
+
+  rows.forEach((row, index) => {
+    const rowNumber = index + 1;
+    const validationErrors = validateCsvRow(row, rowNumber);
+    
+    if (validationErrors.length === 0) {
+      try {
+        const normalized = normalizeCsvRow(row);
+        
+        // Additional backend compatibility checks
+        const backendCompatibilityErrors = validateBackendCompatibility(normalized, rowNumber);
+        if (backendCompatibilityErrors.length > 0) {
+          backendCompatibilityErrors.forEach(error => {
+            errors.push(error);
+          });
+          return; // Skip this row if backend compatibility fails
+        }
+        
+        // Preserve ID if it exists for update functionality
+        const raceUpsert: import('./errors').RaceUpsert = {
+          ...normalized,
+          id: normalized.id // Keep the ID if it exists
+        };
+        valid.push(raceUpsert);
+      } catch (error) {
+        errors.push({
+          rowIndex: rowNumber,
+          field: 'row',
+          code: 'PARSE_ERROR',
+          message: `Failed to normalize row: ${error}`,
+          originalValue: JSON.stringify(row)
+        });
+      }
+    } else {
+      validationErrors.forEach(error => {
+        errors.push({
+          rowIndex: rowNumber,
+          field: error.field as keyof import('./errors').RaceUpsert,
+          code: 'INVALID_DATE' as any, // You might want to map these more specifically
+          message: error.message,
+          originalValue: error.originalValue
+        });
+      });
+    }
+  });
+
+  return { valid, errors, warnings };
 }

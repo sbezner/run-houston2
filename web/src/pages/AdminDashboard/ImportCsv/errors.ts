@@ -1,6 +1,6 @@
-export type Surface = "road" | "trail" | "track" | "mixed";
+export type Surface = "road" | "trail" | "track" | "virtual" | "other";
 
-export type RaceCsvRow = {
+export interface CsvRow {
   id?: string;
   name?: string;
   date?: string;
@@ -10,27 +10,43 @@ export type RaceCsvRow = {
   state?: string;
   zip?: string;
   surface?: string;
+  distance?: string;
   kid_run?: string;
   official_website_url?: string;
+  official_w?: string;
+  source?: string;
   latitude?: string;
   longitude?: string;
-};
+}
 
-export type RaceUpsert = {
+export type RaceCsvRow = CsvRow;
+
+export interface ValidationError {
+  row: number;
+  field: string;
+  message: string;
+  originalValue: string;
+}
+
+export interface NormalizedRow {
   id?: number;
   name: string;
-  date: string;        // ISO YYYY-MM-DD
-  start_time: string;  // HH:mm:ss
-  address?: string | null;
-  city: string;
-  state: string;
-  zip?: string | null;
-  surface: Surface;
+  date: string;
+  start_time?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zip?: string;
+  surface: string;
+  distance: string[];
   kid_run: boolean;
-  official_website_url?: string | null;
-  latitude?: number | null;
-  longitude?: number | null;
-};
+  official_website_url?: string;
+  source?: string;
+  latitude?: number;
+  longitude?: number;
+}
+
+export type RaceUpsert = Omit<import('../../../types').Race, 'id'> & { id?: number };
 
 export type ImportError = {
   rowIndex: number;                      // 1-based excluding header
