@@ -67,7 +67,7 @@ def run_pytest_tests():
         print("\nRunning Frontend-Backend Validation Tests...")
         result = subprocess.run([
             sys.executable, "-m", "pytest", 
-            "test_frontend_validation.py", "-v", "--tb=short"
+            "005_frontend_validation_test.py", "-v", "--tb=short"
         ], capture_output=True, text=True, timeout=300)
         
         if result.returncode == 0:
@@ -94,7 +94,7 @@ def run_pytest_tests():
         print("\nRunning Integration Tests...")
         result = subprocess.run([
             sys.executable, "-m", "pytest", 
-            "test_csv_import_integration.py", "-v", "--tb=short"
+            "004_csv_import_integration_test.py", "-v", "--tb=short"
         ], capture_output=True, text=True, timeout=300)
         
         if result.returncode == 0:
@@ -213,7 +213,7 @@ def main():
         print("   Please check the results above and fix any issues.")
     
     print(f"\nNext Steps:")
-    print("   • Run individual tests: python tests/test_frontend_validation.py")
+    print("   • Run individual tests: python tests/005_frontend_validation_test.py")
     print("   • Run clubs tests: python tests/003_clubs_api_test.py")
     print("   • Run with pytest: python -m pytest tests/ -v")
     print("   • Check specific test files for detailed output")

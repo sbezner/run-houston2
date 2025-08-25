@@ -22,11 +22,27 @@ def run_backend_tests():
     """Run the Python backend tests."""
     print("\n🐍 Running Backend Tests (Python)...")
     
-    # Change to tests directory
-    tests_dir = Path(".")
-    if not tests_dir.exists():
-        print("❌ Error: Current directory not found!")
+    # Try multiple possible paths for the tests directory
+    possible_tests_paths = [
+        Path("."),                # From tests directory
+        Path("tests"),            # From project root
+        Path("../tests"),         # From deeper subdirectory
+    ]
+    
+    tests_dir = None
+    for path in possible_tests_paths:
+        if path.exists() and (path / "run_all_backend_tests.py").exists():
+            tests_dir = path
+            break
+    
+    if tests_dir is None:
+        print("❌ Error: 'tests' directory with run_all_backend_tests.py not found!")
+        print("   Tried paths:")
+        for path in possible_tests_paths:
+            print(f"     - {path.absolute()}")
         return False
+    
+    print(f"📁 Found tests directory at: {tests_dir.absolute()}")
     
     try:
         # Run the backend tests
