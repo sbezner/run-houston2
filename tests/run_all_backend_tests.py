@@ -164,7 +164,7 @@ def main():
     print("Database constraints are enforced")
     print("Integration workflow functions properly")
     print("Clubs API endpoints work correctly")
-    print("🚨 CRITICAL: PostGIS triggers and coordinate validation (simplified)")
+    print("CRITICAL: PostGIS triggers and coordinate validation (simplified)")
     print("=" * 80)
     
     start_time = time.time()
