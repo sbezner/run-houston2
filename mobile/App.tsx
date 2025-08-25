@@ -16,6 +16,7 @@ import { fetchRaces } from "./src/api";
 import RaceMap from "./src/components/RaceMap";
 import AboutScreen from "./src/components/AboutScreen";
 import { ClubsScreen } from "./src/screens/ClubsScreen";
+import { ReportsScreen } from "./src/screens/ReportsScreen";
 
 // Helper function to capitalize first letter of surface type and add "Surface"
 const capitalizeSurface = (surface: string | null | undefined): string => {
@@ -61,7 +62,7 @@ export default function App() {
   const [races, setRaces] = useState<Race[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [mode, setMode] = useState<"list" | "map" | "about" | "clubs">("list");
+  const [mode, setMode] = useState<"list" | "map" | "about" | "clubs" | "reports">("list");
   const [refreshing, setRefreshing] = useState(false); // 1. Add refreshing state
   const [timeFilter, setTimeFilter] = useState<"30" | "60" | "90" | "all">("30"); // Time filter state
 
@@ -147,6 +148,7 @@ export default function App() {
       <Text style={styles.header}>
         {mode === "about" ? "About Run Houston" : 
          mode === "clubs" ? "Run Houston — Running Clubs" : 
+         mode === "reports" ? "Run Houston — Race Reports" :
          "Run Houston — Upcoming Races"}
       </Text>
 
@@ -230,6 +232,8 @@ export default function App() {
           <RaceMap races={visibleRaces} />
         ) : mode === "clubs" ? (
           <ClubsScreen />
+        ) : mode === "reports" ? (
+          <ReportsScreen />
         ) : (
           <AboutScreen />
         )}
@@ -259,6 +263,14 @@ export default function App() {
         >
           <Text style={[styles.bottomNavText, mode === "clubs" ? styles.bottomNavTextActive : styles.bottomNavTextInactive]}>
             🏃‍♂️ Clubs
+          </Text>
+        </Pressable>
+        <Pressable
+          onPress={() => setMode("reports")}
+          style={[styles.bottomNavTab, mode === "reports" ? styles.bottomNavTabActive : styles.bottomNavTabInactive]}
+        >
+          <Text style={[styles.bottomNavText, mode === "reports" ? styles.bottomNavTextActive : styles.bottomNavTextInactive]}>
+            📰 Reports
           </Text>
         </Pressable>
         <Pressable
