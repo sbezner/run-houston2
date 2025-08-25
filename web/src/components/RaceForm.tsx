@@ -169,7 +169,7 @@ export const RaceForm: React.FC<RaceFormProps> = ({
     await onSubmit(formData);
   };
 
-  const getTitle = () => mode === 'create' ? 'Create New Race' : 'Edit Race';
+  // const getTitle = () => mode === 'create' ? 'Create New Race' : 'Edit Race';
   const getSubmitText = () => loading ? (mode === 'create' ? 'Creating...' : 'Updating...') : (mode === 'create' ? 'Create Race' : 'Update Race');
   const getSubmitButtonColor = () => mode === 'create' ? '#10b981' : '#3b82f6';
 

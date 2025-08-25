@@ -112,8 +112,8 @@ export const ImportPanel: React.FC<ImportPanelProps> = ({ onImportComplete }) =>
                    throw new Error(`Invalid date: ${normalizedRace.date}`);
                  }
                } catch (e) {
-                 console.error('Date normalization failed:', e.message);
-                 throw new Error(`Date validation failed: ${e.message}`);
+                                 console.error('Date normalization failed:', e instanceof Error ? e.message : String(e));
+                throw new Error(`Date validation failed: ${e instanceof Error ? e.message : String(e)}`);
                }
              }
             

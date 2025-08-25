@@ -155,7 +155,7 @@ export function validateBackendCompatibility(normalized: NormalizedRow, rowNumbe
   // Check that time can be converted to ISO format (backend requirement)
   if (normalized.start_time) {
     try {
-      const [hours, minutes, seconds] = normalized.start_time.split(':').map(Number);
+      const [hours, minutes] = normalized.start_time.split(':').map(Number);
       if (isNaN(hours) || isNaN(minutes) || hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
         errors.push({
           rowIndex: rowNumber,

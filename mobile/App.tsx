@@ -8,6 +8,8 @@ import {
   Linking,
   Alert,
   Pressable,
+  Platform,
+  StatusBar,
 } from "react-native";
 import { Race } from "./src/types";
 import { fetchRaces } from "./src/api";
@@ -51,6 +53,9 @@ const normalizeURL = (url: string): string => {
   
   return url;
 };
+
+// Compute a platform-safe top inset so content doesn't overlap the system status bar
+const SAFE_TOP = Platform.OS === 'ios' ? 44 : (StatusBar.currentHeight || 0);
 
 export default function App() {
   const [races, setRaces] = useState<Race[]>([]);
@@ -138,7 +143,7 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: SAFE_TOP }] }>
       <Text style={styles.header}>
         {mode === "about" ? "About Run Houston" : "Run Houston — Upcoming Races"}
       </Text>

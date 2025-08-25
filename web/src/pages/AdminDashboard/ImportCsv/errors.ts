@@ -51,7 +51,7 @@ export type RaceUpsert = Omit<import('../../../types').Race, 'id'> & { id?: numb
 export type ImportError = {
   rowIndex: number;                      // 1-based excluding header
   field: keyof RaceUpsert | "row";
-  code: "REQUIRED" | "INVALID_DATE" | "INVALID_TIME" | "INVALID_URL" | "OUT_OF_RANGE" | "HEADER_MISSING" | "DUPLICATE" | "PARSE_ERROR" | "INCONSISTENT_COORDS";
+  code: "REQUIRED" | "INVALID_DATE" | "INVALID_TIME" | "INVALID_URL" | "OUT_OF_RANGE" | "HEADER_MISSING" | "DUPLICATE" | "PARSE_ERROR" | "INCONSISTENT_COORDS" | "INVALID_SURFACE" | "INVALID_DISTANCE" | "INVALID_KID_RUN" | "INVALID_LATITUDE" | "INVALID_LONGITUDE";
   message: string;
   originalValue?: string;
   hint?: string;
