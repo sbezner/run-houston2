@@ -164,6 +164,7 @@ def main():
     print("Database constraints are enforced")
     print("Integration workflow functions properly")
     print("Clubs API endpoints work correctly")
+    print("🚨 CRITICAL: PostGIS triggers and coordinate validation (simplified)")
     print("=" * 80)
     
     start_time = time.time()
@@ -173,6 +174,12 @@ def main():
     test_results.append(run_test_file(
         "002_csv_import_test.py",
         "Database CSV Import Tests (Existing)"
+    ))
+    
+    # Run the CRITICAL simplified tests (more reliable)
+    test_results.append(run_test_file(
+        "008_simplified_critical_tests.py",
+        "CRITICAL: PostGIS Triggers and Coordinate Validation (Simplified)"
     ))
     
     # Run pytest-based tests
