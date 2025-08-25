@@ -8,6 +8,9 @@ Thumbs.db
 __pycache__/
 *.py[cod]
 .env
+.coverage
+coverage/
+*.coverage
 
 # Node / Expo
 mobile/node_modules/
