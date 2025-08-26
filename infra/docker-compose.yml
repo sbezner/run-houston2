@@ -26,6 +26,7 @@ services:
     container_name: runhou_api
     environment:
       DATABASE_URL: postgresql://rh_user:rh_pass@db:5432/runhou
+      ADMIN_SECRET: default-admin-secret
     depends_on:
       db:
         condition: service_healthy

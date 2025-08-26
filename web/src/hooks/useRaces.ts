@@ -1,18 +1,16 @@
 import React from 'react';
 import type { Race } from '../types';
-import { auth } from '../services/auth';
-import { api } from '../services/api';
+import { races } from '../services/api';
 
 export const useRaces = () => {
-  const [races, setRaces] = React.useState<Race[]>([]);
+  const [racesList, setRaces] = React.useState<Race[]>([]);
   const [racesLoading, setRacesLoading] = React.useState(false);
   const [error, setError] = React.useState('');
 
   const fetchAdminRaces = React.useCallback(async () => {
     setRacesLoading(true);
     try {
-      const token = auth.getToken();
-      const data = await api.get('/admin/races', token || undefined);
+      const data = await races.list();
       setRaces(data);
     } catch (err: any) {
       setError(err.message);
@@ -24,7 +22,7 @@ export const useRaces = () => {
   const fetchPublicRaces = React.useCallback(async () => {
     setRacesLoading(true);
     try {
-      const data = await api.get('/races');
+      const data = await races.list();
       setRaces(data);
     } catch (err: any) {
       setError(err.message);
@@ -35,8 +33,8 @@ export const useRaces = () => {
 
   const createRace = React.useCallback(async (raceData: any) => {
     try {
-      const token = auth.getToken();
-      const data = await api.post('/races', raceData, token || undefined);
+      const adminSecret = import.meta.env.VITE_ADMIN_SECRET || 'default-admin-secret';
+      const data = await races.create(raceData, adminSecret);
       await fetchAdminRaces();
       return data;
     } catch (err: any) {
@@ -47,8 +45,8 @@ export const useRaces = () => {
 
   const updateRace = React.useCallback(async (raceId: number, raceData: any) => {
     try {
-      const token = auth.getToken();
-      const data = await api.put(`/races/${raceId}`, raceData, token || undefined);
+      const adminSecret = import.meta.env.VITE_ADMIN_SECRET || 'default-admin-secret';
+      const data = await races.update(raceId, raceData, adminSecret);
       await fetchAdminRaces();
       return data;
     } catch (err: any) {
@@ -59,8 +57,8 @@ export const useRaces = () => {
 
   const deleteRace = React.useCallback(async (raceId: number) => {
     try {
-      const token = auth.getToken();
-      await api.delete(`/races/${raceId}`, token || undefined);
+      const adminSecret = import.meta.env.VITE_ADMIN_SECRET || 'default-admin-secret';
+      await races.remove(raceId, adminSecret);
       await fetchAdminRaces();
     } catch (err: any) {
       setError(err.message);
@@ -69,7 +67,7 @@ export const useRaces = () => {
   }, [fetchAdminRaces]);
 
   return {
-    races,
+    races: racesList,
     racesLoading,
     error,
     setError,

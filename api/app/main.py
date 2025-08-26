@@ -17,6 +17,24 @@ from .models import (
 
 app = FastAPI(title="Run Houston API", version="0.1")
 
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    """Log all incoming requests for debugging."""
+    print(f"DEBUG: {request.method} {request.url}")
+    print(f"DEBUG: Headers: {dict(request.headers)}")
+    
+    # Log request body for POST/PUT requests
+    if request.method in ["POST", "PUT"]:
+        try:
+            body = await request.body()
+            print(f"DEBUG: Request body: {body.decode()}")
+        except Exception as e:
+            print(f"DEBUG: Could not read request body: {e}")
+    
+    response = await call_next(request)
+    print(f"DEBUG: Response status: {response.status_code}")
+    return response
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # dev only
@@ -136,113 +154,136 @@ def admin_list_races(current_admin: dict = Depends(get_current_admin)):
     return races
 
 @app.post("/races", response_model=RaceResponse)
-def create_race(race_data: RaceCreate, current_admin: dict = Depends(get_current_admin)):
+async def create_race(request: Request):
     """Create or update a race (admin only)."""
     
-    # Convert string date to Python date object if needed
-    race_date = race_data.date
-    if isinstance(race_date, str):
-        race_date = date.fromisoformat(race_date)
+    # Verify admin secret
+    verify_admin_secret(request)
+    
+    try:
+        # Try to parse the request body into RaceCreate model
+        body = await request.json()
+        print(f"DEBUG: Raw request body: {body}")
         
-    # Convert string time to Python time object if needed
-    race_start_time = race_data.start_time
-    if isinstance(race_start_time, str):
-        race_start_time = time.fromisoformat(race_start_time)
-    
-    operation_type = "created"  # Default to created
-    
-    with get_conn() as conn, conn.cursor() as cur:
-        if race_data.id is not None:
-            # Check if race with this ID already exists
-            cur.execute("SELECT id FROM races WHERE id = %s", (race_data.id,))
-            existing_race = cur.fetchone()
-            
-            if existing_race:
-                operation_type = "updated"
-            
-            # UPSERT: Insert or update based on ID
-            sql = """
-                INSERT INTO races (id, name, date, start_time, tz, address, city, state, zip, latitude, longitude, 
-                                  distance, surface, kid_run, official_website_url, source)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                ON CONFLICT (id) DO UPDATE SET
-                    name = EXCLUDED.name,
-                    date = EXCLUDED.date,
-                    start_time = EXCLUDED.start_time,
-                    address = EXCLUDED.address,
-                    city = EXCLUDED.city,
-                    state = EXCLUDED.state,
-                    zip = EXCLUDED.zip,
-                    latitude = EXCLUDED.latitude,
-                    longitude = EXCLUDED.longitude,
-                    distance = EXCLUDED.distance,
-                    surface = EXCLUDED.surface,
-                    kid_run = EXCLUDED.kid_run,
-                    official_website_url = EXCLUDED.official_website_url,
-                    source = EXCLUDED.source,
-                    updated_at = NOW()
-                RETURNING id, name, date, start_time, tz, address, city, state, zip, latitude, longitude,
-                          geom, distance, surface, kid_run, official_website_url, source, created_at, updated_at
-            """
-            values = (
-                race_data.id, race_data.name, race_date, race_start_time, 'America/Chicago', race_data.address,
-                race_data.city, race_data.state, race_data.zip, race_data.latitude, race_data.longitude,
-                race_data.distance or ['5K'], race_data.surface, race_data.kid_run,
-                str(race_data.official_website_url) if race_data.official_website_url else None,
-                race_data.source or 'web_interface'
-            )
-        else:
-            # INSERT: Create new race without ID
-            sql = """
-                INSERT INTO races (name, date, start_time, tz, address, city, state, zip, latitude, longitude, 
-                                  distance, surface, kid_run, official_website_url, source)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                RETURNING id, name, date, start_time, tz, address, city, state, zip, latitude, longitude,
-                          geom, distance, surface, kid_run, official_website_url, source, created_at, updated_at
-            """
-            values = (
-                race_data.name, race_date, race_start_time, 'America/Chicago', race_data.address,
-                race_data.city, race_data.state, race_data.zip, race_data.latitude, race_data.longitude,
-                race_data.distance or ['5K'], race_data.surface, race_data.kid_run,
-                str(race_data.official_website_url) if race_data.official_website_url else None,
-                race_data.source or 'web_interface'
-            )
+        # Validate with Pydantic
+        race_data = RaceCreate(**body)
+        print(f"DEBUG: Successfully parsed race data: {race_data}")
         
-        cur.execute(sql, values)
-        row = cur.fetchone()
-        conn.commit()
+        # Debug logging to see what data is received
+        print(f"DEBUG: Received race data: {race_data}")
+        print(f"DEBUG: Race data type: {type(race_data)}")
+        print(f"DEBUG: Race data dict: {race_data.dict()}")
+        
+        # Convert string date to Python date object if needed
+        race_date = race_data.date
+        if isinstance(race_date, str):
+            race_date = date.fromisoformat(race_date)
+            
+        # Convert string time to Python time object if needed
+        race_start_time = race_data.start_time
+        if isinstance(race_start_time, str):
+            race_start_time = time.fromisoformat(race_start_time)
     
-    # Map the returned columns to their expected names
-    # The SQL RETURNING clause returns: id, name, date, start_time, tz, address, city, state, zip, latitude, longitude, geom, distance, surface, kid_run, official_website_url, source, created_at, updated_at
-    cols = ["id","name","date","start_time","tz","address","city","state","zip","latitude","longitude",
-            "geom","distance","surface","kid_run","official_website_url","source","created_at","updated_at"]
-    result = dict(zip(cols, row))
+        operation_type = "created"  # Default to created
     
-    # Convert date and time objects to strings for JSON serialization
-    if result['date']:
-        result['date'] = result['date'].isoformat()
-    if result['start_time']:
-        result['start_time'] = result['start_time'].isoformat()
-    if result['created_at']:
-        result['created_at'] = result['created_at'].isoformat()
-    if result['updated_at']:
-        result['updated_at'] = result['updated_at'].isoformat()
-    
-    # Add operation type to response body for frontend tracking (more reliable than headers)
-    from fastapi.responses import JSONResponse
-    print(f"DEBUG: Setting operation_type to: '{operation_type}' for race ID: {result.get('id')}")
-    
-    # Include operation type in response body
-    result_with_operation = {
-        **result,
-        "operation_type": operation_type
-    }
-    
-    return JSONResponse(content=result_with_operation)
+        with get_conn() as conn, conn.cursor() as cur:
+            if race_data.id is not None:
+                # Check if race with this ID already exists
+                cur.execute("SELECT id FROM races WHERE id = %s", (race_data.id,))
+                existing_race = cur.fetchone()
+                
+                if existing_race:
+                    operation_type = "updated"
+                
+                # UPSERT: Insert or update based on ID
+                sql = """
+                    INSERT INTO races (id, name, date, start_time, tz, address, city, state, zip, latitude, longitude, 
+                                      distance, surface, kid_run, official_website_url, source)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    ON CONFLICT (id) DO UPDATE SET
+                        name = EXCLUDED.name,
+                        date = EXCLUDED.date,
+                        start_time = EXCLUDED.start_time,
+                        address = EXCLUDED.address,
+                        city = EXCLUDED.city,
+                        state = EXCLUDED.state,
+                        zip = EXCLUDED.zip,
+                        latitude = EXCLUDED.latitude,
+                        longitude = EXCLUDED.longitude,
+                        distance = EXCLUDED.distance,
+                        surface = EXCLUDED.surface,
+                        kid_run = EXCLUDED.kid_run,
+                        official_website_url = EXCLUDED.official_website_url,
+                        source = EXCLUDED.source,
+                        updated_at = NOW()
+                    RETURNING id, name, date, start_time, tz, address, city, state, zip, latitude, longitude,
+                              geom, distance, surface, kid_run, official_website_url, source, created_at, updated_at
+                """
+                values = (
+                    race_data.id, race_data.name, race_date, race_start_time, 'America/Chicago', race_data.address,
+                    race_data.city, race_data.state, race_data.zip, race_data.latitude, race_data.longitude,
+                    race_data.distance or ['5K'], race_data.surface, race_data.kid_run,
+                    str(race_data.official_website_url) if race_data.official_website_url else None,
+                    race_data.source or 'web_interface'
+                )
+            else:
+                # INSERT: Create new race without ID
+                sql = """
+                    INSERT INTO races (name, date, start_time, tz, address, city, state, zip, latitude, longitude, 
+                                      distance, surface, kid_run, official_website_url, source)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    RETURNING id, name, date, start_time, tz, address, city, state, zip, latitude, longitude,
+                              geom, distance, surface, kid_run, official_website_url, source, created_at, updated_at
+                """
+                values = (
+                    race_data.name, race_date, race_start_time, 'America/Chicago', race_data.address,
+                    race_data.city, race_data.state, race_data.zip, race_data.latitude, race_data.longitude,
+                    race_data.distance or ['5K'], race_data.surface, race_data.kid_run,
+                    str(race_data.official_website_url) if race_data.official_website_url else None,
+                    race_data.source or 'web_interface'
+                )
+            
+            cur.execute(sql, values)
+            row = cur.fetchone()
+            conn.commit()
+        
+        # Map the returned columns to their expected names
+        # The SQL RETURNING clause returns: id, name, date, start_time, tz, address, city, state, zip, latitude, longitude, geom, distance, surface, kid_run, official_website_url, source, created_at, updated_at
+        cols = ["id","name","date","start_time","tz","address","city","state","zip","latitude","longitude",
+                "geom","distance","surface","kid_run","official_website_url","source","created_at","updated_at"]
+        result = dict(zip(cols, row))
+        
+        # Convert date and time objects to strings for JSON serialization
+        if result['date']:
+            result['date'] = result['date'].isoformat()
+        if result['start_time']:
+            result['start_time'] = result['start_time'].isoformat()
+        if result['created_at']:
+            result['created_at'] = result['created_at'].isoformat()
+        if result['updated_at']:
+            result['updated_at'] = result['updated_at'].isoformat()
+        
+        # Add operation type to response body for frontend tracking (more reliable than headers)
+        from fastapi.responses import JSONResponse
+        print(f"DEBUG: Setting operation_type to: '{operation_type}' for race ID: {result.get('id')}")
+        
+        # Include operation type in response body
+        result_with_operation = {
+            **result,
+            "operation_type": operation_type
+        }
+        
+        return JSONResponse(content=result_with_operation)
+    except Exception as e:
+        print(f"Error creating race: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to create race: {e}")
 
 @app.put("/races/{race_id}", response_model=RaceResponse)
-def update_race(race_id: int, race_data: RaceUpdate, current_admin: dict = Depends(get_current_admin)):
+def update_race(race_id: int, race_data: RaceUpdate, request: Request):
     """Update an existing race (admin only)."""
+    # Verify admin secret
+    verify_admin_secret(request)
+    
     # Build dynamic UPDATE query
     update_fields = []
     values = []
@@ -336,8 +377,11 @@ def update_race(race_id: int, race_data: RaceUpdate, current_admin: dict = Depen
     return result
 
 @app.delete("/races/{race_id}")
-def delete_race(race_id: int, current_admin: dict = Depends(get_current_admin)):
+def delete_race(race_id: int, request: Request):
     """Delete a race (admin only)."""
+    # Verify admin secret
+    verify_admin_secret(request)
+    
     with get_conn() as conn, conn.cursor() as cur:
         cur.execute("DELETE FROM races WHERE id = %s RETURNING id", (race_id,))
         if not cur.fetchone():
@@ -359,8 +403,11 @@ def list_clubs():
 
 
 @app.get("/admin/clubs", response_model=list[ClubResponse])
-def admin_list_clubs(current_admin: dict = Depends(get_current_admin)):
+def admin_list_clubs(request: Request):
     """List all clubs (admin only)."""
+    # Verify admin secret
+    verify_admin_secret(request)
+    
     with get_conn() as conn, conn.cursor() as cur:
         cur.execute("SELECT id, club_name, location, website_url FROM clubs ORDER BY club_name ASC")
         rows = cur.fetchall()
@@ -368,8 +415,11 @@ def admin_list_clubs(current_admin: dict = Depends(get_current_admin)):
 
 
 @app.post("/clubs", response_model=ClubResponse)
-def create_club(club: ClubCreate, current_admin: dict = Depends(get_current_admin)):
+def create_club(club: ClubCreate, request: Request):
     """Create a new club (admin only)."""
+    # Verify admin secret
+    verify_admin_secret(request)
+    
     try:
         with get_conn() as conn, conn.cursor() as cur:
             cur.execute(
@@ -384,8 +434,11 @@ def create_club(club: ClubCreate, current_admin: dict = Depends(get_current_admi
 
 
 @app.put("/clubs/{club_id}", response_model=ClubResponse)
-def update_club(club_id: int, club_data: ClubUpdate, current_admin: dict = Depends(get_current_admin)):
+def update_club(club_id: int, club_data: ClubUpdate, request: Request):
     """Update a club (admin only)."""
+    # Verify admin secret
+    verify_admin_secret(request)
+    
     update_fields = []
     values = []
     
@@ -423,8 +476,11 @@ def update_club(club_id: int, club_data: ClubUpdate, current_admin: dict = Depen
 
 
 @app.delete("/clubs/{club_id}")
-def delete_club(club_id: int, current_admin: dict = Depends(get_current_admin)):
+def delete_club(club_id: int, request: Request):
     """Delete a club (admin only)."""
+    # Verify admin secret
+    verify_admin_secret(request)
+    
     with get_conn() as conn, conn.cursor() as cur:
         cur.execute("DELETE FROM clubs WHERE id = %s RETURNING id", (club_id,))
         if not cur.fetchone():
@@ -435,8 +491,11 @@ def delete_club(club_id: int, current_admin: dict = Depends(get_current_admin)):
 
 
 @app.get("/admin/clubs/export-csv")
-def export_clubs_csv(current_admin: dict = Depends(get_current_admin)):
+def export_clubs_csv(request: Request):
     """Export clubs to CSV."""
+    # Verify admin secret
+    verify_admin_secret(request)
+    
     try:
         with get_conn() as conn, conn.cursor() as cur:
             cur.execute("SELECT id, club_name, location, website_url FROM clubs ORDER BY club_name")
@@ -457,10 +516,13 @@ def export_clubs_csv(current_admin: dict = Depends(get_current_admin)):
 
 @app.post("/admin/clubs/import-csv")
 def import_clubs_csv(
-    file: UploadFile = File(...),
-    current_admin: dict = Depends(get_current_admin)
+    request: Request,
+    file: UploadFile = File(...)
 ):
     """Import clubs from CSV."""
+    # Verify admin secret
+    verify_admin_secret(request)
+    
     if not file.filename.endswith('.csv'):
         raise HTTPException(status_code=400, detail="File must be a CSV")
     
@@ -771,6 +833,83 @@ def list_race_reports(
         "offset": offset
     }
 
+@app.get("/race_reports/export.csv")
+def export_race_reports_csv(
+    request: Request,
+    race_id: Optional[int] = None,
+    q: Optional[str] = None,
+    date_from: Optional[str] = None,
+    date_to: Optional[str] = None
+):
+    """Export race reports to CSV (admin only)."""
+    verify_admin_secret(request)
+    
+    # Build query similar to list endpoint
+    base_sql = """
+        SELECT rr.id, rr.race_id, r.name as race_name, rr.race_date, rr.title, 
+               rr.author_name, rr.content_md, rr.photos
+        FROM race_reports rr
+        JOIN races r ON rr.race_id = r.id
+    """
+    
+    where_conditions = []
+    params = []
+    
+    if race_id:
+        where_conditions.append("rr.race_id = %s")
+        params.append(race_id)
+    
+    if q:
+        search_sql = """
+            (rr.title ILIKE %s OR rr.content_md ILIKE %s OR 
+             COALESCE(rr.author_name, '') ILIKE %s)
+        """
+        where_conditions.append(search_sql)
+        params.extend([f"%{q}%", f"%{q}%", f"%{q}%"])
+    
+    if date_from:
+        where_conditions.append("rr.race_date >= %s")
+        params.append(date_from)
+    
+    if date_to:
+        where_conditions.append("rr.race_date <= %s")
+        params.append(date_to)
+    
+    if where_conditions:
+        base_sql += " WHERE " + " AND ".join(where_conditions)
+    
+    base_sql += " ORDER BY rr.race_date DESC, rr.created_at DESC"
+    
+    with get_conn() as conn, conn.cursor() as cur:
+        cur.execute(base_sql, params)
+        rows = cur.fetchall()
+    
+    # Generate CSV content
+    csv_content = "id,race_id,race_name,race_date,title,author_name,content_md,photos\n"
+    
+    for row in rows:
+        id, race_id, race_name, race_date, title, author_name, content_md, photos = row
+        
+        # Escape CSV fields
+        def escape_csv_field(field):
+            if field is None:
+                return ""
+            field_str = str(field)
+            if '"' in field_str or ',' in field_str or '\n' in field_str:
+                return f'"{field_str.replace('"', '""')}"'
+            return field_str
+        
+        # Convert photos array to semicolon-separated string
+        photos_str = ";".join(photos) if photos else ""
+        
+        csv_content += f"{escape_csv_field(id)},{escape_csv_field(race_id)},{escape_csv_field(race_name)},{escape_csv_field(race_date)},{escape_csv_field(title)},{escape_csv_field(author_name)},{escape_csv_field(content_md)},{escape_csv_field(photos_str)}\n"
+    
+    return Response(
+        content=csv_content,
+        media_type="text/csv",
+        headers={"Content-Disposition": "attachment; filename=race_reports.csv"}
+    )
+
 @app.get("/race_reports/{report_id}", response_model=dict)
 def get_race_report(report_id: str, include_race: bool = False):
     """Get a single race report by ID."""
@@ -1031,82 +1170,7 @@ def delete_race_report(report_id: str, request: Request):
     
     return {"message": "Race report deleted successfully"}
 
-@app.get("/race_reports/export.csv")
-def export_race_reports_csv(
-    request: Request,
-    race_id: Optional[int] = None,
-    q: Optional[str] = None,
-    date_from: Optional[str] = None,
-    date_to: Optional[str] = None
-):
-    """Export race reports to CSV (admin only)."""
-    verify_admin_secret(request)
-    
-    # Build query similar to list endpoint
-    base_sql = """
-        SELECT rr.id, rr.race_id, r.name as race_name, rr.race_date, rr.title, 
-               rr.author_name, rr.content_md, rr.photos
-        FROM race_reports rr
-        JOIN races r ON rr.race_id = r.id
-    """
-    
-    where_conditions = []
-    params = []
-    
-    if race_id:
-        where_conditions.append("rr.race_id = %s")
-        params.append(race_id)
-    
-    if q:
-        search_sql = """
-            (rr.title ILIKE %s OR rr.content_md ILIKE %s OR 
-             COALESCE(rr.author_name, '') ILIKE %s)
-        """
-        where_conditions.append(search_sql)
-        params.extend([f"%{q}%", f"%{q}%", f"%{q}%"])
-    
-    if date_from:
-        where_conditions.append("rr.race_date >= %s")
-        params.append(date_from)
-    
-    if date_to:
-        where_conditions.append("rr.race_date <= %s")
-        params.append(date_to)
-    
-    if where_conditions:
-        base_sql += " WHERE " + " AND ".join(where_conditions)
-    
-    base_sql += " ORDER BY rr.race_date DESC, rr.created_at DESC"
-    
-    with get_conn() as conn, conn.cursor() as cur:
-        cur.execute(base_sql, params)
-        rows = cur.fetchall()
-    
-    # Generate CSV content
-    csv_content = "race_id,race_name,race_date,title,author_name,content_md,photos\n"
-    
-    for row in rows:
-        race_id, race_name, race_date, title, author_name, content_md, photos = row
-        
-        # Escape CSV fields
-        def escape_csv_field(field):
-            if field is None:
-                return ""
-            field_str = str(field)
-            if '"' in field_str or ',' in field_str or '\n' in field_str:
-                return f'"{field_str.replace('"', '""')}"'
-            return field_str
-        
-        # Convert photos array to semicolon-separated string
-        photos_str = ";".join(photos) if photos else ""
-        
-        csv_content += f"{escape_csv_field(race_id)},{escape_csv_field(race_name)},{escape_csv_field(race_date)},{escape_csv_field(title)},{escape_csv_field(author_name)},{escape_csv_field(content_md)},{escape_csv_field(photos_str)}\n"
-    
-    return Response(
-        content=csv_content,
-        media_type="text/csv",
-        headers={"Content-Disposition": "attachment; filename=race_reports.csv"}
-    )
+
 
 @app.post("/admin/race_reports/import")
 def import_race_reports_csv(
@@ -1124,18 +1188,24 @@ def import_race_reports_csv(
         raise HTTPException(status_code=400, detail="File size must be less than 5MB")
     
     try:
+        import csv
+        from io import StringIO
+        from datetime import datetime
         content = file.file.read().decode('utf-8')
-        lines = content.strip().split('\n')
         
-        if len(lines) < 2:  # Need header + at least one data row
+        # Use csv module to parse the entire file properly
+        csv_reader = csv.reader(StringIO(content))
+        rows = list(csv_reader)
+        
+        if len(rows) < 2:  # Need header + at least one data row
             raise HTTPException(status_code=400, detail="CSV must have header and at least one data row")
         
-        if len(lines) > 2002:  # Header + 2000 rows max
+        if len(rows) > 2002:  # Header + 2000 rows max
             raise HTTPException(status_code=400, detail="CSV cannot exceed 2000 rows")
         
-        # Parse header
-        header = lines[0].split(',')
-        expected_headers = ['race_id', 'race_name', 'race_date', 'title', 'author_name', 'content_md', 'photos']
+        # Parse header and clean up any trailing whitespace
+        header = [h.strip() for h in rows[0]]
+        expected_headers = ['id', 'race_id', 'race_name', 'race_date', 'title', 'author_name', 'content_md', 'photos']
         
         if header != expected_headers:
             raise HTTPException(
@@ -1147,47 +1217,45 @@ def import_race_reports_csv(
         processed_data = []
         errors = []
         
-        for line_num, line in enumerate(lines[1:], 2):
-            if not line.strip():
+        for line_num, row in enumerate(rows[1:], 2):
+            if not row or not any(row):  # Skip empty rows
                 continue
             
-            # Simple CSV parsing (assumes no commas in content fields)
-            parts = line.split(',')
-            if len(parts) != 7:
-                errors.append(f"Line {line_num}: Expected 7 columns, got {len(parts)}")
+            if len(row) != 8:
+                errors.append(f"Line {line_num}: Expected 8 columns, got {len(row)}")
                 continue
             
-            race_id, race_name, race_date, title, author_name, content_md, photos_str = parts
+            id, race_id, race_name, race_date, title, author_name, content_md, photos_str = row
             
             # Validate required fields
             if not title.strip():
-                errors.append(f"Line {line_num}: Title is required")
+                errors.append(f"Line {line_num}: Title is required and cannot be empty")
                 continue
             
             if not content_md.strip():
-                errors.append(f"Line {line_num}: Content is required")
+                errors.append(f"Line {line_num}: Content is required and cannot be empty")
                 continue
             
             # Validate title length
             if len(title.strip()) < 3 or len(title.strip()) > 120:
-                errors.append(f"Line {line_num}: Title must be 3-120 characters")
+                errors.append(f"Line {line_num}: Title must be 3-120 characters (current: {len(title.strip())} chars)")
                 continue
             
             # Validate content length
-            if len(content_md.strip()) < 10 or len(content_md.strip()) > 20000:
-                errors.append(f"Line {line_num}: Content must be 10-20,000 characters")
+            if len(content_md.strip()) < 1 or len(content_md.strip()) > 20000:
+                errors.append(f"Line {line_num}: Content must be 1-20,000 characters (current: {len(content_md.strip())} chars)")
                 continue
             
             # Validate author name if provided
             if author_name.strip() and (len(author_name.strip()) < 2 or len(author_name.strip()) > 80):
-                errors.append(f"Line {line_num}: Author name must be 2-80 characters if provided")
+                errors.append(f"Line {line_num}: Author name must be 2-80 characters if provided (current: {len(author_name.strip())} chars)")
                 continue
             
             # Parse photos (semicolon-separated)
             photos = [p.strip() for p in photos_str.split(';') if p.strip()]
             for photo in photos:
                 if not photo.startswith(('http://', 'https://')):
-                    errors.append(f"Line {line_num}: Photo URL must be absolute (http:// or https://)")
+                    errors.append(f"Line {line_num}: Photo URL '{photo}' must be absolute (start with http:// or https://)")
                     continue
             
             # Validate race_id or resolve by race_name + race_date
@@ -1196,21 +1264,51 @@ def import_race_reports_csv(
                 try:
                     resolved_race_id = int(race_id.strip())
                 except ValueError:
-                    errors.append(f"Line {line_num}: Invalid race_id format")
+                    errors.append(f"Line {line_num}: Invalid race_id format - must be a number")
                     continue
             elif race_name.strip() and race_date.strip():
-                # Try to resolve by name and date
+                # Try to resolve by name and date with flexible date parsing
                 try:
+                    # Parse and normalize the date
+                    parsed_date = None
+                    date_input = race_date.strip()
+                    
+                    # Try various date formats
+                    date_formats = [
+                        '%Y-%m-%d',      # 2025-08-19
+                        '%m/%d/%Y',      # 8/19/2025
+                        '%m/%d/%y',      # 8/19/25
+                        '%d/%m/%Y',      # 19/8/2025
+                        '%d/%m/%y',      # 19/8/25
+                        '%Y/%m/%d',      # 2025/08/19
+                        '%m-%d-%Y',      # 8-19-2025
+                        '%d-%m-%Y',      # 19-8-2025
+                    ]
+                    
+                    for fmt in date_formats:
+                        try:
+                            parsed_date = datetime.strptime(date_input, fmt)
+                            break
+                        except ValueError:
+                            continue
+                    
+                    if not parsed_date:
+                        errors.append(f"Line {line_num}: Invalid date format '{date_input}'. Supported formats: YYYY-MM-DD, MM/DD/YYYY, DD/MM/YYYY, etc.")
+                        continue
+                    
+                    # Convert to ISO format for database query
+                    iso_date = parsed_date.strftime('%Y-%m-%d')
+                    
                     with get_conn() as conn, conn.cursor() as cur:
                         cur.execute(
                             "SELECT id FROM races WHERE name = %s AND date = %s",
-                            (race_name.strip(), race_date.strip())
+                            (race_name.strip(), iso_date)
                         )
                         race_result = cur.fetchone()
                         if race_result:
                             resolved_race_id = race_result[0]
                         else:
-                            errors.append(f"Line {line_num}: Race not found with name '{race_name.strip()}' and date '{race_date.strip()}'")
+                            errors.append(f"Line {line_num}: Race not found with name '{race_name.strip()}' and date '{iso_date}' (parsed from '{date_input}')")
                             continue
                 except Exception as e:
                     errors.append(f"Line {line_num}: Error resolving race: {str(e)}")
@@ -1233,6 +1331,7 @@ def import_race_reports_csv(
             
             processed_data.append({
                 'line_num': line_num,
+                'csv_id': id.strip(),
                 'race_id': resolved_race_id,
                 'title': title.strip(),
                 'author_name': author_name.strip() if author_name.strip() else None,
@@ -1260,25 +1359,55 @@ def import_race_reports_csv(
         
         with get_conn() as conn, conn.cursor() as cur:
             for data in processed_data:
-                # Check for existing report (upsert key: race_id + lower(title))
-                cur.execute(
-                    "SELECT id FROM race_reports WHERE race_id = %s AND lower(title) = lower(%s)",
-                    (data['race_id'], data['title'])
-                )
-                existing = cur.fetchone()
+                # Check if we have an ID from CSV for upsert logic
+                csv_id = data.get('csv_id')
                 
-                if existing:
-                    # Update existing
-                    cur.execute("""
-                        UPDATE race_reports 
-                        SET author_name = %s, content_md = %s, photos = %s, updated_at = now()
-                        WHERE id = %s
-                    """, (
-                        data['author_name'], data['content_md'], data['photos'], existing[0]
-                    ))
-                    updated_count += 1
+                if csv_id and csv_id.strip() and csv_id.strip().lower() != 'null':
+                    # Try to update existing report by ID
+                    try:
+                        csv_id_int = int(csv_id.strip())
+                        cur.execute("""
+                            UPDATE race_reports 
+                            SET race_id = %s, title = %s, author_name = %s, content_md = %s, 
+                                photos = %s, updated_at = now()
+                            WHERE id = %s
+                        """, (
+                            data['race_id'], data['title'], data['author_name'],
+                            data['content_md'], data['photos'], csv_id_int
+                        ))
+                        
+                        if cur.rowcount > 0:
+                            updated_count += 1
+                        else:
+                            # ID doesn't exist, create new
+                            # Get race date
+                            cur.execute("SELECT date FROM races WHERE id = %s", (data['race_id'],))
+                            race_date = cur.fetchone()[0]
+                            
+                            cur.execute("""
+                                INSERT INTO race_reports (id, race_id, race_date, title, author_name, content_md, photos)
+                                VALUES (%s, %s, %s, %s, %s, %s, %s)
+                            """, (
+                                csv_id_int, data['race_id'], race_date, data['title'], 
+                                data['author_name'], data['content_md'], data['photos']
+                            ))
+                            imported_count += 1
+                    except ValueError:
+                        # Invalid ID format, create new
+                        # Get race date
+                        cur.execute("SELECT date FROM races WHERE id = %s", (data['race_id'],))
+                        race_date = cur.fetchone()[0]
+                        
+                        cur.execute("""
+                            INSERT INTO race_reports (race_id, race_date, title, author_name, content_md, photos)
+                            VALUES (%s, %s, %s, %s, %s, %s)
+                        """, (
+                            data['race_id'], race_date, data['title'], 
+                            data['author_name'], data['content_md'], data['photos']
+                        ))
+                        imported_count += 1
                 else:
-                    # Insert new
+                    # No ID provided, create new report
                     # Get race date
                     cur.execute("SELECT date FROM races WHERE id = %s", (data['race_id'],))
                     race_date = cur.fetchone()[0]
@@ -1287,8 +1416,8 @@ def import_race_reports_csv(
                         INSERT INTO race_reports (race_id, race_date, title, author_name, content_md, photos)
                         VALUES (%s, %s, %s, %s, %s, %s)
                     """, (
-                        data['race_id'], race_date, data['title'], data['author_name'],
-                        data['content_md'], data['photos']
+                        data['race_id'], race_date, data['title'], 
+                        data['author_name'], data['content_md'], data['photos']
                     ))
                     imported_count += 1
             
@@ -1300,4 +1429,7 @@ def import_race_reports_csv(
         }
         
     except Exception as e:
+        import traceback
+        error_details = f"Import failed: {str(e)}\nTraceback: {traceback.format_exc()}"
+        print(f"Race Reports Import Error: {error_details}")  # Log to console for debugging
         raise HTTPException(status_code=500, detail=f"Import failed: {str(e)}")

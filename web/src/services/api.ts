@@ -127,16 +127,71 @@ export const api = {
 };
 
 export const clubs = {
-  list: (token?: string) => api.get('/clubs', token),
-  adminList: (token: string) => api.get('/admin/clubs', token),
-  create: (body: Partial<Club>, token: string) => api.post('/clubs', body, token),
-  update: (id: number, body: Partial<Club>, token: string) => api.put(`/clubs/${id}`, body, token),
-  remove: (id: number, token: string) => api.delete(`/clubs/${id}`, token),
-  exportCsv: (token: string) => api.download('/admin/clubs/export-csv', token),
-  importCsv: (file: File, token: string) => {
+  list: () => api.get('/clubs'),
+  adminList: (adminSecret: string) => {
+    const headers = { 'X-Admin-Secret': adminSecret };
+    return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}/admin/clubs`, {
+      method: 'GET',
+      headers,
+    }).then(res => {
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return res.json();
+    });
+  },
+  create: (body: Partial<Club>, adminSecret: string) => {
+    const headers = { 'X-Admin-Secret': adminSecret };
+    return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}/clubs`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...headers },
+      body: JSON.stringify(body),
+    }).then(res => {
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return res.json();
+    });
+  },
+  update: (id: number, body: Partial<Club>, adminSecret: string) => {
+    const headers = { 'X-Admin-Secret': adminSecret };
+    return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}/clubs/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', ...headers },
+      body: JSON.stringify(body),
+    }).then(res => {
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return res.json();
+    });
+  },
+  remove: (id: number, adminSecret: string) => {
+    const headers = { 'X-Admin-Secret': adminSecret };
+    return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}/clubs/${id}`, {
+      method: 'DELETE',
+      headers,
+    }).then(res => {
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return res.json();
+    });
+  },
+  exportCsv: (adminSecret: string) => {
+    const headers = { 'X-Admin-Secret': adminSecret };
+    return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}/admin/clubs/export-csv`, {
+      method: 'GET',
+      headers,
+    }).then(res => {
+      if (!res.ok) throw new Error(`Export failed with status ${res.status}`);
+      return res.blob();
+    });
+  },
+  importCsv: (file: File, adminSecret: string) => {
     const formData = new FormData();
     formData.append('file', file);
-    return api.post('/admin/clubs/import-csv', formData, token);
+    const headers = { 'X-Admin-Secret': adminSecret };
+    return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}/admin/clubs/import-csv`, {
+      method: 'POST',
+      headers,
+      body: formData,
+    }).then(res => {
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return res.json();
+    });
   },
 };
 
@@ -225,10 +280,24 @@ export const raceReports = {
     if (adminSecret) {
       headers['X-Admin-Secret'] = adminSecret;
     }
-    return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}${endpoint}`, {
+    
+    const fullUrl = `${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}${endpoint}`;
+    
+    return fetch(fullUrl, {
+      method: 'GET',
       headers,
     }).then(res => {
-      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      if (!res.ok) {
+        // Try to get error details from response
+        return res.text().then(text => {
+          try {
+            const errorData = JSON.parse(text);
+            throw new Error(errorData.detail || `Export failed with status ${res.status}`);
+          } catch {
+            throw new Error(`Export failed with status ${res.status}: ${text}`);
+          }
+        });
+      }
       return res.blob();
     });
   },
@@ -243,6 +312,60 @@ export const raceReports = {
       headers['X-Admin-Secret'] = adminSecret;
     }
     return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}/admin/race_reports/import?dry_run=${dryRun}`, {
+      method: 'POST',
+      headers,
+      body: formData,
+    }).then(res => {
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return res.json();
+    });
+  },
+};
+
+export const races = {
+  list: () => api.get('/races'),
+  getById: (id: number) => api.get(`/races/${id}`),
+  create: (body: any, adminSecret: string) => {
+    const headers = { 'X-Admin-Secret': adminSecret };
+    return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}/races`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...headers },
+      body: JSON.stringify(body),
+    }).then(res => {
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return res.json();
+    });
+  },
+  update: (id: number, body: any, adminSecret: string) => {
+    const headers = { 'X-Admin-Secret': adminSecret };
+    return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}/races/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', ...headers },
+      body: JSON.stringify(body),
+    }).then(res => {
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return res.json();
+    });
+  },
+  remove: (id: number, adminSecret: string) => {
+    const headers = { 'X-Admin-Secret': adminSecret };
+    return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}/races/${id}`, {
+      method: 'DELETE',
+      headers,
+    }).then(res => {
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return res.json();
+    });
+  },
+  importCsv: (file: File, adminSecret: string) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    const headers: Record<string, string> = {};
+    if (adminSecret) {
+      headers['X-Admin-Secret'] = adminSecret;
+    }
+    return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}/admin/races/import`, {
       method: 'POST',
       headers,
       body: formData,

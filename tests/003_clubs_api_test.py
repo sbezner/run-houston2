@@ -287,7 +287,7 @@ class TestClubsAPI:
 
 def test_clubs_api_summary():
     """Provide a summary of what clubs API tests cover."""
-    print("\n📋 Clubs API Test Coverage:")
+    print("\nClubs API Test Coverage:")
     print("=" * 50)
     print("PASS Club model validation (Create, Update, Response)")
     print("PASS Club name validation (required, min/max length)")

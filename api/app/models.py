@@ -78,9 +78,28 @@ class RaceCreate(BaseModel):
             
         if isinstance(v, str):
             try:
+                # Try ISO format first (HH:MM:SS)
                 return time.fromisoformat(v)
             except ValueError:
-                raise ValueError('Start time must be in ISO format (HH:MM or HH:MM:SS)')
+                try:
+                    # Try parsing common formats like "9:00:00" or "9:00"
+                    if ':' in v:
+                        parts = v.split(':')
+                        if len(parts) == 2:
+                            # "9:00" format
+                            hour = int(parts[0])
+                            minute = int(parts[1])
+                            return time(hour=hour, minute=minute)
+                        elif len(parts) == 3:
+                            # "9:00:00" format
+                            hour = int(parts[0])
+                            minute = int(parts[1])
+                            second = int(parts[2])
+                            return time(hour=hour, minute=minute, second=second)
+                except (ValueError, IndexError):
+                    pass
+                
+                raise ValueError('Start time must be in format HH:MM or HH:MM:SS (e.g., "9:00" or "9:00:00")')
         
         raise ValueError('Start time must be string or time object')
 
@@ -281,9 +300,28 @@ class RaceUpdate(BaseModel):
             
         if isinstance(v, str):
             try:
+                # Try ISO format first (HH:MM:SS)
                 return time.fromisoformat(v)
             except ValueError:
-                raise ValueError('Start time must be in ISO format (HH:MM or HH:MM:SS)')
+                try:
+                    # Try parsing common formats like "9:00:00" or "9:00"
+                    if ':' in v:
+                        parts = v.split(':')
+                        if len(parts) == 2:
+                            # "9:00" format
+                            hour = int(parts[0])
+                            minute = int(parts[1])
+                            return time(hour=hour, minute=minute)
+                        elif len(parts) == 3:
+                            # "9:00:00" format
+                            hour = int(parts[0])
+                            minute = int(parts[1])
+                            second = int(parts[2])
+                            return time(hour=hour, minute=minute, second=second)
+                except (ValueError, IndexError):
+                    pass
+                
+                raise ValueError('Start time must be in format HH:MM or HH:MM:SS (e.g., "9:00" or "9:00:00")')
         
         raise ValueError('Start time must be string or time object')
 

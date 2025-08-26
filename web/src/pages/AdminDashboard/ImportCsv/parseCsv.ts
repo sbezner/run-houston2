@@ -54,14 +54,24 @@ export function parseCsvFile(file: File): Promise<{ rows: RaceCsvRow[], headerEr
           // Debug: Log the raw row data
           console.log('Raw CSV row:', row);
           
-          // Map CSV columns to our type, handling case variations
+          // Only map fields that the backend RaceCreate model expects
+          const allowedFields = [
+            'id', 'name', 'date', 'start_time', 'address', 'city', 'state', 
+            'zip', 'surface', 'distance', 'kid_run', 'official_website_url', 
+            'source', 'latitude', 'longitude'
+          ];
+          
           Object.keys(row).forEach(key => {
             const normalizedKey = key.trim().toLowerCase();
-            if (REQUIRED_HEADERS.includes(normalizedKey) || 
-                ['id', 'address', 'zip', 'official_website_url', 'official_w', 'source', 'latitude', 'longitude'].includes(normalizedKey)) {
+            if (allowedFields.includes(normalizedKey)) {
               raceRow[normalizedKey as keyof RaceCsvRow] = row[key];
             }
           });
+          
+          // Normalize ID field: convert empty string to null for new races
+          if (raceRow.id !== undefined) {
+            raceRow.id = raceRow.id && raceRow.id.toString().trim() !== '' ? raceRow.id.toString() : null;
+          }
           
           // Debug: Log the mapped race row
           console.log('Mapped race row:', raceRow);

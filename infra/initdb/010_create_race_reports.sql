@@ -9,7 +9,7 @@ CREATE TABLE race_reports (
     race_date DATE NOT NULL,
     title TEXT NOT NULL CHECK (char_length(title) BETWEEN 3 AND 120),
     author_name TEXT NULL CHECK (author_name IS NULL OR char_length(author_name) BETWEEN 2 AND 80),
-    content_md TEXT NOT NULL CHECK (char_length(content_md) BETWEEN 10 AND 20000),
+    content_md TEXT NOT NULL CHECK (char_length(content_md) BETWEEN 1 AND 20000),
     photos TEXT[] NOT NULL DEFAULT '{}',
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT now()

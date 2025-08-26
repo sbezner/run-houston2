@@ -92,7 +92,9 @@ export const ImportPanel: React.FC<ImportPanelProps> = ({ onImportComplete }) =>
             // Normalize the race data before sending to API
             const normalizedRace = { 
               ...race,
-              source: race.source || 'csv_import' // Set source for CSV imports
+              source: race.source || 'csv_import', // Set source for CSV imports
+              // Convert empty string ID to null for new races
+              id: race.id && race.id.toString().trim() !== '' ? parseInt(race.id.toString()) : null
             };
             
                          // Convert date to ISO format if it exists (must match backend expectation)

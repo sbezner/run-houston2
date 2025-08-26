@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { raceReports } from '../services/api';
-import { RaceReport, RaceReportsResponse } from '../types';
+import type { RaceReport, RaceReportsResponse } from '../types';
 import { Loading } from '../components/Loading';
 import { Alert } from '../components/Alert';
 
@@ -9,23 +9,15 @@ export const ReportsPage: React.FC = () => {
   const [reports, setReports] = useState<RaceReport[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [orderBy, setOrderBy] = useState<'created_at' | 'race_date'>('created_at');
-  const [dateFrom, setDateFrom] = useState('');
-  const [dateTo, setDateTo] = useState('');
   const [limit] = useState(20);
   const [offset, setOffset] = useState(0);
   const [total, setTotal] = useState(0);
-  const [groupByRace, setGroupByRace] = useState(false);
 
   const fetchReports = async () => {
     try {
       setLoading(true);
       const response: RaceReportsResponse = await raceReports.list({
-        q: searchQuery || undefined,
-        order_by: orderBy,
-        date_from: dateFrom || undefined,
-        date_to: dateTo || undefined,
+        order_by: 'created_at',
         limit,
         offset,
         include_race: true
@@ -42,38 +34,13 @@ export const ReportsPage: React.FC = () => {
 
   useEffect(() => {
     fetchReports();
-  }, [searchQuery, orderBy, dateFrom, dateTo, offset]);
+  }, [offset]);
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    setOffset(0);
-    fetchReports();
+  const handleLoadMore = () => {
+    setOffset(offset + limit);
   };
 
-  const handleReset = () => {
-    setSearchQuery('');
-    setOrderBy('created_at');
-    setDateFrom('');
-    setDateTo('');
-    setOffset(0);
-  };
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  };
-
-  const groupedReports = groupByRace ? reports.reduce((acc, report) => {
-    const raceName = report.race?.name || `Race ${report.race_id}`;
-    if (!acc[raceName]) {
-      acc[raceName] = [];
-    }
-    acc[raceName].push(report);
-    return acc;
-  }, {} as Record<string, RaceReport[]>) : null;
+  // Removed grouping functionality - always show in simple grid
 
   if (loading && reports.length === 0) {
     return (
@@ -101,116 +68,12 @@ export const ReportsPage: React.FC = () => {
     }}>
       <div style={{ textAlign: 'center', marginBottom: '40px' }}>
         <h1 style={{ fontSize: '36px', marginBottom: '10px', color: '#333' }}>📰 Race Reports</h1>
-        <p style={{ fontSize: '18px', color: '#666' }}>
-          {reports.length > 0 ? `Found ${total} race reports` : 'No race reports yet'}
+        <p style={{ fontSize: '14px', color: '#999', marginTop: '5px' }}>
+          Ordered by creation date (newest first)
         </p>
       </div>
 
-      {/* Search and Filters */}
-      <div style={{ 
-        backgroundColor: 'white', 
-        padding: '20px', 
-        borderRadius: '15px', 
-        boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-        marginBottom: '30px'
-      }}>
-        <form onSubmit={handleSearch} style={{ marginBottom: '20px' }}>
-          <div style={{ display: 'flex', gap: '15px', marginBottom: '15px', flexWrap: 'wrap' }}>
-            <input
-              type="text"
-              placeholder="Search reports..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              style={{
-                flex: 1,
-                minWidth: '200px',
-                padding: '10px 15px',
-                border: '1px solid #ddd',
-                borderRadius: '5px',
-                fontSize: '16px'
-              }}
-            />
-            <select
-              value={orderBy}
-              onChange={(e) => setOrderBy(e.target.value as 'created_at' | 'race_date')}
-              style={{
-                padding: '10px 15px',
-                border: '1px solid #ddd',
-                borderRadius: '5px',
-                fontSize: '16px'
-              }}
-            >
-              <option value="created_at">Newest First</option>
-              <option value="race_date">Race Date</option>
-            </select>
-            <input
-              type="date"
-              placeholder="From Date"
-              value={dateFrom}
-              onChange={(e) => setDateFrom(e.target.value)}
-              style={{
-                padding: '10px 15px',
-                border: '1px solid #ddd',
-                borderRadius: '5px',
-                fontSize: '16px'
-              }}
-            />
-            <input
-              type="date"
-              placeholder="To Date"
-              value={dateTo}
-              onChange={(e) => setDateTo(e.target.value)}
-              style={{
-                padding: '10px 15px',
-                border: '1px solid #ddd',
-                borderRadius: '5px',
-                fontSize: '16px'
-              }}
-            />
-            <button
-              type="submit"
-              style={{
-                backgroundColor: '#007AFF',
-                color: 'white',
-                border: 'none',
-                padding: '10px 20px',
-                borderRadius: '5px',
-                cursor: 'pointer',
-                fontSize: '16px'
-              }}
-            >
-              Search
-            </button>
-            <button
-              type="button"
-              onClick={handleReset}
-              style={{
-                backgroundColor: '#6c757d',
-                color: 'white',
-                border: 'none',
-                padding: '10px 20px',
-                borderRadius: '5px',
-                cursor: 'pointer',
-                fontSize: '16px'
-              }}
-            >
-              Reset
-            </button>
-          </div>
-        </form>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <label style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}>
-            <input
-              type="checkbox"
-              checked={groupByRace}
-              onChange={(e) => setGroupByRace(e.target.checked)}
-              style={{ cursor: 'pointer' }}
-            />
-            <span>Group by race</span>
-          </label>
-        </div>
-      </div>
 
       {error && (
         <Alert message={error} type="error" />
@@ -232,74 +95,34 @@ export const ReportsPage: React.FC = () => {
         </div>
       ) : (
         <div>
-          {groupByRace && groupedReports ? (
-            // Grouped by race
-            Object.entries(groupedReports).map(([raceName, raceReports]) => (
-              <div key={raceName} style={{ marginBottom: '30px' }}>
-                <h2 style={{ 
-                  fontSize: '24px', 
-                  marginBottom: '15px', 
-                  color: '#007AFF',
-                  borderBottom: '2px solid #007AFF',
-                  paddingBottom: '5px'
-                }}>
-                  {raceName}
-                </h2>
-                <div style={{ display: 'grid', gap: '20px', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))' }}>
-                  {raceReports.map((report) => (
-                    <ReportCard key={report.id} report={report} />
-                  ))}
-                </div>
-              </div>
-            ))
-          ) : (
-            // Regular grid
-            <div style={{ display: 'grid', gap: '20px', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))' }}>
-              {reports.map((report) => (
-                <ReportCard key={report.id} report={report} />
-              ))}
-            </div>
-          )}
+          {/* Simple grid layout */}
+          <div style={{ display: 'grid', gap: '20px', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))' }}>
+            {reports.map((report) => (
+              <ReportCard key={report.id} report={report} />
+            ))}
+          </div>
 
-          {/* Pagination */}
-          {total > limit && (
+          {/* Load More Button */}
+          {total > offset + limit && (
             <div style={{ 
               display: 'flex', 
               justifyContent: 'center', 
-              alignItems: 'center', 
-              gap: '15px',
               marginTop: '40px'
             }}>
               <button
-                onClick={() => setOffset(Math.max(0, offset - limit))}
-                disabled={offset === 0}
+                onClick={handleLoadMore}
                 style={{
-                  backgroundColor: offset === 0 ? '#ccc' : '#007AFF',
+                  backgroundColor: '#007AFF',
                   color: 'white',
                   border: 'none',
-                  padding: '10px 20px',
-                  borderRadius: '5px',
-                  cursor: offset === 0 ? 'not-allowed' : 'pointer'
+                  padding: '15px 30px',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  fontWeight: '500'
                 }}
               >
-                Previous
-              </button>
-              <span style={{ fontSize: '16px', color: '#666' }}>
-                Page {Math.floor(offset / limit) + 1} of {Math.ceil(total / limit)}
-              </span>
-              <button
-                onClick={() => setOffset(offset + limit)}
-                disabled={offset + limit >= total}
-                style={{
-                  backgroundColor: offset + limit >= total ? '#ccc' : '#007AFF',
-                  color: 'white',
-                  border: 'none',
-                  padding: '10px 20px',
-                  borderRadius: '5px',
-                  cursor: offset + limit >= total ? 'not-allowed' : 'pointer'
-                }}
-              >
-                Next
+                Load More Reports
               </button>
             </div>
           )}
@@ -320,18 +143,7 @@ const ReportCard: React.FC<{ report: RaceReport }> = ({ report }) => {
   };
 
   return (
-    <div style={{ 
-      backgroundColor: 'white', 
-      borderRadius: '15px', 
-      boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-      overflow: 'hidden',
-      transition: 'transform 0.2s, box-shadow 0.2s',
-      cursor: 'pointer',
-      ':hover': {
-        transform: 'translateY(-2px)',
-        boxShadow: '0 6px 25px rgba(0,0,0,0.15)'
-      }
-    }}>
+    <div className="report-card">
       {/* Thumbnail */}
       {report.photos.length > 0 && (
         <div style={{ 
@@ -354,16 +166,7 @@ const ReportCard: React.FC<{ report: RaceReport }> = ({ report }) => {
           {report.title}
         </h3>
         
-        {report.author_name && (
-          <p style={{ 
-            fontSize: '14px', 
-            color: '#666', 
-            marginBottom: '10px',
-            fontStyle: 'italic'
-          }}>
-            By {report.author_name}
-          </p>
-        )}
+        {/* Author field removed */}
         
         <div style={{ 
           display: 'flex', 
@@ -416,3 +219,27 @@ const ReportCard: React.FC<{ report: RaceReport }> = ({ report }) => {
     </div>
   );
 };
+
+// Add CSS styles for the report card
+const styles = `
+  .report-card {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+  
+  .report-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+  }
+`;
+
+// Inject styles into the document head
+if (typeof document !== 'undefined') {
+  const styleElement = document.createElement('style');
+  styleElement.textContent = styles;
+  document.head.appendChild(styleElement);
+}

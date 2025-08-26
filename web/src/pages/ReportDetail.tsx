@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { raceReports } from '../services/api';
-import { RaceReport } from '../types';
+import type { RaceReport } from '../types';
 import { Loading } from '../components/Loading';
 import { Alert } from '../components/Alert';
 
@@ -149,7 +149,7 @@ export const ReportDetail: React.FC = () => {
             <strong>Race:</strong> {report.race?.name || `Race ${report.race_id}`}
           </span>
           <span>
-            <strong>Date:</strong> {formatDate(report.race_date)}
+            <strong>Race Date:</strong> {formatDate(report.race_date)}
           </span>
           {report.author_name && (
             <span>

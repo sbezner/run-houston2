@@ -179,7 +179,7 @@ class TestCSVImportIntegration:
                 reader = csv.DictReader(f)
                 rows = list(reader)
                 
-            print(f"   📋 Found {len(rows)} problematic rows to validate:")
+            print(f"   Found {len(rows)} problematic rows to validate:")
             
             for i, row in enumerate(rows):
                 print(f"      Row {i+1}: {row['name']}")
@@ -242,7 +242,7 @@ class TestCSVImportIntegration:
             "8. Success Response"
         ]
         
-        print("   📋 CSV Import Workflow Steps:")
+        print("   CSV Import Workflow Steps:")
         for step in workflow_steps:
             print(f"      {step}")
         
@@ -321,7 +321,7 @@ class TestCSVImportIntegration:
             }
         ]
         
-        print("   📋 Error Handling Scenarios:")
+        print("   Error Handling Scenarios:")
         for scenario in error_scenarios:
             print(f"      {scenario['name']}: {scenario['description']}")
             print(f"         Frontend: {scenario['expected_frontend']}")
@@ -331,7 +331,7 @@ class TestCSVImportIntegration:
 
 def test_integration_summary():
     """Provide a summary of integration test coverage."""
-    print("\n📋 CSV Import Integration Test Coverage:")
+    print("\nCSV Import Integration Test Coverage:")
     print("=" * 60)
     print("PASS CSV format consistency")
     print("PASS Problematic format detection")

@@ -17,6 +17,13 @@ def print_header():
     print(f"Platform: {platform.system()} {platform.release()}")
     print(f"Python: {sys.version.split()[0]}")
     print("=" * 50)
+    print("📋 Test Coverage Includes:")
+    print("   • PostGIS Geometry & Coordinate Validation")
+    print("   • CSV Import/Export Functionality")
+    print("   • Clubs & Races API Endpoints")
+    print("   • Frontend-Backend Validation")
+    print("   • 🔐 NEW: Authentication Fixes (Admin Secret)")
+    print("=" * 50)
 
 def run_backend_tests():
     """Run the Python backend tests."""
@@ -171,6 +178,11 @@ def main():
     print("=" * 50)
     
     print(f"Backend Tests:  {'✅ PASSED' if backend_success else '❌ FAILED'}")
+    print(f"   • PostGIS & Geometry (Critical)")
+    print(f"   • CSV Import/Export (High Risk)")
+    print(f"   • API Endpoints (Clubs, Races, Race Reports)")
+    print(f"   • Frontend-Backend Validation")
+    print(f"   • 🔐 Authentication Fixes (Admin Secret)")
     print(f"Frontend Tests: {'✅ PASSED' if frontend_success else '❌ FAILED'}")
     
     print("\n" + "=" * 50)

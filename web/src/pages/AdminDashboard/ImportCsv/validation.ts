@@ -411,13 +411,32 @@ export function validateCsvRow(row: CsvRow, rowNumber: number): ValidationError[
   }
 
   if (row.distance) {
-    const distances = parseDistances(row.distance);
-    const invalidDistances = distances.filter(d => !validateDistance(d));
-    if (invalidDistances.length > 0) {
+    try {
+      const distances = parseDistances(row.distance);
+      console.log(`Parsed distances for row ${rowNumber}:`, distances); // Debug log
+      
+      const invalidDistances = distances.filter(d => {
+        const validationResult = validateDistance(d);
+        if (validationResult) {
+          console.log(`Invalid distance "${d}": ${validationResult}`); // Debug log
+        }
+        return validationResult !== null;
+      });
+      
+      if (invalidDistances.length > 0) {
+        errors.push({
+          row: rowNumber,
+          field: 'distance',
+          message: `Invalid distances: ${invalidDistances.join(', ')}`,
+          originalValue: row.distance
+        });
+      }
+    } catch (error) {
+      console.error(`Error parsing distances for row ${rowNumber}:`, error); // Debug log
       errors.push({
         row: rowNumber,
         field: 'distance',
-        message: `Invalid distances: ${invalidDistances.join(', ')}`,
+        message: `Failed to parse distance: ${row.distance}`,
         originalValue: row.distance
       });
     }

@@ -14,10 +14,10 @@ export const AdminClubsPage: React.FC = () => {
 
   const fetchClubs = async () => {
     try {
-      const token = auth.getToken();
-      if (!token) throw new Error('No authentication token');
+      const adminSecret = import.meta.env.VITE_ADMIN_SECRET || 'default-admin-secret';
+      if (!adminSecret) throw new Error('No admin secret configured');
       
-      const data = await clubs.adminList(token);
+      const data = await clubs.adminList(adminSecret);
       setClubsList(data);
     } catch (err: any) {
       setError(err.message || 'Failed to fetch clubs');
@@ -32,10 +32,10 @@ export const AdminClubsPage: React.FC = () => {
 
   const handleCreateClub = async (clubData: Partial<Club>) => {
     try {
-      const token = auth.getToken();
-      if (!token) throw new Error('No authentication token');
+      const adminSecret = import.meta.env.VITE_ADMIN_SECRET || 'default-admin-secret';
+      if (!adminSecret) throw new Error('No admin secret configured');
       
-      await clubs.create(clubData, token);
+      await clubs.create(clubData, adminSecret);
       setShowCreateForm(false);
       fetchClubs();
     } catch (err: any) {
@@ -47,10 +47,10 @@ export const AdminClubsPage: React.FC = () => {
     if (!editingClub) return;
     
     try {
-      const token = auth.getToken();
-      if (!token) throw new Error('No authentication token');
+      const adminSecret = import.meta.env.VITE_ADMIN_SECRET || 'default-admin-secret';
+      if (!adminSecret) throw new Error('No admin secret configured');
       
-      await clubs.update(editingClub.id, clubData, token);
+      await clubs.update(editingClub.id, clubData, adminSecret);
       setEditingClub(null);
       fetchClubs();
     } catch (err: any) {
@@ -62,10 +62,10 @@ export const AdminClubsPage: React.FC = () => {
     if (!confirm('Are you sure you want to delete this club?')) return;
     
     try {
-      const token = auth.getToken();
-      if (!token) throw new Error('No authentication token');
+      const adminSecret = import.meta.env.VITE_ADMIN_SECRET || 'default-admin-secret';
+      if (!adminSecret) throw new Error('No admin secret configured');
       
-      await clubs.remove(clubId, token);
+      await clubs.remove(clubId, adminSecret);
       fetchClubs();
     } catch (err: any) {
       setError(err.message || 'Failed to delete club');
@@ -74,10 +74,10 @@ export const AdminClubsPage: React.FC = () => {
 
   const handleExportCsv = async () => {
     try {
-      const token = auth.getToken();
-      if (!token) throw new Error('No authentication token');
+      const adminSecret = import.meta.env.VITE_ADMIN_SECRET || 'default-admin-secret';
+      if (!adminSecret) throw new Error('No admin secret configured');
       
-      await clubs.exportCsv(token);
+      await clubs.exportCsv(adminSecret);
     } catch (err: any) {
       setError(err.message || 'Failed to export CSV');
     }
@@ -88,10 +88,10 @@ export const AdminClubsPage: React.FC = () => {
     if (!file) return;
     
     try {
-      const token = auth.getToken();
-      if (!token) throw new Error('No authentication token');
+      const adminSecret = import.meta.env.VITE_ADMIN_SECRET || 'default-admin-secret';
+      if (!adminSecret) throw new Error('No admin secret configured');
       
-      await clubs.importCsv(file, token);
+      await clubs.importCsv(file, adminSecret);
       setError(null);
       fetchClubs(); // Refresh the list
       alert('CSV imported successfully!');

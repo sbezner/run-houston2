@@ -643,7 +643,7 @@ class TestFrontendBackendValidationAlignment:
 
 def test_validation_summary():
     """Provide a summary of what validation tests cover."""
-    print("\n📋 Frontend-Backend Validation Test Coverage:")
+    print("\nFrontend-Backend Validation Test Coverage:")
     print("=" * 60)
     print("PASS Date formats (ISO vs American/European)")
     print("PASS Time formats (24-hour vs 12-hour)")

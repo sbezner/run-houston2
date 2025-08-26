@@ -3,8 +3,7 @@ import { parseCsvFile } from './ImportCsv/parseCsv';
 import { validateAndTransform } from './ImportCsv/validation';
 import { downloadErrorsCsv } from './ImportCsv/download';
 import type { RaceUpsert, ImportError } from './ImportCsv/errors';
-import { api } from '../../services/api';
-import { auth } from '../../services/auth';
+import { races } from '../../services/api';
 import { Alert } from '../../components/Alert';
 
 interface ImportRacesModalProps {
@@ -15,6 +14,7 @@ interface ImportRacesModalProps {
 export const ImportRacesModal: React.FC<ImportRacesModalProps> = ({ onClose, onImportComplete }) => {
   const [importState, setImportState] = React.useState<'idle' | 'parsed' | 'validated' | 'committing' | 'done' | 'error'>('idle');
   const [previewRows, setPreviewRows] = React.useState<RaceUpsert[]>([]);
+  const [allValidRows, setAllValidRows] = React.useState<RaceUpsert[]>([]); // Store all valid rows for import
   const [importErrors, setImportErrors] = React.useState<ImportError[]>([]);
   const [importWarnings, setImportWarnings] = React.useState<ImportError[]>([]);
   const [commitProgress, setCommitProgress] = React.useState({ total: 0, done: 0, succeeded: 0, failed: 0, created: 0, updated: 0 });
@@ -39,14 +39,16 @@ export const ImportRacesModal: React.FC<ImportRacesModalProps> = ({ onClose, onI
         return;
       }
 
+      // Validate all rows first
+      const fullValidation = validateAndTransform(result.rows);
       
-      // Validate and transform
-      const validation = validateAndTransform(result.rows);
-      setPreviewRows(validation.valid);
-      setImportErrors(validation.errors);
-      setImportWarnings(validation.warnings);
+      // Set preview to first 10 rows maximum
+      setPreviewRows(fullValidation.valid.slice(0, 10));
+      setAllValidRows(fullValidation.valid); // Store all valid rows for import
+      setImportErrors(fullValidation.errors);
+      setImportWarnings(fullValidation.warnings);
       
-      if (validation.errors.length === 0) {
+      if (fullValidation.errors.length === 0) {
         setImportState('validated');
       } else {
         setImportState('error');
@@ -63,7 +65,7 @@ export const ImportRacesModal: React.FC<ImportRacesModalProps> = ({ onClose, onI
   }, [csvFile]);
 
   const handleCSVCommit = React.useCallback(async () => {
-    if (previewRows.length === 0) return;
+    if (allValidRows.length === 0) return;
 
     const controller = new AbortController();
     setAborter(controller);
@@ -74,52 +76,46 @@ export const ImportRacesModal: React.FC<ImportRacesModalProps> = ({ onClose, onI
     let totalCreated = 0;
     let totalUpdated = 0;
 
-    setCommitProgress(prev => ({ ...prev, total: previewRows.length }));
+    setCommitProgress(prev => ({ ...prev, total: allValidRows.length }));
 
     try {
-      const token = auth.getToken();
-      if (!token) throw new Error('No authentication token');
+      const adminSecret = import.meta.env.VITE_ADMIN_SECRET || 'default-admin-secret';
+      if (!adminSecret) throw new Error('No admin secret configured');
 
       // Process in batches of 100 with concurrency of 3
       const batchSize = 100;
       const concurrency = 3;
       
-      for (let i = 0; i < previewRows.length; i += batchSize) {
+      for (let i = 0; i < allValidRows.length; i += batchSize) {
         if (controller.signal.aborted) break;
         
-        const batch = previewRows.slice(i, i + batchSize);
+        const batch = allValidRows.slice(i, i + batchSize);
         const promises = batch.map(async (race) => {
           try {
             // Normalize the race data before sending to API
             const normalizedRace = { 
               ...race,
-              source: race.source || 'csv_import' // Set source for CSV imports
+              source: race.source || 'csv_import', // Set source for CSV imports
+              // Convert empty string ID to null for new races
+              id: race.id && race.id.toString().trim() !== '' ? parseInt(race.id.toString()) : null
             };
             
-                         // Convert date to ISO format if it exists (must match backend expectation)
-             if (normalizedRace.date) {
-               try {
-                 const date = new Date(normalizedRace.date);
-                 if (!isNaN(date.getTime())) {
-                   const isoDate = date.toISOString().split('T')[0];
-                   // Verify the ISO format matches backend expectation
-                   if (/^\d{4}-\d{2}-\d{2}$/.test(isoDate)) {
-                     normalizedRace.date = isoDate; // Convert to YYYY-MM-DD
-                   } else {
-                     console.error('Date conversion failed for backend:', normalizedRace.date, '->', isoDate);
-                     throw new Error(`Date ${normalizedRace.date} cannot be converted to required format`);
-                   }
-                 } else {
-                   throw new Error(`Invalid date: ${normalizedRace.date}`);
-                 }
-               } catch (e) {
-                                 console.error('Date normalization failed:', e instanceof Error ? e.message : String(e));
+            // Normalize date format if it's a string
+            if (typeof normalizedRace.date === 'string') {
+              try {
+                // Try to parse and normalize the date
+                const parsedDate = new Date(normalizedRace.date);
+                if (isNaN(parsedDate.getTime())) {
+                  throw new Error(`Invalid date: ${normalizedRace.date}`);
+                }
+                normalizedRace.date = parsedDate.toISOString().split('T')[0]; // Convert to YYYY-MM-DD
+              } catch (e) {
+                console.error('Date normalization failed:', e instanceof Error ? e.message : String(e));
                 throw new Error(`Date validation failed: ${e instanceof Error ? e.message : String(e)}`);
-               }
-             }
-            
-            const response = await api.post('/races', normalizedRace, token);
-            const responseData = await response;
+              }
+            }
+           
+            const responseData = await races.create(normalizedRace, adminSecret);
             const operationType = responseData.operation_type;
             
             // Log the operation type for debugging
@@ -148,7 +144,7 @@ export const ImportRacesModal: React.FC<ImportRacesModalProps> = ({ onClose, onI
 
         setCommitProgress(prev => ({
           ...prev,
-          done: Math.min(i + batchSize, previewRows.length),
+          done: Math.min(i + batchSize, allValidRows.length),
           succeeded: totalSucceeded,
           failed: totalFailed,
           created: totalCreated,
@@ -173,7 +169,7 @@ export const ImportRacesModal: React.FC<ImportRacesModalProps> = ({ onClose, onI
     } finally {
       setAborter(null);
     }
-  }, [previewRows, onImportComplete]);
+  }, [allValidRows, onImportComplete]);
 
   const cancelImport = React.useCallback(() => {
     if (aborter) {
@@ -187,6 +183,7 @@ export const ImportRacesModal: React.FC<ImportRacesModalProps> = ({ onClose, onI
     setImportState('idle');
 
     setPreviewRows([]);
+    setAllValidRows([]);
     setImportErrors([]);
     setImportWarnings([]);
     setCommitProgress({ total: 0, done: 0, succeeded: 0, failed: 0, created: 0, updated: 0 });
@@ -200,10 +197,50 @@ export const ImportRacesModal: React.FC<ImportRacesModalProps> = ({ onClose, onI
   const handleFileChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      // Validate file size (5MB max)
+      if (file.size > 5 * 1024 * 1024) {
+        setImportErrors([{
+          rowIndex: 0,
+          field: 'row',
+          code: 'PARSE_ERROR',
+          message: 'File size must be less than 5MB'
+        }]);
+        setImportState('error');
+        setCsvFile(null);
+        return;
+      }
+      
+      // Validate file type
+      if (!file.name.endsWith('.csv')) {
+        setImportErrors([{
+          rowIndex: 0,
+          field: 'row',
+          code: 'PARSE_ERROR',
+          message: 'File must be a CSV'
+        }]);
+        setImportState('error');
+        setCsvFile(null);
+        return;
+      }
+      
       setCsvFile(file);
+      setImportErrors([]);
       setImportState('idle');
     }
   }, []);
+
+  const downloadTemplate = () => {
+    const csvContent = 'id,name,date,location,description,website,registration_url,source\n,Example Race,2025-01-15,Example Location,Example race description,https://example.com,https://example.com/register,csv_import';
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'races_template.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
 
   // Prevent flashing by using opacity transitions and stable layout
   const renderContent = () => {
@@ -217,27 +254,70 @@ export const ImportRacesModal: React.FC<ImportRacesModalProps> = ({ onClose, onI
       case 'idle':
         return (
           <div style={baseStyle}>
-            <input
-              type="file"
-              accept=".csv"
-              onChange={handleFileChange}
-              style={{ marginBottom: '15px' }}
-            />
-            {csvFile && (
+            <div style={{ marginBottom: '20px' }}>
+              <h4 style={{ margin: '0 0 12px 0', fontSize: '16px', color: '#374151' }}>
+                Download Template:
+              </h4>
               <button
-                onClick={handleCSVParse}
+                onClick={downloadTemplate}
                 style={{
-                  backgroundColor: '#007AFF',
+                  backgroundColor: '#10b981',
                   color: 'white',
                   border: 'none',
-                  padding: '10px 20px',
+                  padding: '8px 16px',
                   borderRadius: '6px',
                   cursor: 'pointer',
-                  fontSize: '14px'
+                  fontSize: '14px',
+                  marginBottom: '16px'
                 }}
               >
-                Parse CSV
+                📥 Download Template
               </button>
+            </div>
+            
+            <div style={{ marginBottom: '20px' }}>
+              <h4 style={{ margin: '0 0 12px 0', fontSize: '16px', color: '#374151' }}>
+                Select CSV File:
+              </h4>
+              <input
+                type="file"
+                accept=".csv"
+                onChange={handleFileChange}
+                style={{ 
+                  marginBottom: '12px',
+                  padding: '8px',
+                  border: '1px solid #d1d5db',
+                  borderRadius: '6px',
+                  width: '100%'
+                }}
+              />
+              <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '16px' }}>
+                <p>• File must be a CSV</p>
+                <p>• Maximum file size: 5MB</p>
+                <p>• Maximum rows for preview: 10</p>
+              </div>
+            </div>
+            
+            {csvFile && (
+              <div style={{ marginBottom: '16px' }}>
+                <p style={{ margin: '0 0 8px 0', fontSize: '14px', color: '#374151' }}>
+                  Selected file: <strong>{csvFile.name}</strong> ({(csvFile.size / 1024 / 1024).toFixed(2)} MB)
+                </p>
+                <button
+                  onClick={handleCSVParse}
+                  style={{
+                    backgroundColor: '#007AFF',
+                    color: 'white',
+                    border: 'none',
+                    padding: '10px 20px',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    fontSize: '14px'
+                  }}
+                >
+                  Parse CSV
+                </button>
+              </div>
             )}
           </div>
         );
@@ -347,7 +427,12 @@ export const ImportRacesModal: React.FC<ImportRacesModalProps> = ({ onClose, onI
         return (
           <div style={baseStyle}>
             <div style={{ marginBottom: '15px' }}>
-              <p>Preview: {previewRows.length} valid rows ready to import</p>
+              <p>Preview: {previewRows.length} of {allValidRows.length} valid rows ready to import</p>
+              {csvFile && (
+                <p style={{ fontSize: '12px', color: '#6b7280', marginTop: '4px' }}>
+                  Showing first 10 rows for preview. All {allValidRows.length} valid rows will be imported.
+                </p>
+              )}
               
               {/* Display detailed warnings */}
               {importWarnings.length > 0 && (

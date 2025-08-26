@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { raceReports } from '../../services/api';
-import { RaceReport, RaceReportsResponse } from '../../types';
+import type { RaceReport, RaceReportsResponse } from '../../types';
 import { Loading } from '../../components/Loading';
 import { Alert } from '../../components/Alert';
 import { RaceReportForm } from '../../components/admin/RaceReportForm';
@@ -336,43 +336,25 @@ export const AdminRaceReportsPage: React.FC = () => {
             boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
             overflow: 'hidden'
           }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-              <thead>
-                <tr style={{ backgroundColor: '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
-                  <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', color: '#374151' }}>ID</th>
-                  <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', color: '#374151' }}>Race Name</th>
-                  <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', color: '#374151' }}>Race Date</th>
-                  <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', color: '#374151' }}>Title</th>
-                  <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', color: '#374151' }}>Author</th>
-                  <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', color: '#374151' }}>Created</th>
-                  <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', color: '#374151' }}>Updated</th>
-                  <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', color: '#374151' }}>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {reports.map((report) => (
-                  <tr key={report.id} style={{ borderBottom: '1px solid #f3f4f6' }}>
-                    <td style={{ padding: '12px', fontSize: '14px', color: '#6b7280' }}>{report.id}</td>
-                    <td style={{ padding: '12px', fontSize: '14px', color: '#374151' }}>
-                      {report.race?.name || `Race ${report.race_id}`}
-                    </td>
-                    <td style={{ padding: '12px', fontSize: '14px', color: '#374151' }}>
-                      {formatDate(report.race_date)}
-                    </td>
-                    <td style={{ padding: '12px', fontSize: '14px', color: '#374151' }}>
-                      <div style={{ maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                        {report.title}
-                      </div>
-                    </td>
-                    <td style={{ padding: '12px', fontSize: '14px', color: '#6b7280' }}>
-                      {report.author_name || '-'}
-                    </td>
-                    <td style={{ padding: '12px', fontSize: '14px', color: '#6b7280' }}>
-                      {formatDate(report.created_at)}
-                    </td>
-                    <td style={{ padding: '12px', fontSize: '14px', color: '#6b7280' }}>
-                      {formatDate(report.updated_at)}
-                    </td>
+                         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                               <thead>
+                  <tr style={{ backgroundColor: '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
+                    <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', color: '#374151' }}>Actions</th>
+                    <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', color: '#374151' }}>ID</th>
+                    <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', color: '#374151' }}>Race ID</th>
+                    <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', color: '#374151' }}>Race Name</th>
+                    <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', color: '#374151' }}>Race Date</th>
+                    <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', color: '#374151' }}>Title</th>
+                    <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', color: '#374151' }}>Author</th>
+                    <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', color: '#374151' }}>Content Preview</th>
+                    <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', color: '#374151' }}>Photos</th>
+                    <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', color: '#374151' }}>Created</th>
+                    <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', color: '#374151' }}>Updated</th>
+                  </tr>
+                </thead>
+               <tbody>
+                 {reports.map((report) => (
+                                     <tr key={report.id} style={{ borderBottom: '1px solid #f3f4f6' }}>
                     <td style={{ padding: '12px', fontSize: '14px' }}>
                       <div style={{ display: 'flex', gap: '8px' }}>
                         <button
@@ -411,10 +393,49 @@ export const AdminRaceReportsPage: React.FC = () => {
                         </button>
                       </div>
                     </td>
+                    <td style={{ padding: '12px', fontSize: '14px', color: '#6b7280' }}>{report.id}</td>
+                    <td style={{ padding: '12px', fontSize: '14px', color: '#6b7280' }}>{report.race_id}</td>
+                    <td style={{ padding: '12px', fontSize: '14px', color: '#374151' }}>
+                      {report.race?.name || `Race ${report.race_id}`}
+                    </td>
+                    <td style={{ padding: '12px', fontSize: '14px', color: '#374151' }}>
+                      {formatDate(report.race_date)}
+                    </td>
+                    <td style={{ padding: '12px', fontSize: '14px', color: '#374151' }}>
+                      <div style={{ maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {report.title}
+                      </div>
+                    </td>
+                    <td style={{ padding: '12px', fontSize: '14px', color: '#6b7280' }}>
+                      {report.author_name || '-'}
+                    </td>
+                    <td style={{ padding: '12px', fontSize: '14px', color: '#6b7280' }}>
+                      <div style={{ maxWidth: '250px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {report.content_md.replace(/[#*`]/g, '').substring(0, 100)}
+                        {report.content_md.length > 100 ? '...' : ''}
+                      </div>
+                    </td>
+                    <td style={{ padding: '12px', fontSize: '14px', color: '#6b7280' }}>
+                      <div style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {report.photos && report.photos.length > 0 ? (
+                          <span title={report.photos.join(', ')}>
+                            {report.photos.length} photo{report.photos.length !== 1 ? 's' : ''}
+                          </span>
+                        ) : (
+                          'No photos'
+                        )}
+                      </div>
+                    </td>
+                    <td style={{ padding: '12px', fontSize: '14px', color: '#6b7280' }}>
+                      {formatDate(report.created_at)}
+                    </td>
+                    <td style={{ padding: '12px', fontSize: '14px', color: '#6b7280' }}>
+                      {formatDate(report.updated_at)}
+                    </td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                 ))}
+               </tbody>
+             </table>
           </div>
 
           {/* Pagination */}

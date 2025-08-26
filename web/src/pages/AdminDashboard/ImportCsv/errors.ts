@@ -1,7 +1,7 @@
 export type Surface = "road" | "trail" | "track" | "virtual" | "other";
 
 export interface CsvRow {
-  id?: string;
+  id?: string | null;
   name?: string;
   date?: string;
   start_time?: string;

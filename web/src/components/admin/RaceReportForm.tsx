@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { RaceReport } from '../../types';
+import type { RaceReport } from '../../types';
 
 interface RaceReportFormProps {
   report?: RaceReport;
@@ -15,9 +15,9 @@ export const RaceReportForm: React.FC<RaceReportFormProps> = ({
   mode
 }) => {
   const [formData, setFormData] = useState({
-    race_id: '',
     title: '',
     author_name: '',
+    race_date: '',
     content_md: '',
     photos: ''
   });
@@ -27,9 +27,9 @@ export const RaceReportForm: React.FC<RaceReportFormProps> = ({
   useEffect(() => {
     if (report && mode === 'edit') {
       setFormData({
-        race_id: report.race_id.toString(),
         title: report.title,
         author_name: report.author_name || '',
+        race_date: report.race_date,
         content_md: report.content_md,
         photos: report.photos.join('; ')
       });
@@ -39,10 +39,6 @@ export const RaceReportForm: React.FC<RaceReportFormProps> = ({
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.race_id.trim()) {
-      newErrors.race_id = 'Race is required';
-    }
-
     if (!formData.title.trim()) {
       newErrors.title = 'Title is required';
     } else if (formData.title.trim().length < 3) {
@@ -51,10 +47,14 @@ export const RaceReportForm: React.FC<RaceReportFormProps> = ({
       newErrors.title = 'Title must be less than 120 characters';
     }
 
+    if (!formData.race_date.trim()) {
+      newErrors.race_date = 'Race date is required';
+    }
+
     if (!formData.content_md.trim()) {
       newErrors.content_md = 'Content is required';
-    } else if (formData.content_md.trim().length < 10) {
-      newErrors.content_md = 'Content must be at least 10 characters';
+    } else if (formData.content_md.trim().length < 1) {
+      newErrors.content_md = 'Content must be at least 1 character';
     } else if (formData.content_md.trim().length > 20000) {
       newErrors.content_md = 'Content must be less than 20,000 characters';
     }
@@ -92,9 +92,9 @@ export const RaceReportForm: React.FC<RaceReportFormProps> = ({
       : [];
 
     onSubmit({
-      race_id: parseInt(formData.race_id),
       title: formData.title.trim(),
       author_name: formData.author_name.trim() || null,
+      race_date: formData.race_date.trim(),
       content_md: formData.content_md.trim(),
       photos
     });
@@ -106,10 +106,10 @@ export const RaceReportForm: React.FC<RaceReportFormProps> = ({
       .split('\n')
       .map((line, index) => {
         if (line.startsWith('## ')) {
-          return <h2 key={index} style={{ fontSize: '20px', margin: '15px 0 8px 0', color: '#333' }}>{line.substring(3)}</h2>;
+          return <h2 key={index} style={{ fontSize: '18px', margin: '12px 0 6px 0', color: '#333' }}>{line.substring(3)}</h2>;
         }
         if (line.startsWith('# ')) {
-          return <h1 key={index} style={{ fontSize: '24px', margin: '15px 0 12px 0', color: '#333' }}>{line.substring(2)}</h1>;
+          return <h1 key={index} style={{ fontSize: '20px', margin: '12px 0 8px 0', color: '#333' }}>{line.substring(2)}</h1>;
         }
         if (line.startsWith('**') && line.endsWith('**')) {
           return <strong key={index} style={{ fontWeight: 'bold' }}>{line.substring(2, line.length - 2)}</strong>;
@@ -117,7 +117,7 @@ export const RaceReportForm: React.FC<RaceReportFormProps> = ({
         if (line.trim() === '') {
           return <br key={index} />;
         }
-        return <p key={index} style={{ margin: '8px 0', lineHeight: '1.5', color: '#333' }}>{line}</p>;
+        return <p key={index} style={{ margin: '6px 0', lineHeight: '1.4', color: '#333' }}>{line}</p>;
       });
   };
 
@@ -128,162 +128,175 @@ export const RaceReportForm: React.FC<RaceReportFormProps> = ({
       left: 0,
       right: 0,
       bottom: 0,
-      backgroundColor: 'rgba(0,0,0,0.5)',
+      backgroundColor: 'rgba(0,0,0,0.6)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       zIndex: 1000,
-      padding: '20px'
+      padding: '16px'
     }}>
       <div style={{
         backgroundColor: 'white',
-        borderRadius: '8px',
-        maxWidth: '800px',
+        borderRadius: '12px',
+        maxWidth: '900px',
         width: '100%',
         maxHeight: '90vh',
-        overflow: 'auto'
+        overflow: 'hidden',
+        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
       }}>
+        {/* Header */}
         <div style={{
-          padding: '24px',
-          borderBottom: '1px solid #e5e7eb'
+          padding: '20px 24px',
+          borderBottom: '1px solid #e5e7eb',
+          backgroundColor: '#f8fafc'
         }}>
-          <h2 style={{ margin: '0 0 8px 0', color: '#111827' }}>
+          <h2 style={{ 
+            margin: '0 0 6px 0', 
+            color: '#111827',
+            fontSize: '22px',
+            fontWeight: '600'
+          }}>
             {mode === 'create' ? 'Create New Race Report' : 'Edit Race Report'}
           </h2>
-          <p style={{ margin: 0, color: '#6b7280' }}>
+          <p style={{ margin: 0, color: '#6b7280', fontSize: '13px' }}>
             {mode === 'create' ? 'Add a new race report with markdown content.' : 'Update the race report details.'}
           </p>
         </div>
 
         <form onSubmit={handleSubmit} style={{ padding: '24px' }}>
           <div style={{ display: 'grid', gap: '20px' }}>
-            {/* Race Selection */}
-            <div>
-              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#374151' }}>
-                Race *
-              </label>
-              <input
-                type="number"
-                placeholder="Enter race ID"
-                value={formData.race_id}
-                onChange={(e) => setFormData({ ...formData, race_id: e.target.value })}
-                style={{
-                  width: '100%',
-                  padding: '10px 12px',
-                  border: errors.race_id ? '1px solid #ef4444' : '1px solid #d1d5db',
-                  borderRadius: '6px',
-                  fontSize: '14px',
-                  boxSizing: 'border-box'
-                }}
-              />
-              {errors.race_id && (
-                <p style={{ margin: '4px 0 0 0', fontSize: '12px', color: '#ef4444' }}>
-                  {errors.race_id}
-                </p>
-              )}
-              <p style={{ margin: '4px 0 0 0', fontSize: '12px', color: '#6b7280' }}>
-                Enter the ID of the race this report is about. The race must have a date set.
-              </p>
+            {/* Top Row - Title and Author */}
+            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '20px' }}>
+              {/* Title */}
+              <div>
+                <label style={{ display: 'block', marginBottom: '6px', fontWeight: '600', color: '#374151', fontSize: '13px' }}>
+                  Title *
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter report title"
+                  value={formData.title}
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    border: errors.title ? '1px solid #ef4444' : '1px solid #d1d5db',
+                    borderRadius: '6px',
+                    fontSize: '14px',
+                    boxSizing: 'border-box',
+                    transition: 'border-color 0.2s ease'
+                  }}
+                />
+                {errors.title && (
+                  <p style={{ margin: '4px 0 0 0', fontSize: '11px', color: '#ef4444' }}>
+                    {errors.title}
+                  </p>
+                )}
+              </div>
+
+              {/* Author Name */}
+              <div>
+                <label style={{ display: 'block', marginBottom: '6px', fontWeight: '600', color: '#374151', fontSize: '13px' }}>
+                  Author Name
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter author name"
+                  value={formData.author_name}
+                  onChange={(e) => setFormData({ ...formData, author_name: e.target.value })}
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    border: errors.author_name ? '1px solid #ef4444' : '1px solid #d1d5db',
+                    borderRadius: '6px',
+                    fontSize: '14px',
+                    boxSizing: 'border-box',
+                    transition: 'border-color 0.2s ease'
+                  }}
+                />
+                {errors.author_name && (
+                  <p style={{ margin: '4px 0 0 0', fontSize: '11px', color: '#ef4444' }}>
+                    {errors.author_name}
+                  </p>
+                )}
+              </div>
             </div>
 
-            {/* Title */}
-            <div>
-              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#374151' }}>
-                Title *
-              </label>
-              <input
-                type="text"
-                placeholder="Enter report title"
-                value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                style={{
-                  width: '100%',
-                  padding: '10px 12px',
-                  border: errors.title ? '1px solid #ef4444' : '1px solid #d1d5db',
-                  borderRadius: '6px',
-                  fontSize: '14px',
-                  boxSizing: 'border-box'
-                }}
-              />
-              {errors.title && (
-                <p style={{ margin: '4px 0 0 0', fontSize: '12px', color: '#ef4444' }}>
-                  {errors.title}
-                </p>
-              )}
+            {/* Second Row - Race Date and Photos */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '20px' }}>
+              {/* Race Date */}
+              <div>
+                <label style={{ display: 'block', marginBottom: '6px', fontWeight: '600', color: '#374151', fontSize: '13px' }}>
+                  Race Date *
+                </label>
+                <input
+                  type="date"
+                  value={formData.race_date}
+                  onChange={(e) => setFormData({ ...formData, race_date: e.target.value })}
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    border: errors.race_date ? '1px solid #ef4444' : '1px solid #d1d5db',
+                    borderRadius: '6px',
+                    fontSize: '14px',
+                    boxSizing: 'border-box',
+                    transition: 'border-color 0.2s ease'
+                  }}
+                />
+                {errors.race_date && (
+                  <p style={{ margin: '4px 0 0 0', fontSize: '11px', color: '#ef4444' }}>
+                    {errors.race_date}
+                  </p>
+                )}
+              </div>
+
+              {/* Photos */}
+              <div>
+                <label style={{ display: 'block', marginBottom: '6px', fontWeight: '600', color: '#374151', fontSize: '13px' }}>
+                  Photo URLs
+                </label>
+                <input
+                  type="text"
+                  placeholder="https://example.com/photo1.jpg; https://example.com/photo2.jpg"
+                  value={formData.photos}
+                  onChange={(e) => setFormData({ ...formData, photos: e.target.value })}
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    border: errors.photos ? '1px solid #ef4444' : '1px solid #d1d5db',
+                    borderRadius: '6px',
+                    fontSize: '14px',
+                    boxSizing: 'border-box',
+                    transition: 'border-color 0.2s ease'
+                  }}
+                />
+                {errors.photos && (
+                  <p style={{ margin: '4px 0 0 0', fontSize: '11px', color: '#ef4444' }}>
+                    {errors.photos}
+                  </p>
+                )}
+              </div>
             </div>
 
-            {/* Author Name */}
+            {/* Content Section */}
             <div>
-              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#374151' }}>
-                Author Name (Optional)
-              </label>
-              <input
-                type="text"
-                placeholder="Enter author name"
-                value={formData.author_name}
-                onChange={(e) => setFormData({ ...formData, author_name: e.target.value })}
-                style={{
-                  width: '100%',
-                  padding: '10px 12px',
-                  border: errors.author_name ? '1px solid #ef4444' : '1px solid #d1d5db',
-                  borderRadius: '6px',
-                  fontSize: '14px',
-                  boxSizing: 'border-box'
-                }}
-              />
-              {errors.author_name && (
-                <p style={{ margin: '4px 0 0 0', fontSize: '12px', color: '#ef4444' }}>
-                  {errors.author_name}
-                </p>
-              )}
-            </div>
-
-            {/* Photos */}
-            <div>
-              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#374151' }}>
-                Photo URLs (Optional)
-              </label>
-              <input
-                type="text"
-                placeholder="https://example.com/photo1.jpg; https://example.com/photo2.jpg"
-                value={formData.photos}
-                onChange={(e) => setFormData({ ...formData, photos: e.target.value })}
-                style={{
-                  width: '100%',
-                  padding: '10px 12px',
-                  border: errors.photos ? '1px solid #ef4444' : '1px solid #d1d5db',
-                  borderRadius: '6px',
-                  fontSize: '14px',
-                  boxSizing: 'border-box'
-                }}
-              />
-              {errors.photos && (
-                <p style={{ margin: '4px 0 0 0', fontSize: '12px', color: '#ef4444' }}>
-                  {errors.photos}
-                </p>
-              )}
-              <p style={{ margin: '4px 0 0 0', fontSize: '12px', color: '#6b7280' }}>
-                Separate multiple photo URLs with semicolons. All URLs must be absolute (http:// or https://).
-              </p>
-            </div>
-
-            {/* Content */}
-            <div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                <label style={{ fontWeight: '500', color: '#374151' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                <label style={{ fontWeight: '600', color: '#374151', fontSize: '13px' }}>
                   Content (Markdown) *
                 </label>
                 <button
                   type="button"
                   onClick={() => setShowPreview(!showPreview)}
                   style={{
-                    padding: '4px 8px',
+                    padding: '6px 12px',
                     backgroundColor: showPreview ? '#3b82f6' : '#6b7280',
                     color: 'white',
                     border: 'none',
                     borderRadius: '4px',
                     cursor: 'pointer',
-                    fontSize: '12px'
+                    fontSize: '12px',
+                    fontWeight: '500',
+                    transition: 'background-color 0.2s ease'
                   }}
                 >
                   {showPreview ? 'Hide Preview' : 'Show Preview'}
@@ -292,19 +305,21 @@ export const RaceReportForm: React.FC<RaceReportFormProps> = ({
               
               {!showPreview && (
                 <textarea
-                  placeholder="Enter markdown content..."
+                  placeholder="Enter markdown content...&#10;&#10;## Race Summary&#10;Write about the race experience...&#10;&#10;**Highlights:**&#10;- What went well&#10;- Key moments&#10;- Results"
                   value={formData.content_md}
                   onChange={(e) => setFormData({ ...formData, content_md: e.target.value })}
                   rows={12}
                   style={{
                     width: '100%',
-                    padding: '10px 12px',
+                    padding: '12px',
                     border: errors.content_md ? '1px solid #ef4444' : '1px solid #d1d5db',
                     borderRadius: '6px',
                     fontSize: '14px',
-                    fontFamily: 'monospace',
+                    fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace',
                     boxSizing: 'border-box',
-                    resize: 'vertical'
+                    resize: 'vertical',
+                    lineHeight: '1.4',
+                    transition: 'border-color 0.2s ease'
                   }}
                 />
               )}
@@ -312,26 +327,27 @@ export const RaceReportForm: React.FC<RaceReportFormProps> = ({
               {showPreview && (
                 <div style={{
                   width: '100%',
-                  padding: '10px 12px',
+                  padding: '16px',
                   border: '1px solid #d1d5db',
                   borderRadius: '6px',
                   fontSize: '14px',
                   backgroundColor: '#f9fafb',
                   minHeight: '200px',
-                  maxHeight: '400px',
-                  overflow: 'auto'
+                  maxHeight: '300px',
+                  overflow: 'auto',
+                  lineHeight: '1.5'
                 }}>
                   {renderMarkdownPreview(formData.content_md)}
                 </div>
               )}
               
               {errors.content_md && (
-                <p style={{ margin: '4px 0 0 0', fontSize: '12px', color: '#ef4444' }}>
+                <p style={{ margin: '4px 0 0 0', fontSize: '11px', color: '#ef4444' }}>
                   {errors.content_md}
                 </p>
               )}
               
-              <p style={{ margin: '4px 0 0 0', fontSize: '12px', color: '#6b7280' }}>
+              <p style={{ margin: '6px 0 0 0', fontSize: '11px', color: '#6b7280' }}>
                 Supports markdown: **bold**, ## headings, lists, etc. Content must be 10-20,000 characters.
               </p>
             </div>
@@ -343,6 +359,7 @@ export const RaceReportForm: React.FC<RaceReportFormProps> = ({
             gap: '12px',
             justifyContent: 'flex-end',
             marginTop: '24px',
+            marginBottom: '12px',
             paddingTop: '20px',
             borderTop: '1px solid #e5e7eb'
           }}>
@@ -356,7 +373,9 @@ export const RaceReportForm: React.FC<RaceReportFormProps> = ({
                 border: 'none',
                 borderRadius: '6px',
                 cursor: 'pointer',
-                fontSize: '14px'
+                fontSize: '14px',
+                fontWeight: '500',
+                transition: 'background-color 0.2s ease'
               }}
             >
               Cancel
@@ -370,7 +389,9 @@ export const RaceReportForm: React.FC<RaceReportFormProps> = ({
                 border: 'none',
                 borderRadius: '6px',
                 cursor: 'pointer',
-                fontSize: '14px'
+                fontSize: '14px',
+                fontWeight: '500',
+                transition: 'background-color 0.2s ease'
               }}
             >
               {mode === 'create' ? 'Create Report' : 'Update Report'}

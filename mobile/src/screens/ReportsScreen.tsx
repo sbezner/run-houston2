@@ -7,7 +7,6 @@ import {
   ActivityIndicator,
   Pressable,
   RefreshControl,
-  TextInput,
   Alert
 } from 'react-native';
 import { fetchRaceReports, fetchRaceReportById } from '../api';
@@ -18,65 +17,57 @@ export const ReportsScreen = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [refreshing, setRefreshing] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [orderBy, setOrderBy] = useState<'created_at' | 'race_date'>('created_at');
   const [limit] = useState(20);
-  const [offset, setOffset] = useState(0);
   const [total, setTotal] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
 
-  const loadReports = async (isRefresh = false) => {
-    try {
-      if (isRefresh) {
-        setOffset(0);
-        setHasMore(true);
-      }
-      
-      const currentOffset = isRefresh ? 0 : offset;
-      const data = await fetchRaceReports({
-        q: searchQuery || undefined,
-        order_by: orderBy,
-        limit,
-        offset: currentOffset,
-        include_race: true
-      });
-      
-      if (isRefresh) {
-        setReports(data.items);
-      } else {
-        setReports(prev => [...prev, ...data.items]);
-      }
-      
-      setTotal(data.total);
-      setHasMore(currentOffset + limit < data.total);
-      setError(null);
-    } catch (err: any) {
-      setError(err.message || 'Failed to load reports');
-    } finally {
-      setLoading(false);
-    }
-  };
+
+
 
   const onRefresh = async () => {
     setRefreshing(true);
-    await loadReports(true);
-    setRefreshing(false);
+    
+    try {
+      const data = await fetchRaceReports({
+        order_by: 'created_at',
+        limit,
+        offset: 0,
+        include_race: true
+      });
+      setReports(data.items);
+      setTotal(data.total);
+      setError(null);
+    } catch (err: any) {
+      setError(err.message || 'Failed to refresh reports');
+    } finally {
+      setRefreshing(false);
+    }
   };
 
-  const loadMore = async () => {
-    if (!hasMore || loading) return;
-    
-    setOffset(prev => prev + limit);
-    await loadReports();
-  };
+
 
   useEffect(() => {
-    loadReports(true);
-  }, [searchQuery, orderBy]);
+    const loadInitialReports = async () => {
+      try {
+        const data = await fetchRaceReports({
+          order_by: 'created_at',
+          limit,
+          offset: 0,
+          include_race: true
+        });
+        setReports(data.items);
+        setTotal(data.total);
+        setError(null);
+      } catch (err: any) {
+        setError(err.message || 'Failed to load reports');
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    loadInitialReports();
+  }, []);
 
-  const handleSearch = () => {
-    loadReports(true);
-  };
+
 
   const handleReportPress = (report: RaceReport) => {
     // Navigate to report detail (for now, just show an alert)
@@ -110,7 +101,28 @@ export const ReportsScreen = () => {
       <View style={styles.center}>
         <Text style={styles.errorText}>Error: {error}</Text>
         <Text style={styles.errorSubtext}>Check that your backend is running</Text>
-        <Pressable style={styles.retryButton} onPress={() => loadReports(true)}>
+        <Pressable style={styles.retryButton} onPress={() => {
+          setLoading(true);
+          setError(null);
+          const loadInitialReports = async () => {
+            try {
+              const data = await fetchRaceReports({
+                order_by: 'created_at',
+                limit,
+                offset: 0,
+                include_race: true
+              });
+                      setReports(data.items);
+        setTotal(data.total);
+        setError(null);
+            } catch (err: any) {
+              setError(err.message || 'Failed to load reports');
+            } finally {
+              setLoading(false);
+            }
+          };
+          loadInitialReports();
+        }}>
           <Text style={styles.retryButtonText}>Try Again</Text>
         </Pressable>
       </View>
@@ -121,9 +133,7 @@ export const ReportsScreen = () => {
     <Pressable style={styles.reportCard} onPress={() => handleReportPress(item)}>
       <Text style={styles.reportTitle}>{item.title}</Text>
       
-      {item.author_name && (
-        <Text style={styles.authorText}>By {item.author_name}</Text>
-      )}
+      {/* Author field removed */}
       
       <View style={styles.reportInfo}>
         <Text style={styles.reportDetail}>
@@ -149,55 +159,7 @@ export const ReportsScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* Search and Filter Header */}
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Race Reports</Text>
-        
-        <View style={styles.searchContainer}>
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Search reports..."
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-            onSubmitEditing={handleSearch}
-            returnKeyType="search"
-          />
-        </View>
-        
-        <View style={styles.filterContainer}>
-          <Text style={styles.filterLabel}>Sort by:</Text>
-          <View style={styles.filterChips}>
-            <Pressable
-              style={[
-                styles.filterChip,
-                orderBy === 'created_at' ? styles.filterChipActive : styles.filterChipInactive
-              ]}
-              onPress={() => setOrderBy('created_at')}
-            >
-              <Text style={[
-                styles.filterChipText,
-                orderBy === 'created_at' ? styles.filterChipTextActive : styles.filterChipTextInactive
-              ]}>
-                Newest
-              </Text>
-            </Pressable>
-            <Pressable
-              style={[
-                styles.filterChip,
-                orderBy === 'race_date' ? styles.filterChipActive : styles.filterChipInactive
-              ]}
-              onPress={() => setOrderBy('race_date')}
-            >
-              <Text style={[
-                styles.filterChipText,
-                orderBy === 'race_date' ? styles.filterChipTextActive : styles.filterChipTextInactive
-              ]}>
-                Race Date
-              </Text>
-            </Pressable>
-          </View>
-        </View>
-      </View>
+
 
       {/* Reports List */}
       <FlatList
@@ -209,24 +171,16 @@ export const ReportsScreen = () => {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
-        onEndReached={loadMore}
-        onEndReachedThreshold={0.1}
+
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyText}>No race reports found</Text>
             <Text style={styles.emptySubtext}>
-              {searchQuery ? 'Try adjusting your search' : 'Check back soon for race reports'}
+              Check back soon for race reports
             </Text>
           </View>
         }
-        ListFooterComponent={
-          hasMore && reports.length > 0 ? (
-            <View style={styles.loadingMore}>
-              <ActivityIndicator size="small" color="#007AFF" />
-              <Text style={styles.loadingMoreText}>Loading more...</Text>
-            </View>
-          ) : null
-        }
+
       />
     </View>
   );
@@ -244,69 +198,10 @@ const styles = StyleSheet.create({
     padding: 24,
     gap: 16,
   },
-  header: {
-    backgroundColor: '#fff',
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e1e5e9',
-  },
-  headerTitle: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: '#333',
-    marginBottom: 16,
-    textAlign: 'center',
-  },
-  searchContainer: {
-    marginBottom: 16,
-  },
-  searchInput: {
-    backgroundColor: '#f8f9fa',
-    borderWidth: 1,
-    borderColor: '#dee2e6',
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
-  },
-  filterContainer: {
-    marginBottom: 8,
-  },
-  filterLabel: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#666',
-    marginBottom: 8,
-  },
-  filterChips: {
-    flexDirection: 'row',
-    gap: 8,
-  },
-  filterChip: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-    borderWidth: 1,
-    minWidth: 80,
-    alignItems: 'center',
-  },
-  filterChipActive: {
-    backgroundColor: '#007AFF',
-    borderColor: '#007AFF',
-  },
-  filterChipInactive: {
-    backgroundColor: '#f8f9fa',
-    borderColor: '#dee2e6',
-  },
-  filterChipText: {
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  filterChipTextActive: {
-    color: '#fff',
-  },
-  filterChipTextInactive: {
-    color: '#6c757d',
-  },
+
+
+
+
   listContainer: {
     padding: 16,
   },
@@ -327,12 +222,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     lineHeight: 22,
   },
-  authorText: {
-    fontSize: 14,
-    color: '#666',
-    fontStyle: 'italic',
-    marginBottom: 12,
-  },
+
   reportInfo: {
     marginBottom: 12,
   },
@@ -377,15 +267,7 @@ const styles = StyleSheet.create({
     color: '#999',
     textAlign: 'center',
   },
-  loadingMore: {
-    alignItems: 'center',
-    padding: 20,
-    gap: 8,
-  },
-  loadingMoreText: {
-    fontSize: 14,
-    color: '#666',
-  },
+
   loadingText: {
     fontSize: 16,
     color: '#666',
