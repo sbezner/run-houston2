@@ -2,7 +2,6 @@ import React from 'react';
 
 interface BulkBarProps {
   selectedCount: number;
-  onSelectAll: () => void;
   onClearSelection: () => void;
   onBulkDelete: () => void;
 }
@@ -27,22 +26,8 @@ export const BulkBar: React.FC<BulkBarProps> = ({
   }}>
     <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
       <span style={{ fontWeight: '600' }}>
-        {selectedCount} race{selectedCount !== 1 ? 's' : ''} selected
+        {selectedCount} item{selectedCount !== 1 ? 's' : ''} selected
       </span>
-      <button
-        onClick={onSelectAll}
-        style={{
-          backgroundColor: 'rgba(255,255,255,0.2)',
-          color: 'white',
-          border: 'none',
-          padding: '5px 10px',
-          borderRadius: '5px',
-          cursor: 'pointer',
-          fontSize: '14px'
-        }}
-      >
-        Select All
-      </button>
       <button
         onClick={onClearSelection}
         style={{
@@ -55,7 +40,7 @@ export const BulkBar: React.FC<BulkBarProps> = ({
           fontSize: '14px'
         }}
       >
-        Clear
+        Clear Selection
       </button>
     </div>
     

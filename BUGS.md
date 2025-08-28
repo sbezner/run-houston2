@@ -5,51 +5,287 @@
 ### **🔴 Critical Priority**
 
 **Bug #1**
-- [ ] **Bug Title**: Race report editing critical issues - missing ID display, race ID validation, and deletion cascade problems
+- [ ] **Bug Title**: Race report editing form missing ID display and race ID validation issues
   - **Date Reported**: 2025-01-27
   - **Reporter**: Developer
   - **Severity**: Critical
   - **Status**: Open
   - **Priority**: P1
-  - **Description**: Multiple critical issues with race report editing and race deletion that affect data integrity and user experience:
-    1. Edit race report form does not display the race report ID
+  - **Description**: Critical issues with race report editing form that affect user experience and data integrity:
+    1. Edit race report form should display the race ID and allow it to be edited
     2. Race ID field should allow null values for orphaned reports
-    3. Race report ID should gracefully resolve to null when editing if the referenced race doesn't exist
-    4. When deleting a race, the system should look for referencing race reports and allow race_id to resolve to null instead of blocking deletion
+    3. Race ID field should be a simple number input (not dropdown) and be optional
+    4. Invalid race IDs should show validation errors in UI and prevent saving
+    5. CSV import should validate race IDs and show errors for invalid references
+    6. CSV export should handle null race IDs appropriately
   - **Steps to Reproduce**: 
     1. Go to Admin Dashboard → Race Reports
     2. Click "Edit" on any race report
-    3. Notice the form doesn't show the race report ID
-    4. Try to delete a race that has race reports referencing it
-    5. Observe deletion is blocked due to foreign key constraints
+    3. Notice the form doesn't show the race report ID anywhere
+    4. Notice the race selection is a required dropdown instead of optional number input
+    5. Try to enter an invalid race ID in the race ID field
+    6. Try to import CSV with invalid race IDs
+    7. Observe system crashes or validation errors
   - **Expected Behavior**: 
-    1. Edit form should display race report ID for reference
-    2. Race ID field should accept null values
-    3. Orphaned race reports should handle missing races gracefully
-    4. Race deletion should cascade or allow race_id to be set to null
+    1. Edit form should display race ID prominently and allow editing
+    2. Race ID field should be an optional number input field (not dropdown)
+    3. Race ID field should accept null values gracefully
+    4. Race ID field should allow null values and invalid race IDs should show validation errors and prevent form submission
+    5. CSV import should validate all race IDs and show row-specific errors
+    6. CSV export should handle null race IDs gracefully
   - **Actual Behavior**: 
-    1. No ID display in edit form
-    2. Race ID field doesn't allow null
+    1. No ID display in edit form - users can't identify which report they're editing
+    2. Race ID field is a required dropdown that doesn't allow null values
     3. System crashes when referenced race doesn't exist
-    4. Race deletion blocked by foreign key constraints
+    4. No validation feedback for invalid race IDs
+    5. CSV import doesn't validate race ID references
   - **Environment**: 
      - **OS**: Windows 10
      - **Browser**: Any modern browser
      - **Python Version**: 3.11.9
      - **Database**: PostgreSQL
      - **Other Dependencies**: React, TypeScript, FastAPI
-   - **Screenshots/Logs**: 409 Conflict errors, foreign key constraint violations
+   - **Screenshots/Logs**: 409 Conflict errors, form validation failures
    - **Suggested Code Locations**:
-     - **Files to investigate**: `web/src/components/admin/RaceReportForm.tsx`, `api/app/main.py`, `infra/initdb/010_create_race_reports.sql`
-     - **Key functions/methods**: `update_race_report`, `delete_race`, race report form rendering
-     - **Database tables/columns**: `race_reports` table, `race_id` foreign key constraint
-     - **API endpoints**: PUT `/race_reports/{id}`, DELETE `/races/{id}`
+     - **Files to investigate**: `web/src/components/admin/RaceReportForm.tsx`, `api/app/main.py`, `api/app/models.py`, `web/src/types.ts`, `web/src/components/admin/RaceReportsImportDialog.tsx`
+     - **Key functions/methods**: `update_race_report`, race report form rendering, RaceReportUpdate model, CSV import validation
+     - **Database tables/columns**: `race_reports` table, `race_id` field validation
+     - **API endpoints**: PUT `/race_reports/{id}`, POST `/admin/race_reports/import`
    - **Assigned To**: Developer
-   - **Notes**: This is a critical data integrity issue that affects the core functionality of race reports. The system needs proper handling of orphaned reports and graceful degradation when referenced races are deleted.
-   - **Related Issues**: Affects race report editing, race deletion, data integrity
-   - **User Impact**: Critical - users cannot properly edit race reports or delete races with reports
+   - **Notes**: This is a critical UX and data integrity issue. Users need to see and edit the ID they're editing, and the system must validate race IDs properly in both UI and CSV operations. Race ID should be optional number input, not required dropdown.
+   - **Related Issues**: Affects race report editing functionality, CSV import/export validation
+   - **User Impact**: Critical - users cannot properly identify or edit race reports, and invalid data can be imported
+
+**Bug #2**
+- [x] **Bug Title**: Race deletion blocked by foreign key constraints - no cascade handling for race reports
+  - **Date Reported**: 2025-01-27
+  - **Reporter**: Developer
+  - **Severity**: Critical
+  - **Status**: Fixed
+  - **Priority**: P1
+  - **Description**: When deleting a race that has race reports referencing it, the deletion is blocked due to foreign key constraints. The system should either cascade delete the reports or allow the race_id to be set to null.
+  - **Steps to Reproduce**: 
+    1. Create a race report that references an existing race
+    2. Try to delete the referenced race
+    3. Observe deletion is blocked due to foreign key constraint violations
+    4. Check database logs for constraint errors
+  - **Expected Behavior**: 
+    1. Race deletion should either cascade delete all related race reports, OR
+    2. Allow race_id in race reports to be set to null when race is deleted, OR
+    3. Provide clear error message about dependent reports
+  - **Actual Behavior**: 
+    1. Race deletion is completely blocked by foreign key constraints
+    2. No cascade handling implemented
+    3. Users cannot delete races with reports, leading to data cleanup issues
+  - **Environment**: 
+     - **OS**: Windows 10
+     - **Browser**: Any modern browser
+     - **Python Version**: 3.11.9
+     - **Database**: PostgreSQL
+     - **Other Dependencies**: React, TypeScript, FastAPI
+   - **Screenshots/Logs**: Foreign key constraint violations, deletion blocked errors
+   - **Suggested Code Locations**:
+     - **Files to investigate**: `api/app/main.py`, `infra/initdb/010_create_race_reports.sql`
+     - **Key functions/methods**: `delete_race`, database foreign key constraints
+     - **Database tables/columns**: `race_reports` table, `race_id` foreign key constraint
+     - **API endpoints**: DELETE `/races/{id}`
+   - **Assigned To**: Developer
+   - **Notes**: This is a critical data management issue. Users need to be able to delete races, and the system must handle dependent race reports appropriately.
+   - **Related Issues**: Affects race deletion, data cleanup, foreign key relationships
+   - **User Impact**: Critical - users cannot clean up obsolete races
+   - **Fix Applied**: 2025-01-27
+   - **Solution**: Foreign key constraint handling implemented - race deletion now works properly
+   - **Status**: Fixed
+
+**Bug #10**
+- [ ] **Bug Title**: Create new race form throws "Admin token not found" error - critical authentication issue
+
+**Bug #11**
+- [ ] **Bug Title**: Race deletion confirmation should warn about associated race reports being deleted
+  - **Date Reported**: 2025-01-27
+  - **Reporter**: Developer
+  - **Severity**: Medium
+  - **Status**: Open
+  - **Priority**: P2
+  - **Description**: When deleting a race that has associated race reports, the deletion confirmation dialog should clearly warn users that the race reports will also be deleted. Currently, the message only shows "Are you sure you want to delete [race name]? This action cannot be undone." but doesn't mention that dependent race reports will be cascade deleted.
+  - **Steps to Reproduce**: 
+    1. Go to Admin Dashboard → Races
+    2. Find a race that has associated race reports
+    3. Click "Delete" button on that race
+    4. Observe the confirmation dialog
+    5. Notice the message only mentions race deletion, not race report deletion
+  - **Expected Behavior**: 
+    1. Delete confirmation should check if race has associated race reports
+    2. If race reports exist, add bold warning: "**This will also delete race report: [race report name]**"
+    3. Message should clearly indicate cascade deletion behavior
+    4. Users should be fully informed about what will be deleted
+  - **Actual Behavior**: 
+    1. Delete confirmation only shows: "Are you sure you want to delete [race name]? This action cannot be undone."
+    2. No mention of associated race reports being deleted
+    3. Users are unaware of cascade deletion behavior
+    4. Potential for unintended data loss
+  - **Environment**: 
+     - **OS**: Windows 10
+     - **Browser**: Any modern browser
+     - **Python Version**: 3.11.9
+     - **Database**: PostgreSQL
+     - **Other Dependencies**: React, TypeScript, FastAPI
+   - **Screenshots/Logs**: Delete confirmation dialog showing incomplete warning message
+   - **Suggested Code Locations**:
+     - **Files to investigate**: `web/src/pages/AdminDashboard/AdminRacesPage.tsx`, `web/src/components/admin/DeleteRaceModal.tsx`
+     - **Key functions/methods**: Delete confirmation dialog, race deletion workflow, cascade deletion check
+     - **Database tables/columns**: `races` table, `race_reports` table, foreign key relationships
+     - **API endpoints**: DELETE `/races/{id}`, race reports query endpoint
+
+**Bug #12**
+- [ ] **Bug Title**: Authentication system needs migration from shared secret to JWT across entire program
+  - **Date Reported**: 2025-01-27
+  - **Reporter**: Developer
+  - **Severity**: Critical
+  - **Status**: Open
+  - **Priority**: P1
+  - **Description**: The current authentication system uses a mix of shared secret (X-Admin-Secret header) and JWT tokens, creating inconsistency and security concerns. The entire program needs to be migrated to use JWT authentication exclusively across all admin areas: admin races, admin clubs, and admin race reports.
+  - **Current State**: 
+    1. **Backend**: Mixed authentication - some endpoints use `verify_admin_secret()` while others use `get_current_admin()` JWT verification
+    2. **Frontend**: Inconsistent - some API calls use admin secret, others expect JWT tokens
+    3. **Admin Races**: Uses shared secret authentication (`verify_admin_secret`)
+    4. **Admin Clubs**: Uses shared secret authentication (`verify_admin_secret`)
+    5. **Admin Race Reports**: Uses shared secret authentication (`verify_admin_secret`)
+    6. **Admin Login**: Generates JWT tokens but they're not used consistently
+  - **Expected Behavior**: 
+    1. All admin endpoints should use JWT authentication via `get_current_admin()` dependency
+    2. Frontend should store and send JWT tokens in Authorization header
+    3. Shared secret authentication should be completely removed
+    4. Consistent authentication flow across all admin operations
+    5. Proper token expiration and refresh handling
+  - **Actual Behavior**: 
+    1. Inconsistent authentication methods across different endpoints
+    2. Frontend sometimes sends admin secret, sometimes expects JWT
+    3. Some endpoints reject JWT tokens, others reject admin secrets
+    4. Authentication errors and confusion for users
+    5. Security risk from shared secret exposure
+  - **Environment**: 
+     - **OS**: Windows 10
+     - **Browser**: Any modern browser
+     - **Python Version**: 3.11.9
+     - **Database**: PostgreSQL
+     - **Other Dependencies**: React, TypeScript, FastAPI, JWT
+   - **Screenshots/Logs**: Authentication errors, inconsistent API responses
+   - **Suggested Code Locations**:
+     - **Backend Files**: 
+       - `api/app/main.py` - Update all admin endpoints to use JWT authentication
+       - `api/app/auth.py` - Ensure JWT functions are properly implemented
+       - Remove `verify_admin_secret()` function and all its usages
+     - **Frontend Files**: 
+       - `web/src/services/api.ts` - Update all API calls to use JWT tokens
+       - `web/src/services/auth.ts` - Ensure proper JWT token management
+       - `web/src/hooks/useAuth.ts` - Update authentication flow
+       - `web/src/pages/AdminDashboard/AdminRacesPage.tsx` - Remove admin secret usage
+       - `web/src/pages/AdminDashboard/AdminClubsPage.tsx` - Remove admin secret usage
+       - `web/src/pages/AdminDashboard/AdminRaceReportsPage.tsx` - Remove admin secret usage
+     - **Key Functions/Methods**: 
+       - Replace `verify_admin_secret()` calls with `get_current_admin()` dependency
+       - Update all API calls to include `Authorization: Bearer <token>` header
+       - Remove admin secret environment variables and configuration
+     - **API Endpoints to Update**: 
+       - POST `/races` - Change from shared secret to JWT
+       - PUT `/races/{id}` - Change from shared secret to JWT
+       - DELETE `/races/{id}` - Change from shared secret to JWT
+       - POST `/clubs` - Change from shared secret to JWT
+       - PUT `/clubs/{id}` - Change from shared secret to JWT
+       - DELETE `/clubs/{id}` - Change from shared secret to JWT
+       - POST `/race_reports` - Change from shared secret to JWT
+       - PUT `/race_reports/{id}` - Change from shared secret to JWT
+       - DELETE `/race_reports/{id}` - Change from shared secret to JWT
+       - POST `/admin/races/import` - Change from shared secret to JWT
+       - POST `/admin/clubs/import-csv` - Change from shared secret to JWT
+       - POST `/admin/race_reports/import` - Change from shared secret to JWT
+   - **Assigned To**: Developer
+   - **Notes**: This is a critical security and consistency issue. The current mixed authentication system creates confusion and potential security vulnerabilities. All admin operations should use the same JWT-based authentication flow that's already partially implemented in the login system.
+   - **Related Issues**: Admin authentication, API security, user experience consistency
+   - **User Impact**: High - affects all admin functionality and creates authentication confusion
+   - **Assigned To**: Developer
+   - **Notes**: This is a UX improvement that affects data integrity awareness. Users need to be fully informed about cascade deletion behavior to make informed decisions about race deletion. The warning should be prominent and clearly indicate what additional data will be lost.
+   - **Related Issues**: Race deletion workflow, data integrity warnings, user experience
+   - **User Impact**: Medium - affects user awareness of data deletion consequences
+  - **Date Reported**: 2025-01-27
+  - **Reporter**: Developer
+  - **Severity**: Critical
+  - **Status**: Open
+  - **Priority**: P1
+  - **Description**: When attempting to create a new race from the "Create New Race" form, the system throws a "Failed to create race: Admin token not found" error. This is a critical authentication issue that completely blocks race creation functionality and affects core application features.
+  - **Steps to Reproduce**: 
+    1. Go to Admin Dashboard → Races
+    2. Click "Add Race" or "Create New Race" button
+    3. Fill in race details (name, date, address, etc.)
+    4. Click "Create Race" or "Save" button
+    5. Observe error: "Failed to create race: Admin token not found"
+    6. Race creation fails completely
+  - **Expected Behavior**: 
+    1. Race creation form should work without authentication errors
+    2. New races should be created successfully when form is submitted
+    3. System should use proper admin authentication (admin secret)
+    4. No authentication-related errors should occur
+  - **Actual Behavior**: 
+    1. Race creation form throws "Admin token not found" error
+    2. Race creation is completely blocked
+    3. Users cannot create new races through the web interface
+    4. Authentication system appears to be looking for JWT tokens instead of admin secret
+  - **Environment**: 
+     - **OS**: Windows 10
+     - **Browser**: Any modern browser
+     - **Python Version**: 3.11.9
+     - **Database**: PostgreSQL
+     - **Other Dependencies**: React, TypeScript, FastAPI
+   - **Screenshots/Logs**: Error message: "Failed to create race: Admin token not found"
+   - **Suggested Code Locations**:
+     - **Files to investigate**: `web/src/components/admin/CreateRaceModal.tsx`, `web/src/services/api.ts`, `api/app/main.py`
+     - **Key functions/methods**: Race creation form submission, API authentication, admin verification
+     - **Database tables/columns**: `races` table creation
+     - **API endpoints**: POST `/races` endpoint, admin authentication middleware
+   - **Assigned To**: Developer
+   - **Notes**: This is a critical authentication issue that completely blocks race creation. The system appears to have a mismatch between frontend authentication (admin secret) and backend expectations (JWT tokens). This affects core application functionality and user experience.
+   - **Related Issues**: Admin authentication, race creation workflow, API authentication consistency
+   - **User Impact**: Critical - users cannot create new races, affecting core application functionality
+  - **Date Reported**: 2025-01-27
+  - **Reporter**: Developer
+  - **Severity**: Critical
+  - **Status**: Open
+  - **Priority**: P1
+  - **Description**: When deleting a race that has race reports referencing it, the deletion is blocked due to foreign key constraints. The system should either cascade delete the reports or allow the race_id to be set to null.
+  - **Steps to Reproduce**: 
+    1. Create a race report that references an existing race
+    2. Try to delete the referenced race
+    3. Observe deletion is blocked due to foreign key constraint violations
+    4. Check database logs for constraint errors
+  - **Expected Behavior**: 
+    1. Race deletion should either cascade delete all related race reports, OR
+    2. Allow race_id in race reports to be set to null when race is deleted, OR
+    3. Provide clear error message about dependent reports
+  - **Actual Behavior**: 
+    1. Race deletion is completely blocked by foreign key constraints
+    2. No cascade handling implemented
+    3. Users cannot delete races with reports, leading to data cleanup issues
+  - **Environment**: 
+     - **OS**: Windows 10
+     - **Browser**: Any modern browser
+     - **Python Version**: 3.11.9
+     - **Database**: PostgreSQL
+     - **Other Dependencies**: React, TypeScript, FastAPI
+   - **Screenshots/Logs**: Foreign key constraint violations, deletion blocked errors
+   - **Suggested Code Locations**:
+     - **Files to investigate**: `api/app/main.py`, `infra/initdb/010_create_race_reports.sql`
+     - **Key functions/methods**: `delete_race`, database foreign key constraints
+     - **Database tables/columns**: `race_reports` table, `race_id` foreign key constraint
+     - **API endpoints**: DELETE `/races/{id}`
+   - **Assigned To**: Developer
+   - **Notes**: This is a critical data management issue. Users need to be able to delete races, and the system must handle dependent race reports appropriately.
+   - **Related Issues**: Affects race deletion, data cleanup, foreign key relationships
+   - **User Impact**: Critical - users cannot clean up obsolete races
 
 ### **🔴 High Priority**
+
+**Bug #3**
 - [ ] **Bug Title**: Edit operations don't return to current row position - poor user experience
   - **Date Reported**: 2025-01-27
   - **Reporter**: User
@@ -86,7 +322,7 @@
   - **Related Issues**: Affects all admin edit operations (races, clubs, race reports)
   - **User Impact**: High - users lose their place when editing items in long lists
 
-**Bug #2**
+**Bug #4**
 - [ ] **Bug Title**: Distance column formatting issue - missing spaces between multiple distances
   - **Date Reported**: 2025-01-27
   - **Reporter**: User
@@ -118,38 +354,42 @@
   - **Related Issues**: Distance data is correctly stored and retrieved, only the display formatting needs fixing
 
 **Bug #3**
-- [ ] **Bug Title**: Incomplete Select All functionality in races table - missing header checkbox
+**Bug #5**
+- [ ] **Bug Title**: Investigate race table checkboxes - determine if bulk selection functionality is needed
   - **Date Reported**: 2025-01-27
   - **Reporter**: Developer
-  - **Severity**: Medium
+  - **Severity**: Low
   - **Status**: Open
-  - **Priority**: P2
-  - **Description**: The races table has Select All functionality but is missing the standard table header checkbox for bulk selection. Users can manually check individual checkboxes and use the "Select All" button, but there's no visual checkbox in the table header to indicate selection state.
+  - **Priority**: P3
+  - **Description**: The races table has individual row checkboxes next to delete buttons, but their purpose and necessity needs investigation. The current implementation may be unnecessary complexity if bulk operations aren't actually needed by users.
   - **Steps to Reproduce**: 
     1. Go to Admin Dashboard → Races
-    2. Observe the races table with individual row checkboxes
-    3. Notice there's no checkbox in the table header (Actions column header)
-    4. Click "Select All" button - races get selected but no visual feedback in header
-    5. Try to deselect all - no header checkbox to uncheck
-  - **Expected Behavior**: Table header should have a checkbox that shows checked when all races are selected, unchecked when none are selected, and indeterminate (dash) when some races are selected. Clicking it should toggle between selecting all and selecting none.
-  - **Actual Behavior**: No header checkbox exists. Users must rely on the "Select All" button and individual checkboxes, which is not the standard UX pattern for data tables.
+    2. Observe individual row checkboxes next to delete buttons
+    3. Notice "Select All" button functionality
+    4. Question whether this bulk selection feature is actually used
+  - **Expected Behavior**: Either:
+    - Remove unnecessary checkboxes if bulk operations aren't needed, OR
+    - Complete the bulk selection functionality if it serves a real purpose
+  - **Actual Behavior**: Checkboxes exist but their purpose is unclear. Users can select multiple races but there's no clear bulk operation workflow.
   - **Environment**: 
-    - **OS**: Windows 10
-    - **Browser**: Any modern browser
-    - **Python Version**: 3.11.9
-    - **Database**: PostgreSQL
-    - **Other Dependencies**: React, TypeScript, FastAPI
-  - **Screenshots/Logs**: Races table showing missing header checkbox
-  - **Suggested Code Locations**:
-    - **Files to investigate**: `web/src/pages/AdminDashboard/AdminRacesPage.tsx`, `web/src/pages/AdminDashboard/BulkBar.tsx`
-    - **Key functions/methods**: `selectAllRaces()`, `clearSelection()`, table header rendering
-    - **Database tables/columns**: N/A (frontend UX issue)
-    - **API endpoints**: N/A (frontend UX issue)
-  - **Assigned To**: Developer
-  - **Notes**: This is a UX bug that affects user experience. The Select All functionality exists but is incomplete without the standard header checkbox pattern. Users expect to see a checkbox in the table header for bulk selection operations.
-  - **Related Issues**: Bulk delete functionality works correctly, individual selection works correctly
+     - **OS**: Windows 10
+     - **Browser**: Any modern browser
+     - **Python Version**: 3.11.9
+     - **Database**: PostgreSQL
+     - **Other Dependencies**: React, TypeScript, FastAPI
+   - **Screenshots/Logs**: Races table showing individual checkboxes
+   - **Suggested Code Locations**:
+     - **Files to investigate**: `web/src/pages/AdminDashboard/AdminRacesPage.tsx`, `web/src/pages/AdminDashboard/BulkBar.tsx`
+     - **Key functions/methods**: `selectAllRaces()`, `clearSelection()`, checkbox rendering
+     - **Database tables/columns**: N/A (frontend UX investigation)
+     - **API endpoints**: N/A (frontend UX investigation)
+   - **Assigned To**: Developer
+   - **Notes**: This is an investigative task to determine if the checkboxes serve a real purpose. If bulk operations aren't needed, removing them would simplify the UI. If they are needed, the functionality should be completed properly.
+   - **Related Issues**: UI simplification, feature necessity investigation
+   - **User Impact**: Low - affects UI cleanliness and potential feature bloat
 
 **Bug #4**
+**Bug #6**
 - [ ] **Bug Title**: Clubs CSV import needs consistent behavior with races and race reports
   - **Date Reported**: 2025-01-27
   - **Reporter**: Developer
@@ -189,6 +429,7 @@
   - **Related Issues**: Races and race reports imports have consistent, advanced functionality
 
 **Bug #5**
+**Bug #7**
 - [ ] **Bug Title**: Races import and race reports import have slight behavioral differences
   - **Date Reported**: 2025-01-27
   - **Reporter**: Developer
@@ -296,6 +537,45 @@
 
 **Bug #8**
 - [ ] **Bug Title**: MD file organization and cleanup needed - obsolete files and poor structure
+
+**Bug #9**
+- [ ] **Bug Title**: Website URL field for manage clubs should allow null values instead of being required
+  - **Date Reported**: 2025-01-27
+  - **Reporter**: Developer
+  - **Severity**: Medium
+  - **Status**: Open
+  - **Priority**: P2
+  - **Description**: The website URL field in the manage clubs screen is currently marked as required, but it should allow null values. Not all clubs have websites, and forcing users to provide a URL creates unnecessary friction and data entry issues.
+  - **Steps to Reproduce**: 
+    1. Go to Admin Dashboard → Clubs
+    2. Click "Add Club" or "Edit Club" on an existing club
+    3. Notice that the website URL field is marked as required
+    4. Try to save without entering a website URL
+    5. Observe validation error requiring website URL
+  - **Expected Behavior**: 
+    1. Website URL field should be optional (not required)
+    2. Users should be able to save clubs without providing a website URL
+    3. Field should accept null/empty values gracefully
+  - **Actual Behavior**: 
+    1. Website URL field is marked as required
+    2. Users cannot save clubs without providing a website URL
+    3. Validation errors occur when field is empty
+  - **Environment**: 
+     - **OS**: Windows 10
+     - **Browser**: Any modern browser
+     - **Python Version**: 3.11.9
+     - **Database**: PostgreSQL
+     - **Other Dependencies**: React, TypeScript, FastAPI
+   - **Screenshots/Logs**: Form validation errors when website URL is empty
+   - **Suggested Code Locations**:
+     - **Files to investigate**: `web/src/components/admin/ClubForm.tsx`, `api/app/models.py`, `api/app/main.py`
+     - **Key functions/methods**: Club form validation, ClubCreate/ClubUpdate models, club creation/update endpoints
+     - **Database tables/columns**: `clubs` table, `official_website_url` column
+     - **API endpoints**: POST `/admin/clubs`, PUT `/admin/clubs/{id}`
+   - **Assigned To**: Developer
+   - **Notes**: This is a data model and validation issue. The website URL should be optional since not all clubs have websites. This affects both frontend validation and backend API validation.
+   - **Related Issues**: Club management, form validation, data model consistency
+   - **User Impact**: Medium - affects club creation and editing workflow
   - **Date Reported**: 2025-01-27
   - **Reporter**: Developer
   - **Severity**: Medium
@@ -415,24 +695,66 @@
   - **Expected Behavior**: Should either create new races with auto-generated IDs OR provide clear error message about missing ID field
   - **Actual Behavior**: ✅ Creates new races with auto-generated IDs - working as intended
   - **Environment**: 
-    - **OS**: Windows 10
-    - **Browser**: Any modern browser
-    - **Python Version**: 3.11.9
-    - **Database**: PostgreSQL
-    - **Other Dependencies**: FastAPI, Pydantic V2, CSV import functionality
-  - **Screenshots/Logs**: CSV file structure and import results
-  - **Suggested Code Locations**:
-    - **Files to investigate**: `web/src/pages/AdminDashboard/ImportCsv/`, `api/app/main.py`, `import_races.py`
-    - **Key functions/methods**: CSV parsing logic, race creation during import
-    - **Database tables/columns**: `races` table, ID generation
-    - **API endpoints**: CSV import endpoints, race creation endpoints
-  - **Assigned To**: Developer
-  - **Notes**: ✅ **RESOLVED**: This is NOT a bug. The system gracefully handles CSV imports without ID field by creating new races with auto-generated IDs. This is intentional, correct behavior that supports both new race creation and existing race updates. Added unit test to verify this behavior.
-  - **Investigation Results**: 
-    - **Frontend**: ID field is optional in CSV parsing
-    - **API**: Smart UPSERT logic - creates new races when no ID, updates existing when ID provided
-    - **Database**: Auto-generates IDs for new races
-    - **Result**: Perfect data integrity with no errors
+     - **OS**: Windows 10
+     - **Browser**: Any modern browser
+     - **Python Version**: 3.11.9
+     - **Database**: PostgreSQL
+     - **Other Dependencies**: FastAPI, Pydantic V2, CSV import functionality
+   - **Screenshots/Logs**: CSV file structure and import results
+   - **Suggested Code Locations**:
+     - **Files to investigate**: `web/src/pages/AdminDashboard/ImportCsv/`, `api/app/main.py`, `import_races.py`
+     - **Key functions/methods**: CSV parsing logic, race creation during import
+     - **Database tables/columns**: `races` table, ID generation
+     - **API endpoints**: CSV import endpoints, race creation endpoints
+   - **Assigned To**: Developer
+   - **Notes**: ✅ **RESOLVED**: This is NOT a bug. The system gracefully handles CSV imports without ID field by creating new races with auto-generated IDs. This is intentional, correct behavior that supports both new race creation and existing race updates. Added unit test to verify this behavior.
+   - **Investigation Results**: 
+     - **Frontend**: ID field is optional in CSV parsing
+     - **API**: Smart UPSERT logic - creates new races when no ID, updates existing when ID provided
+     - **Database**: Auto-generates IDs for new races
+     - **Result**: Perfect data integrity with no errors
+
+**Bug #13**
+- [x] **Bug Title**: Race name field should not have clear button - unnecessary UI element
+  - **Date Reported**: 2025-01-27
+  - **Reporter**: Developer
+  - **Severity**: Low
+  - **Status**: Open
+  - **Priority**: P3
+  - **Description**: The race name field currently has a clear button that is unnecessary and potentially confusing for users. Race names should not be clearable as they are a required field and clearing them would break form validation.
+  - **Steps to Reproduce**: 
+    1. Go to Admin Dashboard → Races
+    2. Click "Add Race" or "Edit Race" on any race
+    3. Observe the race name field has a clear button (X)
+    4. Notice this button is unnecessary since race name is required
+  - **Expected Behavior**: 
+    1. Race name field should not have a clear button
+    2. Field should remain clean and simple
+    3. No unnecessary UI elements that could confuse users
+  - **Actual Behavior**: 
+    1. Race name field displays a clear button (X)
+    2. Button is unnecessary since race name is required
+    3. Could potentially confuse users about field requirements
+  - **Environment**: 
+     - **OS**: Windows 10
+     - **Browser**: Any modern browser
+     - **Python Version**: 3.11.9
+     - **Database**: PostgreSQL
+     - **Other Dependencies**: React, TypeScript, FastAPI
+   - **Screenshots/Logs**: Race name field showing unnecessary clear button
+   - **Suggested Code Locations**:
+     - **Files to investigate**: `web/src/components/RaceForm.tsx`, `web/src/components/admin/CreateRaceModal.tsx`
+     - **Key functions/methods**: Race name field rendering, form field components
+     - **Database tables/columns**: N/A (frontend UI issue)
+     - **API endpoints**: N/A (frontend UI issue)
+   - **Assigned To**: Developer
+   - **Notes**: This is a minor UI cleanup issue. The clear button serves no purpose on a required field and should be removed for cleaner interface design.
+   - **Related Issues**: UI consistency, form field design
+   - **User Impact**: Low - affects visual cleanliness and potential user confusion
+   - **Fix Applied**: 2025-01-27
+   - **Solution**: Added CSS styles to hide browser default clear buttons, added autoComplete="off" and spellCheck="false" attributes to prevent browser interference
+   - **Files Changed**: `web/src/components/RaceForm.tsx`, `tests/013_bug_1_comprehensive_test.py`
+   - **Status**: Fixed
 
 ---
 

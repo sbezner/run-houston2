@@ -1,5 +1,16 @@
 import React, { useState, useEffect } from 'react';
 
+// CSS to hide clear button on race name field
+const raceNameInputStyles = `
+  input[type="text"]::-webkit-search-cancel-button,
+  input[type="text"]::-webkit-search-decoration,
+  input[type="text"]::-webkit-search-results-button,
+  input[type="text"]::-webkit-search-results-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+`;
+
 interface Race {
   id?: number;
   name: string;
@@ -174,8 +185,10 @@ export const RaceForm: React.FC<RaceFormProps> = ({
   const getSubmitButtonColor = () => mode === 'create' ? '#10b981' : '#3b82f6';
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+    <>
+      <style>{raceNameInputStyles}</style>
+      <form onSubmit={handleSubmit}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
         <div>
           {/* Name */}
           <div style={{ marginBottom: '16px' }}>
@@ -186,16 +199,18 @@ export const RaceForm: React.FC<RaceFormProps> = ({
               type="text"
               value={formData.name}
               onChange={(e) => handleInputChange('name', e.target.value)}
-                             style={{
-                 width: '100%',
-                 padding: '10px',
-                 border: `2px solid ${errors.name ? '#ef4444' : '#e5e7eb'}`,
-                 borderRadius: '8px',
-                 fontSize: '14px',
-                 transition: 'border-color 0.2s, box-shadow 0.2s',
-                 boxShadow: errors.name ? '0 0 0 3px rgba(239, 68, 68, 0.1)' : 'none'
-               }}
+              style={{
+                width: '100%',
+                padding: '10px',
+                border: `2px solid ${errors.name ? '#ef4444' : '#e5e7eb'}`,
+                borderRadius: '8px',
+                fontSize: '14px',
+                transition: 'border-color 0.2s, box-shadow 0.2s',
+                boxShadow: errors.name ? '0 0 0 3px rgba(239, 68, 68, 0.1)' : 'none'
+              }}
               placeholder="Enter race name"
+              autoComplete="off"
+              spellCheck="false"
               onFocus={(e) => {
                 if (!errors.name) {
                   e.target.style.borderColor = '#3b82f6';
@@ -791,6 +806,7 @@ export const RaceForm: React.FC<RaceFormProps> = ({
         </button>
       </div>
     </form>
+    </>
   );
 };
 

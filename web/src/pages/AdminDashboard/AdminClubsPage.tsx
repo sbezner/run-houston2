@@ -4,6 +4,8 @@ import { auth } from '../../services/auth';
 import type { Club } from '../../types';
 import { Loading } from '../../components/Loading';
 import { Alert } from '../../components/Alert';
+import { BulkBar } from './BulkBar';
+import { BulkDeleteModal } from './BulkDeleteModal';
 
 export const AdminClubsPage: React.FC = () => {
   const [clubsList, setClubsList] = useState<Club[]>([]);
@@ -11,6 +13,8 @@ export const AdminClubsPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [editingClub, setEditingClub] = useState<Club | null>(null);
   const [showCreateForm, setShowCreateForm] = useState(false);
+  const [selectedClubs, setSelectedClubs] = useState<Set<number>>(new Set());
+  const [showBulkDeleteModal, setShowBulkDeleteModal] = useState(false);
 
   const fetchClubs = async () => {
     try {
@@ -103,6 +107,32 @@ export const AdminClubsPage: React.FC = () => {
     event.target.value = '';
   };
 
+  const handleBulkDelete = async () => {
+    if (selectedClubs.size === 0) return;
+    
+    try {
+      const adminSecret = import.meta.env.VITE_ADMIN_SECRET || 'default-admin-secret';
+      if (!adminSecret) throw new Error('No admin secret configured');
+      
+      for (const clubId of selectedClubs) {
+        await clubs.remove(clubId, adminSecret);
+      }
+      setSelectedClubs(new Set());
+      setShowBulkDeleteModal(false);
+      fetchClubs();
+    } catch (err: any) {
+      setError(err.message || 'Failed to delete selected clubs');
+    }
+  };
+
+  const selectAllClubs = () => {
+    setSelectedClubs(new Set(clubsList.map(c => c.id)));
+  };
+
+  const clearSelection = () => {
+    setSelectedClubs(new Set());
+  };
+
   if (loading) {
     return <Loading />;
   }
@@ -166,6 +196,15 @@ export const AdminClubsPage: React.FC = () => {
         </div>
       </div>
 
+      {/* Bulk Operations Bar */}
+      {selectedClubs.size > 0 && (
+        <BulkBar
+          selectedCount={selectedClubs.size}
+          onClearSelection={clearSelection}
+          onBulkDelete={() => setShowBulkDeleteModal(true)}
+        />
+      )}
+
       {/* Clubs Table */}
       <div style={{ 
         backgroundColor: 'white', 
@@ -176,16 +215,53 @@ export const AdminClubsPage: React.FC = () => {
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
             <tr style={{ backgroundColor: '#f8f9fa' }}>
+              <th style={{ padding: '12px', textAlign: 'center', borderBottom: '1px solid #e9ecef', minWidth: 50 }}>
+                <input
+                  type="checkbox"
+                  checked={selectedClubs.size === clubsList.length && clubsList.length > 0}
+                  ref={(input) => {
+                    if (input) {
+                      input.indeterminate = selectedClubs.size > 0 && selectedClubs.size < clubsList.length;
+                    }
+                  }}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      selectAllClubs();
+                    } else {
+                      clearSelection();
+                    }
+                  }}
+                  style={{ cursor: 'pointer' }}
+                />
+              </th>
+              <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #e9ecef', minWidth: 60 }}>Actions</th>
               <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #e9ecef' }}>ID</th>
               <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #e9ecef' }}>Club Name</th>
               <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #e9ecef' }}>Location</th>
               <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #e9ecef' }}>Website</th>
-              <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #e9ecef' }}>Actions</th>
             </tr>
           </thead>
           <tbody>
             {clubsList.map((club) => (
               <tr key={club.id} style={{ borderBottom: '1px solid #f1f3f4' }}>
+                <td style={{ padding: '12px', textAlign: 'center' }}>
+                  <input
+                    type="checkbox"
+                    checked={selectedClubs.has(club.id)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedClubs(prev => new Set([...prev, club.id]));
+                      } else {
+                        setSelectedClubs(prev => {
+                          const newSet = new Set(prev);
+                          newSet.delete(club.id);
+                          return newSet;
+                        });
+                      }
+                    }}
+                    style={{ cursor: 'pointer' }}
+                  />
+                </td>
                 <td style={{ padding: '12px' }}>{club.id}</td>
                 <td style={{ padding: '12px', fontWeight: '500' }}>{club.club_name}</td>
                 <td style={{ padding: '12px' }}>{club.location || '-'}</td>
@@ -276,6 +352,15 @@ export const AdminClubsPage: React.FC = () => {
             />
           </div>
         </div>
+      )}
+
+      {/* Bulk Delete Modal */}
+      {showBulkDeleteModal && (
+        <BulkDeleteModal
+          selectedCount={selectedClubs.size}
+          onConfirm={handleBulkDelete}
+          onCancel={() => setShowBulkDeleteModal(false)}
+        />
       )}
     </div>
   );

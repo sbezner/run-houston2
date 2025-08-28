@@ -6,6 +6,7 @@ import { EditRaceModal } from './EditRaceModal';
 import { DeleteRaceModal } from './DeleteRaceModal';
 import { CreateRaceModal } from './CreateRaceModal';
 import { BulkBar } from './BulkBar';
+import { BulkDeleteModal } from './BulkDeleteModal';
 import { ImportRacesModal } from './ImportRacesModal';
 import { handleApiError } from '../../utils/apiErrorHandler';
 import type { Race } from '../../types';
@@ -26,6 +27,7 @@ export const AdminRacesPage: React.FC = () => {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [showImportModal, setShowImportModal] = useState(false);
   const [selectedRaces, setSelectedRaces] = useState<Set<number>>(new Set());
+  const [showBulkDeleteModal, setShowBulkDeleteModal] = useState(false);
 
   useEffect(() => {
     fetchAdminRaces();
@@ -34,13 +36,12 @@ export const AdminRacesPage: React.FC = () => {
   const handleBulkDelete = async () => {
     if (selectedRaces.size === 0) return;
     
-    if (!confirm(`Are you sure you want to delete ${selectedRaces.size} selected races?`)) return;
-    
     try {
       for (const raceId of selectedRaces) {
         await deleteRace(raceId);
       }
       setSelectedRaces(new Set());
+      setShowBulkDeleteModal(false);
     } catch (err: any) {
       const errorMessage = handleApiError(err);
       setError(errorMessage);
@@ -173,9 +174,8 @@ export const AdminRacesPage: React.FC = () => {
       {selectedRaces.size > 0 && (
         <BulkBar
           selectedCount={selectedRaces.size}
-          onSelectAll={selectAllRaces}
           onClearSelection={clearSelection}
-          onBulkDelete={handleBulkDelete}
+          onBulkDelete={() => setShowBulkDeleteModal(true)}
         />
       )}
 
@@ -190,6 +190,25 @@ export const AdminRacesPage: React.FC = () => {
           <table style={{ width: '100%', minWidth: 1500, borderCollapse: 'collapse', fontSize: 14 }}>
             <thead style={{ position: 'sticky', top: 0, backgroundColor: '#f8f9fa', zIndex: 10 }}>
               <tr>
+                <th style={{ padding: '12px', textAlign: 'center', borderBottom: '1px solid #e9ecef', minWidth: 50 }}>
+                  <input
+                    type="checkbox"
+                    checked={selectedRaces.size === races.length && races.length > 0}
+                    ref={(input) => {
+                      if (input) {
+                        input.indeterminate = selectedRaces.size > 0 && selectedRaces.size < races.length;
+                      }
+                    }}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        selectAllRaces();
+                      } else {
+                        clearSelection();
+                      }
+                    }}
+                    style={{ cursor: 'pointer' }}
+                  />
+                </th>
                 <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #e9ecef', minWidth: 60 }}>Actions</th>
                 <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #e9ecef', minWidth: 60 }}>ID</th>
                 <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #e9ecef', minWidth: 200 }}>Name</th>
@@ -209,7 +228,7 @@ export const AdminRacesPage: React.FC = () => {
             <tbody>
               {races.length === 0 ? (
                 <tr>
-                  <td colSpan={14} style={{ padding: '20px', textAlign: 'center', color: '#64748b' }}>
+                  <td colSpan={15} style={{ padding: '20px', textAlign: 'center', color: '#64748b' }}>
                     No races to display.
                   </td>
                 </tr>
@@ -219,6 +238,24 @@ export const AdminRacesPage: React.FC = () => {
                     backgroundColor: idx % 2 === 1 ? '#fcfcfd' : '#fff',
                     borderBottom: '1px solid #f1f3f4'
                   }}>
+                    <td style={{ padding: '12px', textAlign: 'center' }}>
+                      <input
+                        type="checkbox"
+                        checked={selectedRaces.has(race.id)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSelectedRaces(prev => new Set([...prev, race.id]));
+                          } else {
+                            setSelectedRaces(prev => {
+                              const newSet = new Set(prev);
+                              newSet.delete(race.id);
+                              return newSet;
+                            });
+                          }
+                        }}
+                        style={{ cursor: 'pointer' }}
+                      />
+                    </td>
                     <td style={{ padding: '12px', whiteSpace: 'nowrap' }}>
                       <div style={{ display: 'flex', gap: '8px' }}>
                         <button
@@ -249,21 +286,6 @@ export const AdminRacesPage: React.FC = () => {
                         >
                           Delete
                         </button>
-                        <input
-                          type="checkbox"
-                          checked={selectedRaces.has(race.id)}
-                          onChange={(e) => {
-                            if (e.target.checked) {
-                              setSelectedRaces(prev => new Set([...prev, race.id]));
-                            } else {
-                              setSelectedRaces(prev => {
-                                const newSet = new Set(prev);
-                                newSet.delete(race.id);
-                                return newSet;
-                              });
-                            }
-                          }}
-                        />
                       </div>
                     </td>
                     <td style={{ padding: '12px' }}>{race.id}</td>
@@ -340,6 +362,15 @@ export const AdminRacesPage: React.FC = () => {
             setShowImportModal(false);
             fetchAdminRaces();
           }}
+        />
+      )}
+
+      {/* Bulk Delete Modal */}
+      {showBulkDeleteModal && (
+        <BulkDeleteModal
+          selectedCount={selectedRaces.size}
+          onConfirm={handleBulkDelete}
+          onCancel={() => setShowBulkDeleteModal(false)}
         />
       )}
     </div>
