@@ -41,8 +41,9 @@ export interface RaceSummary {
 
 export interface RaceReport {
   id: number;
-  race_id: number;
-  race_date: string;  // YYYY-MM-DD format
+  race_id: number | null;  // Can be null for orphaned reports
+  race_name: string;  // Race name stored directly in reports
+  race_date: string;  // User-provided date, always required
   title: string;
   author_name?: string | null;
   content_md: string;

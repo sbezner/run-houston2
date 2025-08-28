@@ -714,7 +714,7 @@ def list_race_reports(
     
     # Build base query
     base_sql = """
-        SELECT rr.id, rr.race_id, rr.race_date, rr.title, rr.author_name, 
+        SELECT rr.id, rr.race_id, rr.race_name, rr.race_date, rr.title, rr.author_name, 
                rr.content_md, rr.photos, rr.created_at, rr.updated_at
     """
     
@@ -729,7 +729,7 @@ def list_race_reports(
     """
     
     if include_race:
-        base_sql += " JOIN races r ON rr.race_id = r.id"
+        base_sql += " LEFT JOIN races r ON rr.race_id = r.id"
     
     # Build WHERE clause
     where_conditions = []
@@ -793,36 +793,38 @@ def list_race_reports(
             report = {
                 "id": str(row[0]),
                 "race_id": row[1],
-                "race_date": row[2].isoformat() if row[2] else None,
-                "title": row[3],
-                "author_name": row[4],
-                "content_md": row[5],
-                "photos": row[6] if row[6] else [],
-                "created_at": row[7].isoformat() if row[7] else None,
-                "updated_at": row[8].isoformat() if row[8] else None,
+                "race_name": row[2],
+                "race_date": row[3].isoformat() if row[3] else None,
+                "title": row[4],
+                "author_name": row[5],
+                "content_md": row[6],
+                "photos": row[7] if row[7] else [],
+                "created_at": row[8].isoformat() if row[8] else None,
+                "updated_at": row[9].isoformat() if row[9] else None,
                 "race": {
-                    "id": row[9],
-                    "name": row[10],
-                    "date": row[11].isoformat() if row[11] else None,
-                    "city": row[12],
-                    "state": row[13],
-                    "surface": row[14],
-                    "latitude": row[15],
-                    "longitude": row[16],
-                    "official_website_url": row[17]
-                }
+                    "id": row[10],
+                    "name": row[11],
+                    "date": row[12].isoformat() if row[12] else None,
+                    "city": row[13],
+                    "state": row[14],
+                    "surface": row[15],
+                    "latitude": row[16],
+                    "longitude": row[17],
+                    "official_website_url": row[18]
+                } if row[10] is not None else None
             }
         else:
             report = {
                 "id": str(row[0]),
                 "race_id": row[1],
-                "race_date": row[2].isoformat() if row[2] else None,
-                "title": row[3],
-                "author_name": row[4],
-                "content_md": row[5],
-                "photos": row[6] if row[6] else [],
-                "created_at": row[7].isoformat() if row[7] else None,
-                "updated_at": row[8].isoformat() if row[8] else None
+                "race_name": row[2],
+                "race_date": row[3].isoformat() if row[3] else None,
+                "title": row[4],
+                "author_name": row[5],
+                "content_md": row[6],
+                "photos": row[7] if row[7] else [],
+                "created_at": row[8].isoformat() if row[8] else None,
+                "updated_at": row[9].isoformat() if row[9] else None
             }
         reports.append(report)
     
@@ -849,7 +851,7 @@ def export_race_reports_csv(
         SELECT rr.id, rr.race_id, r.name as race_name, rr.race_date, rr.title, 
                rr.author_name, rr.content_md, rr.photos
         FROM race_reports rr
-        JOIN races r ON rr.race_id = r.id
+        LEFT JOIN races r ON rr.race_id = r.id
     """
     
     where_conditions = []
@@ -914,7 +916,7 @@ def export_race_reports_csv(
 def get_race_report(report_id: str, include_race: bool = False):
     """Get a single race report by ID."""
     base_sql = """
-        SELECT rr.id, rr.race_id, rr.race_date, rr.title, rr.author_name, 
+        SELECT rr.id, rr.race_id, rr.race_name, rr.race_date, rr.title, rr.author_name, 
                rr.content_md, rr.photos, rr.created_at, rr.updated_at
     """
     
@@ -929,7 +931,7 @@ def get_race_report(report_id: str, include_race: bool = False):
     """
     
     if include_race:
-        base_sql += " JOIN races r ON rr.race_id = r.id"
+        base_sql += " LEFT JOIN races r ON rr.race_id = r.id"
     
     base_sql += " WHERE rr.id = %s"
     
@@ -945,85 +947,69 @@ def get_race_report(report_id: str, include_race: bool = False):
         report = {
             "id": str(row[0]),
             "race_id": row[1],
-            "race_date": row[2].isoformat() if row[2] else None,
-            "title": row[3],
-            "author_name": row[4],
-            "content_md": row[5],
-            "photos": row[6] if row[6] else [],
-            "created_at": row[7].isoformat() if row[7] else None,
-            "updated_at": row[8].isoformat() if row[8] else None,
+            "race_name": row[2],
+            "race_date": row[3].isoformat() if row[3] else None,
+            "title": row[4],
+            "author_name": row[5],
+            "content_md": row[6],
+            "photos": row[7] if row[7] else [],
+            "created_at": row[8].isoformat() if row[8] else None,
+            "updated_at": row[9].isoformat() if row[9] else None,
             "race": {
-                "id": row[9],
-                "name": row[10],
-                "date": row[11].isoformat() if row[11] else None,
-                "city": row[12],
-                "state": row[13],
-                "surface": row[14],
-                "latitude": row[15],
-                "longitude": row[16],
-                "official_website_url": row[17]
-            }
+                "id": row[10],
+                "name": row[11],
+                "date": row[12].isoformat() if row[12] else None,
+                "city": row[13],
+                "state": row[14],
+                "surface": row[15],
+                "latitude": row[16],
+                "longitude": row[17],
+                "official_website_url": row[18]
+            } if row[10] is not None else None
         }
     else:
         report = {
             "id": str(row[0]),
             "race_id": row[1],
-            "race_date": row[2].isoformat() if row[2] else None,
-            "title": row[3],
-            "author_name": row[4],
-            "content_md": row[5],
-            "photos": row[6] if row[6] else [],
-            "created_at": row[7].isoformat() if row[7] else None,
-            "updated_at": row[8].isoformat() if row[8] else None
+            "race_name": row[2],
+            "race_date": row[3].isoformat() if row[3] else None,
+            "title": row[4],
+            "author_name": row[5],
+            "content_md": row[6],
+            "photos": row[7] if row[7] else [],
+            "created_at": row[8].isoformat() if row[8] else None,
+            "updated_at": row[9].isoformat() if row[9] else None
         }
     
     return report
 
-@app.post("/race_reports", response_model=dict)
+@app.post("/race_reports", response_model=dict, status_code=201)
 def create_race_report(report: RaceReportCreate, request: Request):
     """Create a new race report (admin only)."""
     verify_admin_secret(request)
     
-    # Check if race_date is provided (should not be)
-    if hasattr(report, 'race_date'):
-        raise HTTPException(
-            status_code=400,
-            detail="race_date is server managed"
-        )
+    # Handle race_id validation
+    if report.race_id is not None:
+        # Validate that the referenced race exists
+        with get_conn() as conn, conn.cursor() as cur:
+            cur.execute("SELECT date, name FROM races WHERE id = %s", (report.race_id,))
+            race_result = cur.fetchone()
+            
+            if not race_result:
+                raise HTTPException(status_code=400, detail=f"Referenced race ID {report.race_id} not found")
+            
+            # Auto-populate race_name from linked race if not provided
+            if not report.race_name or report.race_name.strip() == '':
+                report.race_name = race_result[1]
     
-    # Get race date from the referenced race
+    # Insert the report
     with get_conn() as conn, conn.cursor() as cur:
-        cur.execute("SELECT date FROM races WHERE id = %s", (report.race_id,))
-        race_result = cur.fetchone()
-        
-        if not race_result:
-            raise HTTPException(status_code=400, detail="Referenced race not found")
-        
-        race_date = race_result[0]
-        if not race_date:
-            raise HTTPException(
-                status_code=400, 
-                detail="Cannot create report for race with no date"
-            )
-        
-        # Check for unique constraint violation
-        cur.execute(
-            "SELECT id FROM race_reports WHERE race_id = %s AND lower(title) = lower(%s)",
-            (report.race_id, report.title)
-        )
-        if cur.fetchone():
-            raise HTTPException(
-                status_code=409,
-                detail="A report with this title already exists for this race"
-            )
-        
-        # Insert the report
         cur.execute("""
-            INSERT INTO race_reports (race_id, race_date, title, author_name, content_md, photos)
-            VALUES (%s, %s, %s, %s, %s, %s)
+            INSERT INTO race_reports (race_id, race_name, race_date, title, author_name, content_md, photos)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
             RETURNING id, created_at, updated_at
         """, (
-            report.race_id, race_date, report.title, report.author_name,
+            report.race_id, report.race_name, report.race_date, report.title, report.author_name,
             report.content_md, report.photos
         ))
         
@@ -1033,7 +1019,8 @@ def create_race_report(report: RaceReportCreate, request: Request):
     return {
         "id": str(result[0]),
         "race_id": report.race_id,
-        "race_date": race_date.isoformat(),
+        "race_name": report.race_name,
+        "race_date": report.race_date.isoformat(),
         "title": report.title,
         "author_name": report.author_name,
         "content_md": report.content_md,
@@ -1047,13 +1034,6 @@ def update_race_report(report_id: str, report: RaceReportUpdate, request: Reques
     """Update a race report (admin only)."""
     verify_admin_secret(request)
     
-    # Check if race_date is provided (should not be)
-    if hasattr(report, 'race_date'):
-        raise HTTPException(
-            status_code=400,
-            detail="race_date is server managed"
-        )
-    
     with get_conn() as conn, conn.cursor() as cur:
         # Check if report exists
         cur.execute("SELECT id, race_id FROM race_reports WHERE id = %s", (report_id,))
@@ -1064,37 +1044,18 @@ def update_race_report(report_id: str, report: RaceReportUpdate, request: Reques
         current_race_id = existing[1]
         new_race_id = report.race_id if report.race_id is not None else current_race_id
         
-        # If race_id is changing, validate the new race has a date
-        if new_race_id != current_race_id:
-            cur.execute("SELECT date FROM races WHERE id = %s", (new_race_id,))
+        # Handle race_id validation
+        if new_race_id is not None:
+            # Validate that the referenced race exists
+            cur.execute("SELECT date, name FROM races WHERE id = %s", (new_race_id,))
             race_result = cur.fetchone()
             
             if not race_result:
-                raise HTTPException(status_code=400, detail="Referenced race not found")
+                raise HTTPException(status_code=400, detail=f"Referenced race ID {new_race_id} not found")
             
-            race_date = race_result[0]
-            if not race_date:
-                raise HTTPException(
-                    status_code=400,
-                    detail="Cannot link report to race with no date"
-                )
-        else:
-            # Get current race date
-            cur.execute("SELECT date FROM races WHERE id = %s", (current_race_id,))
-            race_result = cur.fetchone()
-            race_date = race_result[0] if race_result else None
-        
-        # Check for unique constraint violation if title is changing
-        if report.title is not None:
-            cur.execute(
-                "SELECT id FROM race_reports WHERE race_id = %s AND lower(title) = lower(%s) AND id != %s",
-                (new_race_id, report.title, report_id)
-            )
-            if cur.fetchone():
-                raise HTTPException(
-                    status_code=409,
-                    detail="A report with this title already exists for this race"
-                )
+            # Auto-populate race_name from linked race if race_id is changing and race_name not provided
+            if new_race_id != current_race_id and (report.race_name is None or report.race_name.strip() == ''):
+                report.race_name = race_result[1]
         
         # Build update query
         update_fields = []
@@ -1103,9 +1064,17 @@ def update_race_report(report_id: str, report: RaceReportUpdate, request: Reques
         if report.race_id is not None:
             update_fields.append("race_id = %s")
             params.append(report.race_id)
-            # Update race_date when race_id changes
+        elif report.race_id is None and current_race_id is not None:
+            # Setting race_id to null (orphaning the report)
+            update_fields.append("race_id = NULL")
+        
+        if report.race_name is not None:
+            update_fields.append("race_name = %s")
+            params.append(report.race_name)
+        
+        if report.race_date is not None:
             update_fields.append("race_date = %s")
-            params.append(race_date)
+            params.append(report.race_date)
         
         if report.title is not None:
             update_fields.append("title = %s")
@@ -1260,19 +1229,11 @@ def import_race_reports_csv(
             
             # Validate race_id or resolve by race_name + race_date
             resolved_race_id = None
-            if race_id.strip() and race_id.strip().lower() != 'null':
+            parsed_race_date = None
+            
+            # Parse race_date first
+            if race_date.strip():
                 try:
-                    resolved_race_id = int(race_id.strip())
-                except ValueError:
-                    errors.append(f"Line {line_num}: Invalid race_id format - must be a number")
-                    continue
-            elif race_name.strip() and race_date.strip():
-                # Try to resolve by name and date with flexible date parsing
-                try:
-                    # Parse and normalize the date
-                    parsed_date = None
-                    date_input = race_date.strip()
-                    
                     # Try various date formats
                     date_formats = [
                         '%Y-%m-%d',      # 2025-08-19
@@ -1287,52 +1248,53 @@ def import_race_reports_csv(
                     
                     for fmt in date_formats:
                         try:
-                            parsed_date = datetime.strptime(date_input, fmt)
+                            parsed_race_date = datetime.strptime(race_date.strip(), fmt)
                             break
                         except ValueError:
                             continue
                     
-                    if not parsed_date:
-                        errors.append(f"Line {line_num}: Invalid date format '{date_input}'. Supported formats: YYYY-MM-DD, MM/DD/YYYY, DD/MM/YYYY, etc.")
+                    if not parsed_race_date:
+                        errors.append(f"Line {line_num}: Invalid race_date format '{race_date.strip()}'. Supported formats: YYYY-MM-DD, MM/DD/YYYY, DD/MM/YYYY, etc.")
                         continue
-                    
-                    # Convert to ISO format for database query
-                    iso_date = parsed_date.strftime('%Y-%m-%d')
-                    
-                    with get_conn() as conn, conn.cursor() as cur:
-                        cur.execute(
-                            "SELECT id FROM races WHERE name = %s AND date = %s",
-                            (race_name.strip(), iso_date)
-                        )
-                        race_result = cur.fetchone()
-                        if race_result:
-                            resolved_race_id = race_result[0]
-                        else:
-                            errors.append(f"Line {line_num}: Race not found with name '{race_name.strip()}' and date '{iso_date}' (parsed from '{date_input}')")
-                            continue
                 except Exception as e:
-                    errors.append(f"Line {line_num}: Error resolving race: {str(e)}")
+                    errors.append(f"Line {line_num}: Error parsing race_date: {str(e)}")
                     continue
             else:
-                errors.append(f"Line {line_num}: Must provide either race_id or both race_name and race_date")
+                errors.append(f"Line {line_num}: race_date is required and cannot be empty")
                 continue
             
-            # Check if race has a date
-            try:
-                with get_conn() as conn, conn.cursor() as cur:
-                    cur.execute("SELECT date FROM races WHERE id = %s", (resolved_race_id,))
-                    race_result = cur.fetchone()
-                    if not race_result or not race_result[0]:
-                        errors.append(f"Line {line_num}: Race has no date")
+            # Note: race_id can be null (orphaned report) - no error needed
+            
+            # Validate race_id if provided
+            if race_id.strip() and race_id.strip().lower() != 'null':
+                try:
+                    resolved_race_id = int(race_id.strip())
+                    if resolved_race_id <= 0:
+                        errors.append(f"Line {line_num}: race_id must be a positive number, got {resolved_race_id}")
                         continue
-            except Exception as e:
-                errors.append(f"Line {line_num}: Error checking race date: {str(e)}")
-                continue
+                except ValueError:
+                    errors.append(f"Line {line_num}: Invalid race_id format - must be a number")
+                    continue
+            
+            # Check if race has a date (only if race_id is provided)
+            if resolved_race_id is not None:
+                try:
+                    with get_conn() as conn, conn.cursor() as cur:
+                        cur.execute("SELECT date FROM races WHERE id = %s", (resolved_race_id,))
+                        race_result = cur.fetchone()
+                        if not race_result or not race_result[0]:
+                            errors.append(f"Line {line_num}: Race ID {resolved_race_id} has no date")
+                            continue
+                except Exception as e:
+                    errors.append(f"Line {line_num}: Error checking race date: {str(e)}")
+                    continue
             
             processed_data.append({
                 'line_num': line_num,
                 'csv_id': id.strip(),
                 'race_id': resolved_race_id,
+                'race_name': race_name.strip(),
+                'race_date': parsed_race_date.date(),
                 'title': title.strip(),
                 'author_name': author_name.strip() if author_name.strip() else None,
                 'content_md': content_md.strip(),
@@ -1368,11 +1330,11 @@ def import_race_reports_csv(
                         csv_id_int = int(csv_id.strip())
                         cur.execute("""
                             UPDATE race_reports 
-                            SET race_id = %s, title = %s, author_name = %s, content_md = %s, 
+                            SET race_id = %s, race_name = %s, race_date = %s, title = %s, author_name = %s, content_md = %s, 
                                 photos = %s, updated_at = now()
                             WHERE id = %s
                         """, (
-                            data['race_id'], data['title'], data['author_name'],
+                            data['race_id'], data['race_name'], data['race_date'], data['title'], data['author_name'],
                             data['content_md'], data['photos'], csv_id_int
                         ))
                         
@@ -1380,43 +1342,31 @@ def import_race_reports_csv(
                             updated_count += 1
                         else:
                             # ID doesn't exist, create new
-                            # Get race date
-                            cur.execute("SELECT date FROM races WHERE id = %s", (data['race_id'],))
-                            race_date = cur.fetchone()[0]
-                            
                             cur.execute("""
-                                INSERT INTO race_reports (id, race_id, race_date, title, author_name, content_md, photos)
-                                VALUES (%s, %s, %s, %s, %s, %s, %s)
+                                INSERT INTO race_reports (id, race_id, race_name, race_date, title, author_name, content_md, photos)
+                                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                             """, (
-                                csv_id_int, data['race_id'], race_date, data['title'], 
+                                csv_id_int, data['race_id'], data['race_name'], data['race_date'], data['title'], 
                                 data['author_name'], data['content_md'], data['photos']
                             ))
                             imported_count += 1
                     except ValueError:
                         # Invalid ID format, create new
-                        # Get race date
-                        cur.execute("SELECT date FROM races WHERE id = %s", (data['race_id'],))
-                        race_date = cur.fetchone()[0]
-                        
                         cur.execute("""
-                            INSERT INTO race_reports (race_id, race_date, title, author_name, content_md, photos)
-                            VALUES (%s, %s, %s, %s, %s, %s)
+                            INSERT INTO race_reports (race_id, race_name, race_date, title, author_name, content_md, photos)
+                            VALUES (%s, %s, %s, %s, %s, %s, %s)
                         """, (
-                            data['race_id'], race_date, data['title'], 
+                            data['race_id'], data['race_name'], data['race_date'], data['title'], 
                             data['author_name'], data['content_md'], data['photos']
                         ))
                         imported_count += 1
                 else:
                     # No ID provided, create new report
-                    # Get race date
-                    cur.execute("SELECT date FROM races WHERE id = %s", (data['race_id'],))
-                    race_date = cur.fetchone()[0]
-                    
                     cur.execute("""
-                        INSERT INTO race_reports (race_id, race_date, title, author_name, content_md, photos)
-                        VALUES (%s, %s, %s, %s, %s, %s)
+                        INSERT INTO race_reports (race_id, race_name, race_date, title, author_name, content_md, photos)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s)
                     """, (
-                        data['race_id'], race_date, data['title'], 
+                        data['race_id'], data['race_name'], data['race_date'], data['title'], 
                         data['author_name'], data['content_md'], data['photos']
                     ))
                     imported_count += 1

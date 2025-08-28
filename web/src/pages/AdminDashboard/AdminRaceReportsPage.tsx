@@ -5,6 +5,8 @@ import { Loading } from '../../components/Loading';
 import { Alert } from '../../components/Alert';
 import { RaceReportForm } from '../../components/admin/RaceReportForm';
 import { RaceReportsImportDialog } from '../../components/admin/RaceReportsImportDialog';
+import { BulkBar } from './BulkBar';
+import { BulkDeleteModal } from './BulkDeleteModal';
 
 export const AdminRaceReportsPage: React.FC = () => {
   const [reports, setReports] = useState<RaceReport[]>([]);
@@ -15,24 +17,68 @@ export const AdminRaceReportsPage: React.FC = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showImportDialog, setShowImportDialog] = useState(false);
   const [selectedReport, setSelectedReport] = useState<RaceReport | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [orderBy, setOrderBy] = useState<'created_at' | 'race_date'>('created_at');
-  const [dateFrom, setDateFrom] = useState('');
-  const [dateTo, setDateTo] = useState('');
   const [limit] = useState(50);
   const [offset, setOffset] = useState(0);
   const [total, setTotal] = useState(0);
+  const [selectedReports, setSelectedReports] = useState<Set<number>>(new Set());
+  const [showBulkDeleteModal, setShowBulkDeleteModal] = useState(false);
+  
+  // Sorting state
+  const [sortField, setSortField] = useState<keyof RaceReport | null>(null);
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
 
   const adminSecret = import.meta.env.VITE_ADMIN_SECRET || 'default-admin-secret';
+
+  // Sorting functions
+  const handleSort = (field: keyof RaceReport) => {
+    if (sortField === field) {
+      // Toggle direction if same field
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      // New field, start with ascending
+      setSortField(field);
+      setSortDirection('asc');
+    }
+  };
+
+  const sortReports = (reportsToSort: RaceReport[]) => {
+    if (!sortField) return reportsToSort;
+
+    return [...reportsToSort].sort((a, b) => {
+      let aValue = a[sortField];
+      let bValue = b[sortField];
+
+      // Handle null/undefined values
+      if (aValue === null || aValue === undefined) aValue = '';
+      if (bValue === null || bValue === undefined) bValue = '';
+
+      // Handle different data types
+      if (typeof aValue === 'string' && typeof bValue === 'string') {
+        aValue = aValue.toLowerCase();
+        bValue = bValue.toLowerCase();
+      }
+
+      if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
+      if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
+      return 0;
+    });
+  };
+
+  const getSortableHeaderStyle = (field: keyof RaceReport) => ({
+    padding: '12px',
+    textAlign: 'left' as const,
+    fontSize: '14px',
+    fontWeight: '600',
+    color: '#374151',
+    cursor: 'pointer',
+    userSelect: 'none' as const,
+    transition: 'background-color 0.2s ease'
+  });
 
   const fetchReports = async () => {
     try {
       setLoading(true);
       const response: RaceReportsResponse = await raceReports.list({
-        q: searchQuery || undefined,
-        order_by: orderBy,
-        date_from: dateFrom || undefined,
-        date_to: dateTo || undefined,
         limit,
         offset,
         include_race: true
@@ -49,21 +95,9 @@ export const AdminRaceReportsPage: React.FC = () => {
 
   useEffect(() => {
     fetchReports();
-  }, [searchQuery, orderBy, dateFrom, dateTo, offset]);
+  }, [offset]);
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    setOffset(0);
-    fetchReports();
-  };
 
-  const handleReset = () => {
-    setSearchQuery('');
-    setOrderBy('created_at');
-    setDateFrom('');
-    setDateTo('');
-    setOffset(0);
-  };
 
   const handleCreate = async (reportData: any) => {
     try {
@@ -101,13 +135,32 @@ export const AdminRaceReportsPage: React.FC = () => {
     }
   };
 
+  const handleBulkDelete = async () => {
+    if (selectedReports.size === 0) return;
+    
+    try {
+      for (const reportId of selectedReports) {
+        await raceReports.remove(reportId, adminSecret);
+      }
+      setSelectedReports(new Set());
+      setShowBulkDeleteModal(false);
+      fetchReports();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to delete selected reports');
+    }
+  };
+
+  const selectAllReports = () => {
+    setSelectedReports(new Set(reports.map(r => r.id)));
+  };
+
+  const clearSelection = () => {
+    setSelectedReports(new Set());
+  };
+
   const handleExport = async () => {
     try {
-      const blob = await raceReports.exportCsv({
-        q: searchQuery || undefined,
-        date_from: dateFrom || undefined,
-        date_to: dateTo || undefined
-      }, adminSecret);
+      const blob = await raceReports.exportCsv({}, adminSecret);
       
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -153,48 +206,48 @@ export const AdminRaceReportsPage: React.FC = () => {
         </div>
         
         <div style={{ display: 'flex', gap: '10px' }}>
-          <button
-            onClick={() => setShowImportDialog(true)}
-            style={{
-              padding: '10px 20px',
-              backgroundColor: '#10b981',
-              color: 'white',
-              border: 'none',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              fontSize: '14px'
-            }}
-          >
-            📥 Import CSV
-          </button>
-          <button
-            onClick={handleExport}
-            style={{
-              padding: '10px 20px',
-              backgroundColor: '#8b5cf6',
-              color: 'white',
-              border: 'none',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              fontSize: '14px'
-            }}
-          >
-            📤 Export CSV
-          </button>
-          <button
-            onClick={() => setShowCreateModal(true)}
-            style={{
-              padding: '10px 20px',
-              backgroundColor: '#3b82f6',
-              color: 'white',
-              border: 'none',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              fontSize: '14px'
-            }}
-          >
-            ➕ Add Report
-          </button>
+                     <button
+             onClick={() => setShowImportDialog(true)}
+             style={{
+               padding: '10px 20px',
+               backgroundColor: '#f59e0b',
+               color: 'white',
+               border: 'none',
+               borderRadius: '6px',
+               cursor: 'pointer',
+               fontSize: '14px'
+             }}
+           >
+             📥 Import CSV
+           </button>
+           <button
+             onClick={handleExport}
+             style={{
+               padding: '10px 20px',
+               backgroundColor: '#17a2b8',
+               color: 'white',
+               border: 'none',
+               borderRadius: '6px',
+               cursor: 'pointer',
+               fontSize: '14px'
+             }}
+           >
+             📤 Export CSV
+           </button>
+           <button
+             onClick={() => setShowCreateModal(true)}
+             style={{
+               padding: '10px 20px',
+               backgroundColor: '#10b981',
+               color: 'white',
+               border: 'none',
+               borderRadius: '6px',
+               cursor: 'pointer',
+               fontSize: '14px'
+             }}
+           >
+             ➕ Add Report
+           </button>
         </div>
       </div>
 
@@ -202,99 +255,16 @@ export const AdminRaceReportsPage: React.FC = () => {
         <Alert message={error} type="error" />
       )}
 
-      {/* Search and Filters */}
-      <div style={{ 
-        backgroundColor: 'white', 
-        padding: '20px', 
-        borderRadius: '8px', 
-        boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-        marginBottom: '20px'
-      }}>
-        <form onSubmit={handleSearch} style={{ marginBottom: '15px' }}>
-          <div style={{ display: 'flex', gap: '15px', marginBottom: '15px', flexWrap: 'wrap' }}>
-            <input
-              type="text"
-              placeholder="Search reports..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              style={{
-                flex: 1,
-                minWidth: '200px',
-                padding: '8px 12px',
-                border: '1px solid #d1d5db',
-                borderRadius: '6px',
-                fontSize: '14px'
-              }}
-            />
-            <select
-              value={orderBy}
-              onChange={(e) => setOrderBy(e.target.value as 'created_at' | 'race_date')}
-              style={{
-                padding: '8px 12px',
-                border: '1px solid #d1d5db',
-                borderRadius: '6px',
-                fontSize: '14px'
-              }}
-            >
-              <option value="created_at">Newest First</option>
-              <option value="race_date">Race Date</option>
-            </select>
-            <input
-              type="date"
-              placeholder="From Date"
-              value={dateFrom}
-              onChange={(e) => setDateFrom(e.target.value)}
-              style={{
-                padding: '8px 12px',
-                border: '1px solid #d1d5db',
-                borderRadius: '6px',
-                fontSize: '14px'
-              }}
-            />
-            <input
-              type="date"
-              placeholder="To Date"
-              value={dateTo}
-              onChange={(e) => setDateTo(e.target.value)}
-              style={{
-                padding: '8px 12px',
-                border: '1px solid #d1d5db',
-                borderRadius: '6px',
-                fontSize: '14px'
-              }}
-            />
-            <button
-              type="submit"
-              style={{
-                padding: '8px 16px',
-                backgroundColor: '#3b82f6',
-                color: 'white',
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontSize: '14px'
-              }}
-            >
-              Search
-            </button>
-            <button
-              type="button"
-              onClick={handleReset}
-              style={{
-                padding: '8px 16px',
-                backgroundColor: '#6b7280',
-                color: 'white',
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontSize: '14px'
-              }}
-            >
-              Reset
-            </button>
-          </div>
-        </form>
-      </div>
+      
+
+      {/* Bulk Operations Bar */}
+      {selectedReports.size > 0 && (
+        <BulkBar
+          selectedCount={selectedReports.size}
+          onClearSelection={clearSelection}
+          onBulkDelete={() => setShowBulkDeleteModal(true)}
+        />
+      )}
 
       {/* Reports Grid */}
       {reports.length === 0 ? (
@@ -309,27 +279,27 @@ export const AdminRaceReportsPage: React.FC = () => {
             No reports found
           </h3>
           <p style={{ color: '#6b7280', marginBottom: '20px' }}>
-            {searchQuery || dateFrom || dateTo ? 'Try adjusting your search criteria.' : 'No reports. Click Add report to get started.'}
+            No reports. Click Add report to get started.
           </p>
-          {!searchQuery && !dateFrom && !dateTo && (
-            <button
-              onClick={() => setShowCreateModal(true)}
-              style={{
-                padding: '10px 20px',
-                backgroundColor: '#3b82f6',
-                color: 'white',
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontSize: '14px'
-              }}
-            >
-              Add Report
-            </button>
-          )}
+          <button
+            onClick={() => setShowCreateModal(true)}
+            style={{
+              padding: '10px 20px',
+              backgroundColor: '#3b82f6',
+              color: 'white',
+              border: 'none',
+              borderRadius: '6px',
+              cursor: 'pointer',
+              fontSize: '14px'
+            }}
+          >
+            Add Report
+          </button>
         </div>
       ) : (
         <div>
+          {/* Sort Status Indicator - REMOVED */}
+          
           <div style={{ 
             backgroundColor: 'white', 
             borderRadius: '8px', 
@@ -339,64 +309,191 @@ export const AdminRaceReportsPage: React.FC = () => {
                          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                                <thead>
                   <tr style={{ backgroundColor: '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
+                    <th style={{ padding: '12px', textAlign: 'center', fontSize: '14px', fontWeight: '600', color: '#374151', minWidth: 50 }}>
+                      <input
+                        type="checkbox"
+                        checked={selectedReports.size === reports.length && reports.length > 0}
+                        ref={(input) => {
+                          if (input) {
+                            input.indeterminate = selectedReports.size > 0 && selectedReports.size < reports.length;
+                          }
+                        }}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            selectAllReports();
+                          } else {
+                            clearSelection();
+                          }
+                        }}
+                        style={{ cursor: 'pointer' }}
+                      />
+                    </th>
                     <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', color: '#374151' }}>Actions</th>
-                    <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', color: '#374151' }}>ID</th>
-                    <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', color: '#374151' }}>Race ID</th>
-                    <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', color: '#374151' }}>Race Name</th>
-                    <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', color: '#374151' }}>Race Date</th>
-                    <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', color: '#374151' }}>Title</th>
-                    <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', color: '#374151' }}>Author</th>
-                    <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', color: '#374151' }}>Content Preview</th>
+                    <th 
+                      onClick={() => handleSort('id')}
+                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
+                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = sortField === 'id' ? '#f3f4f6' : 'transparent'}
+                      style={{
+                        ...getSortableHeaderStyle('id'),
+                        backgroundColor: sortField === 'id' ? '#f3f4f6' : 'transparent'
+                      }}
+                    >
+                      ID
+                    </th>
+                    <th 
+                      onClick={() => handleSort('race_id')}
+                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
+                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = sortField === 'race_id' ? '#f3f4f6' : 'transparent'}
+                      style={{
+                        ...getSortableHeaderStyle('race_id'),
+                        backgroundColor: sortField === 'race_id' ? '#f3f4f6' : 'transparent'
+                      }}
+                    >
+                      Race ID
+                    </th>
+                    <th 
+                      onClick={() => handleSort('race_name')}
+                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
+                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = sortField === 'race_name' ? '#f3f4f6' : 'transparent'}
+                      style={{
+                        ...getSortableHeaderStyle('race_name'),
+                        backgroundColor: sortField === 'race_name' ? '#f3f4f6' : 'transparent'
+                      }}
+                    >
+                      Race Name
+                    </th>
+                    <th 
+                      onClick={() => handleSort('race_date')}
+                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
+                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = sortField === 'race_date' ? '#f3f4f6' : 'transparent'}
+                      style={{
+                        ...getSortableHeaderStyle('race_date'),
+                        backgroundColor: sortField === 'race_date' ? '#f3f4f6' : 'transparent'
+                      }}
+                    >
+                      Race Date
+                    </th>
+                    <th 
+                      onClick={() => handleSort('title')}
+                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
+                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = sortField === 'title' ? '#f3f4f6' : 'transparent'}
+                      style={{
+                        ...getSortableHeaderStyle('title'),
+                        backgroundColor: sortField === 'title' ? '#f3f4f6' : 'transparent'
+                      }}
+                    >
+                      Title
+                    </th>
+                    <th 
+                      onClick={() => handleSort('author_name')}
+                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
+                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = sortField === 'author_name' ? '#f3f4f6' : 'transparent'}
+                      style={{
+                        ...getSortableHeaderStyle('author_name'),
+                        backgroundColor: sortField === 'author_name' ? '#f3f4f6' : 'transparent'
+                      }}
+                    >
+                      Author
+                    </th>
+                    <th 
+                      onClick={() => handleSort('content_md')}
+                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
+                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = sortField === 'content_md' ? '#f3f4f6' : 'transparent'}
+                      style={{
+                        ...getSortableHeaderStyle('content_md'),
+                        backgroundColor: sortField === 'content_md' ? '#f3f4f6' : 'transparent'
+                      }}
+                    >
+                      Content Preview
+                    </th>
                     <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', color: '#374151' }}>Photos</th>
-                    <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', color: '#374151' }}>Created</th>
-                    <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', color: '#374151' }}>Updated</th>
+                    <th 
+                      onClick={() => handleSort('created_at')}
+                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
+                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = sortField === 'created_at' ? '#f3f4f6' : 'transparent'}
+                      style={{
+                        ...getSortableHeaderStyle('created_at'),
+                        backgroundColor: sortField === 'created_at' ? '#f3f4f6' : 'transparent'
+                      }}
+                    >
+                      Created
+                    </th>
+                    <th 
+                      onClick={() => handleSort('updated_at')}
+                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
+                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = sortField === 'updated_at' ? '#f3f4f6' : 'transparent'}
+                      style={{
+                        ...getSortableHeaderStyle('updated_at'),
+                        backgroundColor: sortField === 'updated_at' ? '#f3f4f6' : 'transparent'
+                      }}
+                    >
+                      Updated
+                    </th>
                   </tr>
                 </thead>
                <tbody>
-                 {reports.map((report) => (
-                                     <tr key={report.id} style={{ borderBottom: '1px solid #f3f4f6' }}>
-                    <td style={{ padding: '12px', fontSize: '14px' }}>
-                      <div style={{ display: 'flex', gap: '8px' }}>
-                        <button
-                          onClick={() => {
-                            setSelectedReport(report);
-                            setShowEditModal(true);
+                 {sortReports(reports).map((report) => (
+                    <tr key={report.id} style={{ borderBottom: '1px solid #f3f4f6' }}>
+                      <td style={{ padding: '12px', textAlign: 'center' }}>
+                        <input
+                          type="checkbox"
+                          checked={selectedReports.has(report.id)}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setSelectedReports(prev => new Set([...prev, report.id]));
+                            } else {
+                              setSelectedReports(prev => {
+                                const newSet = new Set(prev);
+                                newSet.delete(report.id);
+                                return newSet;
+                              });
+                            }
                           }}
-                          style={{
-                            padding: '6px 12px',
-                            backgroundColor: '#f59e0b',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '4px',
-                            cursor: 'pointer',
-                            fontSize: '12px'
-                          }}
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => {
-                            setSelectedReport(report);
-                            setShowDeleteModal(true);
-                          }}
-                          style={{
-                            padding: '6px 12px',
-                            backgroundColor: '#ef4444',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '4px',
-                            cursor: 'pointer',
-                            fontSize: '12px'
-                          }}
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </td>
+                          style={{ cursor: 'pointer' }}
+                        />
+                      </td>
+                      <td style={{ padding: '12px', fontSize: '14px' }}>
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                                                     <button
+                             onClick={() => {
+                               setSelectedReport(report);
+                               setShowEditModal(true);
+                             }}
+                             style={{
+                               padding: '6px 12px',
+                               backgroundColor: '#007bff',
+                               color: 'white',
+                               border: 'none',
+                               borderRadius: '4px',
+                               cursor: 'pointer',
+                               fontSize: '12px'
+                             }}
+                           >
+                             Edit
+                           </button>
+                          <button
+                            onClick={() => {
+                              setSelectedReport(report);
+                              setShowDeleteModal(true);
+                            }}
+                            style={{
+                              padding: '6px 12px',
+                              backgroundColor: '#ef4444',
+                              color: 'white',
+                              border: 'none',
+                              borderRadius: '4px',
+                              cursor: 'pointer',
+                              fontSize: '12px'
+                            }}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </td>
                     <td style={{ padding: '12px', fontSize: '14px', color: '#6b7280' }}>{report.id}</td>
-                    <td style={{ padding: '12px', fontSize: '14px', color: '#6b7280' }}>{report.race_id}</td>
+                    <td style={{ padding: '12px', fontSize: '14px', color: '#6b7280' }}>{report.race_id || '-'}</td>
                     <td style={{ padding: '12px', fontSize: '14px', color: '#374151' }}>
-                      {report.race?.name || `Race ${report.race_id}`}
+                      {report.race_name}
                     </td>
                     <td style={{ padding: '12px', fontSize: '14px', color: '#374151' }}>
                       {formatDate(report.race_date)}
@@ -574,6 +671,15 @@ export const AdminRaceReportsPage: React.FC = () => {
             setShowImportDialog(false);
             fetchReports();
           }}
+        />
+      )}
+
+      {/* Bulk Delete Modal */}
+      {showBulkDeleteModal && (
+        <BulkDeleteModal
+          selectedCount={selectedReports.size}
+          onConfirm={handleBulkDelete}
+          onCancel={() => setShowBulkDeleteModal(false)}
         />
       )}
     </div>

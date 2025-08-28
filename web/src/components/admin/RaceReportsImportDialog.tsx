@@ -119,6 +119,7 @@ export const RaceReportsImportDialog: React.FC<RaceReportsImportDialogProps> = (
 
       // Parse data rows for preview (skip header row)
       const dataRows = rows.slice(1).slice(0, 10); // Show first 10 rows
+      console.log(`CSV Parse: Found ${rows.length} total rows (${rows.length - 1} data rows)`);
       
       const previewRows = dataRows.map((values) => {
         // Ensure we have enough values
@@ -159,14 +160,73 @@ export const RaceReportsImportDialog: React.FC<RaceReportsImportDialogProps> = (
     let totalUpdated = 0;
 
     try {
-      // Get total rows for progress tracking
+      // Get total rows for progress tracking using the same parsing logic as handleCSVParse
       const content = await csvFile.text();
-      const lines = content.split('\n').filter(line => line.trim());
-      const totalRows = lines.length - 1; // Exclude header
+      const normalizedContent = content.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+      
+      // Parse CSV properly handling quoted fields (same logic as handleCSVParse)
+      const rows: string[][] = [];
+      let currentRow: string[] = [];
+      let currentField = '';
+      let inQuotes = false;
+      let i = 0;
+      
+      while (i < normalizedContent.length) {
+        const char = normalizedContent[i];
+        
+        if (char === '"') {
+          if (inQuotes && i + 1 < normalizedContent.length && normalizedContent[i + 1] === '"') {
+            // Handle escaped quotes
+            currentField += '"';
+            i += 2;
+            continue;
+          }
+          inQuotes = !inQuotes;
+        } else if (char === ',' && !inQuotes) {
+          // End of field
+          currentRow.push(currentField.trim());
+          currentField = '';
+        } else if (char === '\n' && !inQuotes) {
+          // End of row
+          currentRow.push(currentField.trim());
+          if (currentRow.length > 0) {
+            rows.push([...currentRow]);
+          }
+          currentRow = [];
+          currentField = '';
+        } else {
+          currentField += char;
+        }
+        i++;
+      }
+      
+      // Handle last field and row
+      if (currentField.trim() || currentRow.length > 0) {
+        currentRow.push(currentField.trim());
+        if (currentRow.length > 0) {
+          rows.push([...currentRow]);
+        }
+      }
+      
+      const totalRows = Math.max(0, rows.length - 1); // Exclude header
+      console.log(`CSV Import: Parsed ${rows.length} total rows (${totalRows} data rows)`);
       setCommitProgress(prev => ({ ...prev, total: totalRows }));
 
       // Import the file
       const result = await raceReports.importCsv(csvFile, false, adminSecret);
+      console.log('Import response:', result);
+      
+      // Check for validation errors in the response
+      if (result.message && result.message.includes('Import validation failed')) {
+        // Validation failed - show errors
+        if (result.errors && Array.isArray(result.errors)) {
+          setImportErrors(result.errors);
+        } else {
+          setImportErrors([result.message]);
+        }
+        setImportState('error');
+        return;
+      }
       
       // Parse the result message to extract counts
       if (result.message.includes('created') && result.message.includes('updated')) {
@@ -225,7 +285,7 @@ export const RaceReportsImportDialog: React.FC<RaceReportsImportDialogProps> = (
   }, [aborter]);
 
   const downloadTemplate = () => {
-    const csvContent = 'id,race_id,race_name,race_date,title,author_name,content_md,photos\n,1,Example Race,8/19/2025,Example Report,John Doe,## Test,https://example.com/photo1.jpg';
+    const csvContent = 'id,race_id,race_name,race_date,title,author_name,content_md,photos\n,1,Example Race,8/19/2025,Example Report,John Doe,## Test,https://example.com/photo1.jpg\n,,,2025-01-27,Orphaned Report,Jane Smith,## No Race,## Content without race association';
     const blob = new Blob([csvContent], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');

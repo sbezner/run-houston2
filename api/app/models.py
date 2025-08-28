@@ -510,11 +510,40 @@ class RaceSummary(BaseModel):
     official_website_url: Optional[str] = None
 
 class RaceReportBase(BaseModel):
-    race_id: int
+    race_id: Optional[int] = None
+    race_name: str  # Race name stored directly in reports
+    race_date: date  # User-provided date, always required
     title: str
     author_name: Optional[str] = None
     content_md: str
     photos: list[str] = []
+
+    @field_validator('race_id')
+    @classmethod
+    @cached_validation
+    def validate_race_id(cls, v: Optional[int]) -> Optional[int]:
+        # Allow null for orphaned reports
+        if v is not None and v <= 0:
+            raise ValueError('Race ID must be a positive integer if provided')
+        return v
+
+    @field_validator('race_name')
+    @classmethod
+    @cached_validation
+    def validate_race_name(cls, v: str) -> str:
+        if not v or not v.strip():
+            raise ValueError('Race name is required')
+        if len(v.strip()) > 120:
+            raise ValueError('Race name must be less than 120 characters')
+        return v.strip()
+
+    @field_validator('race_date')
+    @classmethod
+    @cached_validation
+    def validate_race_date(cls, v: date) -> date:
+        if not v:
+            raise ValueError('Race date is required')
+        return v
 
     @field_validator('title')
     @classmethod
@@ -570,10 +599,43 @@ class RaceReportCreate(RaceReportBase):
 
 class RaceReportUpdate(BaseModel):
     race_id: Optional[int] = None
+    race_name: Optional[str] = None
+    race_date: Optional[date] = None
     title: Optional[str] = None
     author_name: Optional[str] = None
     content_md: Optional[str] = None
     photos: Optional[list[str]] = None
+
+    @field_validator('race_id')
+    @classmethod
+    @cached_validation
+    def validate_race_id(cls, v: Optional[int]) -> Optional[int]:
+        # Allow null for orphaned reports
+        if v is not None and v <= 0:
+            raise ValueError('Race ID must be a positive integer if provided')
+        return v
+
+    @field_validator('race_name')
+    @classmethod
+    @cached_validation
+    def validate_race_name(cls, v: Optional[str]) -> Optional[str]:
+        if v is not None:
+            if not v or not v.strip():
+                raise ValueError('Race name is required')
+            if len(v.strip()) > 120:
+                raise ValueError('Race name must be less than 120 characters')
+            return v.strip()
+        return v
+
+    @field_validator('race_date')
+    @classmethod
+    @cached_validation
+    def validate_race_date(cls, v: Optional[date]) -> Optional[date]:
+        if v is not None:
+            if not v:
+                raise ValueError('Race date is required')
+            return v
+        return v
 
     @field_validator('title')
     @classmethod
@@ -631,8 +693,8 @@ class RaceReportUpdate(BaseModel):
 
 class RaceReportResponse(BaseModel):
     id: int
-    race_id: int
-    race_date: str  # YYYY-MM-DD format
+    race_id: Optional[int]  # Can be null for orphaned reports
+    race_date: Optional[str] = None  # Can be null for orphaned reports
     title: str
     author_name: Optional[str] = None
     content_md: str
