@@ -183,6 +183,7 @@ def main():
     print(f"   • API Endpoints (Clubs, Races, Race Reports)")
     print(f"   • Frontend-Backend Validation")
     print(f"   • 🔐 Authentication Fixes (Admin Secret)")
+    print(f"   • 🏃 Bug #1 Race Reports (Comprehensive)")
     print(f"Frontend Tests: {'✅ PASSED' if frontend_success else '❌ FAILED'}")
     
     print("\n" + "=" * 50)

@@ -258,5 +258,9 @@ def main():
     print("\nSmoke test completed!")
 
 if __name__ == "__main__":
-    success = main()
-    sys.exit(0 if success else 1)
+    try:
+        main()
+        sys.exit(0)  # Exit with success if no exceptions
+    except Exception as e:
+        print(f"Test failed with exception: {e}")
+        sys.exit(1)  # Exit with failure if exception occurs

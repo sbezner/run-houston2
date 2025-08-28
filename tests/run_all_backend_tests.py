@@ -55,7 +55,8 @@ def main():
         ("004_csv_import_integration_test.py", "CSV Import Integration Test - Good Coverage"),
         ("005_frontend_validation_test.py", "Frontend-Backend Validation Test - Good Coverage"),
         ("008_simplified_critical_tests.py", "Simplified Critical Tests - PostGIS & Coordinates"),
-        ("009_authentication_fixes_test.py", "Authentication Fixes Test - Admin Secret Consistency")
+        ("009_authentication_fixes_test.py", "Authentication Fixes Test - Admin Secret Consistency"),
+        ("013_bug_1_comprehensive_test.py", "Bug #1 Race Reports Comprehensive Test - Full Coverage")
     ]
     
     passed = 0

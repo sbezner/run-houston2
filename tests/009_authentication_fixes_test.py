@@ -293,21 +293,21 @@ def run_authentication_tests():
         try:
             print(f"Testing: {test_method}")
             getattr(test_instance, test_method)()
-            print(f"✅ {test_method} - PASSED")
+            print(f"PASS {test_method} - PASSED")
             passed += 1
         except Exception as e:
-            print(f"❌ {test_method} - FAILED: {str(e)}")
+            print(f"FAIL {test_method} - FAILED: {str(e)}")
             failed += 1
             errors.append(f"{test_method}: {str(e)}")
     
     print("=" * 50)
-    print(f"📊 Test Results:")
-    print(f"   ✅ Passed: {passed}")
-    print(f"   ❌ Failed: {failed}")
-    print(f"   📈 Success Rate: {(passed/(passed+failed)*100):.1f}%")
+    print(f"Test Results:")
+    print(f"   PASS Passed: {passed}")
+    print(f"   FAIL Failed: {failed}")
+    print(f"   Success Rate: {(passed/(passed+failed)*100):.1f}%")
     
     if failed > 0:
-        print(f"\n🚨 Failed Tests:")
+        print(f"\nFailed Tests:")
         for error in errors:
             print(f"   - {error}")
     
@@ -318,12 +318,12 @@ if __name__ == "__main__":
     try:
         response = requests.get(f"{BASE_URL}/docs")
         if response.status_code == 200:
-            print("✅ Backend is running, starting tests...")
+            print("PASS Backend is running, starting tests...")
             run_authentication_tests()
         else:
-            print("❌ Backend is not responding properly")
+            print("FAIL Backend is not responding properly")
     except requests.exceptions.ConnectionError:
-        print("❌ Cannot connect to backend. Make sure it's running on http://localhost:8000")
+        print("FAIL Cannot connect to backend. Make sure it's running on http://localhost:8000")
         print("   Run: docker-compose up -d")
     except Exception as e:
-        print(f"❌ Error checking backend: {e}")
+        print(f"FAIL Error checking backend: {e}")
