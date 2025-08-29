@@ -7,7 +7,11 @@ import { Alert } from '../../components/Alert';
 import { BulkBar } from './BulkBar';
 import { BulkDeleteModal } from './BulkDeleteModal';
 
-export const AdminClubsPage: React.FC = () => {
+interface AdminClubsPageProps {
+  onTokenExpiration: () => void;
+}
+
+export const AdminClubsPage: React.FC<AdminClubsPageProps> = ({ onTokenExpiration }) => {
   const [clubsList, setClubsList] = useState<Club[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -18,13 +22,24 @@ export const AdminClubsPage: React.FC = () => {
 
   const fetchClubs = async () => {
     try {
-      const adminSecret = import.meta.env.VITE_ADMIN_SECRET || 'default-admin-secret';
-      if (!adminSecret) throw new Error('No admin secret configured');
+      const token = auth.getToken();
+      if (!token) {
+        if (onTokenExpiration) {
+          onTokenExpiration();
+        } else {
+          setError('No authentication token');
+        }
+        return;
+      }
       
-      const data = await clubs.adminList(adminSecret);
+      const data = await clubs.adminList(token);
       setClubsList(data);
     } catch (err: any) {
-      setError(err.message || 'Failed to fetch clubs');
+      if (err.message.includes('Your session has expired') && onTokenExpiration) {
+        onTokenExpiration();
+      } else {
+        setError(err.message || 'Failed to fetch clubs');
+      }
     } finally {
       setLoading(false);
     }
@@ -36,14 +51,25 @@ export const AdminClubsPage: React.FC = () => {
 
   const handleCreateClub = async (clubData: Partial<Club>) => {
     try {
-      const adminSecret = import.meta.env.VITE_ADMIN_SECRET || 'default-admin-secret';
-      if (!adminSecret) throw new Error('No admin secret configured');
+      const token = auth.getToken();
+      if (!token) {
+        if (onTokenExpiration) {
+          onTokenExpiration();
+        } else {
+          setError('No authentication token');
+        }
+        return;
+      }
       
-      await clubs.create(clubData, adminSecret);
+      await clubs.create(clubData, token);
       setShowCreateForm(false);
       fetchClubs();
     } catch (err: any) {
-      setError(err.message || 'Failed to create club');
+      if (err.message.includes('Your session has expired') && onTokenExpiration) {
+        onTokenExpiration();
+      } else {
+        setError(err.message || 'Failed to create club');
+      }
     }
   };
 
@@ -51,39 +77,82 @@ export const AdminClubsPage: React.FC = () => {
     if (!editingClub) return;
     
     try {
-      const adminSecret = import.meta.env.VITE_ADMIN_SECRET || 'default-admin-secret';
-      if (!adminSecret) throw new Error('No admin secret configured');
+      const token = auth.getToken();
+      if (!token) {
+        if (onTokenExpiration) {
+          onTokenExpiration();
+        } else {
+          setError('No authentication token');
+        }
+        return;
+      }
       
-      await clubs.update(editingClub.id, clubData, adminSecret);
+      await clubs.update(editingClub.id, clubData, token);
       setEditingClub(null);
       fetchClubs();
     } catch (err: any) {
-      setError(err.message || 'Failed to update club');
+      if (err.message.includes('Your session has expired') && onTokenExpiration) {
+        onTokenExpiration();
+      } else {
+        setError(err.message || 'Failed to update club');
+      }
     }
   };
 
   const handleDeleteClub = async (clubId: number) => {
-    if (!confirm('Are you sure you want to delete this club?')) return;
+    if (!confirm('Are you sure you want to delete this club?')) {
+      return;
+    }
     
     try {
-      const adminSecret = import.meta.env.VITE_ADMIN_SECRET || 'default-admin-secret';
-      if (!adminSecret) throw new Error('No admin secret configured');
+      const token = auth.getToken();
+      if (!token) {
+        if (onTokenExpiration) {
+          onTokenExpiration();
+        } else {
+          setError('No authentication token');
+        }
+        return;
+      }
       
-      await clubs.remove(clubId, adminSecret);
+      await clubs.remove(clubId, token);
       fetchClubs();
     } catch (err: any) {
-      setError(err.message || 'Failed to delete club');
+      if (err.message.includes('Your session has expired') && onTokenExpiration) {
+        onTokenExpiration();
+      } else {
+        setError(err.message || 'Failed to delete club');
+      }
     }
   };
 
   const handleExportCsv = async () => {
     try {
-      const adminSecret = import.meta.env.VITE_ADMIN_SECRET || 'default-admin-secret';
-      if (!adminSecret) throw new Error('No admin secret configured');
+      const token = auth.getToken();
+      if (!token) {
+        if (onTokenExpiration) {
+          onTokenExpiration();
+        } else {
+          setError('No authentication token');
+        }
+        return;
+      }
       
-      await clubs.exportCsv(adminSecret);
+      const blob = await clubs.exportCsv(token);
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'clubs.csv';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
     } catch (err: any) {
-      setError(err.message || 'Failed to export CSV');
+      if (err.message.includes('Your session has expired') && onTokenExpiration) {
+        onTokenExpiration();
+      } else {
+        setError(err.message || 'Failed to export CSV');
+      }
     }
   };
 
@@ -92,15 +161,26 @@ export const AdminClubsPage: React.FC = () => {
     if (!file) return;
     
     try {
-      const adminSecret = import.meta.env.VITE_ADMIN_SECRET || 'default-admin-secret';
-      if (!adminSecret) throw new Error('No admin secret configured');
+      const token = auth.getToken();
+      if (!token) {
+        if (onTokenExpiration) {
+          onTokenExpiration();
+        } else {
+          setError('No authentication token');
+        }
+        return;
+      }
       
-      await clubs.importCsv(file, adminSecret);
+      await clubs.importCsv(file, token);
       setError(null);
       fetchClubs(); // Refresh the list
       alert('CSV imported successfully!');
     } catch (err: any) {
-      setError(err.message || 'Failed to import CSV');
+      if (err.message.includes('Your session has expired') && onTokenExpiration) {
+        onTokenExpiration();
+      } else {
+        setError(err.message || 'Failed to import CSV');
+      }
     }
     
     // Reset the file input
@@ -111,11 +191,18 @@ export const AdminClubsPage: React.FC = () => {
     if (selectedClubs.size === 0) return;
     
     try {
-      const adminSecret = import.meta.env.VITE_ADMIN_SECRET || 'default-admin-secret';
-      if (!adminSecret) throw new Error('No admin secret configured');
+      const token = auth.getToken();
+      if (!token) {
+        if (onTokenExpiration) {
+          onTokenExpiration();
+        } else {
+          setError('No authentication token');
+        }
+        return;
+      }
       
       for (const clubId of selectedClubs) {
-        await clubs.remove(clubId, adminSecret);
+        await clubs.remove(clubId, token);
       }
       setSelectedClubs(new Set());
       setShowBulkDeleteModal(false);
@@ -133,6 +220,19 @@ export const AdminClubsPage: React.FC = () => {
     setSelectedClubs(new Set());
   };
 
+  const checkAuthAndOpenEdit = (club: Club) => {
+    const token = auth.getToken();
+    if (!token) {
+      if (onTokenExpiration) {
+        onTokenExpiration();
+      } else {
+        setError('No authentication token');
+      }
+      return;
+    }
+    setEditingClub(club);
+  };
+
   if (loading) {
     return <Loading />;
   }
@@ -146,7 +246,18 @@ export const AdminClubsPage: React.FC = () => {
         <h2 style={{ fontSize: '24px', margin: 0, color: '#333' }}>🏃‍♂️ Manage Clubs</h2>
         <div style={{ display: 'flex', gap: '10px' }}>
           <button
-            onClick={() => setShowCreateForm(true)}
+            onClick={() => {
+              const token = auth.getToken();
+              if (!token) {
+                if (onTokenExpiration) {
+                  onTokenExpiration();
+                } else {
+                  setError('No authentication token');
+                }
+                return;
+              }
+              setShowCreateForm(true);
+            }}
             style={{
               padding: '10px 20px',
               backgroundColor: '#10b981',
@@ -159,7 +270,23 @@ export const AdminClubsPage: React.FC = () => {
           >
             ➕ Add Club
           </button>
-          <label
+          <button
+            onClick={() => {
+              const token = auth.getToken();
+              if (!token) {
+                if (onTokenExpiration) {
+                  onTokenExpiration();
+                } else {
+                  setError('No authentication token');
+                }
+                return;
+              }
+              // Programmatically trigger the file input
+              const fileInput = document.getElementById('csv-file-input') as HTMLInputElement;
+              if (fileInput) {
+                fileInput.click();
+              }
+            }}
             style={{
               padding: '10px 20px',
               backgroundColor: '#f59e0b',
@@ -167,20 +294,31 @@ export const AdminClubsPage: React.FC = () => {
               border: 'none',
               borderRadius: '6px',
               cursor: 'pointer',
-              fontSize: '14px',
-              display: 'inline-block'
+              fontSize: '14px'
             }}
           >
             📥 Import CSV
-            <input
-              type="file"
-              accept=".csv"
-              onChange={handleImportCsv}
-              style={{ display: 'none' }}
-            />
-          </label>
+          </button>
+          <input
+            id="csv-file-input"
+            type="file"
+            accept=".csv"
+            onChange={handleImportCsv}
+            style={{ display: 'none' }}
+          />
           <button
-            onClick={handleExportCsv}
+            onClick={() => {
+              const token = auth.getToken();
+              if (!token) {
+                if (onTokenExpiration) {
+                  onTokenExpiration();
+                } else {
+                  setError('No authentication token');
+                }
+                return;
+              }
+              handleExportCsv();
+            }}
             style={{
               padding: '10px 20px',
               backgroundColor: '#17a2b8',
@@ -201,7 +339,18 @@ export const AdminClubsPage: React.FC = () => {
         <BulkBar
           selectedCount={selectedClubs.size}
           onClearSelection={clearSelection}
-          onBulkDelete={() => setShowBulkDeleteModal(true)}
+          onBulkDelete={() => {
+            const token = auth.getToken();
+            if (!token) {
+              if (onTokenExpiration) {
+                onTokenExpiration();
+              } else {
+                setError('No authentication token');
+              }
+              return;
+            }
+            setShowBulkDeleteModal(true);
+          }}
         />
       )}
 
@@ -265,24 +414,40 @@ export const AdminClubsPage: React.FC = () => {
                 <td style={{ padding: '12px' }}>{club.id}</td>
                 <td style={{ padding: '12px', fontWeight: '500' }}>{club.club_name}</td>
                 <td style={{ padding: '12px' }}>{club.location || '-'}</td>
-                <td style={{ padding: '12px' }}>
-                  {club.website_url ? (
-                    <a 
-                      href={club.website_url} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      style={{ color: '#007AFF', textDecoration: 'none' }}
-                    >
-                      🌐 Visit
-                    </a>
-                  ) : (
-                    '-'
-                  )}
-                </td>
+                                 <td style={{ padding: '12px' }}>
+                   {club.website_url ? (
+                     <button
+                       onClick={() => {
+                         const token = auth.getToken();
+                         if (!token) {
+                           if (onTokenExpiration) {
+                             onTokenExpiration();
+                           } else {
+                             setError('No authentication token');
+                           }
+                           return;
+                         }
+                         window.open(club.website_url, '_blank', 'noopener,noreferrer');
+                       }}
+                       style={{ 
+                         color: '#007AFF', 
+                         textDecoration: 'none',
+                         background: 'none',
+                         border: 'none',
+                         cursor: 'pointer',
+                         fontSize: '14px'
+                       }}
+                     >
+                       🌐 Visit
+                     </button>
+                   ) : (
+                     '-'
+                   )}
+                 </td>
                 <td style={{ padding: '12px' }}>
                   <div style={{ display: 'flex', gap: '8px' }}>
                     <button
-                      onClick={() => setEditingClub(club)}
+                      onClick={() => checkAuthAndOpenEdit(club)}
                       style={{
                         padding: '6px 12px',
                         backgroundColor: '#007AFF',
@@ -296,7 +461,18 @@ export const AdminClubsPage: React.FC = () => {
                       ✏️ Edit
                     </button>
                     <button
-                      onClick={() => handleDeleteClub(club.id)}
+                      onClick={() => {
+                        const token = auth.getToken();
+                        if (!token) {
+                          if (onTokenExpiration) {
+                            onTokenExpiration();
+                          } else {
+                            setError('No authentication token');
+                          }
+                          return;
+                        }
+                        handleDeleteClub(club.id);
+                      }}
                       style={{
                         padding: '6px 12px',
                         backgroundColor: '#dc3545',

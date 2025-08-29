@@ -1,8 +1,17 @@
 import { API_BASE } from '../config';
 import type { Club } from '../types';
+import { networkValidator } from './networkValidator';
 
 export const api = {
   get: async (endpoint: string, token?: string) => {
+    // For admin endpoints, validate network connectivity
+    if (token && endpoint.startsWith('/admin')) {
+      const hasNetwork = await networkValidator.validateNetworkForAdmin();
+      if (!hasNetwork) {
+        throw new Error('Network connectivity required for admin operations. Please check your internet connection and try again.');
+      }
+    }
+
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
     };
@@ -27,6 +36,14 @@ export const api = {
   },
   
   post: async (endpoint: string, data: any, token?: string) => {
+    // For admin endpoints, validate network connectivity
+    if (token && endpoint.startsWith('/admin')) {
+      const hasNetwork = await networkValidator.validateNetworkForAdmin();
+      if (!hasNetwork) {
+        throw new Error('Network connectivity required for admin operations. Please check your internet connection and try again.');
+      }
+    }
+
     const headers: Record<string, string> = {};
     
     // Don't set Content-Type for FormData (browser will set it with boundary)
@@ -58,6 +75,14 @@ export const api = {
   },
   
   put: async (endpoint: string, data: any, token?: string) => {
+    // For admin endpoints, validate network connectivity
+    if (token && endpoint.startsWith('/admin')) {
+      const hasNetwork = await networkValidator.validateNetworkForAdmin();
+      if (!hasNetwork) {
+        throw new Error('Network connectivity required for admin operations. Please check your internet connection and try again.');
+      }
+    }
+
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
     };
@@ -84,6 +109,14 @@ export const api = {
   },
   
   delete: async (endpoint: string, token?: string) => {
+    // For admin endpoints, validate network connectivity
+    if (token && endpoint.startsWith('/admin')) {
+      const hasNetwork = await networkValidator.validateNetworkForAdmin();
+      if (!hasNetwork) {
+        throw new Error('Network connectivity required for admin operations. Please check your internet connection and try again.');
+      }
+    }
+
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
     };
@@ -128,65 +161,37 @@ export const api = {
 
 export const clubs = {
   list: () => api.get('/clubs'),
-  adminList: (adminSecret: string) => {
-    const headers = { 'X-Admin-Secret': adminSecret };
-    return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}/admin/clubs`, {
-      method: 'GET',
-      headers,
-    }).then(res => {
-      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-      return res.json();
-    });
-  },
-  create: (body: Partial<Club>, adminSecret: string) => {
-    const headers = { 'X-Admin-Secret': adminSecret };
-    return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}/clubs`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', ...headers },
-      body: JSON.stringify(body),
-    }).then(res => {
-      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-      return res.json();
-    });
-  },
-  update: (id: number, body: Partial<Club>, adminSecret: string) => {
-    const headers = { 'X-Admin-Secret': adminSecret };
-    return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}/clubs/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json', ...headers },
-      body: JSON.stringify(body),
-    }).then(res => {
-      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-      return res.json();
-    });
-  },
-  remove: (id: number, adminSecret: string) => {
-    const headers = { 'X-Admin-Secret': adminSecret };
-    return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}/clubs/${id}`, {
-      method: 'DELETE',
-      headers,
-    }).then(res => {
-      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-      return res.json();
-    });
-  },
-  exportCsv: (adminSecret: string) => {
-    const headers = { 'X-Admin-Secret': adminSecret };
+  adminList: (token: string) => api.get('/admin/clubs', token),
+  create: (body: Partial<Club>, token: string) => api.post('/clubs', body, token),
+  update: (id: number, body: Partial<Club>, token: string) => api.put(`/clubs/${id}`, body, token),
+  remove: (id: number, token: string) => api.delete(`/clubs/${id}`, token),
+  exportCsv: async (token: string) => {
+    // Validate network connectivity before CSV export
+    const hasNetwork = await networkValidator.validateNetworkForAdmin();
+    if (!hasNetwork) {
+      throw new Error('Network connectivity required for admin operations. Please check your internet connection and try again.');
+    }
+    
     return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}/admin/clubs/export-csv`, {
       method: 'GET',
-      headers,
+      headers: { 'Authorization': `Bearer ${token}` },
     }).then(res => {
       if (!res.ok) throw new Error(`Export failed with status ${res.status}`);
       return res.blob();
     });
   },
-  importCsv: (file: File, adminSecret: string) => {
+  importCsv: async (file: File, token: string) => {
+    // Validate network connectivity before CSV import
+    const hasNetwork = await networkValidator.validateNetworkForAdmin();
+    if (!hasNetwork) {
+      throw new Error('Network connectivity required for admin operations. Please check your internet connection and try again.');
+    }
+    
     const formData = new FormData();
     formData.append('file', file);
-    const headers = { 'X-Admin-Secret': adminSecret };
     return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}/admin/clubs/import-csv`, {
       method: 'POST',
-      headers,
+      headers: { 'Authorization': `Bearer ${token}` },
       body: formData,
     }).then(res => {
       if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
@@ -226,47 +231,22 @@ export const raceReports = {
     return api.get(endpoint);
   },
   
-  create: (body: any, adminSecret: string) => {
-    const headers = { 'X-Admin-Secret': adminSecret };
-    return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}/race_reports`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', ...headers },
-      body: JSON.stringify(body),
-    }).then(res => {
-      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-      return res.json();
-    });
-  },
+  create: (body: any, token: string) => api.post('/race_reports', body, token),
+  update: (id: number, body: any, token: string) => api.put(`/race_reports/${id}`, body, token),
+  remove: (id: number, token: string) => api.delete(`/race_reports/${id}`, token),
   
-  update: (id: number, body: any, adminSecret: string) => {
-    const headers = { 'X-Admin-Secret': adminSecret };
-    return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}/race_reports/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json', ...headers },
-      body: JSON.stringify(body),
-    }).then(res => {
-      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-      return res.json();
-    });
-  },
-  
-  remove: (id: number, adminSecret: string) => {
-    const headers = { 'X-Admin-Secret': adminSecret };
-    return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}/race_reports/${id}`, {
-      method: 'DELETE',
-      headers,
-    }).then(res => {
-      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-      return res.json();
-    });
-  },
-  
-  exportCsv: (params?: {
+  exportCsv: async (token: string, params?: {
     race_id?: number;
     q?: string;
     date_from?: string;
     date_to?: string;
-  }, adminSecret?: string) => {
+  }) => {
+    // Validate network connectivity before CSV export
+    const hasNetwork = await networkValidator.validateNetworkForAdmin();
+    if (!hasNetwork) {
+      throw new Error('Network connectivity required for admin operations. Please check your internet connection and try again.');
+    }
+    
     const searchParams = new URLSearchParams();
     if (params?.race_id) searchParams.append('race_id', params.race_id.toString());
     if (params?.q) searchParams.append('q', params.q);
@@ -276,16 +256,11 @@ export const raceReports = {
     const queryString = searchParams.toString();
     const endpoint = queryString ? `/race_reports/export.csv?${queryString}` : '/race_reports/export.csv';
     
-    const headers: Record<string, string> = {};
-    if (adminSecret) {
-      headers['X-Admin-Secret'] = adminSecret;
-    }
-    
     const fullUrl = `${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}${endpoint}`;
     
     return fetch(fullUrl, {
       method: 'GET',
-      headers,
+      headers: { 'Authorization': `Bearer ${token}` },
     }).then(res => {
       if (!res.ok) {
         // Try to get error details from response
@@ -302,18 +277,20 @@ export const raceReports = {
     });
   },
   
-  importCsv: (file: File, dryRun: boolean = true, adminSecret?: string) => {
+  importCsv: async (file: File, dryRun: boolean = true, token: string) => {
+    // Validate network connectivity before CSV import
+    const hasNetwork = await networkValidator.validateNetworkForAdmin();
+    if (!hasNetwork) {
+      throw new Error('Network connectivity required for admin operations. Please check your internet connection and try again.');
+    }
+    
     const formData = new FormData();
     formData.append('file', file);
     formData.append('dry_run', dryRun.toString());
     
-    const headers: Record<string, string> = {};
-    if (adminSecret) {
-      headers['X-Admin-Secret'] = adminSecret;
-    }
     return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}/admin/race_reports/import?dry_run=${dryRun}`, {
       method: 'POST',
-      headers,
+      headers: { 'Authorization': `Bearer ${token}` },
       body: formData,
     }).then(res => {
       if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
@@ -324,50 +301,24 @@ export const raceReports = {
 
 export const races = {
   list: () => api.get('/races'),
+  adminList: (token: string) => api.get('/admin/races', token),
   getById: (id: number) => api.get(`/races/${id}`),
-  create: (body: any, adminSecret: string) => {
-    const headers = { 'X-Admin-Secret': adminSecret };
-    return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}/races`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', ...headers },
-      body: JSON.stringify(body),
-    }).then(res => {
-      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-      return res.json();
-    });
-  },
-  update: (id: number, body: any, adminSecret: string) => {
-    const headers = { 'X-Admin-Secret': adminSecret };
-    return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}/races/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json', ...headers },
-      body: JSON.stringify(body),
-    }).then(res => {
-      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-      return res.json();
-    });
-  },
-  remove: (id: number, adminSecret: string) => {
-    const headers = { 'X-Admin-Secret': adminSecret };
-    return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}/races/${id}`, {
-      method: 'DELETE',
-      headers,
-    }).then(res => {
-      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-      return res.json();
-    });
-  },
-  importCsv: (file: File, adminSecret: string) => {
+  create: (body: any, token: string) => api.post('/races', body, token),
+  update: (id: number, body: any, token: string) => api.put(`/races/${id}`, body, token),
+  remove: (id: number, token: string) => api.delete(`/races/${id}`, token),
+  importCsv: async (file: File, token: string) => {
+    // Validate network connectivity before CSV import
+    const hasNetwork = await networkValidator.validateNetworkForAdmin();
+    if (!hasNetwork) {
+      throw new Error('Network connectivity required for admin operations. Please check your internet connection and try again.');
+    }
+    
     const formData = new FormData();
     formData.append('file', file);
     
-    const headers: Record<string, string> = {};
-    if (adminSecret) {
-      headers['X-Admin-Secret'] = adminSecret;
-    }
     return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}/admin/races/import`, {
       method: 'POST',
-      headers,
+      headers: { 'Authorization': `Bearer ${token}` },
       body: formData,
     }).then(res => {
       if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);

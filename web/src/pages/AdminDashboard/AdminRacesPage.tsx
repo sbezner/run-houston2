@@ -9,9 +9,14 @@ import { BulkBar } from './BulkBar';
 import { BulkDeleteModal } from './BulkDeleteModal';
 import { ImportRacesModal } from './ImportRacesModal';
 import { handleApiError } from '../../utils/apiErrorHandler';
+import { auth } from '../../services/auth';
 import type { Race } from '../../types';
 
-export const AdminRacesPage: React.FC = () => {
+interface AdminRacesPageProps {
+  onTokenExpiration: () => void;
+}
+
+export const AdminRacesPage: React.FC<AdminRacesPageProps> = ({ onTokenExpiration }) => {
   const {
     races,
     racesLoading,
@@ -20,7 +25,7 @@ export const AdminRacesPage: React.FC = () => {
     fetchAdminRaces,
     updateRace,
     deleteRace
-  } = useRaces();
+  } = useRaces(onTokenExpiration);
 
   const [editingRace, setEditingRace] = useState<Race | null>(null);
   const [deletingRace, setDeletingRace] = useState<Race | null>(null);
@@ -54,6 +59,32 @@ export const AdminRacesPage: React.FC = () => {
 
   const clearSelection = () => {
     setSelectedRaces(new Set());
+  };
+
+  const checkAuthAndOpenEdit = (race: Race) => {
+    const token = auth.getToken();
+    if (!token) {
+      if (onTokenExpiration) {
+        onTokenExpiration();
+      } else {
+        setError('No authentication token');
+      }
+      return;
+    }
+    setEditingRace(race);
+  };
+
+  const checkAuthAndOpenDelete = (race: Race) => {
+    const token = auth.getToken();
+    if (!token) {
+      if (onTokenExpiration) {
+        onTokenExpiration();
+      } else {
+        setError('No authentication token');
+      }
+      return;
+    }
+    setDeletingRace(race);
   };
 
   const exportToCSV = () => {
@@ -124,7 +155,18 @@ export const AdminRacesPage: React.FC = () => {
         <h2 style={{ fontSize: '24px', margin: 0, color: '#333' }}>🏁 Manage Races</h2>
         <div style={{ display: 'flex', gap: '10px' }}>
           <button
-            onClick={() => setShowCreateForm(true)}
+            onClick={() => {
+              const token = auth.getToken();
+              if (!token) {
+                if (onTokenExpiration) {
+                  onTokenExpiration();
+                } else {
+                  setError('No authentication token');
+                }
+                return;
+              }
+              setShowCreateForm(true);
+            }}
             style={{
               padding: '10px 20px',
               backgroundColor: '#10b981',
@@ -138,7 +180,18 @@ export const AdminRacesPage: React.FC = () => {
             ➕ Add Race
           </button>
           <button
-            onClick={() => setShowImportModal(true)}
+            onClick={() => {
+              const token = auth.getToken();
+              if (!token) {
+                if (onTokenExpiration) {
+                  onTokenExpiration();
+                } else {
+                  setError('No authentication token');
+                }
+                return;
+              }
+              setShowImportModal(true);
+            }}
             style={{
               padding: '10px 20px',
               backgroundColor: '#f59e0b',
@@ -152,7 +205,18 @@ export const AdminRacesPage: React.FC = () => {
             📥 Import CSV
           </button>
           <button
-            onClick={exportToCSV}
+            onClick={() => {
+              const token = auth.getToken();
+              if (!token) {
+                if (onTokenExpiration) {
+                  onTokenExpiration();
+                } else {
+                  setError('No authentication token');
+                }
+                return;
+              }
+              exportToCSV();
+            }}
             style={{
               padding: '10px 20px',
               backgroundColor: '#17a2b8',
@@ -175,7 +239,18 @@ export const AdminRacesPage: React.FC = () => {
         <BulkBar
           selectedCount={selectedRaces.size}
           onClearSelection={clearSelection}
-          onBulkDelete={() => setShowBulkDeleteModal(true)}
+          onBulkDelete={() => {
+            const token = auth.getToken();
+            if (!token) {
+              if (onTokenExpiration) {
+                onTokenExpiration();
+              } else {
+                setError('No authentication token');
+              }
+              return;
+            }
+            setShowBulkDeleteModal(true);
+          }}
         />
       )}
 
@@ -259,7 +334,7 @@ export const AdminRacesPage: React.FC = () => {
                     <td style={{ padding: '12px', whiteSpace: 'nowrap' }}>
                       <div style={{ display: 'flex', gap: '8px' }}>
                         <button
-                          onClick={() => setEditingRace(race)}
+                          onClick={() => checkAuthAndOpenEdit(race)}
                           style={{
                             padding: '6px 12px',
                             backgroundColor: '#007bff',
@@ -273,7 +348,7 @@ export const AdminRacesPage: React.FC = () => {
                           Edit
                         </button>
                         <button
-                          onClick={() => setDeletingRace(race)}
+                          onClick={() => checkAuthAndOpenDelete(race)}
                           style={{
                             padding: '6px 12px',
                             backgroundColor: '#dc3545',
@@ -301,14 +376,30 @@ export const AdminRacesPage: React.FC = () => {
                     <td style={{ padding: '12px' }}>{race.kid_run ? 'Yes' : 'No'}</td>
                     <td style={{ padding: '12px' }}>
                       {race.official_website_url ? (
-                        <a 
-                          href={race.official_website_url} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          style={{ color: '#007AFF', textDecoration: 'none' }}
+                        <button
+                          onClick={() => {
+                            const token = auth.getToken();
+                            if (!token) {
+                              if (onTokenExpiration) {
+                                onTokenExpiration();
+                              } else {
+                                setError('No authentication token');
+                              }
+                              return;
+                            }
+                            window.open(race.official_website_url, '_blank', 'noopener,noreferrer');
+                          }}
+                          style={{ 
+                            color: '#007AFF', 
+                            textDecoration: 'none',
+                            background: 'none',
+                            border: 'none',
+                            cursor: 'pointer',
+                            fontSize: '14px'
+                          }}
                         >
                           🌐 Visit
-                        </a>
+                        </button>
                       ) : '-'}
                     </td>
                     <td style={{ padding: '12px' }}>{race.source || '-'}</td>

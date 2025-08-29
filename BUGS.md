@@ -4,6 +4,275 @@
 
 ### **🔴 Critical Priority**
 
+**Bug #15**
+- [x] **Bug Title**: Authentication error handling broken - no redirect to login when token expires
+  - **Date Reported**: 2025-01-27
+  - **Reporter**: Developer
+  - **Severity**: High
+  - **Status**: Open
+  - **Priority**: P1
+  - **Description**: When JWT tokens expire or become invalid, the system correctly detects authentication failures but fails to redirect users to the login page. Users get stuck on admin pages with error messages instead of being properly redirected to re-authenticate.
+  - **Steps to Reproduce**: 
+    1. Login to admin panel
+    2. Clear localStorage (DevTools → Application → Local Storage → Clear)
+    3. Try to access admin functions (races, clubs, race reports)
+    4. Observe error messages but no redirect to login
+    5. Notice inconsistent behavior across different admin pages
+  - **Expected Behavior**: 
+    1. Authentication failures should trigger immediate redirect to login page
+    2. Consistent behavior across all admin pages
+    3. Clear user feedback about authentication status
+    4. Proper session management
+  - **Actual Behavior**: 
+    1. Error messages displayed but no redirect
+    2. Inconsistent behavior between admin pages
+    3. Users stuck on admin pages with broken functionality
+    4. Poor user experience for authentication failures
+  - **Environment**: 
+    - **OS**: Windows 10
+    - **Browser**: Any modern browser
+    - **Python Version**: 3.11.9
+    - **Database**: PostgreSQL
+    - **Other Dependencies**: React, TypeScript, FastAPI, JWT
+  - **Screenshots/Logs**: Error messages without redirects, inconsistent admin page behavior
+  - **Suggested Code Locations**:
+    - **Files to investigate**: `web/src/hooks/useAuth.ts`, `web/src/services/api.ts`, `web/src/pages/AdminDashboard/AdminRacesPage.tsx`, `web/src/pages/AdminDashboard/AdminClubsPage.tsx`, `web/src/pages/AdminDashboard/AdminRaceReportsPage.tsx`
+    - **Key functions/methods**: `handleTokenExpiration`, API error handling, authentication state management
+    - **Database tables/columns**: N/A - Frontend authentication flow issue
+    - **API endpoints**: N/A - Frontend authentication flow issue
+  - **Assigned To**: Developer
+  - **Notes**: This is a critical user experience issue that breaks the authentication flow. The JWT migration is working correctly, but the error handling and redirect logic is incomplete. This needs to be fixed before the migration can be considered complete.
+  - **Related Issues**: JWT authentication migration (Bug #12), authentication flow testing
+  - **User Impact**: High - users cannot properly re-authenticate when sessions expire
+  - **Fix Required**: Implement proper authentication error handling with automatic redirects to login page
+  - **Status**: Fixed
+
+**Bug #14**
+- [ ] **Bug Title**: Race reports CSV import incorrectly uses imported race_name instead of database race name
+  - **Date Reported**: 2025-01-27
+  - **Reporter**: Developer
+  - **Severity**: Low
+  - **Status**: Open
+  - **Priority**: P3
+  - **Description**: When importing race reports via CSV that reference existing races by race_id, the system incorrectly uses the race_name value from the CSV instead of looking up and using the actual race name from the database. This can lead to data inconsistency where the displayed race name doesn't match the actual race in the database.
+  - **Steps to Reproduce**: 
+    1. Go to Admin Dashboard → Race Reports
+    2. Click "Import CSV" button
+    3. Import CSV with race_id pointing to existing race and race_name field populated
+    4. Observe that the imported race report shows the CSV race_name instead of the database race name
+    5. Verify that the race_id correctly links to an existing race in the database
+  - **Expected Behavior**: 
+    1. When race_id references an existing race, the race_name should be ignored from CSV
+    2. System should look up the actual race name from the database using race_id
+    3. Displayed race name should always match the database race name
+    4. CSV race_name field should be treated as informational only when race_id is valid
+  - **Actual Behavior**: 
+    1. CSV race_name value is used even when race_id points to existing race
+    2. Database race name is not looked up or used
+    3. Potential for data inconsistency between displayed and actual race names
+    4. CSV race_name overrides database race information
+  - **Environment**: 
+     - **OS**: Windows 10
+     - **Browser**: Any modern browser
+     - **Python Version**: 3.11.9
+     - **Database**: PostgreSQL
+     - **Other Dependencies**: React, TypeScript, FastAPI
+   - **Screenshots/Logs**: Race reports showing CSV race_name instead of database race name
+   - **Suggested Code Locations**:
+     - **Files to investigate**: `api/app/main.py`, `web/src/components/admin/RaceReportsImportDialog.tsx`
+     - **Key functions/methods**: `import_race_reports_csv`, CSV import validation and processing
+     - **Database tables/columns**: `race_reports` table, `race_id` foreign key relationship
+     - **API endpoints**: POST `/admin/race_reports/import`
+   - **Assigned To**: Developer
+   - **Notes**: This is a minor data consistency issue. The CSV import should prioritize database relationships over imported text values. When race_id is valid, the system should always use the database race name to maintain data integrity.
+   - **Related Issues**: Race report data consistency, CSV import validation
+   - **User Impact**: Low - affects data accuracy but doesn't break functionality
+   - **Fix Required**: Modify CSV import logic to ignore race_name when race_id is valid and lookup database race name instead
+   - **Status**: Open
+
+**Bug #20**
+- [ ] **Bug Title**: Clubs CSV import missing template download functionality - poor user experience
+  - **Date Reported**: 2025-01-27
+  - **Reporter**: Developer
+  - **Severity**: Low
+  - **Status**: Open
+  - **Priority**: P4
+  - **Description**: The clubs CSV import functionality lacks a template download feature that other import systems (races, race reports) provide. Users cannot download a sample CSV template to understand the required format, headers, and data structure, making the import process more difficult and error-prone.
+  - **Steps to Reproduce**: 
+    1. Go to Admin Dashboard → Clubs
+    2. Click "📥 Import CSV" button
+    3. Observe the import dialog
+    4. Notice there's no "Download Template" or similar button
+    5. Compare with races import which has template download functionality
+  - **Expected Behavior**: 
+    1. Clubs CSV import should have a "Download Template" button
+    2. Template should show correct headers: id, club_name, location, website_url
+    3. Template should include sample data rows
+    4. Template should match the format expected by the backend validation
+    5. Consistent with races and race reports import experience
+  - **Actual Behavior**: 
+    1. No template download button available
+    2. Users must guess the correct CSV format
+    3. No sample data provided
+    4. Inconsistent with other import systems
+    5. Poor user experience for CSV import
+  - **Environment**: 
+    - **OS**: Windows 10
+    - **Browser**: Any modern browser
+    - **Python Version**: 3.11.9
+    - **Database**: PostgreSQL
+    - **Other Dependencies**: React, TypeScript, FastAPI
+  - **Screenshots/Logs**: Clubs import dialog showing no template download option
+  - **Suggested Code Locations**:
+    - **Files to investigate**: `web/src/pages/AdminDashboard/AdminClubsPage.tsx`, `web/src/components/admin/ClubsImportDialog.tsx` (to be created)
+    - **Key functions/methods**: `handleImportCsv`, CSV import UI components, template download functionality
+    - **Database tables/columns**: N/A - Frontend UX enhancement
+    - **API endpoints**: N/A - Frontend UX enhancement
+  - **Assigned To**: Developer
+  - **Notes**: This is a UX improvement issue. The clubs CSV import works functionally but lacks the user-friendly template download feature that other import systems provide. This affects user experience and makes CSV import more difficult for users who don't know the expected format.
+  - **Related Issues**: UI consistency with races and race reports import functionality, user experience improvements
+  - **User Impact**: Low - affects user convenience but doesn't break functionality
+  - **Fix Required**: Add template download button and functionality to clubs CSV import, similar to races import
+  - **Status**: Open
+
+**Bug #19**
+- [ ] **Bug Title**: Race CSV import surface validation too strict - case sensitivity creates poor UX
+  - **Date Reported**: 2025-01-27
+  - **Reporter**: Developer
+  - **Severity**: Low
+  - **Status**: Open
+  - **Priority**: P4
+  - **Description**: The race CSV import surface validation is overly strict about case sensitivity. Users must enter surface values in exact lowercase (e.g., "road", "trail") instead of allowing natural case variations (e.g., "Road", "Trail", "ROAD", "trail"). This creates unnecessary friction and validation errors for users who naturally capitalize words.
+  - **Steps to Reproduce**: 
+    1. Go to Admin Dashboard → Races
+    2. Click "Import CSV" button
+    3. Import CSV with surface values like "Road", "Trail", "ROAD"
+    4. Observe validation errors: "Surface should be one of: road, trail, track, virtual, other"
+    5. Notice that only lowercase values are accepted
+  - **Expected Behavior**: 
+    1. Surface validation should accept any case variation
+    2. "Road", "ROAD", "road" should all be valid
+    3. "Trail", "TRAIL", "trail" should all be valid
+    4. System should normalize case internally
+    5. Better user experience with flexible input
+  - **Actual Behavior**: 
+    1. Only exact lowercase values accepted
+    2. "Road" rejected, only "road" accepted
+    3. "Trail" rejected, only "trail" accepted
+    4. Users get validation errors for natural capitalization
+    5. Poor user experience requiring exact case matching
+  - **Environment**: 
+    - **OS**: Windows 10
+    - **Browser**: Any modern browser
+    - **Python Version**: 3.11.9
+    - **Database**: PostgreSQL
+    - **Other Dependencies**: React, TypeScript, FastAPI
+  - **Screenshots/Logs**: CSV validation errors for surface field case sensitivity
+  - **Suggested Code Locations**:
+    - **Files to investigate**: `web/src/pages/AdminDashboard/ImportCsv/parseCsv.ts`, `web/src/pages/AdminDashboard/ImportCsv/validation.ts`
+    - **Key functions/methods**: Surface validation logic, CSV parsing and validation
+    - **Database tables/columns**: N/A - Frontend validation issue
+    - **API endpoints**: N/A - Frontend validation issue
+  - **Assigned To**: Developer
+  - **Notes**: This is a UX improvement issue. The validation should be more user-friendly by accepting case variations and normalizing them internally. This affects the race CSV import workflow and user experience.
+  - **Related Issues**: Race CSV import validation, user experience improvements
+  - **User Impact**: Low - affects user convenience but doesn't break functionality
+  - **Fix Required**: Update surface validation to accept case variations and normalize values internally
+  - **Status**: Open
+
+**Bug #18**
+- [ ] **Bug Title**: Error banner persists after server recovery - cosmetic UI cleanup issue
+  - **Date Reported**: 2025-01-27
+  - **Reporter**: Developer
+  - **Severity**: Low
+  - **Status**: Open
+  - **Priority**: P4
+  - **Description**: When the backend server goes down and admin operations fail with "Failed to fetch" errors, the error banner remains visible even after the server is restored and operations work normally. This creates a confusing user experience where error messages persist despite successful recovery.
+  - **Steps to Reproduce**: 
+    1. Stop backend server temporarily
+    2. Try to perform admin operations (edit, create, delete races)
+    3. Observe "Failed to fetch" error banner appears
+    4. Restart backend server
+    5. Verify admin operations work normally
+    6. Notice error banner still displays despite successful recovery
+    7. Refresh page to clear the error banner
+  - **Expected Behavior**: 
+    1. Error banner should automatically clear when operations succeed
+    2. System should detect successful recovery and update UI accordingly
+    3. No manual page refresh should be required to clear error state
+    4. UI should reflect current system status accurately
+  - **Actual Behavior**: 
+    1. Error banner persists after server recovery
+    2. Users see outdated error messages despite working functionality
+    3. Manual page refresh required to clear error state
+    4. UI doesn't automatically reflect recovery status
+  - **Environment**: 
+    - **OS**: Windows 10
+    - **Browser**: Any modern browser
+    - **Python Version**: 3.11.9
+    - **Database**: PostgreSQL
+    - **Other Dependencies**: React, TypeScript, FastAPI
+  - **Screenshots/Logs**: Error banner showing "Failed to fetch" after successful operations
+  - **Suggested Code Locations**:
+    - **Files to investigate**: `web/src/services/api.ts`, `web/src/hooks/useRaces.ts`, error handling components
+    - **Key functions/methods**: API error handling, error state management, success callback handling
+    - **Database tables/columns**: N/A - Frontend UI state management issue
+    - **API endpoints**: N/A - Frontend UI state management issue
+  - **Assigned To**: Developer
+  - **Notes**: This is a minor cosmetic issue that doesn't affect functionality. The system correctly handles server failures and recovery, but the UI doesn't automatically clean up error states. This could be improved by implementing automatic error state clearing on successful operations or adding a recovery detection mechanism.
+  - **Related Issues**: Error handling testing (Bug #12), server error recovery
+  - **User Impact**: Low - affects user experience clarity but doesn't break functionality
+  - **Fix Required**: Implement automatic error banner clearing on successful operations or add recovery detection
+  - **Status**: Open
+
+**Bug #13**
+- [ ] **Bug Title**: Clubs CSV import lacks rich UI experience - no preview, validation, or progress feedback
+  - **Date Reported**: 2025-01-27
+  - **Reporter**: Developer
+  - **Severity**: Medium
+  - **Status**: Open
+  - **Priority**: P3
+  - **Description**: The clubs CSV import functionality works correctly (authentication, parsing, database operations) but lacks the rich user experience that races and race reports imports provide. Users get no preview of data, no validation feedback, no progress indication, and only a generic success message.
+  - **Steps to Reproduce**: 
+    1. Go to Admin Dashboard → Clubs
+    2. Click "📥 Import CSV" button
+    3. Select a valid CSV file
+    4. Observe the import completes with just a browser alert saying "CSV imported successfully!"
+    5. Notice no preview of CSV data, no validation results, no progress feedback
+    6. Compare with races/race reports import which show rich UI with preview, validation, and progress
+  - **Expected Behavior**: 
+    1. CSV import should show preview of data before importing
+    2. Validation results should be displayed with row-by-row feedback
+    3. Progress indication should show during import process
+    4. Success/error messages should be specific about what was imported/updated
+    5. UI should match the quality of races and race reports import experience
+  - **Actual Behavior**: 
+    1. No preview of CSV data before import
+    2. No validation feedback or error highlighting
+    3. No progress indication during import
+    4. Generic success message with no details
+    5. Poor user experience compared to other import functions
+  - **Environment**: 
+     - **OS**: Windows 10
+     - **Browser**: Any modern browser
+     - **Python Version**: 3.11.9
+     - **Database**: PostgreSQL
+     - **Other Dependencies**: React, TypeScript, FastAPI
+   - **Screenshots/Logs**: Basic browser alert, no rich UI components
+   - **Suggested Code Locations**:
+     - **Files to investigate**: `web/src/pages/AdminDashboard/AdminClubsPage.tsx`, `web/src/components/admin/ClubsImportDialog.tsx` (to be created)
+     - **Key functions/methods**: `handleImportCsv`, CSV import UI components
+     - **Database tables/columns**: `clubs` table import functionality
+     - **API endpoints**: POST `/admin/clubs/import-csv`
+   - **Assigned To**: Developer
+   - **Notes**: This is a UI/UX enhancement issue, not a functional bug. The CSV import works correctly with JWT authentication, data parsing, and database operations. The backend is functioning properly. This bug focuses on improving the user experience to match the quality of other import functions.
+   - **Related Issues**: UI consistency with races and race reports import functionality
+   - **User Impact**: Medium - users can import data but lack visibility into what's happening during the process
+   - **Fix Required**: Create rich UI components similar to races/race reports import with preview, validation, and progress feedback
+   - **Status**: Open
+
+### **🔴 Critical Priority**
+
 **Bug #1**
 - [x] **Bug Title**: Race report editing form missing ID display and race ID validation issues
   - **Date Reported**: 2025-01-27
@@ -103,6 +372,103 @@
    - **Notes**: This is a critical data management issue. Users need to be able to delete races, and the system must handle dependent race reports appropriately.
    - **Related Issues**: Affects race deletion, data cleanup, foreign key relationships
    - **User Impact**: Critical - users cannot clean up obsolete races
+
+**Bug #16**
+- [ ] **Bug Title**: Test nuclear database reset option for complete data cleanup
+  - **Date Reported**: 2025-01-27
+  - **Reporter**: Developer
+  - **Severity**: Low
+  - **Status**: Open
+  - **Priority**: P4
+  - **Description**: Need to test the nuclear database reset option to ensure it properly cleans up all data and allows recovery with a fresh database. This is for testing purposes to verify the reset process works correctly after large dataset testing.
+  - **Steps to Reproduce**: 
+    1. Stop all services: `docker-compose down`
+    2. Remove database volume: `docker volume rm run-houston_postgres_data`
+    3. Restart services: `docker-compose up -d`
+    4. Verify database is completely empty
+    5. Verify admin users are recreated with default credentials
+    6. Verify all initialization scripts run correctly
+    7. Test admin login with fresh database
+  - **Expected Behavior**: 
+    1. Database completely wiped and recreated
+    2. All tables empty and fresh
+    3. Admin users recreated with default passwords
+    4. All initialization scripts execute successfully
+    5. System fully functional with clean database
+    6. No data remnants from previous testing
+  - **Actual Behavior**: TBD - needs testing
+  - **Environment**: 
+     - **OS**: Windows 10
+     - **Browser**: Any modern browser
+     - **Python Version**: 3.11.9
+     - **Database**: PostgreSQL
+     - **Other Dependencies**: Docker, docker-compose
+   - **Screenshots/Logs**: TBD
+   - **Suggested Code Locations**:
+     - **Files to investigate**: `infra/docker-compose.yml`, `infra/initdb/` folder
+     - **Key functions/methods**: Database initialization scripts, admin user creation
+     - **Database tables/columns**: All tables should be empty after reset
+     - **API endpoints**: All endpoints should work with fresh database
+   - **Assigned To**: Developer
+   - **Notes**: This is a testing task, not a bug fix. The goal is to verify the nuclear reset option works correctly for future testing scenarios. This will help ensure clean testing environments.
+   - **Related Issues**: Performance testing cleanup, large dataset testing
+   - **User Impact**: Low - testing infrastructure improvement
+   - **Fix Required**: Test and verify nuclear reset process
+   - **Status**: Open
+
+**Bug #17**
+- [x] **Bug Title**: Critical security vulnerability - admin functions accessible without network connectivity
+   - **Date Reported**: 2025-01-27
+   - **Reporter**: Developer
+   - **Severity**: Critical
+   - **Status**: Fixed
+   - **Priority**: P1
+   - **Description**: Admin functions remain accessible even when the user is not connected to the network. This represents a critical security vulnerability where unauthorized access to admin capabilities is possible without proper network authentication or validation. The system should either require network connectivity for admin operations or have proper offline authentication mechanisms.
+   - **Steps to Reproduce**: 
+     1. Disconnect from network (WiFi off, ethernet unplugged)
+     2. Try to access admin functions (races, clubs, race reports)
+     3. Observe that admin operations still work
+     4. Notice no network connectivity validation
+   - **Expected Behavior**: 
+     1. Admin functions should require network connectivity
+     2. Network validation should be performed before allowing admin access
+     3. Proper error message when network is unavailable
+     4. Admin operations should fail gracefully without network
+   - **Actual Behavior**: 
+     1. Admin functions work without network connectivity
+     2. No network validation performed
+     3. Admin operations succeed in offline mode
+     4. Critical security vulnerability exposed
+   - **Environment**: 
+     - **OS**: Windows 10
+     - **Browser**: Any modern browser
+     - **Python Version**: 3.11.9
+     - **Database**: PostgreSQL
+     - **Other Dependencies**: React, TypeScript, FastAPI
+   - **Screenshots/Logs**: Admin functions working without network connection
+   - **Suggested Code Locations**:
+     - **Files to investigate**: `web/src/hooks/useAuth.ts`, `web/src/services/api.ts`, `web/src/pages/AdminDashboard/`, `api/app/auth.py`
+     - **Key functions/methods**: Network connectivity validation, offline authentication, admin access control
+     - **Database tables/columns**: N/A - Authentication and network validation issue
+     - **API endpoints**: All admin endpoints need network validation
+   - **Assigned To**: Developer
+   - **Notes**: This is a CRITICAL security vulnerability that must be addressed immediately. Admin functions should not be accessible without proper network connectivity and authentication validation. This could allow unauthorized access to sensitive admin capabilities.
+   - **Related Issues**: Authentication security, network validation, admin access control
+   - **User Impact**: Critical - security vulnerability that could lead to unauthorized admin access
+   - **Fix Applied**: 2025-01-27
+   - **Solution**: 
+     - Created `NetworkValidator` service to check both local and internet connectivity
+     - Updated API service to validate network before admin operations
+     - Added network validation to login process
+     - Implemented network status indicators in admin dashboard
+     - Added comprehensive network monitoring and validation
+   - **Files Changed**: 
+     - `web/src/services/networkValidator.ts` (new file)
+     - `web/src/services/api.ts` (updated with network validation)
+     - `web/src/hooks/useAuth.ts` (updated with network validation)
+     - `web/src/pages/AdminDashboard/AdminDashboard.tsx` (added network status indicators)
+     - `web/src/services/__tests__/networkValidator.test.ts` (new test file)
+   - **Status**: Fixed
 
 **Bug #10**
 - [ ] **Bug Title**: Create new race form throws "Admin token not found" error - critical authentication issue

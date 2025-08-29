@@ -154,11 +154,8 @@ def admin_list_races(current_admin: dict = Depends(get_current_admin)):
     return races
 
 @app.post("/races", response_model=RaceResponse)
-async def create_race(request: Request):
+async def create_race(request: Request, current_admin: dict = Depends(get_current_admin)):
     """Create or update a race (admin only)."""
-    
-    # Verify admin secret
-    verify_admin_secret(request)
     
     try:
         # Try to parse the request body into RaceCreate model
@@ -279,10 +276,8 @@ async def create_race(request: Request):
         raise HTTPException(status_code=500, detail=f"Failed to create race: {e}")
 
 @app.put("/races/{race_id}", response_model=RaceResponse)
-def update_race(race_id: int, race_data: RaceUpdate, request: Request):
+def update_race(race_id: int, race_data: RaceUpdate, request: Request, current_admin: dict = Depends(get_current_admin)):
     """Update an existing race (admin only)."""
-    # Verify admin secret
-    verify_admin_secret(request)
     
     # Build dynamic UPDATE query
     update_fields = []
@@ -377,10 +372,8 @@ def update_race(race_id: int, race_data: RaceUpdate, request: Request):
     return result
 
 @app.delete("/races/{race_id}")
-def delete_race(race_id: int, request: Request):
+def delete_race(race_id: int, request: Request, current_admin: dict = Depends(get_current_admin)):
     """Delete a race (admin only)."""
-    # Verify admin secret
-    verify_admin_secret(request)
     
     with get_conn() as conn, conn.cursor() as cur:
         cur.execute("DELETE FROM races WHERE id = %s RETURNING id", (race_id,))
@@ -403,10 +396,8 @@ def list_clubs():
 
 
 @app.get("/admin/clubs", response_model=list[ClubResponse])
-def admin_list_clubs(request: Request):
+def admin_list_clubs(request: Request, current_admin: dict = Depends(get_current_admin)):
     """List all clubs (admin only)."""
-    # Verify admin secret
-    verify_admin_secret(request)
     
     with get_conn() as conn, conn.cursor() as cur:
         cur.execute("SELECT id, club_name, location, website_url FROM clubs ORDER BY club_name ASC")
@@ -415,10 +406,8 @@ def admin_list_clubs(request: Request):
 
 
 @app.post("/clubs", response_model=ClubResponse)
-def create_club(club: ClubCreate, request: Request):
+def create_club(club: ClubCreate, request: Request, current_admin: dict = Depends(get_current_admin)):
     """Create a new club (admin only)."""
-    # Verify admin secret
-    verify_admin_secret(request)
     
     try:
         with get_conn() as conn, conn.cursor() as cur:
@@ -434,10 +423,8 @@ def create_club(club: ClubCreate, request: Request):
 
 
 @app.put("/clubs/{club_id}", response_model=ClubResponse)
-def update_club(club_id: int, club_data: ClubUpdate, request: Request):
+def update_club(club_id: int, club_data: ClubUpdate, request: Request, current_admin: dict = Depends(get_current_admin)):
     """Update a club (admin only)."""
-    # Verify admin secret
-    verify_admin_secret(request)
     
     update_fields = []
     values = []
@@ -476,10 +463,8 @@ def update_club(club_id: int, club_data: ClubUpdate, request: Request):
 
 
 @app.delete("/clubs/{club_id}")
-def delete_club(club_id: int, request: Request):
+def delete_club(club_id: int, request: Request, current_admin: dict = Depends(get_current_admin)):
     """Delete a club (admin only)."""
-    # Verify admin secret
-    verify_admin_secret(request)
     
     with get_conn() as conn, conn.cursor() as cur:
         cur.execute("DELETE FROM clubs WHERE id = %s RETURNING id", (club_id,))
@@ -491,10 +476,8 @@ def delete_club(club_id: int, request: Request):
 
 
 @app.get("/admin/clubs/export-csv")
-def export_clubs_csv(request: Request):
+def export_clubs_csv(request: Request, current_admin: dict = Depends(get_current_admin)):
     """Export clubs to CSV."""
-    # Verify admin secret
-    verify_admin_secret(request)
     
     try:
         with get_conn() as conn, conn.cursor() as cur:
@@ -517,11 +500,10 @@ def export_clubs_csv(request: Request):
 @app.post("/admin/clubs/import-csv")
 def import_clubs_csv(
     request: Request,
-    file: UploadFile = File(...)
+    file: UploadFile = File(...),
+    current_admin: dict = Depends(get_current_admin)
 ):
     """Import clubs from CSV."""
-    # Verify admin secret
-    verify_admin_secret(request)
     
     if not file.filename.endswith('.csv'):
         raise HTTPException(status_code=400, detail="File must be a CSV")
@@ -680,19 +662,7 @@ def import_clubs_csv(
 
 # Race Reports API Endpoints
 
-def get_admin_secret():
-    """Get admin secret from environment variable."""
-    return os.getenv("ADMIN_SECRET", "default-admin-secret")
 
-def verify_admin_secret(request: Request):
-    """Verify admin secret header."""
-    admin_secret = request.headers.get("X-Admin-Secret")
-    if not admin_secret or admin_secret != get_admin_secret():
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid admin secret"
-        )
-    return True
 
 @app.get("/race_reports", response_model=dict)
 def list_race_reports(
@@ -841,10 +811,10 @@ def export_race_reports_csv(
     race_id: Optional[int] = None,
     q: Optional[str] = None,
     date_from: Optional[str] = None,
-    date_to: Optional[str] = None
+    date_to: Optional[str] = None,
+    current_admin: dict = Depends(get_current_admin)
 ):
     """Export race reports to CSV (admin only)."""
-    verify_admin_secret(request)
     
     # Build query similar to list endpoint
     base_sql = """
@@ -984,9 +954,8 @@ def get_race_report(report_id: str, include_race: bool = False):
     return report
 
 @app.post("/race_reports", response_model=dict, status_code=201)
-def create_race_report(report: RaceReportCreate, request: Request):
+def create_race_report(report: RaceReportCreate, request: Request, current_admin: dict = Depends(get_current_admin)):
     """Create a new race report (admin only)."""
-    verify_admin_secret(request)
     
     # Handle race_id validation
     if report.race_id is not None:
@@ -1030,9 +999,8 @@ def create_race_report(report: RaceReportCreate, request: Request):
     }
 
 @app.put("/race_reports/{report_id}", response_model=dict)
-def update_race_report(report_id: str, report: RaceReportUpdate, request: Request):
+def update_race_report(report_id: str, report: RaceReportUpdate, request: Request, current_admin: dict = Depends(get_current_admin)):
     """Update a race report (admin only)."""
-    verify_admin_secret(request)
     
     with get_conn() as conn, conn.cursor() as cur:
         # Check if report exists
@@ -1127,9 +1095,8 @@ def update_race_report(report_id: str, report: RaceReportUpdate, request: Reques
     }
 
 @app.delete("/race_reports/{report_id}")
-def delete_race_report(report_id: str, request: Request):
+def delete_race_report(report_id: str, request: Request, current_admin: dict = Depends(get_current_admin)):
     """Delete a race report (admin only)."""
-    verify_admin_secret(request)
     
     with get_conn() as conn, conn.cursor() as cur:
         cur.execute("DELETE FROM race_reports WHERE id = %s", (report_id,))
@@ -1145,10 +1112,10 @@ def delete_race_report(report_id: str, request: Request):
 def import_race_reports_csv(
     request: Request,
     file: UploadFile = File(...),
-    dry_run: bool = Query(True, description="Dry run mode - validate without importing")
+    dry_run: bool = Query(True, description="Dry run mode - validate without importing"),
+    current_admin: dict = Depends(get_current_admin)
 ):
     """Import race reports from CSV (admin only)."""
-    verify_admin_secret(request)
     
     if not file.filename.endswith('.csv'):
         raise HTTPException(status_code=400, detail="File must be a CSV")

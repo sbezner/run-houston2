@@ -5,6 +5,7 @@ import { downloadErrorsCsv } from './ImportCsv/download';
 import type { RaceUpsert, ImportError } from './ImportCsv/errors';
 import { races } from '../../services/api';
 import { Alert } from '../../components/Alert';
+import { auth } from '../../services/auth';
 
 interface ImportRacesModalProps {
   onClose: () => void;
@@ -79,8 +80,8 @@ export const ImportRacesModal: React.FC<ImportRacesModalProps> = ({ onClose, onI
     setCommitProgress(prev => ({ ...prev, total: allValidRows.length }));
 
     try {
-      const adminSecret = import.meta.env.VITE_ADMIN_SECRET || 'default-admin-secret';
-      if (!adminSecret) throw new Error('No admin secret configured');
+      const token = auth.getToken();
+      if (!token) throw new Error('No authentication token');
 
       // Process in batches of 100 with concurrency of 3
       const batchSize = 100;
@@ -115,7 +116,7 @@ export const ImportRacesModal: React.FC<ImportRacesModalProps> = ({ onClose, onI
               }
             }
            
-            const responseData = await races.create(normalizedRace, adminSecret);
+            const responseData = await races.create(normalizedRace, token);
             const operationType = responseData.operation_type;
             
             // Log the operation type for debugging

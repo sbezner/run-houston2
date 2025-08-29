@@ -1,8 +1,9 @@
 import React from 'react';
 import type { Race } from '../types';
 import { races } from '../services/api';
+import { auth } from '../services/auth';
 
-export const useRaces = () => {
+export const useRaces = (onTokenExpiration?: () => void) => {
   const [racesList, setRaces] = React.useState<Race[]>([]);
   const [racesLoading, setRacesLoading] = React.useState(false);
   const [error, setError] = React.useState('');
@@ -10,14 +11,27 @@ export const useRaces = () => {
   const fetchAdminRaces = React.useCallback(async () => {
     setRacesLoading(true);
     try {
-      const data = await races.list();
+      const token = auth.getToken();
+      if (!token) {
+        if (onTokenExpiration) {
+          onTokenExpiration();
+        } else {
+          setError('No authentication token');
+        }
+        return;
+      }
+      const data = await races.adminList(token);
       setRaces(data);
     } catch (err: any) {
-      setError(err.message);
+      if (err.message.includes('Your session has expired') && onTokenExpiration) {
+        onTokenExpiration();
+      } else {
+        setError(err.message);
+      }
     } finally {
       setRacesLoading(false);
     }
-  }, []);
+  }, [onTokenExpiration]);
 
   const fetchPublicRaces = React.useCallback(async () => {
     setRacesLoading(true);
@@ -33,38 +47,74 @@ export const useRaces = () => {
 
   const createRace = React.useCallback(async (raceData: any) => {
     try {
-      const adminSecret = import.meta.env.VITE_ADMIN_SECRET || 'default-admin-secret';
-      const data = await races.create(raceData, adminSecret);
+      const token = auth.getToken();
+      if (!token) {
+        if (onTokenExpiration) {
+          onTokenExpiration();
+        } else {
+          setError('No authentication token');
+        }
+        throw new Error('No authentication token');
+      }
+      const data = await races.create(raceData, token);
       await fetchAdminRaces();
       return data;
     } catch (err: any) {
-      setError(err.message);
-      throw err;
+      if (err.message.includes('Your session has expired') && onTokenExpiration) {
+        onTokenExpiration();
+      } else {
+        setError(err.message);
+        throw err;
+      }
     }
-  }, [fetchAdminRaces]);
+  }, [fetchAdminRaces, onTokenExpiration]);
 
   const updateRace = React.useCallback(async (raceId: number, raceData: any) => {
     try {
-      const adminSecret = import.meta.env.VITE_ADMIN_SECRET || 'default-admin-secret';
-      const data = await races.update(raceId, raceData, adminSecret);
+      const token = auth.getToken();
+      if (!token) {
+        if (onTokenExpiration) {
+          onTokenExpiration();
+        } else {
+          setError('No authentication token');
+        }
+        throw new Error('No authentication token');
+      }
+      const data = await races.update(raceId, raceData, token);
       await fetchAdminRaces();
       return data;
     } catch (err: any) {
-      setError(err.message);
-      throw err;
+      if (err.message.includes('Your session has expired') && onTokenExpiration) {
+        onTokenExpiration();
+      } else {
+        setError(err.message);
+        throw err;
+      }
     }
-  }, [fetchAdminRaces]);
+  }, [fetchAdminRaces, onTokenExpiration]);
 
   const deleteRace = React.useCallback(async (raceId: number) => {
     try {
-      const adminSecret = import.meta.env.VITE_ADMIN_SECRET || 'default-admin-secret';
-      await races.remove(raceId, adminSecret);
+      const token = auth.getToken();
+      if (!token) {
+        if (onTokenExpiration) {
+          onTokenExpiration();
+        } else {
+          setError('No authentication token');
+        }
+        throw new Error('No authentication token');
+      }
+      await races.remove(raceId, token);
       await fetchAdminRaces();
     } catch (err: any) {
-      setError(err.message);
-      throw err;
+      if (err.message.includes('Your session has expired') && onTokenExpiration) {
+        onTokenExpiration();
+      } else {
+        setError(err.message);
+        throw err;
+      }
     }
-  }, [fetchAdminRaces]);
+  }, [fetchAdminRaces, onTokenExpiration]);
 
   return {
     races: racesList,

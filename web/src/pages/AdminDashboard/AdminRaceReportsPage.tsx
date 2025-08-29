@@ -3,12 +3,17 @@ import { raceReports } from '../../services/api';
 import type { RaceReport, RaceReportsResponse } from '../../types';
 import { Loading } from '../../components/Loading';
 import { Alert } from '../../components/Alert';
+import { auth } from '../../services/auth';
 import { RaceReportForm } from '../../components/admin/RaceReportForm';
 import { RaceReportsImportDialog } from '../../components/admin/RaceReportsImportDialog';
 import { BulkBar } from './BulkBar';
 import { BulkDeleteModal } from './BulkDeleteModal';
 
-export const AdminRaceReportsPage: React.FC = () => {
+interface AdminRaceReportsPageProps {
+  onTokenExpiration: () => void;
+}
+
+export const AdminRaceReportsPage: React.FC<AdminRaceReportsPageProps> = ({ onTokenExpiration }) => {
   const [reports, setReports] = useState<RaceReport[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -27,7 +32,7 @@ export const AdminRaceReportsPage: React.FC = () => {
   const [sortField, setSortField] = useState<keyof RaceReport | null>(null);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
 
-  const adminSecret = import.meta.env.VITE_ADMIN_SECRET || 'default-admin-secret';
+
 
   // Sorting functions
   const handleSort = (field: keyof RaceReport) => {
@@ -78,6 +83,16 @@ export const AdminRaceReportsPage: React.FC = () => {
   const fetchReports = async () => {
     try {
       setLoading(true);
+      const token = auth.getToken();
+      if (!token) {
+        if (onTokenExpiration) {
+          onTokenExpiration();
+        } else {
+          setError('No authentication token');
+        }
+        return;
+      }
+      
       const response: RaceReportsResponse = await raceReports.list({
         limit,
         offset,
@@ -87,7 +102,11 @@ export const AdminRaceReportsPage: React.FC = () => {
       setTotal(response.total);
       setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch reports');
+      if (err instanceof Error && err.message.includes('Your session has expired') && onTokenExpiration) {
+        onTokenExpiration();
+      } else {
+        setError(err instanceof Error ? err.message : 'Failed to fetch reports');
+      }
     } finally {
       setLoading(false);
     }
@@ -101,11 +120,24 @@ export const AdminRaceReportsPage: React.FC = () => {
 
   const handleCreate = async (reportData: any) => {
     try {
-      await raceReports.create(reportData, adminSecret);
+      const token = auth.getToken();
+      if (!token) {
+        if (onTokenExpiration) {
+          onTokenExpiration();
+        } else {
+          setError('No authentication token');
+        }
+        return;
+      }
+      await raceReports.create(reportData, token);
       setShowCreateModal(false);
       fetchReports();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to create report');
+      if (err instanceof Error && err.message.includes('Your session has expired') && onTokenExpiration) {
+        onTokenExpiration();
+      } else {
+        setError(err instanceof Error ? err.message : 'Failed to create report');
+      }
     }
   };
 
@@ -113,12 +145,25 @@ export const AdminRaceReportsPage: React.FC = () => {
     if (!selectedReport) return;
     
     try {
-      await raceReports.update(selectedReport.id, reportData, adminSecret);
+      const token = auth.getToken();
+      if (!token) {
+        if (onTokenExpiration) {
+          onTokenExpiration();
+        } else {
+          setError('No authentication token');
+        }
+        return;
+      }
+      await raceReports.update(selectedReport.id, reportData, token);
       setShowEditModal(false);
       setSelectedReport(null);
       fetchReports();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to update report');
+      if (err instanceof Error && err.message.includes('Your session has expired') && onTokenExpiration) {
+        onTokenExpiration();
+      } else {
+        setError(err instanceof Error ? err.message : 'Failed to update report');
+      }
     }
   };
 
@@ -126,12 +171,25 @@ export const AdminRaceReportsPage: React.FC = () => {
     if (!selectedReport) return;
     
     try {
-      await raceReports.remove(selectedReport.id, adminSecret);
+      const token = auth.getToken();
+      if (!token) {
+        if (onTokenExpiration) {
+          onTokenExpiration();
+        } else {
+          setError('No authentication token');
+        }
+        return;
+      }
+      await raceReports.remove(selectedReport.id, token);
       setShowDeleteModal(false);
       setSelectedReport(null);
       fetchReports();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to delete report');
+      if (err instanceof Error && err.message.includes('Your session has expired') && onTokenExpiration) {
+        onTokenExpiration();
+      } else {
+        setError(err instanceof Error ? err.message : 'Failed to delete report');
+      }
     }
   };
 
@@ -139,14 +197,27 @@ export const AdminRaceReportsPage: React.FC = () => {
     if (selectedReports.size === 0) return;
     
     try {
+      const token = auth.getToken();
+      if (!token) {
+        if (onTokenExpiration) {
+          onTokenExpiration();
+        } else {
+          setError('No authentication token');
+        }
+        return;
+      }
       for (const reportId of selectedReports) {
-        await raceReports.remove(reportId, adminSecret);
+        await raceReports.remove(reportId, token);
       }
       setSelectedReports(new Set());
       setShowBulkDeleteModal(false);
       fetchReports();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to delete selected reports');
+      if (err instanceof Error && err.message.includes('Your session has expired') && onTokenExpiration) {
+        onTokenExpiration();
+      } else {
+        setError(err instanceof Error ? err.message : 'Failed to delete selected reports');
+      }
     }
   };
 
@@ -160,7 +231,16 @@ export const AdminRaceReportsPage: React.FC = () => {
 
   const handleExport = async () => {
     try {
-      const blob = await raceReports.exportCsv({}, adminSecret);
+      const token = auth.getToken();
+      if (!token) {
+        if (onTokenExpiration) {
+          onTokenExpiration();
+        } else {
+          setError('No authentication token');
+        }
+        return;
+      }
+      const blob = await raceReports.exportCsv(token, {});
       
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -171,7 +251,11 @@ export const AdminRaceReportsPage: React.FC = () => {
       link.remove();
       URL.revokeObjectURL(url);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to export reports');
+      if (err instanceof Error && err.message.includes('Your session has expired') && onTokenExpiration) {
+        onTokenExpiration();
+      } else {
+        setError(err instanceof Error ? err.message : 'Failed to export reports');
+      }
     }
   };
 
@@ -181,6 +265,34 @@ export const AdminRaceReportsPage: React.FC = () => {
       month: 'short',
       day: 'numeric'
     });
+  };
+
+  const checkAuthAndOpenEdit = (report: RaceReport) => {
+    const token = auth.getToken();
+    if (!token) {
+      if (onTokenExpiration) {
+        onTokenExpiration();
+      } else {
+        setError('No authentication token');
+      }
+      return;
+    }
+    setSelectedReport(report);
+    setShowEditModal(true);
+  };
+
+  const checkAuthAndOpenDelete = (report: RaceReport) => {
+    const token = auth.getToken();
+    if (!token) {
+      if (onTokenExpiration) {
+        onTokenExpiration();
+      } else {
+        setError('No authentication token');
+      }
+      return;
+    }
+    setSelectedReport(report);
+    setShowDeleteModal(true);
   };
 
   if (loading && reports.length === 0) {
@@ -207,7 +319,18 @@ export const AdminRaceReportsPage: React.FC = () => {
         
         <div style={{ display: 'flex', gap: '10px' }}>
                      <button
-             onClick={() => setShowImportDialog(true)}
+             onClick={() => {
+               const token = auth.getToken();
+               if (!token) {
+                 if (onTokenExpiration) {
+                   onTokenExpiration();
+                 } else {
+                   setError('No authentication token');
+                 }
+                 return;
+               }
+               setShowImportDialog(true);
+             }}
              style={{
                padding: '10px 20px',
                backgroundColor: '#f59e0b',
@@ -221,7 +344,18 @@ export const AdminRaceReportsPage: React.FC = () => {
              📥 Import CSV
            </button>
            <button
-             onClick={handleExport}
+             onClick={() => {
+               const token = auth.getToken();
+               if (!token) {
+                 if (onTokenExpiration) {
+                   onTokenExpiration();
+                 } else {
+                   setError('No authentication token');
+                 }
+                 return;
+               }
+               handleExport();
+             }}
              style={{
                padding: '10px 20px',
                backgroundColor: '#17a2b8',
@@ -235,7 +369,18 @@ export const AdminRaceReportsPage: React.FC = () => {
              📤 Export CSV
            </button>
            <button
-             onClick={() => setShowCreateModal(true)}
+             onClick={() => {
+               const token = auth.getToken();
+               if (!token) {
+                 if (onTokenExpiration) {
+                   onTokenExpiration();
+                 } else {
+                   setError('No authentication token');
+                 }
+                 return;
+               }
+               setShowCreateModal(true);
+             }}
              style={{
                padding: '10px 20px',
                backgroundColor: '#10b981',
@@ -262,7 +407,18 @@ export const AdminRaceReportsPage: React.FC = () => {
         <BulkBar
           selectedCount={selectedReports.size}
           onClearSelection={clearSelection}
-          onBulkDelete={() => setShowBulkDeleteModal(true)}
+          onBulkDelete={() => {
+            const token = auth.getToken();
+            if (!token) {
+              if (onTokenExpiration) {
+                onTokenExpiration();
+              } else {
+                setError('No authentication token');
+              }
+              return;
+            }
+            setShowBulkDeleteModal(true);
+          }}
         />
       )}
 
@@ -455,10 +611,7 @@ export const AdminRaceReportsPage: React.FC = () => {
                       <td style={{ padding: '12px', fontSize: '14px' }}>
                         <div style={{ display: 'flex', gap: '8px' }}>
                                                      <button
-                             onClick={() => {
-                               setSelectedReport(report);
-                               setShowEditModal(true);
-                             }}
+                             onClick={() => checkAuthAndOpenEdit(report)}
                              style={{
                                padding: '6px 12px',
                                backgroundColor: '#007bff',
@@ -472,10 +625,7 @@ export const AdminRaceReportsPage: React.FC = () => {
                              Edit
                            </button>
                           <button
-                            onClick={() => {
-                              setSelectedReport(report);
-                              setShowDeleteModal(true);
-                            }}
+                            onClick={() => checkAuthAndOpenDelete(report)}
                             style={{
                               padding: '6px 12px',
                               backgroundColor: '#ef4444',

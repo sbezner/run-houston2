@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { raceReports } from '../../services/api';
 import { Alert } from '../../components/Alert';
+import { auth } from '../../services/auth';
 
 interface RaceReportsImportDialogProps {
   onClose: () => void;
@@ -27,7 +28,7 @@ export const RaceReportsImportDialog: React.FC<RaceReportsImportDialogProps> = (
   const [commitProgress, setCommitProgress] = useState<ImportProgress>({ total: 0, done: 0, succeeded: 0, failed: 0, created: 0, updated: 0 });
   const [aborter, setAborter] = useState<AbortController | null>(null);
 
-  const adminSecret = import.meta.env.VITE_ADMIN_SECRET || 'default-admin-secret';
+
 
   const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -213,7 +214,9 @@ export const RaceReportsImportDialog: React.FC<RaceReportsImportDialogProps> = (
       setCommitProgress(prev => ({ ...prev, total: totalRows }));
 
       // Import the file
-      const result = await raceReports.importCsv(csvFile, false, adminSecret);
+      const token = auth.getToken();
+      if (!token) throw new Error('No authentication token');
+      const result = await raceReports.importCsv(csvFile, false, token);
       console.log('Import response:', result);
       
       // Check for validation errors in the response
@@ -262,7 +265,7 @@ export const RaceReportsImportDialog: React.FC<RaceReportsImportDialogProps> = (
     } finally {
       setAborter(null);
     }
-  }, [csvFile, adminSecret, onSuccess]);
+  }, [csvFile, onSuccess]);
 
   const cancelImport = useCallback(() => {
     if (aborter) {
