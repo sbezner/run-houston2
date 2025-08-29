@@ -42,12 +42,17 @@ export class NetworkValidator {
   private async performNetworkTest(): Promise<void> {
     try {
       // Test actual network connectivity, not just localhost
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+      
       const response = await fetch('https://httpbin.org/status/200', {
         method: 'GET',
         mode: 'no-cors',
         cache: 'no-cache',
-        timeout: 5000
+        signal: controller.signal
       });
+      
+      clearTimeout(timeoutId);
       this.isOnline = true;
     } catch (error) {
       this.isOnline = false;
@@ -69,11 +74,16 @@ export class NetworkValidator {
 
   private async testLocalConnectivity(): Promise<boolean> {
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 3000);
+      
       const response = await fetch('/api/health', { 
         method: 'GET',
         cache: 'no-cache',
-        timeout: 3000
+        signal: controller.signal
       });
+      
+      clearTimeout(timeoutId);
       return response.ok;
     } catch (error) {
       console.warn('Local connectivity test failed:', error);
@@ -83,12 +93,17 @@ export class NetworkValidator {
 
   private async testInternetAccess(): Promise<boolean> {
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+      
       const response = await fetch('https://httpbin.org/status/200', {
         method: 'GET',
         mode: 'no-cors',
         cache: 'no-cache',
-        timeout: 5000
+        signal: controller.signal
       });
+      
+      clearTimeout(timeoutId);
       return true;
     } catch (error) {
       console.warn('Internet connectivity test failed:', error);

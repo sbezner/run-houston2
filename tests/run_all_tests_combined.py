@@ -23,6 +23,9 @@ def print_header():
     print("   • Clubs & Races API Endpoints")
     print("   • Frontend-Backend Validation")
     print("   • 🔐 NEW: Authentication Fixes (Admin Secret)")
+    print("   • 🔐 NEW: JWT Authentication Migration Tests")
+    print("   • 🔐 NEW: Network Validation Tests")
+    print("   • 🔐 NEW: Admin Components Authentication Tests")
     print("=" * 50)
 
 def run_backend_tests():
@@ -182,8 +185,8 @@ def main():
     print(f"   • CSV Import/Export (High Risk)")
     print(f"   • API Endpoints (Clubs, Races, Race Reports)")
     print(f"   • Frontend-Backend Validation")
-    print(f"   • 🔐 Authentication Fixes (Admin Secret)")
-    print(f"   • 🏃 Bug #1 Race Reports (Comprehensive)")
+    print(f"")
+    print(f"")
     print(f"Frontend Tests: {'✅ PASSED' if frontend_success else '❌ FAILED'}")
     
     print("\n" + "=" * 50)
