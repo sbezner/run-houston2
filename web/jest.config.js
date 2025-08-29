@@ -8,10 +8,7 @@ export default {
   transform: {
     '^.+\\.(ts|tsx)$': ['ts-jest', {
       useESM: true,
-      tsconfig: {
-        jsx: 'react-jsx',
-        esModuleInterop: true,
-      }
+      tsconfig: './tsconfig.test.json'
     }],
   },
   testMatch: [

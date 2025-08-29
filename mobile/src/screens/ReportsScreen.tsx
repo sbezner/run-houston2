@@ -4,92 +4,147 @@ import {
   Text,
   FlatList,
   StyleSheet,
-  ActivityIndicator,
-  Pressable,
   RefreshControl,
-  Alert
+  ActivityIndicator,
+  TouchableOpacity,
+  Linking,
+  Alert,
 } from 'react-native';
-import { fetchRaceReports, fetchRaceReportById } from '../api';
 import { RaceReport } from '../types';
+import { fetchRaceReports } from '../api';
+import { config } from '../config';
 
-export const ReportsScreen = () => {
+export const ReportsScreen: React.FC = () => {
   const [reports, setReports] = useState<RaceReport[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
-  const [limit] = useState(20);
+  const [error, setError] = useState<string | null>(null);
+  const [offset, setOffset] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
   const [total, setTotal] = useState(0);
+  const limit = 20;
 
-
-
-
-  const onRefresh = async () => {
-    setRefreshing(true);
-    
+  const loadReports = async (isRefresh = false) => {
     try {
-      const data = await fetchRaceReports({
-        order_by: 'created_at',
+      if (isRefresh) {
+        setOffset(0);
+        setReports([]);
+      }
+
+      const currentOffset = isRefresh ? 0 : offset;
+      
+      const response = await fetchRaceReports({
         limit,
-        offset: 0,
-        include_race: true
+        offset: currentOffset,
       });
-      setReports(data.items);
-      setTotal(data.total);
+
+      if (isRefresh) {
+        setReports(response.items);
+      } else {
+        setReports(prev => [...prev, ...response.items]);
+      }
+
+      setTotal(response.total);
+      setHasMore(response.offset + response.items.length < response.total);
+      setOffset(currentOffset + response.items.length);
       setError(null);
     } catch (err: any) {
-      setError(err.message || 'Failed to refresh reports');
+      console.error('Error loading reports:', err);
+      setError(err?.message || 'Failed to load reports');
     } finally {
+      setLoading(false);
+      setLoadingMore(false);
       setRefreshing(false);
     }
   };
 
+  const onRefresh = () => {
+    setRefreshing(true);
+    loadReports(true);
+  };
 
+  const onEndReached = () => {
+    if (!loadingMore && hasMore) {
+      setLoadingMore(true);
+      loadReports();
+    }
+  };
+
+  const openReport = async (report: RaceReport) => {
+    try {
+      // Try to open the report URL if it exists
+      if (report.url) {
+        const supported = await Linking.canOpenURL(report.url);
+        if (supported) {
+          await Linking.openURL(report.url);
+        } else {
+          throw new Error('Cannot open URL');
+        }
+      } else {
+        // Show report details in an alert if no URL
+        Alert.alert(
+          report.title,
+          `${report.content}\n\nBy: ${report.author}\nDate: ${new Date(report.created_at).toLocaleDateString()}`,
+          [{ text: 'OK' }]
+        );
+      }
+    } catch (error) {
+      console.error('Error opening report:', error);
+      // Fallback to showing details in alert
+      Alert.alert(
+        report.title,
+        `${report.content}\n\nBy: ${report.author}\nDate: ${new Date(report.created_at).toLocaleDateString()}`,
+        [{ text: 'OK' }]
+      );
+    }
+  };
 
   useEffect(() => {
-    const loadInitialReports = async () => {
-      try {
-        const data = await fetchRaceReports({
-          order_by: 'created_at',
-          limit,
-          offset: 0,
-          include_race: true
-        });
-        setReports(data.items);
-        setTotal(data.total);
-        setError(null);
-      } catch (err: any) {
-        setError(err.message || 'Failed to load reports');
-      } finally {
+    // Add timeout protection for initial load
+    const timeoutId = setTimeout(() => {
+      if (loading) {
+        setError('Loading timeout - check your network connection');
         setLoading(false);
       }
-    };
-    
-    loadInitialReports();
+    }, 15000); // 15 second timeout
+
+    loadReports(true);
+
+    return () => clearTimeout(timeoutId);
   }, []);
 
+  const renderReport = ({ item }: { item: RaceReport }) => (
+    <TouchableOpacity
+      style={styles.reportItem}
+      onPress={() => openReport(item)}
+      testID={`report-item-${item.id}`}
+    >
+      <Text style={styles.reportTitle}>{item.title}</Text>
+      <Text style={styles.reportRace}>Race: {item.race_name}</Text>
+      <Text style={styles.reportAuthor}>By: {item.author}</Text>
+      <Text style={styles.reportDate}>
+        {new Date(item.created_at).toLocaleDateString()}
+      </Text>
+      <Text style={styles.reportPreview} numberOfLines={2}>
+        {item.content}
+      </Text>
+    </TouchableOpacity>
+  );
 
-
-  const handleReportPress = (report: RaceReport) => {
-    // Navigate to report detail (for now, just show an alert)
-    Alert.alert(
-      report.title,
-      `Race: ${report.race?.name || `Race ${report.race_id}`}\n` +
-      `Date: ${new Date(report.race_date).toDateString()}\n` +
-      `Author: ${report.author_name || 'Unknown'}\n\n` +
-      `${report.content_md.substring(0, 200)}${report.content_md.length > 200 ? '...' : ''}`,
-      [
-        { text: 'OK', style: 'default' }
-      ]
+  const renderFooter = () => {
+    if (!loadingMore) return null;
+    return (
+      <View style={styles.loadingFooter}>
+        <ActivityIndicator size="small" color="#007AFF" />
+        <Text style={styles.loadingText}>Loading more...</Text>
+      </View>
     );
   };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toDateString();
-  };
-
-  if (loading && reports.length === 0) {
+  if (loading && !refreshing) {
     return (
-      <View style={styles.center}>
+      <View style={styles.centered}>
         <ActivityIndicator size="large" color="#007AFF" />
         <Text style={styles.loadingText}>Loading reports...</Text>
       </View>
@@ -98,90 +153,35 @@ export const ReportsScreen = () => {
 
   if (error && reports.length === 0) {
     return (
-      <View style={styles.center}>
+      <View style={styles.centered}>
         <Text style={styles.errorText}>Error: {error}</Text>
-        <Text style={styles.errorSubtext}>Check that your backend is running</Text>
-        <Pressable style={styles.retryButton} onPress={() => {
-          setLoading(true);
-          setError(null);
-          const loadInitialReports = async () => {
-            try {
-              const data = await fetchRaceReports({
-                order_by: 'created_at',
-                limit,
-                offset: 0,
-                include_race: true
-              });
-                      setReports(data.items);
-        setTotal(data.total);
-        setError(null);
-            } catch (err: any) {
-              setError(err.message || 'Failed to load reports');
-            } finally {
-              setLoading(false);
-            }
-          };
-          loadInitialReports();
-        }}>
-          <Text style={styles.retryButtonText}>Try Again</Text>
-        </Pressable>
+        <TouchableOpacity style={styles.retryButton} onPress={() => loadReports(true)}>
+          <Text style={styles.retryButtonText}>Retry</Text>
+        </TouchableOpacity>
       </View>
     );
   }
 
-  const renderReport = ({ item }: { item: RaceReport }) => (
-    <Pressable style={styles.reportCard} onPress={() => handleReportPress(item)}>
-      <Text style={styles.reportTitle}>{item.title}</Text>
-      
-      {/* Author field removed */}
-      
-      <View style={styles.reportInfo}>
-        <Text style={styles.reportDetail}>
-          🏁 {item.race?.name || `Race ${item.race_id}`}
-        </Text>
-        <Text style={styles.reportDetail}>
-          📅 {formatDate(item.race_date)}
-        </Text>
-        <Text style={styles.reportDetail}>
-          📝 {formatDate(item.created_at)}
-        </Text>
-      </View>
-      
-      <Text style={styles.contentPreview} numberOfLines={3}>
-        {item.content_md}
-      </Text>
-      
-      <View style={styles.openButton}>
-        <Text style={styles.openButtonText}>Open</Text>
-      </View>
-    </Pressable>
-  );
-
   return (
     <View style={styles.container}>
-
-
-      {/* Reports List */}
       <FlatList
         data={reports}
-        keyExtractor={(item) => String(item.id)}
         renderItem={renderReport}
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
-        contentContainerStyle={styles.listContainer}
+        keyExtractor={(item) => item.id.toString()}
+        style={styles.list}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
-
-        ListEmptyComponent={
-          <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>No race reports found</Text>
-            <Text style={styles.emptySubtext}>
-              Check back soon for race reports
-            </Text>
-          </View>
-        }
-
+        onEndReached={onEndReached}
+        onEndReachedThreshold={0.1}
+        ListFooterComponent={renderFooter}
+        testID="reports-list"
       />
+      {!hasMore && reports.length > 0 && (
+        <View style={styles.endMessage}>
+          <Text style={styles.endMessageText}>All reports loaded</Text>
+        </View>
+      )}
     </View>
   );
 };
@@ -189,26 +189,17 @@ export const ReportsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#f5f5f5',
   },
-  center: {
+  list: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 24,
-    gap: 16,
   },
-
-
-
-
-  listContainer: {
+  reportItem: {
+    backgroundColor: 'white',
     padding: 16,
-  },
-  reportCard: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 16,
+    marginHorizontal: 16,
+    marginVertical: 8,
+    borderRadius: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -217,84 +208,71 @@ const styles = StyleSheet.create({
   },
   reportTitle: {
     fontSize: 18,
-    fontWeight: '700',
-    color: '#333',
+    fontWeight: 'bold',
     marginBottom: 8,
-    lineHeight: 22,
+    color: '#333',
   },
-
-  reportInfo: {
-    marginBottom: 12,
-  },
-  reportDetail: {
+  reportRace: {
     fontSize: 14,
-    color: '#5f6368',
+    color: '#666',
     marginBottom: 4,
   },
-  contentPreview: {
+  reportAuthor: {
     fontSize: 14,
     color: '#666',
-    lineHeight: 20,
-    marginBottom: 16,
+    marginBottom: 4,
   },
-  openButton: {
-    backgroundColor: '#007AFF',
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 6,
-    alignSelf: 'flex-end',
-  },
-  openButtonText: {
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  separator: {
-    height: 12,
-  },
-  emptyContainer: {
-    alignItems: 'center',
-    padding: 40,
-  },
-  emptyText: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#666',
+  reportDate: {
+    fontSize: 12,
+    color: '#999',
     marginBottom: 8,
   },
-  emptySubtext: {
+  reportPreview: {
     fontSize: 14,
-    color: '#999',
-    textAlign: 'center',
+    color: '#555',
+    lineHeight: 20,
   },
-
+  centered: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
   loadingText: {
+    marginTop: 16,
     fontSize: 16,
     color: '#666',
-    marginTop: 8,
   },
   errorText: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#dc3545',
+    color: '#ff3b30',
     textAlign: 'center',
-    marginBottom: 8,
-  },
-  errorSubtext: {
-    fontSize: 14,
-    color: '#666',
-    textAlign: 'center',
-    marginBottom: 16,
+    marginBottom: 20,
   },
   retryButton: {
     backgroundColor: '#007AFF',
-    paddingVertical: 12,
     paddingHorizontal: 24,
+    paddingVertical: 12,
     borderRadius: 8,
   },
   retryButtonText: {
-    color: '#fff',
+    color: 'white',
     fontSize: 16,
     fontWeight: '600',
+  },
+  loadingFooter: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 16,
+  },
+  endMessage: {
+    padding: 16,
+    alignItems: 'center',
+  },
+  endMessageText: {
+    fontSize: 14,
+    color: '#999',
+    fontStyle: 'italic',
   },
 });

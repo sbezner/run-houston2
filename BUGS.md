@@ -179,6 +179,62 @@
   - **Fix Required**: Add template download button and functionality to clubs CSV import, similar to races import
   - **Status**: Open
 
+**Bug #22**
+- [x] **Bug Title**: Mobile app race reports limited to 20 items - missing infinite scroll and lazy loading
+  - **Date Reported**: 2025-01-27
+  - **Reporter**: Developer
+  - **Severity**: Medium
+  - **Status**: Fixed
+  - **Priority**: P2
+  - **Description**: The mobile app's race reports screen only shows the first 20 race reports with no way to load more. Users cannot access older race reports, creating a poor user experience where they miss potentially important content. The app should implement infinite scroll with lazy loading to show all available race reports.
+  - **Steps to Reproduce**: 
+    1. Open the Run Houston mobile app
+    2. Navigate to Race Reports section
+    3. Scroll through the list of reports
+    4. Notice only ~20 reports are displayed
+    5. Observe there's no "Load More" button or infinite scroll functionality
+    6. Verify that older race reports exist in the database but aren't accessible
+  - **Expected Behavior**: 
+    1. Mobile app should implement infinite scroll for race reports
+    2. As user scrolls down, more reports should automatically load
+    3. All race reports should be accessible through continuous scrolling
+    4. Smooth lazy loading experience with loading indicators
+    5. No artificial limit on the number of reports displayed
+  - **Actual Behavior**: 
+    1. Only first 20 race reports are displayed
+    2. No pagination or "Load More" functionality
+    3. Users cannot access older race reports
+    4. Hardcoded limit of 20 items in the mobile app
+    5. Poor user experience for browsing race report history
+  - **Environment**: 
+    - **OS**: Windows 10
+    - **Mobile Platform**: React Native/Expo
+    - **Python Version**: 3.11.9
+    - **Database**: PostgreSQL
+    - **Other Dependencies**: React Native, TypeScript, FastAPI
+  - **Screenshots/Logs**: Mobile app showing limited race reports with no pagination
+  - **Suggested Code Locations**:
+    - **Files to investigate**: `mobile/src/screens/ReportsScreen.tsx`, `mobile/src/api.ts`
+    - **Key functions/methods**: `ReportsScreen` component, `fetchRaceReports` API call, FlatList implementation
+    - **Database tables/columns**: `race_reports` table, pagination parameters
+    - **API endpoints**: Race reports list endpoint with pagination support
+  - **Assigned To**: Developer
+  - **Notes**: This is a critical mobile UX issue. The mobile app should provide the same access to race reports as the web interface, with infinite scroll being the standard mobile pattern for long lists. The backend API already supports pagination, but the mobile app isn't utilizing it.
+  - **Related Issues**: Mobile app user experience, race reports accessibility, infinite scroll implementation
+  - **User Impact**: Medium - users cannot access older race reports, missing potentially important content
+  - **Fix Required**: Implement infinite scroll with lazy loading in mobile app race reports screen
+  - **Status**: Fixed
+  - **Fix Applied**: 2025-01-27
+  - **Solution**: 
+    - Implemented infinite scroll with lazy loading using FlatList's onEndReached
+    - Added pagination state management (offset, hasMore, loadingMore)
+    - Created unified loadReports function that handles initial load, refresh, and load more
+    - Added loading indicator at bottom when fetching more reports
+    - Reports now append to existing list instead of replacing
+    - Users can scroll continuously to access all race reports
+  - **Files Changed**: `mobile/src/screens/ReportsScreen.tsx`
+  - **Test Coverage**: Manual testing of infinite scroll functionality
+
 **Bug #19**
 - [ ] **Bug Title**: Race CSV import surface validation too strict - case sensitivity creates poor UX
   - **Date Reported**: 2025-01-27

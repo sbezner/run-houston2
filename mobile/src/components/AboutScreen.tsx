@@ -1,94 +1,110 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { APP_VERSION, DB_VERSION } from "../config";
+import React from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Linking,
+  TouchableOpacity,
+} from 'react-native';
 
-export default function AboutScreen() {
+const AboutScreen: React.FC = () => {
+  const openWebsite = () => {
+    Linking.openURL('https://github.com/yourusername/run-houston');
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.subtitle}>Race Discovery App</Text>
+    <ScrollView style={styles.container}>
+      <View style={styles.content}>
+        <Text style={styles.title}>Run Houston</Text>
+        <Text style={styles.version}>Version 1.0.0</Text>
+        
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>About</Text>
+          <Text style={styles.description}>
+            Run Houston is your comprehensive guide to running events, clubs, and race reports in the Houston area. 
+            Discover upcoming races, join local running clubs, and read race reports from fellow runners.
+          </Text>
+        </View>
 
-      <View style={styles.versionContainer}>
-        <Text style={styles.versionLabel}>App Version:</Text>
-        <Text style={styles.versionValue}>{APP_VERSION}</Text>
-      </View>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Features</Text>
+          <Text style={styles.feature}>🏃‍♂️ Race Listings</Text>
+          <Text style={styles.feature}>🗺️ Interactive Maps</Text>
+          <Text style={styles.feature}>🏆 Race Reports</Text>
+          <Text style={styles.feature}>👥 Running Clubs</Text>
+          <Text style={styles.feature}>📱 Mobile Optimized</Text>
+        </View>
 
-      <View style={styles.versionContainer}>
-        <Text style={styles.versionLabel}>Database Version:</Text>
-        <Text style={styles.versionValue}>{DB_VERSION}</Text>
-      </View>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Contact</Text>
+          <TouchableOpacity onPress={openWebsite}>
+            <Text style={styles.link}>GitHub Repository</Text>
+          </TouchableOpacity>
+        </View>
 
-      <View style={styles.infoContainer}>
-        <Text style={styles.infoText}>
-          Discover and explore running races in the Greater Houston area.
-        </Text>
-        <Text style={styles.infoText}>
-          View upcoming races on a map or in a list, with details about each event.
-        </Text>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Built With</Text>
+          <Text style={styles.tech}>React Native</Text>
+          <Text style={styles.tech}>Expo</Text>
+          <Text style={styles.tech}>TypeScript</Text>
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 24,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    paddingTop: 40,
+    backgroundColor: '#f5f5f5',
+  },
+  content: {
+    padding: 20,
   },
   title: {
     fontSize: 28,
-    fontWeight: "bold",
-    color: "#333",
+    fontWeight: 'bold',
+    textAlign: 'center',
     marginBottom: 8,
-    textAlign: "center",
+    color: '#333',
   },
-  subtitle: {
-    fontSize: 18,
-    color: "#666",
+  version: {
+    fontSize: 16,
+    textAlign: 'center',
     marginBottom: 32,
-    marginTop: 4,
-    textAlign: "center",
+    color: '#666',
   },
-  versionContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 16,
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    backgroundColor: "#f8f9fa",
-    borderRadius: 8,
-    minWidth: 200,
-    // Enhanced shadows for depth
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3, // Android shadow
+  section: {
+    marginBottom: 24,
   },
-  versionLabel: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#333",
-    marginRight: 12,
-  },
-  versionValue: {
-    fontSize: 16,
-    color: "#007AFF",
-    fontWeight: "500",
-  },
-  infoContainer: {
-    marginTop: 32,
-    alignItems: "center",
-    maxWidth: 300,
-  },
-  infoText: {
-    fontSize: 14,
-    color: "#666",
-    textAlign: "center",
-    lineHeight: 20,
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: '600',
     marginBottom: 12,
+    color: '#333',
+  },
+  description: {
+    fontSize: 16,
+    lineHeight: 24,
+    color: '#555',
+    textAlign: 'justify',
+  },
+  feature: {
+    fontSize: 16,
+    marginBottom: 8,
+    color: '#555',
+  },
+  link: {
+    fontSize: 16,
+    color: '#007AFF',
+    textDecorationLine: 'underline',
+  },
+  tech: {
+    fontSize: 16,
+    marginBottom: 8,
+    color: '#555',
   },
 });
+
+export default AboutScreen;

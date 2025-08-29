@@ -4,105 +4,108 @@ import {
   Text,
   FlatList,
   StyleSheet,
+  RefreshControl,
   ActivityIndicator,
+  TouchableOpacity,
   Linking,
-  Pressable,
-  RefreshControl
+  Alert,
 } from 'react-native';
-import { API_BASE } from '../config';
+import { Club } from '../types';
+import { fetchClubs } from '../api';
 
-interface Club {
-  id: number;
-  club_name: string;
-  location?: string;
-  website_url?: string;
-}
-
-const fetchClubs = async (): Promise<Club[]> => {
-  try {
-    const response = await fetch(`${API_BASE}/clubs`);
-    if (!response.ok) {
-      throw new Error('Failed to fetch clubs');
-    }
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching clubs:', error);
-    throw error;
-  }
-};
-
-export const ClubsScreen = () => {
+export const ClubsScreen: React.FC = () => {
   const [clubs, setClubs] = useState<Club[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [refreshing, setRefreshing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const loadClubs = async () => {
     try {
-      setLoading(true);
-      setError(null);
       const data = await fetchClubs();
       setClubs(data);
+      setError(null);
     } catch (err: any) {
-      setError(err.message || 'Failed to load clubs');
+      console.error('Error loading clubs:', err);
+      setError(err?.message || 'Failed to load clubs');
     } finally {
       setLoading(false);
+      setRefreshing(false);
     }
   };
 
-  const onRefresh = async () => {
+  const onRefresh = () => {
     setRefreshing(true);
-    await loadClubs();
-    setRefreshing(false);
+    loadClubs();
+  };
+
+  const openClubWebsite = async (club: Club) => {
+    if (club.website_url) {
+      try {
+        const supported = await Linking.canOpenURL(club.website_url);
+        if (supported) {
+          await Linking.openURL(club.website_url);
+        } else {
+          throw new Error('Cannot open URL');
+        }
+      } catch (error) {
+        console.error('Error opening website:', error);
+        Alert.alert('Error', 'Could not open website');
+      }
+    } else {
+      Alert.alert('No Website', 'This club does not have a website');
+    }
+  };
+
+  const openClubEmail = async (club: Club) => {
+    // Email functionality removed since backend doesn't provide email field
+    Alert.alert('No Email', 'Email functionality not available for this club');
   };
 
   useEffect(() => {
     loadClubs();
   }, []);
 
-  const handleWebsitePress = (url: string) => {
-    Linking.openURL(url);
-  };
+  const renderClub = ({ item }: { item: Club }) => (
+    <View style={styles.clubItem}>
+      <Text style={styles.clubName}>{item.club_name}</Text>
+      <Text style={styles.clubDescription}>{item.location || 'No location specified'}</Text>
+      
+      {item.location && (
+        <Text style={styles.clubInfo}>📍 {item.location}</Text>
+      )}
+      
+      <View style={styles.clubActions}>
+        {item.website_url && (
+          <TouchableOpacity
+            style={styles.actionButton}
+            onPress={() => openClubWebsite(item)}
+          >
+            <Text style={styles.actionButtonText}>Website</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+    </View>
+  );
 
-  if (loading) {
+  if (loading && !refreshing) {
     return (
-      <View style={styles.center}>
+      <View style={styles.centered}>
         <ActivityIndicator size="large" color="#007AFF" />
         <Text style={styles.loadingText}>Loading clubs...</Text>
       </View>
     );
   }
 
-  if (error) {
+  if (error && clubs.length === 0) {
     return (
-      <View style={styles.center}>
+      <View style={styles.centered}>
         <Text style={styles.errorText}>Error: {error}</Text>
-        <Text style={styles.errorSubtext}>Check that your backend is running</Text>
+        <TouchableOpacity style={styles.retryButton} onPress={loadClubs}>
+          <Text style={styles.retryButtonText}>Retry</Text>
+        </TouchableOpacity>
       </View>
     );
   }
-
-  const renderClub = ({ item }: { item: Club }) => (
-    <View style={styles.clubCard}>
-      <Text style={styles.clubName}>{item.club_name}</Text>
-      
-      {item.location && (
-        <View style={styles.locationContainer}>
-          <Text style={styles.locationIcon}>📍</Text>
-          <Text style={styles.locationText}>{item.location}</Text>
-        </View>
-      )}
-      
-      {item.website_url && (
-        <Pressable
-          style={styles.websiteButton}
-          onPress={() => handleWebsitePress(item.website_url!)}
-        >
-          <Text style={styles.websiteButtonText}>🌐 Visit Website</Text>
-        </Pressable>
-      )}
-    </View>
-  );
 
   return (
     <View style={styles.container}>
@@ -110,20 +113,17 @@ export const ClubsScreen = () => {
         data={clubs}
         renderItem={renderClub}
         keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={styles.listContainer}
+        style={styles.list}
         refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-            colors={['#007AFF']}
-            tintColor="#007AFF"
-          />
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
         ListEmptyComponent={
-          <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>No clubs found</Text>
-            <Text style={styles.emptySubtext}>Pull to refresh</Text>
-          </View>
+          !loading && !error ? (
+            <View style={styles.emptyState}>
+              <Text style={styles.emptyText}>No clubs found</Text>
+              <Text style={styles.emptySubtext}>Check back later for club listings</Text>
+            </View>
+          ) : null
         }
       />
     </View>
@@ -135,7 +135,54 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f5f5f5',
   },
-  center: {
+  list: {
+    flex: 1,
+  },
+  clubItem: {
+    backgroundColor: 'white',
+    padding: 16,
+    marginHorizontal: 16,
+    marginVertical: 8,
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  clubName: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 8,
+    color: '#333',
+  },
+  clubDescription: {
+    fontSize: 16,
+    color: '#555',
+    marginBottom: 12,
+    lineHeight: 22,
+  },
+  clubInfo: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 12,
+  },
+  clubActions: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  actionButton: {
+    backgroundColor: '#007AFF',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 6,
+  },
+  actionButtonText: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  centered: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -147,67 +194,27 @@ const styles = StyleSheet.create({
     color: '#666',
   },
   errorText: {
-    fontSize: 18,
-    color: '#dc3545',
-    textAlign: 'center',
-    marginBottom: 8,
-  },
-  errorSubtext: {
-    fontSize: 14,
-    color: '#666',
-    textAlign: 'center',
-  },
-  listContainer: {
-    padding: 16,
-  },
-  clubCard: {
-    backgroundColor: 'white',
-    borderRadius: 12,
-    padding: 20,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  clubName: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: '#1f2937',
-    marginBottom: 12,
-  },
-  locationContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  locationIcon: {
     fontSize: 16,
-    marginRight: 8,
+    color: '#ff3b30',
+    textAlign: 'center',
+    marginBottom: 20,
   },
-  locationText: {
-    fontSize: 16,
-    color: '#6b7280',
-  },
-  websiteButton: {
+  retryButton: {
     backgroundColor: '#007AFF',
+    paddingHorizontal: 24,
     paddingVertical: 12,
-    paddingHorizontal: 20,
     borderRadius: 8,
-    alignSelf: 'flex-start',
   },
-  websiteButtonText: {
+  retryButtonText: {
     color: 'white',
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: '600',
   },
-  emptyContainer: {
+  emptyState: {
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 40,
+    padding: 40,
   },
   emptyText: {
     fontSize: 18,
@@ -217,5 +224,6 @@ const styles = StyleSheet.create({
   emptySubtext: {
     fontSize: 14,
     color: '#999',
+    textAlign: 'center',
   },
 });

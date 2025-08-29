@@ -1,275 +1,259 @@
-import React, { useEffect, useRef, useState } from "react";
-import { View, ActivityIndicator, Text, Linking, Pressable } from "react-native";
-import MapView, { Marker, Callout } from "react-native-maps";
-import { fetchRaces } from "../api";
-import type { Race } from "../types";
-import { MaterialIcons } from "@expo/vector-icons";
-
-const HOUSTON_REGION = {
-  latitude: 29.7604,
-  longitude: -95.3698,
-  latitudeDelta: 0.4,
-  longitudeDelta: 0.4,
-};
-
-import { StyleSheet } from "react-native";
-
-const styles = StyleSheet.create({
-  recenterBtn: {
-    position: "absolute",
-    bottom: 32,
-    right: 24,
-    backgroundColor: "#fff",
-    borderRadius: 24,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    // Enhanced shadows for better depth
-    elevation: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
-    // Add border for better definition
-    borderWidth: 1,
-    borderColor: "#e1e5e9",
-  },
-  recenterText: {
-    color: "#007AFF",
-    fontWeight: "700",
-    fontSize: 16,
-    letterSpacing: 0.5,
-  },
-  loadingContainer: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 16,
-  },
-  loadingText: {
-    marginTop: 8,
-    color: "#007AFF",
-  },
-  emptyContainer: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 16,
-  },
-  emptyTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 8,
-  },
-  emptyText: {
-    fontSize: 18,
-    marginBottom: 8,
-  },
-  emptySubtext: {
-    fontSize: 14,
-    color: "#666",
-  },
-  calloutContainer: {
-    padding: 16,
-    backgroundColor: "white",
-    borderRadius: 12,
-    width: 280,
-    // Enhanced shadow for better depth
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
-    elevation: 6,
-    borderWidth: 1,
-    borderColor: "#e1e5e9",
-  },
-  calloutTitle: {
-    fontWeight: "800",
-    marginBottom: 8,
-    fontSize: 18,
-    color: "#1a1a1a",
-    lineHeight: 22,
-  },
-  calloutDate: {
-    marginBottom: 8,
-    fontSize: 15,
-    color: "#007AFF",
-    fontWeight: "600",
-  },
-  calloutLocation: {
-    marginBottom: 10,
-    fontSize: 14,
-    color: "#333",
-    fontWeight: "500",
-  },
-  raceDetails: {
-    fontSize: 13,
-    color: "#666",
-    marginBottom: 6,
-    lineHeight: 18,
-  },
-  calloutLink: {
-    color: "#007AFF",
-    fontSize: 14,
-    fontWeight: "700",
-    textDecorationLine: "underline",
-    marginTop: 8,
-    textAlign: "center",
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    backgroundColor: "#f0f8ff",
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "#007AFF",
-  },
-});
+import React, { useState, useEffect } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+  Alert,
+  Linking,
+} from 'react-native';
+import MapView, { Marker, Callout } from 'react-native-maps';
+import { Race } from '../types';
+import { fetchRaces } from '../api';
 
 interface RaceMapProps {
-  races?: Race[];
+  races: Race[];
+  onRacePress?: (race: Race) => void;
 }
 
-export default function RaceMap({ races: propRaces }: RaceMapProps) {
-  const [races, setRaces] = useState<Race[]>([]);
+const RaceMap: React.FC<RaceMapProps> = ({ races, onRacePress }) => {
+  const [mapRaces, setMapRaces] = useState<Race[]>([]);
   const [loading, setLoading] = useState(true);
-  const mapRef = useRef<MapView>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  // Use prop races if provided, otherwise fetch from API
-  const displayRaces = propRaces || races;
-
-  const fitAllOrHouston = () => {
-    if (mapRef.current && displayRaces.length > 0) {
-      mapRef.current.fitToCoordinates(
-        displayRaces
-          .filter((r) => r.latitude !== undefined && r.longitude !== undefined)
-          .map((r) => ({ latitude: r.latitude!, longitude: r.longitude! })),
-        { edgePadding: { top: 60, right: 60, bottom: 60, left: 60 }, animated: true }
+  useEffect(() => {
+    if (races && races.length > 0) {
+      // Filter races with valid coordinates
+      const validRaces = races.filter(
+        race => race.latitude && race.longitude && 
+        !isNaN(race.latitude) && !isNaN(race.longitude)
       );
+      setMapRaces(validRaces);
+      setLoading(false);
     } else {
-      mapRef.current?.animateToRegion(HOUSTON_REGION, 300);
+      // Load races if none provided
+      loadRaces();
+    }
+  }, [races]);
+
+  const loadRaces = async () => {
+    try {
+      setLoading(true);
+      const data = await fetchRaces();
+      const validRaces = data.filter(
+        race => race.latitude && race.longitude && 
+        !isNaN(race.latitude) && !isNaN(race.longitude)
+      );
+      setMapRaces(validRaces);
+      setError(null);
+    } catch (err: any) {
+      console.error('Error loading races for map:', err);
+      setError(err?.message || 'Failed to load races');
+    } finally {
+      setLoading(false);
     }
   };
 
-  useEffect(() => {
-    let alive = true;
-    fetchRaces()
-      .then((rs) => {
-        if (!alive) return;
-        setRaces(rs);
-      })
-      .finally(() => {
-        if (alive) setLoading(false);
-      });
-    return () => {
-      alive = false;
-    };
-  }, []);
+  const handleRacePress = (race: Race) => {
+    if (onRacePress) {
+      onRacePress(race);
+    } else {
+      // Default behavior: show race details
+      showRaceDetails(race);
+    }
+  };
 
-  // Fit the camera to all pins once markers are available
-  useEffect(() => {
-    if (!mapRef.current || displayRaces.length < 1) return;
-    const ids = displayRaces.map((r) => `race-${r.id}`);
-    // Small timeout helps ensure markers are on the map before fitting
-    const t = setTimeout(() => {
-      mapRef.current?.fitToSuppliedMarkers(ids, {
-        edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
-        animated: true,
-      });
-    }, 300);
-    return () => clearTimeout(t);
-  }, [displayRaces]);
-
-  // Only show loading if we're fetching races (not using prop races)
-  if (loading && !propRaces) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#007AFF" />
-        <Text style={styles.loadingText}>Loading map…</Text>
-      </View>
-    );
-  }
-
-  if (displayRaces.length === 0) {
-    return (
-      <View style={styles.emptyContainer}>
-        <Text style={styles.emptyTitle}>No Races Found</Text>
-        <Text style={styles.emptyText}>
-          {propRaces ? "No races match your current filter." : "No races with map locations yet."}
-        </Text>
-        <Text style={styles.emptySubtext}>
-          {propRaces ? "Try adjusting your time filter above." : "Check back later for upcoming races!"}
-        </Text>
-      </View>
-    );
-  }
+  const showRaceDetails = (race: Race) => {
+    const raceDate = new Date(race.date).toLocaleDateString();
+    const raceTime = race.time ? ` at ${race.time}` : '';
     
- 
-  
+    Alert.alert(
+      race.title,
+      `Date: ${raceDate}${raceTime}\n` +
+      `Surface: ${race.surface}\n` +
+      `Distance: ${race.distance} ${race.distance_unit}\n` +
+      `Location: ${race.location}`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        ...(race.url ? [{
+          text: 'Visit Website',
+          onPress: () => openRaceWebsite(race.url!)
+        }] : []),
+      ]
+    );
+  };
+
+  const openRaceWebsite = async (url: string) => {
+    try {
+      const supported = await Linking.canOpenURL(url);
+      if (supported) {
+        await Linking.openURL(url);
+      } else {
+        throw new Error('Cannot open URL');
+      }
+    } catch (error) {
+      console.error('Error opening website:', error);
+      Alert.alert('Error', 'Could not open website');
+    }
+  };
+
+  if (loading) {
+    return (
+      <View style={styles.centered}>
+        <Text style={styles.loadingText}>Loading map...</Text>
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.centered}>
+        <Text style={styles.errorText}>Error: {error}</Text>
+        <TouchableOpacity style={styles.retryButton} onPress={loadRaces}>
+          <Text style={styles.retryButtonText}>Retry</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  if (mapRaces.length === 0) {
+    return (
+      <View style={styles.centered}>
+        <Text style={styles.emptyText}>No races with location data found</Text>
+        <Text style={styles.emptySubtext}>Try refreshing or check back later</Text>
+      </View>
+    );
+  }
+
+  // Calculate map region based on race coordinates
+  const getMapRegion = () => {
+    if (mapRaces.length === 0) {
+      return {
+        latitude: 29.7604, // Houston default
+        longitude: -95.3698,
+        latitudeDelta: 0.1,
+        longitudeDelta: 0.1,
+      };
+    }
+
+    const lats = mapRaces.map(race => race.latitude!);
+    const lngs = mapRaces.map(race => race.longitude!);
+    
+    const minLat = Math.min(...lats);
+    const maxLat = Math.max(...lats);
+    const minLng = Math.min(...lngs);
+    const maxLng = Math.max(...lngs);
+    
+    const latDelta = (maxLat - minLat) * 1.2; // Add 20% padding
+    const lngDelta = (maxLng - minLng) * 1.2;
+    
+    return {
+      latitude: (minLat + maxLat) / 2,
+      longitude: (minLng + maxLng) / 2,
+      latitudeDelta: Math.max(latDelta, 0.01), // Minimum zoom
+      longitudeDelta: Math.max(lngDelta, 0.01),
+    };
+  };
+
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.container}>
       <MapView
-        ref={mapRef}
-        style={{ flex: 1 }}
-        initialRegion={HOUSTON_REGION}
+        style={styles.map}
+        initialRegion={getMapRegion()}
+        showsUserLocation={true}
+        showsMyLocationButton={true}
       >
-                 {displayRaces
-           .filter((r) => r.latitude !== undefined && r.longitude !== undefined)
-           .map((r) => (
+        {mapRaces.map((race) => (
           <Marker
-            key={r.id}
-            identifier={`race-${r.id}`}
-            coordinate={{ latitude: r.latitude!, longitude: r.longitude! }}
-            title={r.name}
-            description={new Date(r.date).toLocaleDateString()}
+            key={race.id}
+            coordinate={{
+              latitude: race.latitude!,
+              longitude: race.longitude!,
+            }}
+            title={race.title}
+            description={`${race.date} - ${race.surface} Surface`}
+            onPress={() => handleRacePress(race)}
           >
-            <Callout
-              onPress={() => {
-                if (r.official_website_url) {
-                  // Normalize URL to ensure it has proper protocol
-                  const normalizedUrl = r.official_website_url.match(/^https?:\/\//) 
-                    ? r.official_website_url 
-                    : `https://${r.official_website_url}`;
-                  Linking.openURL(normalizedUrl).catch(() => {});
-                }
-              }}
-            >
-                             <View style={styles.calloutContainer}>
-                 <Text style={styles.calloutTitle}>{r.name}</Text>
-                 
-                 <Text style={styles.calloutDate}>
-                   📅 {new Date(r.date).toDateString()}
-                   {r.start_time ? ` at ${r.start_time.slice(0, 5)}` : ""}
-                 </Text>
-                 
-                 <Text style={styles.calloutLocation}>
-                   📍 {[r.city, r.state].filter(Boolean).join(", ") || "Houston area"}
-                 </Text>
-                 
-                 {r.surface && (
-                   <Text style={styles.raceDetails}>
-                     🏃 {r.surface.charAt(0).toUpperCase() + r.surface.slice(1)} Surface
-                   </Text>
-                 )}
-                 
-                 <Text style={styles.raceDetails}>
-                   👶 Kid Run: {r.kid_run ? "Yes" : "No"}
-                 </Text>
-                 
-                 {r.official_website_url ? (
-                   <Text style={styles.calloutLink}>
-                     🌐 Tap to open website
-                   </Text>
-                 ) : null}
-               </View>
+            <Callout>
+              <View style={styles.callout}>
+                <Text style={styles.calloutTitle}>{race.title}</Text>
+                <Text style={styles.calloutDate}>{new Date(race.date).toLocaleDateString()}</Text>
+                <Text style={styles.calloutSurface}>{race.surface} Surface</Text>
+              </View>
             </Callout>
           </Marker>
         ))}
       </MapView>
-      <Pressable
-        style={styles.recenterBtn}
-        onPress={fitAllOrHouston}
-        accessibilityLabel="Recenter map on Houston"
-      >
-        <Text style={styles.recenterText}>Recenter</Text>
-      </Pressable>
     </View>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  map: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+  },
+  centered: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  loadingText: {
+    fontSize: 16,
+    color: '#666',
+  },
+  errorText: {
+    fontSize: 16,
+    color: '#ff3b30',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  retryButton: {
+    backgroundColor: '#007AFF',
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    borderRadius: 8,
+  },
+  retryButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  emptyText: {
+    fontSize: 18,
+    color: '#666',
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  emptySubtext: {
+    fontSize: 14,
+    color: '#999',
+    textAlign: 'center',
+  },
+  callout: {
+    width: 200,
+    padding: 8,
+  },
+  calloutTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 4,
+    color: '#333',
+  },
+  calloutDate: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 2,
+  },
+  calloutSurface: {
+    fontSize: 12,
+    color: '#999',
+  },
+});
+
+export default RaceMap;

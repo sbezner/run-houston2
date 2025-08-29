@@ -1,48 +1,33 @@
-export type Race = {
+export interface Race {
   id: number;
-  name: string;
+  title: string;
   date: string;
-  start_time?: string;
-  address?: string;
-  city?: string;
-  state?: string;
-  zip?: string;
-  surface?: string;
-  kid_run?: boolean;
-  official_website_url?: string;
-  latitude?: number;
-  longitude?: number;
-};
+  time: string;
+  surface: string;
+  distance: number;
+  distance_unit: string;
+  location: string;
+  latitude: number;
+  longitude: number;
+  url?: string;
+  description?: string;
+}
 
-export type RaceSummary = {
-  id: number;
-  name: string;
-  date: string;
-  city?: string;
-  state?: string;
-  surface?: string;
-  latitude?: number;
-  longitude?: number;
-  official_website_url?: string;
-};
-
-export type RaceReport = {
+export interface RaceReport {
   id: number;
   race_id: number;
-  race_date: string;  // YYYY-MM-DD format
+  race_name: string;
   title: string;
-  author_name?: string | null;
-  content_md: string;
-  photos: string[];
+  content: string;
+  author: string;
   created_at: string;
   updated_at: string;
-  // Optional race summary when include_race=true
-  race?: RaceSummary;
-};
+  url?: string;
+}
 
-export type RaceReportsResponse = {
-  items: RaceReport[];
-  total: number;
-  limit: number;
-  offset: number;
-};
+export interface Club {
+  id: number;
+  club_name: string;
+  location?: string;
+  website_url?: string;
+}

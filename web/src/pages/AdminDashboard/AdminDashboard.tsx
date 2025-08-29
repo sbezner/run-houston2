@@ -6,7 +6,6 @@ import { AdminClubsPage } from './AdminClubsPage';
 import { AdminRacesPage } from './AdminRacesPage';
 import { AdminRaceReportsPage } from './AdminRaceReportsPage';
 import { useState, useEffect } from 'react';
-import { networkValidator } from '../../services/networkValidator';
 
 export const AdminDashboard: React.FC = () => {
   const {
@@ -24,36 +23,6 @@ export const AdminDashboard: React.FC = () => {
   } = useAuth();
 
   const [activeTab, setActiveTab] = useState<'races' | 'clubs' | 'race_reports'>('races');
-  const [networkStatus, setNetworkStatus] = useState<{ online: boolean; message: string }>({ 
-    online: true, 
-    message: 'Network: Online' 
-  });
-
-  // Monitor network status
-  useEffect(() => {
-    const checkNetworkStatus = async () => {
-      try {
-        const hasNetwork = await networkValidator.validateNetworkForAdmin();
-        setNetworkStatus({
-          online: hasNetwork,
-          message: hasNetwork ? 'Network: Online' : 'Network: Offline - Admin functions disabled'
-        });
-      } catch (error) {
-        setNetworkStatus({
-          online: false,
-          message: 'Network: Error - Admin functions disabled'
-        });
-      }
-    };
-
-    // Check immediately
-    checkNetworkStatus();
-
-    // Check every 10 seconds
-    const interval = setInterval(checkNetworkStatus, 10000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   if (loading) {
     return <Loading />;
@@ -72,21 +41,6 @@ export const AdminDashboard: React.FC = () => {
         <h2 style={{ textAlign: 'center', marginBottom: '30px', color: '#333' }}>
           🔐 Admin Login
         </h2>
-        
-        {/* Network Status Indicator */}
-        <div style={{
-          padding: '10px',
-          marginBottom: '20px',
-          borderRadius: '6px',
-          backgroundColor: networkStatus.online ? '#d1fae5' : '#fee2e2',
-          border: `1px solid ${networkStatus.online ? '#10b981' : '#ef4444'}`,
-          color: networkStatus.online ? '#065f46' : '#991b1b',
-          textAlign: 'center',
-          fontSize: '14px',
-          fontWeight: '500'
-        }}>
-          {networkStatus.online ? '🟢' : '🔴'} {networkStatus.message}
-        </div>
         
         {authError && <Alert message={authError} type="error" />}
         {tokenExpired && <Alert message="Your session has expired. Please login again." type="warning" />}
@@ -142,17 +96,16 @@ export const AdminDashboard: React.FC = () => {
             style={{
               width: '100%',
               padding: '12px',
-              backgroundColor: networkStatus.online ? '#3b82f6' : '#9ca3af',
+              backgroundColor: '#3b82f6',
               color: 'white',
               border: 'none',
               borderRadius: '6px',
               fontSize: '16px',
               fontWeight: '500',
-              cursor: networkStatus.online ? 'pointer' : 'not-allowed'
+              cursor: 'pointer'
             }}
-            disabled={!networkStatus.online}
           >
-            {networkStatus.online ? 'Login' : 'Network Offline'}
+            Login
           </button>
         </form>
       </div>
@@ -180,20 +133,6 @@ export const AdminDashboard: React.FC = () => {
         </div>
         
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          {/* Network Status Indicator */}
-          <div style={{
-            padding: '6px 10px',
-            borderRadius: '6px',
-            backgroundColor: networkStatus.online ? '#d1fae5' : '#fee2e2',
-            border: `1px solid ${networkStatus.online ? '#10b981' : '#ef4444'}`,
-            color: networkStatus.online ? '#065f46' : '#991b1b',
-            fontSize: '12px',
-            fontWeight: '500',
-            whiteSpace: 'nowrap'
-          }}>
-            {networkStatus.online ? '🟢' : '🔴'} {networkStatus.message}
-          </div>
-          
           <button
             onClick={logout}
           style={{

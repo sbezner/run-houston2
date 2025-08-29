@@ -12,7 +12,7 @@ from pathlib import Path
 
 def print_header():
     """Print a nice header for the test runner."""
-    print("🚀 Running ALL Unit Tests (Backend + Frontend)")
+    print("🚀 Running ALL Unit Tests (Backend + Frontend + Mobile)")
     print("=" * 50)
     print(f"Platform: {platform.system()} {platform.release()}")
     print(f"Python: {sys.version.split()[0]}")
@@ -26,6 +26,7 @@ def print_header():
     print("   • 🔐 NEW: JWT Authentication Migration Tests")
     print("   • 🔐 NEW: Network Validation Tests")
     print("   • 🔐 NEW: Admin Components Authentication Tests")
+    print("   • 📱 NEW: Mobile App Infinite Scroll Tests")
     print("=" * 50)
 
 def run_backend_tests():
@@ -61,6 +62,8 @@ def run_backend_tests():
             cwd=tests_dir,
             capture_output=True,
             text=True,
+            encoding='utf-8',
+            errors='replace',
             timeout=300  # 5 minute timeout
         )
         
@@ -122,6 +125,8 @@ def run_frontend_tests():
             ["npm", "--version"],
             capture_output=True,
             text=True,
+            encoding='utf-8',
+            errors='replace',
             shell=True  # Use shell to find npm in PATH
         )
         
@@ -137,6 +142,8 @@ def run_frontend_tests():
             cwd=web_dir,
             capture_output=True,
             text=True,
+            encoding='utf-8',
+            errors='replace',
             timeout=300,  # 5 minute timeout
             shell=True    # Use shell to find npm in PATH
         )
@@ -161,6 +168,87 @@ def run_frontend_tests():
         print(f"❌ Frontend Tests: ERROR - {e}")
         return False
 
+def run_mobile_tests():
+    """Run the mobile app tests."""
+    print("\n📱 Running Mobile Tests (React Native)...")
+    
+    # Try multiple possible paths for the mobile directory
+    possible_paths = [
+        Path("../mobile"),        # From tests directory
+        Path("mobile"),           # From project root
+        Path("../../mobile"),     # From deeper subdirectory
+    ]
+    
+    mobile_dir = None
+    for path in possible_paths:
+        if path.exists():
+            mobile_dir = path
+            break
+    
+    if mobile_dir is None:
+        print("❌ Error: 'mobile' directory not found!")
+        print("   Tried paths:")
+        for path in possible_paths:
+            print(f"     - {path.absolute()}")
+        return False
+    
+    print(f"📁 Found mobile directory at: {mobile_dir.absolute()}")
+    
+    # Check if test-runner.js exists
+    test_runner = mobile_dir / "test-runner.js"
+    if not test_runner.exists():
+        print("❌ Error: 'test-runner.js' not found!")
+        return False
+    
+    try:
+        # Check if node is available
+        node_check = subprocess.run(
+            ["node", "--version"],
+            capture_output=True,
+            text=True,
+            encoding='utf-8',
+            errors='replace',
+            shell=True  # Use shell to find node in PATH
+        )
+        
+        if node_check.returncode != 0:
+            print("❌ Error: 'node' command not found! Please install Node.js.")
+            return False
+        
+        print(f"📦 Using Node.js version: {node_check.stdout.strip()}")
+        
+        # Run the mobile tests
+        result = subprocess.run(
+            ["node", "test-runner.js"],
+            cwd=mobile_dir,
+            capture_output=True,
+            text=True,
+            encoding='utf-8',
+            errors='replace',
+            timeout=120,  # 2 minute timeout
+            shell=True    # Use shell to find node in PATH
+        )
+        
+        # Print output
+        if result.stdout:
+            print(result.stdout)
+        if result.stderr:
+            print(result.stderr)
+        
+        if result.returncode == 0:
+            print("✅ Mobile Tests: PASSED")
+            return True
+        else:
+            print(f"❌ Mobile Tests: FAILED (Exit code: {result.returncode})")
+            return False
+            
+    except subprocess.TimeoutExpired:
+        print("❌ Mobile Tests: TIMEOUT (took longer than 2 minutes)")
+        return False
+    except Exception as e:
+        print(f"❌ Mobile Tests: ERROR - {e}")
+        return False
+
 def main():
     """Main function to run all tests."""
     print_header()
@@ -168,12 +256,16 @@ def main():
     # Store results
     backend_success = False
     frontend_success = False
+    mobile_success = False
     
     # Run backend tests
     backend_success = run_backend_tests()
     
     # Run frontend tests
     frontend_success = run_frontend_tests()
+    
+    # Run mobile tests
+    mobile_success = run_mobile_tests()
     
     # Print summary
     print("\n" + "=" * 50)
@@ -186,12 +278,19 @@ def main():
     print(f"   • API Endpoints (Clubs, Races, Race Reports)")
     print(f"   • Frontend-Backend Validation")
     print(f"")
-    print(f"")
     print(f"Frontend Tests: {'✅ PASSED' if frontend_success else '❌ FAILED'}")
+    print(f"   • React Components & Validation")
+    print(f"   • Admin Dashboard Functionality")
+    print(f"   • CSV Import/Export UI")
+    print(f"")
+    print(f"Mobile Tests:   {'✅ PASSED' if mobile_success else '❌ FAILED'}")
+    print(f"   • Infinite Scroll Logic (Bug #22)")
+    print(f"   • Pagination State Management")
+    print(f"   • Performance & Error Handling")
     
     print("\n" + "=" * 50)
     
-    if backend_success and frontend_success:
+    if backend_success and frontend_success and mobile_success:
         print("🎉 ALL TESTS PASSED!")
         print("Your application is ready for deployment! 🚀")
         return 0

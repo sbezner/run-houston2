@@ -261,7 +261,7 @@ export default function App() {
           onPress={() => setMode("clubs")}
           style={[styles.bottomNavTab, mode === "clubs" ? styles.bottomNavTabActive : styles.bottomNavTabInactive]}
         >
-          <Text style={[styles.bottomNavText, mode === "clubs" ? styles.bottomNavTextActive : styles.bottomNavTextInactive]}>
+          <Text style={[styles.bottomNavTab, mode === "clubs" ? styles.bottomNavTabActive : styles.bottomNavTabInactive]}>
             🏃‍♂️ Clubs
           </Text>
         </Pressable>

@@ -1,7 +1,6 @@
 import React from 'react';
 import { auth } from '../services/auth';
 import { api } from '../services/api';
-import { networkValidator } from '../services/networkValidator';
 
 export const useAuth = () => {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
@@ -17,13 +16,7 @@ export const useAuth = () => {
     setError('');
 
     try {
-      // Validate network connectivity before allowing login
-      const hasNetwork = await networkValidator.validateNetworkForAdmin();
-      if (!hasNetwork) {
-        setError('Network connectivity required for admin login. Please check your internet connection and try again.');
-        return;
-      }
-
+      // No network validation - only authentication matters
       const data = await api.post('/admin/login', { username, password });
       auth.setToken(data.access_token);
       setIsLoggedIn(true);

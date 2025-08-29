@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "mobile",
-    "slug": "mobile",
+    "name": "mobile_new",
+    "slug": "mobile_new",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

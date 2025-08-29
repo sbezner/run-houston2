@@ -1,16 +1,9 @@
 import { API_BASE } from '../config';
 import type { Club } from '../types';
-import { networkValidator } from './networkValidator';
 
 export const api = {
   get: async (endpoint: string, token?: string) => {
-    // For admin endpoints, validate network connectivity
-    if (token && endpoint.startsWith('/admin')) {
-      const hasNetwork = await networkValidator.validateNetworkForAdmin();
-      if (!hasNetwork) {
-        throw new Error('Network connectivity required for admin operations. Please check your internet connection and try again.');
-      }
-    }
+    // No network validation - only authentication matters
 
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
@@ -36,13 +29,7 @@ export const api = {
   },
   
   post: async (endpoint: string, data: any, token?: string) => {
-    // For admin endpoints, validate network connectivity
-    if (token && endpoint.startsWith('/admin')) {
-      const hasNetwork = await networkValidator.validateNetworkForAdmin();
-      if (!hasNetwork) {
-        throw new Error('Network connectivity required for admin operations. Please check your internet connection and try again.');
-      }
-    }
+    // No network validation - only authentication matters
 
     const headers: Record<string, string> = {};
     
@@ -75,13 +62,7 @@ export const api = {
   },
   
   put: async (endpoint: string, data: any, token?: string) => {
-    // For admin endpoints, validate network connectivity
-    if (token && endpoint.startsWith('/admin')) {
-      const hasNetwork = await networkValidator.validateNetworkForAdmin();
-      if (!hasNetwork) {
-        throw new Error('Network connectivity required for admin operations. Please check your internet connection and try again.');
-      }
-    }
+    // No network validation - only authentication matters
 
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
@@ -109,13 +90,7 @@ export const api = {
   },
   
   delete: async (endpoint: string, token?: string) => {
-    // For admin endpoints, validate network connectivity
-    if (token && endpoint.startsWith('/admin')) {
-      const hasNetwork = await networkValidator.validateNetworkForAdmin();
-      if (!hasNetwork) {
-        throw new Error('Network connectivity required for admin operations. Please check your internet connection and try again.');
-      }
-    }
+    // No network validation - only authentication matters
 
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
@@ -166,11 +141,7 @@ export const clubs = {
   update: (id: number, body: Partial<Club>, token: string) => api.put(`/clubs/${id}`, body, token),
   remove: (id: number, token: string) => api.delete(`/clubs/${id}`, token),
   exportCsv: async (token: string) => {
-    // Validate network connectivity before CSV export
-    const hasNetwork = await networkValidator.validateNetworkForAdmin();
-    if (!hasNetwork) {
-      throw new Error('Network connectivity required for admin operations. Please check your internet connection and try again.');
-    }
+    // No network validation - only authentication matters
     
     return fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000'}/admin/clubs/export-csv`, {
       method: 'GET',
@@ -181,11 +152,7 @@ export const clubs = {
     });
   },
   importCsv: async (file: File, token: string) => {
-    // Validate network connectivity before CSV import
-    const hasNetwork = await networkValidator.validateNetworkForAdmin();
-    if (!hasNetwork) {
-      throw new Error('Network connectivity required for admin operations. Please check your internet connection and try again.');
-    }
+    // No network validation - only authentication matters
     
     const formData = new FormData();
     formData.append('file', file);
@@ -241,11 +208,7 @@ export const raceReports = {
     date_from?: string;
     date_to?: string;
   }) => {
-    // Validate network connectivity before CSV export
-    const hasNetwork = await networkValidator.validateNetworkForAdmin();
-    if (!hasNetwork) {
-      throw new Error('Network connectivity required for admin operations. Please check your internet connection and try again.');
-    }
+    // No network validation - only authentication matters
     
     const searchParams = new URLSearchParams();
     if (params?.race_id) searchParams.append('race_id', params.race_id.toString());
@@ -278,11 +241,7 @@ export const raceReports = {
   },
   
   importCsv: async (file: File, dryRun: boolean = true, token: string) => {
-    // Validate network connectivity before CSV import
-    const hasNetwork = await networkValidator.validateNetworkForAdmin();
-    if (!hasNetwork) {
-      throw new Error('Network connectivity required for admin operations. Please check your internet connection and try again.');
-    }
+    // No network validation - only authentication matters
     
     const formData = new FormData();
     formData.append('file', file);
@@ -307,11 +266,7 @@ export const races = {
   update: (id: number, body: any, token: string) => api.put(`/races/${id}`, body, token),
   remove: (id: number, token: string) => api.delete(`/races/${id}`, token),
   importCsv: async (file: File, token: string) => {
-    // Validate network connectivity before CSV import
-    const hasNetwork = await networkValidator.validateNetworkForAdmin();
-    if (!hasNetwork) {
-      throw new Error('Network connectivity required for admin operations. Please check your internet connection and try again.');
-    }
+    // No network validation - only authentication matters
     
     const formData = new FormData();
     formData.append('file', file);
