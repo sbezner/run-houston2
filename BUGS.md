@@ -90,6 +90,50 @@
    - **Fix Required**: Modify CSV import logic to ignore race_name when race_id is valid and lookup database race name instead
    - **Status**: Open
 
+**Bug #21**
+- [x] **Bug Title**: Load More reports functionality broken - reports replaced instead of appended
+  - **Date Reported**: 2025-01-27
+  - **Reporter**: Developer
+  - **Severity**: Medium
+  - **Status**: Fixed
+  - **Priority**: P2
+  - **Description**: The "Load More" button in the race reports web interface was not working correctly. When clicked, it would replace the existing reports instead of appending new ones, making pagination unusable.
+  - **Steps to Reproduce**: 
+    1. Go to Race Reports page
+    2. If there are more than 20 reports, click "Load More Reports" button
+    3. Observe that existing reports disappear and only new reports are shown
+    4. Notice that pagination is broken and user loses access to previously loaded reports
+  - **Expected Behavior**: 
+    1. "Load More" should append new reports to existing ones
+    2. All previously loaded reports should remain visible
+    3. Pagination should work correctly
+    4. User should see cumulative reports as they load more
+  - **Actual Behavior**: 
+    1. Clicking "Load More" replaced existing reports with new ones
+    2. Users lost access to previously loaded reports
+    3. Pagination was effectively broken
+    4. Poor user experience for browsing multiple pages of reports
+  - **Environment**: 
+    - **OS**: Windows 10
+    - **Browser**: Any modern browser
+    - **Python Version**: 3.11.9
+    - **Database**: PostgreSQL
+    - **Other Dependencies**: React, TypeScript, FastAPI
+  - **Screenshots/Logs**: Reports disappearing when Load More clicked
+  - **Suggested Code Locations**:
+    - **Files to investigate**: `web/src/pages/ReportsPage.tsx`
+    - **Key functions/methods**: `fetchReports`, `handleLoadMore`, state management for reports array
+    - **Database tables/columns**: N/A - Frontend pagination issue
+    - **API endpoints**: N/A - Frontend pagination issue
+  - **Assigned To**: Developer
+  - **Notes**: This was a critical pagination bug that made the Load More functionality unusable. The fix ensures that reports are properly appended instead of replaced, maintaining the user's browsing context.
+  - **Related Issues**: Race reports pagination, user experience
+  - **User Impact**: Medium - pagination was broken but basic functionality remained
+  - **Fix Required**: Modify state management to append new reports instead of replacing existing ones
+  - **Status**: Fixed
+  - **Fix Applied**: Updated `fetchReports` function to conditionally handle report loading - replace for initial load (offset === 0), append for subsequent loads (offset > 0)
+  - **Test Coverage**: Created comprehensive logic tests in `ReportsPage.logic.test.ts` to verify the fix
+
 **Bug #20**
 - [ ] **Bug Title**: Clubs CSV import missing template download functionality - poor user experience
   - **Date Reported**: 2025-01-27

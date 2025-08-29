@@ -16,13 +16,22 @@ export const ReportsPage: React.FC = () => {
   const fetchReports = async () => {
     try {
       setLoading(true);
+      
       const response: RaceReportsResponse = await raceReports.list({
         order_by: 'created_at',
         limit,
         offset,
         include_race: true
       });
-      setReports(response.items);
+      
+      // If this is the first load (offset === 0), replace reports
+      // If loading more (offset > 0), append to existing reports
+      if (offset === 0) {
+        setReports(response.items);
+      } else {
+        setReports(prevReports => [...prevReports, ...response.items]);
+      }
+      
       setTotal(response.total);
       setError(null);
     } catch (err) {
@@ -103,29 +112,41 @@ export const ReportsPage: React.FC = () => {
           </div>
 
           {/* Load More Button */}
-          {total > offset + limit && (
-            <div style={{ 
-              display: 'flex', 
-              justifyContent: 'center', 
-              marginTop: '40px'
-            }}>
-              <button
-                onClick={handleLoadMore}
-                style={{
-                  backgroundColor: '#007AFF',
-                  color: 'white',
-                  border: 'none',
-                  padding: '15px 30px',
-                  borderRadius: '8px',
-                  cursor: 'pointer',
-                  fontSize: '16px',
-                  fontWeight: '500'
-                }}
-              >
-                Load More Reports
-              </button>
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'center', 
+            marginTop: '40px',
+            padding: '20px',
+            backgroundColor: '#f8f9fa',
+            borderRadius: '8px'
+          }}>
+            <div style={{ textAlign: 'center' }}>
+              <p style={{ marginBottom: '10px', color: '#666' }}>
+                Showing {reports.length} of {total} reports
+              </p>
+              {total > offset + limit ? (
+                <button
+                  onClick={handleLoadMore}
+                  style={{
+                    backgroundColor: '#007AFF',
+                    color: 'white',
+                    border: 'none',
+                    padding: '15px 30px',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    fontSize: '16px',
+                    fontWeight: '500'
+                  }}
+                >
+                  Load More Reports
+                </button>
+              ) : (
+                <p style={{ color: '#999', fontStyle: 'italic' }}>
+                  All reports loaded
+                </p>
+              )}
             </div>
-          )}
+          </div>
         </div>
       )}
     </div>
