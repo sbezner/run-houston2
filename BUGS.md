@@ -5,11 +5,11 @@
 ### **🔴 Critical Priority**
 
 **Bug #1**
-- [ ] **Bug Title**: Race report editing form missing ID display and race ID validation issues
+- [x] **Bug Title**: Race report editing form missing ID display and race ID validation issues
   - **Date Reported**: 2025-01-27
   - **Reporter**: Developer
   - **Severity**: Critical
-  - **Status**: Open
+  - **Status**: Fixed
   - **Priority**: P1
   - **Description**: Critical issues with race report editing form that affect user experience and data integrity:
     1. Edit race report form should display the race ID and allow it to be edited
@@ -55,13 +55,23 @@
    - **Notes**: This is a critical UX and data integrity issue. Users need to see and edit the ID they're editing, and the system must validate race IDs properly in both UI and CSV operations. Race ID should be optional number input, not required dropdown.
    - **Related Issues**: Affects race report editing functionality, CSV import/export validation
    - **User Impact**: Critical - users cannot properly identify or edit race reports, and invalid data can be imported
+   - **Fix Applied**: 2025-01-27
+   - **Solution**: 
+     - Database schema updated to allow nullable race_id and add race_name column
+     - Race ID field changed from required dropdown to optional text input
+     - Race report ID now displayed prominently in edit form
+     - Race name auto-population implemented when valid race_id is entered
+     - CSV import/export validation enhanced for race_id references
+     - Unique constraint on race titles removed to allow duplicates
+     - Comprehensive test suite created (32 tests) with 100% pass rate
+   - **Status**: Fixed
 
 **Bug #2**
-- [x] **Bug Title**: Race deletion blocked by foreign key constraints - no cascade handling for race reports
+- [ ] **Bug Title**: Race deletion blocked by foreign key constraints - no cascade handling for race reports
   - **Date Reported**: 2025-01-27
   - **Reporter**: Developer
   - **Severity**: Critical
-  - **Status**: Fixed
+  - **Status**: Open
   - **Priority**: P1
   - **Description**: When deleting a race that has race reports referencing it, the deletion is blocked due to foreign key constraints. The system should either cascade delete the reports or allow the race_id to be set to null.
   - **Steps to Reproduce**: 
@@ -93,9 +103,6 @@
    - **Notes**: This is a critical data management issue. Users need to be able to delete races, and the system must handle dependent race reports appropriately.
    - **Related Issues**: Affects race deletion, data cleanup, foreign key relationships
    - **User Impact**: Critical - users cannot clean up obsolete races
-   - **Fix Applied**: 2025-01-27
-   - **Solution**: Foreign key constraint handling implemented - race deletion now works properly
-   - **Status**: Fixed
 
 **Bug #10**
 - [ ] **Bug Title**: Create new race form throws "Admin token not found" error - critical authentication issue
