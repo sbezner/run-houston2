@@ -1,500 +1,695 @@
-import { useEffect, useState } from "react";
+import React, { useState, useEffect, useRef, createContext, useContext } from 'react';
 import {
   View,
   Text,
   FlatList,
-  ActivityIndicator,
+  RefreshControl,
   StyleSheet,
-  Linking,
+  Animated,
+  TouchableOpacity,
   Alert,
-  Pressable,
+  SafeAreaView,
   Platform,
   StatusBar,
-} from "react-native";
-import { Race } from "./src/types";
-import { fetchRaces } from "./src/api";
-import RaceMap from "./src/components/RaceMap";
-import AboutScreen from "./src/components/AboutScreen";
-import { ClubsScreen } from "./src/screens/ClubsScreen";
-import { ReportsScreen } from "./src/screens/ReportsScreen";
+} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
+import { Ionicons } from '@expo/vector-icons';
 
-// Helper function to capitalize first letter of surface type and add "Surface"
-const capitalizeSurface = (surface: string | null | undefined): string => {
-  if (!surface) return '';
-  return surface.charAt(0).toUpperCase() + surface.slice(1) + ' Surface';
-};
+import { Race, RaceVM, FilterState } from './src/types';
+import { normalizeRace } from './src/utils/normalizeRace';
+import { uniqueCities } from './src/utils/uniqueCities';
+import { milesBetween } from './src/utils/geo';
+import { useUserLocation } from './src/hooks/useUserLocation';
+import { Toolbar } from './src/components/Toolbar';
+import { DateSheet } from './src/components/DateSheet';
+import { FilterSheet } from './src/components/FilterSheet';
+import { RaceCard } from './src/components/RaceCard';
+import RaceMap from './src/components/RaceMap';
+import { fetchRaces } from './src/api';
+import AboutScreen from './src/components/AboutScreen';
+import { ClubsScreen } from './src/screens/ClubsScreen';
+import { ReportsScreen } from './src/screens/ReportsScreen';
 
-// Helper function to format time with AM/PM
-const formatTimeWithAMPM = (timeString: string): string => {
-  if (!timeString) return '';
-  
-  // Extract hours and minutes from the time string (assuming format like "14:30:00")
-  const [hours, minutes] = timeString.split(':');
-  const hour = parseInt(hours, 10);
-  const minute = parseInt(minutes, 10);
-  
-  // Convert to 12-hour format
-  const period = hour >= 12 ? 'PM' : 'AM';
-  const displayHour = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
-  
-  // Format with leading zero for minutes if needed
-  const displayMinute = minute.toString().padStart(2, '0');
-  
-  return `${displayHour}:${displayMinute} ${period}`;
-};
+// Create a context for sharing filters between screens
+const FilterContext = createContext<{
+  filters: FilterState;
+  setFilters: React.Dispatch<React.SetStateAction<FilterState>>;
+}>({
+  filters: {
+    preset: 'next30',
+    distances: [],
+    surface: [],
+    useLocation: false,
+    locationRadius: 25,
+    city: 'all'
+  },
+  setFilters: () => {}
+});
 
-// Helper function to normalize URLs and ensure they have proper protocol
-const normalizeURL = (url: string): string => {
-  if (!url) return '';
-  
-  // If URL doesn't start with http:// or https://, add https://
-  if (!url.match(/^https?:\/\//)) {
-    return `https://${url}`;
-  }
-  
-  return url;
-};
+// Hook to use the filter context
+const useFilters = () => useContext(FilterContext);
 
-// Compute a platform-safe top inset so content doesn't overlap the system status bar
-const SAFE_TOP = Platform.OS === 'ios' ? 44 : (StatusBar.currentHeight || 0);
+const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
-export default function App() {
+// List Stack Navigator
+function ListStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen 
+        name="Results" 
+        component={ResultsScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen 
+        name="Clubs" 
+        component={ClubsScreen}
+        options={{ title: 'Running Clubs' }}
+      />
+      <Stack.Screen 
+        name="Reports" 
+        component={ReportsScreen}
+        options={{ title: 'Race Reports' }}
+      />
+      <Stack.Screen 
+        name="About" 
+        component={AboutScreen}
+        options={{ title: 'About' }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+// Results Screen Component
+function ResultsScreen({ navigation }: any) {
   const [races, setRaces] = useState<Race[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [mode, setMode] = useState<"list" | "map" | "about" | "clubs" | "reports">("list");
-  const [refreshing, setRefreshing] = useState(false); // 1. Add refreshing state
-  const [timeFilter, setTimeFilter] = useState<"30" | "60" | "90" | "all">("30"); // Time filter state
+  const [refreshing, setRefreshing] = useState(false);
+  const [dateSheetVisible, setDateSheetVisible] = useState(false);
+  const [filterSheetVisible, setFilterSheetVisible] = useState(false);
+  
+  // Use shared filters from context
+  const { filters, setFilters } = useFilters();
 
-  // 2. Create reload function
-  const reload = async () => {
+  const { coords, permission, request } = useUserLocation();
+  const scrollY = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    loadRaces();
+  }, []);
+
+  const loadRaces = async () => {
     try {
-      setRefreshing(true);
       setLoading(true);
-      const rs = await fetchRaces();
-      setRaces(rs);
-      setError(null);
-    } catch (e: any) {
-      setError(e?.message ?? "Failed to load");
+      const racesData = await fetchRaces();
+      setRaces(racesData);
+    } catch (error) {
+      console.error('Error loading races:', error);
+      Alert.alert('Error', 'Failed to load races');
     } finally {
-      setRefreshing(false);
       setLoading(false);
     }
   };
 
-  // 3. Use reload in initial load
-  useEffect(() => {
-    reload();
-  }, []);
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await loadRaces();
+    setRefreshing(false);
+  };
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0); // Normalize to midnight
+  const applyFilters = (newFilters: FilterState) => {
+    setFilters(newFilters);
+  };
 
-  // Calculate filter date based on selected time range
-  const getFilterDate = () => {
-    switch (timeFilter) {
-      case "30":
-        const in30 = new Date(today);
-        in30.setDate(today.getDate() + 30);
-        return in30;
-      case "60":
-        const in60 = new Date(today);
-        in60.setDate(today.getDate() + 60);
-        return in60;
-      case "90":
-        const in90 = new Date(today);
-        in90.setDate(today.getDate() + 90);
-        return in90;
-      case "all":
-        return null; // No upper limit
-      default:
-        return null;
+  const handlePresetChange = (preset: string, dateFrom?: string, dateTo?: string) => {
+    setFilters(prev => ({
+      ...prev,
+      preset: preset as any,
+      dateFrom,
+      dateTo,
+    }));
+  };
+
+  const handleFilterApply = (newFilters: FilterState) => {
+    setFilters(newFilters);
+  };
+
+  const getActiveFilterCount = (): number => {
+    let count = 0;
+    if (filters.distances.length > 0) count++;
+    if (filters.surface.length > 0) count++;
+    if (filters.useLocation && filters.locationRadius !== 25) count++;
+    if (!filters.useLocation && filters.city !== 'all') count++;
+    return count;
+  };
+
+  const getActiveFilters = (): string[] => {
+    const active: string[] = [];
+    if (filters.distances.length > 0) {
+      active.push(filters.distances.join(', '));
+    }
+    if (filters.surface.length > 0) {
+      active.push(filters.surface.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', '));
+    }
+    if (filters.useLocation && filters.locationRadius) {
+      active.push(`${filters.locationRadius} mi radius`);
+    }
+    if (!filters.useLocation && filters.city !== 'all') {
+      active.push(filters.city);
+    }
+    return active;
+  };
+
+  const removeFilter = (filterType: keyof FilterState) => {
+    setFilters(prev => ({
+      ...prev,
+      [filterType]: filterType === 'distances' || filterType === 'surface' ? [] : 
+                   filterType === 'useLocation' ? false :
+                   filterType === 'locationRadius' ? 25 :
+                   filterType === 'city' ? 'all' : prev[filterType],
+    }));
+  };
+
+  const clearAllFilters = () => {
+    setFilters({
+      preset: 'next30',
+      distances: [],
+      surface: [],
+      useLocation: false,
+      locationRadius: 25,
+      city: 'all',
+    });
+  };
+
+  const getSummaryText = (): string => {
+    const presetLabels = {
+      today: 'Today',
+      tomorrow: 'Tomorrow',
+      weekend: 'This Weekend',
+      next7: 'Next 7 Days',
+      next30: 'Next 30 Days',
+      custom: 'Custom Range',
+    };
+
+    const parts = [presetLabels[filters.preset]];
+    const activeFilters = getActiveFilters();
+    if (activeFilters.length > 0) {
+      parts.push(...activeFilters);
+    }
+    return parts.join(' • ');
+  };
+
+  const getVisibleRaces = (): RaceVM[] => {
+    let filtered = races.map(normalizeRace);
+
+    // Debug logging for date filtering
+    if (['today', 'tomorrow', 'weekend', 'next7'].includes(filters.preset)) {
+      console.log('Filter preset:', filters.preset);
+      console.log('Total races before filtering:', filtered.length);
+      // Log first few race dates for debugging
+      filtered.slice(0, 3).forEach(race => {
+        console.log(`Race: ${race.name}, DateISO: ${race.dateISO}, Parsed: ${new Date(race.dateISO).toISOString()}`);
+      });
+    }
+
+    // Date filtering
+    if (filters.preset !== 'custom' && filters.preset !== 'next30') {
+      const now = new Date();
+      console.log('Current date:', now.toDateString(), 'Local timezone');
+      
+      // Simple date comparison - just get the date parts as strings
+      const todayStr = now.toLocaleDateString('en-CA'); // Returns YYYY-MM-DD format
+      
+      let startDateStr: string;
+      let endDateStr: string;
+
+      switch (filters.preset) {
+        case 'today':
+          startDateStr = todayStr;
+          endDateStr = todayStr;
+          break;
+        case 'tomorrow':
+          const tomorrow = new Date(now);
+          tomorrow.setDate(tomorrow.getDate() + 1);
+          startDateStr = tomorrow.toLocaleDateString('en-CA');
+          endDateStr = startDateStr;
+          break;
+        case 'weekend':
+          const dayOfWeek = now.getDay();
+          const daysUntilSaturday = dayOfWeek === 0 ? 6 : 6 - dayOfWeek;
+          const daysUntilSunday = dayOfWeek === 0 ? 0 : 7 - dayOfWeek;
+          const saturday = new Date(now);
+          saturday.setDate(now.getDate() + daysUntilSaturday);
+          const sunday = new Date(now);
+          sunday.setDate(now.getDate() + daysUntilSunday);
+          startDateStr = saturday.toLocaleDateString('en-CA');
+          endDateStr = sunday.toLocaleDateString('en-CA');
+          break;
+        case 'next7':
+          const nextWeek = new Date(now);
+          nextWeek.setDate(now.getDate() + 7);
+          startDateStr = todayStr;
+          endDateStr = nextWeek.toLocaleDateString('en-CA');
+          break;
+        default:
+          const nextMonth = new Date(now);
+          nextMonth.setDate(now.getDate() + 30);
+          startDateStr = todayStr;
+          endDateStr = nextMonth.toLocaleDateString('en-CA');
+      }
+
+      // Debug: Log the calculated dates
+      if (filters.preset === 'today' || filters.preset === 'weekend') {
+        console.log('Current date info:');
+        console.log('  now:', now.toDateString());
+        console.log('  todayStr:', todayStr);
+        console.log('  dayOfWeek:', now.getDay()); // 0=Sunday, 1=Monday, etc.
+        console.log('Calculated dates:');
+        console.log('  StartDate String:', startDateStr);
+        console.log('  EndDate String:', endDateStr);
+      }
+
+      filtered = filtered.filter(race => {
+        // Since both database and user are in Central Time, compare dates as strings
+        // This avoids all timezone conversion issues
+        const raceDateStr = race.dateISO;
+        
+        // For today and specific dates, include races that start on or after the start date
+        // but before the end date (which is the next day)
+        let isInRange = false;
+        
+        if (filters.preset === 'today') {
+          isInRange = raceDateStr === startDateStr;
+        } else if (filters.preset === 'tomorrow') {
+          isInRange = raceDateStr === startDateStr;
+        } else if (filters.preset === 'weekend') {
+          isInRange = raceDateStr >= startDateStr && raceDateStr <= endDateStr;
+        } else if (filters.preset === 'next7') {
+          isInRange = raceDateStr >= startDateStr && raceDateStr <= endDateStr;
+        } else {
+          isInRange = raceDateStr >= startDateStr && raceDateStr <= endDateStr;
+        }
+        
+        if (filters.preset === 'today' || filters.preset === 'weekend') {
+          console.log(`Race: ${race.name}, Date: ${raceDateStr}`);
+          if (filters.preset === 'today') {
+            console.log(`  Today String: ${startDateStr}`);
+            console.log(`  Race Date String: ${raceDateStr}`);
+            console.log(`  String Comparison: ${raceDateStr} === ${startDateStr}`);
+          } else {
+            console.log(`  Weekend Range: ${startDateStr} to ${endDateStr}`);
+            console.log(`  Race Date String: ${raceDateStr}`);
+            console.log(`  String Comparison: ${raceDateStr} >= ${startDateStr} && ${raceDateStr} <= ${endDateStr}`);
+          }
+          console.log(`  InRange: ${isInRange}`);
+        }
+        
+        return isInRange;
+      });
+      
+      // Debug logging after date filtering
+      if (['today', 'tomorrow', 'weekend', 'next7'].includes(filters.preset)) {
+        console.log('Races after date filtering:', filtered.length);
+      }
+    } else if (filters.preset === 'custom' && filters.dateFrom && filters.dateTo) {
+      const startDate = new Date(filters.dateFrom + 'T00:00:00.000Z');
+      const endDate = new Date(filters.dateTo + 'T23:59:59.999Z');
+      filtered = filtered.filter(race => {
+        const raceDate = new Date(race.dateISO);
+        return raceDate >= startDate && raceDate <= endDate;
+      });
+    }
+
+    // Distance filtering
+    if (filters.distances.length > 0) {
+      filtered = filtered.filter(race =>
+        race.distances?.some(distance => filters.distances.includes(distance as any))
+      );
+    }
+
+    // Surface filtering
+    if (filters.surface.length > 0) {
+      filtered = filtered.filter(race =>
+        race.surface && filters.surface.includes(race.surface as any)
+      );
+    }
+
+    // Location filtering
+    if (filters.useLocation && coords && filters.locationRadius) {
+      filtered = filtered.filter(race => {
+        if (!race.latitude || !race.longitude) return false;
+        const distance = milesBetween(coords, { lat: race.latitude, lng: race.longitude });
+        return distance <= filters.locationRadius!;
+      });
+    } else if (!filters.useLocation && filters.city !== 'all') {
+      filtered = filtered.filter(race => race.city === filters.city);
+    }
+
+    // Sort by date ascending
+    return filtered.sort((a, b) => new Date(a.dateISO).getTime() - new Date(b.dateISO).getTime());
+  };
+
+  const visibleRaces = getVisibleRaces();
+
+  const handleRacePress = (race: RaceVM) => {
+    // Handle race selection - could open details or navigate to map
+    console.log('Selected race:', race.name);
+  };
+
+  const handleLocationPermission = async () => {
+    if (permission === 'undetermined') {
+      const granted = await request();
+      if (!granted) {
+        Alert.alert(
+          'Location Permission',
+          'Location access is needed for radius filtering. You can still filter by city.',
+          [{ text: 'OK' }]
+        );
+      }
     }
   };
 
-  const filterDate = getFilterDate();
-
-  const visibleRaces = races
-    .filter((r) => {
-      const d = new Date(r.date);
-      d.setHours(0, 0, 0, 0);
-      if (filterDate) {
-        return d >= today && d <= filterDate;
-      }
-      return d >= today; // Show all future races
-    })
-    .sort((a, b) => a.date.localeCompare(b.date));
-
   if (loading) {
     return (
-      <View style={styles.center}>
-        <ActivityIndicator />
-        <Text>Loading races…</Text>
-      </View>
-    );
-  }
-
-  if (error) {
-    return (
-      <View style={styles.center}>
-        <Text style={styles.error}>Error: {error}</Text>
-        <Text>Check that your backend is running and your device can reach it.</Text>
-      </View>
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.loadingContainer}>
+          <Text style={styles.loadingText}>Loading races...</Text>
+        </View>
+      </SafeAreaView>
     );
   }
 
   return (
-    <View style={[styles.container, { paddingTop: SAFE_TOP }] }>
-      <Text style={styles.header}>
-        {mode === "about" ? "About Run Houston" : 
-         mode === "clubs" ? "Run Houston — Running Clubs" : 
-         mode === "reports" ? "Run Houston — Race Reports" :
-         "Run Houston — Upcoming Races"}
-      </Text>
+    <SafeAreaView style={styles.safeArea}>
+      {/* Toolbar */}
+      <Toolbar
+        currentPreset={filters.preset}
+        activeFilterCount={getActiveFilterCount()}
+        summaryText={getSummaryText()}
+        onDatePress={() => setDateSheetVisible(true)}
+        onFiltersPress={() => setFilterSheetVisible(true)}
+        onNavigateToClubs={() => navigation.navigate('Clubs')}
+        onNavigateToReports={() => navigation.navigate('Reports')}
+        onNavigateToAbout={() => navigation.navigate('About')}
+        scrollY={scrollY}
+      />
 
-      {/* Time Filter Chips - Only show for List and Map modes (not for About or Clubs) */}
-      {(mode === "list" || mode === "map") && (
-        <View style={styles.filterContainer}>
-          <Text style={styles.filterLabel}>Show races in:</Text>
-          <View style={styles.filterChips}>
-            {(["30", "60", "90", "all"] as const).map((filter) => (
-              <Pressable
-                key={filter}
-                style={[
-                  styles.filterChip,
-                  timeFilter === filter ? styles.filterChipActive : styles.filterChipInactive
-                ]}
-                onPress={() => setTimeFilter(filter)}
+      {/* Active Filters Bar */}
+      {getActiveFilterCount() > 0 && (
+        <View style={styles.activeFiltersBar}>
+          {getActiveFilters().map((filter, index) => (
+            <View key={index} style={styles.filterPill}>
+              <Text style={styles.filterPillText}>{filter}</Text>
+              <TouchableOpacity
+                style={styles.removeButton}
+                onPress={() => {
+                  // This is a simplified removal - in a real app you'd want to identify which filter to remove
+                  clearAllFilters();
+                }}
               >
-                <Text style={[
-                  styles.filterChipText,
-                  timeFilter === filter ? styles.filterChipTextActive : styles.filterChipTextInactive
-                ]}>
-                  {filter === "all" ? "All" : `${filter} Days`}
-                </Text>
-              </Pressable>
-            ))}
-          </View>
+                <Text style={styles.removeButtonText}>×</Text>
+              </TouchableOpacity>
+            </View>
+          ))}
+          <TouchableOpacity style={styles.clearAllButton} onPress={clearAllFilters}>
+            <Text style={styles.clearAllText}>Clear All</Text>
+          </TouchableOpacity>
         </View>
       )}
 
-      <View style={{ flex: 1 }}>
-        {mode === "list" ? (
-          <FlatList
-            data={visibleRaces}
-            keyExtractor={(item) => String(item.id)}
-            ItemSeparatorComponent={() => <View style={styles.sep} />}
-            renderItem={({ item }) => (
-              <View style={styles.row}>
-                <Text style={styles.title}>{item.name}</Text>
-                
-                <View style={styles.raceInfo}>
-                  <Text style={styles.raceDetails}>
-                   📅 {new Date(item.date).toDateString()}
-                    {item.start_time ? ` at ${formatTimeWithAMPM(item.start_time)}` : ""}
-                  </Text>
-                  
-                  <Text style={styles.raceDetails}>
-                  📍 {[item.city, item.state].filter(Boolean).join(", ") || "Houston area"}
-                  </Text>
-                  
-                  {item.surface && (
-                    <Text style={styles.raceDetails}>
-                      🏃 {capitalizeSurface(item.surface)}
-                    </Text>
-                  )}
-                  
-                  <Text style={styles.raceDetails}>
-                    👶 Kid Run: {item.kid_run ? "Yes" : "No"}
-                  </Text>
-                </View>
-                
-                {item.official_website_url ? (
-                  <Text
-                    style={styles.link}
-                    onPress={() =>
-                      Linking.openURL(normalizeURL(item.official_website_url!)).catch(() =>
-                        Alert.alert("Could not open link")
-                      )
-                    }
-                  >
-                    Open race website
-                  </Text>
-                ) : null}
-              </View>
-            )}
-            ListEmptyComponent={<Text style={{ padding: 16 }}>No races found.</Text>}
-            contentContainerStyle={{ paddingBottom: 24 }}
-            refreshing={refreshing} // 4. Add refreshing prop
-            onRefresh={reload}      // 5. Add onRefresh prop
-          />
-        ) : mode === "map" ? (
-          <RaceMap races={visibleRaces} />
-        ) : mode === "clubs" ? (
-          <ClubsScreen />
-        ) : mode === "reports" ? (
-          <ReportsScreen />
-        ) : (
-          <AboutScreen />
+      {/* Race List */}
+      <FlatList
+        data={visibleRaces}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => (
+          <RaceCard race={item} onPress={() => handleRacePress(item)} />
         )}
-      </View>
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+          { useNativeDriver: false }
+        )}
+        scrollEventThrottle={16}
+        contentContainerStyle={styles.listContainer}
+        stickyHeaderIndices={[0]}
+      />
 
-      {/* Bottom Navigation Tabs */}
-      <View style={styles.bottomNav}>
-        <Pressable
-          onPress={() => setMode("list")}
-          style={[styles.bottomNavTab, mode === "list" ? styles.bottomNavTabActive : styles.bottomNavTabInactive]}
+      {/* Date Sheet */}
+      <DateSheet
+        visible={dateSheetVisible}
+        onClose={() => setDateSheetVisible(false)}
+        onConfirm={handlePresetChange}
+        currentPreset={filters.preset}
+      />
+
+      {/* Filter Sheet */}
+      <FilterSheet
+        visible={filterSheetVisible}
+        onClose={() => setFilterSheetVisible(false)}
+        onApply={handleFilterApply}
+        currentFilters={filters}
+        races={races}
+      />
+    </SafeAreaView>
+  );
+}
+
+// Map Screen Component
+function MapScreen() {
+  const [races, setRaces] = useState<Race[]>([]);
+  const [loading, setLoading] = useState(true);
+  // Use shared filters from context
+  const { filters } = useFilters();
+
+  useEffect(() => {
+    loadRaces();
+  }, []);
+
+  const loadRaces = async () => {
+    try {
+      setLoading(true);
+      const racesData = await fetchRaces();
+      setRaces(racesData);
+    } catch (error) {
+      console.error('Error loading races:', error);
+      Alert.alert('Error', 'Failed to load races');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.loadingContainer}>
+          <Text style={styles.loadingText}>Loading map...</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+        // Apply the same filtering logic as the List screen
+      const getVisibleRaces = () => {
+        let filtered = races.map(normalizeRace);
+
+        // Date filtering
+        if (filters.preset !== 'custom' && filters.preset !== 'next30') {
+          const now = new Date();
+          const todayStr = now.toLocaleDateString('en-CA');
+          
+          let startDateStr: string;
+          let endDateStr: string;
+          
+          switch (filters.preset) {
+        case 'today':
+          startDateStr = todayStr;
+          endDateStr = todayStr;
+          break;
+        case 'tomorrow':
+          const tomorrow = new Date(now);
+          tomorrow.setDate(tomorrow.getDate() + 1);
+          startDateStr = tomorrow.toLocaleDateString('en-CA');
+          endDateStr = startDateStr;
+          break;
+        case 'weekend':
+          const dayOfWeek = now.getDay();
+          const daysUntilSaturday = dayOfWeek === 0 ? 6 : 6 - dayOfWeek;
+          const daysUntilSunday = dayOfWeek === 0 ? 0 : 7 - dayOfWeek;
+          const saturday = new Date(now);
+          saturday.setDate(now.getDate() + daysUntilSaturday);
+          const sunday = new Date(now);
+          sunday.setDate(now.getDate() + daysUntilSunday);
+          startDateStr = saturday.toLocaleDateString('en-CA');
+          endDateStr = sunday.toLocaleDateString('en-CA');
+          break;
+        case 'next7':
+          const nextWeek = new Date(now);
+          nextWeek.setDate(now.getDate() + 7);
+          startDateStr = todayStr;
+          endDateStr = nextWeek.toLocaleDateString('en-CA');
+          break;
+        default:
+          const nextMonth = new Date(now);
+          nextMonth.setDate(now.getDate() + 30);
+          startDateStr = todayStr;
+          endDateStr = nextMonth.toLocaleDateString('en-CA');
+      }
+
+      filtered = filtered.filter(race => {
+        const raceDateStr = race.dateISO;
+        let isInRange = false;
+        
+        if (filters.preset === 'today') {
+          isInRange = raceDateStr === startDateStr;
+        } else if (filters.preset === 'tomorrow') {
+          isInRange = raceDateStr === startDateStr;
+        } else if (filters.preset === 'weekend') {
+          isInRange = raceDateStr >= startDateStr && raceDateStr <= endDateStr;
+          console.log(`Weekend filter: Race ${race.name} on ${raceDateStr}, range ${startDateStr} to ${endDateStr}, inRange: ${isInRange}`);
+        } else if (filters.preset === 'next7') {
+          isInRange = raceDateStr >= startDateStr && raceDateStr <= endDateStr;
+        } else {
+          isInRange = raceDateStr >= startDateStr && raceDateStr <= endDateStr;
+        }
+        
+        return isInRange;
+      });
+    }
+
+    // Distance filtering
+    if (filters.distances.length > 0) {
+      filtered = filtered.filter(race =>
+        race.distances?.some(distance => filters.distances.includes(distance as any))
+      );
+    }
+
+    // Surface filtering
+    if (filters.surface.length > 0) {
+      filtered = filtered.filter(race =>
+        race.surface && filters.surface.includes(race.surface as any)
+      );
+    }
+
+    // Sort by date ascending
+    return filtered.sort((a, b) => new Date(a.dateISO).getTime() - new Date(b.dateISO).getTime());
+  };
+
+  const visibleRaces = getVisibleRaces();
+
+  return (
+    <SafeAreaView style={styles.safeArea}>
+      <RaceMap races={visibleRaces} />
+    </SafeAreaView>
+  );
+}
+
+// Main App Component
+export default function App() {
+  const [sharedFilters, setSharedFilters] = useState<FilterState>({
+    preset: 'next30',
+    distances: [],
+    surface: [],
+    useLocation: false,
+    locationRadius: 25,
+    city: 'all'
+  });
+
+  return (
+    <FilterContext.Provider value={{ filters: sharedFilters, setFilters: setSharedFilters }}>
+      <NavigationContainer>
+        <Tab.Navigator
+          screenOptions={({ route }) => ({
+            tabBarIcon: ({ focused, color, size }) => {
+              let iconName: keyof typeof Ionicons.glyphMap;
+
+              if (route.name === 'List') {
+                iconName = focused ? 'list' : 'list-outline';
+              } else if (route.name === 'Map') {
+                iconName = focused ? 'map' : 'map-outline';
+              } else {
+                iconName = 'help-outline';
+              }
+
+              return <Ionicons name={iconName} size={size} color={color} />;
+            },
+            tabBarActiveTintColor: '#007AFF',
+            tabBarInactiveTintColor: 'gray',
+            headerShown: false,
+          })}
         >
-          <Text style={[styles.bottomNavText, mode === "list" ? styles.bottomNavTextActive : styles.bottomNavTextInactive]}>
-            📋 List
-          </Text>
-        </Pressable>
-        <Pressable
-          onPress={() => setMode("map")}
-          style={[styles.bottomNavTab, mode === "map" ? styles.bottomNavTabActive : styles.bottomNavTabInactive]}
-        >
-          <Text style={[styles.bottomNavText, mode === "map" ? styles.bottomNavTextActive : styles.bottomNavTextInactive]}>
-            🗺️ Map
-          </Text>
-        </Pressable>
-        <Pressable
-          onPress={() => setMode("clubs")}
-          style={[styles.bottomNavTab, mode === "clubs" ? styles.bottomNavTabActive : styles.bottomNavTabInactive]}
-        >
-          <Text style={[styles.bottomNavTab, mode === "clubs" ? styles.bottomNavTabActive : styles.bottomNavTabInactive]}>
-            🏃‍♂️ Clubs
-          </Text>
-        </Pressable>
-        <Pressable
-          onPress={() => setMode("reports")}
-          style={[styles.bottomNavTab, mode === "reports" ? styles.bottomNavTabActive : styles.bottomNavTabInactive]}
-        >
-          <Text style={[styles.bottomNavText, mode === "reports" ? styles.bottomNavTextActive : styles.bottomNavTextInactive]}>
-            📰 Reports
-          </Text>
-        </Pressable>
-        <Pressable
-          onPress={() => setMode("about")}
-          style={[styles.bottomNavTab, mode === "about" ? styles.bottomNavTabActive : styles.bottomNavTabInactive]}
-        >
-          <Text style={[styles.bottomNavText, mode === "about" ? styles.bottomNavTextActive : styles.bottomNavTextInactive]}>
-            ℹ️ About
-          </Text>
-        </Pressable>
-      </View>
-    </View>
+          <Tab.Screen name="List" component={ListStack} />
+          <Tab.Screen name="Map" component={MapScreen} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </FilterContext.Provider>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { 
-    flex: 1, 
-    backgroundColor: "#f8f9fa" // Light background for better contrast
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#f8f9fa',
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight || 0 : 0,
   },
-  header: { 
-    fontSize: 20, 
-    fontWeight: "700", 
-    padding: 20, 
-    paddingBottom: 16,
-    color: "#333",
-    textAlign: "center",
-    backgroundColor: "#fff",
-    // Add subtle shadow
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 2,
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  row: { 
-    paddingHorizontal: 16, 
-    paddingVertical: 16,
-    backgroundColor: "#fff",
-    marginHorizontal: 16,
-    marginVertical: 4,
-    borderRadius: 12,
-    // Enhanced shadows for depth
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 6,
-    elevation: 4,
-  },
-  title: { 
-    fontSize: 18, 
-    fontWeight: "700", 
-    marginBottom: 8,
-    color: "#333",
-    lineHeight: 22,
-  },
-  sep: { 
-    height: 8, // Increased spacing between cards
-    backgroundColor: "transparent", // Remove separator line
-    marginLeft: 16 
-  },
-  center: { 
-    flex: 1, 
-    alignItems: "center", 
-    justifyContent: "center", 
-    padding: 24, 
-    gap: 16,
-    backgroundColor: "#f8f9fa",
-  },
-  error: { 
-    color: "#dc3545", 
-    fontWeight: "600",
+  loadingText: {
     fontSize: 16,
-    textAlign: "center",
+    color: '#666',
   },
-  link: { 
-    color: "#007AFF", 
-    marginTop: 12,
-    fontSize: 14,
-    fontWeight: "500",
-    textDecorationLine: "underline",
-  },
-
-  toggleRow: { 
-    flexDirection: "row", 
-    paddingHorizontal: 16, 
-    paddingVertical: 12,
-    gap: 8, 
-    marginBottom: 8,
-    backgroundColor: "#fff",
-    // Add subtle shadow
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  toggleBtn: { 
-    paddingVertical: 10, 
-    paddingHorizontal: 16, 
-    borderRadius: 10,
-    minWidth: 80,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  toggleActive: { 
-    backgroundColor: "#007AFF",
-    // Enhanced shadow for active state
-    shadowColor: "#007AFF",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 6,
-  },
-  toggleIdle: { 
-    backgroundColor: "#f1f3f4",
-    borderWidth: 1,
-    borderColor: "#e1e5e9",
-  },
-  toggleText: { 
-    fontSize: 14,
-    fontWeight: "600",
-  },
-  toggleTextActive: { 
-    color: "#fff" 
-  },
-  toggleTextIdle: { 
-    color: "#5f6368" 
-  },
-
-  raceInfo: {
-    marginTop: 8,
-    marginBottom: 12,
-  },
-  
-
-  raceDetails: {
-    fontSize: 14,
-    color: "#5f6368",
-  },
-  // Filter styles
-  filterContainer: {
-    backgroundColor: "#fff",
-    paddingHorizontal: 20,
-    paddingVertical: 8,
+  activeFiltersBar: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    padding: 12,
+    gap: 8,
+    backgroundColor: '#fff',
     borderBottomWidth: 1,
-    borderBottomColor: "#e1e5e9",
+    borderBottomColor: '#eee',
   },
-  filterLabel: {
-    fontSize: 12,
-    fontWeight: "600",
-    color: "#666",
-    marginBottom: 8,
-  },
-  filterChips: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 6,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  filterChip: {
+  filterPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#e3f2fd',
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 16,
-    borderWidth: 1,
-    minWidth: 60,
-    alignItems: "center",
+    gap: 6,
   },
-  filterChipActive: {
-    backgroundColor: "#007AFF",
-    borderColor: "#007AFF",
-  },
-  filterChipInactive: {
-    backgroundColor: "#f8f9fa",
-    borderColor: "#dee2e6",
-  },
-  filterChipText: {
+  filterPillText: {
     fontSize: 12,
-    fontWeight: "600",
+    color: '#1976d2',
+    fontWeight: '500',
   },
-  filterChipTextActive: {
-    color: "#fff",
+  removeButton: {
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    backgroundColor: '#1976d2',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  filterChipTextInactive: {
-    color: "#6c757d",
-  },
-  // Bottom navigation styles
-  bottomNav: {
-    flexDirection: "row",
-    backgroundColor: "#fff",
-    borderTopWidth: 1,
-    borderTopColor: "#e1e5e9",
-    paddingBottom: 20, // Extra padding for safe area
-    paddingTop: 12,
-    // Enhanced shadow for depth
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 8,
-  },
-  bottomNavTab: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 8,
-    paddingHorizontal: 4,
-  },
-  bottomNavTabActive: {
-    // Active state styling
-  },
-  bottomNavTabInactive: {
-    // Inactive state styling
-  },
-  bottomNavText: {
+  removeButtonText: {
     fontSize: 12,
-    fontWeight: "600",
-    textAlign: "center",
+    color: '#fff',
+    fontWeight: '600',
   },
-  bottomNavTextActive: {
-    color: "#007AFF",
+  clearAllButton: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
   },
-  bottomNavTextInactive: {
-    color: "#8e8e93",
+  clearAllText: {
+    fontSize: 12,
+    color: '#666',
+    textDecorationLine: 'underline',
+  },
+  listContainer: {
+    paddingBottom: 20,
   },
 });

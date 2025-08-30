@@ -9,18 +9,15 @@ import {
   Linking,
 } from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
-import { Race } from '../types';
-import { fetchRaces } from '../api';
+import { RaceVM } from '../types';
 
 interface RaceMapProps {
-  races: Race[];
-  onRacePress?: (race: Race) => void;
+  races: RaceVM[];
+  onRacePress?: (race: RaceVM) => void;
 }
 
 const RaceMap: React.FC<RaceMapProps> = ({ races, onRacePress }) => {
-  const [mapRaces, setMapRaces] = useState<Race[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [mapRaces, setMapRaces] = useState<RaceVM[]>([]);
 
   useEffect(() => {
     if (races && races.length > 0) {
@@ -30,32 +27,14 @@ const RaceMap: React.FC<RaceMapProps> = ({ races, onRacePress }) => {
         !isNaN(race.latitude) && !isNaN(race.longitude)
       );
       setMapRaces(validRaces);
-      setLoading(false);
     } else {
-      // Load races if none provided
-      loadRaces();
+      setMapRaces([]);
     }
   }, [races]);
 
-  const loadRaces = async () => {
-    try {
-      setLoading(true);
-      const data = await fetchRaces();
-      const validRaces = data.filter(
-        race => race.latitude && race.longitude && 
-        !isNaN(race.latitude) && !isNaN(race.longitude)
-      );
-      setMapRaces(validRaces);
-      setError(null);
-    } catch (err: any) {
-      console.error('Error loading races for map:', err);
-      setError(err?.message || 'Failed to load races');
-    } finally {
-      setLoading(false);
-    }
-  };
 
-  const handleRacePress = (race: Race) => {
+
+  const handleRacePress = (race: RaceVM) => {
     if (onRacePress) {
       onRacePress(race);
     } else {
@@ -64,16 +43,16 @@ const RaceMap: React.FC<RaceMapProps> = ({ races, onRacePress }) => {
     }
   };
 
-  const showRaceDetails = (race: Race) => {
-    const raceDate = new Date(race.date).toLocaleDateString();
-    const raceTime = race.time ? ` at ${race.time}` : '';
+  const showRaceDetails = (race: RaceVM) => {
+    const raceDate = new Date(race.dateISO).toLocaleDateString();
+    const raceTime = race.startTime ? ` at ${race.startTime}` : '';
     
     Alert.alert(
-      race.title,
+      race.name,
       `Date: ${raceDate}${raceTime}\n` +
-      `Surface: ${race.surface}\n` +
-      `Distance: ${race.distance} ${race.distance_unit}\n` +
-      `Location: ${race.location}`,
+      `Surface: ${race.surface || 'N/A'}\n` +
+      `Distance: ${race.distances?.join(', ') || 'N/A'}\n` +
+      `Location: ${race.city || 'N/A'}, ${race.state || 'N/A'}`,
       [
         { text: 'Cancel', style: 'cancel' },
         ...(race.url ? [{
@@ -98,24 +77,8 @@ const RaceMap: React.FC<RaceMapProps> = ({ races, onRacePress }) => {
     }
   };
 
-  if (loading) {
-    return (
-      <View style={styles.centered}>
-        <Text style={styles.loadingText}>Loading map...</Text>
-      </View>
-    );
-  }
-
-  if (error) {
-    return (
-      <View style={styles.centered}>
-        <Text style={styles.errorText}>Error: {error}</Text>
-        <TouchableOpacity style={styles.retryButton} onPress={loadRaces}>
-          <Text style={styles.retryButtonText}>Retry</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
+  // No loading state needed - races are passed as props
+  // No error state needed - errors are handled by parent component
 
   if (mapRaces.length === 0) {
     return (
@@ -171,15 +134,15 @@ const RaceMap: React.FC<RaceMapProps> = ({ races, onRacePress }) => {
               latitude: race.latitude!,
               longitude: race.longitude!,
             }}
-            title={race.title}
-            description={`${race.date} - ${race.surface} Surface`}
+            title={race.name}
+            description={`${race.dateISO} - ${race.surface || 'Unknown'} Surface`}
             onPress={() => handleRacePress(race)}
           >
             <Callout>
               <View style={styles.callout}>
-                <Text style={styles.calloutTitle}>{race.title}</Text>
-                <Text style={styles.calloutDate}>{new Date(race.date).toLocaleDateString()}</Text>
-                <Text style={styles.calloutSurface}>{race.surface} Surface</Text>
+                <Text style={styles.calloutTitle}>{race.name}</Text>
+                <Text style={styles.calloutDate}>{new Date(race.dateISO).toLocaleDateString()}</Text>
+                <Text style={styles.calloutSurface}>{race.surface || 'Unknown'} Surface</Text>
               </View>
             </Callout>
           </Marker>
@@ -203,27 +166,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
   },
-  loadingText: {
-    fontSize: 16,
-    color: '#666',
-  },
-  errorText: {
-    fontSize: 16,
-    color: '#ff3b30',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  retryButton: {
-    backgroundColor: '#007AFF',
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 8,
-  },
-  retryButtonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: '600',
-  },
+  // Loading and error styles removed - no longer needed
   emptyText: {
     fontSize: 18,
     color: '#666',
