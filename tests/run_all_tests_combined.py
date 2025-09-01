@@ -88,64 +88,26 @@ def run_backend_tests():
         return False
 
 def run_frontend_tests():
-    """Run the JavaScript frontend tests."""
+    """Run the JavaScript frontend tests using the dedicated runner."""
     print("\n⚛️  Running Frontend Tests (JavaScript)...")
     
-    # Try multiple possible paths for the web directory
-    possible_paths = [
-        Path("../web"),           # From tests directory
-        Path("web"),              # From project root
-        Path("../../web"),        # From deeper subdirectory
-    ]
-    
-    web_dir = None
-    for path in possible_paths:
-        if path.exists():
-            web_dir = path
-            break
-    
-    if web_dir is None:
-        print("❌ Error: 'web' directory not found!")
-        print("   Tried paths:")
-        for path in possible_paths:
-            print(f"     - {path.absolute()}")
-        return False
-    
-    print(f"📁 Found web directory at: {web_dir.absolute()}")
-    
-    # Check if package.json exists
-    package_json = web_dir / "package.json"
-    if not package_json.exists():
-        print("❌ Error: '../web/package.json' not found!")
-        return False
-    
     try:
-        # Check if npm is available
-        npm_check = subprocess.run(
-            ["npm", "--version"],
-            capture_output=True,
-            text=True,
-            encoding='utf-8',
-            errors='replace',
-            shell=True  # Use shell to find npm in PATH
-        )
+        # Import and run the dedicated frontend test runner
+        frontend_runner_path = Path(__file__).parent / "run_all_frontend_tests.py"
         
-        if npm_check.returncode != 0:
-            print("❌ Error: 'npm' command not found! Please install Node.js.")
+        if not frontend_runner_path.exists():
+            print("❌ Error: Frontend test runner not found!")
             return False
         
-        print(f"📦 Using npm version: {npm_check.stdout.strip()}")
-        
-        # Run the frontend tests
+        # Run the dedicated frontend test runner
         result = subprocess.run(
-            ["npm", "test"],
-            cwd=web_dir,
+            [sys.executable, str(frontend_runner_path)],
             capture_output=True,
             text=True,
             encoding='utf-8',
             errors='replace',
             timeout=300,  # 5 minute timeout
-            shell=True    # Use shell to find npm in PATH
+            cwd=Path(__file__).parent  # Run from tests directory
         )
         
         # Print output

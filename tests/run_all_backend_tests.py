@@ -18,9 +18,9 @@ def run_test(test_file, description):
     print(f"{'='*60}")
     
     try:
-        # Run the test file
+        # Run the test file from the tests directory
         result = subprocess.run([sys.executable, test_file], 
-                              capture_output=True, text=True)
+                              capture_output=True, text=True, cwd=os.path.dirname(__file__))
         
         if result.returncode == 0:
             print("Test PASSED")
@@ -55,7 +55,7 @@ def main():
         ("004_csv_import_integration_test.py", "CSV Import Integration Test - Good Coverage"),
         ("005_frontend_validation_test.py", "Frontend-Backend Validation Test - Good Coverage"),
         ("008_simplified_critical_tests.py", "Simplified Critical Tests - PostGIS & Coordinates"),
-    
+        ("020_pydantic_distance_validation_test.py", "Pydantic Distance Validation Test - Bug #26 Fix"),
     
         ("015_jwt_authentication_service_test.py", "JWT Authentication Service Test - New JWT Migration"),
         ("016_network_validator_service_test.py", "Network Validator Service Test - New Network Validation"),

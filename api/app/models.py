@@ -123,10 +123,15 @@ class RaceCreate(BaseModel):
     @classmethod
     @cached_validation
     def validate_surface(cls, v: str) -> str:
+        if not v:
+            raise ValueError('Surface is required')
+        # Convert to lowercase for case-insensitive comparison
+        v_lower = v.lower()
         valid_surfaces = ['road', 'trail', 'track', 'virtual', 'other']
-        if not v or v not in valid_surfaces:
+        if v_lower not in valid_surfaces:
             raise ValueError(f'Surface must be one of: {", ".join(valid_surfaces)}')
-        return v
+        # Return the lowercase value for consistency in database
+        return v_lower
 
     @field_validator('distance')
     @classmethod
@@ -141,43 +146,70 @@ class RaceCreate(BaseModel):
                 # Single distance
                 distances = [v.strip()]
             
-            # Map abbreviated forms to full names
+            # Smart mapping to standardized lowercase values
             distance_mapping = {
-                '5K': '5K',
-                '10K': '10K',
-                'Half': 'Half Marathon',
-                'H': 'Half Marathon',
-                'Marathon': 'Marathon',
-                'M': 'Marathon',
-                'Ultra': 'Ultra',
-                'U': 'Ultra',
-                'Other': 'Other',
-                'O': 'Other'
+                # 5K variations
+                '5K': '5k', '5k': '5k', '5 K': '5k', '5 k': '5k',
+                # 10K variations  
+                '10K': '10k', '10k': '10k', '10 K': '10k', '10 k': '10k',
+                # Half Marathon variations
+                'Half': 'half marathon', 'Half Marathon': 'half marathon', 'HALF': 'half marathon', 'half': 'half marathon',
+                # Marathon variations
+                'Full': 'marathon', 'Marathon': 'marathon', 'FULL': 'marathon', 'full': 'marathon', 'marathon': 'marathon',
+                # Ultra variations
+                'Ultra': 'ultra', 'ultra': 'ultra', 'ULTRA': 'ultra',
+                # Kids/Other variations
+                'Kids': 'other', 'kids': 'other', 'KIDS': 'other', 'Kid Run': 'other', 'kid run': 'other', 'Other': 'other', 'other': 'other'
             }
             
-            # Convert abbreviated forms to full names
+            # Convert to standardized values
             normalized_distances = []
             for distance in distances:
-                normalized = distance_mapping.get(distance, distance)
+                normalized = distance_mapping.get(distance, distance.lower())
                 normalized_distances.append(normalized)
             
-            # Validate each distance
-            valid_distances = ['5K', '10K', 'Half Marathon', 'Marathon', 'Ultra', 'Other']
+            # Validate each distance against our standardized values
+            valid_distances = ['5k', '10k', 'half marathon', 'marathon', 'ultra', 'other']
             for distance in normalized_distances:
                 if distance not in valid_distances:
                     raise ValueError(f'Distance "{distance}" must be one of: {", ".join(valid_distances)}')
             
             return normalized_distances
         
-        # Handle list input (from date pickers)
+        # Handle list input (from form pickers)
         if isinstance(v, list):
             if not v or len(v) == 0:
                 raise ValueError('At least one distance is required')
-            valid_distances = ['5K', '10K', 'Half Marathon', 'Marathon', 'Ultra', 'Other']
+            
+            # Smart mapping for list input
+            distance_mapping = {
+                # 5K variations
+                '5K': '5k', '5k': '5k', '5 K': '5k', '5 k': '5k',
+                # 10K variations  
+                '10K': '10k', '10k': '10k', '10 K': '10k', '10 k': '10k',
+                # Half Marathon variations
+                'Half': 'half marathon', 'Half Marathon': 'half marathon', 'HALF': 'half marathon', 'half': 'half marathon',
+                # Marathon variations
+                'Full': 'marathon', 'Marathon': 'marathon', 'FULL': 'marathon', 'full': 'marathon', 'marathon': 'marathon',
+                # Ultra variations
+                'Ultra': 'ultra', 'ultra': 'ultra', 'ULTRA': 'ultra',
+                # Kids/Other variations
+                'Kids': 'other', 'kids': 'other', 'KIDS': 'other', 'Kid Run': 'other', 'kid run': 'other', 'Other': 'other', 'other': 'other'
+            }
+            
+            # Convert to standardized values
+            normalized_distances = []
             for distance in v:
+                normalized = distance_mapping.get(distance, distance.lower())
+                normalized_distances.append(normalized)
+            
+            # Validate each distance
+            valid_distances = ['5k', '10k', 'half marathon', 'marathon', 'ultra', 'other']
+            for distance in normalized_distances:
                 if distance not in valid_distances:
                     raise ValueError(f'Distance "{distance}" must be one of: {", ".join(valid_distances)}')
-            return v
+            
+            return normalized_distances
         
         raise ValueError('Distance must be string or list of strings')
 
@@ -346,9 +378,13 @@ class RaceUpdate(BaseModel):
     @cached_validation
     def validate_surface(cls, v: Optional[str]) -> Optional[str]:
         if v is not None:
+            # Convert to lowercase for case-insensitive comparison
+            v_lower = v.lower()
             valid_surfaces = ['road', 'trail', 'track', 'virtual', 'other']
-            if v not in valid_surfaces:
+            if v_lower not in valid_surfaces:
                 raise ValueError(f'Surface must be one of: {", ".join(valid_surfaces)}')
+            # Return the lowercase value for consistency in database
+            return v_lower
         return v
 
     @field_validator('distance')
@@ -367,43 +403,70 @@ class RaceUpdate(BaseModel):
                 # Single distance
                 distances = [v.strip()]
             
-            # Map abbreviated forms to full names
+            # Smart mapping to standardized lowercase values
             distance_mapping = {
-                '5K': '5K',
-                '10K': '10K',
-                'Half': 'Half Marathon',
-                'H': 'Half Marathon',
-                'Marathon': 'Marathon',
-                'M': 'Marathon',
-                'Ultra': 'Ultra',
-                'U': 'Ultra',
-                'Other': 'Other',
-                'O': 'Other'
+                # 5K variations
+                '5K': '5k', '5k': '5k', '5 K': '5k', '5 k': '5k',
+                # 10K variations  
+                '10K': '10k', '10k': '10k', '10 K': '10k', '10 k': '10k',
+                # Half Marathon variations
+                'Half': 'half marathon', 'Half Marathon': 'half marathon', 'HALF': 'half marathon', 'half': 'half marathon',
+                # Marathon variations
+                'Full': 'marathon', 'Marathon': 'marathon', 'FULL': 'marathon', 'full': 'marathon', 'marathon': 'marathon',
+                # Ultra variations
+                'Ultra': 'ultra', 'ultra': 'ultra', 'ULTRA': 'ultra',
+                # Kids/Other variations
+                'Kids': 'other', 'kids': 'other', 'KIDS': 'other', 'Kid Run': 'other', 'kid run': 'other', 'Other': 'other', 'other': 'other'
             }
             
-            # Convert abbreviated forms to full names
+            # Convert to standardized values
             normalized_distances = []
             for distance in distances:
-                normalized = distance_mapping.get(distance, distance)
+                normalized = distance_mapping.get(distance, distance.lower())
                 normalized_distances.append(normalized)
             
-            # Validate each distance
-            valid_distances = ['5K', '10K', 'Half Marathon', 'Marathon', 'Ultra', 'Other']
+            # Validate each distance against our standardized values
+            valid_distances = ['5k', '10k', 'half marathon', 'marathon', 'ultra', 'other']
             for distance in normalized_distances:
                 if distance not in valid_distances:
                     raise ValueError(f'Distance "{distance}" must be one of: {", ".join(valid_distances)}')
             
             return normalized_distances
         
-        # Handle list input (from date pickers)
+        # Handle list input (from form pickers)
         if isinstance(v, list):
             if len(v) == 0:
                 raise ValueError('At least one distance is required')
-            valid_distances = ['5K', '10K', 'Half Marathon', 'Marathon', 'Ultra', 'Other']
+            
+            # Smart mapping for list input
+            distance_mapping = {
+                # 5K variations
+                '5K': '5k', '5k': '5k', '5 K': '5k', '5 k': '5k',
+                # 10K variations  
+                '10K': '10k', '10k': '10k', '10 K': '10k', '10 k': '10k',
+                # Half Marathon variations
+                'Half': 'half marathon', 'Half Marathon': 'half marathon', 'HALF': 'half marathon', 'half': 'half marathon',
+                # Marathon variations
+                'Full': 'marathon', 'Marathon': 'marathon', 'FULL': 'marathon', 'full': 'marathon', 'marathon': 'marathon',
+                # Ultra variations
+                'Ultra': 'ultra', 'ultra': 'ultra', 'ULTRA': 'ultra',
+                # Kids/Other variations
+                'Kids': 'other', 'kids': 'other', 'KIDS': 'other', 'Kid Run': 'other', 'kid run': 'other', 'Other': 'other', 'other': 'other'
+            }
+            
+            # Convert to standardized values
+            normalized_distances = []
             for distance in v:
+                normalized = distance_mapping.get(distance, distance.lower())
+                normalized_distances.append(normalized)
+            
+            # Validate each distance
+            valid_distances = ['5k', '10k', 'half marathon', 'marathon', 'ultra', 'other']
+            for distance in normalized_distances:
                 if distance not in valid_distances:
                     raise ValueError(f'Distance "{distance}" must be one of: {", ".join(valid_distances)}')
-            return v
+            
+            return normalized_distances
         
         raise ValueError('Distance must be string or list of strings')
 

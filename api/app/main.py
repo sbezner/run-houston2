@@ -868,7 +868,9 @@ def export_race_reports_csv(
                 return ""
             field_str = str(field)
             if '"' in field_str or ',' in field_str or '\n' in field_str:
-                return f'"{field_str.replace('"', '""')}"'
+                # Escape double quotes by doubling them
+                escaped_field = field_str.replace('"', '""')
+                return f'"{escaped_field}"'
             return field_str
         
         # Convert photos array to semicolon-separated string

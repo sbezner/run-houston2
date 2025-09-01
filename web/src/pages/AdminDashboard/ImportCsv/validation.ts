@@ -74,10 +74,29 @@ export function validateSurface(surface: string): string | null {
 }
 
 export function validateDistance(distance: string): string | null {
-  const validDistances = ['5K', '10K', 'Half Marathon', 'Marathon', 'Ultra', 'Other'];
-  if (!validDistances.includes(distance)) {
-    return `Distance must be one of: ${validDistances.join(', ')}`;
+  // Smart mapping to handle various input formats (same as backend validation)
+  const distanceMapping: Record<string, string> = {
+    // 5K variations
+    '5K': '5k', '5k': '5k', '5 K': '5k', '5 k': '5k',
+    // 10K variations  
+    '10K': '10k', '10k': '10k', '10 K': '10k', '10 k': '10k',
+    // Half Marathon variations
+    'Half': 'half marathon', 'Half Marathon': 'half marathon', 'HALF': 'half marathon', 'half': 'half marathon',
+    'half marathon': 'half marathon', 'Half marathon': 'half marathon',
+    // Marathon variations
+    'Full': 'marathon', 'Marathon': 'marathon', 'FULL': 'marathon', 'full': 'marathon', 'marathon': 'marathon',
+    // Ultra variations
+    'Ultra': 'ultra', 'ultra': 'ultra', 'ULTRA': 'ultra',
+    // Kids/Other variations
+    'Kids': 'other', 'kids': 'other', 'KIDS': 'other', 'Kid Run': 'other', 'kid run': 'other', 'Other': 'other', 'other': 'other'
+  };
+  
+  // Check if the distance can be mapped to a valid standardized value
+  const normalizedDistance = distanceMapping[distance];
+  if (!normalizedDistance) {
+    return `Distance "${distance}" must be one of: 5K, 10K, Half/Half Marathon, Full/Marathon, Ultra, Kids/Other (case insensitive)`;
   }
+  
   return null;
 }
 
@@ -261,21 +280,32 @@ export function validateLongitude(lonStr: string): string | null {
 
 // Parsing functions
 export function parseDistances(distanceStr: string): string[] {
-  if (!distanceStr) return ['5K'];
+  if (!distanceStr) return ['5k'];
   
   return distanceStr
     .split(',')
     .map(d => d.trim())
     .filter(d => d.length > 0)
     .map(d => {
-      // Handle common variations
-      if (d.toLowerCase() === 'half') return 'Half Marathon';
-      if (d.toLowerCase() === 'marathon') return 'Marathon';
-      if (d.toLowerCase() === 'ultra') return 'Ultra';
-      if (d.toLowerCase() === 'other') return 'Other';
-      if (d.toLowerCase() === '5k') return '5K';
-      if (d.toLowerCase() === '10k') return '10K';
-      return d;
+      // Smart mapping to standardized lowercase values (same as backend validation)
+      const distanceMapping: Record<string, string> = {
+        // 5K variations
+        '5K': '5k', '5k': '5k', '5 K': '5k', '5 k': '5k',
+        // 10K variations  
+        '10K': '10k', '10k': '10k', '10 K': '10k', '10 k': '10k',
+        // Half Marathon variations
+        'Half': 'half marathon', 'Half Marathon': 'half marathon', 'HALF': 'half marathon', 'half': 'half marathon',
+        'half marathon': 'half marathon', 'Half marathon': 'half marathon',
+        // Marathon variations
+        'Full': 'marathon', 'Marathon': 'marathon', 'FULL': 'marathon', 'full': 'marathon', 'marathon': 'marathon',
+        // Ultra variations
+        'Ultra': 'ultra', 'ultra': 'ultra', 'ULTRA': 'ultra',
+        // Kids/Other variations
+        'Kids': 'other', 'kids': 'other', 'KIDS': 'other', 'Kid Run': 'other', 'kid run': 'other', 'Other': 'other', 'other': 'other'
+      };
+      
+      // Map to standardized value or return as-is (backend will validate)
+      return distanceMapping[d] || d;
     });
 }
 
@@ -505,7 +535,7 @@ export function normalizeCsvRow(row: CsvRow): NormalizedRow {
     state: row.state || '',
     zip: row.zip,
     surface: row.surface || 'road',
-    distance: parseDistances(row.distance || '5K'),
+    distance: parseDistances(row.distance || '5k'),
     kid_run: parseKidRun(row.kid_run || 'false'),
     official_website_url: row.official_website_url || row.official_w,
     source: row.source || 'manual',

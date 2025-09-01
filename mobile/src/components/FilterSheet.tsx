@@ -63,7 +63,7 @@ export function FilterSheet({ visible, onClose, onApply, currentFilters, races }
     setFilters(defaultFilters);
   };
 
-  const distanceOptions = ['5K', '10K', 'Half', 'Full', 'Ultra', 'Kids'];
+  const distanceOptions = ['5k', '10k', 'half marathon', 'marathon', 'ultra', 'other'];
   const surfaceOptions = ['road', 'trail', 'track'];
   const radiusOptions = [5, 10, 25, 50];
 

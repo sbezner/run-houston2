@@ -52,7 +52,7 @@ export type FilterState = {
   preset: "today" | "tomorrow" | "weekend" | "next7" | "next30" | "custom";
   dateFrom?: string; // YYYY-MM-DD when custom
   dateTo?: string;   // YYYY-MM-DD when custom
-  distances: Array<"5K" | "10K" | "Half" | "Full" | "Ultra" | "Kids">;
+  distances: Array<"5k" | "10k" | "half marathon" | "marathon" | "ultra" | "other">;
   surface: Array<"road" | "trail" | "track">;
   useLocation: boolean;
   locationRadius: 5 | 10 | 25 | 50 | null;

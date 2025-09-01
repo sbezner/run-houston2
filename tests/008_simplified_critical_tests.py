@@ -47,7 +47,7 @@ def test_geom_trigger_basic():
     print("=" * 60)
     
     # Insert a test race with coordinates
-    insert_cmd = f'docker exec -i {CONTAINER_NAME} psql -U {DB_USER} -d {DB_NAME} -c "INSERT INTO races (name, date, surface, latitude, longitude) VALUES (\'TRIGGER_TEST_BASIC\', \'2025-01-15\', \'road\', 29.7604, -95.3698);"'
+    insert_cmd = f'docker exec -i {CONTAINER_NAME} psql -U {DB_USER} -d {DB_NAME} -c "INSERT INTO races (name, date, surface, latitude, longitude, distance) VALUES (\'TRIGGER_TEST_BASIC\', \'2025-01-15\', \'road\', 29.7604, -95.3698, ARRAY[\'5k\']);"'
     stdout, stderr = run_docker_command(insert_cmd)
     
     if stderr:
@@ -79,7 +79,7 @@ def test_coordinate_constraints():
     print("=" * 60)
     
     # Test 1: Insert with only latitude (should fail)
-    test1_cmd = f'docker exec -i {CONTAINER_NAME} psql -U {DB_USER} -d {DB_NAME} -c "INSERT INTO races (name, date, surface, latitude) VALUES (\'CONSTRAINT_TEST_LAT_ONLY\', \'2025-01-16\', \'road\', 29.7604);"'
+    test1_cmd = f'docker exec -i {CONTAINER_NAME} psql -U {DB_USER} -d {DB_NAME} -c "INSERT INTO races (name, date, surface, latitude, distance) VALUES (\'CONSTRAINT_TEST_LAT_ONLY\', \'2025-01-16\', \'road\', 29.7604, ARRAY[\'5k\']);"'
     stdout, stderr = run_docker_command(test1_cmd)
     
     if stderr and 'check constraint "races_latlon_pair"' in stderr:
@@ -89,7 +89,7 @@ def test_coordinate_constraints():
         return False
     
     # Test 2: Insert with only longitude (should fail)
-    test2_cmd = f'docker exec -i {CONTAINER_NAME} psql -U {DB_USER} -d {DB_NAME} -c "INSERT INTO races (name, date, surface, longitude) VALUES (\'CONSTRAINT_TEST_LON_ONLY\', \'2025-01-17\', \'road\', -95.3698);"'
+    test2_cmd = f'docker exec -i {CONTAINER_NAME} psql -U {DB_USER} -d {DB_NAME} -c "INSERT INTO races (name, date, surface, longitude, distance) VALUES (\'CONSTRAINT_TEST_LON_ONLY\', \'2025-01-17\', \'road\', -95.3698, ARRAY[\'5k\']);"'
     stdout, stderr = run_docker_command(test2_cmd)
     
     if stderr and 'check constraint "races_latlon_pair"' in stderr:
@@ -99,7 +99,7 @@ def test_coordinate_constraints():
         return False
     
     # Test 3: Insert with both NULL (should succeed)
-    test3_cmd = f'docker exec -i {CONTAINER_NAME} psql -U {DB_USER} -d {DB_NAME} -c "INSERT INTO races (name, date, surface, latitude, longitude) VALUES (\'CONSTRAINT_TEST_BOTH_NULL\', \'2025-01-18\', \'road\', NULL, NULL);"'
+    test3_cmd = f'docker exec -i {CONTAINER_NAME} psql -U {DB_USER} -d {DB_NAME} -c "INSERT INTO races (name, date, surface, latitude, longitude, distance) VALUES (\'CONSTRAINT_TEST_BOTH_NULL\', \'2025-01-18\', \'road\', NULL, NULL, ARRAY[\'5k\']);"'
     stdout, stderr = run_docker_command(test3_cmd)
     
     if not stderr:
@@ -129,7 +129,7 @@ def test_coordinate_boundaries():
     
     for lat, lon, description in test_cases:
         test_name = f"BOUNDARY_TEST_{lat}_{lon}".replace('.', '_').replace('-', 'NEG')
-        insert_cmd = f'docker exec -i {CONTAINER_NAME} psql -U {DB_USER} -d {DB_NAME} -c "INSERT INTO races (name, date, surface, latitude, longitude) VALUES (\'{test_name}\', \'2025-01-19\', \'road\', {lat}, {lon});"'
+        insert_cmd = f'docker exec -i {CONTAINER_NAME} psql -U {DB_USER} -d {DB_NAME} -c "INSERT INTO races (name, date, surface, latitude, longitude, distance) VALUES (\'{test_name}\', \'2025-01-19\', \'road\', {lat}, {lon}, ARRAY[\'5k\']);"'
         stdout, stderr = run_docker_command(insert_cmd)
         
         if stderr:
@@ -154,7 +154,7 @@ def test_coordinate_precision():
     lat = 29.7604278
     lon = -95.3698029
     
-    insert_cmd = f'docker exec -i {CONTAINER_NAME} psql -U {DB_USER} -d {DB_NAME} -c "INSERT INTO races (name, date, surface, latitude, longitude) VALUES (\'{test_name}\', \'2025-01-20\', \'road\', {lat}, {lon});"'
+    insert_cmd = f'docker exec -i {CONTAINER_NAME} psql -U {DB_USER} -d {DB_NAME} -c "INSERT INTO races (name, date, surface, latitude, longitude, distance) VALUES (\'{test_name}\', \'2025-01-20\', \'road\', {lat}, {lon}, ARRAY[\'5k\']);"'
     stdout, stderr = run_docker_command(insert_cmd)
     
     if stderr:
@@ -190,7 +190,7 @@ def test_geom_accuracy():
     lat = 29.7604
     lon = -95.3698
     
-    insert_cmd = f'docker exec -i {CONTAINER_NAME} psql -U {DB_USER} -d {DB_NAME} -c "INSERT INTO races (name, date, surface, latitude, longitude) VALUES (\'{test_name}\', \'2025-01-21\', \'road\', {lat}, {lon});"'
+    insert_cmd = f'docker exec -i {CONTAINER_NAME} psql -U {DB_USER} -d {DB_NAME} -c "INSERT INTO races (name, date, surface, latitude, longitude, distance) VALUES (\'{test_name}\', \'2025-01-21\', \'road\', {lat}, {lon}, ARRAY[\'5k\']);"'
     stdout, stderr = run_docker_command(insert_cmd)
     
     if stderr:

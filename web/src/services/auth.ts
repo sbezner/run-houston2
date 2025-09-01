@@ -1,17 +1,17 @@
 export const auth = {
   getToken: (): string | null => {
-    return sessionStorage.getItem('adminToken');
+    return sessionStorage.getItem('access_token');
   },
   
   setToken: (token: string): void => {
-    sessionStorage.setItem('adminToken', token);
+    sessionStorage.setItem('access_token', token);
   },
   
   removeToken: (): void => {
-    sessionStorage.removeItem('adminToken');
+    sessionStorage.removeItem('access_token');
   },
   
   isAuthenticated: (): boolean => {
-    return !!sessionStorage.getItem('adminToken');
+    return !!sessionStorage.getItem('access_token');
   },
 };

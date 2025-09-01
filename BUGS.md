@@ -371,7 +371,60 @@
    - **Fix Required**: Create rich UI components similar to races/race reports import with preview, validation, and progress feedback
    - **Status**: Open
 
-### **🔴 Critical Priority**
+**Bug #26**
+- [x] **Bug Title**: Distance field case sensitivity and data integrity issues
+  - **Date Reported**: 2025-01-27
+  - **Reporter**: Developer
+  - **Severity**: Critical
+  - **Status**: Fixed
+  - **Priority**: P1
+  - **Description**: The distance field lacks proper case normalization and database constraints, leading to data inconsistency and validation errors. This is a systematic data integrity issue affecting the entire race management system.
+  - **Steps to Reproduce**: 
+    1. Go to Admin Dashboard → Races
+    2. Try to edit race ID 10
+    3. Notice the form sends 'Full' but backend expects 'Marathon'
+    4. Observe 422 validation error
+    5. Check database - distance field has no constraints
+    6. Compare with surface field which has proper constraints
+  - **Expected Behavior**: 
+    1. Distance field should have database constraints like surface field
+    2. Backend should normalize distances to lowercase
+    3. Frontend should show user-friendly terms (Full Marathon vs Marathon)
+    4. CSV import should normalize case
+    5. Surface and Distance fields should follow same validation pattern
+  - **Actual Behavior**: 
+    1. No database constraint on distance field
+    2. Backend validation is case-sensitive (no normalization)
+    3. Frontend shows technical terms instead of user-friendly ones
+    4. CSV import doesn't normalize case
+    5. Different validation behavior between Surface and Distance fields
+  - **Environment**: 
+     - **OS**: Windows 10
+     - **Browser**: Any modern browser
+     - **Python Version**: 3.11.9
+     - **Database**: PostgreSQL
+     - **Other Dependencies**: React, TypeScript, FastAPI
+   - **Screenshots/Logs**: 422 validation errors, inconsistent distance data in database
+   - **Suggested Code Locations**:
+     - **Files to investigate**: `api/app/models.py`, `web/src/components/RaceForm.tsx`, database schema, CSV import parsers
+     - **Key functions/methods**: `validate_distance`, distance validation logic, CSV distance parsing
+     - **Database tables/columns**: `races.distance` field constraints
+     - **API endpoints**: Race creation/update endpoints
+   - **Assigned To**: Developer
+   - **Notes**: This is a systematic data integrity issue that needs fixing at multiple levels: database constraints, backend validation, frontend mapping, and CSV import normalization. Surface field follows the correct pattern (lowercase constraints + case normalization) that Distance field should also follow.
+   - **Related Issues**: Data consistency, validation errors, CSV import case handling
+   - **User Impact**: High - affects race editing, data consistency, and system reliability
+   - **Fix Required**: Add database constraint, normalize backend validation, update frontend mapping, fix CSV import case handling
+   - **Status**: Fixed
+   - **Resolution**: 
+     - ✅ Database constraints added (NOT NULL + validation constraint)
+     - ✅ All 68 existing races updated to standardized lowercase values
+     - ✅ Backend Pydantic models updated with smart distance validation and mapping
+     - ✅ Frontend forms updated to show user-friendly terms and send standardized values
+     - ✅ CSV import validation updated with case normalization and smart mapping
+     - ✅ Mobile frontend updated to use standardized distance values
+     - ✅ All unit tests and integration tests passing
+     - ✅ Standardized distance values: ['5k', '10k', 'half marathon', 'marathon', 'ultra', 'other']
 
 **Bug #1**
 - [x] **Bug Title**: Race report editing form missing ID display and race ID validation issues
@@ -826,8 +879,7 @@
   - **Notes**: This is a display formatting issue. The distance data is stored as an array in the database and needs proper formatting when displayed. The current code likely joins the array without proper separators.
   - **Related Issues**: Distance data is correctly stored and retrieved, only the display formatting needs fixing
 
-**Bug #3**
-**Bug #5**
+**Bug #23**
 - [ ] **Bug Title**: Investigate race table checkboxes - determine if bulk selection functionality is needed
   - **Date Reported**: 2025-01-27
   - **Reporter**: Developer
@@ -861,8 +913,7 @@
    - **Related Issues**: UI simplification, feature necessity investigation
    - **User Impact**: Low - affects UI cleanliness and potential feature bloat
 
-**Bug #4**
-**Bug #6**
+**Bug #24**
 - [ ] **Bug Title**: Clubs CSV import needs consistent behavior with races and race reports
   - **Date Reported**: 2025-01-27
   - **Reporter**: Developer
@@ -901,8 +952,7 @@
   - **Notes**: This is a consistency issue that affects user experience. Users expect similar functionality across all import operations. The clubs import should be updated to match the more advanced import systems used for races and race reports.
   - **Related Issues**: Races and race reports imports have consistent, advanced functionality
 
-**Bug #5**
-**Bug #7**
+**Bug #25**
 - [ ] **Bug Title**: Races import and race reports import have slight behavioral differences
   - **Date Reported**: 2025-01-27
   - **Reporter**: Developer
@@ -934,7 +984,7 @@
   - **Notes**: This is a consistency issue that affects user experience. Users expect identical behavior across similar functionality. The differences should be identified and standardized to ensure consistent user experience.
   - **Related Issues**: Both imports work correctly but have slight behavioral differences
 
-**Bug #6**
+**Bug #27**
 - [ ] **Bug Title**: Home page needs update to reflect current functionality and Android version needs "Coming Soon" banner
   - **Date Reported**: 2025-01-27
   - **Reporter**: Developer
@@ -969,7 +1019,7 @@
   - **Notes**: This is a content and UX issue. The home page should accurately represent what users can expect from the application. The Android version should clearly indicate its development status to set proper user expectations.
   - **Related Issues**: Affects user onboarding and expectations, mobile app development status
 
-**Bug #7**
+**Bug #28**
 - [ ] **Bug Title**: About Run Houston mobile version needs update to reflect current functionality
   - **Date Reported**: 2025-01-27
   - **Reporter**: Developer
@@ -1006,9 +1056,7 @@
   - **Notes**: This is a content and UX issue that affects user understanding of app capabilities. The About screen should provide accurate, up-to-date information to set proper user expectations and reduce confusion.
   - **Related Issues**: Affects user onboarding, feature discovery, and app credibility
 
-- [ ] **Bug Title**: Mobile app "All" filter should show all races past and present
-
-**Bug #8**
+**Bug #30**
 - [ ] **Bug Title**: MD file organization and cleanup needed - obsolete files and poor structure
 
 **Bug #9**
@@ -1187,7 +1235,7 @@
      - **Database**: Auto-generates IDs for new races
      - **Result**: Perfect data integrity with no errors
 
-**Bug #13**
+**Bug #31**
 - [x] **Bug Title**: Race name field should not have clear button - unnecessary UI element
   - **Date Reported**: 2025-01-27
   - **Reporter**: Developer

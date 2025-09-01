@@ -1,44 +1,46 @@
 import React, { useState } from 'react';
 import { RaceForm } from '../../components/RaceForm';
-import { api } from '../../services/api';
+import { races } from '../../services/api';
+import { auth } from '../../services/auth';
 import { handleApiError } from '../../utils/apiErrorHandler';
 
 interface CreateRaceModalProps {
   onClose: () => void;
   onSuccess: () => void;
+  onTokenExpiration?: () => void;
 }
 
-export const CreateRaceModal: React.FC<CreateRaceModalProps> = ({ onClose, onSuccess }) => {
+export const CreateRaceModal: React.FC<CreateRaceModalProps> = ({ 
+  onClose, 
+  onSuccess, 
+  onTokenExpiration 
+}) => {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (raceData: any) => {
     setLoading(true);
     try {
-      const adminToken = localStorage.getItem('adminToken');
-      if (!adminToken) {
-        throw new Error('Admin token not found');
+      const token = auth.getToken();
+      if (!token) {
+        if (onTokenExpiration) {
+          onTokenExpiration();
+        } else {
+          throw new Error('No authentication token');
+        }
+        return;
       }
 
-      await api.post('/races', {
-        name: raceData.name,
-        date: raceData.date,
-        start_time: raceData.start_time,
-        address: raceData.address,
-        city: raceData.city,
-        state: raceData.state,
-        zip: raceData.zip,
-        surface: raceData.surface,
-        distance: raceData.distance,
-        kid_run: raceData.kid_run,
-        official_website_url: raceData.official_website_url,
-        latitude: raceData.latitude,
-        longitude: raceData.longitude,
-        source: raceData.source
-      }, adminToken);
-
+      await races.create(raceData, token);
       onSuccess();
     } catch (error) {
       console.error('Error creating race:', error);
+      
+      // Handle token expiration
+      if (error instanceof Error && error.message.includes('Your session has expired') && onTokenExpiration) {
+        onTokenExpiration();
+        return;
+      }
+      
       const errorMessage = handleApiError(error instanceof Error ? error : new Error('Unknown error'));
       alert(`Failed to create race: ${errorMessage}`);
     } finally {
@@ -104,7 +106,7 @@ export const CreateRaceModal: React.FC<CreateRaceModalProps> = ({ onClose, onSuc
           </button>
         </div>
         
-                <RaceForm
+        <RaceForm
           mode="create"
           onSubmit={handleSubmit}
           onCancel={onClose}

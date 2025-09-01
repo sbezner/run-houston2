@@ -7,8 +7,14 @@ export default {
   },
   transform: {
     '^.+\\.(ts|tsx)$': ['ts-jest', {
-      useESM: true,
-      tsconfig: './tsconfig.test.json'
+      tsconfig: {
+        module: 'esnext',
+        target: 'es2020',
+        jsx: 'react-jsx',
+        esModuleInterop: true,
+        allowSyntheticDefaultImports: true,
+        moduleResolution: 'node',
+      },
     }],
   },
   testMatch: [
@@ -23,8 +29,8 @@ export default {
   ],
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov', 'html'],
-  extensionsToTreatAsEsm: ['.ts', '.tsx'],
   testEnvironmentOptions: {
     customExportConditions: [''],
   },
+  extensionsToTreatAsEsm: ['.ts', '.tsx'],
 };

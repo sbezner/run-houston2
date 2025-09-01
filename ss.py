@@ -37,9 +37,9 @@ def update_mobile_config(ip_address):
         with open(config_file, 'r', encoding='utf-8') as f:
             content = f.read()
         
-        # Update IP address using regex - look for the API_BASE line
-        old_ip_pattern = r'export const API_BASE = "http://\d+\.\d+\.\d+\.\d+:8000"'
-        new_ip_line = f'export const API_BASE = "http://{ip_address}:8000"'
+        # Update IP address using regex - look for the backendUrl line
+        old_ip_pattern = r'backendUrl: \'http://\d+\.\d+\.\d+\.\d+:8000\''
+        new_ip_line = f"backendUrl: 'http://{ip_address}:8000'"
         
         if re.search(old_ip_pattern, content):
             # Replace existing IP
@@ -48,7 +48,7 @@ def update_mobile_config(ip_address):
                 f.write(updated_content)
             print(f"✅ Updated mobile config with IP: {ip_address}")
         else:
-            print("⚠️  Could not find API_BASE line to update")
+            print("⚠️  Could not find backendUrl line to update")
             
     except Exception as e:
         print(f"❌ Error updating mobile config: {e}")

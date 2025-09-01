@@ -443,6 +443,7 @@ export const AdminRacesPage: React.FC<AdminRacesPageProps> = ({ onTokenExpiratio
             setShowCreateForm(false);
             fetchAdminRaces();
           }}
+          onTokenExpiration={onTokenExpiration}
         />
       )}
 

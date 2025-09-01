@@ -37,8 +37,18 @@ interface RaceFormProps {
   loading?: boolean;
 }
 
-const availableDistances = ['5K', '10K', 'Half Marathon', 'Marathon', 'Ultra'];
+const availableDistances = ['5k', '10k', 'half marathon', 'marathon', 'ultra', 'other'];
 const availableSurfaces = ['road', 'trail', 'track', 'virtual', 'other'];
+
+// User-friendly display labels for distances
+const distanceDisplayLabels: Record<string, string> = {
+  '5k': '5K',
+  '10k': '10K', 
+  'half marathon': 'Half Marathon',
+  'marathon': 'Marathon',
+  'ultra': 'Ultra',
+  'other': 'Other'
+};
 
 const defaultRaceData: Race = {
   name: '',
@@ -49,7 +59,7 @@ const defaultRaceData: Race = {
   state: '',
   zip: '',
   surface: 'road',
-  distance: ['5K'],
+  distance: ['5k'],
   kid_run: false,
   official_website_url: '',
   latitude: null,
@@ -73,20 +83,7 @@ export const RaceForm: React.FC<RaceFormProps> = ({
     if (initialData) {
       setFormData({
         ...defaultRaceData,
-        ...initialData,
-        // Normalize distance data to handle mixed abbreviated/full names
-        distance: (initialData.distance || ['5K']).map(d => {
-          const distanceMap: Record<string, string> = {
-            '5K': '5K',
-            '10K': '10K',
-            'Half': 'Half Marathon',
-            'Half Marathon': 'Half Marathon',
-            'Marathon': 'Marathon',
-            'Ultra': 'Ultra',
-            'Other': 'Other'
-          };
-          return distanceMap[d] || d;
-        })
+        ...initialData
       });
     }
   }, [initialData]);
@@ -177,7 +174,15 @@ export const RaceForm: React.FC<RaceFormProps> = ({
       return;
     }
 
-    await onSubmit(formData);
+    // Convert surface to lowercase before submission for backend compatibility
+    const normalizedFormData = {
+      ...formData,
+      surface: formData.surface ? formData.surface.toLowerCase() : formData.surface
+    };
+
+    console.log('Form data being sent:', normalizedFormData);
+
+    await onSubmit(normalizedFormData);
   };
 
   // const getTitle = () => mode === 'create' ? 'Create New Race' : 'Edit Race';
@@ -590,7 +595,7 @@ export const RaceForm: React.FC<RaceFormProps> = ({
                     fontWeight: '500',
                     color: '#374151'
                   }}>
-                    {distance}
+                    {distanceDisplayLabels[distance]}
                   </span>
                 </label>
               ))}

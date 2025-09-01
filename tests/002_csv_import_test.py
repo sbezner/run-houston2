@@ -42,7 +42,8 @@ def create_test_csv():
             'kid_run': 'TRUE',
             'official_website_url': 'https://example.com/race1',
             'latitude': '29.7604',
-            'longitude': '-95.3698'
+            'longitude': '-95.3698',
+            'distance': '5k'
         },
         {
             'id': '2',
@@ -57,7 +58,8 @@ def create_test_csv():
             'kid_run': 'FALSE',
             'official_website_url': 'https://example.com/race2',
             'latitude': '',
-            'longitude': ''
+            'longitude': '',
+            'distance': '10k'
         },
         {
             'id': '3',
@@ -72,7 +74,8 @@ def create_test_csv():
             'kid_run': 'FALSE',
             'official_website_url': 'https://example.com/race3',
             'latitude': '29.4241',
-            'longitude': '-98.4936'
+            'longitude': '-98.4936',
+            'distance': 'half marathon'
         },
         {
             'id': '4',
@@ -87,7 +90,8 @@ def create_test_csv():
             'kid_run': 'TRUE',
             'official_website_url': 'https://example.com/race4',
             'latitude': '32.7767',
-            'longitude': '-96.7970'
+            'longitude': '-96.7970',
+            'distance': 'marathon'
         },
         {
             'id': '5',
@@ -102,7 +106,8 @@ def create_test_csv():
             'kid_run': 'FALSE',
             'official_website_url': 'https://example.com/race5',
             'latitude': '',
-            'longitude': ''
+            'longitude': '',
+            'distance': 'other'
         },
         {
             'id': '6',
@@ -117,7 +122,8 @@ def create_test_csv():
             'kid_run': 'FALSE',
             'official_website_url': 'https://example.com/race6',
             'latitude': '30.2672',
-            'longitude': '-97.7431'
+            'longitude': '-97.7431',
+            'distance': 'ultra'
         }
     ]
     
@@ -165,7 +171,7 @@ def enhanced_csv_import_with_error_reporting(csv_file_path):
             
             try:
                 # Validate required fields
-                required_fields = ['name', 'date', 'start_time', 'city', 'state', 'surface']
+                required_fields = ['name', 'date', 'start_time', 'city', 'state', 'surface', 'distance']
                 missing_fields = [field for field in required_fields if not row.get(field)]
                 
                 if missing_fields:
@@ -534,8 +540,8 @@ def import_csv_with_error_reporting(csv_file_path):
             kid_run = 'TRUE' if row.get('kid_run', '').upper() in ['TRUE', '1', 'YES'] else 'FALSE'
             
             sql = f"""
-            INSERT INTO races (name, date, start_time, address, city, state, zip, surface, kid_run, official_website_url, latitude, longitude)
-            VALUES ('{row['name']}', '{row['date']}', '{row['start_time']}', '{row['address']}', '{row['city']}', '{row['state']}', '{row['zip']}', '{row['surface']}', {kid_run}, '{row['official_website_url']}', {lat}, {lon});
+            INSERT INTO races (name, date, start_time, address, city, state, zip, surface, kid_run, official_website_url, latitude, longitude, distance)
+            VALUES ('{row['name']}', '{row['date']}', '{row['start_time']}', '{row['address']}', '{row['city']}', '{row['state']}', '{row['zip']}', '{row['surface']}', {kid_run}, '{row['official_website_url']}', {lat}, {lon}, '{{{row.get('distance', '5k')}}}');
             """
             sql_inserts.append(sql)
         
@@ -649,7 +655,7 @@ def test_csv_parsing():
         
         # Validate headers
         expected_headers = ['id', 'name', 'date', 'start_time', 'address', 'city', 'state', 
-                          'zip', 'surface', 'kid_run', 'official_website_url', 'latitude', 'longitude']
+                          'zip', 'surface', 'kid_run', 'official_website_url', 'latitude', 'longitude', 'distance']
         
         if reader.fieldnames:
             missing_headers = set(expected_headers) - set(reader.fieldnames)
@@ -714,8 +720,8 @@ def test_database_import():
             lon = row['longitude'] if row['longitude'] else 'NULL'
             
             sql = f"""
-            INSERT INTO races (name, date, start_time, address, city, state, zip, surface, kid_run, official_website_url, latitude, longitude)
-            VALUES ('{row['name']}', '{row['date']}', '{row['start_time']}', '{row['address']}', '{row['city']}', '{row['state']}', '{row['zip']}', '{row['surface']}', {row['kid_run']}, '{row['official_website_url']}', {lat}, {lon});
+            INSERT INTO races (name, date, start_time, address, city, state, zip, surface, kid_run, official_website_url, latitude, longitude, distance)
+            VALUES ('{row['name']}', '{row['date']}', '{row['start_time']}', '{row['address']}', '{row['city']}', '{row['state']}', '{row['zip']}', '{row['surface']}', {row['kid_run']}, '{row['official_website_url']}', {lat}, {lon}, '{{{row['distance']}}}');
             """
             sql_inserts.append(sql)
         
@@ -797,8 +803,8 @@ def test_data_validation():
         valid_surfaces = ['track', 'virtual', 'other']
         for surface_type in valid_surfaces:
             test_sql = f"""
-            INSERT INTO races (name, date, surface, latitude, longitude)
-            VALUES ('Valid {surface_type.title()} Test', '2025-02-01', '{surface_type}', 29.7604, -95.3698);
+            INSERT INTO races (name, date, surface, latitude, longitude, distance)
+            VALUES ('Valid {surface_type.title()} Test', '2025-02-01', '{surface_type}', 29.7604, -95.3698, '5k');
             """
             
             # Write test SQL
@@ -829,8 +835,8 @@ def test_data_validation():
         
         # Try to insert with invalid surface type
         test_sql = """
-        INSERT INTO races (name, date, surface, latitude, longitude)
-        VALUES ('Invalid Surface Test', '2025-02-01', 'grass', 29.7604, -95.3698);
+        INSERT INTO races (name, date, surface, latitude, longitude, distance)
+        VALUES ('Invalid Surface Test', '2025-02-01', 'grass', 29.7604, -95.3698, '5k');
         """
         
         # Write test SQL
@@ -868,8 +874,8 @@ def test_data_validation():
         print("Testing Testing coordinate pair constraint...")
         
         test_sql2 = """
-        INSERT INTO races (name, date, surface, latitude)
-        VALUES ('Partial Coords Test', '2025-02-02', 'road', 29.7604);
+        INSERT INTO races (name, date, surface, latitude, distance)
+        VALUES ('Partial Coords Test', '2025-02-02', 'road', 29.7604, '5k');
         """
         
         temp_sql2 = tempfile.NamedTemporaryFile(mode='w', suffix='.sql', delete=False)

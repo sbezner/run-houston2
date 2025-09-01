@@ -355,7 +355,7 @@ function ResultsScreen({ navigation }: any) {
 
   const handleRacePress = (race: RaceVM) => {
     // Handle race selection - could open details or navigate to map
-    console.log('Selected race:', race.name);
+    // TODO: Implement race card interaction (e.g., open details modal)
   };
 
   const handleLocationPermission = async () => {
