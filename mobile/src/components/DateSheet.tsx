@@ -1,236 +1,345 @@
 import React, { useState } from 'react';
 import {
-  Modal,
   View,
   Text,
   TouchableOpacity,
+  Modal,
   StyleSheet,
   ScrollView,
-  TextInput,
   Alert,
 } from 'react-native';
-import { rangeToday, rangeTomorrow, rangeThisWeekend, rangeNextNDays, toISODate } from '../utils/dateRanges';
+import { Ionicons } from '@expo/vector-icons';
+import FixedDatePicker from './FixedDatePicker';
+
+// Safe date bounds for picker constraints
+const FAR_PAST = new Date(2000, 0, 1);
+const FAR_FUTURE = new Date(2100, 0, 1);
 
 interface DateSheetProps {
   visible: boolean;
   onClose: () => void;
-  onConfirm: (preset: string, dateFrom?: string, dateTo?: string) => void;
-  currentPreset: string;
+  onApply: (fromDate: string, toDate: string) => void;
 }
 
-export function DateSheet({ visible, onClose, onConfirm, currentPreset }: DateSheetProps) {
-  const [customFrom, setCustomFrom] = useState('');
-  const [customTo, setCustomTo] = useState('');
+const DateSheet: React.FC<DateSheetProps> = ({ visible, onClose, onApply }) => {
+  const [fromDate, setFromDate] = useState<Date | null>(null);
+  const [toDate, setToDate] = useState<Date | null>(null);
+  const [showFromPicker, setShowFromPicker] = useState(false);
+  const [showToPicker, setShowToPicker] = useState(false);
 
-  const handlePreset = (preset: string) => {
-    const now = new Date();
-    let dateFrom: string;
-    let dateTo: string;
+  const handleFromDateChange = (date: Date) => {
+    setFromDate(date);
+    setShowFromPicker(false);
+  };
 
-    switch (preset) {
-      case 'today':
-        const today = rangeToday(now);
-        dateFrom = toISODate(today.start);
-        dateTo = toISODate(today.start);
-        break;
-      case 'tomorrow':
-        const tomorrow = rangeTomorrow(now);
-        dateFrom = toISODate(tomorrow.start);
-        dateTo = toISODate(tomorrow.start);
-        break;
-      case 'weekend':
-        const weekend = rangeThisWeekend(now);
-        dateFrom = toISODate(weekend.start);
-        dateTo = toISODate(weekend.end);
-        break;
-      case 'next7':
-        const next7 = rangeNextNDays(7, now);
-        dateFrom = toISODate(next7.start);
-        dateTo = toISODate(next7.end);
-        break;
-      case 'next30':
-        const next30 = rangeNextNDays(30, now);
-        dateFrom = toISODate(next30.start);
-        dateTo = toISODate(next30.end);
-        break;
-      default:
-        return;
-    }
+  const handleToDateChange = (date: Date) => {
+    setToDate(date);
+    setShowToPicker(false);
+  };
 
-    onConfirm(preset, dateFrom, dateTo);
-    onClose();
+  const handleQuickSelect = (days: number) => {
+    const endDate = new Date();
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - days);
+    
+    setFromDate(startDate);
+    setToDate(endDate);
   };
 
   const handleCustom = () => {
-    if (!customFrom || !customTo) {
-      Alert.alert('Error', 'Please enter both start and end dates');
+    if (!fromDate || !toDate) {
+      Alert.alert('Error', 'Please select both start and end dates');
       return;
     }
 
-    if (customFrom > customTo) {
-      Alert.alert('Error', 'End date must be after start date');
+    if (fromDate > toDate) {
+      Alert.alert('Error', 'Start date must be before end date');
       return;
     }
 
-    onConfirm('custom', customFrom, customTo);
+    const fromDateStr = fromDate.toISOString().split('T')[0];
+    const toDateStr = toDate.toISOString().split('T')[0];
+    
+    onApply(fromDateStr, toDateStr);
     onClose();
   };
 
-  const presets = [
-    { key: 'today', label: 'Today' },
-    { key: 'tomorrow', label: 'Tomorrow' },
-    { key: 'weekend', label: 'This Weekend' },
-    { key: 'next7', label: 'Next 7 Days' },
-    { key: 'next30', label: 'Next 30 Days' },
-  ];
+  const handleReset = () => {
+    setFromDate(null);
+    setToDate(null);
+  };
+
+  const formatDate = (date: Date | null) => {
+    if (!date) return 'Select Date';
+    return date.toISOString().split('T')[0];
+  };
 
   return (
-    <Modal visible={visible} animationType="slide" presentationStyle="pageSheet">
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.title}>Select Date Range</Text>
-          <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-            <Text style={styles.closeText}>✕</Text>
-          </TouchableOpacity>
-        </View>
-
-        <ScrollView style={styles.content}>
-          <Text style={styles.sectionTitle}>Quick Presets</Text>
-          {presets.map((preset) => (
-            <TouchableOpacity
-              key={preset.key}
-              style={[
-                styles.presetButton,
-                currentPreset === preset.key && styles.presetButtonActive,
-              ]}
-              onPress={() => handlePreset(preset.key)}
-            >
-              <Text style={[
-                styles.presetText,
-                currentPreset === preset.key && styles.presetTextActive,
-              ]}>
-                {preset.label}
-              </Text>
-            </TouchableOpacity>
-          ))}
-
-          <Text style={styles.sectionTitle}>Custom Range</Text>
-          <View style={styles.customContainer}>
-            <View style={styles.dateInputContainer}>
-              <Text style={styles.dateLabel}>From:</Text>
-              <TextInput
-                style={styles.dateInput}
-                value={customFrom}
-                onChangeText={setCustomFrom}
-                placeholder="YYYY-MM-DD"
-                placeholderTextColor="#999"
-              />
-            </View>
-            <View style={styles.dateInputContainer}>
-              <Text style={styles.dateLabel}>To:</Text>
-              <TextInput
-                style={styles.dateInput}
-                value={customTo}
-                onChangeText={setCustomTo}
-                placeholder="YYYY-MM-DD"
-                placeholderTextColor="#999"
-              />
-            </View>
-            <TouchableOpacity style={styles.customButton} onPress={handleCustom}>
-              <Text style={styles.customButtonText}>Apply Custom Range</Text>
+    <Modal
+      visible={visible}
+      animationType="slide"
+      transparent={true}
+      onRequestClose={onClose}
+    >
+      <View style={styles.modalOverlay} pointerEvents={showFromPicker || showToPicker ? 'none' : 'auto'}>
+        <View style={styles.modalContent}>
+          <View style={styles.header}>
+            <Text style={styles.headerTitle}>Select Date Range</Text>
+            <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+              <Ionicons name="close" size={24} color="#333" />
             </TouchableOpacity>
           </View>
-        </ScrollView>
+
+          <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+            {/* Quick Select Options */}
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Quick Select</Text>
+              <View style={styles.quickSelectGrid}>
+                <TouchableOpacity
+                  style={styles.quickSelectButton}
+                  onPress={() => handleQuickSelect(7)}
+                >
+                  <Text style={styles.quickSelectText}>Last 7 Days</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.quickSelectButton}
+                  onPress={() => handleQuickSelect(30)}
+                >
+                  <Text style={styles.quickSelectText}>Last 30 Days</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.quickSelectButton}
+                  onPress={() => handleQuickSelect(90)}
+                >
+                  <Text style={styles.quickSelectText}>Last 90 Days</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.quickSelectButton}
+                  onPress={() => handleQuickSelect(365)}
+                >
+                  <Text style={styles.quickSelectText}>Last Year</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            {/* Custom Date Selection */}
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Custom Range</Text>
+              
+              <View style={styles.dateInputRow}>
+                <Text style={styles.dateLabel}>From:</Text>
+                <TouchableOpacity
+                  style={styles.datePickerButton}
+                  onPress={() => setShowFromPicker(true)}
+                >
+                  <Text style={styles.datePickerText}>
+                    {formatDate(fromDate)}
+                  </Text>
+                  <Ionicons name="calendar" size={20} color="#007AFF" />
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.dateInputRow}>
+                <Text style={styles.dateLabel}>To:</Text>
+                <TouchableOpacity
+                  style={styles.datePickerButton}
+                  onPress={() => setShowToPicker(true)}
+                >
+                  <Text style={styles.datePickerText}>
+                    {formatDate(toDate)}
+                  </Text>
+                  <Ionicons name="calendar" size={20} color="#007AFF" />
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            {/* Action Buttons */}
+            <View style={styles.actionButtons}>
+              <TouchableOpacity
+                style={[styles.button, styles.resetButton]}
+                onPress={handleReset}
+              >
+                <Text style={styles.resetButtonText}>Reset</Text>
+              </TouchableOpacity>
+              
+              <TouchableOpacity
+                style={[styles.button, styles.applyButton]}
+                onPress={handleCustom}
+              >
+                <Text style={styles.applyButtonText}>Apply Filter</Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* QA Smoke Test Button - Development Only */}
+            {__DEV__ && (
+              <View style={styles.smokeTestSection}>
+                <Text style={styles.sectionTitle}>QA Test</Text>
+                <TouchableOpacity
+                  style={[styles.button, { backgroundColor: '#FF6B6B', marginTop: 10 }]}
+                  onPress={() => setShowFromPicker(true)}
+                >
+                  <Text style={[styles.applyButtonText, { color: 'white' }]}>Test Date Picker (iOS)</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </ScrollView>
+        </View>
+
+        {/* Date Pickers - Using FixedDatePicker to avoid nested modal issues */}
+        <FixedDatePicker
+          visible={showFromPicker}
+          mode="date"
+          initial={fromDate || new Date()}
+          minimumDate={FAR_PAST}
+          maximumDate={FAR_FUTURE}
+          title="Select Start Date"
+          onCancel={() => setShowFromPicker(false)}
+          onConfirm={(d) => {
+            setShowFromPicker(false);
+            setFromDate(d);
+            // Keep range valid
+            if (toDate && toDate < d) setToDate(d);
+          }}
+        />
+
+        <FixedDatePicker
+          visible={showToPicker}
+          mode="date"
+          initial={toDate || (fromDate || new Date())}
+          minimumDate={fromDate || FAR_PAST}
+          maximumDate={FAR_FUTURE}
+          title="Select End Date"
+          onCancel={() => setShowToPicker(false)}
+          onConfirm={(d) => {
+            setShowToPicker(false);
+            setToDate(d);
+          }}
+        />
       </View>
     </Modal>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: {
+  modalOverlay: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'flex-end',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    maxHeight: '80%',
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 16,
+    padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: '#E5E5E5',
   },
-  title: {
+  headerTitle: {
     fontSize: 18,
     fontWeight: '600',
+    color: '#333',
   },
   closeButton: {
-    padding: 8,
-  },
-  closeText: {
-    fontSize: 18,
-    color: '#666',
+    padding: 5,
   },
   content: {
-    flex: 1,
-    padding: 16,
+    padding: 20,
+  },
+  section: {
+    marginBottom: 25,
   },
   sectionTitle: {
     fontSize: 16,
     fontWeight: '600',
-    marginTop: 16,
-    marginBottom: 12,
     color: '#333',
+    marginBottom: 15,
   },
-  presetButton: {
-    padding: 16,
-    backgroundColor: '#f8f9fa',
+  quickSelectGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+  },
+  quickSelectButton: {
+    backgroundColor: '#F0F0F0',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
     borderRadius: 8,
-    marginBottom: 8,
-    borderWidth: 1,
-    borderColor: '#e9ecef',
+    minWidth: '45%',
   },
-  presetButtonActive: {
-    backgroundColor: '#007AFF',
-    borderColor: '#007AFF',
-  },
-  presetText: {
-    fontSize: 16,
+  quickSelectText: {
     color: '#333',
+    textAlign: 'center',
+    fontSize: 14,
   },
-  presetTextActive: {
-    color: '#fff',
-    fontWeight: '600',
-  },
-  customContainer: {
-    marginTop: 8,
-  },
-  dateInputContainer: {
-    marginBottom: 16,
+  dateInputRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 15,
   },
   dateLabel: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '500',
-    marginBottom: 8,
+    color: '#333',
+    width: 60,
+    marginRight: 15,
+  },
+  datePickerButton: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#F8F9FA',
+    borderWidth: 1,
+    borderColor: '#E5E5E5',
+    borderRadius: 8,
+    paddingHorizontal: 15,
+    paddingVertical: 12,
+  },
+  datePickerText: {
+    fontSize: 16,
     color: '#333',
   },
-  dateInput: {
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
-    backgroundColor: '#f8f9fa',
+  actionButtons: {
+    flexDirection: 'row',
+    gap: 15,
+    marginTop: 20,
   },
-  customButton: {
-    backgroundColor: '#007AFF',
-    padding: 16,
+  button: {
+    flex: 1,
+    paddingVertical: 15,
     borderRadius: 8,
     alignItems: 'center',
-    marginTop: 8,
   },
-  customButtonText: {
-    color: '#fff',
+  resetButton: {
+    backgroundColor: '#F8F9FA',
+    borderWidth: 1,
+    borderColor: '#E5E5E5',
+  },
+  resetButtonText: {
+    color: '#666',
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  applyButton: {
+    backgroundColor: '#007AFF',
+  },
+  applyButtonText: {
+    color: 'white',
     fontSize: 16,
     fontWeight: '600',
   },
+  smokeTestSection: {
+    marginTop: 20,
+    paddingTop: 20,
+    borderTopWidth: 1,
+    borderTopColor: '#E5E5E5',
+  },
 });
+
+export default DateSheet;
