@@ -475,21 +475,23 @@ function MapScreen({ navigation }: any) {
     try {
       const raceIdNum = typeof race.id === 'string' ? parseInt(race.id, 10) : race.id;
       if (!raceIdNum || Number.isNaN(raceIdNum)) {
-        navigation.navigate('Reports');
+        // Navigate to List tab first, then to Reports
+        navigation.navigate('List', { screen: 'Reports' });
         return;
       }
       // Fetch up to 2 to decide between single-report open vs list view
       const res = await fetchRaceReports({ limit: 2, offset: 0, race_id: raceIdNum as number });
       const count = res.items?.length ?? 0;
       if (count === 1) {
-        navigation.navigate('RaceReport', { report: res.items[0] });
+        // Navigate to List tab first, then to RaceReport
+        navigation.navigate('List', { screen: 'RaceReport', params: { report: res.items[0] } });
         return;
       }
       // If 0 or multiple, show the list filtered to the race
-      navigation.navigate('Reports', { race_id: raceIdNum, race_name: race.name });
+      navigation.navigate('List', { screen: 'Reports', params: { race_id: raceIdNum, race_name: race.name } });
     } catch (e) {
       // On any error, take the user to the reports list as a safe fallback
-      navigation.navigate('Reports');
+      navigation.navigate('List', { screen: 'Reports' });
     }
   };
 

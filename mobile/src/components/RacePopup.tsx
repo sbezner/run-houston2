@@ -153,7 +153,6 @@ export function RacePopup({ race, onClose, onPressReport, hasReport, userLocatio
       <Text style={styles.meta}>
         {formatDate(race.dateISO)}
         {formatTime(race.startTime)}
-        {formatLocation()}
       </Text>
 
       {/* Full address */}

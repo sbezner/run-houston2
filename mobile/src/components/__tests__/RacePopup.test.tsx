@@ -49,7 +49,6 @@ describe('RacePopup', () => {
     expect(getByText('Test Race 5K')).toBeTruthy();
     expect(getByText(/Fri Aug 15, 2025/)).toBeTruthy();
     expect(getByText(/8:00 AM/)).toBeTruthy();
-    expect(getByText(/Houston, TX/)).toBeTruthy();
     expect(getByText('123 Main St, Houston, TX, 77001')).toBeTruthy();
     expect(getByText(/5\.2 mi away/)).toBeTruthy();
     expect(getByText('5K')).toBeTruthy();
@@ -152,7 +151,8 @@ describe('RacePopup', () => {
       <RacePopup race={raceWithoutAddress} onClose={mockOnClose} userLocation={mockUserLocation} />
     );
     
-    expect(getByText(/Houston, TX/)).toBeTruthy();
+    expect(getByText('Test Race 5K')).toBeTruthy();
+    expect(getByText(/Fri Aug 15, 2025/)).toBeTruthy();
     expect(queryByText('123 Main St, Houston, TX, 77001')).toBeNull();
   });
 

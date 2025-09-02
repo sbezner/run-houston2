@@ -8,6 +8,8 @@ export function normalizeRace(race: Race): RaceVM {
     startTime: race.start_time || null,
     city: race.city || null,
     state: race.state || null,
+    address: race.address || null,
+    zip: race.zip || null,
     surface: race.surface ? race.surface.toLowerCase() : null,
     distances: race.distance || [],
     url: race.official_website_url || null,

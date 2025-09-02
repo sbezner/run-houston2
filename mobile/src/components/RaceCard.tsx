@@ -148,7 +148,6 @@ export function RaceCard({ race, onPress, onPressReport, hasReport, userLocation
       <Text style={styles.meta}>
         {formatDate(race.dateISO)}
         {formatTime(race.startTime)}
-        {formatLocation()}
       </Text>
 
       {/* Row 3: Full address */}
