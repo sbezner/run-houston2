@@ -68,10 +68,11 @@ export const ClubsScreen: React.FC = () => {
   const renderClub = ({ item }: { item: Club }) => (
     <View style={styles.clubItem}>
       <Text style={styles.clubName}>{item.club_name}</Text>
-      <Text style={styles.clubDescription}>{item.location || 'No location specified'}</Text>
       
-      {item.location && (
+      {item.location ? (
         <Text style={styles.clubInfo}>📍 {item.location}</Text>
+      ) : (
+        <Text style={styles.clubDescription}>No location specified</Text>
       )}
       
       <View style={styles.clubActions}>
