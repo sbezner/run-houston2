@@ -22,6 +22,8 @@ export interface RaceVM {
   startTime?: string | null; // HH:mm or HH:mm:ss optional
   city?: string | null;
   state?: string | null;
+  address?: string | null;
+  zip?: string | null;
   surface?: string | null;   // road|trail|track
   distances?: string[];
   url?: string | null;

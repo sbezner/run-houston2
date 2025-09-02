@@ -373,12 +373,13 @@ function ResultsScreen({ navigation }: any) {
         data={visibleRaces}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <RaceCard
-            race={item}
-            onPress={() => handleRacePress(item)}
-            hasReport={hasReportByRaceId[item.id] === true}
-            onPressReport={() => handleOpenReport(item)}
-          />
+                  <RaceCard
+          race={item}
+          onPress={() => handleRacePress(item)}
+          hasReport={hasReportByRaceId[item.id] === true}
+          onPressReport={() => handleOpenReport(item)}
+          userLocation={coords}
+        />
         )}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -413,14 +414,20 @@ function ResultsScreen({ navigation }: any) {
 function MapScreen() {
   const [races, setRaces] = useState<Race[]>([]);
   const [loading, setLoading] = useState(true);
+  const [hasReportByRaceId, setHasReportByRaceId] = useState<Record<string | number, boolean>>({});
   // Use shared filters from context
   const { filters } = useFilters();
   // Use the new date filter state
   const { applied: dateFilter } = useDateFilter();
+  const { coords } = useUserLocation();
 
   useEffect(() => {
     loadRaces();
   }, []);
+
+  useEffect(() => {
+    buildReportMap();
+  }, [races]);
 
   const loadRaces = async () => {
     try {
@@ -432,6 +439,52 @@ function MapScreen() {
       Alert.alert('Error', 'Failed to load races');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const buildReportMap = async () => {
+    if (races.length === 0) return;
+    
+    try {
+      const reportMap: Record<string | number, boolean> = {};
+      
+      // Check each race for reports
+      for (const race of races) {
+        try {
+          const raceIdNum = typeof race.id === 'string' ? parseInt(race.id, 10) : race.id;
+          if (!raceIdNum || Number.isNaN(raceIdNum)) {
+            reportMap[race.id] = false;
+            continue;
+          }
+          
+          const res = await fetchRaceReports({ limit: 1, offset: 0, race_id: raceIdNum as number });
+          const count = res.items?.length ?? 0;
+          reportMap[race.id] = count > 0;
+        } catch (e) {
+          reportMap[race.id] = false;
+        }
+      }
+      
+      setHasReportByRaceId(reportMap);
+    } catch (error) {
+      console.error('Error building report map:', error);
+    }
+  };
+
+  const handleOpenReport = async (race: RaceVM) => {
+    try {
+      const raceIdNum = typeof race.id === 'string' ? parseInt(race.id, 10) : race.id;
+      if (!raceIdNum || Number.isNaN(raceIdNum)) {
+        return;
+      }
+      const res = await fetchRaceReports({ limit: 2, offset: 0, race_id: raceIdNum as number });
+      const count = res.items?.length ?? 0;
+      if (count === 1) {
+        return;
+      }
+      return;
+    } catch (e) {
+      return;
     }
   };
 
@@ -473,7 +526,12 @@ function MapScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <RaceMap races={visibleRaces} />
+      <RaceMap 
+        races={visibleRaces} 
+        userLocation={coords}
+        hasReportByRaceId={hasReportByRaceId}
+        onPressReport={handleOpenReport}
+      />
     </SafeAreaView>
   );
 }

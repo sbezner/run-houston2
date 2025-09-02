@@ -3,15 +3,15 @@ import { View, Text, TouchableOpacity, StyleSheet, Linking } from 'react-native'
 import { RaceVM } from '../types';
 import { milesBetween } from '../utils/geo';
 
-interface RaceCardProps {
+interface RacePopupProps {
   race: RaceVM;
-  onPress: () => void;
+  onClose: () => void;
   onPressReport?: () => void;
   hasReport?: boolean;
   userLocation?: { lat: number; lng: number } | null;
 }
 
-export function RaceCard({ race, onPress, onPressReport, hasReport, userLocation }: RaceCardProps) {
+export function RacePopup({ race, onClose, onPressReport, hasReport, userLocation }: RacePopupProps) {
   const formatDate = (dateISO: string | null | undefined): string => {
     if (!dateISO) return '';
     try {
@@ -120,45 +120,50 @@ export function RaceCard({ race, onPress, onPressReport, hasReport, userLocation
   };
 
   return (
-    <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.7}>
-      {/* Row 1: Title + buttons */}
-      <View style={styles.titleRow}>
+    <View style={styles.popup}>
+      {/* Header with title and close button */}
+      <View style={styles.header}>
         <Text style={styles.title} numberOfLines={2}>
           {race.name}
         </Text>
-        <View style={styles.actionsRow}>
-          {hasReport && (
-            <TouchableOpacity
-              style={[styles.chipButton, styles.reportButton]}
-              onPress={onPressReport}
-              accessibilityLabel="Open race report"
-            >
-              <Text style={styles.chipButtonText}>Race Report</Text>
-            </TouchableOpacity>
-          )}
-          {race.url && (
-            <TouchableOpacity style={[styles.chipButton, styles.openButton]} onPress={handleOpenWebsite}>
-              <Text style={styles.chipButtonText}>Open ↗</Text>
-            </TouchableOpacity>
-          )}
-        </View>
+        <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+          <Text style={styles.closeButtonText}>✕</Text>
+        </TouchableOpacity>
       </View>
 
-      {/* Row 2: Meta info */}
+      {/* Action buttons row */}
+      <View style={styles.actionsRow}>
+        {hasReport && (
+          <TouchableOpacity
+            style={[styles.chipButton, styles.reportButton]}
+            onPress={onPressReport}
+            accessibilityLabel="Open race report"
+          >
+            <Text style={styles.chipButtonText}>Race Report</Text>
+          </TouchableOpacity>
+        )}
+        {race.url && (
+          <TouchableOpacity style={[styles.chipButton, styles.openButton]} onPress={handleOpenWebsite}>
+            <Text style={styles.chipButtonText}>Open ↗</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+
+      {/* Meta info */}
       <Text style={styles.meta}>
         {formatDate(race.dateISO)}
         {formatTime(race.startTime)}
         {formatLocation()}
       </Text>
 
-      {/* Row 3: Full address */}
+      {/* Full address */}
       {formatFullAddress() && (
         <Text style={styles.address}>
           {formatFullAddress()}
         </Text>
       )}
 
-      {/* Row 4: Distance from user with directions */}
+      {/* Distance from user with directions */}
       {getDistanceFromUser() && (
         <View style={styles.distanceRow}>
           <Text style={styles.distance}>
@@ -175,51 +180,65 @@ export function RaceCard({ race, onPress, onPressReport, hasReport, userLocation
         </View>
       )}
 
-      {/* Row 5: Badges */}
+      {/* Badges */}
       <View style={styles.badgeRow}>
         {getDistanceBadges()}
         {getSurfaceBadge()}
         {getKidsBadge()}
       </View>
-    </TouchableOpacity>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
+  popup: {
     backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 12,
-    marginHorizontal: 16,
-    marginVertical: 6,
+    borderRadius: 16,
+    padding: 16,
+    width: '90%',
+    maxWidth: 400,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 8,
   },
-  titleRow: {
+  header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginBottom: 6,
+    marginBottom: 12,
   },
   title: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '600',
     color: '#333',
     flex: 1,
-    marginRight: 8,
-    lineHeight: 20,
+    marginRight: 12,
+    lineHeight: 22,
+  },
+  closeButton: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: '#e0e0e0',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  closeButtonText: {
+    fontSize: 16,
+    color: '#666',
+    fontWeight: 'bold',
   },
   actionsRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
+    gap: 8,
+    marginBottom: 12,
   },
   chipButton: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
     borderRadius: 6,
   },
   openButton: {
@@ -229,37 +248,37 @@ const styles = StyleSheet.create({
     backgroundColor: '#34C759',
   },
   chipButtonText: {
-    fontSize: 11,
+    fontSize: 12,
     color: '#fff',
     fontWeight: '600',
   },
   meta: {
-    fontSize: 12,
+    fontSize: 13,
     color: '#666',
-    marginBottom: 4,
-    lineHeight: 16,
+    marginBottom: 6,
+    lineHeight: 18,
   },
   address: {
-    fontSize: 11,
+    fontSize: 12,
     color: '#888',
-    marginBottom: 4,
-    lineHeight: 14,
+    marginBottom: 6,
+    lineHeight: 16,
   },
   distanceRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: 12,
     gap: 8,
   },
   distance: {
-    fontSize: 11,
+    fontSize: 12,
     color: '#007AFF',
-    lineHeight: 14,
+    lineHeight: 16,
     fontWeight: '500',
   },
   directionsButton: {
     paddingHorizontal: 8,
-    paddingVertical: 2,
+    paddingVertical: 3,
     backgroundColor: '#007AFF',
     borderRadius: 4,
   },
@@ -279,7 +298,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#f0f0f0',
     borderRadius: 12,
   },
-
   kidsBadge: {
     backgroundColor: '#fff3e0',
   },
