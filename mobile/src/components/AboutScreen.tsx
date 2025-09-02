@@ -4,15 +4,9 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  Linking,
-  TouchableOpacity,
 } from 'react-native';
 
 const AboutScreen: React.FC = () => {
-  const openWebsite = () => {
-    Linking.openURL('https://github.com/yourusername/run-houston');
-  };
-
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
@@ -33,21 +27,12 @@ const AboutScreen: React.FC = () => {
           <Text style={styles.feature}>🗺️ Interactive Maps</Text>
           <Text style={styles.feature}>🏆 Race Reports</Text>
           <Text style={styles.feature}>👥 Running Clubs</Text>
+          <Text style={styles.feature}>📍 Distance & Directions</Text>
+          <Text style={styles.feature}>🏠 Full Address Display</Text>
+          <Text style={styles.feature}>🎯 Enhanced Race Cards</Text>
+          <Text style={styles.feature}>🔍 Advanced Filtering</Text>
+          <Text style={styles.feature}>👥 Community Hub (Coming Soon)</Text>
           <Text style={styles.feature}>📱 Mobile Optimized</Text>
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Contact</Text>
-          <TouchableOpacity onPress={openWebsite}>
-            <Text style={styles.link}>GitHub Repository</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Built With</Text>
-          <Text style={styles.tech}>React Native</Text>
-          <Text style={styles.tech}>Expo</Text>
-          <Text style={styles.tech}>TypeScript</Text>
         </View>
       </View>
     </ScrollView>
@@ -91,16 +76,6 @@ const styles = StyleSheet.create({
     textAlign: 'justify',
   },
   feature: {
-    fontSize: 16,
-    marginBottom: 8,
-    color: '#555',
-  },
-  link: {
-    fontSize: 16,
-    color: '#007AFF',
-    textDecorationLine: 'underline',
-  },
-  tech: {
     fontSize: 16,
     marginBottom: 8,
     color: '#555',
