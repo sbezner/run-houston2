@@ -31,6 +31,7 @@ import { fetchRaces } from './src/api';
 import AboutScreen from './src/components/AboutScreen';
 import { ClubsScreen } from './src/screens/ClubsScreen';
 import { ReportsScreen } from './src/screens/ReportsScreen';
+import RaceReportScreen from './src/screens/RaceReportScreen';
 import { DateFilterProvider, useDateFilter } from './src/state/dateFilter';
 import { filterRacesByDate } from './src/selectors/races';
 
@@ -75,6 +76,12 @@ function ListStack() {
         component={ReportsScreen}
         options={{ title: 'Race Reports' }}
       />
+      <Stack.Screen 
+        name="RaceReport" 
+        options={{ title: 'Race Report' }}
+      >
+        {(props) => <RaceReportScreen {...props} />}
+      </Stack.Screen>
       <Stack.Screen 
         name="About" 
         component={AboutScreen}

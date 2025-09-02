@@ -7,14 +7,12 @@ import {
   RefreshControl,
   ActivityIndicator,
   TouchableOpacity,
-  Linking,
-  Alert,
 } from 'react-native';
 import { RaceReport } from '../types';
 import { fetchRaceReports } from '../api';
 import { config } from '../config';
 
-export const ReportsScreen: React.FC = () => {
+export const ReportsScreen: React.FC<any> = ({ navigation }) => {
   const [reports, setReports] = useState<RaceReport[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -71,33 +69,8 @@ export const ReportsScreen: React.FC = () => {
     }
   };
 
-  const openReport = async (report: RaceReport) => {
-    try {
-      // Try to open the report URL if it exists
-      if (report.url) {
-        const supported = await Linking.canOpenURL(report.url);
-        if (supported) {
-          await Linking.openURL(report.url);
-        } else {
-          throw new Error('Cannot open URL');
-        }
-      } else {
-        // Show report details in an alert if no URL
-        Alert.alert(
-          report.title || 'Untitled Report',
-          `${report.content || 'No content available'}\n\nBy: ${report.author || 'Unknown Author'}\nDate: ${new Date(report.created_at).toLocaleDateString()}`,
-          [{ text: 'OK' }]
-        );
-      }
-    } catch (error) {
-      console.error('Error opening report:', error);
-      // Fallback to showing details in alert
-      Alert.alert(
-        report.title || 'Untitled Report',
-        `${report.content || 'No content available'}\n\nBy: ${report.author || 'Unknown Author'}\nDate: ${new Date(report.created_at).toLocaleDateString()}`,
-        [{ text: 'OK' }]
-      );
-    }
+  const openReport = (report: RaceReport) => {
+    navigation.navigate('RaceReport', { report });
   };
 
   useEffect(() => {
@@ -127,7 +100,7 @@ export const ReportsScreen: React.FC = () => {
         {new Date(item.created_at).toLocaleDateString()}
       </Text>
       <Text style={styles.reportPreview} numberOfLines={2}>
-        {item.content || 'No content available'}
+        {(item.content && item.content.trim()) || (item.content_md && item.content_md.trim()) || 'No content available'}
       </Text>
     </TouchableOpacity>
   );
