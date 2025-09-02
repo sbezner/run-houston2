@@ -31,13 +31,13 @@ Exclusion patterns:
   - \.crt$
 Sample paths:
   C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\.gitignore
-  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\DEPLOYMENT_TODO.md
-  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\MOBILE_STYLE_GUIDELINES.md
-  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\requirements.md
-  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\REVIEW_DIAGNOSTICS.txt
-  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\REVIEW_MANIFEST.txt
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\docs\deployment\DEPLOYMENT_TODO.md
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\docs\style\MOBILE_STYLE_GUIDELINES.md
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\docs\requirements.md
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\docs\reviews\REVIEW_DIAGNOSTICS.txt
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\docs\reviews\REVIEW_MANIFEST.txt
   C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\ss.py
-  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\WEEKEND_ACTION_PLAN.md
+  C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\docs\planning\WEEKEND_ACTION_PLAN.md
   C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\api\Dockerfile
   C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\api\requirements.txt
   C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\api\app\auth.py
