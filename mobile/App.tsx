@@ -411,7 +411,7 @@ function ResultsScreen({ navigation }: any) {
 }
 
 // Map Screen Component
-function MapScreen() {
+function MapScreen({ navigation }: any) {
   const [races, setRaces] = useState<Race[]>([]);
   const [loading, setLoading] = useState(true);
   const [hasReportByRaceId, setHasReportByRaceId] = useState<Record<string | number, boolean>>({});
@@ -475,16 +475,21 @@ function MapScreen() {
     try {
       const raceIdNum = typeof race.id === 'string' ? parseInt(race.id, 10) : race.id;
       if (!raceIdNum || Number.isNaN(raceIdNum)) {
+        navigation.navigate('Reports');
         return;
       }
+      // Fetch up to 2 to decide between single-report open vs list view
       const res = await fetchRaceReports({ limit: 2, offset: 0, race_id: raceIdNum as number });
       const count = res.items?.length ?? 0;
       if (count === 1) {
+        navigation.navigate('RaceReport', { report: res.items[0] });
         return;
       }
-      return;
+      // If 0 or multiple, show the list filtered to the race
+      navigation.navigate('Reports', { race_id: raceIdNum, race_name: race.name });
     } catch (e) {
-      return;
+      // On any error, take the user to the reports list as a safe fallback
+      navigation.navigate('Reports');
     }
   };
 
