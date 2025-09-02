@@ -20,6 +20,7 @@ describe('RaceCard', () => {
   };
 
   const mockOnPress = jest.fn();
+  const mockOnPressReport = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -211,5 +212,140 @@ describe('RaceCard', () => {
     
     // Invalid distance should not cause errors
     expect(screen.queryByText('invalid_distance')).toBeFalsy();
+  });
+
+  describe('Race Report Button', () => {
+    it('should show Race Report button when hasReport is true', () => {
+      const { container } = render(
+        <RaceCard 
+          race={mockRace} 
+          onPress={mockOnPress} 
+          hasReport={true}
+          onPressReport={mockOnPressReport}
+        />
+      );
+
+      expect(container).toHaveTextContent('Race Report');
+    });
+
+    it('should not show Race Report button when hasReport is false', () => {
+      const { container } = render(
+        <RaceCard 
+          race={mockRace} 
+          onPress={mockOnPress} 
+          hasReport={false}
+          onPressReport={mockOnPressReport}
+        />
+      );
+
+      expect(container).not.toHaveTextContent('Race Report');
+    });
+
+    it('should not show Race Report button when hasReport is undefined', () => {
+      const { container } = render(
+        <RaceCard 
+          race={mockRace} 
+          onPress={mockOnPress} 
+          onPressReport={mockOnPressReport}
+        />
+      );
+
+      expect(container).not.toHaveTextContent('Race Report');
+    });
+
+    it('should call onPressReport when Race Report button is pressed', () => {
+      const { getByLabelText } = render(
+        <RaceCard 
+          race={mockRace} 
+          onPress={mockOnPress} 
+          hasReport={true}
+          onPressReport={mockOnPressReport}
+        />
+      );
+
+      const reportButton = getByLabelText('Open race report');
+      fireEvent.press(reportButton);
+
+      expect(mockOnPressReport).toHaveBeenCalledTimes(1);
+    });
+
+    it('should show both Open and Race Report buttons when both are available', () => {
+      const { container } = render(
+        <RaceCard 
+          race={mockRace} 
+          onPress={mockOnPress} 
+          hasReport={true}
+          onPressReport={mockOnPressReport}
+        />
+      );
+
+      expect(container).toHaveTextContent('Open ↗');
+      expect(container).toHaveTextContent('Race Report');
+    });
+
+    it('should show only Open button when no report is available', () => {
+      const { container } = render(
+        <RaceCard 
+          race={mockRace} 
+          onPress={mockOnPress} 
+          hasReport={false}
+          onPressReport={mockOnPressReport}
+        />
+      );
+
+      expect(container).toHaveTextContent('Open ↗');
+      expect(container).not.toHaveTextContent('Race Report');
+    });
+
+    it('should show only Race Report button when no URL is available', () => {
+      const raceWithoutUrl: RaceVM = {
+        ...mockRace,
+        url: undefined
+      };
+
+      const { container } = render(
+        <RaceCard 
+          race={raceWithoutUrl} 
+          onPress={mockOnPress} 
+          hasReport={true}
+          onPressReport={mockOnPressReport}
+        />
+      );
+
+      expect(container).not.toHaveTextContent('Open ↗');
+      expect(container).toHaveTextContent('Race Report');
+    });
+
+    it('should show neither button when no URL and no report', () => {
+      const raceWithoutUrl: RaceVM = {
+        ...mockRace,
+        url: undefined
+      };
+
+      const { container } = render(
+        <RaceCard 
+          race={raceWithoutUrl} 
+          onPress={mockOnPress} 
+          hasReport={false}
+          onPressReport={mockOnPressReport}
+        />
+      );
+
+      expect(container).not.toHaveTextContent('Open ↗');
+      expect(container).not.toHaveTextContent('Race Report');
+    });
+
+    it('should have proper accessibility label for Race Report button', () => {
+      const { getByLabelText } = render(
+        <RaceCard 
+          race={mockRace} 
+          onPress={mockOnPress} 
+          hasReport={true}
+          onPressReport={mockOnPressReport}
+        />
+      );
+
+      expect(getByLabelText('Open race report')).toBeTruthy();
+    });
   });
 });

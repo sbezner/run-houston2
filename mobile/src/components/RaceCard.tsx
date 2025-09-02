@@ -5,9 +5,11 @@ import { RaceVM } from '../types';
 interface RaceCardProps {
   race: RaceVM;
   onPress: () => void;
+  onPressReport?: () => void;
+  hasReport?: boolean;
 }
 
-export function RaceCard({ race, onPress }: RaceCardProps) {
+export function RaceCard({ race, onPress, onPressReport, hasReport }: RaceCardProps) {
   const formatDate = (dateISO: string | null | undefined): string => {
     if (!dateISO) return '';
     try {
@@ -74,16 +76,27 @@ export function RaceCard({ race, onPress }: RaceCardProps) {
 
   return (
     <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.7}>
-      {/* Row 1: Title + Open button */}
+      {/* Row 1: Title + buttons */}
       <View style={styles.titleRow}>
         <Text style={styles.title} numberOfLines={2}>
           {race.name}
         </Text>
-        {race.url && (
-          <TouchableOpacity style={styles.openButton} onPress={handleOpenWebsite}>
-            <Text style={styles.openButtonText}>Open ↗</Text>
-          </TouchableOpacity>
-        )}
+        <View style={styles.actionsRow}>
+          {hasReport && (
+            <TouchableOpacity
+              style={[styles.chipButton, styles.reportButton]}
+              onPress={onPressReport}
+              accessibilityLabel="Open race report"
+            >
+              <Text style={styles.chipButtonText}>Race Report</Text>
+            </TouchableOpacity>
+          )}
+          {race.url && (
+            <TouchableOpacity style={[styles.chipButton, styles.openButton]} onPress={handleOpenWebsite}>
+              <Text style={styles.chipButtonText}>Open ↗</Text>
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
 
       {/* Row 2: Meta info */}
@@ -130,13 +143,23 @@ const styles = StyleSheet.create({
     marginRight: 8,
     lineHeight: 20,
   },
-  openButton: {
+  actionsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  chipButton: {
     paddingHorizontal: 8,
     paddingVertical: 4,
-    backgroundColor: '#007AFF',
     borderRadius: 6,
   },
-  openButtonText: {
+  openButton: {
+    backgroundColor: '#007AFF',
+  },
+  reportButton: {
+    backgroundColor: '#34C759',
+  },
+  chipButtonText: {
     fontSize: 11,
     color: '#fff',
     fontWeight: '600',

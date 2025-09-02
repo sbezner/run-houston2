@@ -12,7 +12,7 @@ import { RaceReport } from '../types';
 import { fetchRaceReports } from '../api';
 import { config } from '../config';
 
-export const ReportsScreen: React.FC<any> = ({ navigation }) => {
+export const ReportsScreen: React.FC<any> = ({ navigation, route }) => {
   const [reports, setReports] = useState<RaceReport[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -23,6 +23,9 @@ export const ReportsScreen: React.FC<any> = ({ navigation }) => {
   const [total, setTotal] = useState(0);
   const limit = 20;
 
+  const raceIdFilter: number | undefined = route?.params?.race_id;
+  const raceName: string | undefined = route?.params?.race_name;
+
   const loadReports = async (isRefresh = false) => {
     try {
       if (isRefresh) {
@@ -31,10 +34,10 @@ export const ReportsScreen: React.FC<any> = ({ navigation }) => {
       }
 
       const currentOffset = isRefresh ? 0 : offset;
-      
       const response = await fetchRaceReports({
         limit,
         offset: currentOffset,
+        race_id: raceIdFilter,
       });
 
       if (isRefresh) {
@@ -85,7 +88,7 @@ export const ReportsScreen: React.FC<any> = ({ navigation }) => {
     loadReports(true);
 
     return () => clearTimeout(timeoutId);
-  }, []);
+  }, [raceIdFilter]);
 
   const renderReport = ({ item }: { item: RaceReport }) => (
     <TouchableOpacity
@@ -137,6 +140,11 @@ export const ReportsScreen: React.FC<any> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      {raceName && (
+        <View style={styles.raceHeader}>
+          <Text style={styles.raceHeaderText}>Reports for: {raceName}</Text>
+        </View>
+      )}
       <FlatList
         data={reports}
         renderItem={renderReport}
@@ -247,5 +255,17 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#999',
     fontStyle: 'italic',
+  },
+  raceHeader: {
+    backgroundColor: '#f0f0f0',
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+  },
+  raceHeaderText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#333',
+    textAlign: 'center',
   },
 });

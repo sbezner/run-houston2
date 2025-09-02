@@ -27,7 +27,7 @@ import DateSheet from './src/components/DateSheet';
 import { FilterSheet } from './src/components/FilterSheet';
 import { RaceCard } from './src/components/RaceCard';
 import RaceMap from './src/components/RaceMap';
-import { fetchRaces } from './src/api';
+import { fetchRaces, fetchRaceReports } from './src/api';
 import AboutScreen from './src/components/AboutScreen';
 import { ClubsScreen } from './src/screens/ClubsScreen';
 import { ReportsScreen } from './src/screens/ReportsScreen';
@@ -98,6 +98,7 @@ function ResultsScreen({ navigation }: any) {
   const [refreshing, setRefreshing] = useState(false);
   const [dateSheetVisible, setDateSheetVisible] = useState(false);
   const [filterSheetVisible, setFilterSheetVisible] = useState(false);
+  const [hasReportByRaceId, setHasReportByRaceId] = useState<Record<string | number, boolean>>({});
   
   // Use shared filters from context
   const { filters, setFilters } = useFilters();
@@ -245,9 +246,66 @@ function ResultsScreen({ navigation }: any) {
 
   const visibleRaces = getVisibleRaces();
 
+  // Batch fetch all reports once to build race report availability map
+  useEffect(() => {
+    const buildReportMap = async () => {
+      try {
+        // Fetch all reports in batches to build the map
+        let offset = 0;
+        const limit = 100;
+        const raceReportMap: Record<string | number, boolean> = {};
+        
+        while (true) {
+          const res = await fetchRaceReports({ limit, offset });
+          if (!res.items || res.items.length === 0) break;
+          
+          // Mark races as having reports
+          res.items.forEach(report => {
+            if (report.race_id) {
+              raceReportMap[report.race_id] = true;
+            }
+          });
+          
+          offset += res.items.length;
+          if (res.items.length < limit) break; // No more reports
+        }
+        
+        setHasReportByRaceId(raceReportMap);
+      } catch (error) {
+        console.error('Error building report map:', error);
+        // On error, show all buttons (optimistic approach)
+        setHasReportByRaceId({});
+      }
+    };
+    
+    buildReportMap();
+  }, []);
+
   const handleRacePress = (race: RaceVM) => {
     // Handle race selection - could open details or navigate to map
     // TODO: Implement race card interaction (e.g., open details modal)
+  };
+
+  const handleOpenReport = async (race: RaceVM) => {
+    try {
+      const raceIdNum = typeof race.id === 'string' ? parseInt(race.id, 10) : race.id;
+      if (!raceIdNum || Number.isNaN(raceIdNum)) {
+        navigation.navigate('Reports');
+        return;
+      }
+      // Fetch up to 2 to decide between single-report open vs list view
+      const res = await fetchRaceReports({ limit: 2, offset: 0, race_id: raceIdNum as number });
+      const count = res.items?.length ?? 0;
+      if (count === 1) {
+        navigation.navigate('RaceReport', { report: res.items[0] });
+        return;
+      }
+      // If 0 or multiple, show the list filtered to the race
+      navigation.navigate('Reports', { race_id: raceIdNum, race_name: race.name });
+    } catch (e) {
+      // On any error, take the user to the reports list as a safe fallback
+      navigation.navigate('Reports');
+    }
   };
 
   const handleLocationPermission = async () => {
@@ -315,7 +373,12 @@ function ResultsScreen({ navigation }: any) {
         data={visibleRaces}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <RaceCard race={item} onPress={() => handleRacePress(item)} />
+          <RaceCard
+            race={item}
+            onPress={() => handleRacePress(item)}
+            hasReport={hasReportByRaceId[item.id] === true}
+            onPressReport={() => handleOpenReport(item)}
+          />
         )}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
