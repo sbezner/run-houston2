@@ -8,24 +8,32 @@ interface RaceCardProps {
 }
 
 export function RaceCard({ race, onPress }: RaceCardProps) {
-  const formatDate = (dateISO: string) => {
-    const date = new Date(dateISO);
-    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    
-    return `${days[date.getUTCDay()]} ${months[date.getUTCMonth()]} ${date.getUTCDate()}, ${date.getUTCFullYear()}`;
+  const formatDate = (dateISO: string | null | undefined): string => {
+    if (!dateISO) return '';
+    try {
+      const date = new Date(dateISO);
+      const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      return `${days[date.getUTCDay()]} ${months[date.getUTCMonth()]} ${date.getUTCDate()}, ${date.getUTCFullYear()}`;
+    } catch {
+      return '';
+    }
   };
 
-  const formatTime = (time: string | null) => {
-    if (!time) return '';
-    const [hours, minutes] = time.split(':');
-    const hour = parseInt(hours);
-    const ampm = hour >= 12 ? 'PM' : 'AM';
-    const displayHour = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
-    return ` • ${displayHour}:${minutes} ${ampm}`;
+  const formatTime = (startTime: string | null | undefined): string => {
+    if (!startTime) return '';
+    try {
+      const [hours, minutes] = startTime.split(':');
+      const hour = parseInt(hours, 10);
+      const displayHour = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
+      const ampm = hour >= 12 ? 'PM' : 'AM';
+      return ` • ${displayHour}:${minutes} ${ampm}`;
+    } catch {
+      return '';
+    }
   };
 
-  const formatLocation = () => {
+  const formatLocation = (): string => {
     const parts = [];
     if (race.city) parts.push(race.city);
     if (race.state) parts.push(race.state);

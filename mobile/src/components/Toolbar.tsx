@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Animated, ActionSheetIOS, Platform, Alert } from 'react-native';
 import { FilterState } from '../types';
+import { useDateFilter } from '../state/dateFilter';
 
 interface ToolbarProps {
   currentPreset: string;
   activeFilterCount: number;
-  summaryText: string;
   onDatePress: () => void;
   onFiltersPress: () => void;
   onNavigateToClubs: () => void;
@@ -17,7 +17,6 @@ interface ToolbarProps {
 export function Toolbar({ 
   currentPreset, 
   activeFilterCount, 
-  summaryText, 
   onDatePress, 
   onFiltersPress,
   onNavigateToClubs,
@@ -25,29 +24,7 @@ export function Toolbar({
   onNavigateToAbout,
   scrollY 
 }: ToolbarProps) {
-  const getPresetLabel = (preset: string) => {
-    switch (preset) {
-      case 'today': return 'Today';
-      case 'tomorrow': return 'Tomorrow';
-      case 'weekend': return 'Weekend';
-      case 'next7': return 'Next 7';
-      case 'next30': return 'Next 30';
-      case 'custom': return 'Custom';
-      default: return 'Next 30';
-    }
-  };
-
-  const summaryOpacity = scrollY.interpolate({
-    inputRange: [0, 8],
-    outputRange: [1, 0],
-    extrapolate: 'clamp',
-  });
-
-  const summaryTranslateY = scrollY.interpolate({
-    inputRange: [0, 8],
-    outputRange: [0, -20],
-    extrapolate: 'clamp',
-  });
+  const { labelForApplied } = useDateFilter();
 
   const toolbarPadding = scrollY.interpolate({
     inputRange: [0, 8],
@@ -97,7 +74,7 @@ export function Toolbar({
       <Animated.View style={[styles.toolbar, { paddingVertical: toolbarPadding }]}>
         {/* Left: Date Pill */}
         <TouchableOpacity style={styles.datePill} onPress={onDatePress} activeOpacity={0.7}>
-          <Text style={styles.datePillText}>Date: {getPresetLabel(currentPreset)}</Text>
+          <Text style={styles.datePillText}>{labelForApplied()}</Text>
         </TouchableOpacity>
 
         {/* Center: More Menu */}
@@ -114,19 +91,6 @@ export function Toolbar({
             </View>
           )}
         </TouchableOpacity>
-      </Animated.View>
-
-      {/* Collapsible Summary Line */}
-      <Animated.View 
-        style={[
-          styles.summaryContainer,
-          {
-            opacity: summaryOpacity,
-            transform: [{ translateY: summaryTranslateY }],
-          }
-        ]}
-      >
-        <Text style={styles.summaryText}>{summaryText}</Text>
       </Animated.View>
     </View>
   );
@@ -146,19 +110,19 @@ const styles = StyleSheet.create({
     minHeight: 44,
   },
   datePill: {
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#007AFF',
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: '#e9ecef',
+    borderColor: '#007AFF',
     flex: 1,
     marginRight: 8,
   },
   datePillText: {
     fontSize: 14,
-    fontWeight: '500',
-    color: '#333',
+    fontWeight: '600',
+    color: 'white',
     textAlign: 'center',
   },
   moreButton: {
@@ -208,16 +172,5 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '600',
     color: '#fff',
-  },
-  summaryContainer: {
-    paddingHorizontal: 16,
-    paddingBottom: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
-  },
-  summaryText: {
-    fontSize: 14,
-    color: '#666',
-    textAlign: 'center',
   },
 });

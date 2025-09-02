@@ -131,64 +131,29 @@ def run_frontend_tests():
         return False
 
 def run_mobile_tests():
-    """Run the mobile app tests."""
+    """Run the mobile app tests using the dedicated runner."""
     print("\n📱 Running Mobile Tests (React Native)...")
     
-    # Try multiple possible paths for the mobile directory
-    possible_paths = [
-        Path("../mobile"),        # From tests directory
-        Path("mobile"),           # From project root
-        Path("../../mobile"),     # From deeper subdirectory
-    ]
-    
-    mobile_dir = None
-    for path in possible_paths:
-        if path.exists():
-            mobile_dir = path
-            break
-    
-    if mobile_dir is None:
-        print("❌ Error: 'mobile' directory not found!")
-        print("   Tried paths:")
-        for path in possible_paths:
-            print(f"     - {path.absolute()}")
-        return False
-    
-    print(f"📁 Found mobile directory at: {mobile_dir.absolute()}")
-    
-    # Check if test-runner.js exists
-    test_runner = mobile_dir / "test-runner.js"
-    if not test_runner.exists():
-        print("❌ Error: 'test-runner.js' not found!")
-        return False
-    
     try:
-        # Check if node is available
-        node_check = subprocess.run(
-            ["node", "--version"],
-            capture_output=True,
-            text=True,
-            encoding='utf-8',
-            errors='replace',
-            shell=True  # Use shell to find node in PATH
-        )
+        # Import and run the dedicated mobile test runner
+        mobile_runner_path = Path(__file__).parent / "run_all_mobile_tests.py"
         
-        if node_check.returncode != 0:
-            print("❌ Error: 'node' command not found! Please install Node.js.")
+        if not mobile_runner_path.exists():
+            print("❌ Error: Mobile test runner not found!")
             return False
         
-        print(f"📦 Using Node.js version: {node_check.stdout.strip()}")
+        print(f"📁 Using mobile test runner: {mobile_runner_path}")
         
         # Run the mobile tests
         result = subprocess.run(
-            ["node", "test-runner.js"],
-            cwd=mobile_dir,
+            [sys.executable, "run_all_mobile_tests.py"],
+            cwd=Path(__file__).parent,
             capture_output=True,
             text=True,
             encoding='utf-8',
             errors='replace',
             timeout=120,  # 2 minute timeout
-            shell=True    # Use shell to find node in PATH
+            shell=True    # Use shell to find python in PATH
         )
         
         # Print output

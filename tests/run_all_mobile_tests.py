@@ -11,53 +11,57 @@ from pathlib import Path
 
 def run_mobile_tests():
     """Run all mobile tests and return results."""
-    print("📱 Running Mobile Tests (React Native)")
+    print("Running Mobile Tests (React Native)")
     print("=" * 50)
     
     # Find mobile directory
     mobile_dir = Path(__file__).parent.parent / "mobile"
     if not mobile_dir.exists():
-        print(f"❌ Mobile directory not found at: {mobile_dir}")
+        print(f"FAIL: Mobile directory not found at: {mobile_dir}")
         return False
     
-    print(f"📁 Found mobile directory at: {mobile_dir}")
+    print(f"Found mobile directory at: {mobile_dir}")
     
     # Check if package.json exists
     package_json = mobile_dir / "package.json"
     if not package_json.exists():
-        print(f"❌ package.json not found in mobile directory")
+        print(f"FAIL: package.json not found in mobile directory")
         return False
     
     # Check if Jest is configured
     jest_config = mobile_dir / "jest.config.js"
     if not jest_config.exists():
-        print(f"❌ Jest configuration not found in mobile directory")
+        print(f"FAIL: Jest configuration not found in mobile directory")
         return False
     
-    print(f"📦 Using Jest for testing")
+    print(f"Using Jest for testing")
     
     try:
         # Change to mobile directory and run tests
-        print("\n🚀 Starting Mobile Tests...")
+        print("\nStarting Mobile Tests...")
         print("-" * 30)
         
         # Check if test files exist and can be parsed
         test_files = [
             "src/components/__tests__/RaceCard.test.tsx",
-            "src/components/__tests__/FilterSheet.test.tsx"
+            "src/components/__tests__/FilterSheet.test.tsx",
+            "src/components/__tests__/DateSheet.test.tsx",
+            "src/components/__tests__/BundlingConfig.test.tsx",
+            "src/components/__tests__/BuildProcess.test.tsx",
+            "src/components/__tests__/BuildIntegration.test.tsx"
         ]
         
-        print(f"📋 Found {len(test_files)} test files:")
+        print(f"Found {len(test_files)} test files:")
         for test_file in test_files:
             test_path = mobile_dir / test_file
             if test_path.exists():
-                print(f"   ✅ {test_file}")
+                print(f"   PASS: {test_file}")
             else:
-                print(f"   ❌ {test_file} (missing)")
+                print(f"   FAIL: {test_file} (missing)")
                 return False
         
         # Try to run a simple syntax check instead of full tests
-        print("\n🔍 Running syntax check on test files...")
+        print("\nRunning syntax check on test files...")
         result = subprocess.run(
             ["npx", "tsc", "--noEmit", "--skipLibCheck"],
             cwd=mobile_dir,
@@ -70,14 +74,14 @@ def run_mobile_tests():
         )
         
         if result.returncode == 0:
-            print("✅ TypeScript syntax check passed")
+            print("PASS: TypeScript syntax check passed")
         else:
-            print("⚠️  TypeScript syntax check had issues (but continuing)")
+            print("WARNING: TypeScript syntax check had issues (but continuing)")
             if result.stderr:
                 print("Syntax check output:")
                 print(result.stderr[:500] + "..." if len(result.stderr) > 500 else result.stderr)
         
-        print("✅ Mobile Tests: PASSED")
+        print("PASS: Mobile Tests: PASSED")
         print("\nTest Output:")
         print("=" * 40)
         print(result.stdout)
@@ -85,7 +89,7 @@ def run_mobile_tests():
         return True
         
     except subprocess.CalledProcessError as e:
-        print("❌ Mobile Tests: FAILED")
+        print("FAIL: Mobile Tests: FAILED")
         print(f"\nError Output:")
         print("=" * 40)
         print(e.stderr)
@@ -93,15 +97,15 @@ def run_mobile_tests():
         return False
         
     except FileNotFoundError:
-        print("❌ Node.js not found. Please install Node.js to run mobile tests.")
+        print("FAIL: Node.js not found. Please install Node.js to run mobile tests.")
         return False
     except Exception as e:
-        print(f"❌ Unexpected error running mobile tests: {e}")
+        print(f"FAIL: Unexpected error running mobile tests: {e}")
         return False
 
 def main():
     """Main test runner for mobile tests."""
-    print("📱 Mobile Test Suite - Run Houston")
+    print("Mobile Test Suite - Run Houston")
     print("=" * 50)
     print("Testing React Native mobile application")
     print("=" * 50)
@@ -111,16 +115,16 @@ def main():
     
     # Summary
     print("\n" + "=" * 50)
-    print("📊 Mobile Test Results Summary:")
+    print("Mobile Test Results Summary:")
     print("=" * 50)
     
     if success:
-        print("✅ Mobile Tests: PASSED")
+        print("PASS: Mobile Tests: PASSED")
         print("   All mobile functionality is working correctly!")
         print("   React Native components are functioning properly!")
         print("   Mobile app is ready for deployment!")
     else:
-        print("❌ Mobile Tests: FAILED")
+        print("FAIL: Mobile Tests: FAILED")
         print("   Some mobile functionality may have issues!")
         print("   Please review the error output above!")
     

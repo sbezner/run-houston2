@@ -84,8 +84,8 @@ export const ReportsScreen: React.FC = () => {
       } else {
         // Show report details in an alert if no URL
         Alert.alert(
-          report.title,
-          `${report.content}\n\nBy: ${report.author}\nDate: ${new Date(report.created_at).toLocaleDateString()}`,
+          report.title || 'Untitled Report',
+          `${report.content || 'No content available'}\n\nBy: ${report.author || 'Unknown Author'}\nDate: ${new Date(report.created_at).toLocaleDateString()}`,
           [{ text: 'OK' }]
         );
       }
@@ -93,8 +93,8 @@ export const ReportsScreen: React.FC = () => {
       console.error('Error opening report:', error);
       // Fallback to showing details in alert
       Alert.alert(
-        report.title,
-        `${report.content}\n\nBy: ${report.author}\nDate: ${new Date(report.created_at).toLocaleDateString()}`,
+        report.title || 'Untitled Report',
+        `${report.content || 'No content available'}\n\nBy: ${report.author || 'Unknown Author'}\nDate: ${new Date(report.created_at).toLocaleDateString()}`,
         [{ text: 'OK' }]
       );
     }
@@ -120,14 +120,14 @@ export const ReportsScreen: React.FC = () => {
       onPress={() => openReport(item)}
       testID={`report-item-${item.id}`}
     >
-      <Text style={styles.reportTitle}>{item.title}</Text>
-      <Text style={styles.reportRace}>Race: {item.race_name}</Text>
-      <Text style={styles.reportAuthor}>By: {item.author}</Text>
+      <Text style={styles.reportTitle}>{item.title || 'Untitled Report'}</Text>
+      <Text style={styles.reportRace}>Race: {item.race_name || 'Unknown Race'}</Text>
+      <Text style={styles.reportAuthor}>By: {item.author || 'Unknown Author'}</Text>
       <Text style={styles.reportDate}>
         {new Date(item.created_at).toLocaleDateString()}
       </Text>
       <Text style={styles.reportPreview} numberOfLines={2}>
-        {item.content}
+        {item.content || 'No content available'}
       </Text>
     </TouchableOpacity>
   );

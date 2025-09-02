@@ -23,7 +23,7 @@ import { uniqueCities } from './src/utils/uniqueCities';
 import { milesBetween } from './src/utils/geo';
 import { useUserLocation } from './src/hooks/useUserLocation';
 import { Toolbar } from './src/components/Toolbar';
-import { DateSheet } from './src/components/DateSheet';
+import DateSheet from './src/components/DateSheet';
 import { FilterSheet } from './src/components/FilterSheet';
 import { RaceCard } from './src/components/RaceCard';
 import RaceMap from './src/components/RaceMap';
@@ -31,6 +31,8 @@ import { fetchRaces } from './src/api';
 import AboutScreen from './src/components/AboutScreen';
 import { ClubsScreen } from './src/screens/ClubsScreen';
 import { ReportsScreen } from './src/screens/ReportsScreen';
+import { DateFilterProvider, useDateFilter } from './src/state/dateFilter';
+import { filterRacesByDate } from './src/selectors/races';
 
 // Create a context for sharing filters between screens
 const FilterContext = createContext<{
@@ -38,7 +40,7 @@ const FilterContext = createContext<{
   setFilters: React.Dispatch<React.SetStateAction<FilterState>>;
 }>({
   filters: {
-    preset: 'next30',
+    preset: 'next30Days',
     distances: [],
     surface: [],
     useLocation: false,
@@ -92,6 +94,9 @@ function ResultsScreen({ navigation }: any) {
   
   // Use shared filters from context
   const { filters, setFilters } = useFilters();
+  
+  // Use the new date filter state
+  const { applied: dateFilter, labelForApplied } = useDateFilter();
 
   const { coords, permission, request } = useUserLocation();
   const scrollY = useRef(new Animated.Value(0)).current;
@@ -123,12 +128,12 @@ function ResultsScreen({ navigation }: any) {
     setFilters(newFilters);
   };
 
-  const handlePresetChange = (preset: string, dateFrom?: string, dateTo?: string) => {
+  const handlePresetChange = (fromDate: string, toDate: string) => {
     setFilters(prev => ({
       ...prev,
-      preset: preset as any,
-      dateFrom,
-      dateTo,
+      preset: 'custom' as any,
+      dateFrom: fromDate,
+      dateTo: toDate,
     }));
   };
 
@@ -174,7 +179,7 @@ function ResultsScreen({ navigation }: any) {
 
   const clearAllFilters = () => {
     setFilters({
-      preset: 'next30',
+      preset: 'next30Days',
       distances: [],
       surface: [],
       useLocation: false,
@@ -184,16 +189,10 @@ function ResultsScreen({ navigation }: any) {
   };
 
   const getSummaryText = (): string => {
-    const presetLabels = {
-      today: 'Today',
-      tomorrow: 'Tomorrow',
-      weekend: 'This Weekend',
-      next7: 'Next 7 Days',
-      next30: 'Next 30 Days',
-      custom: 'Custom Range',
-    };
-
-    const parts = [presetLabels[filters.preset]];
+    // Use the new date filter system for the summary text
+    const dateLabel = labelForApplied();
+    
+    const parts = [dateLabel];
     const activeFilters = getActiveFilters();
     if (activeFilters.length > 0) {
       parts.push(...activeFilters);
@@ -202,126 +201,12 @@ function ResultsScreen({ navigation }: any) {
   };
 
   const getVisibleRaces = (): RaceVM[] => {
-    let filtered = races.map(normalizeRace);
+    // First, apply date filtering on the raw Race objects since the selector expects `date`/`start_time`
+    let filteredRaw: Race[] = filterRacesByDate(races, dateFilter.range);
 
-    // Debug logging for date filtering
-    if (['today', 'tomorrow', 'weekend', 'next7'].includes(filters.preset)) {
-      console.log('Filter preset:', filters.preset);
-      console.log('Total races before filtering:', filtered.length);
-      // Log first few race dates for debugging
-      filtered.slice(0, 3).forEach(race => {
-        console.log(`Race: ${race.name}, DateISO: ${race.dateISO}, Parsed: ${new Date(race.dateISO).toISOString()}`);
-      });
-    }
-
-    // Date filtering
-    if (filters.preset !== 'custom' && filters.preset !== 'next30') {
-      const now = new Date();
-      console.log('Current date:', now.toDateString(), 'Local timezone');
-      
-      // Simple date comparison - just get the date parts as strings
-      const todayStr = now.toLocaleDateString('en-CA'); // Returns YYYY-MM-DD format
-      
-      let startDateStr: string;
-      let endDateStr: string;
-
-      switch (filters.preset) {
-        case 'today':
-          startDateStr = todayStr;
-          endDateStr = todayStr;
-          break;
-        case 'tomorrow':
-          const tomorrow = new Date(now);
-          tomorrow.setDate(tomorrow.getDate() + 1);
-          startDateStr = tomorrow.toLocaleDateString('en-CA');
-          endDateStr = startDateStr;
-          break;
-        case 'weekend':
-          const dayOfWeek = now.getDay();
-          const daysUntilSaturday = dayOfWeek === 0 ? 6 : 6 - dayOfWeek;
-          const daysUntilSunday = dayOfWeek === 0 ? 0 : 7 - dayOfWeek;
-          const saturday = new Date(now);
-          saturday.setDate(now.getDate() + daysUntilSaturday);
-          const sunday = new Date(now);
-          sunday.setDate(now.getDate() + daysUntilSunday);
-          startDateStr = saturday.toLocaleDateString('en-CA');
-          endDateStr = sunday.toLocaleDateString('en-CA');
-          break;
-        case 'next7':
-          const nextWeek = new Date(now);
-          nextWeek.setDate(now.getDate() + 7);
-          startDateStr = todayStr;
-          endDateStr = nextWeek.toLocaleDateString('en-CA');
-          break;
-        default:
-          const nextMonth = new Date(now);
-          nextMonth.setDate(now.getDate() + 30);
-          startDateStr = todayStr;
-          endDateStr = nextMonth.toLocaleDateString('en-CA');
-      }
-
-      // Debug: Log the calculated dates
-      if (filters.preset === 'today' || filters.preset === 'weekend') {
-        console.log('Current date info:');
-        console.log('  now:', now.toDateString());
-        console.log('  todayStr:', todayStr);
-        console.log('  dayOfWeek:', now.getDay()); // 0=Sunday, 1=Monday, etc.
-        console.log('Calculated dates:');
-        console.log('  StartDate String:', startDateStr);
-        console.log('  EndDate String:', endDateStr);
-      }
-
-      filtered = filtered.filter(race => {
-        // Since both database and user are in Central Time, compare dates as strings
-        // This avoids all timezone conversion issues
-        const raceDateStr = race.dateISO;
-        
-        // For today and specific dates, include races that start on or after the start date
-        // but before the end date (which is the next day)
-        let isInRange = false;
-        
-        if (filters.preset === 'today') {
-          isInRange = raceDateStr === startDateStr;
-        } else if (filters.preset === 'tomorrow') {
-          isInRange = raceDateStr === startDateStr;
-        } else if (filters.preset === 'weekend') {
-          isInRange = raceDateStr >= startDateStr && raceDateStr <= endDateStr;
-        } else if (filters.preset === 'next7') {
-          isInRange = raceDateStr >= startDateStr && raceDateStr <= endDateStr;
-        } else {
-          isInRange = raceDateStr >= startDateStr && raceDateStr <= endDateStr;
-        }
-        
-        if (filters.preset === 'today' || filters.preset === 'weekend') {
-          console.log(`Race: ${race.name}, Date: ${raceDateStr}`);
-          if (filters.preset === 'today') {
-            console.log(`  Today String: ${startDateStr}`);
-            console.log(`  Race Date String: ${raceDateStr}`);
-            console.log(`  String Comparison: ${raceDateStr} === ${startDateStr}`);
-          } else {
-            console.log(`  Weekend Range: ${startDateStr} to ${endDateStr}`);
-            console.log(`  Race Date String: ${raceDateStr}`);
-            console.log(`  String Comparison: ${raceDateStr} >= ${startDateStr} && ${raceDateStr} <= ${endDateStr}`);
-          }
-          console.log(`  InRange: ${isInRange}`);
-        }
-        
-        return isInRange;
-      });
-      
-      // Debug logging after date filtering
-      if (['today', 'tomorrow', 'weekend', 'next7'].includes(filters.preset)) {
-        console.log('Races after date filtering:', filtered.length);
-      }
-    } else if (filters.preset === 'custom' && filters.dateFrom && filters.dateTo) {
-      const startDate = new Date(filters.dateFrom + 'T00:00:00.000Z');
-      const endDate = new Date(filters.dateTo + 'T23:59:59.999Z');
-      filtered = filtered.filter(race => {
-        const raceDate = new Date(race.dateISO);
-        return raceDate >= startDate && raceDate <= endDate;
-      });
-    }
-
+    // Then normalize for UI consumption
+    let filtered: RaceVM[] = filteredRaw.map(normalizeRace);
+    
     // Distance filtering
     if (filters.distances.length > 0) {
       filtered = filtered.filter(race =>
@@ -385,9 +270,8 @@ function ResultsScreen({ navigation }: any) {
     <SafeAreaView style={styles.safeArea}>
       {/* Toolbar */}
       <Toolbar
-        currentPreset={filters.preset}
+        currentPreset={dateFilter.preset}
         activeFilterCount={getActiveFilterCount()}
-        summaryText={getSummaryText()}
         onDatePress={() => setDateSheetVisible(true)}
         onFiltersPress={() => setFilterSheetVisible(true)}
         onNavigateToClubs={() => navigation.navigate('Clubs')}
@@ -435,16 +319,13 @@ function ResultsScreen({ navigation }: any) {
         )}
         scrollEventThrottle={16}
         contentContainerStyle={styles.listContainer}
-        stickyHeaderIndices={[0]}
       />
 
       {/* Date Sheet */}
-      <DateSheet
-        visible={dateSheetVisible}
-        onClose={() => setDateSheetVisible(false)}
-        onConfirm={handlePresetChange}
-        currentPreset={filters.preset}
-      />
+              <DateSheet
+          visible={dateSheetVisible}
+          onClose={() => setDateSheetVisible(false)}
+        />
 
       {/* Filter Sheet */}
       <FilterSheet
@@ -464,6 +345,8 @@ function MapScreen() {
   const [loading, setLoading] = useState(true);
   // Use shared filters from context
   const { filters } = useFilters();
+  // Use the new date filter state
+  const { applied: dateFilter } = useDateFilter();
 
   useEffect(() => {
     loadRaces();
@@ -494,71 +377,9 @@ function MapScreen() {
 
         // Apply the same filtering logic as the List screen
       const getVisibleRaces = () => {
-        let filtered = races.map(normalizeRace);
-
-        // Date filtering
-        if (filters.preset !== 'custom' && filters.preset !== 'next30') {
-          const now = new Date();
-          const todayStr = now.toLocaleDateString('en-CA');
-          
-          let startDateStr: string;
-          let endDateStr: string;
-          
-          switch (filters.preset) {
-        case 'today':
-          startDateStr = todayStr;
-          endDateStr = todayStr;
-          break;
-        case 'tomorrow':
-          const tomorrow = new Date(now);
-          tomorrow.setDate(tomorrow.getDate() + 1);
-          startDateStr = tomorrow.toLocaleDateString('en-CA');
-          endDateStr = startDateStr;
-          break;
-        case 'weekend':
-          const dayOfWeek = now.getDay();
-          const daysUntilSaturday = dayOfWeek === 0 ? 6 : 6 - dayOfWeek;
-          const daysUntilSunday = dayOfWeek === 0 ? 0 : 7 - dayOfWeek;
-          const saturday = new Date(now);
-          saturday.setDate(now.getDate() + daysUntilSaturday);
-          const sunday = new Date(now);
-          sunday.setDate(now.getDate() + daysUntilSunday);
-          startDateStr = saturday.toLocaleDateString('en-CA');
-          endDateStr = sunday.toLocaleDateString('en-CA');
-          break;
-        case 'next7':
-          const nextWeek = new Date(now);
-          nextWeek.setDate(now.getDate() + 7);
-          startDateStr = todayStr;
-          endDateStr = nextWeek.toLocaleDateString('en-CA');
-          break;
-        default:
-          const nextMonth = new Date(now);
-          nextMonth.setDate(now.getDate() + 30);
-          startDateStr = todayStr;
-          endDateStr = nextMonth.toLocaleDateString('en-CA');
-      }
-
-      filtered = filtered.filter(race => {
-        const raceDateStr = race.dateISO;
-        let isInRange = false;
-        
-        if (filters.preset === 'today') {
-          isInRange = raceDateStr === startDateStr;
-        } else if (filters.preset === 'tomorrow') {
-          isInRange = raceDateStr === startDateStr;
-        } else if (filters.preset === 'weekend') {
-          isInRange = raceDateStr >= startDateStr && raceDateStr <= endDateStr;
-          console.log(`Weekend filter: Race ${race.name} on ${raceDateStr}, range ${startDateStr} to ${endDateStr}, inRange: ${isInRange}`);
-        } else if (filters.preset === 'next7') {
-          isInRange = raceDateStr >= startDateStr && raceDateStr <= endDateStr;
-        } else {
-          isInRange = raceDateStr >= startDateStr && raceDateStr <= endDateStr;
-        }
-        
-        return isInRange;
-      });
-    }
+        // Apply date filtering on raw objects then normalize
+        const filteredRaw = filterRacesByDate(races, dateFilter.range);
+        let filtered = filteredRaw.map(normalizeRace);
 
     // Distance filtering
     if (filters.distances.length > 0) {
@@ -590,7 +411,7 @@ function MapScreen() {
 // Main App Component
 export default function App() {
   const [sharedFilters, setSharedFilters] = useState<FilterState>({
-    preset: 'next30',
+    preset: 'next30Days',
     distances: [],
     surface: [],
     useLocation: false,
@@ -599,33 +420,35 @@ export default function App() {
   });
 
   return (
-    <FilterContext.Provider value={{ filters: sharedFilters, setFilters: setSharedFilters }}>
-      <NavigationContainer>
-        <Tab.Navigator
-          screenOptions={({ route }) => ({
-            tabBarIcon: ({ focused, color, size }) => {
-              let iconName: keyof typeof Ionicons.glyphMap;
+    <DateFilterProvider>
+      <FilterContext.Provider value={{ filters: sharedFilters, setFilters: setSharedFilters }}>
+        <NavigationContainer>
+          <Tab.Navigator
+            screenOptions={({ route }) => ({
+              tabBarIcon: ({ focused, color, size }) => {
+                let iconName: keyof typeof Ionicons.glyphMap;
 
-              if (route.name === 'List') {
-                iconName = focused ? 'list' : 'list-outline';
-              } else if (route.name === 'Map') {
-                iconName = focused ? 'map' : 'map-outline';
-              } else {
-                iconName = 'help-outline';
-              }
+                if (route.name === 'List') {
+                  iconName = focused ? 'list' : 'list-outline';
+                } else if (route.name === 'Map') {
+                  iconName = focused ? 'map' : 'map-outline';
+                } else {
+                  iconName = 'help-outline';
+                }
 
-              return <Ionicons name={iconName} size={size} color={color} />;
-            },
-            tabBarActiveTintColor: '#007AFF',
-            tabBarInactiveTintColor: 'gray',
-            headerShown: false,
-          })}
-        >
-          <Tab.Screen name="List" component={ListStack} />
-          <Tab.Screen name="Map" component={MapScreen} />
-        </Tab.Navigator>
-      </NavigationContainer>
-    </FilterContext.Provider>
+                return <Ionicons name={iconName} size={size} color={color} />;
+              },
+              tabBarActiveTintColor: '#007AFF',
+              tabBarInactiveTintColor: 'gray',
+              headerShown: false,
+            })}
+          >
+            <Tab.Screen name="List" component={ListStack} />
+            <Tab.Screen name="Map" component={MapScreen} />
+          </Tab.Navigator>
+        </NavigationContainer>
+      </FilterContext.Provider>
+    </DateFilterProvider>
   );
 }
 

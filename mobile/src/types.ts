@@ -34,6 +34,10 @@ export interface RaceReport {
   id: number;
   race_id?: number;
   race_name?: string;
+  title?: string;      // Title property
+  content?: string;    // Content property
+  author?: string;     // Author property
+  url?: string;        // URL property
   content_md: string;
   created_at: string;
   updated_at: string;
@@ -42,14 +46,16 @@ export interface RaceReport {
 export interface Club {
   id: number;
   name: string;
+  club_name?: string;  // Alternative property name
   description?: string;
   website_url?: string;
+  location?: string;   // Location property
   created_at: string;
   updated_at: string;
 }
 
 export type FilterState = {
-  preset: "today" | "tomorrow" | "weekend" | "next7" | "next30" | "custom";
+  preset: "today" | "tomorrow" | "weekend" | "next7" | "next30" | "thisWeekend" | "next30Days" | "next90Days" | "last90Days" | "custom";
   dateFrom?: string; // YYYY-MM-DD when custom
   dateTo?: string;   // YYYY-MM-DD when custom
   distances: Array<"5k" | "10k" | "half marathon" | "marathon" | "ultra" | "other">;
