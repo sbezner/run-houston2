@@ -75,6 +75,10 @@ export const ClubsScreen: React.FC = () => {
         <Text style={styles.clubDescription}>No location specified</Text>
       )}
       
+      {item.description && (
+        <Text style={styles.clubDescription}>{item.description}</Text>
+      )}
+      
       <View style={styles.clubActions}>
         {item.website_url && (
           <TouchableOpacity

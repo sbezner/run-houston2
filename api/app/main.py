@@ -390,9 +390,9 @@ def delete_race(race_id: int, request: Request, current_admin: dict = Depends(ge
 def list_clubs():
     """List all clubs."""
     with get_conn() as conn, conn.cursor() as cur:
-        cur.execute("SELECT id, club_name, location, website_url FROM clubs ORDER BY club_name ASC")
+        cur.execute("SELECT id, club_name, location, website_url, description FROM clubs ORDER BY club_name ASC")
         rows = cur.fetchall()
-        return [ClubResponse(id=r[0], club_name=r[1], location=r[2], website_url=r[3]) for r in rows]
+        return [ClubResponse(id=r[0], club_name=r[1], location=r[2], website_url=r[3], description=r[4]) for r in rows]
 
 
 @app.get("/admin/clubs", response_model=list[ClubResponse])
@@ -400,9 +400,9 @@ def admin_list_clubs(request: Request, current_admin: dict = Depends(get_current
     """List all clubs (admin only)."""
     
     with get_conn() as conn, conn.cursor() as cur:
-        cur.execute("SELECT id, club_name, location, website_url FROM clubs ORDER BY club_name ASC")
+        cur.execute("SELECT id, club_name, location, website_url, description FROM clubs ORDER BY club_name ASC")
         rows = cur.fetchall()
-        return [ClubResponse(id=r[0], club_name=r[1], location=r[2], website_url=r[3]) for r in rows]
+        return [ClubResponse(id=r[0], club_name=r[1], location=r[2], website_url=r[3], description=r[4]) for r in rows]
 
 
 @app.post("/clubs", response_model=ClubResponse)
@@ -412,12 +412,12 @@ def create_club(club: ClubCreate, request: Request, current_admin: dict = Depend
     try:
         with get_conn() as conn, conn.cursor() as cur:
             cur.execute(
-                "INSERT INTO clubs (club_name, location, website_url) VALUES (%s, %s, %s) RETURNING id, club_name, location, website_url",
-                (club.club_name, club.location, club.website_url)
+                "INSERT INTO clubs (club_name, location, website_url, description) VALUES (%s, %s, %s, %s) RETURNING id, club_name, location, website_url, description",
+                (club.club_name, club.location, club.website_url, club.description)
             )
             row = cur.fetchone()
             conn.commit()
-            return ClubResponse(id=row[0], club_name=row[1], location=row[2], website_url=row[3])
+            return ClubResponse(id=row[0], club_name=row[1], location=row[2], website_url=row[3], description=row[4])
     except psycopg.errors.UniqueViolation:
         raise HTTPException(status_code=409, detail="Club already exists")
 
@@ -438,6 +438,9 @@ def update_club(club_id: int, club_data: ClubUpdate, request: Request, current_a
     if club_data.website_url is not None:
         update_fields.append("website_url = %s")
         values.append(club_data.website_url)
+    if club_data.description is not None:
+        update_fields.append("description = %s")
+        values.append(club_data.description)
     
     if not update_fields:
         raise HTTPException(status_code=400, detail="No fields to update")
@@ -449,7 +452,7 @@ def update_club(club_id: int, club_data: ClubUpdate, request: Request, current_a
         UPDATE clubs 
         SET {', '.join(update_fields)}
         WHERE id = %s
-        RETURNING id, club_name, location, website_url
+        RETURNING id, club_name, location, website_url, description
     """
     
     with get_conn() as conn, conn.cursor() as cur:
@@ -459,7 +462,7 @@ def update_club(club_id: int, club_data: ClubUpdate, request: Request, current_a
             raise HTTPException(status_code=404, detail="Club not found")
         conn.commit()
     
-    return ClubResponse(id=row[0], club_name=row[1], location=row[2], website_url=row[3])
+    return ClubResponse(id=row[0], club_name=row[1], location=row[2], website_url=row[3], description=row[4])
 
 
 @app.delete("/clubs/{club_id}")
@@ -481,13 +484,13 @@ def export_clubs_csv(request: Request, current_admin: dict = Depends(get_current
     
     try:
         with get_conn() as conn, conn.cursor() as cur:
-            cur.execute("SELECT id, club_name, location, website_url FROM clubs ORDER BY club_name")
+            cur.execute("SELECT id, club_name, location, website_url, description FROM clubs ORDER BY club_name")
             rows = cur.fetchall()
             
         # Create CSV content with all fields including ID
-        csv_content = "id,club_name,location,website_url\n"
+        csv_content = "id,club_name,location,website_url,description\n"
         for row in rows:
-            csv_content += f'"{row[0]}","{row[1]}","{row[2] or ""}","{row[3] or ""}"\n'
+            csv_content += f'"{row[0]}","{row[1]}","{row[2] or ""}","{row[3] or ""}","{row[4] or ""}"\n'
         
         return StreamingResponse(
             iter([csv_content]),
@@ -537,8 +540,9 @@ def import_clubs_csv(
                 club_name = row[1].strip()
                 location = row[2].strip() if row[2].strip() else None
                 website_url = row[3].strip() if row[3].strip() else None
+                description = row[4].strip() if len(row) > 4 and row[4].strip() else None
                 
-                print(f"Parsed values: id='{club_id}', name='{club_name}', location='{location}', website='{website_url}'")
+                print(f"Parsed values: id='{club_id}', name='{club_name}', location='{location}', website='{website_url}', description='{description}'")
                 
                 # Validate website URL if provided
                 if website_url and website_url.strip():
@@ -567,8 +571,12 @@ def import_clubs_csv(
                     errors.append(f"Line {line_num}: Location too long ({len(location)} chars, max 120)")
                     continue
                 
+                if description and len(description) > 500:
+                    errors.append(f"Line {line_num}: Description too long ({len(description)} chars, max 500)")
+                    continue
+                
                 # Debug logging for constraint violations
-                print(f"Processing line {line_num}: id='{club_id}', name='{club_name}', location='{location}', website='{website_url}'")
+                print(f"Processing line {line_num}: id='{club_id}', name='{club_name}', location='{location}', website='{website_url}', description='{description}'")
                 
                 if club_name:
                     processed_data.append({
@@ -576,7 +584,8 @@ def import_clubs_csv(
                         'club_id': club_id,
                         'club_name': club_name,
                         'location': location,
-                        'website_url': website_url
+                        'website_url': website_url,
+                        'description': description
                     })
                     print(f"Added to processed_data. Total items: {len(processed_data)}")
             else:
@@ -600,8 +609,9 @@ def import_clubs_csv(
                 club_name = data['club_name']
                 location = data['location']
                 website_url = data['website_url']
+                description = data['description']
                 
-                print(f"Processing database operation: id='{club_id}', name='{club_name}', location='{location}', website='{website_url}'")
+                print(f"Processing database operation: id='{club_id}', name='{club_name}', location='{location}', website='{website_url}', description='{description}'")
                 
                 # Check if ID exists and is not blank
                 if club_id and club_id.strip() and club_id != 'null' and club_id != '':
@@ -611,9 +621,9 @@ def import_clubs_csv(
                         # Try to update existing club by ID
                         cur.execute("""
                             UPDATE clubs 
-                            SET club_name = %s, location = %s, website_url = %s
+                            SET club_name = %s, location = %s, website_url = %s, description = %s
                             WHERE id = %s
-                        """, (club_name, location, website_url, club_id_int))
+                        """, (club_name, location, website_url, description, club_id_int))
                         
                         if cur.rowcount > 0:
                             updated_count += 1
@@ -622,27 +632,27 @@ def import_clubs_csv(
                             print(f"ID {club_id_int} not found, creating new club instead")
                             # ID not found, create new club
                             cur.execute("""
-                                INSERT INTO clubs (club_name, location, website_url) 
-                                VALUES (%s, %s, %s)
-                            """, (club_name, location, website_url))
+                                INSERT INTO clubs (club_name, location, website_url, description) 
+                                VALUES (%s, %s, %s, %s)
+                            """, (club_name, location, website_url, description))
                             imported_count += 1
                             print(f"INSERT successful for new club (was ID {club_id_int})")
                     except ValueError:
                         print(f"Invalid ID '{club_id}', creating new club")
                         # Invalid ID, create new club
                         cur.execute("""
-                            INSERT INTO clubs (club_name, location, website_url) 
-                            VALUES (%s, %s, %s)
-                        """, (club_name, location, website_url))
+                            INSERT INTO clubs (club_name, location, website_url, description) 
+                            VALUES (%s, %s, %s, %s)
+                        """, (club_name, location, website_url, description))
                         imported_count += 1
                         print(f"INSERT successful for new club (invalid ID)")
                 else:
                     print(f"No ID provided, creating new club")
                     # No ID or blank ID, create new club
                     cur.execute("""
-                        INSERT INTO clubs (club_name, location, website_url) 
-                        VALUES (%s, %s, %s)
-                    """, (club_name, location, website_url))
+                        INSERT INTO clubs (club_name, location, website_url, description) 
+                        VALUES (%s, %s, %s, %s)
+                    """, (club_name, location, website_url, description))
                     imported_count += 1
                     print(f"INSERT successful for new club (no ID)")
             

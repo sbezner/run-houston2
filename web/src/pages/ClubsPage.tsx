@@ -91,11 +91,22 @@ export const ClubsPage: React.FC = () => {
                 <div style={{ 
                   display: 'flex', 
                   alignItems: 'center', 
-                  marginBottom: '16px',
+                  marginBottom: '12px',
                   color: '#6b7280'
                 }}>
                   <span style={{ marginRight: '8px' }}>📍</span>
                   <span>{club.location}</span>
+                </div>
+              )}
+              
+              {club.description && (
+                <div style={{ 
+                  marginBottom: '16px',
+                  color: '#4b5563',
+                  fontSize: '14px',
+                  lineHeight: '1.5'
+                }}>
+                  {club.description}
                 </div>
               )}
               

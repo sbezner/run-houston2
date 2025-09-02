@@ -25,6 +25,7 @@ export interface Club {
   club_name: string;
   location?: string;
   website_url?: string;
+  description?: string;
 }
 
 export interface RaceSummary {

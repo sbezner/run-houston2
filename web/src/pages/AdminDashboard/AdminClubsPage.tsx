@@ -361,9 +361,10 @@ export const AdminClubsPage: React.FC<AdminClubsPageProps> = ({ onTokenExpiratio
         overflow: 'hidden',
         boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
       }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-          <thead>
-            <tr style={{ backgroundColor: '#f8f9fa' }}>
+        <div style={{ maxHeight: '70vh', overflow: 'auto' }}>
+          <table style={{ width: '100%', minWidth: 1000, borderCollapse: 'collapse', fontSize: 14 }}>
+            <thead style={{ position: 'sticky', top: 0, backgroundColor: '#f8f9fa', zIndex: 10 }}>
+              <tr>
               <th style={{ padding: '12px', textAlign: 'center', borderBottom: '1px solid #e9ecef', minWidth: 50 }}>
                 <input
                   type="checkbox"
@@ -384,15 +385,26 @@ export const AdminClubsPage: React.FC<AdminClubsPageProps> = ({ onTokenExpiratio
                 />
               </th>
               <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #e9ecef', minWidth: 60 }}>Actions</th>
-              <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #e9ecef' }}>ID</th>
-              <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #e9ecef' }}>Club Name</th>
-              <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #e9ecef' }}>Location</th>
-              <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #e9ecef' }}>Website</th>
+              <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #e9ecef', minWidth: 60 }}>ID</th>
+              <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #e9ecef', minWidth: 200 }}>Club Name</th>
+              <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #e9ecef', minWidth: 150 }}>Location</th>
+              <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #e9ecef', minWidth: 200 }}>Description</th>
+              <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #e9ecef', minWidth: 120 }}>Website</th>
             </tr>
           </thead>
           <tbody>
-            {clubsList.map((club) => (
-              <tr key={club.id} style={{ borderBottom: '1px solid #f1f3f4' }}>
+            {clubsList.length === 0 ? (
+              <tr>
+                <td colSpan={7} style={{ padding: '20px', textAlign: 'center', color: '#64748b' }}>
+                  No clubs to display.
+                </td>
+              </tr>
+            ) : (
+              clubsList.map((club, idx) => (
+                <tr key={club.id} style={{ 
+                  backgroundColor: idx % 2 === 1 ? '#fcfcfd' : '#fff',
+                  borderBottom: '1px solid #f1f3f4'
+                }}>
                 <td style={{ padding: '12px', textAlign: 'center' }}>
                   <input
                     type="checkbox"
@@ -411,39 +423,6 @@ export const AdminClubsPage: React.FC<AdminClubsPageProps> = ({ onTokenExpiratio
                     style={{ cursor: 'pointer' }}
                   />
                 </td>
-                <td style={{ padding: '12px' }}>{club.id}</td>
-                <td style={{ padding: '12px', fontWeight: '500' }}>{club.club_name}</td>
-                <td style={{ padding: '12px' }}>{club.location || '-'}</td>
-                                 <td style={{ padding: '12px' }}>
-                   {club.website_url ? (
-                     <button
-                       onClick={() => {
-                         const token = auth.getToken();
-                         if (!token) {
-                           if (onTokenExpiration) {
-                             onTokenExpiration();
-                           } else {
-                             setError('No authentication token');
-                           }
-                           return;
-                         }
-                         window.open(club.website_url, '_blank', 'noopener,noreferrer');
-                       }}
-                       style={{ 
-                         color: '#007AFF', 
-                         textDecoration: 'none',
-                         background: 'none',
-                         border: 'none',
-                         cursor: 'pointer',
-                         fontSize: '14px'
-                       }}
-                     >
-                       🌐 Visit
-                     </button>
-                   ) : (
-                     '-'
-                   )}
-                 </td>
                 <td style={{ padding: '12px' }}>
                   <div style={{ display: 'flex', gap: '8px' }}>
                     <button
@@ -487,10 +466,61 @@ export const AdminClubsPage: React.FC<AdminClubsPageProps> = ({ onTokenExpiratio
                     </button>
                   </div>
                 </td>
-              </tr>
-            ))}
+                <td style={{ padding: '12px' }}>{club.id}</td>
+                <td style={{ padding: '12px', fontWeight: '500' }}>{club.club_name}</td>
+                <td style={{ padding: '12px' }}>{club.location || '-'}</td>
+                <td style={{ padding: '12px', maxWidth: '200px', wordWrap: 'break-word' }}>
+                  {club.description ? (
+                    <div style={{ 
+                      fontSize: '13px', 
+                      color: '#4b5563',
+                      lineHeight: '1.4',
+                      maxHeight: '60px',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis'
+                    }}>
+                      {club.description}
+                    </div>
+                  ) : (
+                    <span style={{ color: '#9ca3af' }}>-</span>
+                  )}
+                </td>
+                <td style={{ padding: '12px' }}>
+                   {club.website_url ? (
+                     <button
+                       onClick={() => {
+                         const token = auth.getToken();
+                         if (!token) {
+                           if (onTokenExpiration) {
+                             onTokenExpiration();
+                           } else {
+                             setError('No authentication token');
+                           }
+                           return;
+                         }
+                         window.open(club.website_url, '_blank', 'noopener,noreferrer');
+                       }}
+                       style={{ 
+                         color: '#007AFF', 
+                         textDecoration: 'none',
+                         background: 'none',
+                         border: 'none',
+                         cursor: 'pointer',
+                         fontSize: '14px'
+                       }}
+                     >
+                       🌐 Visit
+                     </button>
+                   ) : (
+                     '-'
+                   )}
+                 </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
+        </div>
       </div>
 
       {/* Create/Edit Modal */}
@@ -553,7 +583,8 @@ const ClubForm: React.FC<ClubFormProps> = ({ club, onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
     club_name: club?.club_name || '',
     location: club?.location || '',
-    website_url: club?.website_url || ''
+    website_url: club?.website_url || '',
+    description: club?.description || ''
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -604,7 +635,7 @@ const ClubForm: React.FC<ClubFormProps> = ({ club, onSubmit, onCancel }) => {
         />
       </div>
       
-      <div style={{ marginBottom: '20px' }}>
+      <div style={{ marginBottom: '16px' }}>
         <label style={{ display: 'block', marginBottom: '4px', fontWeight: '500' }}>
           Website URL
         </label>
@@ -621,6 +652,36 @@ const ClubForm: React.FC<ClubFormProps> = ({ club, onSubmit, onCancel }) => {
             fontSize: '14px'
           }}
         />
+      </div>
+      
+      <div style={{ marginBottom: '20px' }}>
+        <label style={{ display: 'block', marginBottom: '4px', fontWeight: '500' }}>
+          Description
+        </label>
+        <textarea
+          value={formData.description}
+          onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+          placeholder="Describe the club's activities, focus, and community..."
+          rows={3}
+          maxLength={500}
+          style={{
+            width: '100%',
+            padding: '8px 12px',
+            border: '1px solid #d1d5db',
+            borderRadius: '4px',
+            fontSize: '14px',
+            resize: 'vertical',
+            fontFamily: 'inherit'
+          }}
+        />
+        <div style={{ 
+          fontSize: '12px', 
+          color: '#6b7280', 
+          textAlign: 'right', 
+          marginTop: '4px' 
+        }}>
+          {formData.description.length}/500 characters
+        </div>
       </div>
       
       <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>

@@ -39,11 +39,13 @@ class TestClubsAPI:
             club = ClubCreate(
                 club_name="Test Running Club",
                 location="Houston, TX",
-                website_url="https://testclub.com"
+                website_url="https://testclub.com",
+                description="A friendly running club for all skill levels"
             )
             assert club.club_name == "Test Running Club"
             assert club.location == "Houston, TX"
             assert club.website_url == "https://testclub.com"
+            assert club.description == "A friendly running club for all skill levels"
             print("   PASS ClubCreate model validation works")
         except ValidationError as e:
             pytest.fail(f"ClubCreate validation failed: {e}")
@@ -54,6 +56,7 @@ class TestClubsAPI:
             assert update.club_name == "Updated Club Name"
             assert update.location is None
             assert update.website_url is None
+            assert update.description is None
             print("   PASS ClubUpdate model validation works")
         except ValidationError as e:
             pytest.fail(f"ClubUpdate validation failed: {e}")
@@ -64,10 +67,12 @@ class TestClubsAPI:
                 id=1,
                 club_name="Test Club",
                 location="Test Location",
-                website_url="https://test.com"
+                website_url="https://test.com",
+                description="Test club description"
             )
             assert response.id == 1
             assert response.club_name == "Test Club"
+            assert response.description == "Test club description"
             print("   PASS ClubResponse model validation works")
         except ValidationError as e:
             pytest.fail(f"ClubResponse validation failed: {e}")
@@ -113,6 +118,7 @@ class TestClubsAPI:
             assert club.club_name == "Minimal Club"
             assert club.location is None
             assert club.website_url is None
+            assert club.description is None
             print("   PASS Club with only required field works")
         except ValidationError as e:
             pytest.fail(f"Club with only required field should work: {e}")
@@ -122,11 +128,13 @@ class TestClubsAPI:
             club = ClubCreate(
                 club_name="Full Club",
                 location="Full Location",
-                website_url="https://fullclub.com"
+                website_url="https://fullclub.com",
+                description="A comprehensive running club with all features"
             )
             assert club.club_name == "Full Club"
             assert club.location == "Full Location"
             assert club.website_url == "https://fullclub.com"
+            assert club.description == "A comprehensive running club with all features"
             print("   PASS Club with all fields works")
         except ValidationError as e:
             pytest.fail(f"Club with all fields should work: {e}")
@@ -162,7 +170,19 @@ class TestClubsAPI:
             assert update.club_name is None
             assert update.location is None
             assert update.website_url == "https://newurl.com"
+            assert update.description is None
             print("   PASS Partial update with only website_url works")
+        except ValidationError as e:
+            pytest.fail(f"Partial update should work: {e}")
+        
+        # Test updating only description
+        try:
+            update = ClubUpdate(description="Updated club description")
+            assert update.club_name is None
+            assert update.location is None
+            assert update.website_url is None
+            assert update.description == "Updated club description"
+            print("   PASS Partial update with only description works")
         except ValidationError as e:
             pytest.fail(f"Partial update should work: {e}")
     
@@ -176,7 +196,8 @@ class TestClubsAPI:
                 id=999,
                 club_name="Test Response Club",
                 location="Test Response Location",
-                website_url="https://testresponse.com"
+                website_url="https://testresponse.com",
+                description="Test response club description"
             )
             
             # Check all fields are present
@@ -184,32 +205,98 @@ class TestClubsAPI:
             assert hasattr(response, 'club_name')
             assert hasattr(response, 'location')
             assert hasattr(response, 'website_url')
+            assert hasattr(response, 'description')
             
             # Check field types
             assert isinstance(response.id, int)
             assert isinstance(response.club_name, str)
             assert isinstance(response.location, str)
             assert isinstance(response.website_url, str)
+            assert isinstance(response.description, str)
             
             print("   PASS ClubResponse has correct structure and types")
         except ValidationError as e:
             pytest.fail(f"ClubResponse structure test failed: {e}")
+    
+    @pytest.mark.skipif(ClubCreate is None, reason="API models not available")
+    def test_club_description_validation(self):
+        """Test description field validation rules."""
+        print("Test Testing description field validation...")
+        
+        # Test valid description
+        try:
+            club = ClubCreate(
+                club_name="Test Club",
+                description="A valid description under 500 characters"
+            )
+            assert club.description == "A valid description under 500 characters"
+            print("   PASS Valid description accepted")
+        except ValidationError as e:
+            pytest.fail(f"Valid description should be accepted: {e}")
+        
+        # Test description length limit (500 characters)
+        try:
+            long_description = "A" * 500  # Exactly 500 characters
+            club = ClubCreate(
+                club_name="Test Club",
+                description=long_description
+            )
+            assert club.description == long_description
+            print("   PASS Description at 500 character limit accepted")
+        except ValidationError as e:
+            pytest.fail(f"Description at 500 character limit should be accepted: {e}")
+        
+        # Test description too long (over 500 characters)
+        try:
+            too_long_description = "A" * 501  # 501 characters
+            with pytest.raises(ValidationError):
+                ClubCreate(
+                    club_name="Test Club",
+                    description=too_long_description
+                )
+            print("   PASS Description over 500 characters rejected")
+        except Exception as e:
+            if "ValidationError" not in str(type(e)):
+                pytest.fail(f"Description over 500 characters should be rejected: {e}")
+        
+        # Test empty description (should be allowed)
+        try:
+            club = ClubCreate(
+                club_name="Test Club",
+                description=""
+            )
+            assert club.description == ""
+            print("   PASS Empty description accepted")
+        except ValidationError as e:
+            pytest.fail(f"Empty description should be accepted: {e}")
+        
+        # Test None description (should be allowed)
+        try:
+            club = ClubCreate(
+                club_name="Test Club",
+                description=None
+            )
+            assert club.description is None
+            print("   PASS None description accepted")
+        except ValidationError as e:
+            pytest.fail(f"None description should be accepted: {e}")
     
     def test_csv_import_validation(self):
         """Test CSV import validation logic."""
         print("Test Testing CSV import validation...")
         
         # Test required headers validation
-        required_headers = ['id', 'club_name', 'location', 'website_url']
+        required_headers = ['id', 'club_name', 'location', 'website_url', 'description']
         
         # Test missing required header
-        test_headers = ['id', 'club_name', 'location']  # Missing website_url
+        test_headers = ['id', 'club_name', 'location']  # Missing website_url and description
         missing_headers = [h for h in required_headers if h not in test_headers]
         assert 'website_url' in missing_headers
+        assert 'description' in missing_headers
         print("   PASS Missing header detection works")
         
         # Test all required headers present
-        test_headers = ['id', 'club_name', 'location', 'website_url']
+        test_headers = ['id', 'club_name', 'location', 'website_url', 'description']
         missing_headers = [h for h in required_headers if h not in test_headers]
         assert len(missing_headers) == 0
         print("   PASS All required headers validation works")
@@ -219,16 +306,17 @@ class TestClubsAPI:
         print("Test Testing CSV export format...")
         
         # Test CSV header format
-        expected_header = 'id,club_name,location,website_url\n'
-        assert expected_header == 'id,club_name,location,website_url\n'
+        expected_header = 'id,club_name,location,website_url,description\n'
+        assert expected_header == 'id,club_name,location,website_url,description\n'
         print("   PASS CSV header format is correct")
         
         # Test CSV row format
-        test_row = '1,"Test Club","Test Location","https://test.com"\n'
+        test_row = '1,"Test Club","Test Location","https://test.com","Test Description"\n'
         assert test_row.startswith('1,')
         assert '"Test Club"' in test_row
         assert '"Test Location"' in test_row
         assert '"https://test.com"' in test_row
+        assert '"Test Description"' in test_row
         print("   PASS CSV row format is correct")
     
     def test_database_constraints(self):
@@ -291,9 +379,10 @@ def test_clubs_api_summary():
     print("=" * 50)
     print("PASS Club model validation (Create, Update, Response)")
     print("PASS Club name validation (required, min/max length)")
-    print("PASS Optional fields handling (location, website_url)")
+    print("PASS Optional fields handling (location, website_url, description)")
     print("PASS Partial update functionality")
     print("PASS Response structure and field types")
+    print("PASS Description field validation (length limits)")
     print("PASS CSV import validation (headers, required fields)")
     print("PASS CSV export format validation")
     print("PASS Database constraints (length limits)")

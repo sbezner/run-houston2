@@ -545,6 +545,17 @@ class ClubBase(BaseModel):
     club_name: str
     location: Optional[str] = None
     website_url: Optional[str] = None
+    description: Optional[str] = None
+
+    @field_validator('description')
+    @classmethod
+    @cached_validation
+    def validate_description(cls, v: Optional[str]) -> Optional[str]:
+        if v is not None:
+            if len(v.strip()) > 500:
+                raise ValueError('Description must be less than 500 characters')
+            return v.strip()
+        return v
 
 class ClubCreate(ClubBase):
     pass
@@ -553,6 +564,17 @@ class ClubUpdate(BaseModel):
     club_name: Optional[str] = None
     location: Optional[str] = None
     website_url: Optional[str] = None
+    description: Optional[str] = None
+
+    @field_validator('description')
+    @classmethod
+    @cached_validation
+    def validate_description(cls, v: Optional[str]) -> Optional[str]:
+        if v is not None:
+            if len(v.strip()) > 500:
+                raise ValueError('Description must be less than 500 characters')
+            return v.strip()
+        return v
 
 class ClubResponse(ClubBase):
     id: int
