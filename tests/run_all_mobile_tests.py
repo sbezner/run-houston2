@@ -43,20 +43,22 @@ def run_mobile_tests():
         
         # Check if test files exist and can be parsed
         test_files = [
-            "src/components/__tests__/RaceCard.test.tsx",
-            "src/components/__tests__/RacePopup.test.tsx",
-            "src/components/__tests__/FilterSheet.test.tsx",
-            "src/components/__tests__/DateSheet.test.tsx",
-            "src/components/__tests__/DateFilterStore.test.tsx",
-            "src/components/__tests__/DateSelectorIntegration.test.ts",
-            "src/components/__tests__/DateSheetWorkflow.test.tsx",
-            "src/components/__tests__/FixedDatePicker.ios.test.tsx",
-            "src/components/__tests__/RaceReportScreen.test.tsx",
-            "src/components/__tests__/ReportsScreen.test.tsx",
-            "src/components/__tests__/BundlingConfig.test.tsx",
-            "src/components/__tests__/BuildProcess.test.tsx",
-            "src/components/__tests__/BuildIntegration.test.tsx"
-        ]
+                   "src/components/__tests__/RaceCard.test.tsx",
+                   "src/components/__tests__/RacePopup.test.tsx",
+                   "src/components/__tests__/FilterSheet.test.tsx",
+                   "src/components/__tests__/DateSheet.test.tsx",
+                   "src/components/__tests__/DateFilterStore.test.tsx",
+                   "src/components/__tests__/DateSelectorIntegration.test.ts",
+                   "src/components/__tests__/DateSheetWorkflow.test.tsx",
+                   "src/components/__tests__/FixedDatePicker.ios.test.tsx",
+                   "src/components/__tests__/RaceReportScreen.test.tsx",
+                   "src/components/__tests__/ReportsScreen.test.tsx",
+                   "src/components/__tests__/BundlingConfig.test.tsx",
+                   "src/components/__tests__/BuildProcess.test.tsx",
+                   "src/components/__tests__/BuildIntegration.test.tsx",
+                   "src/screens/__tests__/ClubsScreen.test.tsx",
+                   "src/screens/__tests__/CommunityScreen.test.tsx"
+               ]
         
         print(f"Found {len(test_files)} test files:")
         for test_file in test_files:

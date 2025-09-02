@@ -32,6 +32,7 @@ import AboutScreen from './src/components/AboutScreen';
 import { ClubsScreen } from './src/screens/ClubsScreen';
 import { ReportsScreen } from './src/screens/ReportsScreen';
 import RaceReportScreen from './src/screens/RaceReportScreen';
+import CommunityScreen from './src/screens/CommunityScreen';
 import { DateFilterProvider, useDateFilter } from './src/state/dateFilter';
 import { filterRacesByDate } from './src/selectors/races';
 
@@ -561,6 +562,10 @@ export default function App() {
           <Tab.Navigator
             screenOptions={({ route }) => ({
               tabBarIcon: ({ focused, color, size }) => {
+                if (route.name === 'Community') {
+                  return <Text style={{ fontSize: size, color }}>👥</Text>;
+                }
+
                 let iconName: keyof typeof Ionicons.glyphMap;
 
                 if (route.name === 'List') {
@@ -579,6 +584,7 @@ export default function App() {
             })}
           >
             <Tab.Screen name="List" component={ListStack} />
+            <Tab.Screen name="Community" component={CommunityScreen} />
             <Tab.Screen name="Map" component={MapScreen} />
           </Tab.Navigator>
         </NavigationContainer>
