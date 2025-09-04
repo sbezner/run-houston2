@@ -489,11 +489,11 @@
    - **Status**: Fixed
 
 **Bug #2**
-- [ ] **Bug Title**: Race deletion blocked by foreign key constraints - no cascade handling for race reports
+- [x] **Bug Title**: Race deletion blocked by foreign key constraints - no cascade handling for race reports
   - **Date Reported**: 2025-01-27
   - **Reporter**: Developer
   - **Severity**: Critical
-  - **Status**: Open
+  - **Status**: Fixed
   - **Priority**: P1
   - **Description**: When deleting a race that has race reports referencing it, the deletion is blocked due to foreign key constraints. The system should either cascade delete the reports or allow the race_id to be set to null.
   - **Steps to Reproduce**: 
@@ -525,6 +525,9 @@
    - **Notes**: This is a critical data management issue. Users need to be able to delete races, and the system must handle dependent race reports appropriately.
    - **Related Issues**: Affects race deletion, data cleanup, foreign key relationships
    - **User Impact**: Critical - users cannot clean up obsolete races
+   - **Fix Applied**: 2025-01-27
+   - **Solution**: Implemented cascade deletion - when a race is deleted, all associated race reports are automatically deleted as well
+   - **Status**: Fixed
 
 **Bug #16**
 - [ ] **Bug Title**: Test nuclear database reset option for complete data cleanup
