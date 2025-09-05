@@ -1255,24 +1255,30 @@ def import_race_reports_csv(
                     errors.append(f"Line {line_num}: Invalid race_id format - must be a number")
                     continue
             
-            # Check if race has a date (only if race_id is provided)
+            # Check if race exists and get race name (only if race_id is provided)
+            final_race_name = race_name.strip()
             if resolved_race_id is not None:
                 try:
                     with get_conn() as conn, conn.cursor() as cur:
-                        cur.execute("SELECT date FROM races WHERE id = %s", (resolved_race_id,))
+                        cur.execute("SELECT name, date FROM races WHERE id = %s", (resolved_race_id,))
                         race_result = cur.fetchone()
                         if not race_result or not race_result[0]:
+                            errors.append(f"Line {line_num}: Race ID {resolved_race_id} not found in database")
+                            continue
+                        if not race_result[1]:
                             errors.append(f"Line {line_num}: Race ID {resolved_race_id} has no date")
                             continue
+                        # Use database race name instead of CSV race name
+                        final_race_name = race_result[0]
                 except Exception as e:
-                    errors.append(f"Line {line_num}: Error checking race date: {str(e)}")
+                    errors.append(f"Line {line_num}: Error checking race: {str(e)}")
                     continue
             
             processed_data.append({
                 'line_num': line_num,
                 'csv_id': id.strip(),
                 'race_id': resolved_race_id,
-                'race_name': race_name.strip(),
+                'race_name': final_race_name,
                 'race_date': parsed_race_date.date(),
                 'title': title.strip(),
                 'author_name': author_name.strip() if author_name.strip() else None,
