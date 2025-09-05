@@ -5,7 +5,7 @@ NPM:  10.9.2
 Python: Python 3.11.9
 Docker: Docker version 28.3.2, build 578ccf6
 Compose: Docker Compose version v2.38.2-desktop.1
-Expo CLI: 0.24.20
+Expo CLI: 0.24.21
 
 # Web deps (top level)
 run-houston-web@1.0.0 C:\Users\sbezn\OneDrive\Documents\vscodeprojects\run-houston\web
