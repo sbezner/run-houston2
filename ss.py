@@ -1,3 +1,23 @@
+"""
+Run Houston Service Starter (ss.py)
+
+This script automatically detects your IP address, updates the mobile app configuration,
+and starts all services (Database, API, Mobile App, Web Frontend) in separate windows.
+
+Usage:
+    python ss.py           # Start services without logs (default)
+    python ss.py --logs    # Start services with full logs
+    python ss.py -l        # Short form for logs
+    python ss.py --help    # Show help message
+
+The script will:
+1. Detect your current IP address
+2. Update mobile/src/config.ts with the detected IP
+3. Start Docker services (Database + API) in detached mode
+4. Start Mobile App (Expo) in a separate window
+5. Start Web Frontend (Vite) in a separate window
+"""
+
 import subprocess
 import re
 import os
@@ -53,13 +73,26 @@ def update_mobile_config(ip_address):
     except Exception as e:
         print(f"❌ Error updating mobile config: {e}")
 
-def start_services_in_windows():
-    """Start all services in separate PowerShell windows"""
+def start_services_in_windows(show_logs=False):
+    """Start all services in separate PowerShell windows with optional log control"""
     try:
+        if show_logs:
+            # Show all logs
+            docker_cmd = 'docker compose up'
+            expo_cmd = 'npx expo start'
+            web_cmd = 'npm run dev'
+            print("📊 Starting services with full logs...")
+        else:
+            # Hide logs (default)
+            docker_cmd = 'docker compose up -d'
+            expo_cmd = 'npx expo start --quiet'
+            web_cmd = 'npm run dev --silent'
+            print("🔇 Starting services without logs...")
+        
         # Start Database & API together using Docker Compose
         subprocess.Popen([
             'powershell', '-NoExit', '-Command',
-            'cd "C:/Users/sbezn/OneDrive/Documents/vsCodeProjects/run-houston/infra"; Write-Host "Starting Database & API with Docker..." -ForegroundColor Green; docker compose up'
+            f'cd "C:/Users/sbezn/OneDrive/Documents/vsCodeProjects/run-houston/infra"; Write-Host "Starting Database & API with Docker..." -ForegroundColor Green; {docker_cmd}'
         ])
         
         # Wait a moment for Docker services to start
@@ -68,16 +101,17 @@ def start_services_in_windows():
         # Start Mobile App in second window
         subprocess.Popen([
             'powershell', '-NoExit', '-Command',
-            'cd "C:/Users/sbezn/OneDrive/Documents/vsCodeProjects/run-houston/mobile"; Write-Host "Starting Mobile App..." -ForegroundColor Blue; npx expo start'
+            f'cd "C:/Users/sbezn/OneDrive/Documents/vsCodeProjects/run-houston/mobile"; Write-Host "Starting Mobile App..." -ForegroundColor Blue; {expo_cmd}'
         ])
         
         # Start Web Frontend in third window
         subprocess.Popen([
             'powershell', '-NoExit', '-Command',
-            'cd "C:/Users/sbezn/OneDrive/Documents/vsCodeProjects/run-houston/web"; Write-Host "Starting Web Frontend..." -ForegroundColor Magenta; npm run dev'
+            f'cd "C:/Users/sbezn/OneDrive/Documents/vsCodeProjects/run-houston/web"; Write-Host "Starting Web Frontend..." -ForegroundColor Magenta; {web_cmd}'
         ])
         
-        print("🚀 All services started in separate windows!")
+        log_status = "with logs" if show_logs else "without logs"
+        print(f"🚀 All services started in separate windows {log_status}!")
         print("📱 Mobile app will use the updated IP address")
         print("🐳 Database & API are running in Docker (more reliable)")
         
@@ -85,6 +119,24 @@ def start_services_in_windows():
         print(f"❌ Error starting services: {e}")
 
 def main():
+    import sys
+    
+    # Check for help parameter
+    if '--help' in sys.argv or '-h' in sys.argv:
+        print("🚀 Run Houston Service Starter")
+        print("Usage: python ss.py [options]")
+        print("\nOptions:")
+        print("  --logs, -l    Show all service logs (default: logs hidden)")
+        print("  --help, -h    Show this help message")
+        print("\nExamples:")
+        print("  python ss.py           # Start services without logs")
+        print("  python ss.py --logs    # Start services with full logs")
+        print("  python ss.py -l        # Short form for logs")
+        return
+    
+    # Check for logs parameter
+    show_logs = '--logs' in sys.argv or '-l' in sys.argv
+    
     print("🔍 Detecting current IP address...")
     
     # Get current IP
@@ -99,12 +151,13 @@ def main():
     print("📝 Updating mobile app configuration...")
     update_mobile_config(current_ip)
     
-    # Start services
+    # Start services with log control
     print("🚀 Starting all services...")
-    start_services_in_windows()
+    start_services_in_windows(show_logs)
     
     print("\n✨ Setup complete! Your services are starting in separate PowerShell windows.")
     print("💡 Remember: If your IP changes again, just run this script again!")
+    print("💡 Tip: Use 'python ss.py --logs' to see all service logs")
 
 if __name__ == "__main__":
     main()
