@@ -9,7 +9,7 @@
   - **Date Reported**: 2025-01-27
   - **Reporter**: Developer
   - **Severity**: High
-  - **Status**: Open
+  - **Status**: Fixed
   - **Priority**: P1
   - **Description**: When JWT tokens expire or become invalid, the system correctly detects authentication failures but fails to redirect users to the login page. Users get stuck on admin pages with error messages instead of being properly redirected to re-authenticate.
   - **Steps to Reproduce**: 
