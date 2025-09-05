@@ -16,7 +16,10 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 # Test configuration
 API_BASE = "http://localhost:8000"
-ADMIN_CREDENTIALS = {"username": "admin", "password": "pencil"}
+ADMIN_CREDENTIALS = {
+    "username": os.getenv("ADMIN_USERNAME", "admin"), 
+    "password": os.getenv("ADMIN_PASSWORD", "pencil")
+}
 
 def get_admin_token():
     """Get a valid admin token for testing"""

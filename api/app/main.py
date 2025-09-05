@@ -8,6 +8,11 @@ from datetime import timedelta, date, time
 import csv
 import io
 from typing import Optional
+from dotenv import load_dotenv
+from bcrypt import hashpw, gensalt
+
+# Load environment variables from .env file
+load_dotenv()
 
 from .auth import verify_password, create_access_token, verify_token, ACCESS_TOKEN_EXPIRE_MINUTES
 from .models import (
@@ -16,6 +21,11 @@ from .models import (
 )
 
 app = FastAPI(title="Run Houston API", version="0.1")
+
+@app.on_event("startup")
+async def startup_event():
+    """Initialize admin user on startup."""
+    create_admin_user()
 
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
@@ -43,12 +53,60 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://rh_user:rh_pass@localhost:5432/runhou")
+# Database configuration from environment variables
+DATABASE_URL = os.getenv("DATABASE_URL")
+if not DATABASE_URL:
+    # Fallback to individual environment variables
+    POSTGRES_USER = os.getenv("POSTGRES_USER", "rh_user")
+    POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD", "rh_pass")
+    POSTGRES_DB = os.getenv("POSTGRES_DB", "runhou")
+    POSTGRES_HOST = os.getenv("POSTGRES_HOST", "localhost")
+    POSTGRES_PORT = os.getenv("POSTGRES_PORT", "5432")
+    DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
 security = HTTPBearer()
 
 def get_conn():
     # psycopg 3 connection
     return psycopg.connect(DATABASE_URL)
+
+def create_admin_user():
+    """Create admin user from environment variables if it doesn't exist."""
+    admin_username = os.getenv("ADMIN_USERNAME", "admin")
+    admin_password = os.getenv("ADMIN_PASSWORD", "pencil")
+    
+    if not admin_username or not admin_password:
+        print("WARNING: ADMIN_USERNAME and ADMIN_PASSWORD environment variables not set")
+        return
+    
+    # Hash the password
+    password_hash = hashpw(admin_password.encode('utf-8'), gensalt()).decode('utf-8')
+    
+    try:
+        with get_conn() as conn, conn.cursor() as cur:
+            # Check if admin user exists
+            cur.execute("SELECT id FROM admin_users WHERE username = %s", (admin_username,))
+            existing_user = cur.fetchone()
+            
+            if existing_user:
+                # Update existing user's password
+                cur.execute(
+                    "UPDATE admin_users SET password_hash = %s, updated_at = NOW() WHERE username = %s",
+                    (password_hash, admin_username)
+                )
+                print(f"Updated admin user '{admin_username}' password")
+            else:
+                # Create new admin user
+                cur.execute(
+                    "INSERT INTO admin_users (username, password_hash) VALUES (%s, %s)",
+                    (admin_username, password_hash)
+                )
+                print(f"Created admin user '{admin_username}'")
+            
+            conn.commit()
+            print("Admin user initialization completed successfully")
+            
+    except Exception as e:
+        print(f"ERROR: Failed to initialize admin user: {e}")
 
 def get_current_admin(credentials: HTTPAuthorizationCredentials = Depends(security)):
     """Verify admin token and return admin info."""

@@ -11,7 +11,7 @@ import os
 
 # Docker container details
 CONTAINER_NAME = "runhou_db"
-DB_USER = "rh_user"
+DB_USER = os.getenv("POSTGRES_USER", "rh_user")
 DB_NAME = "runhou"
 
 def run_docker_command(cmd):
