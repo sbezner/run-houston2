@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import type { RaceReport } from '../../types';
 import { races } from '../../services/api';
+import { auth } from '../../services/auth';
 
 interface RaceReportFormProps {
   report?: RaceReport;
@@ -32,10 +33,15 @@ export const RaceReportForm: React.FC<RaceReportFormProps> = ({
   const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   useEffect(() => {
-    // Fetch races for the dropdown
+    // Fetch races for the dropdown using admin endpoint to get all races
     const fetchRaces = async () => {
       try {
-        const racesData = await races.list();
+        const token = auth.getToken();
+        if (!token) {
+          console.error('No authentication token available');
+          return;
+        }
+        const racesData = await races.adminList(token);
         setRacesList(racesData);
       } catch (error) {
         console.error('Failed to fetch races:', error);

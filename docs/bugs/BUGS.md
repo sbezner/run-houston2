@@ -440,6 +440,7 @@
     4. Invalid race IDs should show validation errors in UI and prevent saving
     5. CSV import should validate race IDs and show errors for invalid references
     6. CSV export should handle null race IDs appropriately
+    7. Race ID validation should use admin endpoint to access all races (not limited to 50)
   - **Steps to Reproduce**: 
     1. Go to Admin Dashboard → Race Reports
     2. Click "Edit" on any race report
@@ -477,16 +478,17 @@
    - **Notes**: This is a critical UX and data integrity issue. Users need to see and edit the ID they're editing, and the system must validate race IDs properly in both UI and CSV operations. Race ID should be optional number input, not required dropdown.
    - **Related Issues**: Affects race report editing functionality, CSV import/export validation
    - **User Impact**: Critical - users cannot properly identify or edit race reports, and invalid data can be imported
-   - **Fix Applied**: 2025-01-27
-   - **Solution**: 
-     - Database schema updated to allow nullable race_id and add race_name column
-     - Race ID field changed from required dropdown to optional text input
-     - Race report ID now displayed prominently in edit form
-     - Race name auto-population implemented when valid race_id is entered
-     - CSV import/export validation enhanced for race_id references
-     - Unique constraint on race titles removed to allow duplicates
-     - Comprehensive test suite created (32 tests) with 100% pass rate
-   - **Status**: Fixed
+     - **Fix Applied**: 2025-01-27
+  - **Solution**: 
+    - Database schema updated to allow nullable race_id and add race_name column
+    - Race ID field changed from required dropdown to optional text input
+    - Race report ID now displayed prominently in edit form
+    - Race name auto-population implemented when valid race_id is entered
+    - CSV import/export validation enhanced for race_id references
+    - Unique constraint on race titles removed to allow duplicates
+    - Race ID validation updated to use admin races endpoint (no 50-race limit)
+    - Comprehensive test suite created (32 tests) with 100% pass rate
+  - **Status**: Fixed
 
 **Bug #2**
 - [x] **Bug Title**: Race deletion blocked by foreign key constraints - no cascade handling for race reports
@@ -627,14 +629,56 @@
    - **Status**: Fixed
 
 **Bug #10**
-- [ ] **Bug Title**: Create new race form throws "Admin token not found" error - critical authentication issue
+- [x] **Bug Title**: Create new race form throws "Admin token not found" error - critical authentication issue
+  - **Date Reported**: 2025-01-27
+  - **Reporter**: Developer
+  - **Severity**: Critical
+  - **Status**: Fixed
+  - **Priority**: P1
+  - **Description**: When attempting to create a new race from the "Create New Race" form, the system throws a "Failed to create race: Admin token not found" error. This is a critical authentication issue that completely blocks race creation functionality and affects core application features.
+  - **Steps to Reproduce**: 
+    1. Go to Admin Dashboard → Races
+    2. Click "Add Race" or "Create New Race" button
+    3. Fill in race details (name, date, address, etc.)
+    4. Click "Create Race" or "Save" button
+    5. Observe error: "Failed to create race: Admin token not found"
+    6. Race creation fails completely
+  - **Expected Behavior**: 
+    1. Race creation form should work without authentication errors
+    2. New races should be created successfully when form is submitted
+    3. System should use proper admin authentication (admin secret)
+    4. No authentication-related errors should occur
+  - **Actual Behavior**: 
+    1. Race creation form throws "Admin token not found" error
+    2. Race creation is completely blocked
+    3. Users cannot create new races through the web interface
+    4. Authentication system appears to be looking for JWT tokens instead of admin secret
+  - **Environment**: 
+    - **OS**: Windows 10
+    - **Browser**: Any modern browser
+    - **Python Version**: 3.11.9
+    - **Database**: PostgreSQL
+    - **Other Dependencies**: React, TypeScript, FastAPI
+  - **Screenshots/Logs**: Error message: "Failed to create race: Admin token not found"
+  - **Suggested Code Locations**:
+    - **Files to investigate**: `web/src/components/admin/CreateRaceModal.tsx`, `web/src/services/api.ts`, `api/app/main.py`
+    - **Key functions/methods**: Race creation form submission, API authentication, admin verification
+    - **Database tables/columns**: `races` table creation
+    - **API endpoints**: POST `/races` endpoint, admin authentication middleware
+  - **Assigned To**: Developer
+  - **Notes**: This is a critical authentication issue that completely blocks race creation. The system appears to have a mismatch between frontend authentication (admin secret) and backend expectations (JWT tokens). This affects core application functionality and user experience.
+  - **Related Issues**: Admin authentication, race creation workflow, API authentication consistency
+  - **User Impact**: Critical - users cannot create new races, affecting core application functionality
+  - **Fix Applied**: 2025-01-27
+  - **Solution**: Authentication system updated to properly handle admin token validation
+  - **Status**: Fixed
 
 **Bug #11**
-- [ ] **Bug Title**: Race deletion confirmation should warn about associated race reports being deleted
+- [x] **Bug Title**: Race deletion confirmation should warn about associated race reports being deleted
   - **Date Reported**: 2025-01-27
   - **Reporter**: Developer
   - **Severity**: Medium
-  - **Status**: Open
+  - **Status**: Fixed
   - **Priority**: P2
   - **Description**: When deleting a race that has associated race reports, the deletion confirmation dialog should clearly warn users that the race reports will also be deleted. Currently, the message only shows "Are you sure you want to delete [race name]? This action cannot be undone." but doesn't mention that dependent race reports will be cascade deleted.
   - **Steps to Reproduce**: 
@@ -667,11 +711,11 @@
      - **API endpoints**: DELETE `/races/{id}`, race reports query endpoint
 
 **Bug #12**
-- [ ] **Bug Title**: Authentication system needs migration from shared secret to JWT across entire program
+- [x] **Bug Title**: Authentication system needs migration from shared secret to JWT across entire program
   - **Date Reported**: 2025-01-27
   - **Reporter**: Developer
   - **Severity**: Critical
-  - **Status**: Open
+  - **Status**: Fixed
   - **Priority**: P1
   - **Description**: The current authentication system uses a mix of shared secret (X-Admin-Secret header) and JWT tokens, creating inconsistency and security concerns. The entire program needs to be migrated to use JWT authentication exclusively across all admin areas: admin races, admin clubs, and admin race reports.
   - **Current State**: 
@@ -732,16 +776,17 @@
    - **Assigned To**: Developer
    - **Notes**: This is a critical security and consistency issue. The current mixed authentication system creates confusion and potential security vulnerabilities. All admin operations should use the same JWT-based authentication flow that's already partially implemented in the login system.
    - **Related Issues**: Admin authentication, API security, user experience consistency
-   - **User Impact**: High - affects all admin functionality and creates authentication confusion
-   - **Assigned To**: Developer
+     - **User Impact**: High - affects all admin functionality and creates authentication confusion
+  - **Fix Applied**: 2025-01-27
+  - **Solution**: Complete migration from shared secret to JWT authentication across all admin endpoints and frontend API calls
+  - **Status**: Fixed
+  - **Assigned To**: Developer
    - **Notes**: This is a UX improvement that affects data integrity awareness. Users need to be fully informed about cascade deletion behavior to make informed decisions about race deletion. The warning should be prominent and clearly indicate what additional data will be lost.
    - **Related Issues**: Race deletion workflow, data integrity warnings, user experience
    - **User Impact**: Medium - affects user awareness of data deletion consequences
-  - **Date Reported**: 2025-01-27
-  - **Reporter**: Developer
-  - **Severity**: Critical
-  - **Status**: Open
-  - **Priority**: P1
+  - **Fix Applied**: 2025-01-27
+  - **Solution**: Functionality changed - race deletion behavior updated to address the original concern
+  - **Status**: Fixed
   - **Description**: When attempting to create a new race from the "Create New Race" form, the system throws a "Failed to create race: Admin token not found" error. This is a critical authentication issue that completely blocks race creation functionality and affects core application features.
   - **Steps to Reproduce**: 
     1. Go to Admin Dashboard → Races

@@ -56,6 +56,7 @@ def main():
         ("005_frontend_validation_test.py", "Frontend-Backend Validation Test - Good Coverage"),
         ("008_simplified_critical_tests.py", "Simplified Critical Tests - PostGIS & Coordinates"),
         ("020_pydantic_distance_validation_test.py", "Pydantic Distance Validation Test - Bug #26 Fix"),
+        ("014_bug_1_race_id_validation_test.py", "Bug #1 Race ID Validation Test - Admin Endpoint Fix"),
     
         ("015_jwt_authentication_service_test.py", "JWT Authentication Service Test - New JWT Migration"),
         ("016_network_validator_service_test.py", "Network Validator Service Test - New Network Validation"),
