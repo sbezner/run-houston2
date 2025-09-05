@@ -48,11 +48,11 @@
   - **Status**: Fixed
 
 **Bug #14**
-- [ ] **Bug Title**: Race reports CSV import incorrectly uses imported race_name instead of database race name
+- [x] **Bug Title**: Race reports CSV import incorrectly uses imported race_name instead of database race name
   - **Date Reported**: 2025-01-27
   - **Reporter**: Developer
   - **Severity**: Low
-  - **Status**: Open
+  - **Status**: Fixed
   - **Priority**: P3
   - **Description**: When importing race reports via CSV that reference existing races by race_id, the system incorrectly uses the race_name value from the CSV instead of looking up and using the actual race name from the database. This can lead to data inconsistency where the displayed race name doesn't match the actual race in the database.
   - **Steps to Reproduce**: 
@@ -87,8 +87,10 @@
    - **Notes**: This is a minor data consistency issue. The CSV import should prioritize database relationships over imported text values. When race_id is valid, the system should always use the database race name to maintain data integrity.
    - **Related Issues**: Race report data consistency, CSV import validation
    - **User Impact**: Low - affects data accuracy but doesn't break functionality
-   - **Fix Required**: Modify CSV import logic to ignore race_name when race_id is valid and lookup database race name instead
-   - **Status**: Open
+     - **Fix Required**: Modify CSV import logic to ignore race_name when race_id is valid and lookup database race name instead
+  - **Status**: Fixed
+  - **Fix Applied**: 2025-01-27
+  - **Solution**: Modified import_race_reports_csv function to lookup actual race names from database when race_id is valid. System now uses database race names instead of CSV race_name values, maintaining data consistency between race_reports and races tables.
 
 **Bug #21**
 - [x] **Bug Title**: Load More reports functionality broken - reports replaced instead of appended
