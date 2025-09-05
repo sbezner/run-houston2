@@ -9,6 +9,10 @@ import os
 import requests
 import json
 from datetime import datetime
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Add the project root to the Python path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -97,9 +101,15 @@ def test_race_id_validation_bug_fix():
     # Step 1: Get admin token first (needed for admin races endpoint)
     print("  1. Getting admin authentication token...")
     try:
+        admin_username = os.getenv("ADMIN_USERNAME")
+        admin_password = os.getenv("ADMIN_PASSWORD")
+        
+        if not admin_username or not admin_password:
+            raise ValueError("ADMIN_USERNAME and ADMIN_PASSWORD environment variables must be set for tests")
+        
         login_data = {
-            "username": "admin",
-            "password": "pencil"
+            "username": admin_username,
+            "password": admin_password
         }
         response = requests.post(f"{API_BASE}/admin/login", json=login_data)
         if response.status_code == 200:

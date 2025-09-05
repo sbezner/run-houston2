@@ -57,11 +57,15 @@ app.add_middleware(
 DATABASE_URL = os.getenv("DATABASE_URL")
 if not DATABASE_URL:
     # Fallback to individual environment variables
-    POSTGRES_USER = os.getenv("POSTGRES_USER", "rh_user")
-    POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD", "rh_pass")
-    POSTGRES_DB = os.getenv("POSTGRES_DB", "runhou")
-    POSTGRES_HOST = os.getenv("POSTGRES_HOST", "localhost")
-    POSTGRES_PORT = os.getenv("POSTGRES_PORT", "5432")
+    POSTGRES_USER = os.getenv("POSTGRES_USER")
+    POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
+    POSTGRES_DB = os.getenv("POSTGRES_DB")
+    POSTGRES_HOST = os.getenv("POSTGRES_HOST")
+    POSTGRES_PORT = os.getenv("POSTGRES_PORT")
+    
+    if not all([POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_HOST, POSTGRES_PORT]):
+        raise ValueError("Database configuration incomplete. Set DATABASE_URL or all individual POSTGRES_* environment variables")
+    
     DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
 security = HTTPBearer()
 
@@ -71,12 +75,11 @@ def get_conn():
 
 def create_admin_user():
     """Create admin user from environment variables if it doesn't exist."""
-    admin_username = os.getenv("ADMIN_USERNAME", "admin")
-    admin_password = os.getenv("ADMIN_PASSWORD", "pencil")
+    admin_username = os.getenv("ADMIN_USERNAME")
+    admin_password = os.getenv("ADMIN_PASSWORD")
     
     if not admin_username or not admin_password:
-        print("WARNING: ADMIN_USERNAME and ADMIN_PASSWORD environment variables not set")
-        return
+        raise ValueError("ADMIN_USERNAME and ADMIN_PASSWORD environment variables must be set")
     
     # Hash the password
     password_hash = hashpw(admin_password.encode('utf-8'), gensalt()).decode('utf-8')

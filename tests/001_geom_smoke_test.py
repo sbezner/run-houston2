@@ -10,10 +10,16 @@ import sys
 import os
 from datetime import date
 import re
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Docker container details
 CONTAINER_NAME = "runhou_db"
-DB_USER = os.getenv("POSTGRES_USER", "rh_user")
+DB_USER = os.getenv("POSTGRES_USER")
+if not DB_USER:
+    raise ValueError("POSTGRES_USER environment variable must be set for tests")
 DB_NAME = "runhou"
 
 def run_docker_command(cmd):

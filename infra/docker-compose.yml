@@ -5,9 +5,9 @@ services:
     image: postgis/postgis:15-3.3
     container_name: runhou_db
     environment:
-      POSTGRES_USER: rh_user
-      POSTGRES_PASSWORD: rh_pass
-      POSTGRES_DB: runhou
+      POSTGRES_USER: ${POSTGRES_USER:-rh_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-rh_pass}
+      POSTGRES_DB: ${POSTGRES_DB:-runhou}
     ports:
       - "5432:5432"
     volumes:
@@ -24,9 +24,18 @@ services:
       context: ../api
       dockerfile: Dockerfile
     container_name: runhou_api
+    env_file:
+      - ../.env
     environment:
       DATABASE_URL: postgresql://rh_user:rh_pass@db:5432/runhou
-      ADMIN_SECRET: default-admin-secret
+      ADMIN_USERNAME: admin
+      ADMIN_PASSWORD: pencil
+      ADMIN_SECRET: 67_SwDEkwSMTE2y2pzb817x-nDHJCG19Mb5pZmD3HQQ
+      POSTGRES_USER: rh_user
+      POSTGRES_PASSWORD: rh_pass
+      POSTGRES_DB: runhou
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
     depends_on:
       db:
         condition: service_healthy

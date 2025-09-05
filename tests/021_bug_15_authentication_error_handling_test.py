@@ -10,6 +10,10 @@ import requests
 import json
 import time
 from datetime import datetime
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Add the project root to the Python path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -17,9 +21,13 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 # Test configuration
 API_BASE = "http://localhost:8000"
 ADMIN_CREDENTIALS = {
-    "username": os.getenv("ADMIN_USERNAME", "admin"), 
-    "password": os.getenv("ADMIN_PASSWORD", "pencil")
+    "username": os.getenv("ADMIN_USERNAME"), 
+    "password": os.getenv("ADMIN_PASSWORD")
 }
+
+# Ensure environment variables are set
+if not ADMIN_CREDENTIALS["username"] or not ADMIN_CREDENTIALS["password"]:
+    raise ValueError("ADMIN_USERNAME and ADMIN_PASSWORD environment variables must be set for tests")
 
 def get_admin_token():
     """Get a valid admin token for testing"""
