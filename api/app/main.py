@@ -27,23 +27,7 @@ async def startup_event():
     """Initialize admin user on startup."""
     create_admin_user()
 
-@app.middleware("http")
-async def log_requests(request: Request, call_next):
-    """Log all incoming requests for debugging."""
-    print(f"DEBUG: {request.method} {request.url}")
-    print(f"DEBUG: Headers: {dict(request.headers)}")
-    
-    # Log request body for POST/PUT requests
-    if request.method in ["POST", "PUT"]:
-        try:
-            body = await request.body()
-            print(f"DEBUG: Request body: {body.decode()}")
-        except Exception as e:
-            print(f"DEBUG: Could not read request body: {e}")
-    
-    response = await call_next(request)
-    print(f"DEBUG: Response status: {response.status_code}")
-    return response
+# Debug middleware removed for production readiness
 
 app.add_middleware(
     CORSMiddleware,
@@ -221,16 +205,9 @@ async def create_race(request: Request, current_admin: dict = Depends(get_curren
     try:
         # Try to parse the request body into RaceCreate model
         body = await request.json()
-        print(f"DEBUG: Raw request body: {body}")
         
         # Validate with Pydantic
         race_data = RaceCreate(**body)
-        print(f"DEBUG: Successfully parsed race data: {race_data}")
-        
-        # Debug logging to see what data is received
-        print(f"DEBUG: Received race data: {race_data}")
-        print(f"DEBUG: Race data type: {type(race_data)}")
-        print(f"DEBUG: Race data dict: {race_data.dict()}")
         
         # Convert string date to Python date object if needed
         race_date = race_data.date
@@ -323,7 +300,6 @@ async def create_race(request: Request, current_admin: dict = Depends(get_curren
         
         # Add operation type to response body for frontend tracking (more reliable than headers)
         from fastapi.responses import JSONResponse
-        print(f"DEBUG: Setting operation_type to: '{operation_type}' for race ID: {result.get('id')}")
         
         # Include operation type in response body
         result_with_operation = {

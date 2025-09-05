@@ -1,39 +1,65 @@
 # Deployment TODO List
 
-## Security & Configuration Changes for Production
+## ✅ COMPLETED - Environment Variable Migration
 
 ### 🔐 Database Security
-- [ ] **Change development password** in `infra/docker-compose.yml`
-  - Current: `POSTGRES_PASSWORD: rh_pass`
-  - Action: Use environment variables or secure password
-  - File: `infra/docker-compose.yml:8`
+- [x] **Migrate hard-coded credentials to environment variables**
+  - ✅ Removed hard-coded admin credentials (`admin`/`pencil`)
+  - ✅ Updated admin password to `@RunHouston9339`
+  - ✅ All credentials now use environment variables
+  - ✅ Added `.env` file for local development
+  - ✅ Updated Docker Compose to use environment variables
 
-### 🌐 API Configuration
-- [ ] **Update mobile app API endpoint** in `mobile/src/config.ts`
-  - Current: `http://192.168.7.228:8000` (local development)
-  - Action: Change to production domain (e.g., `https://api.runhouston.app`)
-  - File: `mobile/src/config.ts:3`
+### 🔧 API Configuration
+- [x] **Environment variable integration**
+  - ✅ Added `python-dotenv` for environment variable loading
+  - ✅ Updated database connection to use `DATABASE_URL`
+  - ✅ Admin user creation now uses environment variables
+  - ✅ All test files updated to load environment variables
+  - ✅ Removed hard-coded defaults to enforce proper configuration
 
-### 🔒 CORS Settings
+### 🧪 Testing Infrastructure
+- [x] **Test environment setup**
+  - ✅ All 125+ tests passing (backend, frontend, mobile)
+  - ✅ Test files updated to load `.env` file
+  - ✅ Docker setup working with environment variables
+  - ✅ Local development environment fully functional
+
+## 🚀 REMAINING - Render Deployment Tasks
+
+### 🗄️ Database Setup
+- [ ] **Create Render PostgreSQL database**
+  - Action: Create managed PostgreSQL database in Render dashboard
+  - Requirements: PostGIS extension support
+  - Environment: Production database URL will be provided
+
+- [ ] **Initialize database schema**
+  - Action: Run `infra/initdb/*.sql` scripts on Render database
+  - Files: All SQL files in `infra/initdb/` directory
+  - Note: Admin user will be created automatically by API startup
+
+### 🌐 API Service Configuration
+- [ ] **Create Render web service**
+  - Action: Deploy FastAPI application to Render
+  - Build command: `pip install -r requirements.txt`
+  - Start command: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+
+- [ ] **Set environment variables in Render**
+  - `DATABASE_URL` - From Render database service
+  - `ADMIN_USERNAME` - `admin`
+  - `ADMIN_PASSWORD` - `@RunHouston9339`
+  - `ADMIN_SECRET` - `67_SwDEkwSMTE2y2pzb817x-nDHJCG19Mb5pZmD3HQQ`
+
+### 🔒 Security Configuration
 - [ ] **Restrict CORS origins** in `api/app/main.py`
   - Current: `allow_origins=["*"]` (allows all origins)
   - Action: Restrict to only your app's domain(s)
   - File: `api/app/main.py:15`
 
-### 🚀 Hosting Configuration
-- [ ] **Set up production database** (PostgreSQL + PostGIS)
-  - Current: Local Docker container
-  - Action: Use production database service (e.g., Render, AWS RDS)
-
-- [ ] **Configure production environment variables**
-  - Create `.env.production` file
-  - Set `DATABASE_URL` to production database
-  - Set `CORS_ORIGINS` to production domains
-
-### 📱 Mobile App Production
-- [ ] **Build production APK/IPA** using Expo
-  - Current: Development build
-  - Action: `expo build:android` and `expo build:ios`
+- [ ] **Update mobile app API endpoint** in `mobile/src/config.ts`
+  - Current: `http://192.168.7.228:8000` (local development)
+  - Action: Change to production domain (e.g., `https://api.runhouston.app`)
+  - File: `mobile/src/config.ts:3`
 
 ### 🌍 Domain & SSL
 - [ ] **Configure custom domains** in Render
@@ -44,24 +70,30 @@
   - Current: HTTP for local development
   - Required: HTTPS for `.app` domains
 
+### 📱 Mobile App Production
+- [ ] **Build production APK/IPA** using Expo
+  - Current: Development build
+  - Action: `expo build:android` and `expo build:ios`
+
 ## Development vs Production Checklist
 
-| Item | Development | Production |
-|------|-------------|------------|
-| Database | Local Docker | Production PostgreSQL |
-| API URL | Local IP | `https://api.runhouston.app` |
-| CORS | All origins (`*`) | Restricted origins |
-| Password | `rh_pass` | Environment variable |
-| SSL | HTTP | HTTPS required |
+| Item | Development | Production | Status |
+|------|-------------|------------|---------|
+| Database | Local Docker | Render PostgreSQL | ✅ Ready |
+| API URL | Local IP | `https://api.runhouston.app` | ⏳ Pending |
+| CORS | All origins (`*`) | Restricted origins | ⏳ Pending |
+| Password | Environment variable | Environment variable | ✅ Complete |
+| SSL | HTTP | HTTPS required | ⏳ Pending |
+| Environment Variables | `.env` file | Render dashboard | ✅ Ready |
 
 ## Priority Order
-1. **High**: Database password & CORS restrictions
-2. **Medium**: API endpoint configuration
+1. **High**: Create Render database and API service
+2. **Medium**: Set environment variables and test connection
 3. **Low**: Domain setup & SSL (handled by hosting provider)
 
 ---
-*Last updated: 2025-08-15*
-*Status: Development - Ready for production deployment planning*
+*Last updated: 2025-09-05*
+*Status: Environment variables complete - Ready for Render deployment*
 
 ## 🧪 Unit Testing TODO - Race Reports Feature
 

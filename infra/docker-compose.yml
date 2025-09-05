@@ -29,7 +29,7 @@ services:
     environment:
       DATABASE_URL: postgresql://rh_user:rh_pass@db:5432/runhou
       ADMIN_USERNAME: admin
-      ADMIN_PASSWORD: pencil
+      ADMIN_PASSWORD: "@RunHouston9339"
       ADMIN_SECRET: 67_SwDEkwSMTE2y2pzb817x-nDHJCG19Mb5pZmD3HQQ
       POSTGRES_USER: rh_user
       POSTGRES_PASSWORD: rh_pass
