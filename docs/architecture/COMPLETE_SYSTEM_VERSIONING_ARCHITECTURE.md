@@ -131,24 +131,27 @@ GET /api/v1/version
 
 ### **2. Database Schema Versioning**
 
-#### **Hybrid Migration Strategy**
+#### **Unified Migration Strategy**
 ```
-Legacy Migrations: 001_init.sql, 002_admin_users.sql, 003_fix_race_constraints.sql
-New Migrations: 20250905_1430_add_race_flags.sql, 20250915_0915_add_user_preferences.sql
+All Migrations: 20250906_0001_init.sql, 20250906_0009_create_clubs.sql, 20250906_0016_add_clubs_description.sql
 Schema Tracking: schema_migrations table
 Rollback Strategy: Restore from snapshot or roll forward with hotfix
+Sample Data: Separate seed_scripts/ directory for development data
 ```
 
 #### **Migration File Organization**
 ```
-infra/initdb/
-├── 001_init.sql                    ← Legacy (keep unchanged)
-├── 002_admin_users.sql             ← Legacy (keep unchanged)
-├── 003_fix_race_constraints.sql    ← Legacy (keep unchanged)
-├── ... (through 016)               ← Legacy (keep unchanged)
-├── 20250905_1430_add_race_flags.sql     ← New (timestamped)
-├── 20250915_0915_add_user_preferences.sql ← New (timestamped)
-└── 20250920_1600_update_race_schema.sql  ← New (timestamped)
+infra/
+├── initdb/                         ← Production migrations only
+│   ├── 20250906_0001_init.sql      ← Timestamped migrations
+│   ├── 20250906_0009_create_clubs.sql
+│   ├── 20250906_0010_create_race_reports.sql
+│   ├── 20250906_0016_add_clubs_description.sql
+│   └── ... (all timestamped)
+└── seed_scripts/                   ← Development data only
+    ├── seed_data.sql               ← Sample races, clubs, suggestions
+    ├── test_data.sql               ← Future test data
+    └── dev_fixtures.sql            ← Future dev fixtures
 ```
 
 #### **Migration Tracking Table**
@@ -180,8 +183,9 @@ UPDATE races SET race_flags = '{}' WHERE race_flags IS NULL;
 ```
 
 #### **Database Versioning Rules**
-- **Legacy migrations**: Keep sequential naming (001, 002, 003...) - never rename
-- **New migrations**: Use timestamped naming (YYYYMMDD_HHMM_description.sql)
+- **All migrations**: Use timestamped naming (YYYYMMDD_HHMM_description.sql)
+- **Production migrations**: Only schema changes, no sample data
+- **Development data**: Separate seed_scripts/ directory for sample data
 - **Forward-only in production**: No down scripts in production
 - **Expand-then-contract**: Add new, migrate data, remove old
 - **Pre-migration snapshots**: Take snapshot before major changes
@@ -190,6 +194,20 @@ UPDATE races SET race_flags = '{}' WHERE race_flags IS NULL;
 - **Migration table safety**: Prevents re-running migrations regardless of file naming
 - **Concurrent safety**: Acquire a DB advisory lock during migration runs to prevent concurrent executors
 - **Migration runner**: Exit non-zero if advisory lock cannot be acquired
+
+#### **Seed Data Strategy**
+```
+Development Data: infra/seed_scripts/seed_data.sql
+Production Data: No sample data in production migrations
+Environment Control: Use environment variables to control seeding
+```
+
+**Why separate seed data:**
+- **Production safety**: No sample data accidentally deployed to production
+- **Clean migrations**: Migrations contain only schema changes
+- **Development friendly**: Easy to populate development databases
+- **Testing support**: Separate test data for different environments
+- **Maintainability**: Easy to update sample data without touching migrations
 
 ### **3. Web Frontend Versioning**
 
@@ -720,13 +738,10 @@ import psycopg2
 from datetime import datetime
 
 def run_migrations():
-    # Get all migration files in order
-    legacy_files = sorted(glob.glob("infra/initdb/0*.sql"))
-    new_files = sorted(glob.glob("infra/initdb/20*.sql"))
+    # Get all migration files in order (all timestamped)
+    migration_files = sorted(glob.glob("infra/initdb/20*.sql"))
     
-    all_files = legacy_files + new_files
-    
-    for file in all_files:
+    for file in migration_files:
         version = os.path.basename(file).replace('.sql', '')
         
         if not migration_applied(version):
@@ -748,14 +763,15 @@ def record_migration(version, file):
 ```
 
 **Why this migration approach:**
-- **Order preservation**: Legacy files run first, then timestamped
+- **Unified naming**: All migrations use timestamped naming
+- **Chronological order**: Files run in timestamp order
 - **Safety**: Migration table prevents re-running
-- **Flexibility**: Can handle both naming conventions
-- **Production ready**: Works in production environments
+- **Production ready**: Clean, production-ready migrations
+- **No sample data**: Migrations contain only schema changes
 
-#### **Step 5.2: Create First Timestamped Migration**
+#### **Step 5.2: Create Migration Tracking Migration**
 ```sql
--- Create: infra/initdb/20250115_1430_add_migration_tracking.sql
+-- Create: infra/initdb/20250906_0017_add_migration_tracking.sql
 -- This migration adds the schema_migrations table
 CREATE TABLE IF NOT EXISTS schema_migrations (
     version VARCHAR(255) PRIMARY KEY,
@@ -767,7 +783,7 @@ CREATE TABLE IF NOT EXISTS schema_migrations (
 
 -- Record this migration
 INSERT INTO schema_migrations (version, description) 
-VALUES ('20250115_1430_add_migration_tracking', 'Add migration tracking table');
+VALUES ('20250906_0017_add_migration_tracking', 'Add migration tracking table');
 ```
 
 **Why start with migration tracking:**
@@ -775,6 +791,7 @@ VALUES ('20250115_1430_add_migration_tracking', 'Add migration tracking table');
 - **Safety**: Can't track migrations without the table
 - **Audit**: First migration creates the audit system
 - **Production ready**: Sets up the system for future migrations
+- **Clean implementation**: All migrations now use unified timestamped naming
 
 ### **Phase 6: Testing & Validation (Week 3-4)**
 

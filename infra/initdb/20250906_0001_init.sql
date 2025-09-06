@@ -41,8 +41,4 @@ CREATE TABLE IF NOT EXISTS audit_logs (
   timestamp TIMESTAMPTZ DEFAULT NOW()
 );
 
-INSERT INTO races
-(name, date, start_time, address, city, state, zip, latitude, longitude, geom, distance, surface, kid_run, official_website_url)
-VALUES
-('Bayou City 5K', CURRENT_DATE + INTERVAL '7 day', '07:30', '600 Memorial Dr', 'Houston', 'TX', '77007', 29.7633, -95.3819, ST_SetSRID(ST_MakePoint(-95.3819, 29.7633), 4326)::geography, ARRAY['5K'], 'road', true, 'https://example.com/bayou5k'),
-('Galveston Beach 10K', CURRENT_DATE + INTERVAL '20 day', '08:00', 'Stewart Beach', 'Galveston', 'TX', '77550', 29.3000, -94.7667, ST_SetSRID(ST_MakePoint(-94.7667, 29.3000), 4326)::geography, ARRAY['10K'], 'road', false, 'https://example.com/galv10k');
+-- Sample data removed - use seed_data.sql for development data

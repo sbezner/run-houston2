@@ -83,11 +83,11 @@ def start_services_in_windows(show_logs=False):
             web_cmd = 'npm run dev'
             print("📊 Starting services with full logs...")
         else:
-            # Hide logs (default)
+            # Hide logs (default) but always show Expo QR code
             docker_cmd = 'docker compose up -d'
-            expo_cmd = 'npx expo start --quiet'
+            expo_cmd = 'npx expo start'  # Always show QR code for mobile
             web_cmd = 'npm run dev --silent'
-            print("🔇 Starting services without logs...")
+            print("🔇 Starting services without logs (except mobile QR code)...")
         
         # Start Database & API together using Docker Compose
         subprocess.Popen([
@@ -126,10 +126,10 @@ def main():
         print("🚀 Run Houston Service Starter")
         print("Usage: python ss.py [options]")
         print("\nOptions:")
-        print("  --logs, -l    Show all service logs (default: logs hidden)")
+        print("  --logs, -l    Show all service logs (default: logs hidden, QR code always shown)")
         print("  --help, -h    Show this help message")
         print("\nExamples:")
-        print("  python ss.py           # Start services without logs")
+        print("  python ss.py           # Start services without logs (QR code always shown)")
         print("  python ss.py --logs    # Start services with full logs")
         print("  python ss.py -l        # Short form for logs")
         return

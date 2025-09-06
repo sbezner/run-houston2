@@ -19,15 +19,7 @@ CREATE UNIQUE INDEX clubs_uniq_name_location_ci
 CREATE INDEX clubs_name_search_ci
   ON clubs (lower(club_name));
 
--- Seed with Houston-area clubs (idempotent)
-INSERT INTO clubs (club_name, location, website_url) VALUES
-  ('Houston Area Road Runners Assoc. (HARRA)', 'Houston, TX', 'https://harra.org'),
-  ('Kung Fu Running Club', 'Houston, TX', 'https://www.kungfurunningclub.com'),
-  ('Bayou City Road Runners', 'Houston, TX', 'https://www.bcrr.org'),
-  ('Kenyan Way Training Program', 'Houston, TX', 'http://kenyanway.com'),
-  ('Bay Area Running Club (BARC)', 'Clear Lake, TX', 'https://www.barcnorth.org'),
-  ('The Woodlands Running Club', 'The Woodlands, TX', 'https://thewoodlandsrunningclub.org')
-ON CONFLICT (lower(club_name), COALESCE(lower(location), '')) DO NOTHING;
+-- Sample data removed - use seed_data.sql for development data
 
 -- Add comments
 COMMENT ON TABLE clubs IS 'Running clubs and organizations';
