@@ -162,7 +162,7 @@ Response:
 ### Test Commands
 ```bash
 # Run version compatibility tests
-python tests/run_version_migration_tests.py
+python tests/025_run_version_migration_tests.py
 
 # Run all backend tests
 python tests/run_all_backend_tests.py

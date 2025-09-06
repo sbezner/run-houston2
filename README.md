@@ -144,7 +144,7 @@ run-houston/
 │   └── README.md          # Script documentation
 ├── tests/                 # Test suites
 │   ├── run_all_tests_combined.py
-│   └── run_version_migration_tests.py
+│   └── 025_run_version_migration_tests.py
 ├── docs/                  # Documentation
 │   ├── api/               # API documentation
 │   ├── deployment/        # Deployment guides
@@ -165,7 +165,7 @@ python tests/run_all_tests_combined.py
 python tests/run_all_backend_tests.py
 
 # Run version/migration tests
-python tests/run_version_migration_tests.py
+python tests/025_run_version_migration_tests.py
 
 # Run web frontend tests
 cd web && npm test

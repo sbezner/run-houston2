@@ -5,7 +5,7 @@ Version and Migration System Tests Runner
 This script runs all versioning and migration system tests to ensure
 the versioning infrastructure is working correctly.
 
-Run with: python tests/run_version_migration_tests.py
+Run with: python tests/025_run_version_migration_tests.py
 """
 
 import subprocess
