@@ -33,8 +33,11 @@ import { ClubsScreen } from './src/screens/ClubsScreen';
 import { ReportsScreen } from './src/screens/ReportsScreen';
 import RaceReportScreen from './src/screens/RaceReportScreen';
 import CommunityScreen from './src/screens/CommunityScreen';
+import MonitoringScreen from './src/screens/MonitoringScreen';
 import { DateFilterProvider, useDateFilter } from './src/state/dateFilter';
 import { filterRacesByDate } from './src/selectors/races';
+import { VERSION, isApiCompatible, ApiVersionInfo } from './src/constants/version';
+import { config } from './src/config';
 
 // Create a context for sharing filters between screens
 const FilterContext = createContext<{
@@ -544,6 +547,45 @@ function MapScreen({ navigation }: any) {
   );
 }
 
+// Version checking function
+const checkApiCompatibility = async (): Promise<boolean> => {
+  try {
+    const response = await fetch(`${config.backendUrl}${VERSION.API_PATH}/version`);
+    if (!response.ok) {
+      console.warn('Version check failed: API not available');
+      return true; // Allow app to continue if API is down
+    }
+    
+    const versionInfo: ApiVersionInfo = await response.json();
+    const compatible = isApiCompatible(versionInfo);
+    
+    if (!compatible) {
+      console.warn('API version incompatible:', versionInfo);
+      // Show force update modal
+      Alert.alert(
+        'Update Required',
+        `This app version (${VERSION.APP_VERSION}) is not compatible with the current API version (${versionInfo.api_version}). Please update the app to continue.`,
+        [
+          {
+            text: 'OK',
+            onPress: () => {
+              // In a real app, you would redirect to app store
+              console.log('User acknowledged force update requirement');
+            }
+          }
+        ],
+        { cancelable: false }
+      );
+    }
+    
+    return compatible;
+  } catch (error) {
+    console.error('Version check failed:', error);
+    // Allow app to continue on network errors
+    return true;
+  }
+};
+
 // Main App Component
 export default function App() {
   const [sharedFilters, setSharedFilters] = useState<FilterState>({
@@ -554,6 +596,11 @@ export default function App() {
     locationRadius: 25,
     city: 'all'
   });
+
+  // Version check on app startup
+  useEffect(() => {
+    checkApiCompatibility();
+  }, []);
 
   return (
     <DateFilterProvider>
@@ -572,6 +619,8 @@ export default function App() {
                   iconName = focused ? 'list' : 'list-outline';
                 } else if (route.name === 'Map') {
                   iconName = focused ? 'map' : 'map-outline';
+                } else if (route.name === 'Monitoring') {
+                  iconName = focused ? 'analytics' : 'analytics-outline';
                 } else {
                   iconName = 'help-outline';
                 }
@@ -586,6 +635,7 @@ export default function App() {
             <Tab.Screen name="List" component={ListStack} />
             <Tab.Screen name="Community" component={CommunityScreen} />
             <Tab.Screen name="Map" component={MapScreen} />
+            <Tab.Screen name="Monitoring" component={MonitoringScreen} />
           </Tab.Navigator>
         </NavigationContainer>
       </FilterContext.Provider>

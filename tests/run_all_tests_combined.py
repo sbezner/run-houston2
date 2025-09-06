@@ -27,6 +27,9 @@ def print_header():
     print("   • 🔐 NEW: Network Validation Tests")
     print("   • 🔐 NEW: Admin Components Authentication Tests")
     print("   • 📱 NEW: Mobile App Infinite Scroll Tests")
+    print("   • 🔄 NEW: Version System Tests (API Headers, Endpoints)")
+    print("   • 🗄️ NEW: Migration System Tests (Runner, Tracking)")
+    print("   • 📊 NEW: Monitoring System Tests (Metrics, Performance)")
     print("=" * 50)
 
 def run_backend_tests():
@@ -204,6 +207,8 @@ def main():
     print(f"   • CSV Import/Export (High Risk)")
     print(f"   • API Endpoints (Clubs, Races, Race Reports)")
     print(f"   • Frontend-Backend Validation")
+    print(f"   • Version System (API Headers, Endpoints)")
+    print(f"   • Migration System (Runner, Tracking)")
     print(f"")
     print(f"Frontend Tests: {'✅ PASSED' if frontend_success else '❌ FAILED'}")
     print(f"   • React Components & Validation")

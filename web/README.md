@@ -56,7 +56,9 @@ src/
 
 The web frontend connects to the Run Houston backend API:
 - **Base URL**: `http://localhost:8000` (development)
-- **Endpoints**: Races, admin authentication, race management
+- **API Path**: `/api/v1` (versioned API)
+- **Endpoints**: Races, admin authentication, race management, version info
+- **Version Headers**: All API responses include version headers for compatibility checking
 
 ## 📱 Responsive Breakpoints
 
@@ -77,6 +79,30 @@ The web frontend connects to the Run Houston backend API:
 - Functional components with hooks
 - CSS modules or styled-components for styling
 - ESLint for code consistency
+
+## 📊 Versioning
+
+The web frontend implements comprehensive versioning:
+
+### Version Information
+- **App Version**: Defined in `src/config.ts` (build-time)
+- **API Version**: Fetched from `/api/v1/version` endpoint (runtime)
+- **System Release**: Coordinated across all components
+- **Version Display**: Available on About page for debugging
+
+### Version Headers
+All API responses include:
+- `API-Version`: Current API version (e.g., "1.0.0")
+- `API-Path-Major`: API path major version (e.g., "v1")
+- `Schema-Version`: Database schema version (e.g., "20250906_0537")
+
+### Environment Variables
+```bash
+VITE_API_BASE=http://localhost:8000    # API base URL
+VITE_APP_VERSION=1.0.0                 # App version
+VITE_BUILD_HASH=abc123                 # Build hash
+VITE_BUILD_DATE=2025-09-06T10:37:00Z   # Build timestamp
+```
 
 ## 🚀 Deployment
 

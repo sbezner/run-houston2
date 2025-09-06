@@ -7,6 +7,7 @@ import psycopg
 from datetime import timedelta, date, time
 import csv
 import io
+import json
 from typing import Optional
 from dotenv import load_dotenv
 from bcrypt import hashpw, gensalt
@@ -15,10 +16,102 @@ from bcrypt import hashpw, gensalt
 load_dotenv()
 
 from .auth import verify_password, create_access_token, verify_token, ACCESS_TOKEN_EXPIRE_MINUTES
+
+def load_version_info():
+    """Load version information from system release manifest."""
+    try:
+        with open('releases/system-release.json', 'r') as f:
+            version_data = json.load(f)
+        return version_data
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        print(f"Warning: Could not load version info: {e}")
+        # Fallback values
+        return {
+            "api": "1.0.0",
+            "db_schema": "20250906_0537",
+            "api_path_major": "v1"
+        }
 from .models import (
     AdminLogin, AdminLoginResponse, RaceCreate, RaceUpdate, RaceResponse, 
     ClubCreate, ClubUpdate, ClubResponse, RaceReportCreate, RaceReportUpdate
 )
+
+# Monitoring and metrics
+import time
+from collections import defaultdict
+from datetime import datetime, timezone
+
+# Global metrics storage (in production, use Redis or similar)
+metrics = {
+    "version_usage": defaultdict(int),
+    "api_calls": defaultdict(int),
+    "error_counts": defaultdict(int),
+    "response_times": [],
+    "startup_time": datetime.now(timezone.utc),
+    "last_deployment": None
+}
+
+def track_api_call(endpoint: str, method: str, response_time: float, status_code: int):
+    """Track API call metrics."""
+    key = f"{method} {endpoint}"
+    metrics["api_calls"][key] += 1
+    metrics["response_times"].append({
+        "endpoint": endpoint,
+        "method": method,
+        "response_time": response_time,
+        "status_code": status_code,
+        "timestamp": datetime.now(timezone.utc).isoformat()
+    })
+    
+    # Keep only last 1000 response times
+    if len(metrics["response_times"]) > 1000:
+        metrics["response_times"] = metrics["response_times"][-1000:]
+
+def track_version_usage(version: str, client_type: str = "unknown"):
+    """Track version usage by client type."""
+    key = f"{version}_{client_type}"
+    metrics["version_usage"][key] += 1
+
+def track_error(error_type: str, endpoint: str):
+    """Track error occurrences."""
+    key = f"{error_type}_{endpoint}"
+    metrics["error_counts"][key] += 1
+
+def get_version_metrics():
+    """Get version usage metrics."""
+    return {
+        "version_usage": dict(metrics["version_usage"]),
+        "total_api_calls": sum(metrics["api_calls"].values()),
+        "total_errors": sum(metrics["error_counts"].values()),
+        "uptime_seconds": (datetime.now(timezone.utc) - metrics["startup_time"]).total_seconds(),
+        "last_deployment": metrics["last_deployment"]
+    }
+
+def get_performance_metrics():
+    """Get performance metrics."""
+    response_times = metrics["response_times"]
+    if not response_times:
+        return {"average_response_time": 0, "slowest_endpoints": []}
+    
+    avg_time = sum(rt["response_time"] for rt in response_times) / len(response_times)
+    
+    # Group by endpoint and calculate averages
+    endpoint_times = defaultdict(list)
+    for rt in response_times:
+        endpoint_times[rt["endpoint"]].append(rt["response_time"])
+    
+    slowest = []
+    for endpoint, times in endpoint_times.items():
+        avg_endpoint_time = sum(times) / len(times)
+        slowest.append({"endpoint": endpoint, "average_time": avg_endpoint_time})
+    
+    slowest.sort(key=lambda x: x["average_time"], reverse=True)
+    
+    return {
+        "average_response_time": avg_time,
+        "slowest_endpoints": slowest[:10],
+        "total_requests": len(response_times)
+    }
 
 app = FastAPI(title="Run Houston API", version="0.1")
 
@@ -36,6 +129,61 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Version headers middleware
+@app.middleware("http")
+async def add_version_headers(request: Request, call_next):
+    """Add version headers to all API responses."""
+    # Load version info
+    version_info = load_version_info()
+    
+    # Process the request
+    response = await call_next(request)
+    
+    # Add version headers
+    response.headers["API-Version"] = version_info.get("api", "1.0.0")
+    response.headers["API-Path-Major"] = version_info.get("api_path_major", "v1")
+    response.headers["Schema-Version"] = version_info.get("db_schema", "20250906_0537")
+    
+    return response
+
+@app.middleware("http")
+async def track_requests(request: Request, call_next):
+    """Track API requests for monitoring."""
+    start_time = time.time()
+    
+    # Extract client type from User-Agent or custom header
+    user_agent = request.headers.get("user-agent", "").lower()
+    client_type = "unknown"
+    if "mobile" in user_agent or "expo" in user_agent:
+        client_type = "mobile"
+    elif "mozilla" in user_agent or "chrome" in user_agent or "safari" in user_agent:
+        client_type = "web"
+    
+    response = await call_next(request)
+    
+    # Calculate response time
+    response_time = (time.time() - start_time) * 1000  # Convert to milliseconds
+    
+    # Track the API call
+    track_api_call(
+        endpoint=request.url.path,
+        method=request.method,
+        response_time=response_time,
+        status_code=response.status_code
+    )
+    
+    # Track version usage if this is a version endpoint
+    if request.url.path == "/api/v1/version":
+        version_info = load_version_info()
+        track_version_usage(version_info.get("api", "1.0.0"), client_type)
+    
+    # Track errors
+    if response.status_code >= 400:
+        error_type = "client_error" if response.status_code < 500 else "server_error"
+        track_error(error_type, request.url.path)
+    
+    return response
 
 # Database configuration from environment variables
 DATABASE_URL = os.getenv("DATABASE_URL")
@@ -109,7 +257,71 @@ def get_current_admin(credentials: HTTPAuthorizationCredentials = Depends(securi
 
 @app.get("/health")
 def health():
-    return {"ok": True}
+    """Health check endpoint with version information."""
+    version_info = load_version_info()
+    version_metrics = get_version_metrics()
+    
+    return {
+        "status": "healthy",
+        "api_version": version_info.get("api", "1.0.0"),
+        "schema_version": version_info.get("db_schema", "20250906_0537"),
+        "system_release": version_info.get("system_release", "2025.09.R1"),
+        "uptime_seconds": version_metrics["uptime_seconds"],
+        "total_api_calls": version_metrics["total_api_calls"],
+        "total_errors": version_metrics["total_errors"],
+        "last_deployment": version_metrics["last_deployment"]
+    }
+
+@app.get("/api/v1/version")
+def get_version():
+    """Get API version information for client compatibility checking."""
+    version_info = load_version_info()
+    
+    return {
+        "api_version": version_info.get("api", "1.0.0"),
+        "api_path_major": version_info.get("api_path_major", "v1"),
+        "schema_version": version_info.get("db_schema", "20250906_0537"),
+        "system_release": version_info.get("system_release", "2025.09.R1"),
+        "deprecated": False,
+        "sunset_date": None,
+        "min_supported_api_major": version_info.get("compatibility", {}).get("min_supported_api_major", 1),
+        "min_supported_clients": {
+            "mobile": "1.0.0+",
+            "web": "1.0.0+"
+        }
+    }
+
+@app.get("/api/v1/monitoring/version-metrics")
+def get_version_metrics_endpoint():
+    """Get version usage metrics for monitoring."""
+    return get_version_metrics()
+
+@app.get("/api/v1/monitoring/performance")
+def get_performance_metrics_endpoint():
+    """Get performance metrics for monitoring."""
+    return get_performance_metrics()
+
+@app.get("/api/v1/monitoring/health-detailed")
+def get_detailed_health():
+    """Get detailed health information including metrics."""
+    version_info = load_version_info()
+    version_metrics = get_version_metrics()
+    performance_metrics = get_performance_metrics()
+    
+    return {
+        "status": "healthy",
+        "api_version": version_info.get("api", "1.0.0"),
+        "schema_version": version_info.get("db_schema", "20250906_0537"),
+        "system_release": version_info.get("system_release", "2025.09.R1"),
+        "uptime_seconds": version_metrics["uptime_seconds"],
+        "total_api_calls": version_metrics["total_api_calls"],
+        "total_errors": version_metrics["total_errors"],
+        "average_response_time_ms": performance_metrics["average_response_time"],
+        "last_deployment": version_metrics["last_deployment"],
+        "version_usage": version_metrics["version_usage"],
+        "error_breakdown": dict(metrics["error_counts"]),
+        "api_call_breakdown": dict(metrics["api_calls"])
+    }
 
 @app.get("/races")
 def list_races():

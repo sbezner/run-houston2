@@ -63,7 +63,10 @@ def main():
         ("017_updated_api_service_test.py", "Updated API Service Test - New JWT Integration"),
         ("018_updated_hooks_test.py", "Updated Hooks Test - New JWT Integration"),
         ("019_admin_components_authentication_test.py", "Admin Components Authentication Test - New JWT Integration"),
-        ("021_bug_15_authentication_error_handling_test.py", "Bug #15 Authentication Error Handling Test - Critical Security Fix")
+        ("021_bug_15_authentication_error_handling_test.py", "Bug #15 Authentication Error Handling Test - Critical Security Fix"),
+        ("022_version_test.py", "Version System Test - API Headers, Endpoints, and Consistency"),
+        ("023_migration_test.py", "Migration System Test - Migration Runner and Tracking"),
+        ("024_monitoring_test.py", "Monitoring System Test - Metrics, Performance, and Health Tracking")
     ]
     
     passed = 0

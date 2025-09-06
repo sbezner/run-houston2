@@ -96,7 +96,8 @@ def start_services_in_windows(show_logs=False):
         ])
         
         # Wait a moment for Docker services to start
-        time.sleep(5)
+        print("⏳ Waiting for database and API to initialize...")
+        time.sleep(8)  # Increased wait time for versioning system to load
         
         # Start Mobile App in second window
         subprocess.Popen([
@@ -114,6 +115,12 @@ def start_services_in_windows(show_logs=False):
         print(f"🚀 All services started in separate windows {log_status}!")
         print("📱 Mobile app will use the updated IP address")
         print("🐳 Database & API are running in Docker (more reliable)")
+        print("📊 Versioning system is active - check monitoring dashboards!")
+        print("🔗 Quick links:")
+        print("   • Web Monitoring: http://localhost:5173/monitoring")
+        print("   • Web Home: http://localhost:5173")
+        print("   • API Health: http://localhost:8000/health")
+        print("   • API Version: http://localhost:8000/api/v1/version")
         
     except Exception as e:
         print(f"❌ Error starting services: {e}")

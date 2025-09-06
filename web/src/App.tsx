@@ -6,6 +6,7 @@ import { AboutPage } from './pages/AboutPage';
 import { ClubsPage } from './pages/ClubsPage';
 import { ReportsPage } from './pages/ReportsPage';
 import { ReportDetail } from './pages/ReportDetail';
+import MonitoringPage from './pages/MonitoringPage';
 
 // Main App Component
 function App() {
@@ -41,6 +42,7 @@ function App() {
             <Link to="/race_reports" style={{ color: '#5F6368', textDecoration: 'none', fontWeight: '500' }}>Race Reports</Link>
             <Link to="/clubs" style={{ color: '#5F6368', textDecoration: 'none', fontWeight: '500' }}>Clubs</Link>
             <Link to="/admin" style={{ color: '#5F6368', textDecoration: 'none', fontWeight: '500' }}>Admin</Link>
+            <Link to="/monitoring" style={{ color: '#5F6368', textDecoration: 'none', fontWeight: '500' }}>Monitoring</Link>
             <Link to="/about" style={{ color: '#5F6368', textDecoration: 'none', fontWeight: '500' }}>About</Link>
           </div>
         </nav>
@@ -54,6 +56,7 @@ function App() {
             <Route path="/race_reports" element={<ReportsPage />} />
             <Route path="/race_reports/:id" element={<ReportDetail />} />
             <Route path="/clubs" element={<ClubsPage />} />
+            <Route path="/monitoring" element={<MonitoringPage />} />
             <Route path="/about" element={<AboutPage />} />
           </Routes>
         </main>

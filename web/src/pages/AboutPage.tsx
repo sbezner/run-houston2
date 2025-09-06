@@ -1,4 +1,76 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { config } from '../config';
+
+interface VersionInfo {
+  api_version: string;
+  api_path_major: string;
+  schema_version: string;
+  system_release: string;
+}
+
+const VersionDisplay: React.FC = () => {
+  const [versionInfo, setVersionInfo] = useState<VersionInfo | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchVersionInfo = async () => {
+      try {
+        const response = await fetch(`${config.API_BASE}${config.API_PATH}/version`);
+        if (response.ok) {
+          const data = await response.json();
+          setVersionInfo(data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch version info:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchVersionInfo();
+  }, []);
+
+  return (
+    <div style={{
+      marginTop: '40px',
+      padding: '20px',
+      backgroundColor: '#f8f9fa',
+      borderRadius: '10px',
+      border: '1px solid #e9ecef'
+    }}>
+      <h3 style={{ fontSize: '18px', marginBottom: '15px', color: '#333', textAlign: 'center' }}>
+        System Information
+      </h3>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '15px' }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: '14px', color: '#666', marginBottom: '5px' }}>App Version</div>
+          <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#007AFF' }}>{config.APP_VERSION}</div>
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: '14px', color: '#666', marginBottom: '5px' }}>Build</div>
+          <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#007AFF' }}>{config.BUILD_HASH}</div>
+        </div>
+        {versionInfo && (
+          <>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: '14px', color: '#666', marginBottom: '5px' }}>API Version</div>
+              <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#007AFF' }}>{versionInfo.api_version}</div>
+            </div>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: '14px', color: '#666', marginBottom: '5px' }}>System Release</div>
+              <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#007AFF' }}>{versionInfo.system_release}</div>
+            </div>
+          </>
+        )}
+        {loading && (
+          <div style={{ textAlign: 'center', gridColumn: '1 / -1' }}>
+            <div style={{ fontSize: '14px', color: '#666' }}>Loading version info...</div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
 
 export const AboutPage: React.FC = () => (
   <div style={{ 
@@ -62,6 +134,8 @@ export const AboutPage: React.FC = () => (
           </p>
         </div>
       </div>
+      
+      <VersionDisplay />
     </div>
   </div>
 );
