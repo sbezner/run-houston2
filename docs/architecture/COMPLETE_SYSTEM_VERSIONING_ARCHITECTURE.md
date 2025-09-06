@@ -1,4 +1,4 @@
-# 🏗️ Complete System Versioning Architecture
+# 🏗️ Complete System Versioning Architecture - V1
 
 ## 📋 Executive Summary
 
@@ -189,6 +189,7 @@ UPDATE races SET race_flags = '{}' WHERE race_flags IS NULL;
 - **Rollback strategy**: Restore from snapshot or roll forward with hotfix
 - **Migration table safety**: Prevents re-running migrations regardless of file naming
 - **Concurrent safety**: Acquire a DB advisory lock during migration runs to prevent concurrent executors
+- **Migration runner**: Exit non-zero if advisory lock cannot be acquired
 
 ### **3. Web Frontend Versioning**
 
@@ -844,6 +845,20 @@ def track_version_metrics():
 - **Performance**: Track performance by version
 - **Error rates**: Monitor errors by version
 - **Adoption**: Track how quickly new versions are adopted
+
+### **CI/CD Automation**
+
+#### **Required CI Checks**
+- **OpenAPI validation**: Reject PRs that change OpenAPI without bumping API SemVer
+- **System Release manifest**: Auto-generate from component versions
+- **Compatibility report**: Auto-generate from contract tests
+- **Migration validation**: Ensure migrations can acquire advisory locks
+
+#### **Automated Dashboards**
+- **Version adoption**: Track client version distribution
+- **Deprecated endpoint traffic**: Monitor usage of deprecated APIs
+- **Migration status**: Track database migration health
+- **Version compatibility**: Monitor cross-component compatibility
 
 ---
 
