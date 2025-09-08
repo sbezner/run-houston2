@@ -10,7 +10,7 @@ This document outlines the complete production deployment strategy for Run Houst
 - **System Release**: 2025.09.R1 (CalVer + Release Tag)
 - **Database Schema**: 20250906_0537 (Timestamped)
 - **API Service**: 1.0.0 (Semantic Versioning)
-- **Web Frontend**: 1.0.0 (Semantic Versioning)
+- **Web Frontend**: 1.0.1 (Semantic Versioning)
 - **Mobile App**: 1.0.0 (Semantic Versioning)
 - **Target Deployment**: 2025-09-06
 
@@ -39,10 +39,11 @@ This document outlines the complete production deployment strategy for Run Houst
     Deprecation: 6-month notice for breaking changes
     
   Web Frontend:
-    Current: 1.0.0
+    Current: 1.0.1
     Build Version: VITE_APP_VERSION
     Version Display: About page with API version info
     Cache Busting: Automatic with build hash
+    Dual Apps: Main (runhouston.app) + Admin (admin.runhouston.app)
     
   Mobile App:
     Current: 1.0.0
@@ -228,7 +229,7 @@ This document outlines the complete production deployment strategy for Run Houst
     ADMIN_USERNAME: admin
     ADMIN_PASSWORD: @RunHouston9339
     ADMIN_SECRET: 67_SwDEkwSMTE2y2pzb817x-nDHJCG19Mb5pZmD3HQQ
-    CORS_ORIGINS: https://runhouston.app,https://www.runhouston.app
+    CORS_ORIGINS: https://runhouston.app,https://www.runhouston.app,https://admin.runhouston.app
     LOG_LEVEL: INFO
     ENVIRONMENT: production
     API_VERSION: v1.0.0
@@ -245,19 +246,41 @@ This document outlines the complete production deployment strategy for Run Houst
 
 ### Phase 3: Frontend Web Application (HIGH PRIORITY)
 
-#### 🌐 React Static Site
-- [ ] **Create Render Static Site**
+#### 🌐 Dual React Static Sites
+- [ ] **Create Main App Static Site**
   - **Service Type**: Static Site
-  - **Build Command**: `npm ci && npm run build`
-  - **Publish Directory**: `dist`
+  - **Build Command**: `npm ci && npm run build:main`
+  - **Publish Directory**: `dist/main`
   - **Node Version**: 18.x
+  - **Custom Domain**: `runhouston.app`
 
-- [ ] **Frontend Configuration**
+- [ ] **Create Admin App Static Site**
+  - **Service Type**: Static Site
+  - **Build Command**: `npm ci && npm run build:admin`
+  - **Publish Directory**: `dist/admin`
+  - **Node Version**: 18.x
+  - **Custom Domain**: `admin.runhouston.app`
+
+- [ ] **Main App Configuration**
   ```yaml
   Environment Variables:
     VITE_API_BASE: https://api.runhouston.app
+    VITE_APP_TYPE: main
     VITE_APP_NAME: Run Houston
-    VITE_APP_VERSION: 1.0.0
+    VITE_APP_VERSION: 1.0.1
+    VITE_ENVIRONMENT: production
+    VITE_BUILD_HASH: ${GIT_COMMIT_SHA}
+    VITE_BUILD_DATE: ${BUILD_TIMESTAMP}
+    VITE_API_VERSION: v1.0.0
+  ```
+
+- [ ] **Admin App Configuration**
+  ```yaml
+  Environment Variables:
+    VITE_API_BASE: https://api.runhouston.app
+    VITE_APP_TYPE: admin
+    VITE_APP_NAME: Run Houston Admin
+    VITE_APP_VERSION: 1.0.1
     VITE_ENVIRONMENT: production
     VITE_BUILD_HASH: ${GIT_COMMIT_SHA}
     VITE_BUILD_DATE: ${BUILD_TIMESTAMP}
@@ -265,10 +288,11 @@ This document outlines the complete production deployment strategy for Run Houst
   ```
 
 - [ ] **Build Optimization**
-  - [ ] Enable code splitting
+  - [ ] Enable code splitting for both apps
   - [ ] Configure asset optimization
   - [ ] Set up CDN caching headers
   - [ ] Implement service worker for offline support
+  - [ ] Shared code optimization between apps
 
 ### Phase 4: Mobile Application (MEDIUM PRIORITY)
 
@@ -349,9 +373,17 @@ This document outlines the complete production deployment strategy for Run Houst
 ## 🌍 Domain & SSL Configuration
 
 ### Domain Setup
-- [ ] **Primary Domain**: `runhouston.app`
-- [ ] **API Subdomain**: `api.runhouston.app`
-- [ ] **Admin Subdomain**: `admin.runhouston.app` (optional)
+- [ ] **Primary Domain**: `runhouston.app` (Main App)
+- [ ] **Admin Subdomain**: `admin.runhouston.app` (Admin + Monitoring)
+- [ ] **API Subdomain**: `api.runhouston.app` (Backend API)
+
+### Dual App Architecture Benefits
+- [ ] **Security**: Admin functionality isolated from public app
+- [ ] **Performance**: Smaller bundle sizes for each app
+- [ ] **Maintainability**: Clear separation of concerns
+- [ ] **Scalability**: Independent deployment and scaling
+- [ ] **Development**: Parallel development of public and admin features
+- [ ] **Rollback Safety**: Can rollback admin without affecting main app
 
 ### SSL/TLS Configuration
 - [ ] **Automatic HTTPS** (handled by Render)

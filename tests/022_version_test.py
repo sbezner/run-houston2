@@ -183,7 +183,7 @@ class TestSystemReleaseManifest:
         assert data["system_release"] == "2025.09.R1"
         assert data["api"] == "1.0.0"
         assert data["db_schema"] == "20250906_0537"
-        assert data["web"] == "1.0.0"
+        assert data["web"] == "1.0.1"
         assert data["mobile"] == "1.0.0"
         assert data["api_path_major"] == "v1"
         assert data["compatibility"]["min_supported_api_major"] == 1
@@ -211,12 +211,12 @@ class TestWebFrontendVersioning:
     
     def test_web_config_exists(self):
         """Test that web frontend config exists."""
-        config_path = project_root / "web" / "src" / "config.ts"
+        config_path = project_root / "web" / "shared" / "config.ts"
         assert config_path.exists(), "Web frontend config should exist"
     
     def test_web_config_contains_version_constants(self):
         """Test that web config contains version constants."""
-        config_path = project_root / "web" / "src" / "config.ts"
+        config_path = project_root / "web" / "shared" / "config.ts"
         
         with open(config_path, 'r') as f:
             content = f.read()
@@ -228,7 +228,7 @@ class TestWebFrontendVersioning:
     
     def test_web_about_page_has_version_display(self):
         """Test that web about page has version display."""
-        about_path = project_root / "web" / "src" / "pages" / "AboutPage.tsx"
+        about_path = project_root / "web" / "main" / "src" / "pages" / "AboutPage.tsx"
         assert about_path.exists(), "Web about page should exist"
         
         with open(about_path, 'r', encoding='utf-8') as f:

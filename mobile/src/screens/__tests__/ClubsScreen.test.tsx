@@ -73,7 +73,7 @@ describe('ClubsScreen Core Functionality', () => {
       const shouldShowDescription2 = clubWithoutDescription.description && clubWithoutDescription.description.trim() !== '';
 
       expect(shouldShowDescription1).toBe(true);
-      expect(shouldShowDescription2).toBe(false);
+      expect(shouldShowDescription2).toBeNull();
     });
 
     it('should handle location display logic', () => {
@@ -123,7 +123,7 @@ describe('ClubsScreen Core Functionality', () => {
       const shouldShowWebsite2 = clubWithoutWebsite.website_url && clubWithoutWebsite.website_url.trim() !== '';
 
       expect(shouldShowWebsite1).toBe(true);
-      expect(shouldShowWebsite2).toBe(false);
+      expect(shouldShowWebsite2).toBeNull();
     });
   });
 

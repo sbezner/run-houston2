@@ -80,13 +80,15 @@ def start_services_in_windows(show_logs=False):
             # Show all logs
             docker_cmd = 'docker compose up'
             expo_cmd = 'npx expo start'
-            web_cmd = 'npm run dev'
+            web_main_cmd = 'npm run dev:main'
+            web_admin_cmd = 'npm run dev:admin'
             print("📊 Starting services with full logs...")
         else:
             # Hide logs (default) but always show Expo QR code
             docker_cmd = 'docker compose up -d'
             expo_cmd = 'npx expo start'  # Always show QR code for mobile
-            web_cmd = 'npm run dev --silent'
+            web_main_cmd = 'npm run dev:main --silent'
+            web_admin_cmd = 'npm run dev:admin --silent'
             print("🔇 Starting services without logs (except mobile QR code)...")
         
         # Start Database & API together using Docker Compose
@@ -105,20 +107,26 @@ def start_services_in_windows(show_logs=False):
             f'cd "C:/Users/sbezn/OneDrive/Documents/vsCodeProjects/run-houston/mobile"; Write-Host "Starting Mobile App..." -ForegroundColor Blue; {expo_cmd}'
         ])
         
-        # Start Web Frontend in third window
+        # Start Main Web App (localhost:5173)
         subprocess.Popen([
             'powershell', '-NoExit', '-Command',
-            f'cd "C:/Users/sbezn/OneDrive/Documents/vsCodeProjects/run-houston/web"; Write-Host "Starting Web Frontend..." -ForegroundColor Magenta; {web_cmd}'
+            f'cd "C:/Users/sbezn/OneDrive/Documents/vsCodeProjects/run-houston/web"; Write-Host "Starting Main Web App (localhost:5173)..." -ForegroundColor Green; {web_main_cmd}'
+        ])
+        
+        # Start Admin Web App (localhost:5174)
+        subprocess.Popen([
+            'powershell', '-NoExit', '-Command',
+            f'cd "C:/Users/sbezn/OneDrive/Documents/vsCodeProjects/run-houston/web"; Write-Host "Starting Admin Web App (localhost:5174)..." -ForegroundColor Magenta; {web_admin_cmd}'
         ])
         
         log_status = "with logs" if show_logs else "without logs"
         print(f"🚀 All services started in separate windows {log_status}!")
         print("📱 Mobile app will use the updated IP address")
-        print("🐳 Database & API are running in Docker (more reliable)")
+        print("🐳 Database & API are running in Docker")
         print("📊 Versioning system is active - check monitoring dashboards!")
         print("🔗 Quick links:")
-        print("   • Web Monitoring: http://localhost:5173/monitoring")
-        print("   • Web Home: http://localhost:5173")
+        print("   • Main App: http://localhost:5173")
+        print("   • Admin App: http://localhost:5174")
         print("   • API Health: http://localhost:8000/health")
         print("   • API Version: http://localhost:8000/api/v1/version")
         

@@ -20,7 +20,7 @@ from .auth import verify_password, create_access_token, verify_token, ACCESS_TOK
 def load_version_info():
     """Load version information from system release manifest."""
     try:
-        with open('releases/system-release.json', 'r') as f:
+        with open('system-release.json', 'r') as f:
             version_data = json.load(f)
         return version_data
     except (FileNotFoundError, json.JSONDecodeError) as e:
@@ -282,6 +282,8 @@ def get_version():
         "api_path_major": version_info.get("api_path_major", "v1"),
         "schema_version": version_info.get("db_schema", "20250906_0537"),
         "system_release": version_info.get("system_release", "2025.09.R1"),
+        "web_version": version_info.get("web", "1.0.0"),
+        "mobile_version": version_info.get("mobile", "1.0.0"),
         "deprecated": False,
         "sunset_date": None,
         "min_supported_api_major": version_info.get("compatibility", {}).get("min_supported_api_major", 1),
@@ -753,6 +755,7 @@ def export_clubs_csv(request: Request, current_admin: dict = Depends(get_current
 def import_clubs_csv(
     request: Request,
     file: UploadFile = File(...),
+    dry_run: bool = Query(True, description="Dry run mode - validate without importing"),
     current_admin: dict = Depends(get_current_admin)
 ):
     """Import clubs from CSV."""
@@ -848,7 +851,16 @@ def import_clubs_csv(
         if errors:
             return {
                 "message": "Import validation failed",
-                "errors": errors
+                "errors": errors,
+                "dry_run": dry_run
+            }
+        
+        # If dry run, return validation results without importing
+        if dry_run:
+            return {
+                "message": f"Validation successful: {len(processed_data)} clubs ready to import",
+                "total": len(processed_data),
+                "dry_run": True
             }
         
         # Now process the validated data in a single database transaction
@@ -911,7 +923,12 @@ def import_clubs_csv(
             print(f"Transaction committed successfully")
         
         return {
-            "message": f"Import completed successfully: {imported_count} new clubs created, {updated_count} existing clubs updated"
+            "message": f"Import completed successfully: {imported_count} new clubs created, {updated_count} existing clubs updated",
+            "total": len(processed_data),
+            "succeeded": imported_count + updated_count,
+            "created": imported_count,
+            "updated": updated_count,
+            "dry_run": dry_run
         }
         
     except Exception as e:
@@ -1215,8 +1232,22 @@ def get_race_report(report_id: str, include_race: bool = False):
     return report
 
 @app.post("/race_reports", response_model=dict, status_code=201)
-def create_race_report(report: RaceReportCreate, request: Request, current_admin: dict = Depends(get_current_admin)):
+async def create_race_report(request: Request, current_admin: dict = Depends(get_current_admin)):
     """Create a new race report (admin only)."""
+    
+    try:
+        # Parse the request body
+        body = await request.json()
+        
+        # Convert string date to Python date object if needed
+        if 'race_date' in body and isinstance(body['race_date'], str):
+            body['race_date'] = date.fromisoformat(body['race_date'])
+        
+        # Validate with Pydantic
+        report = RaceReportCreate(**body)
+        
+    except Exception as e:
+        raise HTTPException(status_code=422, detail=f"Validation error: {str(e)}")
     
     # Handle race_id validation
     if report.race_id is not None:

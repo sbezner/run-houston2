@@ -1,8 +1,9 @@
 export default {
   testEnvironment: 'jsdom',
-  setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
+  setupFilesAfterEnv: ['<rootDir>/main/src/setupTests.ts'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
+    '^@shared/(.*)$': '<rootDir>/shared/$1',
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
   },
   transform: {
@@ -18,14 +19,18 @@ export default {
     }],
   },
   testMatch: [
-    '<rootDir>/src/**/__tests__/**/*.{ts,tsx}',
-    '<rootDir>/src/**/*.{test,spec}.{ts,tsx}'
+    '<rootDir>/main/src/**/__tests__/**/*.{ts,tsx}',
+    '<rootDir>/main/src/**/*.{test,spec}.{ts,tsx}',
+    '<rootDir>/admin/src/**/__tests__/**/*.{ts,tsx}',
+    '<rootDir>/admin/src/**/*.{test,spec}.{ts,tsx}'
   ],
   collectCoverageFrom: [
-    'src/**/*.{ts,tsx}',
-    '!src/**/*.d.ts',
-    '!src/main.tsx',
-    '!src/vite-env.d.ts'
+    'main/src/**/*.{ts,tsx}',
+    'admin/src/**/*.{ts,tsx}',
+    'shared/**/*.{ts,tsx}',
+    '!**/*.d.ts',
+    '!**/main.tsx',
+    '!**/vite-env.d.ts'
   ],
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov', 'html'],
