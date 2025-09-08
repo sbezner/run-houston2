@@ -25,5 +25,6 @@ export default defineConfig({
   },
   define: {
     'import.meta.env.VITE_APP_TYPE': '"main"'
-  }
+  },
+  cacheDir: 'node_modules/.vite/main'
 })
