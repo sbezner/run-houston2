@@ -71,9 +71,9 @@ function ListStack() {
         options={{ headerShown: false }}
       />
       <Stack.Screen 
-        name="Clubs" 
-        component={ClubsScreen}
-        options={{ title: 'Running Clubs' }}
+        name="Monitoring" 
+        component={MonitoringScreen}
+        options={{ title: 'Monitoring' }}
       />
       <Stack.Screen 
         name="Reports" 
@@ -343,8 +343,7 @@ function ResultsScreen({ navigation }: any) {
         activeFilterCount={getActiveFilterCount()}
         onDatePress={() => setDateSheetVisible(true)}
         onFiltersPress={() => setFilterSheetVisible(true)}
-        onNavigateToClubs={() => navigation.navigate('Clubs')}
-        onNavigateToReports={() => navigation.navigate('Reports')}
+        onNavigateToMonitoring={() => navigation.navigate('Monitoring')}
         onNavigateToAbout={() => navigation.navigate('About')}
         scrollY={scrollY}
       />
@@ -619,8 +618,10 @@ export default function App() {
                   iconName = focused ? 'list' : 'list-outline';
                 } else if (route.name === 'Map') {
                   iconName = focused ? 'map' : 'map-outline';
-                } else if (route.name === 'Monitoring') {
-                  iconName = focused ? 'analytics' : 'analytics-outline';
+                } else if (route.name === 'Clubs') {
+                  iconName = focused ? 'people' : 'people-outline';
+                } else if (route.name === 'RaceReports') {
+                  iconName = focused ? 'document-text' : 'document-text-outline';
                 } else {
                   iconName = 'help-outline';
                 }
@@ -633,9 +634,10 @@ export default function App() {
             })}
           >
             <Tab.Screen name="List" component={ListStack} />
-            <Tab.Screen name="Community" component={CommunityScreen} />
             <Tab.Screen name="Map" component={MapScreen} />
-            <Tab.Screen name="Monitoring" component={MonitoringScreen} />
+            <Tab.Screen name="Clubs" component={ClubsScreen} />
+            <Tab.Screen name="RaceReports" component={ReportsScreen} />
+            <Tab.Screen name="Community" component={CommunityScreen} />
           </Tab.Navigator>
         </NavigationContainer>
       </FilterContext.Provider>

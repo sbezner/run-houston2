@@ -8,8 +8,7 @@ interface ToolbarProps {
   activeFilterCount: number;
   onDatePress: () => void;
   onFiltersPress: () => void;
-  onNavigateToClubs: () => void;
-  onNavigateToReports: () => void;
+  onNavigateToMonitoring: () => void;
   onNavigateToAbout: () => void;
   scrollY: Animated.Value;
 }
@@ -19,8 +18,7 @@ export function Toolbar({
   activeFilterCount, 
   onDatePress, 
   onFiltersPress,
-  onNavigateToClubs,
-  onNavigateToReports,
+  onNavigateToMonitoring,
   onNavigateToAbout,
   scrollY 
 }: ToolbarProps) {
@@ -36,18 +34,15 @@ export function Toolbar({
     if (Platform.OS === 'ios') {
       ActionSheetIOS.showActionSheetWithOptions(
         {
-          options: ['Cancel', 'Clubs', 'Race Reports', 'About'],
+          options: ['Cancel', 'Monitoring', 'About'],
           cancelButtonIndex: 0,
         },
         (buttonIndex) => {
           switch (buttonIndex) {
             case 1:
-              onNavigateToClubs();
+              onNavigateToMonitoring();
               break;
             case 2:
-              onNavigateToReports();
-              break;
-            case 3:
               onNavigateToAbout();
               break;
           }
@@ -59,8 +54,7 @@ export function Toolbar({
         'More Options',
         'Choose an option:',
         [
-          { text: 'Clubs', onPress: onNavigateToClubs },
-          { text: 'Race Reports', onPress: onNavigateToReports },
+          { text: 'Monitoring', onPress: onNavigateToMonitoring },
           { text: 'About', onPress: onNavigateToAbout },
           { text: 'Cancel', style: 'cancel' },
         ]
