@@ -1307,25 +1307,153 @@
     2. Button is unnecessary since race name is required
     3. Could potentially confuse users about field requirements
   - **Environment**: 
-     - **OS**: Windows 10
-     - **Browser**: Any modern browser
-     - **Python Version**: 3.11.9
-     - **Database**: PostgreSQL
-     - **Other Dependencies**: React, TypeScript, FastAPI
-   - **Screenshots/Logs**: Race name field showing unnecessary clear button
-   - **Suggested Code Locations**:
-     - **Files to investigate**: `web/src/components/RaceForm.tsx`, `web/src/components/admin/CreateRaceModal.tsx`
-     - **Key functions/methods**: Race name field rendering, form field components
-     - **Database tables/columns**: N/A (frontend UI issue)
-     - **API endpoints**: N/A (frontend UI issue)
-   - **Assigned To**: Developer
-   - **Notes**: This is a minor UI cleanup issue. The clear button serves no purpose on a required field and should be removed for cleaner interface design.
-   - **Related Issues**: UI consistency, form field design
-   - **User Impact**: Low - affects visual cleanliness and potential user confusion
-   - **Fix Applied**: 2025-01-27
-   - **Solution**: Added CSS styles to hide browser default clear buttons, added autoComplete="off" and spellCheck="false" attributes to prevent browser interference
-   - **Files Changed**: `web/src/components/RaceForm.tsx`, `tests/013_bug_1_comprehensive_test.py`
-   - **Status**: Fixed
+    - **OS**: Windows 10
+    - **Browser**: Any modern browser
+    - **Python Version**: 3.11.9
+    - **Database**: PostgreSQL
+    - **Other Dependencies**: React, TypeScript, FastAPI
+  - **Screenshots/Logs**: Race name field showing unnecessary clear button
+  - **Suggested Code Locations**:
+    - **Files to investigate**: `web/src/components/RaceForm.tsx`, `web/src/components/admin/CreateRaceModal.tsx`
+    - **Key functions/methods**: Race name field rendering, form field components
+    - **Database tables/columns**: N/A (frontend UI issue)
+    - **API endpoints**: N/A (frontend UI issue)
+  - **Assigned To**: Developer
+  - **Notes**: This is a minor UI cleanup issue. The clear button serves no purpose on a required field and should be removed for cleaner interface design.
+  - **Related Issues**: UI consistency, form field design
+  - **User Impact**: Low - affects visual cleanliness and potential user confusion
+  - **Fix Applied**: 2025-01-27
+  - **Solution**: Added CSS styles to hide browser default clear buttons, added autoComplete="off" and spellCheck="false" attributes to prevent browser interference
+  - **Files Changed**: `web/src/components/RaceForm.tsx`, `tests/013_bug_1_comprehensive_test.py`
+  - **Status**: Fixed
+
+**Bug #32**
+- [ ] **Bug Title**: Migration system early return bug - only processes first migration instead of all migrations
+  - **Date Reported**: 2025-09-08
+  - **Reporter**: Developer
+  - **Severity**: Medium
+  - **Status**: Open
+  - **Priority**: P2
+  - **Description**: The migration system has a bug where it returns after processing the first migration instead of continuing through all migration files. This prevents the system from processing all migrations in chronological order as designed.
+  - **Steps to Reproduce**: 
+    1. Run migration system: `python scripts/migrate.py --env dev --dry-run --verbose`
+    2. Observe that only the first migration is processed
+    3. Notice the system stops after processing `20250906_0001_init.sql`
+    4. Check that other migration files exist but are not processed
+  - **Expected Behavior**: 
+    1. Migration system should process ALL migration files in chronological order
+    2. System should continue through all 18 migration files
+    3. Each migration should be checked against the `schema_migrations` table
+    4. Applied migrations should be skipped, new ones should be applied
+  - **Actual Behavior**: 
+    1. Migration system only processes the first migration file
+    2. System returns early after first migration instead of continuing
+    3. Other migration files are ignored
+    4. Migration tracking doesn't work properly
+  - **Environment**: 
+    - **OS**: Windows 10
+    - **Python Version**: 3.11.9
+    - **Database**: PostgreSQL
+    - **Other Dependencies**: Docker, psycopg
+  - **Screenshots/Logs**: Migration output showing only first migration processed
+  - **Suggested Code Locations**:
+    - **Files to investigate**: `scripts/migrate.py`
+    - **Key functions/methods**: `run_migrations()` function, migration processing loop
+    - **Database tables/columns**: `schema_migrations` table
+    - **API endpoints**: N/A (migration system issue)
+  - **Assigned To**: Developer
+  - **Notes**: This is a critical migration system bug that prevents proper database schema management. The issue is in the `run_migrations()` function where there's an early return statement inside the migration processing loop instead of outside it.
+  - **Related Issues**: Database migration system, schema management
+  - **User Impact**: Medium - affects database migration functionality and schema management
+  - **Fix Required**: Move the return statement outside the migration processing loop in `scripts/migrate.py`
+  - **Status**: Open
+
+**Bug #33**
+- [x] **Bug Title**: Missing validate_distance_array function in migration scripts
+  - **Date Reported**: 2025-09-08
+  - **Reporter**: Developer
+  - **Severity**: High
+  - **Status**: Fixed
+  - **Priority**: P1
+  - **Description**: The migration scripts are missing the `validate_distance_array` function that is referenced by the `distance_check` constraint in the races table. This function exists in the current database but was never added to any migration script.
+  - **Steps to Reproduce**: 
+    1. Check current database for `validate_distance_array` function
+    2. Review all migration files in `infra/initdb/`
+    3. Confirm function exists in database but not in any migration script
+    4. Notice that fresh database creation will fail due to missing function
+  - **Expected Behavior**: 
+    1. All functions used by constraints should be created in migration scripts
+    2. Migration scripts should create a complete, functional database schema
+    3. Fresh database should match the current production database schema
+  - **Actual Behavior**: 
+    1. `validate_distance_array` function exists in current database
+    2. Function is missing from all migration scripts
+    3. Fresh database creation will fail when constraint tries to reference missing function
+  - **Environment**: 
+    - **OS**: Windows 10
+    - **Python Version**: 3.11.9
+    - **Database**: PostgreSQL
+    - **Other Dependencies**: Docker, psycopg
+  - **Screenshots/Logs**: Function exists in database but missing from migration scripts
+  - **Suggested Code Locations**:
+    - **Files to investigate**: All migration files in `infra/initdb/`
+    - **Key functions/methods**: Need to create `validate_distance_array` function
+    - **Database tables/columns**: `races` table, `distance_check` constraint
+    - **API endpoints**: N/A (database schema issue)
+  - **Assigned To**: Developer
+  - **Notes**: This is a critical schema completeness issue. The migration scripts must create the `validate_distance_array` function before the `distance_check` constraint is applied. **COMBINE WITH BUG #34**: User wants to combine this bug with Bug #34 and the source column fix into a single migration script `20250908_2026_fix_missing_schema_elements.sql` that addresses all missing schema elements at once.
+  - **Related Issues**: Database migration completeness, schema consistency
+  - **Dependencies**: Bug #34 (constraint failure) depends on this bug being fixed first
+  - **User Impact**: High - prevents creation of fresh databases from migration scripts
+  - **Fix Required**: Add migration to create `validate_distance_array` function (combine with Bug #34 and source column fix)
+  - **Fix Applied**: 2025-09-09
+  - **Solution**: Created complete database schema script `20250909_2026_complete_database_schema.sql` that includes the `validate_distance_array()` function and all other schema elements
+  - **Files Changed**: `infra/initdb/20250909_2026_complete_database_schema.sql`
+  - **Status**: Fixed
+
+**Bug #34**
+- [x] **Bug Title**: distance_check constraint references missing function - will fail on fresh database
+  - **Date Reported**: 2025-09-08
+  - **Reporter**: Developer
+  - **Severity**: High
+  - **Status**: Fixed
+  - **Priority**: P1
+  - **Description**: The `distance_check` constraint in the races table references the `validate_distance_array` function, but this function is not created by any migration script. When creating a fresh database, the constraint will fail because the function doesn't exist.
+  - **Steps to Reproduce**: 
+    1. Create a fresh database
+    2. Run all migration scripts in order
+    3. Observe that the `distance_check` constraint fails to create
+    4. Check that `validate_distance_array` function is missing
+    5. Notice that races table creation fails due to missing function reference
+  - **Expected Behavior**: 
+    1. All constraints should be created successfully
+    2. Functions referenced by constraints should exist before constraint creation
+    3. Fresh database should match the current production database schema
+  - **Actual Behavior**: 
+    1. `distance_check` constraint fails to create on fresh database
+    2. Constraint references `validate_distance_array` function that doesn't exist
+    3. Races table creation fails due to constraint failure
+  - **Environment**: 
+    - **OS**: Windows 10
+    - **Python Version**: 3.11.9
+    - **Database**: PostgreSQL
+    - **Other Dependencies**: Docker, psycopg
+  - **Screenshots/Logs**: Database constraint creation errors, missing function errors
+  - **Suggested Code Locations**:
+    - **Files to investigate**: `infra/initdb/20250906_0001_init.sql` (races table creation)
+    - **Key functions/methods**: `distance_check` constraint, `validate_distance_array` function
+    - **Database tables/columns**: `races` table, `distance_check` constraint
+    - **API endpoints**: N/A (database schema issue)
+  - **Assigned To**: Developer
+  - **Notes**: This constraint failure is a direct result of Bug #33 (missing function). Both issues must be fixed together. **COMBINE WITH BUG #33**: User wants to combine this bug with Bug #33 and the source column fix into a single migration script `20250908_2026_fix_missing_schema_elements.sql` that addresses all missing schema elements at once.
+  - **Related Issues**: Bug #33 (missing function), database migration completeness
+  - **Dependencies**: Depends on Bug #33 being fixed first (function must exist before constraint)
+  - **User Impact**: High - prevents creation of fresh databases from migration scripts
+  - **Fix Required**: Create `validate_distance_array` function before `distance_check` constraint (combine with Bug #33 and source column fix)
+  - **Fix Applied**: 2025-09-09
+  - **Solution**: Created complete database schema script `20250909_2026_complete_database_schema.sql` that includes the `validate_distance_array()` function before the `distance_check` constraint, ensuring proper dependency order
+  - **Files Changed**: `infra/initdb/20250909_2026_complete_database_schema.sql`
+  - **Status**: Fixed
 
 ---
 
