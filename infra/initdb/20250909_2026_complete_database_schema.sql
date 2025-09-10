@@ -173,8 +173,6 @@ CREATE UNIQUE INDEX races_pkey ON races USING btree (id);
 -- Clubs table indexes
 CREATE UNIQUE INDEX clubs_pkey ON clubs USING btree (id);
 CREATE INDEX clubs_name_search_ci ON clubs USING btree (lower(club_name));
-CREATE UNIQUE INDEX clubs_uniq_name_location_ci ON clubs 
-    USING btree (lower(club_name), COALESCE(lower(location), ''));
 
 -- Race reports table indexes
 CREATE UNIQUE INDEX race_reports_pkey ON race_reports USING btree (id);

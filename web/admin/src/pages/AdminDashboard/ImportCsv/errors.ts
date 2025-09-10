@@ -69,6 +69,9 @@ export type ValidationResult = {
   errors: ImportError[];
   warnings: ImportError[];
   stats: ImportStats;
+  willUpdate: RaceUpsert[];
+  willCreate: RaceUpsert[];
+  willSkip: RaceUpsert[];
 };
 
 export type HeaderValidationResult = {

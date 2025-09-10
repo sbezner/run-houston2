@@ -656,6 +656,68 @@ def admin_list_clubs(request: Request, current_admin: dict = Depends(get_current
         return [ClubResponse(id=r[0], club_name=r[1], location=r[2], website_url=r[3], description=r[4]) for r in rows]
 
 
+@app.post("/admin/clubs/validate-ids")
+def validate_club_ids(request: Request, club_ids: list[int], current_admin: dict = Depends(get_current_admin)):
+    """Validate which club IDs exist in the database (admin only)."""
+    if not club_ids:
+        return {"existing_ids": [], "missing_ids": []}
+    
+    with get_conn() as conn, conn.cursor() as cur:
+        # Convert list to tuple for SQL IN clause
+        ids_tuple = tuple(club_ids)
+        cur.execute(f"SELECT id FROM clubs WHERE id IN {ids_tuple}")
+        existing_ids = [row[0] for row in cur.fetchall()]
+        missing_ids = [id for id in club_ids if id not in existing_ids]
+        
+        return {
+            "existing_ids": existing_ids,
+            "missing_ids": missing_ids
+        }
+
+
+@app.post("/admin/races/validate-ids")
+def validate_race_ids(request: Request, race_ids: list[int], current_admin: dict = Depends(get_current_admin)):
+    """Validate which race IDs exist in the database (admin only)."""
+    if not race_ids:
+        return {"existing_ids": [], "missing_ids": []}
+    
+    with get_conn() as conn, conn.cursor() as cur:
+        # Convert list to tuple for SQL IN clause
+        if len(race_ids) == 1:
+            # Handle single ID case
+            cur.execute("SELECT id FROM races WHERE id = %s", (race_ids[0],))
+        else:
+            # Handle multiple IDs case
+            ids_tuple = tuple(race_ids)
+            cur.execute(f"SELECT id FROM races WHERE id IN {ids_tuple}")
+        existing_ids = [row[0] for row in cur.fetchall()]
+        missing_ids = [id for id in race_ids if id not in existing_ids]
+        
+        return {
+            "existing_ids": existing_ids,
+            "missing_ids": missing_ids
+        }
+
+
+@app.post("/admin/race_reports/validate-ids")
+def validate_race_report_ids(request: Request, report_ids: list[int], current_admin: dict = Depends(get_current_admin)):
+    """Validate which race report IDs exist in the database (admin only)."""
+    if not report_ids:
+        return {"existing_ids": [], "missing_ids": []}
+    
+    with get_conn() as conn, conn.cursor() as cur:
+        # Convert list to tuple for SQL IN clause
+        ids_tuple = tuple(report_ids)
+        cur.execute(f"SELECT id FROM race_reports WHERE id IN {ids_tuple}")
+        existing_ids = [row[0] for row in cur.fetchall()]
+        missing_ids = [id for id in report_ids if id not in existing_ids]
+        
+        return {
+            "existing_ids": existing_ids,
+            "missing_ids": missing_ids
+        }
+
+
 @app.post("/clubs", response_model=ClubResponse)
 def create_club(club: ClubCreate, request: Request, current_admin: dict = Depends(get_current_admin)):
     """Create a new club (admin only)."""
@@ -755,7 +817,6 @@ def export_clubs_csv(request: Request, current_admin: dict = Depends(get_current
 def import_clubs_csv(
     request: Request,
     file: UploadFile = File(...),
-    dry_run: bool = Query(True, description="Dry run mode - validate without importing"),
     current_admin: dict = Depends(get_current_admin)
 ):
     """Import clubs from CSV."""
@@ -851,16 +912,7 @@ def import_clubs_csv(
         if errors:
             return {
                 "message": "Import validation failed",
-                "errors": errors,
-                "dry_run": dry_run
-            }
-        
-        # If dry run, return validation results without importing
-        if dry_run:
-            return {
-                "message": f"Validation successful: {len(processed_data)} clubs ready to import",
-                "total": len(processed_data),
-                "dry_run": True
+                "errors": errors
             }
         
         # Now process the validated data in a single database transaction
@@ -890,23 +942,13 @@ def import_clubs_csv(
                             updated_count += 1
                             print(f"UPDATE successful for ID {club_id_int}")
                         else:
-                            print(f"ID {club_id_int} not found, creating new club instead")
-                            # ID not found, create new club
-                            cur.execute("""
-                                INSERT INTO clubs (club_name, location, website_url, description) 
-                                VALUES (%s, %s, %s, %s)
-                            """, (club_name, location, website_url, description))
-                            imported_count += 1
-                            print(f"INSERT successful for new club (was ID {club_id_int})")
+                            print(f"ID {club_id_int} not found, skipping this row")
+                            # ID not found, skip this row (don't create new club)
+                            failed_count += 1
                     except ValueError:
-                        print(f"Invalid ID '{club_id}', creating new club")
-                        # Invalid ID, create new club
-                        cur.execute("""
-                            INSERT INTO clubs (club_name, location, website_url, description) 
-                            VALUES (%s, %s, %s, %s)
-                        """, (club_name, location, website_url, description))
-                        imported_count += 1
-                        print(f"INSERT successful for new club (invalid ID)")
+                        print(f"Invalid ID '{club_id}', skipping this row")
+                        # Invalid ID, skip this row
+                        failed_count += 1
                 else:
                     print(f"No ID provided, creating new club")
                     # No ID or blank ID, create new club
@@ -927,8 +969,7 @@ def import_clubs_csv(
             "total": len(processed_data),
             "succeeded": imported_count + updated_count,
             "created": imported_count,
-            "updated": updated_count,
-            "dry_run": dry_run
+            "updated": updated_count
         }
         
     except Exception as e:
@@ -1404,7 +1445,6 @@ def delete_race_report(report_id: str, request: Request, current_admin: dict = D
 def import_race_reports_csv(
     request: Request,
     file: UploadFile = File(...),
-    dry_run: bool = Query(True, description="Dry run mode - validate without importing"),
     current_admin: dict = Depends(get_current_admin)
 ):
     """Import race reports from CSV (admin only)."""
@@ -1569,15 +1609,7 @@ def import_race_reports_csv(
         if errors:
             return {
                 "message": "Import validation failed",
-                "errors": errors,
-                "dry_run": dry_run
-            }
-        
-        if dry_run:
-            return {
-                "message": "Dry run validation successful",
-                "rows_to_process": len(processed_data),
-                "dry_run": dry_run
+                "errors": errors
             }
         
         # Process import
@@ -1639,8 +1671,7 @@ def import_race_reports_csv(
             conn.commit()
         
         return {
-            "message": f"Import completed successfully: {imported_count} new reports created, {updated_count} existing reports updated",
-            "dry_run": dry_run
+            "message": f"Import completed successfully: {imported_count} new reports created, {updated_count} existing reports updated"
         }
         
     except Exception as e:

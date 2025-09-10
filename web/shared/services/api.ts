@@ -53,7 +53,19 @@ export const api = {
       if (response.status === 401) {
         throw new Error('Your session has expired. Please log in again.');
       }
-      throw new Error(`HTTP error! status: ${response.status}`);
+      
+      // Try to get the error message from the response
+      let errorMessage = `HTTP error! status: ${response.status}`;
+      try {
+        const errorData = await response.json();
+        if (errorData.detail) {
+          errorMessage = errorData.detail;
+        }
+      } catch (e) {
+        // If we can't parse the error response, use the default message
+      }
+      
+      throw new Error(errorMessage);
     }
     
     return response.json();
@@ -141,6 +153,10 @@ export const races = {
     const formData = new FormData();
     formData.append('file', file);
     return api.post('/races/import', formData, token);
+  },
+  
+  validateIds: async (raceIds: number[], token: string) => {
+    return api.post('/admin/races/validate-ids', raceIds, token);
   }
 };
 
@@ -190,10 +206,9 @@ export const clubs = {
     return response.blob();
   },
   
-  importCsv: async (file: File, token: string, dryRun: boolean = true) => {
+  importCsv: async (file: File, token: string) => {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('dry_run', dryRun.toString());
     
     const headers: Record<string, string> = {};
     if (token) {
@@ -211,6 +226,10 @@ export const clubs = {
     }
     
     return response.json();
+  },
+  
+  validateIds: async (clubIds: number[], token: string) => {
+    return api.post('/admin/clubs/validate-ids', clubIds, token);
   }
 };
 
@@ -253,10 +272,9 @@ export const raceReports = {
     return response.blob();
   },
   
-  importCsv: async (file: File, token: string, dryRun: boolean = true) => {
+  importCsv: async (file: File, token: string) => {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('dry_run', dryRun.toString());
     
     const headers: Record<string, string> = {};
     if (token) {
@@ -274,6 +292,10 @@ export const raceReports = {
     }
     
     return response.json();
+  },
+  
+  validateIds: async (reportIds: number[], token: string) => {
+    return api.post('/admin/race_reports/validate-ids', reportIds, token);
   }
 };
 

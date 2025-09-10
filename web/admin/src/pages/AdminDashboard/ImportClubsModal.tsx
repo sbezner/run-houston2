@@ -2,6 +2,9 @@ import React, { useState, useCallback } from 'react';
 import { clubs } from '@shared/services/api';
 import { auth } from '@shared/services/auth';
 import { Alert } from '@shared/components/Alert';
+import { parseCsvFile } from './ImportClubs/parseCsv';
+import { validateAndTransform } from './ImportClubs/validation';
+import type { ClubUpsert, ImportError } from './ImportClubs/errors';
 
 interface ImportClubsModalProps {
   onClose: () => void;
@@ -12,9 +15,14 @@ export const ImportClubsModal: React.FC<ImportClubsModalProps> = ({
   onClose,
   onImportComplete
 }) => {
-  const [importState, setImportState] = useState<'idle' | 'validating' | 'validated' | 'importing' | 'done' | 'error'>('idle');
+  const [importState, setImportState] = useState<'idle' | 'parsed' | 'validated' | 'importing' | 'done' | 'error'>('idle');
   const [csvFile, setCsvFile] = useState<File | null>(null);
-  const [validationResult, setValidationResult] = useState<any>(null);
+  const [allValidRows, setAllValidRows] = useState<ClubUpsert[]>([]);
+  const [importErrors, setImportErrors] = useState<ImportError[]>([]);
+  const [importWarnings, setImportWarnings] = useState<ImportError[]>([]);
+  const [willUpdate, setWillUpdate] = useState<ClubUpsert[]>([]);
+  const [willCreate, setWillCreate] = useState<ClubUpsert[]>([]);
+  const [willSkip, setWillSkip] = useState<ClubUpsert[]>([]);
   const [importProgress, setImportProgress] = useState({ total: 0, done: 0, succeeded: 0, failed: 0, created: 0, updated: 0 });
   const [error, setError] = useState<string | null>(null);
 
@@ -43,29 +51,53 @@ export const ImportClubsModal: React.FC<ImportClubsModalProps> = ({
     }
   }, []);
 
-  const handleValidate = useCallback(async () => {
+  const handleParse = useCallback(async () => {
     if (!csvFile) return;
 
-    setImportState('validating');
-    setError(null);
-
     try {
-      const token = auth.getToken();
-      if (!token) {
-        throw new Error('No authentication token');
+      setImportState('parsed');
+      const result = await parseCsvFile(csvFile);
+      
+      if (result.headerErrors.length > 0) {
+        setImportErrors(result.headerErrors.map(msg => ({
+          rowIndex: 0,
+          field: 'row',
+          code: 'HEADER_MISSING',
+          message: msg
+        })));
+        setImportState('error');
+        return;
       }
 
-      const result = await clubs.importCsv(csvFile, token, true); // dry run
-      setValidationResult(result);
-      setImportState('validated');
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Validation failed');
+      // Validate all rows first
+      const fullValidation = await validateAndTransform(result.rows);
+      
+      // Store all valid rows for import
+      setAllValidRows(fullValidation.valid);
+      setImportErrors(fullValidation.errors);
+      setImportWarnings(fullValidation.warnings);
+      setWillUpdate(fullValidation.willUpdate);
+      setWillCreate(fullValidation.willCreate);
+      setWillSkip(fullValidation.willSkip);
+      
+      if (fullValidation.errors.length === 0) {
+        setImportState('validated');
+      } else {
+        setImportState('error');
+      }
+    } catch (error: any) {
+      setImportErrors([{
+        rowIndex: 0,
+        field: 'row',
+        code: 'PARSE_ERROR',
+        message: error.message
+      }]);
       setImportState('error');
     }
   }, [csvFile]);
 
   const handleImport = useCallback(async () => {
-    if (!csvFile) return;
+    if (!allValidRows.length) return;
 
     setImportState('importing');
     setError(null);
@@ -76,27 +108,70 @@ export const ImportClubsModal: React.FC<ImportClubsModalProps> = ({
         throw new Error('No authentication token');
       }
 
-      const result = await clubs.importCsv(csvFile, token, false); // real import
-      setImportProgress({ 
-        total: result.total || 0, 
-        done: result.total || 0, 
-        succeeded: result.succeeded || 0, 
-        failed: result.failed || 0,
-        created: result.created || 0,
-        updated: result.updated || 0
-      });
+      let succeeded = 0;
+      let failed = 0;
+      let created = 0;
+      let updated = 0;
+
+      // Process each club individually
+      for (let i = 0; i < allValidRows.length; i++) {
+        const club = allValidRows[i];
+        
+        try {
+          if (club.id) {
+            // Update existing club
+            await clubs.update(club.id, {
+              club_name: club.club_name,
+              location: club.location,
+              website_url: club.website_url,
+              description: club.description
+            }, token);
+            updated++;
+          } else {
+            // Create new club
+            await clubs.create({
+              club_name: club.club_name,
+              location: club.location,
+              website_url: club.website_url,
+              description: club.description
+            }, token);
+            created++;
+          }
+          succeeded++;
+        } catch (err) {
+          console.error(`Failed to process club ${club.club_name}:`, err);
+          failed++;
+        }
+
+        // Update progress
+        setImportProgress({
+          total: allValidRows.length,
+          done: i + 1,
+          succeeded,
+          failed,
+          created,
+          updated
+        });
+      }
+
       setImportState('done');
       onImportComplete();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Import failed');
       setImportState('error');
     }
-  }, [csvFile, onImportComplete]);
+  }, [allValidRows, onImportComplete]);
+
 
   const resetImport = useCallback(() => {
     setImportState('idle');
     setCsvFile(null);
-    setValidationResult(null);
+    setAllValidRows([]);
+    setImportErrors([]);
+    setImportWarnings([]);
+    setWillUpdate([]);
+    setWillCreate([]);
+    setWillSkip([]);
     setImportProgress({ total: 0, done: 0, succeeded: 0, failed: 0, created: 0, updated: 0 });
     setError(null);
   }, []);
@@ -112,6 +187,51 @@ export const ImportClubsModal: React.FC<ImportClubsModalProps> = ({
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+  };
+
+  const downloadIssues = () => {
+    if (!csvFile) return;
+    
+    // Read the original CSV file and create issues report
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const csvText = e.target?.result as string;
+      const lines = csvText.split('\n');
+      const header = lines[0];
+      
+      // Create issues CSV with original data plus error info
+      const issuesData = [header + ',error_code,error_message'];
+      
+      // Add error rows
+      importErrors.forEach(error => {
+        const lineIndex = error.rowIndex - 1; // Convert to 0-based index
+        if (lineIndex < lines.length) {
+          const originalLine = lines[lineIndex];
+          issuesData.push(`${originalLine},${error.code},"${error.message}"`);
+        }
+      });
+      
+      // Add warning rows
+      importWarnings.forEach(warning => {
+        const lineIndex = warning.rowIndex - 1; // Convert to 0-based index
+        if (lineIndex < lines.length) {
+          const originalLine = lines[lineIndex];
+          issuesData.push(`${originalLine},${warning.code},"${warning.message}"`);
+        }
+      });
+      
+      const csvContent = issuesData.join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'clubs_issues.csv';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    };
+    reader.readAsText(csvFile);
   };
 
   const renderContent = () => {
@@ -174,7 +294,7 @@ export const ImportClubsModal: React.FC<ImportClubsModalProps> = ({
                   Selected file: <strong>{csvFile.name}</strong> ({(csvFile.size / 1024 / 1024).toFixed(2)} MB)
                 </p>
                 <button
-                  onClick={handleValidate}
+                  onClick={handleParse}
                   style={{
                     backgroundColor: '#007AFF',
                     color: 'white',
@@ -185,80 +305,310 @@ export const ImportClubsModal: React.FC<ImportClubsModalProps> = ({
                     fontSize: '14px'
                   }}
                 >
-                  Validate CSV
+                  Parse CSV
                 </button>
               </div>
             )}
           </div>
         );
 
-      case 'validating':
+      case 'parsed':
         return (
           <div style={baseStyle}>
             <div style={{ textAlign: 'center', padding: '40px' }}>
               <div style={{ fontSize: '18px', color: '#374151', marginBottom: '10px' }}>
-                Validating CSV file...
+                Parsing CSV file...
               </div>
               <div style={{ fontSize: '14px', color: '#6b7280' }}>
-                Please wait while we validate your file.
+                Please wait while we parse and validate your file.
               </div>
             </div>
           </div>
         );
 
       case 'validated':
+        const totalRows = allValidRows.length + importErrors.length + importWarnings.length;
+        const totalImportable = willUpdate.length + willCreate.length;
+        
         return (
           <div style={baseStyle}>
-            <div style={{ marginBottom: '15px' }}>
-              <Alert message="CSV validation successful! Ready to import." type="success" />
-              
-              {validationResult && (
-                <div style={{ 
-                  marginTop: '15px',
-                  padding: '15px', 
-                  backgroundColor: '#f0f9ff', 
-                  borderRadius: '6px',
-                  border: '1px solid #bae6fd'
+            {/* Success Banner */}
+            <div style={{ marginBottom: '20px' }}>
+              <Alert message="CSV parsed. Ready to review." type="success" />
+            </div>
+
+            {/* Summary Chips */}
+            <div style={{ 
+              display: 'flex', 
+              gap: '8px', 
+              marginBottom: '20px',
+              flexWrap: 'wrap'
+            }}>
+              <div style={{
+                backgroundColor: '#f3f4f6',
+                color: '#374151',
+                padding: '6px 12px',
+                borderRadius: '20px',
+                fontSize: '12px',
+                fontWeight: '500'
+              }}>
+                Total rows: {totalRows}
+              </div>
+              {willUpdate.length > 0 && (
+                <div style={{
+                  backgroundColor: '#dbeafe',
+                  color: '#1e40af',
+                  padding: '6px 12px',
+                  borderRadius: '20px',
+                  fontSize: '12px',
+                  fontWeight: '500'
                 }}>
-                  <h4 style={{ margin: '0 0 10px 0', fontSize: '16px', color: '#0369a1' }}>
-                    Validation Results:
-                  </h4>
-                  <pre style={{ margin: 0, fontSize: '12px', whiteSpace: 'pre-wrap', color: '#0369a1' }}>
-                    {JSON.stringify(validationResult, null, 2)}
-                  </pre>
+                  Will update: {willUpdate.length}
+                </div>
+              )}
+              {willCreate.length > 0 && (
+                <div style={{
+                  backgroundColor: '#dcfce7',
+                  color: '#166534',
+                  padding: '6px 12px',
+                  borderRadius: '20px',
+                  fontSize: '12px',
+                  fontWeight: '500'
+                }}>
+                  Will create: {willCreate.length}
+                </div>
+              )}
+              {importWarnings.length > 0 && (
+                <div style={{
+                  backgroundColor: '#fef3c7',
+                  color: '#92400e',
+                  padding: '6px 12px',
+                  borderRadius: '20px',
+                  fontSize: '12px',
+                  fontWeight: '500'
+                }}>
+                  Warnings: {importWarnings.length}
+                </div>
+              )}
+              {importErrors.length > 0 && (
+                <div style={{
+                  backgroundColor: '#fecaca',
+                  color: '#dc2626',
+                  padding: '6px 12px',
+                  borderRadius: '20px',
+                  fontSize: '12px',
+                  fontWeight: '500'
+                }}>
+                  Errors: {importErrors.length}
                 </div>
               )}
             </div>
-            
-            <div style={{ display: 'flex', gap: '10px' }}>
-              <button
-                onClick={handleImport}
-                style={{
-                  backgroundColor: '#28a745',
-                  color: 'white',
-                  border: 'none',
-                  padding: '10px 20px',
-                  borderRadius: '6px',
-                  cursor: 'pointer',
-                  fontSize: '14px'
-                }}
-              >
-                Import Clubs
-              </button>
-              <button
-                onClick={resetImport}
-                style={{
-                  backgroundColor: '#6c757d',
-                  color: 'white',
-                  border: 'none',
-                  padding: '8px 16px',
-                  borderRadius: '6px',
-                  cursor: 'pointer',
-                  fontSize: '14px'
-                }}
-              >
-                Re-Select File
-              </button>
+
+            {/* Issues Panel */}
+            {(importErrors.length > 0 || importWarnings.length > 0) && (
+              <div style={{ 
+                marginBottom: '20px',
+                border: '1px solid #e5e7eb',
+                borderRadius: '8px',
+                overflow: 'hidden'
+              }}>
+                <div style={{
+                  backgroundColor: '#f9fafb',
+                  padding: '12px 16px',
+                  borderBottom: '1px solid #e5e7eb',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center'
+                }}>
+                  <h4 style={{ margin: 0, fontSize: '14px', fontWeight: '600', color: '#374151' }}>
+                    Issues ({importErrors.length + importWarnings.length})
+                  </h4>
+                  <button
+                    onClick={downloadIssues}
+                    style={{
+                      backgroundColor: 'transparent',
+                      border: '1px solid #d1d5db',
+                      color: '#6b7280',
+                      padding: '4px 8px',
+                      borderRadius: '4px',
+                      fontSize: '12px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Download issues.csv
+                  </button>
+                </div>
+                <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
+                  {/* Errors first */}
+                  {importErrors.map((error, index) => (
+                    <div key={`error-${index}`} style={{ 
+                      padding: '12px 16px', 
+                      borderBottom: '1px solid #f3f4f6',
+                      backgroundColor: '#fef2f2'
+                    }}>
+                      <div style={{ fontSize: '12px', color: '#dc2626', fontWeight: '500' }}>
+                        Line {error.rowIndex}: {error.message}
+                      </div>
+                      {error.hint && (
+                        <div style={{ 
+                          fontSize: '11px', 
+                          color: '#991b1b', 
+                          marginTop: '4px',
+                          fontStyle: 'italic'
+                        }}>
+                          {error.hint}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                  {/* Warnings second */}
+                  {importWarnings.map((warning, index) => (
+                    <div key={`warning-${index}`} style={{ 
+                      padding: '12px 16px', 
+                      borderBottom: '1px solid #f3f4f6',
+                      backgroundColor: '#fffbeb'
+                    }}>
+                      <div style={{ fontSize: '12px', color: '#92400e', fontWeight: '500' }}>
+                        Line {warning.rowIndex}: {warning.message}
+                      </div>
+                      {warning.hint && (
+                        <div style={{ 
+                          fontSize: '11px', 
+                          color: '#a16207', 
+                          marginTop: '4px',
+                          fontStyle: 'italic'
+                        }}>
+                          {warning.hint}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Preview List */}
+            {allValidRows.length > 0 && (
+              <div style={{ 
+                marginBottom: '20px',
+                border: '1px solid #e5e7eb',
+                borderRadius: '8px',
+                overflow: 'hidden'
+              }}>
+                <div style={{
+                  backgroundColor: '#f9fafb',
+                  padding: '12px 16px',
+                  borderBottom: '1px solid #e5e7eb'
+                }}>
+                  <h4 style={{ margin: 0, fontSize: '14px', fontWeight: '600', color: '#374151' }}>
+                    Preview ({Math.min(10, allValidRows.length)} of {allValidRows.length} clubs)
+                  </h4>
+                </div>
+                <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                  {allValidRows.slice(0, 10).map((club, index) => {
+                    let action = 'Create';
+                    let actionColor = '#166534';
+                    let actionBg = '#dcfce7';
+                    let actionText = 'Will create a new club';
+                    
+                    if (club.id) {
+                      if (willUpdate.some(c => c.id === club.id)) {
+                        action = 'Update';
+                        actionColor = '#1e40af';
+                        actionBg = '#dbeafe';
+                        actionText = 'Will update existing club';
+                      } else if (willSkip.some(c => c.id === club.id)) {
+                        action = 'Skip';
+                        actionColor = '#92400e';
+                        actionBg = '#fef3c7';
+                        actionText = 'Will be skipped (ID not found)';
+                      }
+                    }
+                    
+                    const location = club.location || '';
+                    const website = club.website_url ? new URL(club.website_url).hostname : '';
+                    
+                    return (
+                      <div key={index} style={{ 
+                        padding: '12px 16px', 
+                        borderBottom: '1px solid #f3f4f6',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center'
+                      }}>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontSize: '13px', fontWeight: '500', color: '#111827' }}>
+                            {club.club_name}
+                          </div>
+                          <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '2px' }}>
+                            {location && <span>{location}</span>}
+                            {website && <span>{location ? ' • ' : ''}{website}</span>}
+                          </div>
+                        </div>
+                        <div 
+                          style={{
+                            backgroundColor: actionBg,
+                            color: actionColor,
+                            padding: '4px 8px',
+                            borderRadius: '12px',
+                            fontSize: '11px',
+                            fontWeight: '500',
+                            cursor: 'help'
+                          }}
+                          title={actionText}
+                        >
+                          {action}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Sticky Footer */}
+            <div style={{ 
+              position: 'sticky',
+              bottom: 0,
+              backgroundColor: 'white',
+              borderTop: '1px solid #e5e7eb',
+              padding: '16px 0',
+              margin: '20px -30px 0 -30px',
+              paddingLeft: '30px',
+              paddingRight: '30px'
+            }}>
+              <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+                <button
+                  onClick={resetImport}
+                  style={{
+                    backgroundColor: '#6b7280',
+                    color: 'white',
+                    border: 'none',
+                    padding: '10px 16px',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    fontSize: '14px'
+                  }}
+                >
+                  Re-select file
+                </button>
+                <button
+                  onClick={handleImport}
+                  disabled={importErrors.length > 0}
+                  style={{
+                    backgroundColor: importErrors.length > 0 ? '#9ca3af' : '#28a745',
+                    color: 'white',
+                    border: 'none',
+                    padding: '10px 20px',
+                    borderRadius: '6px',
+                    cursor: importErrors.length > 0 ? 'not-allowed' : 'pointer',
+                    fontSize: '14px',
+                    fontWeight: '500'
+                  }}
+                >
+                  Import {totalImportable} clubs
+                </button>
+              </div>
             </div>
           </div>
         );
@@ -364,6 +714,32 @@ export const ImportClubsModal: React.FC<ImportClubsModalProps> = ({
         return (
           <div style={baseStyle}>
             <Alert message={error || 'An error occurred during validation'} type="error" />
+            
+            {importErrors.length > 0 && (
+              <div style={{ 
+                marginTop: '15px',
+                padding: '15px', 
+                backgroundColor: '#fef2f2', 
+                borderRadius: '6px',
+                border: '1px solid #fecaca'
+              }}>
+                <h4 style={{ margin: '0 0 10px 0', fontSize: '16px', color: '#dc2626' }}>
+                  Validation Errors ({importErrors.length}):
+                </h4>
+                <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
+                  {importErrors.map((err, index) => (
+                    <div key={index} style={{ 
+                      padding: '4px 0', 
+                      fontSize: '12px',
+                      color: '#dc2626'
+                    }}>
+                      Line {err.rowIndex}: {err.message}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            
             <div style={{ display: 'flex', gap: '10px' }}>
               <button
                 onClick={resetImport}
@@ -421,7 +797,7 @@ export const ImportClubsModal: React.FC<ImportClubsModalProps> = ({
           borderBottom: '2px solid #e5e7eb'
         }}>
           <h2 style={{ fontSize: '24px', margin: 0, color: '#333' }}>
-            📤 Import Clubs from CSV
+            Import Clubs from CSV
           </h2>
           <button
             onClick={onClose}

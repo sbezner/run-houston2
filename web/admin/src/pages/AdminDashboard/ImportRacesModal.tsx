@@ -18,6 +18,9 @@ export const ImportRacesModal: React.FC<ImportRacesModalProps> = ({ onClose, onI
   const [allValidRows, setAllValidRows] = React.useState<RaceUpsert[]>([]); // Store all valid rows for import
   const [importErrors, setImportErrors] = React.useState<ImportError[]>([]);
   const [importWarnings, setImportWarnings] = React.useState<ImportError[]>([]);
+  const [willUpdate, setWillUpdate] = React.useState<RaceUpsert[]>([]);
+  const [willCreate, setWillCreate] = React.useState<RaceUpsert[]>([]);
+  const [willSkip, setWillSkip] = React.useState<RaceUpsert[]>([]);
   const [commitProgress, setCommitProgress] = React.useState({ total: 0, done: 0, succeeded: 0, failed: 0, created: 0, updated: 0 });
   const [aborter, setAborter] = React.useState<AbortController | null>(null);
   const [csvFile, setCsvFile] = React.useState<File | null>(null);
@@ -41,13 +44,16 @@ export const ImportRacesModal: React.FC<ImportRacesModalProps> = ({ onClose, onI
       }
 
       // Validate all rows first
-      const fullValidation = validateAndTransform(result.rows);
+      const fullValidation = await validateAndTransform(result.rows);
       
       // Set preview to first 10 rows maximum
       setPreviewRows(fullValidation.valid.slice(0, 10));
       setAllValidRows(fullValidation.valid); // Store all valid rows for import
       setImportErrors(fullValidation.errors);
       setImportWarnings(fullValidation.warnings);
+      setWillUpdate(fullValidation.willUpdate);
+      setWillCreate(fullValidation.willCreate);
+      setWillSkip(fullValidation.willSkip);
       
       if (fullValidation.errors.length === 0) {
         setImportState('validated');
@@ -187,6 +193,9 @@ export const ImportRacesModal: React.FC<ImportRacesModalProps> = ({ onClose, onI
     setAllValidRows([]);
     setImportErrors([]);
     setImportWarnings([]);
+    setWillUpdate([]);
+    setWillCreate([]);
+    setWillSkip([]);
     setCommitProgress({ total: 0, done: 0, succeeded: 0, failed: 0, created: 0, updated: 0 });
     setCsvFile(null);
     if (aborter) {
@@ -425,157 +434,284 @@ export const ImportRacesModal: React.FC<ImportRacesModalProps> = ({ onClose, onI
         );
 
       case 'validated':
+        const totalRows = allValidRows.length + importErrors.length + importWarnings.length;
+        const totalImportable = willUpdate.length + willCreate.length;
+        
         return (
           <div style={baseStyle}>
-            <div style={{ marginBottom: '15px' }}>
-              <p>Preview: {previewRows.length} of {allValidRows.length} valid rows ready to import</p>
-              {csvFile && (
-                <p style={{ fontSize: '12px', color: '#6b7280', marginTop: '4px' }}>
-                  Showing first 10 rows for preview. All {allValidRows.length} valid rows will be imported.
-                </p>
-              )}
-              
-              {/* Display detailed warnings */}
-              {importWarnings.length > 0 && (
-                <div style={{ marginBottom: '20px' }}>
-                  <h4 style={{ fontSize: '16px', marginBottom: '10px', color: '#856404' }}>⚠️ Warnings ({importWarnings.length}):</h4>
-                  <div style={{ 
-                    maxHeight: '200px', 
-                    overflowY: 'auto', 
-                    border: '1px solid #ffeaa7', 
-                    borderRadius: '8px',
-                    padding: '10px',
-                    backgroundColor: '#fffbf0'
-                  }}>
-                    {importWarnings.map((warning, index) => (
-                      <div key={index} style={{ 
-                        marginBottom: '8px', 
-                        padding: '8px', 
-                        backgroundColor: 'white', 
-                        border: '1px solid #ffeaa7',
-                        borderRadius: '6px',
-                        borderLeft: '4px solid #f39c12'
-                      }}>
-                        <div style={{ fontWeight: 'bold', color: '#856404', marginBottom: '3px' }}>
-                          Row {warning.rowIndex}: {String(warning.field)}
-                        </div>
-                        <div style={{ color: '#856404', marginBottom: '3px' }}>
-                          {warning.message}
-                        </div>
-                        {warning.hint && (
-                          <div style={{ color: '#856404', fontSize: '12px', backgroundColor: '#fff3cd', padding: '4px', borderRadius: '4px' }}>
-                            💡 {warning.hint}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
+            {/* Success Banner */}
+            <div style={{ marginBottom: '20px' }}>
+              <Alert message="CSV parsed. Ready to review." type="success" />
+            </div>
+
+            {/* Summary Chips */}
+            <div style={{ 
+              display: 'flex', 
+              gap: '8px', 
+              marginBottom: '20px',
+              flexWrap: 'wrap'
+            }}>
+              <div style={{
+                backgroundColor: '#f3f4f6',
+                color: '#374151',
+                padding: '6px 12px',
+                borderRadius: '20px',
+                fontSize: '12px',
+                fontWeight: '500'
+              }}>
+                Total rows: {totalRows}
+              </div>
+              {willUpdate.length > 0 && (
+                <div style={{
+                  backgroundColor: '#dbeafe',
+                  color: '#1e40af',
+                  padding: '6px 12px',
+                  borderRadius: '20px',
+                  fontSize: '12px',
+                  fontWeight: '500'
+                }}>
+                  Will update: {willUpdate.length}
                 </div>
               )}
-              
-                             {/* Preview valid rows */}
-               <div style={{ marginBottom: '20px' }}>
-                 <h4 style={{ fontSize: '16px', marginBottom: '10px', color: '#28a745' }}>✅ Valid Rows ({previewRows.length}):</h4>
-                 
-                 {/* Show update vs create summary */}
-                 {(() => {
-                   const racesWithId = previewRows.filter(race => race.id);
-                   const newRaces = previewRows.filter(race => !race.id);
-                   
-                   return (
-                     <div style={{ 
-                       marginBottom: '15px', 
-                       padding: '10px', 
-                       backgroundColor: '#e8f5e8', 
-                       borderRadius: '6px',
-                       border: '1px solid #d4edda'
-                     }}>
-                       <div style={{ fontSize: '14px', color: '#155724' }}>
-                         📊 Import Summary:
-                         {racesWithId.length > 0 && (
-                           <span style={{ marginLeft: '10px' }}>
-                             🔄 {racesWithId.length} race{racesWithId.length !== 1 ? 's' : ''} will be updated
-                           </span>
-                         )}
-                         {newRaces.length > 0 && (
-                           <span style={{ marginLeft: '10px' }}>
-                             ➕ {newRaces.length} new race{newRaces.length !== 1 ? 's' : ''} will be created
-                           </span>
-                         )}
-                       </div>
-                     </div>
-                   );
-                 })()}
-                 
-                 <div style={{ 
-                   maxHeight: '300px', 
-                   overflowY: 'auto', 
-                   border: '1px solid #d4edda', 
-                   borderRadius: '8px',
-                   padding: '10px',
-                   backgroundColor: '#f8fff9'
-                 }}>
-                   {previewRows.slice(0, 10).map((race, index) => (
-                     <div key={index} style={{ 
-                       marginBottom: '8px', 
-                       padding: '8px', 
-                       backgroundColor: 'white', 
-                       border: '1px solid #d4edda',
-                       borderRadius: '6px',
-                       borderLeft: `4px solid ${race.id ? '#ffc107' : '#28a745'}`
-                     }}>
-                       <div style={{ fontWeight: 'bold', color: '#155724', marginBottom: '3px' }}>
-                         {race.id ? `🔄 Update: ${race.name}` : `➕ New: ${race.name}`}
-                       </div>
-                       <div style={{ color: '#155724', fontSize: '12px' }}>
-                         {race.date} • {race.city}, {race.state} • {race.surface}
-                         {race.id && <span style={{ color: '#856404', marginLeft: '10px' }}>(ID: {race.id})</span>}
-                       </div>
-                     </div>
-                   ))}
-                   {previewRows.length > 10 && (
-                     <div style={{ 
-                       textAlign: 'center', 
-                       color: '#666', 
-                       fontSize: '12px', 
-                       fontStyle: 'italic',
-                       padding: '10px'
-                     }}>
-                       ... and {previewRows.length - 10} more rows
-                     </div>
-                   )}
-                 </div>
-               </div>
+              {willCreate.length > 0 && (
+                <div style={{
+                  backgroundColor: '#dcfce7',
+                  color: '#166534',
+                  padding: '6px 12px',
+                  borderRadius: '20px',
+                  fontSize: '12px',
+                  fontWeight: '500'
+                }}>
+                  Will create: {willCreate.length}
+                </div>
+              )}
+              {importWarnings.length > 0 && (
+                <div style={{
+                  backgroundColor: '#fef3c7',
+                  color: '#92400e',
+                  padding: '6px 12px',
+                  borderRadius: '20px',
+                  fontSize: '12px',
+                  fontWeight: '500'
+                }}>
+                  Warnings: {importWarnings.length}
+                </div>
+              )}
+              {importErrors.length > 0 && (
+                <div style={{
+                  backgroundColor: '#fecaca',
+                  color: '#dc2626',
+                  padding: '6px 12px',
+                  borderRadius: '20px',
+                  fontSize: '12px',
+                  fontWeight: '500'
+                }}>
+                  Errors: {importErrors.length}
+                </div>
+              )}
             </div>
-            <div style={{ display: 'flex', gap: '10px' }}>
-              <button
-                onClick={handleCSVCommit}
-                style={{
-                  backgroundColor: '#28a745',
-                  color: 'white',
-                  border: 'none',
-                  padding: '10px 20px',
-                  borderRadius: '6px',
-                  cursor: 'pointer',
-                  fontSize: '14px'
-                }}
-              >
-                Commit Import
-              </button>
-              <button
-                onClick={resetImport}
-                style={{
-                  backgroundColor: '#6c757d',
-                  color: 'white',
-                  border: 'none',
-                  padding: '8px 16px',
-                  borderRadius: '6px',
-                  cursor: 'pointer',
-                  fontSize: '14px'
-                }}
-              >
-                Re-Select File
-              </button>
+
+            {/* Issues Panel */}
+            {(importErrors.length > 0 || importWarnings.length > 0) && (
+              <div style={{ 
+                marginBottom: '20px',
+                border: '1px solid #e5e7eb',
+                borderRadius: '8px',
+                overflow: 'hidden'
+              }}>
+                <div style={{
+                  backgroundColor: '#f9fafb',
+                  padding: '12px 16px',
+                  borderBottom: '1px solid #e5e7eb',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center'
+                }}>
+                  <h4 style={{ margin: 0, fontSize: '14px', fontWeight: '600', color: '#374151' }}>
+                    Issues ({importErrors.length + importWarnings.length})
+                  </h4>
+                  <button
+                    onClick={() => downloadErrorsCsv(importErrors)}
+                    style={{
+                      backgroundColor: 'transparent',
+                      border: '1px solid #d1d5db',
+                      color: '#6b7280',
+                      padding: '4px 8px',
+                      borderRadius: '4px',
+                      fontSize: '12px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Download issues.csv
+                  </button>
+                </div>
+                <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
+                  {/* Errors first */}
+                  {importErrors.map((error, index) => (
+                    <div key={`error-${index}`} style={{ 
+                      padding: '12px 16px', 
+                      borderBottom: '1px solid #f3f4f6',
+                      backgroundColor: '#fef2f2'
+                    }}>
+                      <div style={{ fontSize: '12px', color: '#dc2626', fontWeight: '500' }}>
+                        Line {error.rowIndex}: {error.message}
+                      </div>
+                      {error.hint && (
+                        <div style={{ 
+                          fontSize: '11px', 
+                          color: '#991b1b', 
+                          marginTop: '4px',
+                          fontStyle: 'italic'
+                        }}>
+                          {error.hint}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                  {/* Warnings second */}
+                  {importWarnings.map((warning, index) => (
+                    <div key={`warning-${index}`} style={{ 
+                      padding: '12px 16px', 
+                      borderBottom: '1px solid #f3f4f6',
+                      backgroundColor: '#fffbeb'
+                    }}>
+                      <div style={{ fontSize: '12px', color: '#92400e', fontWeight: '500' }}>
+                        Line {warning.rowIndex}: {warning.message}
+                      </div>
+                      {warning.hint && (
+                        <div style={{ 
+                          fontSize: '11px', 
+                          color: '#a16207', 
+                          marginTop: '4px',
+                          fontStyle: 'italic'
+                        }}>
+                          {warning.hint}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Preview List */}
+            {allValidRows.length > 0 && (
+              <div style={{ 
+                marginBottom: '20px',
+                border: '1px solid #e5e7eb',
+                borderRadius: '8px',
+                overflow: 'hidden'
+              }}>
+                <div style={{
+                  backgroundColor: '#f9fafb',
+                  padding: '12px 16px',
+                  borderBottom: '1px solid #e5e7eb'
+                }}>
+                  <h4 style={{ margin: 0, fontSize: '14px', fontWeight: '600', color: '#374151' }}>
+                    Preview ({Math.min(10, allValidRows.length)} of {allValidRows.length} races)
+                  </h4>
+                </div>
+                <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                  {allValidRows.slice(0, 10).map((race, index) => {
+                    let action = 'Create';
+                    let actionColor = '#166534';
+                    let actionBg = '#dcfce7';
+                    let actionText = 'Will create a new race';
+                    
+                    if (race.id) {
+                      if (willUpdate.some(r => r.id === race.id)) {
+                        action = 'Update';
+                        actionColor = '#1e40af';
+                        actionBg = '#dbeafe';
+                        actionText = 'Will update existing race';
+                      } else if (willSkip.some(r => r.id === race.id)) {
+                        action = 'Skip';
+                        actionColor = '#92400e';
+                        actionBg = '#fef3c7';
+                        actionText = 'Will be skipped (ID not found)';
+                      }
+                    }
+                    
+                    return (
+                      <div key={index} style={{ 
+                        padding: '12px 16px', 
+                        borderBottom: '1px solid #f3f4f6',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center'
+                      }}>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontSize: '13px', fontWeight: '500', color: '#111827' }}>
+                            {race.name}
+                          </div>
+                          <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '2px' }}>
+                            {race.date} • {race.city}, {race.state} • {race.surface}
+                          </div>
+                        </div>
+                        <div 
+                          style={{
+                            backgroundColor: actionBg,
+                            color: actionColor,
+                            padding: '4px 8px',
+                            borderRadius: '12px',
+                            fontSize: '11px',
+                            fontWeight: '500',
+                            cursor: 'help'
+                          }}
+                          title={actionText}
+                        >
+                          {action}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Sticky Footer */}
+            <div style={{ 
+              position: 'sticky',
+              bottom: 0,
+              backgroundColor: 'white',
+              borderTop: '1px solid #e5e7eb',
+              padding: '16px 0',
+              margin: '20px -30px 0 -30px',
+              paddingLeft: '30px',
+              paddingRight: '30px'
+            }}>
+              <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+                <button
+                  onClick={resetImport}
+                  style={{
+                    backgroundColor: '#6b7280',
+                    color: 'white',
+                    border: 'none',
+                    padding: '10px 16px',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    fontSize: '14px'
+                  }}
+                >
+                  Re-select file
+                </button>
+                <button
+                  onClick={handleCSVCommit}
+                  disabled={importErrors.length > 0}
+                  style={{
+                    backgroundColor: importErrors.length > 0 ? '#9ca3af' : '#28a745',
+                    color: 'white',
+                    border: 'none',
+                    padding: '10px 20px',
+                    borderRadius: '6px',
+                    cursor: importErrors.length > 0 ? 'not-allowed' : 'pointer',
+                    fontSize: '14px',
+                    fontWeight: '500'
+                  }}
+                >
+                  Import {totalImportable} races
+                </button>
+              </div>
             </div>
           </div>
         );
@@ -726,7 +862,7 @@ export const ImportRacesModal: React.FC<ImportRacesModalProps> = ({ onClose, onI
           borderBottom: '2px solid #e5e7eb'
         }}>
           <h2 style={{ fontSize: '24px', margin: 0, color: '#333' }}>
-            📤 Import Races from CSV
+            Import Races from CSV
           </h2>
           <button
             onClick={onClose}

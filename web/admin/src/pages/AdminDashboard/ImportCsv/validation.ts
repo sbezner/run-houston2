@@ -545,14 +545,17 @@ export function normalizeCsvRow(row: CsvRow): NormalizedRow {
 }
 
 // Main validation and transformation function
-export function validateAndTransform(rows: CsvRow[]): {
-  valid: import('./errors').RaceUpsert[];
-  errors: import('./errors').ImportError[];
-  warnings: import('./errors').ImportError[];
-} {
+export async function validateAndTransform(rows: CsvRow[]): Promise<import('./errors').ValidationResult> {
   const valid: import('./errors').RaceUpsert[] = [];
   const errors: import('./errors').ImportError[] = [];
   const warnings: import('./errors').ImportError[] = [];
+  const willUpdate: import('./errors').RaceUpsert[] = [];
+  const willCreate: import('./errors').RaceUpsert[] = [];
+  const willSkip: import('./errors').RaceUpsert[] = [];
+
+  // Collect all IDs for database validation
+  const idsToValidate: number[] = [];
+  const idToRowIndex: Map<number, number> = new Map();
 
   rows.forEach((row, index) => {
     const rowNumber = index + 1;
@@ -577,6 +580,12 @@ export function validateAndTransform(rows: CsvRow[]): {
           id: normalized.id // Keep the ID if it exists
         };
         valid.push(raceUpsert);
+        
+        // Collect IDs for database validation
+        if (normalized.id) {
+          idsToValidate.push(normalized.id);
+          idToRowIndex.set(normalized.id, rowNumber);
+        }
       } catch (error) {
         errors.push({
           rowIndex: rowNumber,
@@ -599,5 +608,70 @@ export function validateAndTransform(rows: CsvRow[]): {
     }
   });
 
-  return { valid, errors, warnings };
+  // Validate IDs against database if any IDs were provided
+  let existingIds: number[] = [];
+  let missingIds: number[] = [];
+  
+  if (idsToValidate.length > 0) {
+    try {
+      // Import the races API service
+      const { races } = await import('@shared/services/api');
+      const { auth } = await import('@shared/services/auth');
+      
+      const token = auth.getToken();
+      if (token) {
+        const validationResult = await races.validateIds(idsToValidate, token);
+        existingIds = validationResult.existing_ids || [];
+        missingIds = validationResult.missing_ids || [];
+        
+        // Add warnings for missing IDs
+        missingIds.forEach(missingId => {
+          const rowIndex = idToRowIndex.get(missingId);
+          if (rowIndex) {
+            warnings.push({
+              rowIndex,
+              field: 'id',
+              code: 'ID_NOT_FOUND',
+              message: `Race ID ${missingId} does not exist in the database`,
+              hint: 'This row will be skipped during import since the specified ID cannot be found'
+            });
+          }
+        });
+      }
+    } catch (error) {
+      console.warn('Failed to validate race IDs against database:', error);
+      // Don't fail validation if ID check fails, just log the warning
+    }
+  }
+
+  // Categorize valid rows based on ID status
+  valid.forEach(race => {
+    if (race.id) {
+      if (existingIds.includes(race.id)) {
+        willUpdate.push(race);
+      } else {
+        willSkip.push(race);
+      }
+    } else {
+      willCreate.push(race);
+    }
+  });
+
+  // Calculate stats
+  const stats: import('./errors').ImportStats = {
+    total: rows.length,
+    valid: valid.length,
+    invalid: errors.length,
+    duplicates: 0 // Not implemented yet
+  };
+
+  return { 
+    valid, 
+    errors, 
+    warnings, 
+    stats,
+    willUpdate,
+    willCreate,
+    willSkip
+  };
 }
