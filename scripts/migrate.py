@@ -152,7 +152,7 @@ def migration_applied(conn, version):
     """Check if a migration has already been applied."""
     if hasattr(conn, 'query_sql'):
         # New connection class
-        results = conn.query_sql("SELECT version FROM schema_migrations WHERE version = %s" % (version,))
+        results = conn.query_sql(f"SELECT version FROM schema_migrations WHERE version = '{version}'")
         return len(results) > 0
     else:
         # Legacy psycopg connection
@@ -283,18 +283,18 @@ def run_migrations(env, dry_run=False, verbose=False):
                 if not dry_run:
                     print("  Stopping migration process due to error")
                     return False
-            
-            # Summary
-            print("\n" + "=" * 50)
-            print("📊 Migration Summary")
-            print(f"  Applied: {applied_count}")
-            print(f"  Skipped: {skipped_count}")
-            print(f"  Errors: {error_count}")
-            
-            if dry_run:
-                print("  [DRY RUN] No changes were made")
-            
-            return error_count == 0
+        
+        # Summary
+        print("\n" + "=" * 50)
+        print("📊 Migration Summary")
+        print(f"  Applied: {applied_count}")
+        print(f"  Skipped: {skipped_count}")
+        print(f"  Errors: {error_count}")
+        
+        if dry_run:
+            print("  [DRY RUN] No changes were made")
+        
+        return error_count == 0
             
     except Exception as e:
         print(f"✗ Database connection failed: {e}")
