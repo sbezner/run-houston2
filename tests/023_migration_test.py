@@ -56,7 +56,7 @@ class TestMigrationFileDiscovery:
         files = get_migration_files()
         
         # Should find the migration tracking table migration
-        migration_tracking_found = any('20250906_0537_create_schema_migrations_table' in f for f in files)
+        migration_tracking_found = any('20250909_2026_complete_database_schema_create_schema_migrations_table' in f for f in files)
         assert migration_tracking_found, "Should find the migration tracking table migration"
 
 class TestMigrationUtilities:
@@ -145,12 +145,12 @@ class TestMigrationTracking:
     
     def test_migration_tracking_table_migration_exists(self):
         """Test that migration tracking table migration exists."""
-        migration_path = project_root / "infra" / "initdb" / "20250906_0537_create_schema_migrations_table.sql"
+        migration_path = project_root / "infra" / "initdb" / "20250909_2026_complete_database_schema_create_schema_migrations_table.sql"
         assert migration_path.exists(), "Migration tracking table migration should exist"
     
     def test_migration_tracking_table_sql_content(self):
         """Test that migration tracking table SQL is correct."""
-        migration_path = project_root / "infra" / "initdb" / "20250906_0537_create_schema_migrations_table.sql"
+        migration_path = project_root / "infra" / "initdb" / "20250909_2026_complete_database_schema_create_schema_migrations_table.sql"
         
         with open(migration_path, 'r', encoding='utf-8') as f:
             content = f.read()
@@ -168,7 +168,7 @@ class TestMigrationTracking:
         
         # Check that it records itself
         assert "INSERT INTO schema_migrations" in content
-        assert "20250906_0537_create_schema_migrations_table" in content
+        assert "20250909_2026_complete_database_schema_create_schema_migrations_table" in content
 
 class TestMigrationSafety:
     """Test migration safety features."""

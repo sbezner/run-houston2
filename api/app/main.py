@@ -20,15 +20,31 @@ from .auth import verify_password, create_access_token, verify_token, ACCESS_TOK
 def load_version_info():
     """Load version information from system release manifest."""
     try:
-        with open('system-release.json', 'r') as f:
-            version_data = json.load(f)
-        return version_data
+        # Try multiple possible locations for system-release.json
+        possible_paths = [
+            'system-release.json',  # Current directory
+            'api/system-release.json',  # API directory
+            'releases/system-release.json',  # Releases directory
+            '../releases/system-release.json',  # Relative to API directory
+        ]
+        
+        for path in possible_paths:
+            try:
+                with open(path, 'r') as f:
+                    version_data = json.load(f)
+                return version_data
+            except FileNotFoundError:
+                continue
+        
+        # If none found, raise FileNotFoundError
+        raise FileNotFoundError("system-release.json not found in any expected location")
+        
     except (FileNotFoundError, json.JSONDecodeError) as e:
         print(f"Warning: Could not load version info: {e}")
         # Fallback values
         return {
             "api": "1.0.0",
-            "db_schema": "20250906_0537",
+            "db_schema": "20250909_2026_complete_database_schema",
             "api_path_major": "v1"
         }
 from .models import (
@@ -143,7 +159,7 @@ async def add_version_headers(request: Request, call_next):
     # Add version headers
     response.headers["API-Version"] = version_info.get("api", "1.0.0")
     response.headers["API-Path-Major"] = version_info.get("api_path_major", "v1")
-    response.headers["Schema-Version"] = version_info.get("db_schema", "20250906_0537")
+    response.headers["Schema-Version"] = version_info.get("db_schema", "20250909_2026_complete_database_schema")
     
     return response
 
@@ -264,7 +280,7 @@ def health():
     return {
         "status": "healthy",
         "api_version": version_info.get("api", "1.0.0"),
-        "schema_version": version_info.get("db_schema", "20250906_0537"),
+        "schema_version": version_info.get("db_schema", "20250909_2026_complete_database_schema"),
         "system_release": version_info.get("system_release", "2025.09.R1"),
         "uptime_seconds": version_metrics["uptime_seconds"],
         "total_api_calls": version_metrics["total_api_calls"],
@@ -280,7 +296,7 @@ def get_version():
     return {
         "api_version": version_info.get("api", "1.0.0"),
         "api_path_major": version_info.get("api_path_major", "v1"),
-        "schema_version": version_info.get("db_schema", "20250906_0537"),
+        "schema_version": version_info.get("db_schema", "20250909_2026_complete_database_schema"),
         "system_release": version_info.get("system_release", "2025.09.R1"),
         "web_version": version_info.get("web", "1.0.0"),
         "mobile_version": version_info.get("mobile", "1.0.0"),
@@ -313,7 +329,7 @@ def get_detailed_health():
     return {
         "status": "healthy",
         "api_version": version_info.get("api", "1.0.0"),
-        "schema_version": version_info.get("db_schema", "20250906_0537"),
+        "schema_version": version_info.get("db_schema", "20250909_2026_complete_database_schema"),
         "system_release": version_info.get("system_release", "2025.09.R1"),
         "web_version": version_info.get("web", "1.0.0"),
         "mobile_version": version_info.get("mobile", "1.0.0"),

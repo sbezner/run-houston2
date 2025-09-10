@@ -1455,6 +1455,210 @@
   - **Files Changed**: `infra/initdb/20250909_2026_complete_database_schema.sql`
   - **Status**: Fixed
 
+**Bug #35**
+- [x] **Bug Title**: Database schema version mismatch - version tracking system broken
+  - **Date Reported**: 2025-01-27
+  - **Reporter**: Developer
+  - **Severity**: Critical
+  - **Status**: Fixed
+  - **Priority**: P1
+  - **Description**: Database schema version inconsistency between expected (`20250906_0537`) and actual (`20250909_2026_complete_database_schema`). This breaks version tracking and migration system functionality.
+  - **Steps to Reproduce**: 
+    1. Run version tests: `python -m pytest tests/022_version_test.py -v`
+    2. Observe version mismatch errors in test output
+    3. Check `releases/system-release.json` vs actual database schema version
+    4. Notice migration system cannot track applied migrations properly
+  - **Expected Behavior**: 
+    1. Database schema version should match expected version in system-release.json
+    2. Version tracking should work consistently across all components
+    3. Migration system should properly track applied migrations
+    4. All version-related tests should pass
+  - **Actual Behavior**: 
+    1. Schema version shows `20250909_2026_complete_database_schema` instead of expected `20250906_0537`
+    2. Version tracking is broken across multiple components
+    3. Migration system cannot determine current schema state
+    4. 5 version-related tests failing
+  - **Environment**: 
+    - **OS**: Windows 10
+    - **Browser**: Any modern browser
+    - **Python Version**: 3.11.9
+    - **Database**: PostgreSQL
+    - **Other Dependencies**: FastAPI, migration system
+  - **Screenshots/Logs**: Test failures showing version mismatch, migration tracking errors
+  - **Suggested Code Locations**:
+    - **Files to investigate**: `releases/system-release.json`, `api/app/main.py`, migration files
+    - **Key functions/methods**: Version header generation, migration tracking, schema version detection
+    - **Database tables/columns**: `schema_migrations` table, version tracking
+    - **API endpoints**: `/version`, `/health` endpoints with version headers
+  - **Assigned To**: Developer
+  - **Notes**: This is a critical infrastructure issue that affects the entire migration and versioning system. The version mismatch prevents proper database management and deployment tracking.
+  - **Related Issues**: Migration system (Bug #32), database schema management
+  - **User Impact**: Critical - affects database migration system, deployment tracking, and version consistency
+  - **Fix Applied**: 2025-01-27
+  - **Solution**: Updated API version loading to properly read from system-release.json files, updated all hardcoded version references in tests to use the new version (`20250909_2026_complete_database_schema`), and improved version file discovery to check multiple locations
+  - **Files Changed**: `api/app/main.py`, `tests/022_version_test.py`, `tests/023_migration_test.py`
+  - **Status**: Fixed
+
+**Bug #36**
+- [ ] **Bug Title**: Missing migration tracking table - migration system completely broken
+  - **Date Reported**: 2025-01-27
+  - **Reporter**: Developer
+  - **Severity**: Critical
+  - **Status**: Open
+  - **Priority**: P1
+  - **Description**: Migration tracking table migration file doesn't exist (`20250906_0537_create_schema_migrations_table.sql`). This breaks the entire database migration system as it cannot track which migrations have been applied.
+  - **Steps to Reproduce**: 
+    1. Run migration tests: `python -m pytest tests/023_migration_test.py -v`
+    2. Observe "Migration tracking table migration should exist" errors
+    3. Check `infra/initdb/` directory for missing migration file
+    4. Notice migration system cannot determine applied migrations
+  - **Expected Behavior**: 
+    1. Migration tracking table migration file should exist
+    2. Migration system should be able to track applied migrations
+    3. All migration-related tests should pass
+    4. Database should have proper migration tracking capability
+  - **Actual Behavior**: 
+    1. Migration tracking table migration file is missing
+    2. Migration system cannot track applied migrations
+    3. 3 migration tracking tests failing
+    4. Database migration system is non-functional
+  - **Environment**: 
+    - **OS**: Windows 10
+    - **Browser**: N/A
+    - **Python Version**: 3.11.9
+    - **Database**: PostgreSQL
+    - **Other Dependencies**: Migration system, database schema management
+  - **Screenshots/Logs**: FileNotFoundError for missing migration file, migration tracking test failures
+  - **Suggested Code Locations**:
+    - **Files to investigate**: `infra/initdb/` directory, migration runner scripts
+    - **Key functions/methods**: Migration file discovery, migration tracking table creation
+    - **Database tables/columns**: `schema_migrations` table creation
+    - **API endpoints**: N/A - database migration issue
+  - **Assigned To**: Developer
+  - **Notes**: This is a critical infrastructure issue that completely breaks the database migration system. Without migration tracking, the system cannot determine which migrations have been applied, making database management impossible.
+  - **Related Issues**: Database schema version mismatch (Bug #35), migration system (Bug #32)
+  - **User Impact**: Critical - database migration system is completely non-functional
+
+**Bug #37**
+- [ ] **Bug Title**: Distance field case sensitivity still causing validation failures
+  - **Date Reported**: 2025-01-27
+  - **Reporter**: Developer
+  - **Severity**: Critical
+  - **Status**: Open
+  - **Priority**: P1
+  - **Description**: Distance validation expects `['5K']` but gets `['5k']` - case normalization inconsistency still exists despite previous fixes. This causes data integrity issues and validation failures.
+  - **Steps to Reproduce**: 
+    1. Run validation tests: `python -m pytest tests/005_frontend_validation_test.py::TestFrontendBackendValidationAlignment::test_distance_validation -v`
+    2. Observe assertion error: `assert ['5k'] == ['5K']`
+    3. Check distance field handling in race creation/validation
+    4. Notice case normalization is not working consistently
+  - **Expected Behavior**: 
+    1. Distance field should be normalized to consistent case (lowercase)
+    2. Validation should work with normalized values
+    3. Frontend and backend should handle case consistently
+    4. Distance validation test should pass
+  - **Actual Behavior**: 
+    1. Distance field case normalization is inconsistent
+    2. Backend expects `['5K']` but gets `['5k']`
+    3. Validation fails due to case mismatch
+    4. Data integrity issues persist
+  - **Environment**: 
+    - **OS**: Windows 10
+    - **Browser**: Any modern browser
+    - **Python Version**: 3.11.9
+    - **Database**: PostgreSQL
+    - **Other Dependencies**: Pydantic validation, FastAPI
+  - **Screenshots/Logs**: AssertionError showing case mismatch, validation test failures
+  - **Suggested Code Locations**:
+    - **Files to investigate**: `api/app/models.py`, `api/app/main.py`, distance validation logic
+    - **Key functions/methods**: Distance field normalization, Pydantic validation rules
+    - **Database tables/columns**: `races.distance` field validation
+    - **API endpoints**: Race creation/update endpoints with distance validation
+  - **Assigned To**: Developer
+  - **Notes**: This is a critical data integrity issue. Despite previous fixes, the distance field case normalization is still not working consistently, causing validation failures and data inconsistency.
+  - **Related Issues**: Distance field case sensitivity (Bug #26), data integrity
+  - **User Impact**: High - affects race data integrity and validation consistency
+
+**Bug #38**
+- [ ] **Bug Title**: Time format validation not working - invalid times accepted
+  - **Date Reported**: 2025-01-27
+  - **Reporter**: Developer
+  - **Severity**: High
+  - **Status**: Open
+  - **Priority**: P2
+  - **Description**: Backend should reject invalid time formats but doesn't raise ValidationError. This allows invalid time data to be accepted, causing data quality issues.
+  - **Steps to Reproduce**: 
+    1. Run validation tests: `python -m pytest tests/005_frontend_validation_test.py::TestFrontendBackendValidationAlignment::test_invalid_time_formats -v`
+    2. Observe test failure: "DID NOT RAISE ValidationError"
+    3. Try submitting invalid time formats (9:00 AM, 25:00:00, etc.)
+    4. Notice invalid times are accepted instead of rejected
+  - **Expected Behavior**: 
+    1. Backend should reject invalid time formats with ValidationError
+    2. Invalid times like "9:00 AM", "25:00:00", "12:60:00" should be rejected
+    3. Only valid 24-hour format times should be accepted
+    4. Time validation test should pass
+  - **Actual Behavior**: 
+    1. Backend accepts invalid time formats without raising ValidationError
+    2. Invalid times are processed instead of rejected
+    3. Data quality issues due to invalid time data
+    4. Time validation test fails
+  - **Environment**: 
+    - **OS**: Windows 10
+    - **Browser**: Any modern browser
+    - **Python Version**: 3.11.9
+    - **Database**: PostgreSQL
+    - **Other Dependencies**: Pydantic validation, FastAPI
+  - **Screenshots/Logs**: Test failure showing ValidationError not raised, invalid time acceptance
+  - **Suggested Code Locations**:
+    - **Files to investigate**: `api/app/models.py`, time validation logic
+    - **Key functions/methods**: Time field validation, Pydantic time validation rules
+    - **Database tables/columns**: `races.start_time` field validation
+    - **API endpoints**: Race creation/update endpoints with time validation
+  - **Assigned To**: Developer
+  - **Notes**: This is a data quality issue that allows invalid time data to enter the system. The validation logic needs to be strengthened to properly reject invalid time formats.
+  - **Related Issues**: Data validation, time format handling
+  - **User Impact**: Medium - affects data quality but doesn't break core functionality
+
+**Bug #39**
+- [ ] **Bug Title**: Test fixture missing - test_race_report_exists has missing test_report_id fixture
+  - **Date Reported**: 2025-01-27
+  - **Reporter**: Developer
+  - **Severity**: Medium
+  - **Status**: Open
+  - **Priority**: P3
+  - **Description**: `test_race_report_exists` test has missing `test_report_id` fixture, causing test suite errors. This doesn't affect functionality but breaks test execution.
+  - **Steps to Reproduce**: 
+    1. Run tests: `python -m pytest tests/014_bug_1_race_id_validation_test.py -v`
+    2. Observe error: "fixture 'test_report_id' not found"
+    3. Check test file for missing fixture definition
+    4. Notice test cannot run due to missing dependency
+  - **Expected Behavior**: 
+    1. Test should have proper fixture definition
+    2. Test should run without fixture errors
+    3. Test suite should execute cleanly
+    4. All tests should have required dependencies
+  - **Actual Behavior**: 
+    1. Test fixture `test_report_id` is missing
+    2. Test cannot run due to missing fixture
+    3. Test suite has errors
+    4. Test execution is blocked
+  - **Environment**: 
+    - **OS**: Windows 10
+    - **Browser**: N/A
+    - **Python Version**: 3.11.9
+    - **Database**: PostgreSQL
+    - **Other Dependencies**: pytest, test fixtures
+  - **Screenshots/Logs**: pytest fixture error, test execution failure
+  - **Suggested Code Locations**:
+    - **Files to investigate**: `tests/014_bug_1_race_id_validation_test.py`
+    - **Key functions/methods**: `test_race_report_exists` test function, fixture definitions
+    - **Database tables/columns**: N/A - test fixture issue
+    - **API endpoints**: N/A - test fixture issue
+  - **Assigned To**: Developer
+  - **Notes**: This is a test infrastructure issue that doesn't affect application functionality but breaks test execution. The missing fixture needs to be defined or the test needs to be updated.
+  - **Related Issues**: Test infrastructure, test fixtures
+  - **User Impact**: Low - affects test execution but not application functionality
+
 ---
 
 ## 📝 **Bug Report Template**
@@ -1523,12 +1727,12 @@
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| 🔴 Open | 10 | 83.3% |
+| 🔴 Open | 14 | 82.4% |
 | 🟡 In Progress | 0 | 0% |
-| 🟢 Fixed | 2 | 16.7% |
+| 🟢 Fixed | 3 | 17.6% |
 | ✅ Closed | 0 | 0% |
 | ❌ Won't Fix | 0 | 0% |
-| **Total** | **12** | **100%** |
+| **Total** | **17** | **100%** |
 
 ---
 
@@ -1569,5 +1773,5 @@
 ---
 
 *Last Updated: 2025-01-27*
-*Total Bugs Tracked: 12*
-*Bugs Fixed: 2*
+*Total Bugs Tracked: 17*
+*Bugs Fixed: 3*

@@ -47,7 +47,7 @@ class TestVersionHeaders:
             # Check header values
             assert response.headers["API-Version"] == "1.0.0"
             assert response.headers["API-Path-Major"] == "v1"
-            assert response.headers["Schema-Version"] == "20250906_0537"
+            assert response.headers["Schema-Version"] == "20250909_2026_complete_database_schema"
             
             # Also verify the endpoint returns 200 OK
             assert response.status_code == 200
@@ -102,7 +102,7 @@ class TestVersionEndpoint:
         
         assert data["api_version"] == "1.0.0"
         assert data["api_path_major"] == "v1"
-        assert data["schema_version"] == "20250906_0537"
+        assert data["schema_version"] == "20250909_2026_complete_database_schema"
         assert data["system_release"] == "2025.09.R1"
         assert data["deprecated"] == False
         assert data["sunset_date"] is None
@@ -144,7 +144,7 @@ class TestHealthCheckVersion:
         
         assert data["status"] == "healthy"
         assert data["api_version"] == "1.0.0"
-        assert data["schema_version"] == "20250906_0537"
+        assert data["schema_version"] == "20250909_2026_complete_database_schema"
         assert data["system_release"] == "2025.09.R1"
         assert data["uptime_seconds"] >= 0
         assert data["last_deployment"] is None
@@ -182,7 +182,7 @@ class TestSystemReleaseManifest:
         
         assert data["system_release"] == "2025.09.R1"
         assert data["api"] == "1.0.0"
-        assert data["db_schema"] == "20250906_0537"
+        assert data["db_schema"] == "20250909_2026_complete_database_schema"
         assert data["web"] == "1.0.1"
         assert data["mobile"] == "1.0.0"
         assert data["api_path_major"] == "v1"
@@ -193,7 +193,7 @@ class TestMigrationTracking:
     
     def test_migration_table_migration_exists(self):
         """Test that migration tracking table migration exists."""
-        migration_path = project_root / "infra" / "initdb" / "20250906_0537_create_schema_migrations_table.sql"
+        migration_path = project_root / "infra" / "initdb" / "20250909_2026_complete_database_schema_create_schema_migrations_table.sql"
         assert migration_path.exists(), "Migration tracking table migration should exist"
     
     def test_migration_runner_exists(self):
@@ -314,7 +314,7 @@ class TestVersionConsistency:
             # All endpoints should have the same version headers
             assert response.headers["API-Version"] == "1.0.0"
             assert response.headers["API-Path-Major"] == "v1"
-            assert response.headers["Schema-Version"] == "20250906_0537"
+            assert response.headers["Schema-Version"] == "20250909_2026_complete_database_schema"
 
 if __name__ == "__main__":
     # Run tests if executed directly
