@@ -1,7 +1,7 @@
 {
   "system_release": "2025.09.R1",
   "api": "1.0.0",
-  "db_schema": "20250906_0537",
+  "db_schema": "20250909_2026_complete_database_schema",
   "web": "1.0.1",
   "mobile": "1.0.0",
   "api_path_major": "v1",

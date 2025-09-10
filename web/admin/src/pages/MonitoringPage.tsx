@@ -23,6 +23,8 @@ interface DetailedHealth {
   api_version: string;
   schema_version: string;
   system_release: string;
+  web_version?: string;
+  mobile_version?: string;
   uptime_seconds: number;
   total_api_calls: number;
   total_errors: number;
@@ -138,44 +140,101 @@ const MonitoringPage: React.FC = () => {
 
       {detailedHealth && (
         <div style={styles.section}>
-          <h2>System Health</h2>
+          <h2 style={styles.sectionTitle}>System Health</h2>
           <div style={styles.healthGrid}>
-            <div style={styles.healthItem}>
-              <span style={styles.healthLabel}>Status:</span>
-              <span style={{
-                ...styles.healthValue,
-                color: detailedHealth.status === 'healthy' ? '#28a745' : '#dc3545'
-              }}>
-                {detailedHealth.status.toUpperCase()}
-              </span>
+            <div style={styles.healthCard}>
+              <div style={styles.healthIcon}>🟢</div>
+              <div style={styles.healthContent}>
+                <div style={styles.healthLabel}>Status</div>
+                <div style={{
+                  ...styles.healthValue,
+                  color: detailedHealth.status === 'healthy' ? '#28a745' : '#dc3545'
+                }}>
+                  {detailedHealth.status.toUpperCase()}
+                </div>
+              </div>
             </div>
-            <div style={styles.healthItem}>
-              <span style={styles.healthLabel}>API Version:</span>
-              <span style={styles.healthValue}>{detailedHealth.api_version}</span>
+            
+            <div style={styles.healthCard}>
+              <div style={styles.healthIcon}>⚡</div>
+              <div style={styles.healthContent}>
+                <div style={styles.healthLabel}>API Version</div>
+                <div style={styles.healthValue}>{detailedHealth.api_version}</div>
+              </div>
             </div>
-            <div style={styles.healthItem}>
-              <span style={styles.healthLabel}>Schema Version:</span>
-              <span style={styles.healthValue}>{detailedHealth.schema_version}</span>
+            
+            <div style={styles.healthCard}>
+              <div style={styles.healthIcon}>🗄️</div>
+              <div style={styles.healthContent}>
+                <div style={styles.healthLabel}>Schema Version</div>
+                <div style={styles.healthValue} title={detailedHealth.schema_version}>
+                  {detailedHealth.schema_version.length > 20 
+                    ? detailedHealth.schema_version.substring(0, 20) + '...'
+                    : detailedHealth.schema_version
+                  }
+                </div>
+              </div>
             </div>
-            <div style={styles.healthItem}>
-              <span style={styles.healthLabel}>System Release:</span>
-              <span style={styles.healthValue}>{detailedHealth.system_release}</span>
+            
+            <div style={styles.healthCard}>
+              <div style={styles.healthIcon}>🚀</div>
+              <div style={styles.healthContent}>
+                <div style={styles.healthLabel}>System Release</div>
+                <div style={styles.healthValue}>{detailedHealth.system_release}</div>
+              </div>
             </div>
-            <div style={styles.healthItem}>
-              <span style={styles.healthLabel}>Uptime:</span>
-              <span style={styles.healthValue}>{formatUptime(detailedHealth.uptime_seconds)}</span>
+            
+            <div style={styles.healthCard}>
+              <div style={styles.healthIcon}>🌐</div>
+              <div style={styles.healthContent}>
+                <div style={styles.healthLabel}>Web Version</div>
+                <div style={styles.healthValue}>{detailedHealth.web_version || 'N/A'}</div>
+              </div>
             </div>
-            <div style={styles.healthItem}>
-              <span style={styles.healthLabel}>Total API Calls:</span>
-              <span style={styles.healthValue}>{formatNumber(detailedHealth.total_api_calls)}</span>
+            
+            <div style={styles.healthCard}>
+              <div style={styles.healthIcon}>📱</div>
+              <div style={styles.healthContent}>
+                <div style={styles.healthLabel}>Mobile Version</div>
+                <div style={styles.healthValue}>{detailedHealth.mobile_version || 'N/A'}</div>
+              </div>
             </div>
-            <div style={styles.healthItem}>
-              <span style={styles.healthLabel}>Total Errors:</span>
-              <span style={styles.healthValue}>{formatNumber(detailedHealth.total_errors)}</span>
+            
+            <div style={styles.healthCard}>
+              <div style={styles.healthIcon}>⏱️</div>
+              <div style={styles.healthContent}>
+                <div style={styles.healthLabel}>Uptime</div>
+                <div style={styles.healthValue}>{formatUptime(detailedHealth.uptime_seconds)}</div>
+              </div>
             </div>
-            <div style={styles.healthItem}>
-              <span style={styles.healthLabel}>Avg Response Time:</span>
-              <span style={styles.healthValue}>{detailedHealth.average_response_time_ms.toFixed(2)}ms</span>
+            
+            <div style={styles.healthCard}>
+              <div style={styles.healthIcon}>📊</div>
+              <div style={styles.healthContent}>
+                <div style={styles.healthLabel}>Total API Calls</div>
+                <div style={styles.healthValue}>{formatNumber(detailedHealth.total_api_calls)}</div>
+              </div>
+            </div>
+            
+            <div style={styles.healthCard}>
+              <div style={styles.healthIcon}>❌</div>
+              <div style={styles.healthContent}>
+                <div style={styles.healthLabel}>Total Errors</div>
+                <div style={{
+                  ...styles.healthValue,
+                  color: detailedHealth.total_errors > 0 ? '#dc3545' : '#28a745'
+                }}>
+                  {formatNumber(detailedHealth.total_errors)}
+                </div>
+              </div>
+            </div>
+            
+            <div style={styles.healthCard}>
+              <div style={styles.healthIcon}>⚡</div>
+              <div style={styles.healthContent}>
+                <div style={styles.healthLabel}>Avg Response Time</div>
+                <div style={styles.healthValue}>{detailedHealth.average_response_time_ms.toFixed(2)}ms</div>
+              </div>
             </div>
           </div>
         </div>
@@ -257,7 +316,9 @@ const styles: { [key: string]: React.CSSProperties } = {
     maxWidth: '1200px',
     margin: '0 auto',
     padding: '20px',
-    fontFamily: 'system-ui, -apple-system, sans-serif'
+    fontFamily: 'system-ui, -apple-system, sans-serif',
+    backgroundColor: '#f5f7fa',
+    minHeight: '100vh'
   },
   header: {
     textAlign: 'center',
@@ -297,31 +358,62 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
   section: {
     marginBottom: '40px',
-    padding: '20px',
-    backgroundColor: '#f8f9fa',
-    borderRadius: '8px',
-    border: '1px solid #e9ecef'
+    padding: '30px',
+    backgroundColor: '#ffffff',
+    borderRadius: '12px',
+    border: '1px solid #e9ecef',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+  },
+  sectionTitle: {
+    fontSize: '24px',
+    fontWeight: '600',
+    color: '#2c3e50',
+    marginBottom: '25px',
+    paddingBottom: '10px',
+    borderBottom: '2px solid #3498db'
   },
   healthGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-    gap: '15px',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+    gap: '20px',
     marginBottom: '20px'
   },
-  healthItem: {
+  healthCard: {
     display: 'flex',
-    justifyContent: 'space-between',
-    padding: '10px',
-    backgroundColor: 'white',
-    borderRadius: '5px',
-    border: '1px solid #dee2e6'
+    alignItems: 'center',
+    padding: '20px',
+    backgroundColor: '#f8f9fa',
+    borderRadius: '10px',
+    border: '1px solid #e9ecef',
+    boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
+    transition: 'all 0.2s ease',
+    cursor: 'pointer',
+    ':hover': {
+      transform: 'translateY(-2px)',
+      boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+      backgroundColor: '#ffffff'
+    }
+  },
+  healthIcon: {
+    fontSize: '24px',
+    marginRight: '15px',
+    minWidth: '30px'
+  },
+  healthContent: {
+    flex: 1
   },
   healthLabel: {
-    fontWeight: 'bold',
-    color: '#495057'
+    fontSize: '12px',
+    fontWeight: '600',
+    color: '#6c757d',
+    textTransform: 'uppercase',
+    letterSpacing: '0.5px',
+    marginBottom: '5px'
   },
   healthValue: {
-    color: '#212529',
+    fontSize: '16px',
+    fontWeight: '700',
+    color: '#2c3e50',
     fontFamily: 'monospace'
   },
   metricsGrid: {

@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { AdminDashboard } from './pages/AdminDashboard/AdminDashboard';
-import MonitoringPage from './pages/MonitoringPage';
 
 // Admin App Component (Admin + Monitoring only)
 function App() {
@@ -32,7 +31,6 @@ function App() {
           </div>
           <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
             <Link to="/admin" style={{ color: '#5F6368', textDecoration: 'none', fontWeight: '500' }}>Admin</Link>
-            <Link to="/monitoring" style={{ color: '#5F6368', textDecoration: 'none', fontWeight: '500' }}>Monitoring</Link>
           </div>
         </nav>
 
@@ -40,7 +38,6 @@ function App() {
         <main style={{ flex: 1, width: '100%' }}>
           <Routes>
             <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/monitoring" element={<MonitoringPage />} />
             <Route path="/" element={<AdminDashboard />} />
           </Routes>
         </main>

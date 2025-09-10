@@ -315,6 +315,8 @@ def get_detailed_health():
         "api_version": version_info.get("api", "1.0.0"),
         "schema_version": version_info.get("db_schema", "20250906_0537"),
         "system_release": version_info.get("system_release", "2025.09.R1"),
+        "web_version": version_info.get("web", "1.0.0"),
+        "mobile_version": version_info.get("mobile", "1.0.0"),
         "uptime_seconds": version_metrics["uptime_seconds"],
         "total_api_calls": version_metrics["total_api_calls"],
         "total_errors": version_metrics["total_errors"],
