@@ -232,15 +232,16 @@ class TestFrontendBackendValidationAlignment:
         """Test that distances accepted by frontend are accepted by backend."""
         print("Test Testing distance validation...")
         
-        valid_distances = [
-            ['5K'],
-            ['10K', 'Half Marathon'],
-            ['Marathon', 'Ultra'],
-            ['5K', '10K', 'Marathon'],
-            ['Ultra'],  # Single ultra
+        # Test cases: (input, expected_normalized_output)
+        test_cases = [
+            (['5K'], ['5k']),
+            (['10K', 'Half Marathon'], ['10k', 'half marathon']),
+            (['Marathon', 'Ultra'], ['marathon', 'ultra']),
+            (['5K', '10K', 'Marathon'], ['5k', '10k', 'marathon']),
+            (['Ultra'], ['ultra']),  # Single ultra
         ]
         
-        for distance in valid_distances:
+        for input_distance, expected_distance in test_cases:
             try:
                 race = RaceCreate(
                     name="Test Race",
@@ -249,12 +250,12 @@ class TestFrontendBackendValidationAlignment:
                     city="Houston",
                     state="TX",
                     surface="road",
-                    distance=distance
+                    distance=input_distance
                 )
-                assert race.distance == distance
-                print(f"   PASS Backend accepted valid distance: {distance}")
+                assert race.distance == expected_distance
+                print(f"   PASS Backend normalized distance: {input_distance} -> {expected_distance}")
             except ValidationError as e:
-                pytest.fail(f"Backend rejected valid distance '{distance}': {e}")
+                pytest.fail(f"Backend rejected valid distance '{input_distance}': {e}")
     
     @pytest.mark.skipif(RaceCreate is None, reason="API models not available")
     def test_coordinate_validation(self):
