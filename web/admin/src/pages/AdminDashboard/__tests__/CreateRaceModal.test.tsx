@@ -1,4 +1,4 @@
-import React from 'react';
+// React import removed as it's not used in this test file
 
 // Simple test to verify the CreateRaceModal functionality
 // This avoids React DOM rendering issues and import.meta problems while testing the important logic

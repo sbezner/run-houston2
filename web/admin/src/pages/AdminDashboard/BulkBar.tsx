@@ -2,6 +2,7 @@ import React from 'react';
 
 interface BulkBarProps {
   selectedCount: number;
+  onSelectAll: () => void;
   onClearSelection: () => void;
   onBulkDelete: () => void;
 }

@@ -1,5 +1,5 @@
 import type { RaceReportCsvRow, RaceReportUpsert, ImportError, ValidationResult } from './errors';
-import { raceReports } from '@shared/services/api';
+import { raceReports, races } from '@shared/services/api';
 import { auth } from '@shared/services/auth';
 
 export async function validateAndTransform(rows: RaceReportCsvRow[]): Promise<ValidationResult> {
@@ -231,7 +231,6 @@ export async function validateAndTransform(rows: RaceReportCsvRow[]): Promise<Va
       console.log('Race ID validation - Token available:', !!token);
       console.log('Race IDs to validate:', raceIdsToValidate);
       if (token) {
-        const { races } = await import('@shared/services/api');
         const validationResult = await races.validateIds(raceIdsToValidate, token);
         console.log('Race ID validation result:', validationResult);
         existingRaceIds = validationResult.existing_ids || [];

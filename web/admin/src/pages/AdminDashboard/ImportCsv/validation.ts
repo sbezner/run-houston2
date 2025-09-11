@@ -1,5 +1,7 @@
 // import { z } from 'zod'; // Commented out since schema is not used
 import type { CsvRow, ValidationError, NormalizedRow } from './errors';
+import { races } from '@shared/services/api';
+import { auth } from '@shared/services/auth';
 
 // Validation functions
 export function validateRequired(value: string | undefined, fieldName: string): string | null {
@@ -614,10 +616,6 @@ export async function validateAndTransform(rows: CsvRow[]): Promise<import('./er
   
   if (idsToValidate.length > 0) {
     try {
-      // Import the races API service
-      const { races } = await import('@shared/services/api');
-      const { auth } = await import('@shared/services/auth');
-      
       const token = auth.getToken();
       if (token) {
         const validationResult = await races.validateIds(idsToValidate, token);

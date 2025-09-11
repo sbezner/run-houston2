@@ -46,12 +46,12 @@ export interface NormalizedRow {
   longitude?: number;
 }
 
-export type RaceUpsert = Omit<import('../../../types').Race, 'id'> & { id?: number };
+export type RaceUpsert = Omit<import('@shared/types').Race, 'id'> & { id?: number };
 
 export type ImportError = {
   rowIndex: number;                      // 1-based excluding header
   field: keyof RaceUpsert | "row";
-  code: "REQUIRED" | "INVALID_DATE" | "INVALID_TIME" | "INVALID_URL" | "OUT_OF_RANGE" | "HEADER_MISSING" | "DUPLICATE" | "PARSE_ERROR" | "INCONSISTENT_COORDS" | "INVALID_SURFACE" | "INVALID_DISTANCE" | "INVALID_KID_RUN" | "INVALID_LATITUDE" | "INVALID_LONGITUDE";
+  code: "REQUIRED" | "INVALID_DATE" | "INVALID_TIME" | "INVALID_URL" | "OUT_OF_RANGE" | "HEADER_MISSING" | "DUPLICATE" | "PARSE_ERROR" | "INCONSISTENT_COORDS" | "INVALID_SURFACE" | "INVALID_DISTANCE" | "INVALID_KID_RUN" | "INVALID_LATITUDE" | "INVALID_LONGITUDE" | "ID_NOT_FOUND";
   message: string;
   originalValue?: string;
   hint?: string;

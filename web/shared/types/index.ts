@@ -23,9 +23,9 @@ export interface Race {
 export interface Club {
   id: number;
   club_name: string;
-  location?: string;
-  website_url?: string;
-  description?: string;
+  location?: string | null;
+  website_url?: string | null;
+  description?: string | null;
 }
 
 export interface RaceReport {
@@ -40,6 +40,13 @@ export interface RaceReport {
   created_at: string;
   updated_at: string;
   race?: Race;
+}
+
+export interface RaceReportsResponse {
+  items: RaceReport[];
+  total: number;
+  limit: number;
+  offset: number;
 }
 
 export interface AdminLogin {

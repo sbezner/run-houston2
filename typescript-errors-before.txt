@@ -1,0 +1,104 @@
+admin/src/pages/AdminDashboard/__tests__/AdminRacesPage.test.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+admin/src/pages/AdminDashboard/__tests__/AdminRacesPage.test.tsx(2,1): error TS6192: All imports in import declaration are unused.
+admin/src/pages/AdminDashboard/__tests__/CreateRaceModal.test.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+admin/src/pages/AdminDashboard/__tests__/ImportRacesModal.test.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+admin/src/pages/AdminDashboard/__tests__/ImportRacesModal.test.tsx(2,1): error TS6192: All imports in import declaration are unused.
+admin/src/pages/AdminDashboard/__tests__/ImportRacesModal.test.tsx(30,11): error TS6133: 'mockOnClose' is declared but its value is never read.
+admin/src/pages/AdminDashboard/__tests__/ImportRacesModal.test.tsx(31,11): error TS6133: 'mockOnImportComplete' is declared but its value is never read.
+admin/src/pages/AdminDashboard/AdminClubsPage.tsx(574,14): error TS2345: Argument of type '{ club_name: string; location: string | null; website_url: string | null; description: string | null; }' is not assignable to parameter of type 'Partial<Club>'.
+  Types of property 'location' are incompatible.
+    Type 'string | null' is not assignable to type 'string | undefined'.
+      Type 'null' is not assignable to type 'string | undefined'.
+admin/src/pages/AdminDashboard/AdminDashboard.tsx(9,20): error TS6133: 'useEffect' is declared but its value is never read.
+admin/src/pages/AdminDashboard/AdminRaceReportsPage.tsx(3,27): error TS2305: Module '"@shared/types"' has no exported member 'RaceReportsResponse'.
+admin/src/pages/AdminDashboard/AdminRaceReportsPage.tsx(72,35): error TS6133: 'field' is declared but its value is never read.
+admin/src/pages/AdminDashboard/AdminRaceReportsPage.tsx(96,68): error TS2554: Expected 0 arguments, but got 1.
+admin/src/pages/AdminDashboard/AdminRaceReportsPage.tsx(157,32): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+admin/src/pages/AdminDashboard/AdminRaceReportsPage.tsx(183,32): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+admin/src/pages/AdminDashboard/AdminRaceReportsPage.tsx(210,34): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+admin/src/pages/AdminDashboard/AdminRaceReportsPage.tsx(243,55): error TS2554: Expected 1 arguments, but got 2.
+admin/src/pages/AdminDashboard/BulkBar.tsx(11,3): error TS2339: Property 'onSelectAll' does not exist on type 'BulkBarProps'.
+admin/src/pages/AdminDashboard/BulkBar.tsx(11,3): error TS6133: 'onSelectAll' is declared but its value is never read.
+admin/src/pages/AdminDashboard/ImportCsv/errors.ts(49,38): error TS2307: Cannot find module '../../../types' or its corresponding type declarations.
+admin/src/pages/AdminDashboard/ImportCsv/ImportPanel.tsx(44,33): error TS2339: Property 'valid' does not exist on type 'Promise<ValidationResult>'.
+admin/src/pages/AdminDashboard/ImportCsv/ImportPanel.tsx(45,34): error TS2339: Property 'errors' does not exist on type 'Promise<ValidationResult>'.
+admin/src/pages/AdminDashboard/ImportCsv/ImportPanel.tsx(46,36): error TS2339: Property 'warnings' does not exist on type 'Promise<ValidationResult>'.
+admin/src/pages/AdminDashboard/ImportCsv/ImportPanel.tsx(48,22): error TS2339: Property 'errors' does not exist on type 'Promise<ValidationResult>'.
+admin/src/pages/AdminDashboard/ImportCsv/ImportPanel.tsx(101,33): error TS2339: Property 'date' does not exist on type '{ source: any; id: number | null; }'.
+admin/src/pages/AdminDashboard/ImportCsv/ImportPanel.tsx(103,55): error TS2339: Property 'date' does not exist on type '{ source: any; id: number | null; }'.
+admin/src/pages/AdminDashboard/ImportCsv/ImportPanel.tsx(108,37): error TS2339: Property 'date' does not exist on type '{ source: any; id: number | null; }'.
+admin/src/pages/AdminDashboard/ImportCsv/ImportPanel.tsx(110,90): error TS2339: Property 'date' does not exist on type '{ source: any; id: number | null; }'.
+admin/src/pages/AdminDashboard/ImportCsv/ImportPanel.tsx(111,61): error TS2339: Property 'date' does not exist on type '{ source: any; id: number | null; }'.
+admin/src/pages/AdminDashboard/ImportCsv/ImportPanel.tsx(114,68): error TS2339: Property 'date' does not exist on type '{ source: any; id: number | null; }'.
+admin/src/pages/AdminDashboard/ImportCsv/validation.ts(634,15): error TS2322: Type '"ID_NOT_FOUND"' is not assignable to type '"HEADER_MISSING" | "INVALID_URL" | "PARSE_ERROR" | "REQUIRED" | "INVALID_DATE" | "INVALID_TIME" | "OUT_OF_RANGE" | "DUPLICATE" | "INCONSISTENT_COORDS" | "INVALID_SURFACE" | "INVALID_DISTANCE" | "INVALID_KID_RUN" | "INVALID_LATITUDE" | "INVALID_LONGITUDE"'.
+admin/src/pages/AdminDashboard/ImportRacesModal.tsx(17,10): error TS6133: 'previewRows' is declared but its value is never read.
+admin/src/pages/AdminDashboard/ImportRacesModal.tsx(111,39): error TS2339: Property 'date' does not exist on type '{ source: any; id: number | null; }'.
+admin/src/pages/AdminDashboard/ImportRacesModal.tsx(114,60): error TS2339: Property 'date' does not exist on type '{ source: any; id: number | null; }'.
+admin/src/pages/AdminDashboard/ImportRacesModal.tsx(116,67): error TS2339: Property 'date' does not exist on type '{ source: any; id: number | null; }'.
+admin/src/pages/AdminDashboard/ImportRacesModal.tsx(118,32): error TS2339: Property 'date' does not exist on type '{ source: any; id: number | null; }'.
+admin/src/pages/MonitoringPage.tsx(391,5): error TS2353: Object literal may only specify known properties, and '':hover'' does not exist in type 'Properties<string | number, string & {}>'.
+main/src/admin/pages/AdminDashboard/__tests__/AdminRacesPage.test.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+main/src/admin/pages/AdminDashboard/__tests__/AdminRacesPage.test.tsx(2,1): error TS6192: All imports in import declaration are unused.
+main/src/admin/pages/AdminDashboard/__tests__/CreateRaceModal.test.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+main/src/admin/pages/AdminDashboard/__tests__/ImportRacesModal.test.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+main/src/admin/pages/AdminDashboard/__tests__/ImportRacesModal.test.tsx(2,1): error TS6192: All imports in import declaration are unused.
+main/src/admin/pages/AdminDashboard/__tests__/ImportRacesModal.test.tsx(30,11): error TS6133: 'mockOnClose' is declared but its value is never read.
+main/src/admin/pages/AdminDashboard/__tests__/ImportRacesModal.test.tsx(31,11): error TS6133: 'mockOnImportComplete' is declared but its value is never read.
+main/src/admin/pages/AdminDashboard/AdminClubsPage.tsx(602,14): error TS2345: Argument of type '{ club_name: string; location: string | null; website_url: string | null; description: string | null; }' is not assignable to parameter of type 'Partial<Club>'.
+  Types of property 'location' are incompatible.
+    Type 'string | null' is not assignable to type 'string | undefined'.
+      Type 'null' is not assignable to type 'string | undefined'.
+main/src/admin/pages/AdminDashboard/AdminDashboard.tsx(8,20): error TS6133: 'useEffect' is declared but its value is never read.
+main/src/admin/pages/AdminDashboard/AdminRaceReportsPage.tsx(3,27): error TS2305: Module '"@shared/types"' has no exported member 'RaceReportsResponse'.
+main/src/admin/pages/AdminDashboard/AdminRaceReportsPage.tsx(72,35): error TS6133: 'field' is declared but its value is never read.
+main/src/admin/pages/AdminDashboard/AdminRaceReportsPage.tsx(96,68): error TS2554: Expected 0 arguments, but got 1.
+main/src/admin/pages/AdminDashboard/AdminRaceReportsPage.tsx(157,32): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+main/src/admin/pages/AdminDashboard/AdminRaceReportsPage.tsx(183,32): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+main/src/admin/pages/AdminDashboard/AdminRaceReportsPage.tsx(210,34): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+main/src/admin/pages/AdminDashboard/AdminRaceReportsPage.tsx(243,55): error TS2554: Expected 1 arguments, but got 2.
+main/src/admin/pages/AdminDashboard/BulkBar.tsx(11,3): error TS2339: Property 'onSelectAll' does not exist on type 'BulkBarProps'.
+main/src/admin/pages/AdminDashboard/BulkBar.tsx(11,3): error TS6133: 'onSelectAll' is declared but its value is never read.
+main/src/admin/pages/AdminDashboard/ImportCsv/errors.ts(49,38): error TS2307: Cannot find module '../../../types' or its corresponding type declarations.
+main/src/admin/pages/AdminDashboard/ImportCsv/ImportPanel.tsx(101,33): error TS2339: Property 'date' does not exist on type '{ source: any; id: number | null; }'.
+main/src/admin/pages/AdminDashboard/ImportCsv/ImportPanel.tsx(103,55): error TS2339: Property 'date' does not exist on type '{ source: any; id: number | null; }'.
+main/src/admin/pages/AdminDashboard/ImportCsv/ImportPanel.tsx(108,37): error TS2339: Property 'date' does not exist on type '{ source: any; id: number | null; }'.
+main/src/admin/pages/AdminDashboard/ImportCsv/ImportPanel.tsx(110,90): error TS2339: Property 'date' does not exist on type '{ source: any; id: number | null; }'.
+main/src/admin/pages/AdminDashboard/ImportCsv/ImportPanel.tsx(111,61): error TS2339: Property 'date' does not exist on type '{ source: any; id: number | null; }'.
+main/src/admin/pages/AdminDashboard/ImportCsv/ImportPanel.tsx(114,68): error TS2339: Property 'date' does not exist on type '{ source: any; id: number | null; }'.
+main/src/admin/pages/AdminDashboard/ImportRacesModal.tsx(105,39): error TS2339: Property 'date' does not exist on type '{ source: any; id: number | null; }'.
+main/src/admin/pages/AdminDashboard/ImportRacesModal.tsx(108,60): error TS2339: Property 'date' does not exist on type '{ source: any; id: number | null; }'.
+main/src/admin/pages/AdminDashboard/ImportRacesModal.tsx(110,67): error TS2339: Property 'date' does not exist on type '{ source: any; id: number | null; }'.
+main/src/admin/pages/AdminDashboard/ImportRacesModal.tsx(112,32): error TS2339: Property 'date' does not exist on type '{ source: any; id: number | null; }'.
+main/src/main/pages/ReportDetail.tsx(20,40): error TS2339: Property 'getById' does not exist on type '{ list: () => Promise<any>; get: (id: string) => Promise<any>; create: (reportData: any, token: string) => Promise<any>; update: (id: string, reportData: any, token: string) => Promise<...>; delete: (id: string, token: string) => Promise<...>; exportCsv: (token: string) => Promise<...>; importCsv: (file: File, token...'.
+main/src/main/pages/ReportsPage.tsx(4,27): error TS2305: Module '"@shared/types"' has no exported member 'RaceReportsResponse'.
+main/src/main/pages/ReportsPage.tsx(20,68): error TS2554: Expected 0 arguments, but got 1.
+main/src/pages/__tests__/ClubsPage.test.tsx(75,112): error TS2339: Property 'trim' does not exist on type 'never'.
+main/src/pages/__tests__/ClubsPage.test.tsx(100,100): error TS2339: Property 'trim' does not exist on type 'never'.
+main/src/pages/AdminDashboard/__tests__/AdminRacesPage.test.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+main/src/pages/AdminDashboard/__tests__/AdminRacesPage.test.tsx(2,1): error TS6192: All imports in import declaration are unused.
+main/src/pages/AdminDashboard/__tests__/CreateRaceModal.test.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+main/src/pages/AdminDashboard/__tests__/ImportRacesModal.test.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+main/src/pages/AdminDashboard/__tests__/ImportRacesModal.test.tsx(2,1): error TS6192: All imports in import declaration are unused.
+main/src/pages/AdminDashboard/__tests__/ImportRacesModal.test.tsx(30,11): error TS6133: 'mockOnClose' is declared but its value is never read.
+main/src/pages/AdminDashboard/__tests__/ImportRacesModal.test.tsx(31,11): error TS6133: 'mockOnImportComplete' is declared but its value is never read.
+main/src/pages/AdminDashboard/AdminClubsPage.tsx(602,14): error TS2345: Argument of type '{ club_name: string; location: string | null; website_url: string | null; description: string | null; }' is not assignable to parameter of type 'Partial<Club>'.
+  Types of property 'location' are incompatible.
+    Type 'string | null' is not assignable to type 'string | undefined'.
+      Type 'null' is not assignable to type 'string | undefined'.
+main/src/pages/AdminDashboard/AdminDashboard.tsx(8,20): error TS6133: 'useEffect' is declared but its value is never read.
+main/src/pages/AdminDashboard/AdminRaceReportsPage.tsx(3,27): error TS2305: Module '"@shared/types"' has no exported member 'RaceReportsResponse'.
+main/src/pages/AdminDashboard/AdminRaceReportsPage.tsx(72,35): error TS6133: 'field' is declared but its value is never read.
+main/src/pages/AdminDashboard/AdminRaceReportsPage.tsx(96,68): error TS2554: Expected 0 arguments, but got 1.
+main/src/pages/AdminDashboard/AdminRaceReportsPage.tsx(157,32): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+main/src/pages/AdminDashboard/AdminRaceReportsPage.tsx(183,32): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+main/src/pages/AdminDashboard/AdminRaceReportsPage.tsx(210,34): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+main/src/pages/AdminDashboard/AdminRaceReportsPage.tsx(243,55): error TS2554: Expected 1 arguments, but got 2.
+main/src/pages/AdminDashboard/BulkBar.tsx(11,3): error TS2339: Property 'onSelectAll' does not exist on type 'BulkBarProps'.
+main/src/pages/AdminDashboard/BulkBar.tsx(11,3): error TS6133: 'onSelectAll' is declared but its value is never read.
+main/src/pages/ReportDetail.tsx(20,40): error TS2339: Property 'getById' does not exist on type '{ list: () => Promise<any>; get: (id: string) => Promise<any>; create: (reportData: any, token: string) => Promise<any>; update: (id: string, reportData: any, token: string) => Promise<...>; delete: (id: string, token: string) => Promise<...>; exportCsv: (token: string) => Promise<...>; importCsv: (file: File, token...'.
+main/src/pages/ReportsPage.tsx(4,27): error TS2305: Module '"@shared/types"' has no exported member 'RaceReportsResponse'.
+main/src/pages/ReportsPage.tsx(20,68): error TS2554: Expected 0 arguments, but got 1.
+main/src/services/networkMonitor.ts(88,13): error TS6133: 'response' is declared but its value is never read.
+main/src/utils/__tests__/csvExport.test.ts(40,11): error TS6133: 'emptyData' is declared but its value is never read.
+shared/components/admin/RaceReportsImport/validation.ts(225,7): error TS6133: 'existingRaceIds' is declared but its value is never read.
+shared/services/auth.ts(46,21): error TS2339: Property 'verify' does not exist on type '{ login: (username: string, password: string) => Promise<any>; }'.

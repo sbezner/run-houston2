@@ -242,15 +242,20 @@ export const raceReports = {
     return api.get(`/race_reports/${id}`);
   },
   
+  getById: async (id: number, includeRace?: boolean) => {
+    const params = includeRace ? '?include_race=true' : '';
+    return api.get(`/race_reports/${id}${params}`);
+  },
+  
   create: async (reportData: any, token: string) => {
     return api.post('/race_reports', reportData, token);
   },
   
-  update: async (id: string, reportData: any, token: string) => {
+  update: async (id: string | number, reportData: any, token: string) => {
     return api.put(`/race_reports/${id}`, reportData, token);
   },
   
-  delete: async (id: string, token: string) => {
+  delete: async (id: string | number, token: string) => {
     return api.delete(`/race_reports/${id}`, token);
   },
   
