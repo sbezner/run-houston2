@@ -14,8 +14,8 @@ The API reads version information from `releases/system-release.json`:
 {
   "system_release": "2025.09.R1",
   "api": "1.0.0",
-  "db_schema": "20250906_0537",
-  "web": "1.0.0",
+  "db_schema": "20250909_2026_complete_database_schema",
+  "web": "1.0.1",
   "mobile": "1.0.0",
   "api_path_major": "v1",
   "compatibility": {
@@ -31,7 +31,7 @@ All API responses include the following headers:
 
 - **API-Version**: Current API version (e.g., "1.0.0")
 - **API-Path-Major**: API path major version (e.g., "v1")
-- **Schema-Version**: Database schema version (e.g., "20250906_0537")
+- **Schema-Version**: Database schema version (e.g., "20250909_2026_complete_database_schema")
 
 ## API Endpoints
 
@@ -44,7 +44,7 @@ Returns detailed version information for client compatibility checking.
 {
   "api_version": "1.0.0",
   "api_path_major": "v1",
-  "schema_version": "20250906_0537",
+  "schema_version": "20250909_2026_complete_database_schema",
   "system_release": "2025.09.R1",
   "deprecated": false,
   "sunset_date": null,
@@ -65,7 +65,7 @@ Enhanced health check endpoint with version information.
 {
   "status": "healthy",
   "api_version": "1.0.0",
-  "schema_version": "20250906_0537",
+  "schema_version": "20250909_2026_complete_database_schema",
   "system_release": "2025.09.R1",
   "uptime": "unknown",
   "last_deployment": "unknown"

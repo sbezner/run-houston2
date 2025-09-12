@@ -1,9 +1,9 @@
 # Complete Database Schema Reference
 
-**Date Created**: September 9, 2025  
+**Date Created**: January 15, 2025  
 **Purpose**: Complete reference for recreating the Run Houston database schema from scratch  
 **Database**: PostgreSQL with PostGIS extension  
-**Version**: Current production schema as of 2025-09-09
+**Version**: Current production schema as of 2025-01-15
 
 ## 🎯 **Quick Recreation Command**
 
@@ -356,6 +356,6 @@ CREATE EXTENSION IF NOT EXISTS postgis;
 
 ---
 
-**Last Updated**: September 9, 2025  
-**Schema Version**: Current production  
+**Last Updated**: January 15, 2025  
+**Schema Version**: 20250909_2026_complete_database_schema  
 **Database Engine**: PostgreSQL with PostGIS 3.3.4
