@@ -23,6 +23,44 @@ CREATE TABLE schema_migrations (
 );
 ```
 
+## Current Migration
+
+### Single Migration File
+The system currently uses **one comprehensive migration file**:
+
+- **File**: `20250909_2026_complete_database_schema.sql`
+- **Description**: Complete database schema setup
+- **Includes**: All tables, indexes, triggers, functions, and sample data
+
+### What This Migration Includes
+```sql
+-- PostGIS Extensions
+CREATE EXTENSION IF NOT EXISTS postgis;
+
+-- Core Tables
+- races (with spatial geometry support)
+- race_reports 
+- clubs
+- schema_migrations (tracking table)
+
+-- Spatial Functions
+- set_race_geom() - Auto-populate geometry from lat/lng
+- update_race_reports_updated_at() - Timestamp updates
+- validate_distance_array() - Distance validation
+
+-- Indexes
+- Spatial indexes for geographic queries
+- Performance indexes for common queries
+
+-- Triggers
+- Geometry auto-population
+- Timestamp updates
+
+-- Sample Data
+- Admin user creation
+- Test data for development
+```
+
 ## Running Migrations
 
 ### Basic Usage
@@ -53,31 +91,70 @@ python scripts/migrate.py --help
 5. **Application**: Runs pending migrations in order
 6. **Tracking**: Records applied migrations in `schema_migrations` table
 
-## Creating Migrations
+## Production Deployment
+
+### Render.com Database Setup
+
+1. **Create PostgreSQL Database**
+   ```bash
+   # In Render dashboard, create new PostgreSQL service
+   # Note the DATABASE_URL from the service
+   ```
+
+2. **Enable PostGIS Extensions**
+   ```sql
+   -- Connect to database and run:
+   CREATE EXTENSION IF NOT EXISTS postgis;
+   CREATE EXTENSION IF NOT EXISTS postgis_topology;
+   CREATE EXTENSION IF NOT EXISTS postgis_sfcgal;
+   ```
+
+3. **Run Migration**
+   ```bash
+   # Set environment variable
+   export DATABASE_URL="your_render_database_url_here"
+   
+   # Run migration
+   python scripts/migrate.py --env prod --verbose
+   ```
+
+4. **Verify Migration**
+   ```sql
+   -- Check that migration was applied
+   SELECT * FROM schema_migrations;
+   
+   -- Verify tables exist
+   \dt
+   
+   -- Check PostGIS is working
+   SELECT PostGIS_Version();
+   ```
+
+## Creating New Migrations
 
 ### File Naming
 - **Format**: `YYYYMMDD_HHMM_description.sql`
-- **Example**: `20250115_1430_create_schema_migrations_table.sql`
+- **Example**: `20250115_1430_add_user_preferences.sql`
 - **Timestamp**: Use current date/time when creating migration
 
 ### File Structure
 ```sql
--- Migration: 20250115_1430_create_schema_migrations_table
--- Description: Create migration tracking table
+-- Migration: 20250115_1430_add_user_preferences
+-- Description: Add user preferences table
 -- Rollback Safe: true
 
 -- Your SQL changes here
-CREATE TABLE IF NOT EXISTS schema_migrations (
-    version VARCHAR(255) PRIMARY KEY,
-    applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    description TEXT,
-    checksum VARCHAR(255),
-    rollback_safe BOOLEAN DEFAULT false
+CREATE TABLE IF NOT EXISTS user_preferences (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    preference_key VARCHAR(100) NOT NULL,
+    preference_value TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Self-record this migration
 INSERT INTO schema_migrations (version, description, rollback_safe)
-VALUES ('20250115_1430_create_schema_migrations_table', 'Create migration tracking table', true)
+VALUES ('20250115_1430_add_user_preferences', 'Add user preferences table', true)
 ON CONFLICT (version) DO NOTHING;
 ```
 
@@ -131,13 +208,13 @@ Each migration file must include:
 
 #### Migration Already Applied
 ```
-Error: Migration 20250115_1430_create_schema_migrations_table already applied
+Error: Migration 20250909_2026_complete_database_schema already applied
 ```
 **Solution**: Check `schema_migrations` table to see if migration was already run.
 
 #### Checksum Mismatch
 ```
-Error: Checksum mismatch for migration 20250115_1430_create_schema_migrations_table
+Error: Checksum mismatch for migration 20250909_2026_complete_database_schema
 ```
 **Solution**: File was modified after being applied. Restore original file or manually update checksum.
 
@@ -164,7 +241,7 @@ SELECT * FROM schema_migrations ORDER BY applied_at;
 
 -- Manually add migration record
 INSERT INTO schema_migrations (version, description, rollback_safe)
-VALUES ('20250115_1430_create_schema_migrations_table', 'Create migration tracking table', true);
+VALUES ('20250909_2026_complete_database_schema', 'Complete database schema setup', true);
 ```
 
 #### Rollback Migration
@@ -248,30 +325,8 @@ Migrations can be integrated into deployment pipelines:
 - **Compatibility**: Verify API and database versions match
 - **Health Checks**: Ensure system is healthy after migration
 
-## Security Considerations
+---
 
-### Database Access
-- **Limited Permissions**: Migration runner should have minimal required permissions
-- **Connection Security**: Use secure connection strings
-- **Audit Logging**: Log all migration activities
-
-### File Integrity
-- **Checksums**: Verify migration file integrity
-- **Source Control**: Keep migrations in version control
-- **Access Control**: Limit who can create and modify migrations
-
-## Performance Considerations
-
-### Large Migrations
-- **Batch Processing**: Process large datasets in batches
-- **Index Management**: Drop indexes before large data changes, recreate after
-- **Lock Management**: Minimize table locks during migration
-
-### Migration Timing
-- **Off-peak Hours**: Run migrations during low-traffic periods
-- **Estimated Duration**: Estimate migration time and plan accordingly
-- **Monitoring**: Watch for performance impact during migration
-
-## Conclusion
-
-The migration system provides a robust, safe way to evolve the database schema while maintaining data integrity and providing rollback capabilities. Follow these guidelines to ensure smooth, reliable database migrations in all environments.
+**Last Updated**: 2025-01-15  
+**Migration File**: 20250909_2026_complete_database_schema.sql  
+**Status**: Production Ready
