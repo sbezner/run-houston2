@@ -26,12 +26,12 @@ def run_test(test_file, description):
                               capture_output=True, text=True, cwd=os.path.dirname(__file__))
         
         if result.returncode == 0:
-            print("✅ Test PASSED")
+            print("PASS Test PASSED")
             if result.stdout:
                 print("Output:")
                 print(result.stdout)
         else:
-            print("❌ Test FAILED")
+            print("FAIL Test FAILED")
             if result.stderr:
                 print("Errors:")
                 print(result.stderr)
@@ -42,12 +42,12 @@ def run_test(test_file, description):
         return result.returncode == 0
         
     except Exception as e:
-        print(f"❌ Error running test: {e}")
+        print(f"FAIL Error running test: {e}")
         return False
 
 def main():
     """Run all version and migration tests."""
-    print("🔄 Version and Migration System Test Suite")
+    print("Version and Migration System Test Suite")
     print("=" * 60)
     print("This test suite verifies:")
     print("  • API version headers on all endpoints")
@@ -84,11 +84,11 @@ def main():
     print(f"Success Rate: {(passed/(passed+failed)*100):.1f}%")
     
     if failed == 0:
-        print("\n🎉 ALL VERSION AND MIGRATION TESTS PASSED!")
+        print("\nSUCCESS ALL VERSION AND MIGRATION TESTS PASSED!")
         print("The versioning system is working correctly.")
         return 0
     else:
-        print(f"\n💥 {failed} test(s) failed. Please investigate and fix the issues.")
+        print(f"\nFAIL {failed} test(s) failed. Please investigate and fix the issues.")
         return 1
 
 if __name__ == "__main__":

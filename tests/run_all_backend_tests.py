@@ -66,7 +66,8 @@ def main():
         ("021_bug_15_authentication_error_handling_test.py", "Bug #15 Authentication Error Handling Test - Critical Security Fix"),
         ("022_version_test.py", "Version System Test - API Headers, Endpoints, and Consistency"),
         ("023_migration_test.py", "Migration System Test - Migration Runner and Tracking"),
-        ("024_monitoring_test.py", "Monitoring System Test - Metrics, Performance, and Health Tracking")
+        ("024_monitoring_test.py", "Monitoring System Test - Metrics, Performance, and Health Tracking"),
+        ("025_run_version_migration_tests.py", "Version Migration Tests - Version System and Migration Integration")
     ]
     
     passed = 0
