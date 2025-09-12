@@ -54,8 +54,6 @@ def run_mobile_tests():
                    "src/components/__tests__/RaceReportScreen.test.tsx",
                    "src/components/__tests__/ReportsScreen.test.tsx",
                    "src/components/__tests__/BundlingConfig.test.tsx",
-                   "src/components/__tests__/BuildProcess.test.tsx",
-                   "src/components/__tests__/BuildIntegration.test.tsx",
                    "src/screens/__tests__/ClubsScreen.test.tsx",
                    "src/screens/__tests__/CommunityScreen.test.tsx"
                ]

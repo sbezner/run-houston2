@@ -12,6 +12,7 @@ import {
   Platform,
   StatusBar,
 } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -76,20 +77,27 @@ function ListStack() {
         options={{ title: 'Monitoring' }}
       />
       <Stack.Screen 
-        name="Reports" 
+        name="About" 
+        component={AboutScreen}
+        options={{ title: 'About' }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+// Reports Stack Navigator
+function ReportsStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen 
+        name="ReportsList" 
         component={ReportsScreen}
         options={{ title: 'Race Reports' }}
       />
       <Stack.Screen 
         name="RaceReport" 
+        component={RaceReportScreen}
         options={{ title: 'Race Report' }}
-      >
-        {(props) => <RaceReportScreen {...props} />}
-      </Stack.Screen>
-      <Stack.Screen 
-        name="About" 
-        component={AboutScreen}
-        options={{ title: 'About' }}
       />
     </Stack.Navigator>
   );
@@ -301,14 +309,14 @@ function ResultsScreen({ navigation }: any) {
       const res = await fetchRaceReports({ limit: 2, offset: 0, race_id: raceIdNum as number });
       const count = res.items?.length ?? 0;
       if (count === 1) {
-        navigation.navigate('RaceReport', { report: res.items[0] });
+        navigation.navigate('RaceReports', { screen: 'RaceReport', params: { report: res.items[0] } });
         return;
       }
       // If 0 or multiple, show the list filtered to the race
-      navigation.navigate('Reports', { race_id: raceIdNum, race_name: race.name });
+      navigation.navigate('RaceReports', { screen: 'ReportsList', params: { race_id: raceIdNum, race_name: race.name } });
     } catch (e) {
       // On any error, take the user to the reports list as a safe fallback
-      navigation.navigate('Reports');
+      navigation.navigate('RaceReports');
     }
   };
 
@@ -486,15 +494,15 @@ function MapScreen({ navigation }: any) {
       const res = await fetchRaceReports({ limit: 2, offset: 0, race_id: raceIdNum as number });
       const count = res.items?.length ?? 0;
       if (count === 1) {
-        // Navigate to List tab first, then to RaceReport
-        navigation.navigate('List', { screen: 'RaceReport', params: { report: res.items[0] } });
+        // Navigate to RaceReports tab first, then to RaceReport
+        navigation.navigate('RaceReports', { screen: 'RaceReport', params: { report: res.items[0] } });
         return;
       }
       // If 0 or multiple, show the list filtered to the race
-      navigation.navigate('List', { screen: 'Reports', params: { race_id: raceIdNum, race_name: race.name } });
+      navigation.navigate('RaceReports', { screen: 'ReportsList', params: { race_id: raceIdNum, race_name: race.name } });
     } catch (e) {
       // On any error, take the user to the reports list as a safe fallback
-      navigation.navigate('List', { screen: 'Reports' });
+      navigation.navigate('RaceReports');
     }
   };
 
@@ -602,46 +610,48 @@ export default function App() {
   }, []);
 
   return (
-    <DateFilterProvider>
-      <FilterContext.Provider value={{ filters: sharedFilters, setFilters: setSharedFilters }}>
-        <NavigationContainer>
-          <Tab.Navigator
-            screenOptions={({ route }) => ({
-              tabBarIcon: ({ focused, color, size }) => {
-                if (route.name === 'Community') {
-                  return <Text style={{ fontSize: size, color }}>👥</Text>;
-                }
+    <SafeAreaProvider>
+      <DateFilterProvider>
+        <FilterContext.Provider value={{ filters: sharedFilters, setFilters: setSharedFilters }}>
+          <NavigationContainer>
+            <Tab.Navigator
+              screenOptions={({ route }) => ({
+                tabBarIcon: ({ focused, color, size }) => {
+                  if (route.name === 'Community') {
+                    return <Text style={{ fontSize: size, color }}>👥</Text>;
+                  }
 
-                let iconName: keyof typeof Ionicons.glyphMap;
+                  let iconName: keyof typeof Ionicons.glyphMap;
 
-                if (route.name === 'List') {
-                  iconName = focused ? 'list' : 'list-outline';
-                } else if (route.name === 'Map') {
-                  iconName = focused ? 'map' : 'map-outline';
-                } else if (route.name === 'Clubs') {
-                  iconName = focused ? 'people' : 'people-outline';
-                } else if (route.name === 'RaceReports') {
-                  iconName = focused ? 'document-text' : 'document-text-outline';
-                } else {
-                  iconName = 'help-outline';
-                }
+                  if (route.name === 'List') {
+                    iconName = focused ? 'list' : 'list-outline';
+                  } else if (route.name === 'Map') {
+                    iconName = focused ? 'map' : 'map-outline';
+                  } else if (route.name === 'Clubs') {
+                    iconName = focused ? 'people' : 'people-outline';
+                  } else if (route.name === 'RaceReports') {
+                    iconName = focused ? 'document-text' : 'document-text-outline';
+                  } else {
+                    iconName = 'help-outline';
+                  }
 
-                return <Ionicons name={iconName} size={size} color={color} />;
-              },
-              tabBarActiveTintColor: '#007AFF',
-              tabBarInactiveTintColor: 'gray',
-              headerShown: false,
-            })}
-          >
+                  return <Ionicons name={iconName} size={size} color={color} />;
+                },
+                tabBarActiveTintColor: '#007AFF',
+                tabBarInactiveTintColor: 'gray',
+                headerShown: false,
+              })}
+            >
             <Tab.Screen name="List" component={ListStack} />
             <Tab.Screen name="Map" component={MapScreen} />
             <Tab.Screen name="Clubs" component={ClubsScreen} />
-            <Tab.Screen name="RaceReports" component={ReportsScreen} />
+            <Tab.Screen name="RaceReports" component={ReportsStack} />
             <Tab.Screen name="Community" component={CommunityScreen} />
-          </Tab.Navigator>
-        </NavigationContainer>
-      </FilterContext.Provider>
-    </DateFilterProvider>
+            </Tab.Navigator>
+          </NavigationContainer>
+        </FilterContext.Provider>
+      </DateFilterProvider>
+    </SafeAreaProvider>
   );
 }
 

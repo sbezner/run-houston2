@@ -1,12 +1,22 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { RaceReport } from '../types';
 
-export default function RaceReportScreen({ route, navigation }: any) {
+interface RaceReportScreenProps {
+  route: {
+    params: {
+      report: RaceReport;
+    };
+  };
+  navigation: any;
+}
+
+export default function RaceReportScreen({ route, navigation }: RaceReportScreenProps) {
   const report: RaceReport = route?.params?.report;
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <Text style={styles.title}>{report.title || 'Untitled Report'}</Text>
         <Text style={styles.meta}>Race: {report.race_name || 'Unknown Race'}</Text>
@@ -15,7 +25,7 @@ export default function RaceReportScreen({ route, navigation }: any) {
         <View style={styles.separator} />
         <Text style={styles.body}>{(report.content && report.content.trim()) || (report.content_md && report.content_md.trim()) || 'No content available'}</Text>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 

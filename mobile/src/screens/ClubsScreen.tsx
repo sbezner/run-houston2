@@ -10,6 +10,7 @@ import {
   Linking,
   Alert,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Club } from '../types';
 import { fetchClubs } from '../api';
 
@@ -94,26 +95,26 @@ export const ClubsScreen: React.FC = () => {
 
   if (loading && !refreshing) {
     return (
-      <View style={styles.centered}>
+      <SafeAreaView style={styles.centered}>
         <ActivityIndicator size="large" color="#007AFF" />
         <Text style={styles.loadingText}>Loading clubs...</Text>
-      </View>
+      </SafeAreaView>
     );
   }
 
   if (error && clubs.length === 0) {
     return (
-      <View style={styles.centered}>
+      <SafeAreaView style={styles.centered}>
         <Text style={styles.errorText}>Error: {error}</Text>
         <TouchableOpacity style={styles.retryButton} onPress={loadClubs}>
           <Text style={styles.retryButtonText}>Retry</Text>
         </TouchableOpacity>
-      </View>
+      </SafeAreaView>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <FlatList
         data={clubs}
         renderItem={renderClub}
@@ -131,7 +132,7 @@ export const ClubsScreen: React.FC = () => {
           ) : null
         }
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

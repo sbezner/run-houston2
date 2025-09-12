@@ -1,10 +1,10 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { MarketingHome } from './pages/MarketingHome';
-import { RacesPage } from './pages/RacesPage';
-import { AboutPage } from './pages/AboutPage';
-import { ClubsPage } from './pages/ClubsPage';
-import { ReportsPage } from './pages/ReportsPage';
-import { ReportDetail } from './pages/ReportDetail';
+import { MarketingHome } from '../pages/MarketingHome';
+import { RacesPage } from '../pages/RacesPage';
+import { AboutPage } from '../pages/AboutPage';
+import { ClubsPage } from '../pages/ClubsPage';
+import { ReportsPage } from '../pages/ReportsPage';
+import { ReportDetail } from '../pages/ReportDetail';
 
 // Main App Component (Public-facing)
 function App() {

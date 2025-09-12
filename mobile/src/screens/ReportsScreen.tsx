@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { RaceReport } from '../types';
 import { fetchRaceReports } from '../api';
 import { config } from '../config';
@@ -120,26 +121,26 @@ export const ReportsScreen: React.FC<any> = ({ navigation, route }) => {
 
   if (loading && !refreshing) {
     return (
-      <View style={styles.centered}>
+      <SafeAreaView style={styles.centered}>
         <ActivityIndicator size="large" color="#007AFF" />
         <Text style={styles.loadingText}>Loading reports...</Text>
-      </View>
+      </SafeAreaView>
     );
   }
 
   if (error && reports.length === 0) {
     return (
-      <View style={styles.centered}>
+      <SafeAreaView style={styles.centered}>
         <Text style={styles.errorText}>Error: {error}</Text>
         <TouchableOpacity style={styles.retryButton} onPress={() => loadReports(true)}>
           <Text style={styles.retryButtonText}>Retry</Text>
         </TouchableOpacity>
-      </View>
+      </SafeAreaView>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       {raceName && (
         <View style={styles.raceHeader}>
           <Text style={styles.raceHeaderText}>Reports for: {raceName}</Text>
@@ -163,7 +164,7 @@ export const ReportsScreen: React.FC<any> = ({ navigation, route }) => {
           <Text style={styles.endMessageText}>All reports loaded</Text>
         </View>
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 
