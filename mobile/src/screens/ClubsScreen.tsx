@@ -57,10 +57,6 @@ export const ClubsScreen: React.FC = () => {
     }
   };
 
-  const openClubEmail = async (club: Club) => {
-    // Email functionality removed since backend doesn't provide email field
-    Alert.alert('No Email', 'Email functionality not available for this club');
-  };
 
   useEffect(() => {
     loadClubs();
