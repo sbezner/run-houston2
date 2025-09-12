@@ -193,8 +193,19 @@ class TestMigrationTracking:
     
     def test_migration_table_migration_exists(self):
         """Test that migration tracking table migration exists."""
-        migration_path = project_root / "infra" / "initdb" / "20250909_2026_complete_database_schema_create_schema_migrations_table.sql"
-        assert migration_path.exists(), "Migration tracking table migration should exist"
+        initdb_dir = project_root / "infra" / "initdb"
+        # Accept any SQL file that creates the schema_migrations table
+        found = False
+        for sql_path in initdb_dir.glob("*.sql"):
+            try:
+                with open(sql_path, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                    if "CREATE TABLE schema_migrations" in content or "CREATE TABLE IF NOT EXISTS schema_migrations" in content:
+                        found = True
+                        break
+            except FileNotFoundError:
+                continue
+        assert found, "A migration creating schema_migrations table should exist in infra/initdb"
     
     def test_migration_runner_exists(self):
         """Test that migration runner script exists."""

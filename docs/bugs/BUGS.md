@@ -54,6 +54,97 @@
 
 ### **🟡 Medium Priority**
 
+**Bug #24**
+- [ ] **Bug Title**: Race CSV import incorrectly creates new records for invalid raceIDs instead of skipping them
+  - **Date Reported**: 2025-01-27
+  - **Reporter**: Developer
+  - **Severity**: Medium
+  - **Status**: Open
+  - **Priority**: P2
+  - **Description**: When importing races via CSV with raceIDs that don't exist in the database, the system correctly identifies that the records will be skipped due to no match, but then proceeds to import them as new records anyway. This creates data integrity issues and contradicts the user's expectation that invalid raceIDs should be skipped.
+  - **Steps to Reproduce**: 
+    1. Go to Admin Dashboard → Races
+    2. Click "Import CSV" button
+    3. Create a CSV with a raceID that doesn't exist in the database (e.g., id=99999)
+    4. Import the CSV
+    5. Observe that the system shows the record will be skipped due to no match
+    6. Notice that the race is still imported as a new record with a different ID
+  - **Expected Behavior**: 
+    1. Records with invalid raceIDs should be completely skipped
+    2. No new records should be created for invalid raceIDs
+    3. System should respect the "willSkip" categorization
+    4. User should see clear indication that invalid raceIDs were skipped
+    5. Data integrity should be maintained
+  - **Actual Behavior**: 
+    1. System correctly identifies invalid raceIDs and categorizes them as "willSkip"
+    2. But then proceeds to import them as new records anyway
+    3. Creates data integrity issues with duplicate or unexpected records
+    4. Contradicts the user's expectation and system's own categorization
+    5. Poor user experience with misleading skip notifications
+  - **Environment**: 
+    - **OS**: Windows 10
+    - **Browser**: Any modern browser
+    - **Python Version**: 3.11.9
+    - **Database**: PostgreSQL
+    - **Other Dependencies**: React, TypeScript, FastAPI
+  - **Screenshots/Logs**: CSV import showing "willSkip" categorization but still creating new records
+  - **Suggested Code Locations**:
+    - **Files to investigate**: `web/admin/src/pages/AdminDashboard/ImportCsv/validation.ts`, `web/admin/src/pages/AdminDashboard/ImportCsv/ImportPanel.tsx`
+    - **Key functions/methods**: `validateAndTransform`, `categorizeValidRows`, import execution logic
+    - **Database tables/columns**: `races` table, race creation logic
+    - **API endpoints**: Race creation/update endpoints
+  - **Assigned To**: Developer
+  - **Notes**: This is a critical data integrity issue. The validation logic correctly identifies invalid raceIDs but the import execution doesn't respect the categorization. This could lead to duplicate records and data inconsistencies.
+  - **Related Issues**: Race CSV import validation, data integrity
+  - **User Impact**: Medium - affects data integrity and user trust in the import system
+  - **Fix Required**: Fix import execution logic to respect "willSkip" categorization and prevent creation of new records for invalid raceIDs
+  - **Status**: Open
+
+**Bug #25**
+- [ ] **Bug Title**: Bulk delete operations cause screen flashing due to individual delete refreshes
+  - **Date Reported**: 2025-01-27
+  - **Reporter**: User
+  - **Severity**: Low
+  - **Status**: Open
+  - **Priority**: P3
+  - **Description**: When selecting all races and performing bulk delete operations, the screen appears to refresh after each individual delete operation, creating a poor user experience with screen flashing. This makes bulk operations visually jarring and unprofessional.
+  - **Steps to Reproduce**:
+    1. Go to Admin Dashboard → Races
+    2. Select all races using the "Select All" checkbox
+    3. Click the delete button to perform bulk delete
+    4. Observe that the screen flashes/refreshes after each individual delete
+    5. Notice the poor visual experience during bulk operations
+  - **Expected Behavior**:
+    1. Bulk delete should process all selected items without individual screen refreshes
+    2. Single refresh should occur after all deletions are complete
+    3. Smooth, professional user experience during bulk operations
+    4. Progress indicator should show bulk operation status
+    5. No screen flashing or jarring visual effects
+  - **Actual Behavior**:
+    1. Screen refreshes after each individual delete operation
+    2. Visual flashing effect during bulk operations
+    3. Poor user experience that appears unprofessional
+    4. No smooth bulk operation handling
+    5. Individual operations are processed sequentially with refreshes
+  - **Environment**:
+    - **OS**: Windows 10
+    - **Browser**: Any modern browser
+    - **Python Version**: 3.11.9
+    - **Database**: PostgreSQL
+    - **Other Dependencies**: React, TypeScript, FastAPI
+  - **Screenshots/Logs**: Screen flashing during bulk delete operations
+  - **Suggested Code Locations**:
+    - **Files to investigate**: `web/admin/src/pages/AdminDashboard/AdminRacesPage.tsx`, bulk delete functionality
+    - **Key functions/methods**: Bulk delete handler, individual delete operations, state management
+    - **Database tables/columns**: `races` table, delete operations
+    - **API endpoints**: Bulk delete endpoints, individual delete endpoints
+  - **Assigned To**: Developer
+  - **Notes**: This is a UX improvement issue. The bulk delete functionality works correctly but creates a poor visual experience due to individual operation refreshes. This should be optimized to process bulk operations without individual screen refreshes.
+  - **Related Issues**: Bulk operations UX, screen refresh optimization
+  - **User Impact**: Low - affects user experience during bulk operations but doesn't break functionality
+  - **Fix Required**: Optimize bulk delete operations to prevent individual screen refreshes and provide smooth bulk operation experience
+  - **Status**: Open
+
 **Bug #3**
 - [ ] **Bug Title**: Edit operations don't return to current row position - poor user experience
   - **Date Reported**: 2025-01-27
@@ -369,18 +460,20 @@
 
 ## 📊 **Summary**
 
-- **Total Open Bugs**: 8
+- **Total Open Bugs**: 10
 - **Critical Priority (P1)**: 0
-- **High Priority (P2)**: 0  
-- **Medium Priority (P3)**: 3
+- **High Priority (P2)**: 1  
+- **Medium Priority (P3)**: 4
 - **Low Priority (P4)**: 5
 
 ### **Next Actions**
-1. **Bug #13** - Clubs CSV import rich UI experience (P4)
-2. **Bug #3** - Edit operations return to row position (P3)
-3. **Bug #4** - Distance column formatting (P3)
-4. **Bug #23** - Investigate race table checkboxes (P3)
-5. **Bug #20** - Clubs CSV template download (P4)
-6. **Bug #19** - Race CSV surface validation case sensitivity (P4)
-7. **Bug #18** - Error banner persistence (P4)
-8. **Bug #16** - Test nuclear database reset (P4)
+1. **Bug #24** - Race CSV import invalid raceID handling (P2)
+2. **Bug #25** - Bulk delete screen flashing (P3)
+3. **Bug #13** - Clubs CSV import rich UI experience (P4)
+4. **Bug #3** - Edit operations return to row position (P3)
+5. **Bug #4** - Distance column formatting (P3)
+6. **Bug #23** - Investigate race table checkboxes (P3)
+7. **Bug #20** - Clubs CSV template download (P4)
+8. **Bug #19** - Race CSV surface validation case sensitivity (P4)
+9. **Bug #18** - Error banner persistence (P4)
+10. **Bug #16** - Test nuclear database reset (P4)
