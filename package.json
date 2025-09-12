@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "metro-cache": "^0.80.12"
+  }
+}

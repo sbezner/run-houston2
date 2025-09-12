@@ -1,4 +1,4 @@
-import { API_BASE } from "@shared/config";
+import { API_BASE } from "../config";
 
 export const api = {
   get: async (endpoint: string, token?: string) => {
@@ -307,6 +307,10 @@ export const raceReports = {
 export const auth = {
   login: async (username: string, password: string) => {
     return api.post('/admin/login', { username, password });
+  },
+  
+  verify: async (token: string) => {
+    return api.get('/admin/verify', token);
   },
   
 };

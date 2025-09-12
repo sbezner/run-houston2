@@ -1,5 +1,4 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
+// React and testing library imports removed as they're not used in this test file
 
 // Mock the dependencies
 jest.mock('@shared/hooks/useRaces', () => ({

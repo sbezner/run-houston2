@@ -57,9 +57,9 @@ def run_frontend_tests():
         print("\nStarting Frontend Tests...")
         print("-" * 30)
         
-        # Run npm test
+        # Run npm test with compact output
         result = subprocess.run(
-            ["npm", "test"],
+            ["npm", "test", "--", "--reporters=default", "--silent"],
             cwd=web_dir,
             capture_output=True,
             text=True,
@@ -69,16 +69,25 @@ def run_frontend_tests():
             shell=True    # Use shell to find npm in PATH
         )
         
-        # Print output
+        # Print output (ASCII-safe)
         if result.stdout:
+            # Truncate very long outputs to keep console readable
+            out = result.stdout.encode('ascii', 'ignore').decode('ascii')
+            if len(out) > 4000:
+                head = out[:2000]
+                tail = out[-1000:]
+                out = head + "\n... [output truncated] ...\n" + tail
             print("Test Output:")
             print("=" * 40)
-            print(result.stdout)
+            print(out)
         
         if result.stderr:
+            err = result.stderr.encode('ascii', 'ignore').decode('ascii')
+            if len(err) > 2000:
+                err = err[:1500] + "\n... [stderr truncated] ...\n" + err[-500:]
             print("Error Output:")
             print("=" * 40)
-            print(result.stderr)
+            print(err)
         
         if result.returncode == 0:
             print("Frontend Tests: PASSED")

@@ -338,6 +338,11 @@ export const AdminClubsPage: React.FC<AdminClubsPageProps> = ({ onTokenExpiratio
       {selectedClubs.size > 0 && (
         <BulkBar
           selectedCount={selectedClubs.size}
+          onSelectAll={() => {
+            // Select all clubs
+            const allClubIds = new Set(clubs.map(club => club.id));
+            setSelectedClubs(allClubIds);
+          }}
           onClearSelection={clearSelection}
           onBulkDelete={() => {
             const token = auth.getToken();

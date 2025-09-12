@@ -12,7 +12,7 @@ from pathlib import Path
 
 def print_header():
     """Print a nice header for the test runner."""
-    print("🚀 Running ALL Unit Tests (Backend + Frontend + Mobile)")
+    print("Running ALL Unit Tests (Backend + Frontend + Mobile)")
     print("=" * 50)
     print(f"Platform: {platform.system()} {platform.release()}")
     print(f"Python: {sys.version.split()[0]}")
@@ -22,14 +22,13 @@ def print_header():
     print("   • CSV Import/Export Functionality")
     print("   • Clubs & Races API Endpoints")
     print("   • Frontend-Backend Validation")
-    print("   • 🔐 NEW: Authentication Fixes (Admin Secret)")
-    print("   • 🔐 NEW: JWT Authentication Migration Tests")
-    print("   • 🔐 NEW: Network Validation Tests")
-    print("   • 🔐 NEW: Admin Components Authentication Tests")
-    print("   • 📱 NEW: Mobile App Infinite Scroll Tests")
-    print("   • 🔄 NEW: Version System Tests (API Headers, Endpoints)")
-    print("   • 🗄️ NEW: Migration System Tests (Runner, Tracking)")
-    print("   • 📊 NEW: Monitoring System Tests (Metrics, Performance)")
+    print("   • Authentication & JWT Tests")
+    print("   • Network Validation Tests")
+    print("   • Admin Components Authentication Tests")
+    print("   • Mobile App Infinite Scroll Tests")
+    print("   • Version System Tests (API Headers, Endpoints)")
+    print("   • Migration System Tests (Runner, Tracking)")
+    print("   • Monitoring System Tests (Metrics, Performance)")
     print("=" * 50)
 
 def run_backend_tests():

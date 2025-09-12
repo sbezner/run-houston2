@@ -238,6 +238,11 @@ export const AdminRacesPage: React.FC<AdminRacesPageProps> = ({ onTokenExpiratio
       {selectedRaces.size > 0 && (
         <BulkBar
           selectedCount={selectedRaces.size}
+          onSelectAll={() => {
+            // Select all races
+            const allRaceIds = new Set(races.map(race => race.id));
+            setSelectedRaces(allRaceIds);
+          }}
           onClearSelection={clearSelection}
           onBulkDelete={() => {
             const token = auth.getToken();
