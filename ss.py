@@ -11,17 +11,69 @@ Usage:
     python ss.py --help    # Show help message
 
 The script will:
-1. Detect your current IP address
-2. Update mobile/src/config.ts with the detected IP
-3. Start Docker services (Database + API) in detached mode
-4. Start Mobile App (Expo) in a separate window
-5. Start Web Frontend (Vite) in a separate window
+1. Check Node.js version (requires 18.20.4)
+2. Detect your current IP address
+3. Update mobile/src/config.ts with the detected IP
+4. Start Docker services (Database + API) in detached mode
+5. Start Mobile App (Expo) in a separate window
+6. Start Web Frontend (Vite) in a separate window
 """
 
 import subprocess
 import re
 import os
 import time
+import sys
+
+def check_node_version():
+    """Check if the correct Node.js version is being used"""
+    required_version = "18.20.4"
+    
+    try:
+        # Check current Node version
+        result = subprocess.run(['node', '--version'], capture_output=True, text=True)
+        if result.returncode != 0:
+            print("❌ Node.js not found! Please install Node.js first.")
+            return False
+        
+        current_version = result.stdout.strip()
+        
+        if current_version == f"v{required_version}":
+            print(f"✅ Using correct Node version: {current_version}")
+            return True
+        else:
+            print(f"⚠️  Wrong Node version detected!")
+            print(f"   Current: {current_version}")
+            print(f"   Required: v{required_version}")
+            print()
+            print("🔧 To fix this issue:")
+            print(f"   1. Run: nvm use {required_version}")
+            print("   2. If you don't have that version: nvm install 18.20.4")
+            print("   3. Then run this script again")
+            print()
+            print("💡 This prevents Metro bundler and Vite compatibility issues!")
+            return False
+            
+    except FileNotFoundError:
+        print("❌ Node.js not found! Please install Node.js first.")
+        print("💡 Visit: https://nodejs.org or install via nvm")
+        return False
+    except Exception as e:
+        print(f"❌ Error checking Node version: {e}")
+        return False
+
+def check_nvm_available():
+    """Check if nvm is available and provide helpful info"""
+    try:
+        result = subprocess.run(['nvm', 'version'], capture_output=True, text=True, shell=True)
+        if result.returncode == 0:
+            print(f"📦 nvm version: {result.stdout.strip()}")
+            return True
+    except:
+        pass
+    
+    print("💡 nvm not found - install from: https://github.com/coreybutler/nvm-windows")
+    return False
 
 def get_current_ip():
     """Get the current IPv4 address of the machine"""
@@ -53,6 +105,11 @@ def update_mobile_config(ip_address):
     config_file = "mobile/src/config.ts"
     
     try:
+        # Check if config file exists
+        if not os.path.exists(config_file):
+            print(f"⚠️  Config file not found: {config_file}")
+            return False
+            
         # Read current config with explicit UTF-8 encoding
         with open(config_file, 'r', encoding='utf-8') as f:
             content = f.read()
@@ -67,11 +124,14 @@ def update_mobile_config(ip_address):
             with open(config_file, 'w', encoding='utf-8') as f:
                 f.write(updated_content)
             print(f"✅ Updated mobile config with IP: {ip_address}")
+            return True
         else:
             print("⚠️  Could not find backendUrl line to update")
+            return False
             
     except Exception as e:
         print(f"❌ Error updating mobile config: {e}")
+        return False
 
 def start_services_in_windows(show_logs=False):
     """Start all services in separate PowerShell windows with optional log control"""
@@ -130,12 +190,13 @@ def start_services_in_windows(show_logs=False):
         print("   • API Health: http://localhost:8000/health")
         print("   • API Version: http://localhost:8000/api/v1/version")
         
+        return True
+        
     except Exception as e:
         print(f"❌ Error starting services: {e}")
+        return False
 
 def main():
-    import sys
-    
     # Check for help parameter
     if '--help' in sys.argv or '-h' in sys.argv:
         print("🚀 Run Houston Service Starter")
@@ -147,32 +208,50 @@ def main():
         print("  python ss.py           # Start services without logs (QR code always shown)")
         print("  python ss.py --logs    # Start services with full logs")
         print("  python ss.py -l        # Short form for logs")
+        print("\nRequirements:")
+        print("  • Node.js 18.20.4 (locked version)")
+        print("  • Docker Desktop running")
+        print("  • All dependencies installed")
         return
     
-    # Check for logs parameter
+    print("🚀 Run Houston Service Starter")
+    print("=" * 50)
+    
+    # Step 1: Check Node version FIRST
+    print("🔍 Checking Node.js version...")
+    if not check_node_version():
+        print("\n❌ Cannot proceed with wrong Node version!")
+        print("🔧 Please fix Node version and try again.")
+        check_nvm_available()  # Show nvm info if available
+        sys.exit(1)
+    
+    # Step 2: Check for logs parameter
     show_logs = '--logs' in sys.argv or '-l' in sys.argv
     
+    # Step 3: Get current IP
     print("🔍 Detecting current IP address...")
-    
-    # Get current IP
     current_ip = get_current_ip()
     if not current_ip:
         print("❌ Failed to get IP address. Exiting.")
-        return
+        sys.exit(1)
     
     print(f"📍 Current IP: {current_ip}")
     
-    # Update mobile config
+    # Step 4: Update mobile config
     print("📝 Updating mobile app configuration...")
-    update_mobile_config(current_ip)
+    if not update_mobile_config(current_ip):
+        print("⚠️  Mobile config update failed, but continuing...")
     
-    # Start services with log control
+    # Step 5: Start services with log control
     print("🚀 Starting all services...")
-    start_services_in_windows(show_logs)
+    if not start_services_in_windows(show_logs):
+        print("❌ Failed to start some services!")
+        sys.exit(1)
     
     print("\n✨ Setup complete! Your services are starting in separate PowerShell windows.")
     print("💡 Remember: If your IP changes again, just run this script again!")
     print("💡 Tip: Use 'python ss.py --logs' to see all service logs")
+    print("🔒 Version Lock: Node 18.20.4, Vite 4.5.5 - DO NOT upgrade!")
 
 if __name__ == "__main__":
     main()

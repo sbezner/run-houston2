@@ -8,11 +8,11 @@ This document outlines the complete production deployment strategy for Run Houst
 
 ### 🏷️ Version Information
 - **System Release**: 2025.09.R1 (CalVer + Release Tag)
-- **Database Schema**: 20250906_0537 (Timestamped)
+- **Database Schema**: 20250909_2026_complete_database_schema (Timestamped)
 - **API Service**: 1.0.0 (Semantic Versioning)
 - **Web Frontend**: 1.0.1 (Semantic Versioning)
 - **Mobile App**: 1.0.0 (Semantic Versioning)
-- **Target Deployment**: 2025-09-06
+- **Target Deployment**: 2025-01-15
 
 ---
 
@@ -28,7 +28,7 @@ This document outlines the complete production deployment strategy for Run Houst
 - [x] **Component Versioning** ✅ **COMPLETED**
   ```yaml
   Database Schema:
-    Current: 20250906_0537
+    Current: 20250909_2026_complete_database_schema
     Migration Strategy: Timestamped versioning
     Rollback: Migration tracking with rollback safety
     
@@ -192,16 +192,22 @@ This document outlines the complete production deployment strategy for Run Houst
   - **Monitoring**: Built-in metrics and alerts
 
 - [ ] **Database Initialization**
+  ```bash
+  # Run all migrations using the migration runner
+  python scripts/migrate.py --env prod
+  ```
+  
+  **Migration files (executed automatically in timestamp order):**
   ```sql
-  -- Execute in order:
-  infra/initdb/001_initial_schema.sql
-  infra/initdb/002_admin_users.sql
-  infra/initdb/003_races_table.sql
-  infra/initdb/004_race_reports_table.sql
-  infra/initdb/005_clubs_table.sql
-  infra/initdb/006_spatial_indexes.sql
-  infra/initdb/007_triggers.sql
-  infra/initdb/008_sample_data.sql
+  -- Actual migration files in infra/initdb/:
+  20250906_0001_init.sql
+  20250906_0002_create_admin_users.sql
+  20250906_0003_create_races_table.sql
+  20250906_0004_create_race_reports_table.sql
+  20250906_0005_create_clubs_table.sql
+  20250906_0006_add_spatial_indexes.sql
+  20250906_0007_create_triggers.sql
+  20250906_0008_add_sample_data.sql
   ```
 
 - [ ] **Environment Variables**
@@ -220,7 +226,7 @@ This document outlines the complete production deployment strategy for Run Houst
   - **Runtime**: Python 3.11
   - **Build Command**: `pip install -r requirements.txt`
   - **Start Command**: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
-  - **Health Check**: `GET /health` (needs implementation)
+  - **Health Check**: `GET /health` ✅ **IMPLEMENTED**
 
 - [ ] **API Configuration**
   ```yaml
@@ -238,7 +244,7 @@ This document outlines the complete production deployment strategy for Run Houst
   ```
 
 - [ ] **Security Enhancements**
-  - [ ] Implement health check endpoint
+  - [x] Implement health check endpoint ✅ **COMPLETED**
   - [ ] Add request rate limiting
   - [ ] Configure CORS for production domains only
   - [ ] Add security headers middleware
@@ -300,15 +306,19 @@ This document outlines the complete production deployment strategy for Run Houst
 - [ ] **Android Production Build**
   ```bash
   cd mobile
-  expo build:android --type apk
-  # or for AAB (Google Play Store)
-  expo build:android --type app-bundle
+  # Using EAS Build (modern Expo CLI)
+  eas build --platform android
+  # or for specific build type:
+  eas build --platform android --profile production
   ```
 
 - [ ] **iOS Production Build**
   ```bash
   cd mobile
-  expo build:ios --type archive
+  # Using EAS Build (modern Expo CLI)
+  eas build --platform ios
+  # or for specific build type:
+  eas build --platform ios --profile production
   ```
 
 - [ ] **Mobile Configuration Updates**
@@ -565,7 +575,7 @@ This document outlines the complete production deployment strategy for Run Houst
 
 ---
 
-**Last Updated**: 2025-09-06  
+**Last Updated**: 2025-01-15  
 **Status**: Ready for Production Deployment  
 **Next Action**: Create Render PostgreSQL database  
 **Estimated Completion**: 1-2 days for full deployment (versioning system complete)

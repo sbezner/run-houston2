@@ -28,14 +28,17 @@ CREATE TABLE schema_migrations (
 ### Basic Usage
 
 ```bash
-# Run all pending migrations
-python scripts/migrate.py
+# Run all pending migrations (development)
+python scripts/migrate.py --env dev
+
+# Run all pending migrations (production)
+python scripts/migrate.py --env prod
 
 # Dry run (show what would be applied)
-python scripts/migrate.py --dry-run
+python scripts/migrate.py --env dev --dry-run
 
 # Verbose output
-python scripts/migrate.py --verbose
+python scripts/migrate.py --env dev --verbose
 
 # Help
 python scripts/migrate.py --help
@@ -54,12 +57,12 @@ python scripts/migrate.py --help
 
 ### File Naming
 - **Format**: `YYYYMMDD_HHMM_description.sql`
-- **Example**: `20250906_0537_create_schema_migrations_table.sql`
+- **Example**: `20250115_1430_create_schema_migrations_table.sql`
 - **Timestamp**: Use current date/time when creating migration
 
 ### File Structure
 ```sql
--- Migration: 20250906_0537_create_schema_migrations_table
+-- Migration: 20250115_1430_create_schema_migrations_table
 -- Description: Create migration tracking table
 -- Rollback Safe: true
 
@@ -74,7 +77,7 @@ CREATE TABLE IF NOT EXISTS schema_migrations (
 
 -- Self-record this migration
 INSERT INTO schema_migrations (version, description, rollback_safe)
-VALUES ('20250906_0537_create_schema_migrations_table', 'Create migration tracking table', true)
+VALUES ('20250115_1430_create_schema_migrations_table', 'Create migration tracking table', true)
 ON CONFLICT (version) DO NOTHING;
 ```
 
@@ -128,13 +131,13 @@ Each migration file must include:
 
 #### Migration Already Applied
 ```
-Error: Migration 20250906_0537_create_schema_migrations_table already applied
+Error: Migration 20250115_1430_create_schema_migrations_table already applied
 ```
 **Solution**: Check `schema_migrations` table to see if migration was already run.
 
 #### Checksum Mismatch
 ```
-Error: Checksum mismatch for migration 20250906_0537_create_schema_migrations_table
+Error: Checksum mismatch for migration 20250115_1430_create_schema_migrations_table
 ```
 **Solution**: File was modified after being applied. Restore original file or manually update checksum.
 
@@ -161,7 +164,7 @@ SELECT * FROM schema_migrations ORDER BY applied_at;
 
 -- Manually add migration record
 INSERT INTO schema_migrations (version, description, rollback_safe)
-VALUES ('20250906_0537_create_schema_migrations_table', 'Create migration tracking table', true);
+VALUES ('20250115_1430_create_schema_migrations_table', 'Create migration tracking table', true);
 ```
 
 #### Rollback Migration
@@ -203,7 +206,7 @@ Response includes:
 ```json
 {
   "status": "healthy",
-  "schema_version": "20250906_0537",
+  "schema_version": "20250909_2026_complete_database_schema",
   "system_release": "2025.09.R1"
 }
 ```
@@ -235,7 +238,7 @@ Migrations can be integrated into deployment pipelines:
 # Example CI/CD step
 - name: Run Database Migrations
   run: |
-    python scripts/migrate.py --verbose
+    python scripts/migrate.py --env prod --verbose
   env:
     DATABASE_URL: ${{ secrets.DATABASE_URL }}
 ```
