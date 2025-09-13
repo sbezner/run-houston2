@@ -131,6 +131,13 @@ def get_performance_metrics():
 
 app = FastAPI(title="Run Houston API", version="0.1")
 
+# Environment variables with safe defaults
+LOG_LEVEL = os.getenv("LOG_LEVEL", "DEBUG")
+ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
+API_VERSION = os.getenv("API_VERSION", "v1.0.0")
+X_CLIENT_APP = os.getenv("X-Client-App", "runhouston-api-dev")
+X_CLIENT_VERSION = os.getenv("X-Client-Version", "dev")
+
 @app.on_event("startup")
 async def startup_event():
     """Initialize admin user on startup."""
@@ -157,9 +164,11 @@ async def add_version_headers(request: Request, call_next):
     response = await call_next(request)
     
     # Add version headers
-    response.headers["API-Version"] = version_info.get("api", "1.0.0")
+    response.headers["API-Version"] = API_VERSION
     response.headers["API-Path-Major"] = version_info.get("api_path_major", "v1")
     response.headers["Schema-Version"] = version_info.get("db_schema", "20250909_2026_complete_database_schema")
+    response.headers["X-Client-App"] = X_CLIENT_APP
+    response.headers["X-Client-Version"] = X_CLIENT_VERSION
     
     return response
 
