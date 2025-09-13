@@ -168,25 +168,25 @@ ALTER TABLE race_reports ADD CONSTRAINT race_reports_race_id_fkey
 -- =============================================
 
 -- Races table indexes
-CREATE UNIQUE INDEX races_pkey ON races USING btree (id);
+-- Primary key index created automatically with SERIAL PRIMARY KEY
 
 -- Clubs table indexes
-CREATE UNIQUE INDEX clubs_pkey ON clubs USING btree (id);
+-- Primary key index created automatically with SERIAL PRIMARY KEY
 CREATE INDEX clubs_name_search_ci ON clubs USING btree (lower(club_name));
 
 -- Race reports table indexes
-CREATE UNIQUE INDEX race_reports_pkey ON race_reports USING btree (id);
+-- Primary key index created automatically with SERIAL PRIMARY KEY
 CREATE INDEX rr_created ON race_reports USING btree (created_at DESC);
 CREATE INDEX rr_race_date_created ON race_reports USING btree (race_date DESC, created_at DESC);
 CREATE INDEX rr_race_id_created ON race_reports USING btree (race_id, created_at DESC);
 
 -- Admin users table indexes
-CREATE UNIQUE INDEX admin_users_pkey ON admin_users USING btree (id);
+-- Primary key index created automatically with SERIAL PRIMARY KEY
 CREATE UNIQUE INDEX admin_users_username_key ON admin_users USING btree (username);
 CREATE INDEX idx_admin_users_username ON admin_users USING btree (username);
 
 -- Schema migrations table indexes
-CREATE UNIQUE INDEX schema_migrations_pkey ON schema_migrations USING btree (version);
+-- Primary key index created automatically with PRIMARY KEY constraint
 
 -- =============================================
 -- TRIGGERS
