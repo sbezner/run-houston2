@@ -10,7 +10,7 @@ export default defineConfig({
     host: true
   },
   build: {
-    outDir: 'dist/admin',
+    outDir: '../dist/admin',
     rollupOptions: {
       input: {
         admin: resolve(__dirname, 'admin/index.html')
