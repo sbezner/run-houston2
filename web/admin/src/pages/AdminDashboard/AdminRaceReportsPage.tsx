@@ -69,7 +69,7 @@ export const AdminRaceReportsPage: React.FC<AdminRaceReportsPageProps> = ({ onTo
     });
   };
 
-  const getSortableHeaderStyle = (field: keyof RaceReport) => ({
+  const getSortableHeaderStyle = () => ({
     padding: '12px',
     textAlign: 'left' as const,
     fontSize: '14px',
@@ -93,11 +93,7 @@ export const AdminRaceReportsPage: React.FC<AdminRaceReportsPageProps> = ({ onTo
         return;
       }
       
-      const response: RaceReportsResponse = await raceReports.list({
-        limit,
-        offset,
-        include_race: true
-      });
+      const response: RaceReportsResponse = await raceReports.list();
       setReports(response.items);
       setTotal(response.total);
       setError(null);
@@ -240,7 +236,7 @@ export const AdminRaceReportsPage: React.FC<AdminRaceReportsPageProps> = ({ onTo
         }
         return;
       }
-      const blob = await raceReports.exportCsv(token, {});
+      const blob = await raceReports.exportCsv(token);
       
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -408,7 +404,7 @@ export const AdminRaceReportsPage: React.FC<AdminRaceReportsPageProps> = ({ onTo
           selectedCount={selectedReports.size}
           onSelectAll={() => {
             // Select all race reports
-            const allReportIds = new Set(raceReports.map(report => report.id));
+            const allReportIds = new Set(reports.map(report => report.id));
             setSelectedReports(allReportIds);
           }}
           onClearSelection={clearSelection}
@@ -495,7 +491,7 @@ export const AdminRaceReportsPage: React.FC<AdminRaceReportsPageProps> = ({ onTo
                       onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
                       onMouseLeave={(e) => e.currentTarget.style.backgroundColor = sortField === 'id' ? '#f3f4f6' : 'transparent'}
                       style={{
-                        ...getSortableHeaderStyle('id'),
+                        ...getSortableHeaderStyle(),
                         backgroundColor: sortField === 'id' ? '#f3f4f6' : 'transparent'
                       }}
                     >
@@ -506,7 +502,7 @@ export const AdminRaceReportsPage: React.FC<AdminRaceReportsPageProps> = ({ onTo
                       onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
                       onMouseLeave={(e) => e.currentTarget.style.backgroundColor = sortField === 'race_id' ? '#f3f4f6' : 'transparent'}
                       style={{
-                        ...getSortableHeaderStyle('race_id'),
+                        ...getSortableHeaderStyle(),
                         backgroundColor: sortField === 'race_id' ? '#f3f4f6' : 'transparent'
                       }}
                     >
@@ -517,7 +513,7 @@ export const AdminRaceReportsPage: React.FC<AdminRaceReportsPageProps> = ({ onTo
                       onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
                       onMouseLeave={(e) => e.currentTarget.style.backgroundColor = sortField === 'race_name' ? '#f3f4f6' : 'transparent'}
                       style={{
-                        ...getSortableHeaderStyle('race_name'),
+                        ...getSortableHeaderStyle(),
                         backgroundColor: sortField === 'race_name' ? '#f3f4f6' : 'transparent'
                       }}
                     >
@@ -528,7 +524,7 @@ export const AdminRaceReportsPage: React.FC<AdminRaceReportsPageProps> = ({ onTo
                       onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
                       onMouseLeave={(e) => e.currentTarget.style.backgroundColor = sortField === 'race_date' ? '#f3f4f6' : 'transparent'}
                       style={{
-                        ...getSortableHeaderStyle('race_date'),
+                        ...getSortableHeaderStyle(),
                         backgroundColor: sortField === 'race_date' ? '#f3f4f6' : 'transparent'
                       }}
                     >
@@ -539,7 +535,7 @@ export const AdminRaceReportsPage: React.FC<AdminRaceReportsPageProps> = ({ onTo
                       onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
                       onMouseLeave={(e) => e.currentTarget.style.backgroundColor = sortField === 'title' ? '#f3f4f6' : 'transparent'}
                       style={{
-                        ...getSortableHeaderStyle('title'),
+                        ...getSortableHeaderStyle(),
                         backgroundColor: sortField === 'title' ? '#f3f4f6' : 'transparent'
                       }}
                     >
@@ -550,7 +546,7 @@ export const AdminRaceReportsPage: React.FC<AdminRaceReportsPageProps> = ({ onTo
                       onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
                       onMouseLeave={(e) => e.currentTarget.style.backgroundColor = sortField === 'author_name' ? '#f3f4f6' : 'transparent'}
                       style={{
-                        ...getSortableHeaderStyle('author_name'),
+                        ...getSortableHeaderStyle(),
                         backgroundColor: sortField === 'author_name' ? '#f3f4f6' : 'transparent'
                       }}
                     >
@@ -561,7 +557,7 @@ export const AdminRaceReportsPage: React.FC<AdminRaceReportsPageProps> = ({ onTo
                       onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
                       onMouseLeave={(e) => e.currentTarget.style.backgroundColor = sortField === 'content_md' ? '#f3f4f6' : 'transparent'}
                       style={{
-                        ...getSortableHeaderStyle('content_md'),
+                        ...getSortableHeaderStyle(),
                         backgroundColor: sortField === 'content_md' ? '#f3f4f6' : 'transparent'
                       }}
                     >
@@ -573,7 +569,7 @@ export const AdminRaceReportsPage: React.FC<AdminRaceReportsPageProps> = ({ onTo
                       onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
                       onMouseLeave={(e) => e.currentTarget.style.backgroundColor = sortField === 'created_at' ? '#f3f4f6' : 'transparent'}
                       style={{
-                        ...getSortableHeaderStyle('created_at'),
+                        ...getSortableHeaderStyle(),
                         backgroundColor: sortField === 'created_at' ? '#f3f4f6' : 'transparent'
                       }}
                     >
@@ -584,7 +580,7 @@ export const AdminRaceReportsPage: React.FC<AdminRaceReportsPageProps> = ({ onTo
                       onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
                       onMouseLeave={(e) => e.currentTarget.style.backgroundColor = sortField === 'updated_at' ? '#f3f4f6' : 'transparent'}
                       style={{
-                        ...getSortableHeaderStyle('updated_at'),
+                        ...getSortableHeaderStyle(),
                         backgroundColor: sortField === 'updated_at' ? '#f3f4f6' : 'transparent'
                       }}
                     >

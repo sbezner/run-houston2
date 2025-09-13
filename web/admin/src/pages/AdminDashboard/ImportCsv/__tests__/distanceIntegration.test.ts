@@ -44,7 +44,7 @@ jest.mock('../validation', () => ({
   normalizeCsvRow: jest.fn((row) => ({ 
     ...row, 
     normalized: true,
-    distance: row.distance && row.distance.trim() !== '' ? row.distance.split(',').map(d => {
+    distance: row.distance && row.distance.trim() !== '' ? row.distance.split(',').map((d: string) => {
       const trimmed = d.trim().toLowerCase();
       if (trimmed === 'half' || trimmed === 'half marathon') return 'half marathon';
       if (trimmed === 'full' || trimmed === 'marathon') return 'marathon';

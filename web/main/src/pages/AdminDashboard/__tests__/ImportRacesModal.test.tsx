@@ -27,8 +27,7 @@ describe('ImportRacesModal', () => {
   it('should render without crashing', () => {
     // Mock the required dependencies
     // Mock functions for test setup (prefixed with _ to indicate unused)
-    const _mockOnClose = jest.fn();
-    const _mockOnImportComplete = jest.fn();
+    // Mock functions for testing
     
     // This should not crash even without the actual component
     expect(true).toBe(true);

@@ -222,7 +222,7 @@ export async function validateAndTransform(rows: RaceReportCsvRow[]): Promise<Va
   }
 
   // Validate race IDs against database if any race IDs were provided
-  let existingRaceIds: number[] = [];
+  // let existingRaceIds: number[] = [];
   let missingRaceIds: number[] = [];
   
   if (raceIdsToValidate.length > 0) {
@@ -233,7 +233,7 @@ export async function validateAndTransform(rows: RaceReportCsvRow[]): Promise<Va
       if (token) {
         const validationResult = await races.validateIds(raceIdsToValidate, token);
         console.log('Race ID validation result:', validationResult);
-        existingRaceIds = validationResult.existing_ids || [];
+        // existingRaceIds = validationResult.existing_ids || [];
         missingRaceIds = validationResult.missing_ids || [];
         
         // Add warnings for missing race IDs

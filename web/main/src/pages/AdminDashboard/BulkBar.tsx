@@ -9,7 +9,7 @@ interface BulkBarProps {
 
 export const BulkBar: React.FC<BulkBarProps> = ({
   selectedCount,
-  onSelectAll,
+  onSelectAll: _onSelectAll,
   onClearSelection,
   onBulkDelete
 }) => (

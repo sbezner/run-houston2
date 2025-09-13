@@ -46,7 +46,7 @@ export interface NormalizedRow {
   longitude?: number;
 }
 
-export type RaceUpsert = Omit<import('../../../types').Race, 'id'> & { id?: number };
+export type RaceUpsert = Omit<import('@shared/types').Race, 'id'> & { id?: number };
 
 export type ImportError = {
   rowIndex: number;                      // 1-based excluding header

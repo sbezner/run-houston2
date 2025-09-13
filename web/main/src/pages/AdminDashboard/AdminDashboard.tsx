@@ -5,7 +5,7 @@ import { Alert } from "@shared/components/Alert";
 import { AdminClubsPage } from './AdminClubsPage';
 import { AdminRacesPage } from './AdminRacesPage';
 import { AdminRaceReportsPage } from './AdminRaceReportsPage';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export const AdminDashboard: React.FC = () => {
   const {

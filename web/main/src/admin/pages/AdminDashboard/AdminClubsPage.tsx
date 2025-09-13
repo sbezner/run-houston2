@@ -338,6 +338,10 @@ export const AdminClubsPage: React.FC<AdminClubsPageProps> = ({ onTokenExpiratio
       {selectedClubs.size > 0 && (
         <BulkBar
           selectedCount={selectedClubs.size}
+          onSelectAll={() => {
+            const allClubIds = new Set(clubsList.map(club => club.id));
+            setSelectedClubs(allClubIds);
+          }}
           onClearSelection={clearSelection}
           onBulkDelete={() => {
             const token = auth.getToken();
@@ -498,7 +502,9 @@ export const AdminClubsPage: React.FC<AdminClubsPageProps> = ({ onTokenExpiratio
                            }
                            return;
                          }
-                         window.open(club.website_url, '_blank', 'noopener,noreferrer');
+                         if (club.website_url) {
+                           window.open(club.website_url, '_blank', 'noopener,noreferrer');
+                         }
                        }}
                        style={{ 
                          color: '#007AFF', 

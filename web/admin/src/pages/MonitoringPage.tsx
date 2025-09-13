@@ -388,11 +388,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
     transition: 'all 0.2s ease',
     cursor: 'pointer',
-    ':hover': {
-      transform: 'translateY(-2px)',
-      boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-      backgroundColor: '#ffffff'
-    }
+    // CSS hover effects would be handled by CSS classes or inline styles
   },
   healthIcon: {
     fontSize: '24px',

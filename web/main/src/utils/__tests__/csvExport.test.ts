@@ -37,7 +37,7 @@ describe('CSV Export', () => {
   });
 
   it('should handle empty data gracefully', () => {
-    const emptyData: any[] = [];
+    // const emptyData: any[] = [];
     const headers = ['id', 'name'];
     
     const csvContent = headers.join(',');

@@ -1,5 +1,4 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
+// Test file for ImportRacesModal
 
 // Mock the dependencies
 jest.mock('@shared/services/api', () => ({
@@ -27,8 +26,7 @@ describe('ImportRacesModal', () => {
 
   it('should render without crashing', () => {
     // Mock the required dependencies
-    const mockOnClose = jest.fn();
-    const mockOnImportComplete = jest.fn();
+    // Mock functions for testing
     
     // This should not crash even without the actual component
     expect(true).toBe(true);

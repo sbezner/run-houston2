@@ -85,7 +85,7 @@ export class NetworkMonitor {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 3000);
       
-      const response = await fetch('https://httpbin.org/status/200', {
+      await fetch('https://httpbin.org/status/200', {
         method: 'GET',
         mode: 'no-cors',
         cache: 'no-cache',

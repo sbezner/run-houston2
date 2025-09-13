@@ -6,7 +6,7 @@ import { AdminClubsPage } from './AdminClubsPage';
 import { AdminRacesPage } from './AdminRacesPage';
 import { AdminRaceReportsPage } from './AdminRaceReportsPage';
 import MonitoringPage from '../MonitoringPage';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export const AdminDashboard: React.FC = () => {
   const {

@@ -17,12 +17,7 @@ export const ReportsPage: React.FC = () => {
     try {
       setLoading(true);
       
-      const response: RaceReportsResponse = await raceReports.list({
-        order_by: 'created_at',
-        limit,
-        offset,
-        include_race: true
-      });
+      const response: RaceReportsResponse = await raceReports.list();
       
       // If this is the first load (offset === 0), replace reports
       // If loading more (offset > 0), append to existing reports

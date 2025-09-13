@@ -2,13 +2,14 @@ import React from 'react';
 
 interface BulkBarProps {
   selectedCount: number;
+  onSelectAll: () => void;
   onClearSelection: () => void;
   onBulkDelete: () => void;
 }
 
 export const BulkBar: React.FC<BulkBarProps> = ({
   selectedCount,
-  onSelectAll,
+  onSelectAll: _onSelectAll,
   onClearSelection,
   onBulkDelete
 }) => (

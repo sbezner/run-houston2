@@ -72,7 +72,7 @@ describe('ClubsPage Core Functionality', () => {
 
       // Test conditional rendering logic
       const shouldShowDescription1 = clubWithDescription.description && clubWithDescription.description.trim() !== '';
-      const shouldShowDescription2 = !clubWithoutDescription.description || clubWithoutDescription.description.trim() === '';
+      const shouldShowDescription2 = !clubWithoutDescription.description;
 
       expect(shouldShowDescription1).toBe(true);
       expect(shouldShowDescription2).toBe(true);
@@ -97,7 +97,7 @@ describe('ClubsPage Core Functionality', () => {
 
       // Test website link logic
       const shouldShowWebsite1 = clubWithWebsite.website_url && clubWithWebsite.website_url.trim() !== '';
-      const shouldShowWebsite2 = !clubWithoutWebsite.website_url || clubWithoutWebsite.website_url.trim() === '';
+      const shouldShowWebsite2 = !clubWithoutWebsite.website_url;
 
       expect(shouldShowWebsite1).toBe(true);
       expect(shouldShowWebsite2).toBe(true);

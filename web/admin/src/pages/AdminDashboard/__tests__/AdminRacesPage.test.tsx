@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+// Test file for AdminRacesPage
 
 // Mock the dependencies
 jest.mock('@shared/hooks/useRaces', () => ({

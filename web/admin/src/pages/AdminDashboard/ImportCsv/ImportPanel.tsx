@@ -40,7 +40,7 @@ export const ImportPanel: React.FC<ImportPanelProps> = ({ onImportComplete }) =>
 
       
       // Validate and transform
-      const validation = validateAndTransform(result.rows);
+      const validation = await validateAndTransform(result.rows);
       setPreviewRows(validation.valid);
       setImportErrors(validation.errors);
       setImportWarnings(validation.warnings);

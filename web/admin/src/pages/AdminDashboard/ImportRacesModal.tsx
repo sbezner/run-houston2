@@ -14,7 +14,7 @@ interface ImportRacesModalProps {
 
 export const ImportRacesModal: React.FC<ImportRacesModalProps> = ({ onClose, onImportComplete }) => {
   const [importState, setImportState] = React.useState<'idle' | 'parsed' | 'validated' | 'committing' | 'done' | 'error'>('idle');
-  const [previewRows, setPreviewRows] = React.useState<RaceUpsert[]>([]);
+  // const [previewRows, setPreviewRows] = React.useState<RaceUpsert[]>([]);
   const [allValidRows, setAllValidRows] = React.useState<RaceUpsert[]>([]); // Store all valid rows for import
   const [importErrors, setImportErrors] = React.useState<ImportError[]>([]);
   const [importWarnings, setImportWarnings] = React.useState<ImportError[]>([]);
@@ -47,7 +47,7 @@ export const ImportRacesModal: React.FC<ImportRacesModalProps> = ({ onClose, onI
       const fullValidation = await validateAndTransform(result.rows);
       
       // Set preview to first 10 rows maximum
-      setPreviewRows(fullValidation.valid.slice(0, 10));
+      // setPreviewRows(fullValidation.valid.slice(0, 10));
       setAllValidRows(fullValidation.valid); // Store all valid rows for import
       setImportErrors(fullValidation.errors);
       setImportWarnings(fullValidation.warnings);
@@ -189,7 +189,7 @@ export const ImportRacesModal: React.FC<ImportRacesModalProps> = ({ onClose, onI
   const resetImport = React.useCallback(() => {
     setImportState('idle');
 
-    setPreviewRows([]);
+    // setPreviewRows([]);
     setAllValidRows([]);
     setImportErrors([]);
     setImportWarnings([]);

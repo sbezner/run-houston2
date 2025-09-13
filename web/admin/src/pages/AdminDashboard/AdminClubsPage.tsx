@@ -301,7 +301,7 @@ export const AdminClubsPage: React.FC<AdminClubsPageProps> = ({ onTokenExpiratio
           selectedCount={selectedClubs.size}
           onSelectAll={() => {
             // Select all clubs
-            const allClubIds = new Set(clubs.map(club => club.id));
+            const allClubIds = new Set(clubsList.map(club => club.id));
             setSelectedClubs(allClubIds);
           }}
           onClearSelection={clearSelection}
@@ -464,7 +464,9 @@ export const AdminClubsPage: React.FC<AdminClubsPageProps> = ({ onTokenExpiratio
                            }
                            return;
                          }
-                         window.open(club.website_url, '_blank', 'noopener,noreferrer');
+                         if (club.website_url) {
+                           window.open(club.website_url, '_blank', 'noopener,noreferrer');
+                         }
                        }}
                        style={{ 
                          color: '#007AFF', 
