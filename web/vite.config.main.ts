@@ -15,7 +15,8 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'main/index.html')
       }
-    }
+    },
+    copyPublicDir: true
   },
   root: './main',
   resolve: {
