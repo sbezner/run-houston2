@@ -17,7 +17,7 @@ def print_header():
     print(f"Platform: {platform.system()} {platform.release()}")
     print(f"Python: {sys.version.split()[0]}")
     print("=" * 50)
-    print("📋 Test Coverage Includes:")
+    print("Test Coverage Includes:")
     print("   • PostGIS Geometry & Coordinate Validation")
     print("   • CSV Import/Export Functionality")
     print("   • Clubs & Races API Endpoints")
@@ -33,7 +33,7 @@ def print_header():
 
 def run_backend_tests():
     """Run the Python backend tests."""
-    print("\n🐍 Running Backend Tests (Python)...")
+    print("\nRunning Backend Tests (Python)...")
     
     # Try multiple possible paths for the tests directory
     possible_tests_paths = [
@@ -49,13 +49,13 @@ def run_backend_tests():
             break
     
     if tests_dir is None:
-        print("❌ Error: 'tests' directory with run_all_backend_tests.py not found!")
+        print("ERROR: 'tests' directory with run_all_backend_tests.py not found!")
         print("   Tried paths:")
         for path in possible_tests_paths:
             print(f"     - {path.absolute()}")
         return False
     
-    print(f"📁 Found tests directory at: {tests_dir.absolute()}")
+    print(f"Found tests directory at: {tests_dir.absolute()}")
     
     try:
         # Run the backend tests
@@ -76,29 +76,29 @@ def run_backend_tests():
             print(result.stderr)
         
         if result.returncode == 0:
-            print("✅ Backend Tests: PASSED")
+            print("Backend Tests: PASSED")
             return True
         else:
-            print(f"❌ Backend Tests: FAILED (Exit code: {result.returncode})")
+            print(f"Backend Tests: FAILED (Exit code: {result.returncode})")
             return False
             
     except subprocess.TimeoutExpired:
-        print("❌ Backend Tests: TIMEOUT (took longer than 5 minutes)")
+        print("Backend Tests: TIMEOUT (took longer than 5 minutes)")
         return False
     except Exception as e:
-        print(f"❌ Backend Tests: ERROR - {e}")
+        print(f"Backend Tests: ERROR - {e}")
         return False
 
 def run_frontend_tests():
     """Run the JavaScript frontend tests using the dedicated runner."""
-    print("\n⚛️  Running Frontend Tests (JavaScript)...")
+    print("\nRunning Frontend Tests (JavaScript)...")
     
     try:
         # Import and run the dedicated frontend test runner
         frontend_runner_path = Path(__file__).parent / "run_all_frontend_tests.py"
         
         if not frontend_runner_path.exists():
-            print("❌ Error: Frontend test runner not found!")
+            print("ERROR: Frontend test runner not found!")
             return False
         
         # Run the dedicated frontend test runner
@@ -119,32 +119,32 @@ def run_frontend_tests():
             print(result.stderr)
         
         if result.returncode == 0:
-            print("✅ Frontend Tests: PASSED")
+            print("Frontend Tests: PASSED")
             return True
         else:
-            print(f"❌ Frontend Tests: FAILED (Exit code: {result.returncode})")
+            print(f"Frontend Tests: FAILED (Exit code: {result.returncode})")
             return False
             
     except subprocess.TimeoutExpired:
-        print("❌ Frontend Tests: TIMEOUT (took longer than 5 minutes)")
+        print("Frontend Tests: TIMEOUT (took longer than 5 minutes)")
         return False
     except Exception as e:
-        print(f"❌ Frontend Tests: ERROR - {e}")
+        print(f"Frontend Tests: ERROR - {e}")
         return False
 
 def run_mobile_tests():
     """Run the mobile app tests using the dedicated runner."""
-    print("\n📱 Running Mobile Tests (React Native)...")
+    print("\nRunning Mobile Tests (React Native)...")
     
     try:
         # Import and run the dedicated mobile test runner
         mobile_runner_path = Path(__file__).parent / "run_all_mobile_tests.py"
         
         if not mobile_runner_path.exists():
-            print("❌ Error: Mobile test runner not found!")
+            print("ERROR: Mobile test runner not found!")
             return False
         
-        print(f"📁 Using mobile test runner: {mobile_runner_path}")
+        print(f"Using mobile test runner: {mobile_runner_path}")
         
         # Run the mobile tests
         result = subprocess.run(
@@ -165,17 +165,17 @@ def run_mobile_tests():
             print(result.stderr)
         
         if result.returncode == 0:
-            print("✅ Mobile Tests: PASSED")
+            print("Mobile Tests: PASSED")
             return True
         else:
-            print(f"❌ Mobile Tests: FAILED (Exit code: {result.returncode})")
+            print(f"Mobile Tests: FAILED (Exit code: {result.returncode})")
             return False
             
     except subprocess.TimeoutExpired:
-        print("❌ Mobile Tests: TIMEOUT (took longer than 2 minutes)")
+        print("Mobile Tests: TIMEOUT (took longer than 2 minutes)")
         return False
     except Exception as e:
-        print(f"❌ Mobile Tests: ERROR - {e}")
+        print(f"Mobile Tests: ERROR - {e}")
         return False
 
 def main():
@@ -198,10 +198,10 @@ def main():
     
     # Print summary
     print("\n" + "=" * 50)
-    print("📊 Test Results Summary:")
+    print("Test Results Summary:")
     print("=" * 50)
     
-    print(f"Backend Tests:  {'✅ PASSED' if backend_success else '❌ FAILED'}")
+    print(f"Backend Tests:  {'PASSED' if backend_success else 'FAILED'}")
     print(f"   • PostGIS & Geometry (Critical)")
     print(f"   • CSV Import/Export (High Risk)")
     print(f"   • API Endpoints (Clubs, Races, Race Reports)")
@@ -209,12 +209,12 @@ def main():
     print(f"   • Version System (API Headers, Endpoints)")
     print(f"   • Migration System (Runner, Tracking)")
     print(f"")
-    print(f"Frontend Tests: {'✅ PASSED' if frontend_success else '❌ FAILED'}")
+    print(f"Frontend Tests: {'PASSED' if frontend_success else 'FAILED'}")
     print(f"   • React Components & Validation")
     print(f"   • Admin Dashboard Functionality")
     print(f"   • CSV Import/Export UI")
     print(f"")
-    print(f"Mobile Tests:   {'✅ PASSED' if mobile_success else '❌ FAILED'}")
+    print(f"Mobile Tests:   {'PASSED' if mobile_success else 'FAILED'}")
     print(f"   • Infinite Scroll Logic (Bug #22)")
     print(f"   • Pagination State Management")
     print(f"   • Performance & Error Handling")
@@ -222,11 +222,11 @@ def main():
     print("\n" + "=" * 50)
     
     if backend_success and frontend_success and mobile_success:
-        print("🎉 ALL TESTS PASSED!")
-        print("Your application is ready for deployment! 🚀")
+        print("ALL TESTS PASSED!")
+        print("Your application is ready for deployment!")
         return 0
     else:
-        print("💥 Some tests failed. Check the output above.")
+        print("Some tests failed. Check the output above.")
         print("Please fix the failing tests before proceeding.")
         return 1
 
@@ -235,8 +235,8 @@ if __name__ == "__main__":
         exit_code = main()
         sys.exit(exit_code)
     except KeyboardInterrupt:
-        print("\n\n⏹️  Tests interrupted by user.")
+        print("\n\nTests interrupted by user.")
         sys.exit(130)
     except Exception as e:
-        print(f"\n\n💥 Unexpected error: {e}")
+        print(f"\n\nUnexpected error: {e}")
         sys.exit(1)

@@ -77,6 +77,18 @@ const getWeekendRange = () => {
   };
 };
 
+// Helper function to map frontend distance values to database values
+const mapDistanceToDatabase = (distance: string): string => {
+  const mapping: { [key: string]: string } = {
+    '5K': '5k',
+    '10K': '10k', 
+    'Half': 'half marathon',
+    'Marathon': 'marathon',
+    'Ultra': 'ultra'
+  };
+  return mapping[distance] || distance.toLowerCase();
+};
+
 export const RacesPage: React.FC = () => {
   const { racesLoading, error } = useRaces();
   const [items, setItems] = React.useState<any[]>([]);
@@ -85,8 +97,8 @@ export const RacesPage: React.FC = () => {
   const [q, setQ] = React.useState('');
   const [qInput, setQInput] = React.useState('');
   const [city, setCity] = React.useState('');
-  const [distanceCategory, setDistanceCategory] = React.useState('');
-  const [surface, setSurface] = React.useState('');
+  const [distanceCategory, setDistanceCategory] = React.useState<string[]>([]);
+  const [surface, setSurface] = React.useState<string[]>([]);
   const [kidFriendly, setKidFriendly] = React.useState<string>('');
   const [sort, setSort] = React.useState('date_asc');
   const [page, setPage] = React.useState(1);
@@ -94,20 +106,58 @@ export const RacesPage: React.FC = () => {
   // Removed drawer functionality - all info now on cards
   const [dateFrom, setDateFrom] = React.useState<string>('');
   const [dateTo, setDateTo] = React.useState<string>('');
-  const [density, setDensity] = React.useState<'compact' | 'comfortable'>('compact');
   // Responsive breakpoints
   const [isMobile, setIsMobile] = React.useState(false);
-  const [isTablet, setIsTablet] = React.useState(false);
-  const [isDesktop, setIsDesktop] = React.useState(true);
   
   const sentinelRef = React.useRef<HTMLDivElement | null>(null);
   const searchRef = React.useRef<HTMLInputElement | null>(null);
   const [initialLoad, setInitialLoad] = React.useState(true);
   
-  // Mobile-first sidebar state
-  const [sidebarOpen, setSidebarOpen] = React.useState(false);
+  // Mobile-first sidebar state - default to open on desktop, closed on mobile
+  const [sidebarOpen, setSidebarOpen] = React.useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('sidebarOpen');
+      if (saved !== null) {
+        return JSON.parse(saved);
+      }
+      // Default: open on desktop, closed on mobile
+      return window.innerWidth >= 768;
+    }
+    return false;
+  });
   const [activeSpace, setActiveSpace] = React.useState<'all' | 'upcoming' | 'thisWeek' | 'thisMonth' | 'thisWeekend'>('all');
   // Split view removed - no longer needed without compare functionality
+
+  // Save sidebar state to localStorage
+  const handleSidebarToggle = React.useCallback((open: boolean) => {
+    setSidebarOpen(open);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('sidebarOpen', JSON.stringify(open));
+    }
+  }, []);
+
+  // Helper functions for multiple selections
+  const toggleDistanceCategory = React.useCallback((category: string) => {
+    setDistanceCategory(prev => {
+      if (prev.includes(category)) {
+        return prev.filter(c => c !== category);
+      } else {
+        return [...prev, category];
+      }
+    });
+    setPage(1);
+  }, []);
+
+  const toggleSurface = React.useCallback((surfaceType: string) => {
+    setSurface(prev => {
+      if (prev.includes(surfaceType)) {
+        return prev.filter(s => s !== surfaceType);
+      } else {
+        return [...prev, surfaceType];
+      }
+    });
+    setPage(1);
+  }, []);
 
   const fetch = React.useCallback(async () => {
     setLoading(true);
@@ -122,19 +172,94 @@ export const RacesPage: React.FC = () => {
         weekendDateTo = weekendRange.to;
       }
       
-      const data = await racesApi.list({ 
-        q, 
-        city, 
-        distanceCategory, 
-        surface, 
-        sort, 
-        page, 
-        pageSize, 
-        dateFrom: weekendDateFrom || undefined, 
-        dateTo: weekendDateTo || undefined, 
-        kidFriendly: kidFriendly === '' ? undefined as any : kidFriendly === 'true' 
-      });
-      const incoming = (data.items ?? data) as any[];
+      let allRaces: any[] = [];
+      let totalCount = 0;
+      
+      // If multiple distances or surfaces are selected, we need to make multiple API calls
+      // and combine the results since the backend doesn't support OR logic for these filters
+      if (distanceCategory.length > 1 || surface.length > 1) {
+        // Make separate API calls for each distance/surface combination
+        const promises: Promise<any>[] = [];
+        
+        if (distanceCategory.length > 0 && surface.length > 0) {
+          // Both distance and surface have multiple selections - create all combinations
+          for (const dist of distanceCategory) {
+            for (const surf of surface) {
+              promises.push(racesApi.list({
+                q, city, 
+                distanceCategory: mapDistanceToDatabase(dist), 
+                surface: surf, 
+                sort, page, pageSize, 
+                dateFrom: weekendDateFrom || undefined, 
+                dateTo: weekendDateTo || undefined, 
+                kidFriendly: kidFriendly === '' ? undefined as any : kidFriendly === 'true'
+              }));
+            }
+          }
+        } else if (distanceCategory.length > 1) {
+          // Multiple distances only
+          for (const dist of distanceCategory) {
+            promises.push(racesApi.list({
+              q, city, 
+              distanceCategory: mapDistanceToDatabase(dist), 
+              surface: surface.length > 0 ? surface[0] : undefined, 
+              sort, page, pageSize, 
+              dateFrom: weekendDateFrom || undefined, 
+              dateTo: weekendDateTo || undefined, 
+              kidFriendly: kidFriendly === '' ? undefined as any : kidFriendly === 'true'
+            }));
+          }
+        } else if (surface.length > 1) {
+          // Multiple surfaces only
+          for (const surf of surface) {
+            promises.push(racesApi.list({
+              q, city, 
+              distanceCategory: distanceCategory.length > 0 ? mapDistanceToDatabase(distanceCategory[0]) : undefined, 
+              surface: surf, 
+              sort, page, pageSize, 
+              dateFrom: weekendDateFrom || undefined, 
+              dateTo: weekendDateTo || undefined, 
+              kidFriendly: kidFriendly === '' ? undefined as any : kidFriendly === 'true'
+            }));
+          }
+        }
+        
+        // Execute all API calls
+        const results = await Promise.all(promises);
+        
+        // Combine and deduplicate results
+        const raceMap = new Map();
+        results.forEach(result => {
+          const items = result.items ?? result;
+          items.forEach((race: any) => {
+            if (!raceMap.has(race.id)) {
+              raceMap.set(race.id, race);
+            }
+          });
+          totalCount = Math.max(totalCount, result.total ?? items.length); // Use max total as approximation
+        });
+        
+        allRaces = Array.from(raceMap.values());
+      } else {
+        // Single selections or no multi-select - use original API call
+        const data = await racesApi.list({ 
+          q, 
+          city, 
+          distanceCategory: distanceCategory.length > 0 ? distanceCategory.map(mapDistanceToDatabase).join(',') : undefined, 
+          surface: surface.length > 0 ? surface.join(',') : undefined, 
+          sort, 
+          page, 
+          pageSize, 
+          dateFrom: weekendDateFrom || undefined, 
+          dateTo: weekendDateTo || undefined, 
+          kidFriendly: kidFriendly === '' ? undefined as any : kidFriendly === 'true' 
+        });
+        
+        allRaces = data.items ?? data;
+        totalCount = data.total ?? (Array.isArray(data) ? data.length : 0);
+      }
+      
+      const incoming = allRaces;
       if (page === 1) {
         setItems(incoming);
       } else {
@@ -144,7 +269,7 @@ export const RacesPage: React.FC = () => {
           return Array.from(existing.values());
         });
       }
-      setTotal(data.total ?? (Array.isArray(data) ? data.length : 0));
+      setTotal(totalCount);
     } catch (e) {
       // ignore here; existing Alert path handles errors via other hook when used
     } finally {
@@ -172,17 +297,9 @@ export const RacesPage: React.FC = () => {
       const width = window.innerWidth;
       if (width < 768) {
         setIsMobile(true);
-        setIsTablet(false);
-        setIsDesktop(false);
         setSidebarOpen(false); // Close sidebar on mobile by default
-      } else if (width < 1024) {
-        setIsMobile(false);
-        setIsTablet(true);
-        setIsDesktop(false);
       } else {
         setIsMobile(false);
-        setIsTablet(false);
-        setIsDesktop(true);
       }
     };
     
@@ -322,36 +439,41 @@ export const RacesPage: React.FC = () => {
             zIndex: 30,
             cursor: 'pointer'
           }}
-          onClick={() => setSidebarOpen(false)}
+          onClick={() => handleSidebarToggle(false)}
         />
       )}
 
       {/* Responsive Sidebar */}
-      <div style={{
-        width: isMobile ? '280px' : (isTablet ? (sidebarOpen ? '240px' : '0px') : (sidebarOpen ? '240px' : '60px')),
-        background: '#ffffff',
-        borderRight: '1px solid #e2e8f0',
-        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-        display: 'flex',
-        flexDirection: 'column',
-        position: isMobile ? 'fixed' : 'sticky',
-        top: 0,
-        height: '100vh',
-        zIndex: 40,
-        boxShadow: isMobile ? '0 8px 32px rgba(0, 0, 0, 0.12)' : '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-        transform: isMobile && !sidebarOpen ? 'translateX(-100%)' : 'translateX(0)',
-        overflow: 'hidden'
-      }}>
-        {/* Sidebar Header */}
-        <div style={{
-          padding: isMobile ? '16px' : '20px',
-          borderBottom: '1px solid #e2e8f0',
+      <div 
+        onClick={!sidebarOpen ? () => handleSidebarToggle(true) : undefined}
+        style={{
+          width: isMobile ? '280px' : (sidebarOpen ? '240px' : '60px'),
+          background: '#ffffff',
+          borderRight: '1px solid #e2e8f0',
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
           display: 'flex',
-          alignItems: 'center',
-          justifyContent: (isMobile || isTablet) ? 'space-between' : (sidebarOpen ? 'space-between' : 'center'),
-          minHeight: isMobile ? '56px' : 'auto'
+          flexDirection: 'column',
+          position: isMobile ? 'fixed' : 'sticky',
+          top: 0,
+          height: '100vh',
+          zIndex: 40,
+          boxShadow: isMobile ? '0 8px 32px rgba(0, 0, 0, 0.12)' : '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+          transform: isMobile && !sidebarOpen ? 'translateX(-100%)' : 'translateX(0)',
+          overflow: 'hidden',
+          cursor: !sidebarOpen ? 'pointer' : 'default'
         }}>
-          {(isMobile || isTablet || sidebarOpen) && (
+        {/* Sidebar Header */}
+        <div 
+          onClick={(e) => sidebarOpen && e.stopPropagation()}
+          style={{
+            padding: isMobile ? '16px' : (sidebarOpen ? '20px' : '12px'),
+            borderBottom: sidebarOpen ? '1px solid #e2e8f0' : 'none',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: isMobile ? 'space-between' : (sidebarOpen ? 'space-between' : 'center'),
+            minHeight: isMobile ? '56px' : 'auto'
+          }}>
+          {(isMobile || sidebarOpen) && (
             <div style={{ 
               fontSize: isMobile ? '18px' : '20px', 
               fontWeight: '700', 
@@ -365,8 +487,9 @@ export const RacesPage: React.FC = () => {
               Run Houston
             </div>
           )}
+          {/* Toggle button - always show */}
           <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
+            onClick={() => handleSidebarToggle(!sidebarOpen)}
             style={{
               background: '#f1f5f9',
               border: '1px solid #e2e8f0',
@@ -374,7 +497,7 @@ export const RacesPage: React.FC = () => {
               padding: isMobile ? '12px' : '8px',
               borderRadius: '8px',
               color: '#475569',
-              fontSize: isMobile ? '18px' : '16px',
+              fontSize: isMobile ? '18px' : '20px',
               transition: 'all 0.2s ease',
               display: 'flex',
               alignItems: 'center',
@@ -400,10 +523,167 @@ export const RacesPage: React.FC = () => {
         </div>
 
         {/* Filters Navigation */}
-        <div style={{ padding: '12px', flex: 1, overflowY: 'auto', paddingBottom: '20px' }}>
-          {/* Time-based Views */}
-          <div style={{ marginBottom: '24px' }}>
-            {(isMobile || isTablet || sidebarOpen) && (
+        <div 
+          onClick={(e) => e.stopPropagation()}
+          style={{ padding: '12px', flex: 1, overflowY: 'auto', paddingBottom: '20px' }}>
+          
+          {/* Collapsed State - Show All Filter Icons */}
+          {!sidebarOpen && (
+            <div style={{ 
+              display: 'flex', 
+              flexDirection: 'column', 
+              alignItems: 'center', 
+              gap: '8px',
+              padding: '16px 8px'
+            }}>
+              {/* Time View Icon */}
+              <div style={{ position: 'relative' }}>
+                <div style={{
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '8px',
+                  background: activeSpace !== 'all' ? '#3b82f6' : '#f1f5f9',
+                  border: `1px solid ${activeSpace !== 'all' ? '#2563eb' : '#e2e8f0'}`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '14px',
+                  color: activeSpace !== 'all' ? 'white' : '#64748b',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}>
+                  📅
+                </div>
+              </div>
+
+              {/* Distance Icon */}
+              <div style={{ position: 'relative' }}>
+                <div style={{
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '8px',
+                  background: distanceCategory.length > 0 ? '#059669' : '#f1f5f9',
+                  border: `1px solid ${distanceCategory.length > 0 ? '#047857' : '#e2e8f0'}`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '14px',
+                  color: distanceCategory.length > 0 ? 'white' : '#64748b',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}>
+                  🏃
+                </div>
+                {distanceCategory.length > 0 && (
+                  <div style={{
+                    position: 'absolute',
+                    top: '-4px',
+                    right: '-4px',
+                    width: '16px',
+                    height: '16px',
+                    borderRadius: '50%',
+                    background: '#ef4444',
+                    color: 'white',
+                    fontSize: '9px',
+                    fontWeight: '600',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '2px solid white'
+                  }}>
+                    {distanceCategory.length}
+                  </div>
+                )}
+              </div>
+
+              {/* Surface Icon */}
+              <div style={{ position: 'relative' }}>
+                <div style={{
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '8px',
+                  background: surface.length > 0 ? '#d97706' : '#f1f5f9',
+                  border: `1px solid ${surface.length > 0 ? '#b45309' : '#e2e8f0'}`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '14px',
+                  color: surface.length > 0 ? 'white' : '#64748b',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}>
+                  🛣️
+                </div>
+                {surface.length > 0 && (
+                  <div style={{
+                    position: 'absolute',
+                    top: '-4px',
+                    right: '-4px',
+                    width: '16px',
+                    height: '16px',
+                    borderRadius: '50%',
+                    background: '#ef4444',
+                    color: 'white',
+                    fontSize: '9px',
+                    fontWeight: '600',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '2px solid white'
+                  }}>
+                    {surface.length}
+                  </div>
+                )}
+              </div>
+
+              {/* Other Filters Icon */}
+              <div style={{ position: 'relative' }}>
+                <div style={{
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '8px',
+                  background: (city || kidFriendly !== '' || q) ? '#7c3aed' : '#f1f5f9',
+                  border: `1px solid ${(city || kidFriendly !== '' || q) ? '#6d28d9' : '#e2e8f0'}`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '14px',
+                  color: (city || kidFriendly !== '' || q) ? 'white' : '#64748b',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}>
+                  ⚙️
+                </div>
+                {(city || kidFriendly !== '' || q) && (
+                  <div style={{
+                    position: 'absolute',
+                    top: '-4px',
+                    right: '-4px',
+                    width: '16px',
+                    height: '16px',
+                    borderRadius: '50%',
+                    background: '#ef4444',
+                    color: 'white',
+                    fontSize: '9px',
+                    fontWeight: '600',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '2px solid white'
+                  }}>
+                    {(city ? 1 : 0) + (kidFriendly !== '' ? 1 : 0) + (q ? 1 : 0)}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Expanded State - Show Full Filters */}
+          {sidebarOpen && (
+            <>
+              {/* Time-based Views */}
+              <div style={{ marginBottom: '24px' }}>
+                {(isMobile || sidebarOpen) && (
               <div style={{ 
                 fontSize: '11px', 
                 fontWeight: '700', 
@@ -427,7 +707,7 @@ export const RacesPage: React.FC = () => {
                 key={space.key}
                 onClick={() => {
                   setActiveSpace(space.key as any);
-                  if (isMobile) setSidebarOpen(false); // Close sidebar on mobile after selection
+                  if (isMobile) handleSidebarToggle(false); // Close sidebar on mobile after selection
                 }}
                 style={{
                   width: '100%',
@@ -466,13 +746,13 @@ export const RacesPage: React.FC = () => {
                 }}
               >
                 <span style={{ fontSize: isMobile ? '20px' : '18px' }}>{space.icon}</span>
-                {(isMobile || isTablet || sidebarOpen) && <span>{space.label}</span>}
+                {(isMobile || sidebarOpen) && <span>{space.label}</span>}
               </button>
             ))}
           </div>
 
           {/* Distance Filters */}
-          {(isMobile || isTablet || sidebarOpen) && (
+          {(isMobile || sidebarOpen) && (
             <div style={{ marginBottom: '24px' }}>
               <div style={{ 
                 fontSize: '11px', 
@@ -493,52 +773,67 @@ export const RacesPage: React.FC = () => {
                   { key: 'Half', label: 'Half Marathon', color: '#d97706' },
                   { key: 'Marathon', label: 'Marathon', color: '#dc2626' },
                   { key: 'Ultra', label: 'Ultra', color: '#7c3aed' }
-                ].map((filter) => (
-                  <button
-                    key={filter.key || 'all'}
-                    onClick={() => setDistanceCategory(filter.key)}
-                    style={{
-                      width: '100%',
-                      padding: '10px 12px',
-                      background: distanceCategory === filter.key 
-                        ? (filter.key ? filter.color : '#3b82f6')
-                        : '#f8fafc',
-                      border: `1px solid ${distanceCategory === filter.key ? (filter.key ? filter.color : '#3b82f6') : '#e2e8f0'}`,
-                      borderRadius: '8px',
-                      cursor: 'pointer',
-                      color: distanceCategory === filter.key ? 'white' : '#475569',
-                      fontSize: '13px',
-                      fontWeight: '500',
-                      textAlign: 'left',
-                      transition: 'all 0.2s ease',
-                      boxShadow: distanceCategory === filter.key 
-                        ? `0 2px 4px ${filter.key ? filter.color : '#3b82f6'}40` 
-                        : '0 1px 2px rgba(0, 0, 0, 0.05)'
-                    }}
-                    onMouseEnter={(e) => {
-                      if (distanceCategory !== filter.key) {
-                        e.currentTarget.style.background = '#f1f5f9';
-                        e.currentTarget.style.borderColor = filter.key ? filter.color : '#3b82f6';
-                        e.currentTarget.style.color = '#1e293b';
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (distanceCategory !== filter.key) {
-                        e.currentTarget.style.background = '#f8fafc';
-                        e.currentTarget.style.borderColor = '#e2e8f0';
-                        e.currentTarget.style.color = '#475569';
-                      }
-                    }}
-                  >
-                    {filter.label}
-                  </button>
-                ))}
+                ].map((filter) => {
+                  const isSelected = filter.key === '' ? distanceCategory.length === 0 : distanceCategory.includes(filter.key);
+                  return (
+                    <button
+                      key={filter.key || 'all'}
+                      onClick={() => filter.key === '' ? setDistanceCategory([]) : toggleDistanceCategory(filter.key)}
+                      style={{
+                        width: '100%',
+                        padding: '10px 12px',
+                        background: isSelected 
+                          ? (filter.key ? filter.color : '#3b82f6')
+                          : '#f8fafc',
+                        border: `1px solid ${isSelected ? (filter.key ? filter.color : '#3b82f6') : '#e2e8f0'}`,
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        color: isSelected ? 'white' : '#475569',
+                        fontSize: '13px',
+                        fontWeight: '500',
+                        textAlign: 'left',
+                        transition: 'all 0.2s ease',
+                        boxShadow: isSelected 
+                          ? `0 2px 4px ${filter.key ? filter.color : '#3b82f6'}40` 
+                          : '0 1px 2px rgba(0, 0, 0, 0.05)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px'
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!isSelected) {
+                          e.currentTarget.style.background = '#f1f5f9';
+                          e.currentTarget.style.borderColor = filter.key ? filter.color : '#3b82f6';
+                          e.currentTarget.style.color = '#1e293b';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!isSelected) {
+                          e.currentTarget.style.background = '#f8fafc';
+                          e.currentTarget.style.borderColor = '#e2e8f0';
+                          e.currentTarget.style.color = '#475569';
+                        }
+                      }}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        onChange={() => {}} // Handled by button click
+                        style={{
+                          margin: 0,
+                          accentColor: isSelected ? (filter.key ? filter.color : '#3b82f6') : '#64748b'
+                        }}
+                      />
+                      {filter.label}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           )}
 
           {/* Surface Filters */}
-          {(isMobile || isTablet || sidebarOpen) && (
+          {(isMobile || sidebarOpen) && (
             <div style={{ marginBottom: '24px' }}>
               <div style={{ 
                 fontSize: '11px', 
@@ -558,52 +853,67 @@ export const RacesPage: React.FC = () => {
                   { key: 'trail', label: 'Trail', color: '#d97706' },
                   { key: 'track', label: 'Track', color: '#2563eb' },
                   { key: 'mixed', label: 'Mixed', color: '#7c3aed' }
-                ].map((filter) => (
-                  <button
-                    key={filter.key || 'all'}
-                    onClick={() => setSurface(filter.key)}
-                    style={{
-                      width: '100%',
-                      padding: '10px 12px',
-                      background: surface === filter.key 
-                        ? (filter.key ? filter.color : '#3b82f6')
-                        : '#f8fafc',
-                      border: `1px solid ${surface === filter.key ? (filter.key ? filter.color : '#3b82f6') : '#e2e8f0'}`,
-                      borderRadius: '8px',
-                      cursor: 'pointer',
-                      color: surface === filter.key ? 'white' : '#475569',
-                      fontSize: '13px',
-                      fontWeight: '500',
-                      textAlign: 'left',
-                      transition: 'all 0.2s ease',
-                      boxShadow: surface === filter.key 
-                        ? `0 2px 4px ${filter.key ? filter.color : '#3b82f6'}40` 
-                        : '0 1px 2px rgba(0, 0, 0, 0.05)'
-                    }}
-                    onMouseEnter={(e) => {
-                      if (surface !== filter.key) {
-                        e.currentTarget.style.background = '#f1f5f9';
-                        e.currentTarget.style.borderColor = filter.key ? filter.color : '#3b82f6';
-                        e.currentTarget.style.color = '#1e293b';
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (surface !== filter.key) {
-                        e.currentTarget.style.background = '#f8fafc';
-                        e.currentTarget.style.borderColor = '#e2e8f0';
-                        e.currentTarget.style.color = '#475569';
-                      }
-                    }}
-                  >
-                    {filter.label}
-                  </button>
-                ))}
+                ].map((filter) => {
+                  const isSelected = filter.key === '' ? surface.length === 0 : surface.includes(filter.key);
+                  return (
+                    <button
+                      key={filter.key || 'all'}
+                      onClick={() => filter.key === '' ? setSurface([]) : toggleSurface(filter.key)}
+                      style={{
+                        width: '100%',
+                        padding: '10px 12px',
+                        background: isSelected 
+                          ? (filter.key ? filter.color : '#3b82f6')
+                          : '#f8fafc',
+                        border: `1px solid ${isSelected ? (filter.key ? filter.color : '#3b82f6') : '#e2e8f0'}`,
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        color: isSelected ? 'white' : '#475569',
+                        fontSize: '13px',
+                        fontWeight: '500',
+                        textAlign: 'left',
+                        transition: 'all 0.2s ease',
+                        boxShadow: isSelected 
+                          ? `0 2px 4px ${filter.key ? filter.color : '#3b82f6'}40` 
+                          : '0 1px 2px rgba(0, 0, 0, 0.05)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px'
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!isSelected) {
+                          e.currentTarget.style.background = '#f1f5f9';
+                          e.currentTarget.style.borderColor = filter.key ? filter.color : '#3b82f6';
+                          e.currentTarget.style.color = '#1e293b';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!isSelected) {
+                          e.currentTarget.style.background = '#f8fafc';
+                          e.currentTarget.style.borderColor = '#e2e8f0';
+                          e.currentTarget.style.color = '#475569';
+                        }
+                      }}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        onChange={() => {}} // Handled by button click
+                        style={{
+                          margin: 0,
+                          accentColor: isSelected ? (filter.key ? filter.color : '#3b82f6') : '#64748b'
+                        }}
+                      />
+                      {filter.label}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           )}
 
           {/* Additional Filters */}
-          {(isMobile || isTablet || sidebarOpen) && (
+          {(isMobile || sidebarOpen) && (
             <div style={{ marginBottom: '24px' }}>
               <div style={{ 
                 fontSize: '11px', 
@@ -722,13 +1032,13 @@ export const RacesPage: React.FC = () => {
                     setCity(''); 
                     setDateFrom(''); 
                     setDateTo(''); 
-                    setDistanceCategory(''); 
-                    setSurface(''); 
+                    setDistanceCategory([]); 
+                    setSurface([]); 
                     setKidFriendly(''); 
                     setSort('date_asc'); 
                     setPage(1);
                     setActiveSpace('all');
-                    if (isMobile) setSidebarOpen(false);
+                    if (isMobile) handleSidebarToggle(false);
                   }}
                   style={{
                     width: '100%',
@@ -754,6 +1064,8 @@ export const RacesPage: React.FC = () => {
               </div>
             </div>
           )}
+            </>
+          )}
         </div>
 
         {/* Sidebar Footer */}
@@ -763,7 +1075,7 @@ export const RacesPage: React.FC = () => {
           background: '#f8fafc',
           flexShrink: 0
         }}>
-          {(isMobile || isTablet || sidebarOpen) && (
+          {(isMobile || sidebarOpen) && (
             <div style={{ 
               fontSize: '12px', 
               color: '#64748b', 
@@ -786,78 +1098,65 @@ export const RacesPage: React.FC = () => {
         flex: 1, 
         display: 'flex', 
         flexDirection: 'column',
-        marginLeft: isMobile ? '0' : (isTablet ? (sidebarOpen ? '240px' : '0') : (sidebarOpen ? '240px' : '60px')),
+        marginLeft: isMobile ? '0' : (sidebarOpen ? '0px' : '0px'),
         transition: 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
       }}>
-        {/* Mobile Header */}
-        {isMobile && (
-          <div style={{
-            background: '#ffffff',
-            borderBottom: '1px solid #e2e8f0',
-            padding: '12px 16px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            position: 'sticky',
-            top: 0,
-            zIndex: 20,
-            boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)'
-          }}>
-            <div style={{ 
-              fontSize: '18px', 
-              fontWeight: '700', 
-              color: '#1e293b',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px'
-            }}>
-              <span style={{ fontSize: '20px' }}>🏃‍♂️</span>
-              Run Houston
-            </div>
-            <button
-              onClick={() => setSidebarOpen(true)}
-              style={{
-                background: '#f1f5f9',
-                border: '1px solid #e2e8f0',
-                cursor: 'pointer',
-                padding: '12px',
-                borderRadius: '8px',
-                color: '#475569',
-                fontSize: '18px',
-                transition: 'all 0.2s ease',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '44px',
-                height: '44px',
-                minWidth: '44px',
-                minHeight: '44px'
-              }}
-            >
-              ☰
-            </button>
-          </div>
-        )}
 
         {/* Top Bar */}
         <div style={{ 
           background: '#ffffff',
           borderBottom: '1px solid #e2e8f0',
-          padding: isMobile ? '16px' : '16px 32px',
+          padding: isMobile ? '12px' : '12px 20px',
           display: 'flex',
           alignItems: 'center',
           gap: isMobile ? '12px' : '20px',
           position: 'sticky',
-          top: isMobile ? '56px' : '0',
+          top: '0',
           zIndex: 10,
           boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
-          flexDirection: isMobile ? 'column' : 'row'
+          flexDirection: 'row'
         }}>
+          {/* Hamburger Menu Button - Show only on mobile when sidebar is not visible */}
+          {isMobile && !sidebarOpen && (
+            <button
+              onClick={() => handleSidebarToggle(true)}
+              style={{
+                background: '#f1f5f9',
+                border: '1px solid #e2e8f0',
+                cursor: 'pointer',
+                padding: '8px',
+                borderRadius: '8px',
+                color: '#475569',
+                fontSize: '16px',
+                transition: 'all 0.2s ease',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '32px',
+                height: '32px',
+                minWidth: '32px',
+                minHeight: '32px',
+                marginRight: '12px'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = '#e2e8f0';
+                e.currentTarget.style.borderColor = '#cbd5e1';
+                e.currentTarget.style.transform = 'scale(1.05)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = '#f1f5f9';
+                e.currentTarget.style.borderColor = '#e2e8f0';
+                e.currentTarget.style.transform = 'scale(1)';
+              }}
+            >
+              ☰
+            </button>
+          )}
           {/* Search */}
           <div style={{ 
             flex: 1, 
-            maxWidth: isMobile ? '100%' : '400px',
-            width: isMobile ? '100%' : 'auto'
+            maxWidth: '400px',
+            width: 'auto'
           }}>
             <input
               ref={searchRef}
@@ -903,8 +1202,8 @@ export const RacesPage: React.FC = () => {
               transition: 'all 0.2s ease',
               outline: 'none',
               boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-              minHeight: isMobile ? '48px' : 'auto',
-              width: isMobile ? '100%' : 'auto'
+              minHeight: 'auto',
+              width: 'auto'
             }}
           >
             <option value="date_asc">Soonest</option>
@@ -913,51 +1212,6 @@ export const RacesPage: React.FC = () => {
             <option value="city_desc">City Z→A</option>
           </select>
 
-          {/* Density Toggle */}
-          <div style={{ 
-            display: 'flex', 
-            border: '1px solid #d1d5db', 
-            borderRadius: '8px', 
-            overflow: 'hidden',
-            background: '#ffffff',
-            boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)'
-          }}>
-            <button
-              onClick={() => setDensity('compact')}
-              style={{
-                padding: '12px 16px',
-                background: density === 'compact' 
-                  ? '#3b82f6' 
-                  : 'transparent',
-                color: density === 'compact' ? '#ffffff' : '#475569',
-                border: 'none',
-                cursor: 'pointer',
-                fontSize: '14px',
-                fontWeight: '600',
-                transition: 'all 0.2s ease'
-              }}
-            >
-              Compact
-            </button>
-            <button
-              onClick={() => setDensity('comfortable')}
-              style={{
-                padding: '12px 16px',
-                background: density === 'comfortable' 
-                  ? '#3b82f6' 
-                  : 'transparent',
-                color: density === 'comfortable' ? '#ffffff' : '#475569',
-                border: 'none',
-                borderLeft: '1px solid #d1d5db',
-                cursor: 'pointer',
-                fontSize: '14px',
-                fontWeight: '600',
-                transition: 'all 0.2s ease'
-              }}
-            >
-              Comfortable
-            </button>
-          </div>
         </div>
 
 
@@ -966,13 +1220,16 @@ export const RacesPage: React.FC = () => {
           {/* Main Race List */}
           <div style={{ 
             flex: 1,
-            padding: isMobile ? '16px' : '32px',
+            padding: '0',
             paddingBottom: '60px', // Extra space to prevent footer overlap
             overflowY: 'auto',
             background: '#f8fafc'
           }}>
             {/* Header */}
-            <div style={{ marginBottom: isMobile ? '24px' : '32px' }}>
+            <div style={{ 
+              marginBottom: isMobile ? '8px' : '12px',
+              padding: isMobile ? '12px 16px 0 16px' : '16px 20px 0 20px'
+            }}>
               <h1 style={{ 
                 fontSize: isMobile ? '24px' : '32px', 
                 fontWeight: '800', 
@@ -988,19 +1245,19 @@ export const RacesPage: React.FC = () => {
               <p style={{ 
                 fontSize: isMobile ? '14px' : '16px', 
                 color: '#64748b', 
-                margin: '0 0 20px 0',
+                margin: '0 0 4px 0',
                 fontWeight: '500'
               }}>
                 {total > 0 ? `${total} races found` : 'No races found'}
               </p>
 
               {/* Active Filters */}
-              {(q || city || distanceCategory || surface || kidFriendly !== '') && (
-                <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '24px' }}>
+              {(q || city || distanceCategory.length > 0 || surface.length > 0 || kidFriendly !== '') && (
+                <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '8px' }}>
                   {q && <FilterChip label={`Search: ${q}`} onClear={() => { setQ(''); setQInput(''); }} />}
                   {city && <FilterChip label={`City: ${city}`} onClear={() => setCity('')} />}
-                  {distanceCategory && <FilterChip label={`Distance: ${distanceCategory}`} onClear={() => setDistanceCategory('')} />}
-                  {surface && <FilterChip label={`Surface: ${surface}`} onClear={() => setSurface('')} />}
+                  {distanceCategory.length > 0 && <FilterChip label={`Distance: ${distanceCategory.join(', ')}`} onClear={() => setDistanceCategory([])} />}
+                  {surface.length > 0 && <FilterChip label={`Surface: ${surface.join(', ')}`} onClear={() => setSurface([])} />}
                   {kidFriendly !== '' && <FilterChip label={`Kid-friendly: ${kidFriendly === 'true' ? 'Yes' : 'No'}`} onClear={() => setKidFriendly('')} />}
                 </div>
               )}
@@ -1009,8 +1266,9 @@ export const RacesPage: React.FC = () => {
             {/* Race List */}
                   <div style={{ 
               display: 'grid', 
-              gridTemplateColumns: isMobile ? '1fr' : (isTablet ? '1fr' : (isDesktop ? 'repeat(2, 1fr)' : '1fr')),
-              gap: isMobile ? '16px' : (density === 'compact' ? '16px' : '20px')
+              gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)',
+              gap: isMobile ? '16px' : '20px',
+              padding: isMobile ? '0 16px' : '0 20px'
             }}>
               {items.map((race) => (
                 <div
@@ -1019,7 +1277,7 @@ export const RacesPage: React.FC = () => {
                     background: '#ffffff',
                     border: '1px solid #e2e8f0',
                     borderRadius: isMobile ? '16px' : '12px',
-                    padding: isMobile ? '20px' : (density === 'compact' ? '16px' : '20px'),
+                    padding: '20px',
                     cursor: 'default',
                     transition: 'all 0.2s ease',
                     boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
@@ -1040,7 +1298,7 @@ export const RacesPage: React.FC = () => {
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
                     <h3 style={{ 
-                      fontSize: isMobile ? '20px' : (density === 'compact' ? '18px' : '20px'), 
+                      fontSize: '20px', 
                       fontWeight: '700', 
                       color: '#1e293b',
                       margin: '0',
@@ -1084,6 +1342,20 @@ export const RacesPage: React.FC = () => {
                         border: '1px solid #c7d2fe'
                       }}>
                         🕐 {race.start_time}
+                      </span>
+                    )}
+                    {race.distance && (
+                      <span style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: '6px',
+                        background: '#e0f2fe',
+                        padding: '4px 8px',
+                        borderRadius: '6px',
+                        color: '#0c4a6e',
+                        border: '1px solid #bae6fd'
+                      }}>
+                        📏 {race.distance}
                       </span>
                     )}
                   </div>
