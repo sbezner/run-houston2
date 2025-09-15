@@ -115,7 +115,9 @@ def test_race_id_validation_bug_fix():
     try:
         response = requests.get(f"{API_BASE}/races")
         if response.status_code == 200:
-            races = response.json()
+            data = response.json()
+            # Handle pagination response format: {"items": [...], "total": ...}
+            races = data.get('items', data) if isinstance(data, dict) else data
             race_ids = [race['id'] for race in races]
             if test_race_id in race_ids:
                 print(f"     WARN  Race ID {test_race_id} found in public races list (unexpected)")

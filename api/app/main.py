@@ -362,24 +362,116 @@ def get_detailed_health():
     }
 
 @app.get("/races")
-def list_races():
-    sql = """
+def list_races(
+    request: Request,
+    dateFrom: str | None = None,
+    dateTo: str | None = None,
+    distanceCategory: str | None = None,
+    surface: str | None = None,
+    city: str | None = None,
+    kidFriendly: bool | None = None,
+    q: str | None = None,
+    sort: str | None = None,
+    page: int = 1,
+    pageSize: int = 50,
+):
+    """Public races list with optional filtering and pagination.
+
+    No schema changes. Filters derive from existing columns.
+    - distanceCategory filters against text values stored in distance[] (e.g., '5K','10K','Half','Marathon','Ultra').
+    - surface matches exact value when provided.
+    - kidFriendly maps to kid_run boolean.
+    - q performs ILIKE search over name and city.
+    """
+
+    # Sanitize pagination
+    if page < 1:
+        page = 1
+    if pageSize < 1 or pageSize > 200:
+        pageSize = 50
+    offset = (page - 1) * pageSize
+
+    where_clauses: list[str] = []
+    params: list[object] = []
+
+    # Date range
+    if dateFrom:
+        where_clauses.append("date >= %s")
+        params.append(date.fromisoformat(dateFrom))
+    if dateTo:
+        where_clauses.append("date <= %s")
+        params.append(date.fromisoformat(dateTo))
+
+    # Distance category stored as text in distance[]; include races where ANY(distance) equals category
+    if distanceCategory:
+        where_clauses.append("%s = ANY(distance)")
+        params.append(distanceCategory)
+
+    # Surface
+    if surface:
+        where_clauses.append("surface = %s")
+        params.append(surface)
+
+    # City
+    if city:
+        where_clauses.append("city ILIKE %s")
+        params.append(f"%{city}%")
+
+    # Kid friendly maps to kid_run
+    if kidFriendly is not None:
+        where_clauses.append("kid_run = %s")
+        params.append(kidFriendly)
+
+    # Free text query on name/city
+    if q:
+        where_clauses.append("(name ILIKE %s OR city ILIKE %s)")
+        params.extend([f"%{q}%", f"%{q}%"])
+
+    where_sql = ("WHERE " + " AND ".join(where_clauses)) if where_clauses else ""
+
+    # Sorting
+    order_sql = "ORDER BY date ASC"
+    if sort == "date_desc":
+        order_sql = "ORDER BY date DESC"
+    elif sort == "city_asc":
+        order_sql = "ORDER BY city ASC, date ASC"
+    elif sort == "city_desc":
+        order_sql = "ORDER BY city DESC, date ASC"
+    # default is date ASC
+
+    base_select = """
         SELECT id, name, date, start_time, tz, address, city, state, zip, latitude, longitude,
                geom, distance, surface, kid_run, official_website_url, source, created_at, updated_at
         FROM races
-        ORDER BY date ASC
-        LIMIT 50
     """
+
+    # Total count
+    count_sql = f"SELECT COUNT(*) FROM races {where_sql}"
+
+    # Page
+    sql = f"""
+        {base_select}
+        {where_sql}
+        {order_sql}
+        LIMIT %s OFFSET %s
+    """
+
     with get_conn() as conn, conn.cursor() as cur:
-        cur.execute(sql)
+        # Count
+        cur.execute(count_sql, params)
+        total = cur.fetchone()[0]
+
+        # Items
+        cur.execute(sql, [*params, pageSize, offset])
         rows = cur.fetchall()
 
-    cols = ["id","name","date","start_time","tz","address","city","state","zip","latitude","longitude",
-            "geom","distance","surface","kid_run","official_website_url","source","created_at","updated_at"]
-    races = []
+    cols = [
+        "id","name","date","start_time","tz","address","city","state","zip","latitude","longitude",
+        "geom","distance","surface","kid_run","official_website_url","source","created_at","updated_at"
+    ]
+    items = []
     for r in rows:
         race = dict(zip(cols, r))
-        # Convert date and time objects to strings for JSON serialization
         if race['date']:
             race['date'] = race['date'].isoformat()
         if race['start_time']:
@@ -388,8 +480,9 @@ def list_races():
             race['created_at'] = race['created_at'].isoformat()
         if race['updated_at']:
             race['updated_at'] = race['updated_at'].isoformat()
-        races.append(race)
-    return races
+        items.append(race)
+
+    return {"items": items, "total": total, "page": page, "pageSize": pageSize}
 
 @app.post("/admin/login", response_model=AdminLoginResponse)
 def admin_login(login_data: AdminLogin):

@@ -24,16 +24,13 @@ function App() {
           padding: '1rem 2rem', 
           boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
           display: 'flex',
-          justifyContent: 'space-between',
+          justifyContent: 'flex-start',
           alignItems: 'center',
           position: 'sticky',
           top: 0,
           zIndex: 100,
           width: '100%'
         }}>
-          <div style={{ fontSize: '1.5rem', fontWeight: '700', color: '#007AFF' }}>
-            🏃‍♂️ Run Houston
-          </div>
           <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
             <Link to="/" style={{ color: '#5F6368', textDecoration: 'none', fontWeight: '500' }}>Home</Link>
             <Link to="/races" style={{ color: '#5F6368', textDecoration: 'none', fontWeight: '500' }}>Races</Link>

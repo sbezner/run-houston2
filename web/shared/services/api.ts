@@ -1,4 +1,4 @@
-import { API_BASE } from "../config";
+import { API_BASE, config } from "../config";
 
 export const api = {
   get: async (endpoint: string, token?: string) => {
@@ -6,6 +6,8 @@ export const api = {
 
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
+      'X-Client-App': config.APP_NAME,
+      'X-Client-Version': config.APP_VERSION,
     };
     
     if (token) {
@@ -30,7 +32,10 @@ export const api = {
   post: async (endpoint: string, data: any, token?: string) => {
     // No network validation - only authentication matters
 
-    const headers: Record<string, string> = {};
+    const headers: Record<string, string> = {
+      'X-Client-App': config.APP_NAME,
+      'X-Client-Version': config.APP_VERSION,
+    };
     
     // Don't set Content-Type for FormData (browser will set it with boundary)
     if (!(data instanceof FormData)) {
@@ -72,7 +77,10 @@ export const api = {
   },
   
   put: async (endpoint: string, data: any, token?: string) => {
-    const headers: Record<string, string> = {};
+    const headers: Record<string, string> = {
+      'X-Client-App': config.APP_NAME,
+      'X-Client-Version': config.APP_VERSION,
+    };
     
     if (!(data instanceof FormData)) {
       headers['Content-Type'] = 'application/json';
@@ -101,7 +109,10 @@ export const api = {
   },
   
   delete: async (endpoint: string, token?: string) => {
-    const headers: Record<string, string> = {};
+    const headers: Record<string, string> = {
+      'X-Client-App': config.APP_NAME,
+      'X-Client-Version': config.APP_VERSION,
+    };
     
     if (token) {
       headers['Authorization'] = `Bearer ${token}`;
@@ -124,8 +135,28 @@ export const api = {
 };
 
 export const races = {
-  list: async () => {
-    return api.get('/races');
+  list: async (params?: {
+    dateFrom?: string;
+    dateTo?: string;
+    distanceCategory?: string;
+    surface?: string;
+    city?: string;
+    kidFriendly?: boolean;
+    q?: string;
+    sort?: string;
+    page?: number;
+    pageSize?: number;
+  }) => {
+    const query = params
+      ? '?' + new URLSearchParams(
+          Object.entries(params).reduce((acc, [k, v]) => {
+            if (v === undefined || v === null || v === '') return acc;
+            acc[k] = String(v);
+            return acc;
+          }, {} as Record<string, string>)
+        ).toString()
+      : '';
+    return api.get(`/races${query}`);
   },
   
   adminList: async (token: string) => {
