@@ -95,13 +95,17 @@ export const RacesPage: React.FC = () => {
   const [dateFrom, setDateFrom] = React.useState<string>('');
   const [dateTo, setDateTo] = React.useState<string>('');
   const [density, setDensity] = React.useState<'compact' | 'comfortable'>('compact');
-  const [isWide, setIsWide] = React.useState<boolean>(typeof window !== 'undefined' ? window.innerWidth >= 1280 : false);
+  // Responsive breakpoints
+  const [isMobile, setIsMobile] = React.useState(false);
+  const [isTablet, setIsTablet] = React.useState(false);
+  const [isDesktop, setIsDesktop] = React.useState(true);
+  
   const sentinelRef = React.useRef<HTMLDivElement | null>(null);
   const searchRef = React.useRef<HTMLInputElement | null>(null);
   const [initialLoad, setInitialLoad] = React.useState(true);
   
-  // Arc-inspired sidebar state
-  const [sidebarCollapsed, setSidebarCollapsed] = React.useState(false);
+  // Mobile-first sidebar state
+  const [sidebarOpen, setSidebarOpen] = React.useState(false);
   const [activeSpace, setActiveSpace] = React.useState<'all' | 'upcoming' | 'thisWeek' | 'thisMonth' | 'thisWeekend'>('all');
   // Split view removed - no longer needed without compare functionality
 
@@ -162,11 +166,29 @@ export const RacesPage: React.FC = () => {
     return () => clearTimeout(id);
   }, [qInput]);
 
-  // wide layout detection
+  // Responsive breakpoint detection
   React.useEffect(() => {
-    const onResize = () => setIsWide(window.innerWidth >= 1280);
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
+    const updateScreenSize = () => {
+      const width = window.innerWidth;
+      if (width < 768) {
+        setIsMobile(true);
+        setIsTablet(false);
+        setIsDesktop(false);
+        setSidebarOpen(false); // Close sidebar on mobile by default
+      } else if (width < 1024) {
+        setIsMobile(false);
+        setIsTablet(true);
+        setIsDesktop(false);
+      } else {
+        setIsMobile(false);
+        setIsTablet(false);
+        setIsDesktop(true);
+      }
+    };
+    
+    updateScreenSize();
+    window.addEventListener('resize', updateScreenSize);
+    return () => window.removeEventListener('resize', updateScreenSize);
   }, []);
 
   // hero collapse on scroll - removed as hero section was simplified
@@ -284,56 +306,83 @@ export const RacesPage: React.FC = () => {
       display: 'flex',
       minHeight: '100vh',
       background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
-      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+      position: 'relative'
     }}>
-      {/* Arc-inspired Sidebar */}
+      {/* Mobile Overlay */}
+      {isMobile && sidebarOpen && (
+        <div 
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0, 0, 0, 0.5)',
+            zIndex: 30,
+            cursor: 'pointer'
+          }}
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Responsive Sidebar */}
       <div style={{
-        width: sidebarCollapsed ? '60px' : '240px',
+        width: isMobile ? '280px' : (isTablet ? (sidebarOpen ? '240px' : '0px') : (sidebarOpen ? '240px' : '60px')),
         background: '#ffffff',
         borderRight: '1px solid #e2e8f0',
         transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
         display: 'flex',
         flexDirection: 'column',
-        position: 'sticky',
+        position: isMobile ? 'fixed' : 'sticky',
         top: 0,
         height: '100vh',
-        zIndex: 20,
-        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
+        zIndex: 40,
+        boxShadow: isMobile ? '0 8px 32px rgba(0, 0, 0, 0.12)' : '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+        transform: isMobile && !sidebarOpen ? 'translateX(-100%)' : 'translateX(0)',
+        overflow: 'hidden'
       }}>
         {/* Sidebar Header */}
         <div style={{
-          padding: '20px',
+          padding: isMobile ? '16px' : '20px',
           borderBottom: '1px solid #e2e8f0',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: sidebarCollapsed ? 'center' : 'space-between'
+          justifyContent: (isMobile || isTablet) ? 'space-between' : (sidebarOpen ? 'space-between' : 'center'),
+          minHeight: isMobile ? '56px' : 'auto'
         }}>
-          {!sidebarCollapsed && (
+          {(isMobile || isTablet || sidebarOpen) && (
             <div style={{ 
-              fontSize: '20px', 
+              fontSize: isMobile ? '18px' : '20px', 
               fontWeight: '700', 
               color: '#1e293b',
-              letterSpacing: '-0.025em'
+              letterSpacing: '-0.025em',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px'
             }}>
-              🏃‍♂️ Run Houston
+              <span style={{ fontSize: isMobile ? '20px' : '24px' }}>🏃‍♂️</span>
+              Run Houston
             </div>
           )}
           <button
-            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+            onClick={() => setSidebarOpen(!sidebarOpen)}
             style={{
               background: '#f1f5f9',
               border: '1px solid #e2e8f0',
               cursor: 'pointer',
-              padding: '8px',
+              padding: isMobile ? '12px' : '8px',
               borderRadius: '8px',
               color: '#475569',
-              fontSize: '16px',
+              fontSize: isMobile ? '18px' : '16px',
               transition: 'all 0.2s ease',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              width: '32px',
-              height: '32px'
+              width: isMobile ? '44px' : '32px',
+              height: isMobile ? '44px' : '32px',
+              minWidth: isMobile ? '44px' : '32px',
+              minHeight: isMobile ? '44px' : '32px'
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.background = '#e2e8f0';
@@ -346,7 +395,7 @@ export const RacesPage: React.FC = () => {
               e.currentTarget.style.transform = 'scale(1)';
             }}
           >
-            {sidebarCollapsed ? '→' : '←'}
+            {isMobile ? (sidebarOpen ? '✕' : '☰') : (sidebarOpen ? '←' : '→')}
           </button>
         </div>
 
@@ -354,7 +403,7 @@ export const RacesPage: React.FC = () => {
         <div style={{ padding: '12px', flex: 1, overflowY: 'auto', paddingBottom: '20px' }}>
           {/* Time-based Views */}
           <div style={{ marginBottom: '24px' }}>
-            {!sidebarCollapsed && (
+            {(isMobile || isTablet || sidebarOpen) && (
               <div style={{ 
                 fontSize: '11px', 
                 fontWeight: '700', 
@@ -376,27 +425,32 @@ export const RacesPage: React.FC = () => {
             ].map((space) => (
               <button
                 key={space.key}
-                onClick={() => setActiveSpace(space.key as any)}
+                onClick={() => {
+                  setActiveSpace(space.key as any);
+                  if (isMobile) setSidebarOpen(false); // Close sidebar on mobile after selection
+                }}
                 style={{
                   width: '100%',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '12px',
-                  padding: '12px',
+                  gap: isMobile ? '16px' : '12px',
+                  padding: isMobile ? '16px' : '12px',
                   background: activeSpace === space.key 
                     ? '#3b82f6' 
                     : 'transparent',
                   border: 'none',
-                  borderRadius: '8px',
+                  borderRadius: isMobile ? '12px' : '8px',
                   cursor: 'pointer',
                   color: activeSpace === space.key ? '#ffffff' : '#475569',
-                  fontSize: '14px',
+                  fontSize: isMobile ? '16px' : '14px',
                   fontWeight: activeSpace === space.key ? '600' : '500',
-                  marginBottom: '4px',
+                  marginBottom: isMobile ? '8px' : '4px',
                   transition: 'all 0.2s ease',
                   boxShadow: activeSpace === space.key 
                     ? '0 2px 4px rgba(59, 130, 246, 0.2)' 
-                    : 'none'
+                    : 'none',
+                  minHeight: isMobile ? '48px' : 'auto',
+                  textAlign: 'left'
                 }}
                 onMouseEnter={(e) => {
                   if (activeSpace !== space.key) {
@@ -411,14 +465,14 @@ export const RacesPage: React.FC = () => {
                   }
                 }}
               >
-                <span style={{ fontSize: '18px' }}>{space.icon}</span>
-                {!sidebarCollapsed && space.label}
+                <span style={{ fontSize: isMobile ? '20px' : '18px' }}>{space.icon}</span>
+                {(isMobile || isTablet || sidebarOpen) && <span>{space.label}</span>}
               </button>
             ))}
           </div>
 
           {/* Distance Filters */}
-          {!sidebarCollapsed && (
+          {(isMobile || isTablet || sidebarOpen) && (
             <div style={{ marginBottom: '24px' }}>
               <div style={{ 
                 fontSize: '11px', 
@@ -484,7 +538,7 @@ export const RacesPage: React.FC = () => {
           )}
 
           {/* Surface Filters */}
-          {!sidebarCollapsed && (
+          {(isMobile || isTablet || sidebarOpen) && (
             <div style={{ marginBottom: '24px' }}>
               <div style={{ 
                 fontSize: '11px', 
@@ -549,7 +603,7 @@ export const RacesPage: React.FC = () => {
           )}
 
           {/* Additional Filters */}
-          {!sidebarCollapsed && (
+          {(isMobile || isTablet || sidebarOpen) && (
             <div style={{ marginBottom: '24px' }}>
               <div style={{ 
                 fontSize: '11px', 
@@ -674,6 +728,7 @@ export const RacesPage: React.FC = () => {
                     setSort('date_asc'); 
                     setPage(1);
                     setActiveSpace('all');
+                    if (isMobile) setSidebarOpen(false);
                   }}
                   style={{
                     width: '100%',
@@ -708,7 +763,7 @@ export const RacesPage: React.FC = () => {
           background: '#f8fafc',
           flexShrink: 0
         }}>
-          {!sidebarCollapsed && (
+          {(isMobile || isTablet || sidebarOpen) && (
             <div style={{ 
               fontSize: '12px', 
               color: '#64748b', 
@@ -727,38 +782,100 @@ export const RacesPage: React.FC = () => {
       </div>
       
       {/* Main Content Area */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+      <div style={{ 
+        flex: 1, 
+        display: 'flex', 
+        flexDirection: 'column',
+        marginLeft: isMobile ? '0' : (isTablet ? (sidebarOpen ? '240px' : '0') : (sidebarOpen ? '240px' : '60px')),
+        transition: 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+      }}>
+        {/* Mobile Header */}
+        {isMobile && (
+          <div style={{
+            background: '#ffffff',
+            borderBottom: '1px solid #e2e8f0',
+            padding: '12px 16px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            position: 'sticky',
+            top: 0,
+            zIndex: 20,
+            boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)'
+          }}>
+            <div style={{ 
+              fontSize: '18px', 
+              fontWeight: '700', 
+              color: '#1e293b',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px'
+            }}>
+              <span style={{ fontSize: '20px' }}>🏃‍♂️</span>
+              Run Houston
+            </div>
+            <button
+              onClick={() => setSidebarOpen(true)}
+              style={{
+                background: '#f1f5f9',
+                border: '1px solid #e2e8f0',
+                cursor: 'pointer',
+                padding: '12px',
+                borderRadius: '8px',
+                color: '#475569',
+                fontSize: '18px',
+                transition: 'all 0.2s ease',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '44px',
+                height: '44px',
+                minWidth: '44px',
+                minHeight: '44px'
+              }}
+            >
+              ☰
+            </button>
+          </div>
+        )}
+
         {/* Top Bar */}
         <div style={{ 
           background: '#ffffff',
           borderBottom: '1px solid #e2e8f0',
-          padding: '16px 32px',
+          padding: isMobile ? '16px' : '16px 32px',
           display: 'flex',
           alignItems: 'center',
-          gap: '20px',
+          gap: isMobile ? '12px' : '20px',
           position: 'sticky',
-          top: 0,
+          top: isMobile ? '56px' : '0',
           zIndex: 10,
-          boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)'
+          boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+          flexDirection: isMobile ? 'column' : 'row'
         }}>
           {/* Search */}
-          <div style={{ flex: 1, maxWidth: '400px' }}>
+          <div style={{ 
+            flex: 1, 
+            maxWidth: isMobile ? '100%' : '400px',
+            width: isMobile ? '100%' : 'auto'
+          }}>
             <input
               ref={searchRef}
-              placeholder="Search races (press /)"
+              placeholder={isMobile ? "Search races..." : "Search races (press /)"}
               value={qInput}
               onChange={(e) => setQInput(e.target.value)}
               style={{
                 width: '100%',
-                padding: '12px 16px',
+                padding: isMobile ? '16px' : '12px 16px',
                 border: '1px solid #d1d5db',
-                borderRadius: '8px',
-                fontSize: '15px',
+                borderRadius: isMobile ? '12px' : '8px',
+                fontSize: isMobile ? '16px' : '15px',
                 fontWeight: '500',
                 background: '#ffffff',
                 transition: 'all 0.2s ease',
                 outline: 'none',
-                boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)'
+                boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+                minHeight: isMobile ? '48px' : 'auto'
               }}
               onFocus={(e) => {
                 e.currentTarget.style.borderColor = '#3b82f6';
@@ -776,16 +893,18 @@ export const RacesPage: React.FC = () => {
             value={sort}
             onChange={(e) => setSort(e.target.value)}
             style={{
-              padding: '12px 16px',
+              padding: isMobile ? '16px' : '12px 16px',
               border: '1px solid #d1d5db',
-              borderRadius: '8px',
-              fontSize: '15px',
+              borderRadius: isMobile ? '12px' : '8px',
+              fontSize: isMobile ? '16px' : '15px',
               fontWeight: '500',
               background: '#ffffff',
               cursor: 'pointer',
               transition: 'all 0.2s ease',
               outline: 'none',
-              boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)'
+              boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+              minHeight: isMobile ? '48px' : 'auto',
+              width: isMobile ? '100%' : 'auto'
             }}
           >
             <option value="date_asc">Soonest</option>
@@ -847,15 +966,15 @@ export const RacesPage: React.FC = () => {
           {/* Main Race List */}
           <div style={{ 
             flex: 1,
-            padding: '32px',
+            padding: isMobile ? '16px' : '32px',
             paddingBottom: '60px', // Extra space to prevent footer overlap
             overflowY: 'auto',
             background: '#f8fafc'
           }}>
             {/* Header */}
-            <div style={{ marginBottom: '32px' }}>
+            <div style={{ marginBottom: isMobile ? '24px' : '32px' }}>
               <h1 style={{ 
-                fontSize: '32px', 
+                fontSize: isMobile ? '24px' : '32px', 
                 fontWeight: '800', 
                 color: '#1e293b',
                 margin: '0 0 12px 0',
@@ -863,10 +982,11 @@ export const RacesPage: React.FC = () => {
               }}>
                 {activeSpace === 'all' ? 'All Races' : 
                  activeSpace === 'upcoming' ? 'Upcoming Races' :
+                 activeSpace === 'thisWeekend' ? 'This Weekend' :
                  activeSpace === 'thisWeek' ? 'This Week' : 'This Month'}
               </h1>
               <p style={{ 
-                fontSize: '16px', 
+                fontSize: isMobile ? '14px' : '16px', 
                 color: '#64748b', 
                 margin: '0 0 20px 0',
                 fontWeight: '500'
@@ -889,8 +1009,8 @@ export const RacesPage: React.FC = () => {
             {/* Race List */}
                   <div style={{ 
               display: 'grid', 
-              gridTemplateColumns: isWide ? 'repeat(2, 1fr)' : '1fr',
-              gap: density === 'compact' ? '16px' : '20px'
+              gridTemplateColumns: isMobile ? '1fr' : (isTablet ? '1fr' : (isDesktop ? 'repeat(2, 1fr)' : '1fr')),
+              gap: isMobile ? '16px' : (density === 'compact' ? '16px' : '20px')
             }}>
               {items.map((race) => (
                 <div
@@ -898,13 +1018,14 @@ export const RacesPage: React.FC = () => {
                   style={{
                     background: '#ffffff',
                     border: '1px solid #e2e8f0',
-                    borderRadius: '12px',
-                    padding: density === 'compact' ? '16px' : '20px',
+                    borderRadius: isMobile ? '16px' : '12px',
+                    padding: isMobile ? '20px' : (density === 'compact' ? '16px' : '20px'),
                     cursor: 'default',
                     transition: 'all 0.2s ease',
                     boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
                     position: 'relative',
-                    overflow: 'hidden'
+                    overflow: 'hidden',
+                    minHeight: isMobile ? '200px' : 'auto'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateY(-2px)';
@@ -919,7 +1040,7 @@ export const RacesPage: React.FC = () => {
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
                     <h3 style={{ 
-                      fontSize: density === 'compact' ? '18px' : '20px', 
+                      fontSize: isMobile ? '20px' : (density === 'compact' ? '18px' : '20px'), 
                       fontWeight: '700', 
                       color: '#1e293b',
                       margin: '0',
