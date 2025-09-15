@@ -14,17 +14,10 @@ export const api = {
       headers['Authorization'] = `Bearer ${token}`;
     }
     
-    const fullUrl = `${API_BASE}${endpoint}`;
-    console.log('Full API URL:', fullUrl);
-    console.log('API_BASE:', API_BASE);
-    console.log('endpoint:', endpoint);
-    
-    const response = await fetch(fullUrl, {
+    const response = await fetch(`${API_BASE}${endpoint}`, {
       method: 'GET',
       headers,
     });
-    
-    console.log('API response status:', response.status);
     
     if (!response.ok) {
       if (response.status === 401) {
@@ -163,9 +156,7 @@ export const races = {
           }, {} as Record<string, string>)
         ).toString()
       : '';
-    const url = `/races${query}`;
-    console.log('Making API call to:', url);
-    return api.get(url);
+    return api.get(`/races${query}`);
   },
   
   adminList: async (token: string) => {
