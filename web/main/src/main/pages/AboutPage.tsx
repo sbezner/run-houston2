@@ -80,7 +80,7 @@ export const AboutPage: React.FC = () => (
   <div style={{ 
     width: '100vw', 
     minHeight: '100vh',
-    padding: '20px',
+    padding: '0px 20px 20px 20px',
     boxSizing: 'border-box',
     margin: 0,
     position: 'relative',
@@ -89,23 +89,115 @@ export const AboutPage: React.FC = () => (
     marginLeft: '-50vw',
     marginRight: '-50vw'
   }}>
-    <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-      <h1 style={{ fontSize: '36px', marginBottom: '10px', color: '#333' }}>About Run Houston</h1>
-      <p style={{ fontSize: '18px', color: '#666' }}>Your guide to running in the Greater Houston area</p>
+    {/* Hero Section - App Download CTA */}
+    <div style={{ 
+      backgroundColor: '#f8f9fa', 
+      padding: '40px 40px 50px 40px', 
+      borderRadius: '25px',
+      textAlign: 'center',
+      marginBottom: '60px'
+    }}>
+      <h1 style={{ 
+        fontSize: '48px', 
+        marginBottom: '20px', 
+        color: '#333',
+        fontWeight: '700'
+      }}>📱 Get the Run Houston App</h1>
+      <p style={{ 
+        fontSize: '22px', 
+        color: '#666', 
+        marginBottom: '40px',
+        lineHeight: '1.5',
+        maxWidth: '600px',
+        margin: '0 auto 40px auto'
+      }}>
+        Download our mobile app for the best race discovery experience in the Greater Houston area
+      </p>
+      
+      <div style={{ 
+        display: 'flex', 
+        gap: '25px', 
+        justifyContent: 'center', 
+        flexWrap: 'wrap' 
+      }}>
+        <button style={{ 
+          backgroundColor: '#000', 
+          color: 'white', 
+          padding: '18px 30px', 
+          border: 'none', 
+          borderRadius: '15px', 
+          fontSize: '18px',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+          fontWeight: '600',
+          boxShadow: '0 6px 20px rgba(0,0,0,0.3)',
+          transition: 'all 0.3s ease'
+        }}>
+          📱 iPhone Version
+        </button>
+        <button style={{ 
+          backgroundColor: '#3DDC84', 
+          color: 'white', 
+          padding: '18px 30px', 
+          border: 'none', 
+          borderRadius: '15px', 
+          fontSize: '18px',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+          fontWeight: '600',
+          boxShadow: '0 6px 20px rgba(61,220,132,0.3)',
+          transition: 'all 0.3s ease'
+        }}>
+          🤖 Android Version
+        </button>
+      </div>
     </div>
-    
+
+    {/* Mission Section */}
     <div style={{ 
       backgroundColor: 'white', 
-      padding: '40px', 
-      borderRadius: '15px', 
-      boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+      padding: '50px 40px', 
+      borderRadius: '20px', 
+      boxShadow: '0 8px 30px rgba(0,0,0,0.12)',
       textAlign: 'center',
-      width: '100%'
+      width: '100%',
+      marginBottom: '60px'
     }}>
-      <h2 style={{ fontSize: '28px', marginBottom: '20px', color: '#007AFF' }}>Our Mission</h2>
-      <p style={{ fontSize: '18px', color: '#666', lineHeight: '1.6', marginBottom: '30px' }}>
+      <h2 style={{ fontSize: '36px', marginBottom: '25px', color: '#007AFF', fontWeight: '600' }}>Our Mission</h2>
+      <p style={{ 
+        fontSize: '20px', 
+        color: '#666', 
+        lineHeight: '1.6', 
+        marginBottom: '30px',
+        maxWidth: '800px',
+        margin: '0 auto 30px auto'
+      }}>
         Run Houston connects runners with the best races and events in the Greater Houston area. 
         Whether you're a beginner or an experienced runner, we help you discover your next challenge.
+      </p>
+    </div>
+
+    {/* Enhanced Features Section */}
+    <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+      <h2 style={{ 
+        fontSize: '42px', 
+        marginBottom: '15px', 
+        color: '#333',
+        fontWeight: '700'
+      }}>Why Choose Run Houston?</h2>
+      <p style={{ 
+        fontSize: '20px', 
+        color: '#666', 
+        marginBottom: '50px',
+        lineHeight: '1.5',
+        maxWidth: '600px',
+        margin: '0 auto 50px auto'
+      }}>
+        We're your ultimate companion for discovering and planning your next running adventure in the Houston area.
       </p>
       
       <div style={{ 
@@ -114,31 +206,119 @@ export const AboutPage: React.FC = () => (
         flexWrap: 'wrap',
         gap: '30px',
         justifyContent: 'space-around',
-        marginTop: '40px'
+        width: '100%'
       }}>
-        <div style={{ textAlign: 'center', flex: '1', minWidth: '200px' }}>
-          <div style={{ fontSize: '48px', marginBottom: '15px' }}>🎯</div>
-          <h3 style={{ fontSize: '20px', marginBottom: '10px', color: '#333' }}>Discovery</h3>
-          <p style={{ color: '#666', lineHeight: '1.6' }}>
-            Find new races and events in your area
+        <div style={{ 
+          backgroundColor: 'white', 
+          padding: '40px 30px', 
+          borderRadius: '20px', 
+          boxShadow: '0 8px 30px rgba(0,0,0,0.12)',
+          flex: '1',
+          minWidth: '280px',
+          transition: 'all 0.3s ease',
+          border: '1px solid rgba(0,0,0,0.05)'
+        }}>
+          <div style={{ fontSize: '48px', marginBottom: '20px' }}>🎯</div>
+          <h3 style={{ fontSize: '26px', marginBottom: '15px', color: '#007AFF', fontWeight: '600' }}>Smart Race Discovery</h3>
+          <p style={{ color: '#666', lineHeight: '1.6', fontSize: '16px' }}>
+            Find races that match your goals, schedule, and location preferences with our intelligent filtering system.
           </p>
         </div>
-        <div style={{ textAlign: 'center', flex: '1', minWidth: '200px' }}>
-          <div style={{ fontSize: '48px', marginBottom: '15px' }}>🗺️</div>
-          <h3 style={{ fontSize: '20px', marginBottom: '10px', color: '#333' }}>Navigation</h3>
-          <p style={{ color: '#666', lineHeight: '1.6' }}>
-            Easy-to-use maps and directions
+        
+        <div style={{ 
+          backgroundColor: 'white', 
+          padding: '40px 30px', 
+          borderRadius: '20px', 
+          boxShadow: '0 8px 30px rgba(0,0,0,0.12)',
+          flex: '1',
+          minWidth: '280px',
+          transition: 'all 0.3s ease',
+          border: '1px solid rgba(0,0,0,0.05)'
+        }}>
+          <div style={{ fontSize: '48px', marginBottom: '20px' }}>🗺️</div>
+          <h3 style={{ fontSize: '26px', marginBottom: '15px', color: '#007AFF', fontWeight: '600' }}>Interactive Maps</h3>
+          <p style={{ color: '#666', lineHeight: '1.6', fontSize: '16px' }}>
+            Visualize race locations, plan your route, and discover new running spots with our detailed mapping system.
           </p>
         </div>
-        <div style={{ textAlign: 'center', flex: '1', minWidth: '200px' }}>
-          <div style={{ fontSize: '48px', marginBottom: '15px' }}>📱</div>
-          <h3 style={{ fontSize: '20px', marginBottom: '10px', color: '#333' }}>Mobile</h3>
-          <p style={{ color: '#666', lineHeight: '1.6' }}>
-            Optimized for runners on the go
+        
+        <div style={{ 
+          backgroundColor: 'white', 
+          padding: '40px 30px', 
+          borderRadius: '20px', 
+          boxShadow: '0 8px 30px rgba(0,0,0,0.12)',
+          flex: '1',
+          minWidth: '280px',
+          transition: 'all 0.3s ease',
+          border: '1px solid rgba(0,0,0,0.05)'
+        }}>
+          <div style={{ fontSize: '48px', marginBottom: '20px' }}>📱</div>
+          <h3 style={{ fontSize: '26px', marginBottom: '15px', color: '#007AFF', fontWeight: '600' }}>Mobile-First Design</h3>
+          <p style={{ color: '#666', lineHeight: '1.6', fontSize: '16px' }}>
+            Optimized for runners on the go with a seamless mobile experience that works perfectly on any device.
           </p>
         </div>
       </div>
+    </div>
+
+    {/* Community Section */}
+    <div style={{ 
+      backgroundColor: '#f8f9fa', 
+      padding: '60px 40px', 
+      borderRadius: '25px',
+      textAlign: 'center',
+      marginBottom: '60px'
+    }}>
+      <h2 style={{ 
+        fontSize: '42px', 
+        marginBottom: '20px', 
+        color: '#333',
+        fontWeight: '700'
+      }}>Join the Houston Running Community</h2>
+      <p style={{ 
+        fontSize: '20px', 
+        color: '#666', 
+        marginBottom: '40px',
+        maxWidth: '800px',
+        margin: '0 auto 40px auto',
+        lineHeight: '1.5'
+      }}>
+        Connect with fellow runners, share your achievements, and stay motivated with our growing community of Houston-area runners.
+      </p>
       
+      <div style={{ 
+        display: 'flex', 
+        gap: '40px', 
+        justifyContent: 'center', 
+        flexWrap: 'wrap' 
+      }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: '36px', marginBottom: '10px' }}>🏃‍♀️</div>
+          <div style={{ fontSize: '24px', fontWeight: '600', color: '#333' }}>500+</div>
+          <div style={{ color: '#666' }}>Active Runners</div>
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: '36px', marginBottom: '10px' }}>🏁</div>
+          <div style={{ fontSize: '24px', fontWeight: '600', color: '#333' }}>150+</div>
+          <div style={{ color: '#666' }}>Races Listed</div>
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: '36px', marginBottom: '10px' }}>⭐</div>
+          <div style={{ fontSize: '24px', fontWeight: '600', color: '#333' }}>4.8/5</div>
+          <div style={{ color: '#666' }}>User Rating</div>
+        </div>
+      </div>
+    </div>
+
+    {/* Technical Info Section */}
+    <div style={{ 
+      backgroundColor: 'white', 
+      padding: '40px', 
+      borderRadius: '15px', 
+      boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+      textAlign: 'center',
+      width: '100%'
+    }}>
       <VersionDisplay />
     </div>
   </div>

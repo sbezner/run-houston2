@@ -1,5 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { MarketingHome } from '../pages/MarketingHome';
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import { RacesPage } from '../pages/RacesPage';
 import { AboutPage } from '../pages/AboutPage';
 import { ClubsPage } from '../pages/ClubsPage';
@@ -32,7 +31,6 @@ function App() {
           width: '100%'
         }}>
           <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-            <Link to="/" style={{ color: '#5F6368', textDecoration: 'none', fontWeight: '500' }}>Home</Link>
             <Link to="/races" style={{ color: '#5F6368', textDecoration: 'none', fontWeight: '500' }}>Races</Link>
             <Link to="/race_reports" style={{ color: '#5F6368', textDecoration: 'none', fontWeight: '500' }}>Race Reports</Link>
             <Link to="/clubs" style={{ color: '#5F6368', textDecoration: 'none', fontWeight: '500' }}>Clubs</Link>
@@ -43,7 +41,7 @@ function App() {
         {/* Main Content */}
         <main style={{ flex: 1, width: '100%' }}>
           <Routes>
-            <Route path="/" element={<MarketingHome />} />
+            <Route path="/" element={<Navigate to="/races" replace />} />
             <Route path="/races" element={<RacesPage />} />
             <Route path="/race_reports" element={<ReportsPage />} />
             <Route path="/race_reports/:id" element={<ReportDetail />} />
