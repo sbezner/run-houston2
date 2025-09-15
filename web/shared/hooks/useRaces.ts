@@ -36,9 +36,12 @@ export const useRaces = (onTokenExpiration?: () => void) => {
   const fetchPublicRaces = React.useCallback(async () => {
     setRacesLoading(true);
     try {
+      console.log('Fetching public races...');
       const data = await races.list();
+      console.log('Races data received:', data);
       setRaces(data);
     } catch (err: any) {
+      console.error('Error fetching races:', err);
       setError(err.message);
     } finally {
       setRacesLoading(false);
