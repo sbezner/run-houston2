@@ -92,9 +92,30 @@ const mapDistanceToDatabase = (distance: string): string => {
 
 export const RacesPage: React.FC = () => {
   const { racesLoading, error } = useRaces();
+  
+  // Add CSS animation for spinner
+  React.useEffect(() => {
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+    `;
+    document.head.appendChild(style);
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
   const [items, setItems] = React.useState<any[]>([]);
   const [total, setTotal] = React.useState(0);
   const [loading, setLoading] = React.useState(false);
+  
+  // Lazy loading state
+  const [page, setPage] = React.useState(1);
+  const pageSize = 20;
+  const [hasMore, setHasMore] = React.useState(true);
+  const [isLoadingMore, setIsLoadingMore] = React.useState(false);
   const [q, setQ] = React.useState('');
   const [qInput, setQInput] = React.useState('');
   const [city, setCity] = React.useState('');
@@ -102,8 +123,6 @@ export const RacesPage: React.FC = () => {
   const [surface, setSurface] = React.useState<string[]>([]);
   const [kidFriendly, setKidFriendly] = React.useState<string>('');
   const [sort, setSort] = React.useState('date_asc');
-  const [page, setPage] = React.useState(1);
-  const pageSize = 20;
   // Removed drawer functionality - all info now on cards
   const [dateFrom, setDateFrom] = React.useState<string>('');
   const [dateTo, setDateTo] = React.useState<string>('');
@@ -161,7 +180,11 @@ export const RacesPage: React.FC = () => {
   }, []);
 
   const fetch = React.useCallback(async () => {
-    setLoading(true);
+    if (page === 1) {
+      setLoading(true);
+    } else {
+      setIsLoadingMore(true);
+    }
     try {
       // Handle weekend filter
       let weekendDateFrom = dateFrom;
@@ -261,9 +284,20 @@ export const RacesPage: React.FC = () => {
       }
       
       const incoming = allRaces;
-      if (page === 1) {
-        setItems(incoming);
+      
+      // Check if we've reached the end of results
+      if (incoming.length === 0 || incoming.length < pageSize) {
+        setHasMore(false);
       } else {
+        setHasMore(true);
+      }
+      
+      if (page === 1) {
+        // First page - replace all items
+        setItems(incoming);
+        setHasMore(incoming.length === pageSize);
+      } else {
+        // Subsequent pages - append new items
         setItems(prev => {
           const existing = new Map(prev.map(r => [r.id, r]));
           for (const r of incoming) existing.set(r.id, r);
@@ -275,13 +309,24 @@ export const RacesPage: React.FC = () => {
       // ignore here; existing Alert path handles errors via other hook when used
     } finally {
       setLoading(false);
+      setIsLoadingMore(false);
       setInitialLoad(false);
     }
   }, [q, city, distanceCategory, surface, sort, page, pageSize, kidFriendly, dateFrom, dateTo, activeSpace]);
 
+  // Reset to first page when filters change
   React.useEffect(() => {
+    setPage(1);
+    setHasMore(true);
     fetch();
-  }, [fetch]);
+  }, [q, city, distanceCategory, surface, sort, kidFriendly, dateFrom, dateTo, activeSpace]);
+
+  // Load more when page changes (but not on initial load)
+  React.useEffect(() => {
+    if (page > 1) {
+      fetch();
+    }
+  }, [page]);
 
   // Debounce search input to keep focus and avoid flicker
   React.useEffect(() => {
@@ -326,19 +371,33 @@ export const RacesPage: React.FC = () => {
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
-  // infinite scroll via sentinel
+  // Infinite scroll with debouncing
   React.useEffect(() => {
     const el = sentinelRef.current;
-    if (!el) return;
+    if (!el || !hasMore || loading || isLoadingMore) return;
+    
+    let timeoutId: NodeJS.Timeout;
+    
     const io = new IntersectionObserver((entries) => {
       const [entry] = entries;
-      if (entry.isIntersecting && !loading && items.length < total) {
-        setPage(p => p + 1);
+      if (entry.isIntersecting && hasMore && !loading && !isLoadingMore) {
+        // Debounce to prevent rapid firing
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+          setPage(p => p + 1);
+        }, 100);
       }
-    }, { rootMargin: '200px' });
+    }, { 
+      rootMargin: '100px',
+      threshold: 0.1 
+    });
+    
     io.observe(el);
-    return () => io.disconnect();
-  }, [loading, items.length, total]);
+    return () => {
+      io.disconnect();
+      clearTimeout(timeoutId);
+    };
+  }, [hasMore, loading, isLoadingMore]);
 
   // Space-based filtering
   React.useEffect(() => {
@@ -1222,7 +1281,7 @@ export const RacesPage: React.FC = () => {
           <div style={{ 
             flex: 1,
             padding: '0',
-            paddingBottom: '60px', // Extra space to prevent footer overlap
+            paddingBottom: (!hasMore && !loading && !isLoadingMore && items.length > 0) ? '0' : '60px',
             overflowY: 'auto',
             background: '#f8fafc'
           }}>
@@ -1479,8 +1538,98 @@ export const RacesPage: React.FC = () => {
               </div>
             )}
 
-            {/* Infinite scroll sentinel */}
-            <div ref={sentinelRef} style={{ height: '20px' }} />
+            {/* Loading more races indicator */}
+            {isLoadingMore && (
+              <div style={{ 
+                textAlign: 'center', 
+                margin: '0',
+                padding: '16px 20px',
+                background: 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)',
+                borderTop: '1px solid #e2e8f0'
+              }}>
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  background: '#ffffff',
+                  padding: '12px 20px',
+                  borderRadius: '24px',
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)',
+                  border: '1px solid #e2e8f0'
+                }}>
+                  <div style={{ 
+                    width: '20px', 
+                    height: '20px', 
+                    border: '2px solid #e2e8f0',
+                    borderTop: '2px solid #3b82f6',
+                    borderRadius: '50%',
+                    animation: 'spin 1s linear infinite'
+                  }} />
+                  <span style={{
+                    color: '#374151',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                    letterSpacing: '-0.01em'
+                  }}>
+                    Loading more races...
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* End of results message - ABSOLUTE ZERO white space */}
+            {!hasMore && !loading && !isLoadingMore && items.length > 0 && (
+              <div style={{ 
+                textAlign: 'center', 
+                margin: '0',
+                padding: '0',
+                background: 'transparent',
+                position: 'sticky',
+                bottom: '0',
+                zIndex: 10
+              }}>
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  background: '#ffffff',
+                  padding: '4px 8px',
+                  borderRadius: '12px',
+                  boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)',
+                  border: '1px solid #e2e8f0',
+                  margin: '0',
+                  fontSize: '11px'
+                }}>
+                  <div style={{
+                    width: '10px',
+                    height: '10px',
+                    background: '#10b981',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'white',
+                    fontSize: '7px',
+                    fontWeight: '600'
+                  }}>
+                    ✓
+                  </div>
+                  <span style={{
+                    color: '#374151',
+                    fontSize: '11px',
+                    fontWeight: '500',
+                    letterSpacing: '-0.01em',
+                    margin: '0',
+                    padding: '0'
+                  }}>
+                    All {items.length} races loaded
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* Infinite scroll sentinel - minimal height */}
+            <div ref={sentinelRef} style={{ height: '1px' }} />
           </div>
 
           {/* Split view removed - no longer needed */}
