@@ -10,6 +10,7 @@ import { BulkDeleteModal } from './BulkDeleteModal';
 import { ImportRacesModal } from './ImportRacesModal';
 import { handleApiError } from "@shared/utils/apiErrorHandler";
 import { auth } from "@shared/services/auth";
+import { DirectionsButton } from "@shared/components/DirectionsButton";
 import type { Race } from "@shared/types";
 
 interface AdminRacesPageProps {
@@ -397,32 +398,44 @@ export const AdminRacesPage: React.FC<AdminRacesPageProps> = ({ onTokenExpiratio
                     <td style={{ padding: '12px' }}>{race.surface || '-'}</td>
                     <td style={{ padding: '12px' }}>{race.kid_run ? 'Yes' : 'No'}</td>
                     <td style={{ padding: '12px' }}>
-                      {race.official_website_url ? (
-                        <button
-                          onClick={() => {
-                            const token = auth.getToken();
-                            if (!token) {
-                              if (onTokenExpiration) {
-                                onTokenExpiration();
-                              } else {
-                                setError('No authentication token');
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                        {race.official_website_url ? (
+                          <button
+                            onClick={() => {
+                              const token = auth.getToken();
+                              if (!token) {
+                                if (onTokenExpiration) {
+                                  onTokenExpiration();
+                                } else {
+                                  setError('No authentication token');
+                                }
+                                return;
                               }
-                              return;
-                            }
-                            window.open(race.official_website_url, '_blank', 'noopener,noreferrer');
-                          }}
-                          style={{ 
-                            color: '#007AFF', 
-                            textDecoration: 'none',
-                            background: 'none',
-                            border: 'none',
-                            cursor: 'pointer',
-                            fontSize: '14px'
-                          }}
-                        >
-                          🌐 Visit
-                        </button>
-                      ) : '-'}
+                              window.open(race.official_website_url, '_blank', 'noopener,noreferrer');
+                            }}
+                            style={{ 
+                              color: '#007AFF', 
+                              textDecoration: 'none',
+                              background: 'none',
+                              border: 'none',
+                              cursor: 'pointer',
+                              fontSize: '14px'
+                            }}
+                          >
+                            🌐 Visit
+                          </button>
+                        ) : (
+                          <span>-</span>
+                        )}
+                        {race.city && race.state && (
+                          <DirectionsButton 
+                            race={race}
+                            variant="secondary"
+                            size="sm"
+                            showIcon={true}
+                          />
+                        )}
+                      </div>
                     </td>
                     <td style={{ padding: '12px' }}>{race.source || '-'}</td>
                   </tr>

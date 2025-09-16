@@ -1,3 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+// Local Jest globals to satisfy TypeScript without installing types
+declare const describe: any;
+declare const it: any;
+declare const expect: any;
+
 // Simple test to verify ClubsScreen functionality without React Native rendering
 // This avoids React Native rendering issues while testing the important logic
 
@@ -70,7 +76,8 @@ describe('ClubsScreen Core Functionality', () => {
 
       // Test conditional rendering logic
       const shouldShowDescription1 = clubWithDescription.description && clubWithDescription.description.trim() !== '';
-      const shouldShowDescription2 = clubWithoutDescription.description && clubWithoutDescription.description.trim() !== '';
+      const desc2: unknown = clubWithoutDescription.description;
+      const shouldShowDescription2 = typeof desc2 === 'string' && desc2.trim() !== '';
 
       expect(shouldShowDescription1).toBe(true);
       expect(shouldShowDescription2).toBeNull();
@@ -120,7 +127,8 @@ describe('ClubsScreen Core Functionality', () => {
 
       // Test website button logic
       const shouldShowWebsite1 = clubWithWebsite.website_url && clubWithWebsite.website_url.trim() !== '';
-      const shouldShowWebsite2 = clubWithoutWebsite.website_url && clubWithoutWebsite.website_url.trim() !== '';
+      const web2: unknown = clubWithoutWebsite.website_url;
+      const shouldShowWebsite2 = typeof web2 === 'string' && web2.trim() !== '';
 
       expect(shouldShowWebsite1).toBe(true);
       expect(shouldShowWebsite2).toBeNull();

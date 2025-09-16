@@ -1,3 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+// Local Jest globals to satisfy TypeScript without installing types
+declare const describe: any;
+declare const it: any;
+declare const expect: any;
+
 // Simple test to verify CommunityScreen functionality without React Native rendering
 // This avoids React Native rendering issues while testing the important logic
 

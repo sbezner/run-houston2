@@ -1,16 +1,20 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { RouteProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { RaceReport } from '../types';
 
-interface RaceReportScreenProps {
-  route: {
-    params: {
-      report: RaceReport;
-    };
+type RootStackParamList = {
+  RaceReport: {
+    report: RaceReport;
   };
-  navigation: any;
-}
+};
+
+type RaceReportScreenProps = {
+  route: RouteProp<RootStackParamList, 'RaceReport'>;
+  navigation: StackNavigationProp<RootStackParamList, 'RaceReport'>;
+};
 
 export default function RaceReportScreen({ route, navigation }: RaceReportScreenProps) {
   const report: RaceReport = route?.params?.report;

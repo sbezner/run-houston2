@@ -1,3 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+// Local Jest globals to satisfy TypeScript without installing types
+declare const describe: any;
+declare const test: any;
+declare const expect: any;
+
 import { filterRacesByDate, inRangeInclusive } from '../../selectors/races';
 
 describe('Date selector/filtering integration', () => {

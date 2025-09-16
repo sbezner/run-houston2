@@ -96,7 +96,8 @@ function ReportsStack() {
       />
       <Stack.Screen 
         name="RaceReport" 
-        component={RaceReportScreen}
+        // Cast to avoid strict prop type mismatch between generic navigator and screen
+        component={RaceReportScreen as unknown as React.ComponentType<any>}
         options={{ title: 'Race Report' }}
       />
     </Stack.Navigator>

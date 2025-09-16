@@ -5,6 +5,7 @@ import { races as racesApi } from "@shared/services/api";
 import { capitalizeSurface } from "@shared/utils/formatting";
 import { Loading } from "@shared/components/Loading";
 import { Alert } from "@shared/components/Alert";
+import { DirectionsButton } from "@shared/components/DirectionsButton";
 
 // Drawer component removed - all race information now displayed on cards
 
@@ -1416,41 +1417,57 @@ export const RacesPage: React.FC = () => {
                 </div>
 
               
-              {race.official_website_url && (
-                <a 
-                  href={race.official_website_url} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                  style={{
-                        background: '#3b82f6',
-                        color: '#ffffff',
-                        textDecoration: 'none',
-                        fontSize: '14px',
-                        fontWeight: '600',
-                    padding: '8px 16px',
-                    borderRadius: '8px',
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '6px',
-                        transition: 'all 0.2s ease',
-                        boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-                        border: '1px solid #2563eb'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background = '#2563eb';
-                        e.currentTarget.style.transform = 'translateY(-1px)';
-                        e.currentTarget.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = '#3b82f6';
-                        e.currentTarget.style.transform = 'translateY(0)';
-                        e.currentTarget.style.boxShadow = '0 1px 2px 0 rgba(0, 0, 0, 0.05)';
-                      }}
-                    >
-                      Visit Website →
-                </a>
-              )}
+              {/* Action Buttons */}
+              <div style={{ 
+                display: 'flex', 
+                gap: '12px', 
+                alignItems: 'center',
+                flexWrap: 'wrap'
+              }}>
+                {race.official_website_url && (
+                  <a 
+                    href={race.official_website_url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                    style={{
+                          background: '#3b82f6',
+                          color: '#ffffff',
+                          textDecoration: 'none',
+                          fontSize: '14px',
+                          fontWeight: '600',
+                      padding: '8px 16px',
+                      borderRadius: '8px',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          transition: 'all 0.2s ease',
+                          boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+                          border: '1px solid #2563eb'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background = '#2563eb';
+                          e.currentTarget.style.transform = 'translateY(-1px)';
+                          e.currentTarget.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = '#3b82f6';
+                          e.currentTarget.style.transform = 'translateY(0)';
+                          e.currentTarget.style.boxShadow = '0 1px 2px 0 rgba(0, 0, 0, 0.05)';
+                        }}
+                      >
+                        Visit Website →
+                  </a>
+                )}
+                {(race.address || race.city) && (
+                  <DirectionsButton 
+                    race={race}
+                    variant="primary"
+                    size="md"
+                    showIcon={true}
+                  />
+                )}
+              </div>
             </div>
           ))}
         </div>
