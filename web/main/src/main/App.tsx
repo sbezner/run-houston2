@@ -32,8 +32,8 @@ function App() {
         }}>
           <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
             <Link to="/races" style={{ color: '#5F6368', textDecoration: 'none', fontWeight: '500' }}>Races</Link>
-            <Link to="/race_reports" style={{ color: '#5F6368', textDecoration: 'none', fontWeight: '500' }}>Race Reports</Link>
             <Link to="/clubs" style={{ color: '#5F6368', textDecoration: 'none', fontWeight: '500' }}>Clubs</Link>
+            <Link to="/race_reports" style={{ color: '#5F6368', textDecoration: 'none', fontWeight: '500' }}>Race Reports</Link>
             <Link to="/about" style={{ color: '#5F6368', textDecoration: 'none', fontWeight: '500' }}>About</Link>
           </div>
         </nav>
