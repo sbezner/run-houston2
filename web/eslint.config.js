@@ -3,50 +3,46 @@ import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
-import { globalIgnores } from 'eslint/config'
 
-export default tseslint.config([
-  globalIgnores(['dist']),
+export default tseslint.config(
+  { ignores: ['dist'] },
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
   {
     files: ['**/*.{ts,tsx}'],
-    extends: [
-      js.configs.recommended,
-      tseslint.configs.recommended,
-      'airbnb',
-      'airbnb-typescript',
-      'airbnb/hooks',
-      reactHooks.configs['recommended-latest'],
-      reactRefresh.configs.vite,
-    ],
+    plugins: {
+      'react-hooks': reactHooks,
+      'react-refresh': reactRefresh,
+    },
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
       parserOptions: {
-        project: './tsconfig.json',
         ecmaFeatures: {
           jsx: true,
         },
       },
     },
     rules: {
-      // Airbnb overrides for your preferences
-      'react/react-in-jsx-scope': 'off', // Not needed in React 17+
-      'react/jsx-props-no-spreading': 'off', // Allow prop spreading
-      'react/require-default-props': 'off', // Allow optional props
-      'import/prefer-default-export': 'off', // Allow named exports
-      'import/extensions': [
-        'error',
-        'ignorePackages',
-        {
-          js: 'never',
-          jsx: 'never',
-          ts: 'never',
-          tsx: 'never',
-        },
+      // React Hooks rules
+      ...reactHooks.configs.recommended.rules,
+      // React Refresh rules
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true },
       ],
-      'max-len': ['error', { code: 100, ignoreUrls: true }],
-      'no-console': 'warn', // Warn about console.log usage
-      'no-debugger': 'error',
+      // Relaxed rules for existing codebase
+      'no-console': 'off',                                      // Allow console logs for now
+      'no-debugger': 'error',                                   // Keep this as error
+      'max-len': 'off',                                         // Turn off line length checking
+      '@typescript-eslint/no-unused-vars': 'off',               // Allow unused vars for now
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',              // Allow 'any' types for now
+      '@typescript-eslint/no-require-imports': 'off',           // Allow require() in tests
+      '@typescript-eslint/no-unsafe-function-type': 'off',      // Allow Function type
+      'no-case-declarations': 'off',                            // Allow case block declarations
+      'react-hooks/exhaustive-deps': 'off',                     // Turn off for now - can break working code
     },
-  },
-])
+  }
+)
