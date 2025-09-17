@@ -65,37 +65,6 @@ const createClusteredCoordinates = (baseLocation: string, clubsAtLocation: any[]
   });
 };
 
-// Geocoding function using OpenStreetMap Nominatim (free)
-const geocodeLocation = async (location: string): Promise<{ lat: number; lng: number } | null> => {
-  // First check hardcoded coordinates
-  if (locationCoordinates[location]) {
-    return locationCoordinates[location];
-  }
-  
-  try {
-    const response = await fetch(
-      `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}&limit=1&countrycodes=us`
-    );
-    
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
-    }
-    
-    const data = await response.json();
-    
-    if (data.length > 0) {
-      return {
-        lat: parseFloat(data[0].lat),
-        lng: parseFloat(data[0].lon)
-      };
-    }
-  } catch (error) {
-    console.warn('Geocoding failed for location:', location, error);
-  }
-  
-  // Fallback to Houston coordinates
-  return { lat: 29.7604, lng: -95.3698 };
-};
 
 export const ClubMap: React.FC<ClubMapProps> = ({ clubs, onClubSelect }) => {
   const [mapClubs, setMapClubs] = useState<any[]>([]);

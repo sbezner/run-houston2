@@ -75,3 +75,4 @@ Timezone: America/Chicago
 
 # === Execution ===
 Begin now. Parse and emit until **all qualifying races** are captured. Do not truncate. Continue until exhaustive.  
+git g
