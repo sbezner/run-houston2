@@ -6,6 +6,7 @@ import { capitalizeSurface } from "@shared/utils/formatting";
 import { Loading } from "@shared/components/Loading";
 import { Alert } from "@shared/components/Alert";
 import { DirectionsButton } from "@shared/components/DirectionsButton";
+import { RaceMap } from "../components/RaceMap";
 
 // Drawer component removed - all race information now displayed on cards
 
@@ -128,6 +129,9 @@ export const RacesPage: React.FC = () => {
   const [dateTo, setDateTo] = React.useState<string>('');
   // Responsive breakpoints
   const [isMobile, setIsMobile] = React.useState(false);
+  
+  // View mode state
+  const [viewMode, setViewMode] = React.useState<'cards' | 'map'>('cards');
   
   const sentinelRef = React.useRef<HTMLDivElement | null>(null);
   const searchRef = React.useRef<HTMLInputElement | null>(null);
@@ -1323,7 +1327,49 @@ export const RacesPage: React.FC = () => {
               )}
                 </div>
                 
+            {/* View Toggle */}
+            <div style={{ 
+              display: 'flex', 
+              gap: '8px', 
+              marginBottom: '16px',
+              padding: isMobile ? '0 16px' : '0 20px'
+            }}>
+              <button 
+                onClick={() => setViewMode('cards')}
+                style={{ 
+                  padding: '8px 16px', 
+                  background: viewMode === 'cards' ? '#3b82f6' : '#f3f4f6',
+                  color: viewMode === 'cards' ? 'white' : '#374151',
+                  border: 'none', 
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                📋 Cards
+              </button>
+              <button 
+                onClick={() => setViewMode('map')}
+                style={{ 
+                  padding: '8px 16px', 
+                  background: viewMode === 'map' ? '#3b82f6' : '#f3f4f6',
+                  color: viewMode === 'map' ? 'white' : '#374151',
+                  border: 'none', 
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                🗺️ Map
+              </button>
+            </div>
+
             {/* Race List */}
+            {viewMode === 'cards' ? (
                   <div style={{ 
               display: 'grid', 
               gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)',
@@ -1530,6 +1576,20 @@ export const RacesPage: React.FC = () => {
             </div>
           ))}
         </div>
+            ) : (
+              /* Map View */
+              <div style={{ 
+                padding: isMobile ? '0 16px' : '0 20px',
+                height: isMobile ? '400px' : '600px'
+              }}>
+                <RaceMap 
+                  races={items} 
+                  onRaceSelect={(race) => {
+                    console.log('Selected race:', race);
+                  }}
+                />
+              </div>
+            )}
 
             {/* Loading indicator */}
             {loading && (
