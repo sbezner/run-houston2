@@ -1,30 +1,11 @@
-﻿# OS / editor
+# OS / editor
 .DS_Store
 Thumbs.db
 .vscode/
+.idea/
 *.code-workspace
+*.swp
 
-# Python
-__pycache__/
-*.py[cod]
-.env
-.coverage
-coverage/
-*.coverage
-
-# Node / Expo
-mobile/node_modules/
-mobile/.expo/
-mobile/.expo-shared/
-mobile/dist/
-mobile/.cache/
-
-# Docker
-infra/db_data/
-
-# Local requirements (do not track in git)
-requirements.md
-
-# Render environment configs (real secrets)
-docs/03-deployment/RENDER_ENV_VARS
-docs/03-deployment/RENDER_ENV_VARS.*
+# Local notes
+/notes/
+/scratch/

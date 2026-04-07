@@ -1,6 +1,0 @@
-id,name,date,start_time,address,city,state,zip,latitude,longitude,distance,surface,kid_run,official_website_url,source
-1,"steve City 5K","2025-10-15","07:30","600 Memorial Dr","Houston","TX","77007","29.7633","-95.3819","5K","road","true","https://example.com/bayou5k","manual"
-2,"Galveston Beach 10K","2025-11-02","08:00","Stewart Beach","Galveston","TX","77550","29.3000","-94.7667","10K","road","false","https://example.com/galv10k","manual"
-3,"Houstbezsafasdfon Marathon","2025-01-19","07:00","1001 Avenida de las Americas","Houston","TX","77010","29.7604","-95.3698","marathon","road","false","https://houstonmarathon.com","manual"
-4,"Memorial Park Trail Run","2025-12-07","08:30","6501 Memorial Dr","Houston","TX","77024","29.7849","-95.4684","5K,10K","trail","true","https://example.com/memorialtrail","manual"
-5,"Katy Half Marathon","2025-11-23","07:15","4201 FM 1463","Katy","TX","77494","29.7858","-95.8244","half marathon","road","false","https://example.com/katyhalf","manual"

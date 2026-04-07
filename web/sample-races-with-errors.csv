@@ -1,3 +1,0 @@
-id,name,date,start_time,address,city,state,zip,surface,distance,kid_run,official_website_url,latitude,longitude
-1,Invalid Race,invalid-date,invalid-time,Invalid Address,Invalid City,Invalid State,invalid-zip,invalid-surface,invalid-distance,invalid-kid-run,invalid-url,invalid-lat,invalid-lon
-2,Valid Race,2025-12-25,08:00:00,123 Main St,Houston,TX,77001,road,"5K",true,https://example.com,29.7604,-95.3698

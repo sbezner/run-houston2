@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Run Houston &mdash; Upcoming Races</title>
+  <meta name="description" content="Discover upcoming road, trail, and track races in the Houston, Texas area. Filter by distance, surface, and date.">
+  <meta name="theme-color" content="#c0392b">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="index.html" class="brand">Run<span class="brand-mark"> Houston</span></a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="index.html" aria-current="page">Races</a>
+        <a href="clubs.html">Clubs</a>
+        <a href="reports.html">Reports</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <h1 class="page-title">Upcoming races</h1>
+    <p class="page-subtitle">Road, trail, and track races happening around Houston in the next 90 days.</p>
+
+    <section class="filters" aria-label="Race filters">
+      <fieldset class="filter-group">
+        <legend class="filter-legend">Distance</legend>
+        <div id="distance-chips" class="chip-row"></div>
+      </fieldset>
+
+      <fieldset class="filter-group">
+        <legend class="filter-legend">Surface</legend>
+        <div id="surface-chips" class="chip-row"></div>
+      </fieldset>
+
+      <div class="filter-row-inline">
+        <label for="date-window">Within</label>
+        <select id="date-window">
+          <option value="30">30 days</option>
+          <option value="60">60 days</option>
+          <option value="90" selected>90 days</option>
+          <option value="all">All upcoming</option>
+        </select>
+      </div>
+    </section>
+
+    <p id="result-count" class="result-count" aria-live="polite"></p>
+
+    <section id="race-list" aria-live="polite">
+      <p class="loading">Loading races&hellip;</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Run Houston &middot; A community race guide for the Bayou City.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/alasql@4.5.1/dist/alasql.min.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

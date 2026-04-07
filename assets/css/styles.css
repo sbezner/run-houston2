@@ -1,0 +1,367 @@
+:root {
+  --bg: #f7f7f5;
+  --surface: #ffffff;
+  --border: #e4e4e0;
+  --text: #1a1a1a;
+  --muted: #6b6b66;
+  --accent: #c0392b;
+  --accent-soft: #fbeae6;
+  --trail: #2d6a4f;
+  --trail-soft: #e3f1ea;
+  --road: #1f4e79;
+  --road-soft: #e3edf6;
+  --track: #6a4c93;
+  --track-soft: #ece5f5;
+  --virtual: #555555;
+  --virtual-soft: #eeeeee;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.04);
+  --radius: 10px;
+  --max-w: 1100px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Header */
+.site-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0.75rem 1rem;
+}
+
+.site-header-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.brand {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.brand:hover {
+  text-decoration: none;
+}
+
+.brand-mark {
+  color: var(--accent);
+}
+
+.site-nav {
+  display: flex;
+  gap: 1.25rem;
+  font-size: 0.95rem;
+}
+
+.site-nav a {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.site-nav a[aria-current="page"] {
+  color: var(--text);
+}
+
+/* Main */
+main {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 1.25rem 1rem 3rem;
+}
+
+.page-title {
+  font-size: 1.5rem;
+  margin: 0.5rem 0 0.25rem;
+  letter-spacing: -0.01em;
+}
+
+.page-subtitle {
+  margin: 0 0 1.5rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* Filters */
+.filters {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: 1rem;
+}
+
+.filter-group {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+
+.filter-legend {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+  padding: 0;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.chip input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.chip label {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+  user-select: none;
+  transition: background 120ms, border-color 120ms, color 120ms;
+}
+
+.chip input:checked + label {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.chip input:focus-visible + label {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.filter-row-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.filter-row-inline select {
+  font: inherit;
+  color: var(--text);
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+}
+
+.result-count {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0 0 0.75rem;
+}
+
+/* Race list */
+#race-list {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  #race-list {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
+}
+
+.race-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem 1.1rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.race-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 6px 16px rgba(0, 0, 0, 0.06);
+}
+
+.race-card h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+}
+
+.race-card h2 a {
+  color: var(--text);
+}
+
+.race-card h2 a:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.race-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.9rem;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.race-meta strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.race-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+
+.badge.distance {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: transparent;
+}
+
+.badge.surface-road {
+  background: var(--road-soft);
+  color: var(--road);
+  border-color: transparent;
+}
+
+.badge.surface-trail {
+  background: var(--trail-soft);
+  color: var(--trail);
+  border-color: transparent;
+}
+
+.badge.surface-track {
+  background: var(--track-soft);
+  color: var(--track);
+  border-color: transparent;
+}
+
+.badge.surface-virtual,
+.badge.surface-other {
+  background: var(--virtual-soft);
+  color: var(--virtual);
+  border-color: transparent;
+}
+
+.badge.kid-run {
+  background: #fff7d6;
+  color: #8a6d00;
+  border-color: transparent;
+}
+
+.race-description {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--text);
+}
+
+.race-card-footer {
+  margin-top: auto;
+  padding-top: 0.4rem;
+  font-size: 0.85rem;
+}
+
+.race-card-footer a {
+  font-weight: 600;
+}
+
+/* States */
+.loading,
+.empty,
+.error {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  grid-column: 1 / -1;
+}
+
+.error {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+/* Footer */
+.site-footer {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 2rem 1rem 3rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-align: center;
+  border-top: 1px solid var(--border);
+  margin-top: 2rem;
+}
