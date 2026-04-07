@@ -11,31 +11,47 @@ Vanilla HTML/CSS/JS, no build step, hosted on GitHub Pages.
 - Static HTML/CSS/JS &mdash; no framework, no bundler.
 - All data lives in flat JSON files under [`data/`](./data).
 - Pages load JSON via `fetch()` and query it client-side with [AlaSQL](https://github.com/AlaSQL/alasql) (loaded from a CDN).
-- Data is curated by AI agents through GitHub Actions (cron + Anthropic API with web search). There is no admin UI &mdash; data is managed entirely through prompts and pull requests.
+- Data is refreshed by hand-running research prompts in [`prompts/`](./prompts) against [claude.ai](https://claude.ai) with web search, then asking Claude Code to update the JSON files. There is no admin UI, no cron, and no GitHub Action &mdash; just a human and a weekly prompt. See [`prompts/README.md`](./prompts/README.md).
 - Hosted on GitHub Pages from the `master` branch root.
 
 ## Project layout
 
 ```
 .
-├── index.html                  # Upcoming race calendar (this PR)
+├── index.html                  # Upcoming race calendar
+├── clubs.html                  # Houston-area running clubs
+├── reports.html                # Race report listing
+├── report.html                 # Single race report (?id=...)
+├── about.html                  # About the project
 ├── assets/
 │   ├── css/styles.css
-│   └── js/app.js
+│   └── js/                     # common.js + per-page scripts
 ├── data/
-│   └── races-upcoming.json     # Races in the next 90 days
+│   ├── races-upcoming.json     # Races in the next 90 days
+│   ├── clubs.json              # Houston-area running clubs
+│   └── race_reports.json       # First-person race reports (markdown)
+├── prompts/                    # Research prompts for refreshing data
+│   ├── README.md
+│   └── upcoming-races-research.md
 ├── .nojekyll                   # Disable Jekyll on GitHub Pages
 └── README.md
 ```
 
-Pages still to come: `race.html`, `clubs.html`, `reports.html`, `report.html`,
-plus `data/races-2026.json`, `data/clubs.json`, and `data/race_reports.json`.
+Still to come: `race.html` (single race detail), `data/races-2026.json` (full
+2026 archive), and a map view.
 
 ## Editing data
 
-All race, club, and report data lives in `data/*.json`. To add or update an
-entry, edit the JSON file directly and commit. Once the AI workflows are wired
-up, automated runs will open pull requests with refreshed data on a schedule.
+All race, club, and report data lives in `data/*.json`. There are two ways to
+update it:
+
+1. **By hand.** Open the JSON file in your editor, make the change, commit. Fine
+   for one-off fixes and for clubs (which change rarely).
+2. **Via a research prompt.** Open a prompt from [`prompts/`](./prompts) in
+   [claude.ai](https://claude.ai) with web search enabled, copy the JSON it
+   produces, and ask Claude Code in this repo to apply it. Suggested cadence is
+   weekly for the upcoming-races prompt. See [`prompts/README.md`](./prompts/README.md)
+   for the full workflow.
 
 ## Running locally
 

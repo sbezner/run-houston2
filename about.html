@@ -47,14 +47,21 @@
 
       <h2>How the data stays fresh</h2>
       <p>
-        There is no admin login, no CMS, and no database. Race calendars, club listings,
-        and report drafts are kept current by scheduled GitHub Actions that ask the
-        <a href="https://www.anthropic.com/" target="_blank" rel="noopener noreferrer">Anthropic API</a>
-        to do web research on Houston-area races and propose updates to the JSON files. A
-        human reviews the changes before they ship.
+        There is no admin login, no CMS, no database, and no automation. Once a week,
+        a human runs a carefully-engineered research prompt against
+        <a href="https://claude.ai" target="_blank" rel="noopener noreferrer">claude.ai</a>
+        with web search turned on. Claude visits Houston-area race calendars, verifies
+        each race against its primary source, and produces a clean JSON list. That JSON
+        gets reviewed and committed to the repo by hand.
       </p>
       <p>
-        That means data on this site is best-effort. If something looks wrong &mdash;
+        It's deliberately low-tech. Crons break, API keys expire, scrapers go stale,
+        and silent failures are no fun. A human-in-the-loop workflow that runs in
+        ten minutes a week is more reliable than a pipeline that runs at 3am, and it
+        means every change to the data is a normal git commit you can read and revert.
+      </p>
+      <p>
+        That said, data on this site is best-effort. If something looks wrong &mdash;
         a bad date, a dead link, a missing race &mdash; please open an issue on the
         <a href="https://github.com/sbezner/run-houston2" target="_blank" rel="noopener noreferrer">GitHub repo</a>.
       </p>
