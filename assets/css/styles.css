@@ -190,13 +190,19 @@ main {
   color: var(--muted);
 }
 
-.filter-row-inline select {
+.filter-row-inline select,
+.filter-row-inline input[type="search"] {
   font: inherit;
   color: var(--text);
-  padding: 0.35rem 0.5rem;
+  padding: 0.35rem 0.6rem;
   border: 1px solid var(--border);
   border-radius: 6px;
   background: var(--bg);
+}
+
+.filter-row-inline input[type="search"] {
+  flex: 1 1 220px;
+  min-width: 0;
 }
 
 .result-count {
@@ -352,6 +358,123 @@ main {
   color: var(--accent);
   border-color: var(--accent);
   background: var(--accent-soft);
+}
+
+.race-card-footer.muted {
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* Race list grid hooks for clubs and reports too */
+#club-list,
+#report-list {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  #club-list,
+  #report-list {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
+}
+
+/* Long-form prose pages (about, single report) */
+.prose,
+#report-article {
+  max-width: 720px;
+  margin: 0 auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem 1.5rem 2rem;
+  box-shadow: var(--shadow);
+}
+
+.prose h1,
+#report-article h1 {
+  margin-top: 0;
+  letter-spacing: -0.01em;
+}
+
+.prose h2,
+.report-body h2 {
+  margin-top: 1.75rem;
+  font-size: 1.15rem;
+  letter-spacing: -0.005em;
+}
+
+.prose h3,
+.report-body h3 {
+  margin-top: 1.5rem;
+  font-size: 1rem;
+}
+
+.prose p,
+.report-body p {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.prose ul,
+.report-body ul {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.prose code,
+.report-body code {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.05em 0.3em;
+  font-size: 0.9em;
+}
+
+.report-header {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.report-race {
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+}
+
+.report-byline {
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.report-photos {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  margin-top: 1.5rem;
+}
+
+.report-photos img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
+
+.back-link {
+  max-width: 720px;
+  margin: 0 auto 0.75rem;
+  font-size: 0.9rem;
+}
+
+.back-link a {
+  color: var(--muted);
+}
+
+.back-link a:hover {
+  color: var(--accent);
 }
 
 /* Footer */

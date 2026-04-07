@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Run Houston &mdash; About</title>
+  <meta name="description" content="About Run Houston: a community-curated, AI-assisted race guide for the Bayou City.">
+  <meta name="theme-color" content="#c0392b">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="index.html" class="brand">Run<span class="brand-mark"> Houston</span></a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="index.html">Races</a>
+        <a href="clubs.html">Clubs</a>
+        <a href="reports.html">Reports</a>
+        <a href="about.html" aria-current="page">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <article class="prose">
+      <h1 class="page-title">About Run Houston</h1>
+
+      <p class="page-subtitle">A community race guide for the Bayou City.</p>
+
+      <h2>What this is</h2>
+      <p>
+        Run Houston is a free, community-focused directory of road, trail, and track races
+        happening in and around Houston, Texas. It also lists local running clubs and
+        publishes first-person race reports from runners who actually showed up at the
+        starting line.
+      </p>
+
+      <h2>How it's built</h2>
+      <p>
+        This site is intentionally simple: plain HTML, CSS, and JavaScript &mdash; no
+        framework, no build step, and no server. Every page loads its data from flat JSON
+        files under <code>/data/</code> and queries them in the browser with
+        <a href="https://github.com/AlaSQL/alasql" target="_blank" rel="noopener noreferrer">AlaSQL</a>.
+        The whole thing is hosted on
+        <a href="https://pages.github.com/" target="_blank" rel="noopener noreferrer">GitHub Pages</a>.
+      </p>
+
+      <h2>How the data stays fresh</h2>
+      <p>
+        There is no admin login, no CMS, and no database. Race calendars, club listings,
+        and report drafts are kept current by scheduled GitHub Actions that ask the
+        <a href="https://www.anthropic.com/" target="_blank" rel="noopener noreferrer">Anthropic API</a>
+        to do web research on Houston-area races and propose updates to the JSON files. A
+        human reviews the changes before they ship.
+      </p>
+      <p>
+        That means data on this site is best-effort. If something looks wrong &mdash;
+        a bad date, a dead link, a missing race &mdash; please open an issue on the
+        <a href="https://github.com/sbezner/run-houston2" target="_blank" rel="noopener noreferrer">GitHub repo</a>.
+      </p>
+
+      <h2>What's coming</h2>
+      <ul>
+        <li>A 2026 archive page so you can browse the full year, not just the next 90 days</li>
+        <li>A map view for races and clubs</li>
+        <li>"Near me" sorting using the browser's geolocation</li>
+        <li>The <code>runhouston.app</code> custom domain</li>
+      </ul>
+
+      <h2>Credits</h2>
+      <p>
+        Built and maintained by <a href="https://github.com/sbezner" target="_blank" rel="noopener noreferrer">@sbezner</a>.
+        Houston has a wonderful running community &mdash; this is for them.
+      </p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>Run Houston &middot; A community race guide for the Bayou City.</p>
+  </footer>
+</body>
+</html>

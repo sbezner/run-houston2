@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Run Houston &mdash; Running Clubs</title>
+  <meta name="description" content="A directory of running clubs across the Houston, Texas area. Search by name, neighborhood, or what kind of running you're looking for.">
+  <meta name="theme-color" content="#c0392b">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="index.html" class="brand">Run<span class="brand-mark"> Houston</span></a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="index.html">Races</a>
+        <a href="clubs.html" aria-current="page">Clubs</a>
+        <a href="reports.html">Reports</a>
+        <a href="about.html">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <h1 class="page-title">Running clubs</h1>
+    <p class="page-subtitle">Houston-area run clubs &mdash; from competitive training groups to "drinking clubs with a running problem."</p>
+
+    <section class="filters" aria-label="Club filters">
+      <div class="filter-row-inline">
+        <label for="club-search">Search</label>
+        <input id="club-search" type="search" placeholder="Name, neighborhood, or description&hellip;" autocomplete="off">
+      </div>
+      <fieldset class="filter-group">
+        <legend class="filter-legend">Area</legend>
+        <div id="area-chips" class="chip-row"></div>
+      </fieldset>
+    </section>
+
+    <p id="result-count" class="result-count" aria-live="polite"></p>
+
+    <section id="club-list" aria-live="polite">
+      <p class="loading">Loading clubs&hellip;</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Run Houston &middot; A community race guide for the Bayou City.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/alasql@4.5.1/dist/alasql.min.js"></script>
+  <script src="assets/js/common.js"></script>
+  <script src="assets/js/clubs.js"></script>
+</body>
+</html>

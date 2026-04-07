@@ -1,0 +1,353 @@
+[
+  {
+    "id": "bayou-city-road-runners",
+    "club_name": "Bayou City Road Runners",
+    "location": "Central Houston (Memorial Park/Rice)",
+    "website_url": "http://www.bcrr.org/",
+    "description": "A large social and performance-oriented club with a long history in Houston.",
+    "latitude": 29.7599,
+    "longitude": -95.4055
+  },
+  {
+    "id": "houston-striders",
+    "club_name": "Houston Striders",
+    "location": "Inner Loop/Memorial Park",
+    "website_url": "https://houstonstriders.org/",
+    "description": "A friendly and inclusive club accommodating all paces and abilities.",
+    "latitude": 29.7712,
+    "longitude": -95.4217
+  },
+  {
+    "id": "in-flight-running",
+    "club_name": "In Flight Running",
+    "location": "Central Houston/The Heights",
+    "website_url": "https://in-flight-running.myshopify.com/",
+    "description": "Offers professional coaching and structured training programs for all levels, from beginners to experienced racers.",
+    "latitude": 29.7619,
+    "longitude": -95.4182
+  },
+  {
+    "id": "houston-harriers",
+    "club_name": "Houston Harriers",
+    "location": "Inner Loop/Memorial Park",
+    "website_url": "https://runsignup.com/Club/Join/1060",
+    "description": "A non-training club for intermediate to advanced runners, active since 1975.",
+    "latitude": 29.7712,
+    "longitude": -95.4217
+  },
+  {
+    "id": "bon-running-club",
+    "club_name": "BON Running Club",
+    "location": "West University Place/Rice Village",
+    "website_url": "https://www.fleetfeet.com/s/houston/community/bon-running-club",
+    "description": "A large, free-to-join social club that holds weekly runs, often ending at a local pub.",
+    "latitude": 29.7153,
+    "longitude": -95.4099
+  },
+  {
+    "id": "heights-running-club",
+    "club_name": "Heights Running Club",
+    "location": "Houston Heights",
+    "website_url": "https://www.meetup.com/heights-running-club/",
+    "description": "A free, community-focused club for runners and walkers of all abilities in the Houston Heights.",
+    "latitude": 29.7997,
+    "longitude": -95.4038
+  },
+  {
+    "id": "west-end-running-club",
+    "club_name": "West End Running Club",
+    "location": "Washington Ave, Houston",
+    "website_url": "https://runclubnearme.com/club/west-end-running-club",
+    "description": "A free, all-levels club that holds weekly runs, with runs often ending at bars.",
+    "latitude": 29.7709,
+    "longitude": -95.3970
+  },
+  {
+    "id": "houston-area-trail-runners",
+    "club_name": "Houston Area Trail Runners",
+    "location": "Various trails in Houston",
+    "website_url": "https://www.hatsandmore.org/",
+    "description": "A club specifically for those who enjoy running on trails in and around Houston.",
+    "latitude": 29.7604,
+    "longitude": -95.3698
+  },
+  {
+    "id": "sigma-running-club",
+    "club_name": "Sigma Running Club",
+    "location": "East Downtown, Houston",
+    "website_url": "https://sagicorsigmarun.com/",
+    "description": "A social club that meets for a weekly run and beer, typically in the East End/Second Ward.",
+    "latitude": 29.7547,
+    "longitude": -95.3414
+  },
+  {
+    "id": "black-girls-run-houston",
+    "club_name": "Black Girls RUN! Houston",
+    "location": "Memorial Park, Houston",
+    "website_url": "https://blackgirlsrun.com/community/houston-tx/",
+    "description": "A club that provides a supportive environment for Black women to lead a healthy lifestyle through running.",
+    "latitude": 29.7712,
+    "longitude": -95.4217
+  },
+  {
+    "id": "black-men-run-houston",
+    "club_name": "Black Men Run Houston",
+    "location": "Memorial Park, Houston",
+    "website_url": "https://blackmenrun.com/blackmenrun-chapters/houston/",
+    "description": "A running club that promotes health and wellness for African American men through running.",
+    "latitude": 29.7712,
+    "longitude": -95.4217
+  },
+  {
+    "id": "houston-hash-house-harriers",
+    "club_name": "Houston Hash House Harriers",
+    "location": "Various locations in Houston",
+    "website_url": "https://h4.org/",
+    "description": "A very social group that refers to itself as a \"drinking club with a running problem.\"",
+    "latitude": 29.7604,
+    "longitude": -95.3698
+  },
+  {
+    "id": "frontrunners-houston",
+    "club_name": "FrontRunners Houston",
+    "location": "Central Houston",
+    "website_url": "https://frontrunnershousto.wixsite.com/frhou",
+    "description": "An inclusive running and walking club for the LGBTQ+ community and their allies.",
+    "latitude": 29.7604,
+    "longitude": -95.3698
+  },
+  {
+    "id": "usa-fit-houston",
+    "club_name": "USA FIT Houston",
+    "location": "Multiple locations",
+    "website_url": "https://usafittraining.com/houstonfit/",
+    "description": "A structured training program for all levels, specifically for marathons and half marathons.",
+    "latitude": 29.7604,
+    "longitude": -95.3698
+  },
+  {
+    "id": "tornados-running-club",
+    "club_name": "Tornados Running Club",
+    "location": "Houston",
+    "website_url": null,
+    "description": "A club focused on running for fun and social aspects with year-round training.",
+    "latitude": 29.7604,
+    "longitude": -95.3698
+  },
+  {
+    "id": "runners-high-club",
+    "club_name": "Runner's High Club",
+    "location": "Houston",
+    "website_url": "https://runclubnearme.com/club/runner-s-high-club",
+    "description": "A social club open to both beginners and advanced runners.",
+    "latitude": 29.7604,
+    "longitude": -95.3698
+  },
+  {
+    "id": "citycentre-running-club",
+    "club_name": "CityCentre Running Club",
+    "location": "CityCentre/Memorial",
+    "website_url": "https://runclubnearme.com/club/citycentre-running-club",
+    "description": "A free, social club that meets in the CityCentre open-air shopping district.",
+    "latitude": 29.7820,
+    "longitude": -95.5562
+  },
+  {
+    "id": "katy-area-running-club",
+    "club_name": "Katy Area Running Club (KARC)",
+    "location": "Katy",
+    "website_url": "https://katyarearunningclub.com/",
+    "description": "A community-oriented club for runners of all ages and abilities in the Katy area.",
+    "latitude": 29.7858,
+    "longitude": -95.8249
+  },
+  {
+    "id": "cypress-running-club",
+    "club_name": "Cypress Running Club",
+    "location": "Cypress",
+    "website_url": "https://cypressrunningclub.com/",
+    "description": "Promotes running as part of a healthy lifestyle with various activities and events.",
+    "latitude": 29.9723,
+    "longitude": -95.7335
+  },
+  {
+    "id": "hardloop-endurance",
+    "club_name": "Hardloop Endurance",
+    "location": "Katy",
+    "website_url": "https://runsignup.com/MemberOrg/HardloopEndurance",
+    "description": "A club specializing in providing custom training plans and coaching for endurance runners.",
+    "latitude": 29.7858,
+    "longitude": -95.8249
+  },
+  {
+    "id": "no-label-running-club",
+    "club_name": "No Label Running Club",
+    "location": "Katy",
+    "website_url": "https://runclubnearme.com/club/no-label-running-club",
+    "description": "A running club that meets for weekly runs that start and end at the No Label Brewing Company.",
+    "latitude": 29.7858,
+    "longitude": -95.8249
+  },
+  {
+    "id": "westchase-district-run-club",
+    "club_name": "Westchase District Run Club",
+    "location": "Westchase, Houston",
+    "website_url": null,
+    "description": "A run club that focuses on improving fitness and community in the Westchase area.",
+    "latitude": 29.7571,
+    "longitude": -95.5901
+  },
+  {
+    "id": "good-times-running-co-run-club",
+    "club_name": "Good Times Running Co. Run Club",
+    "location": "Katy",
+    "website_url": "https://www.goodtimesrunningco.com/take-action-bedford",
+    "description": "A community run club organized by the local running store, with weekly social runs.",
+    "latitude": 29.7858,
+    "longitude": -95.8249
+  },
+  {
+    "id": "bay-area-running-club",
+    "club_name": "Bay Area Running Club",
+    "location": "Pasadena/Clear Lake",
+    "website_url": "https://barchouston.com/",
+    "description": "A club that offers a social environment for runners in the Clear Lake and Pasadena area.",
+    "latitude": 29.6191,
+    "longitude": -95.1077
+  },
+  {
+    "id": "fort-bend-fit",
+    "club_name": "Fort Bend Fit",
+    "location": "Missouri City/Sugar Land",
+    "website_url": null,
+    "description": "A training club focused on preparing runners for marathons and half marathons.",
+    "latitude": 29.5630,
+    "longitude": -95.5391
+  },
+  {
+    "id": "pearland-area-road-runners",
+    "club_name": "Pearland Area Road Runners",
+    "location": "Pearland",
+    "website_url": "https://www.goparr.com/",
+    "description": "A running club serving the growing community in Pearland.",
+    "latitude": 29.5636,
+    "longitude": -95.2755
+  },
+  {
+    "id": "vallensons-run-club",
+    "club_name": "Vallensons' Run Club",
+    "location": "Pearland",
+    "website_url": "https://www.runintexas.com/vallensons-brewing-co-5k-beer-run",
+    "description": "A club that meets for a weekly run that starts and ends at the Vallensons' Brewing Company.",
+    "latitude": 29.5636,
+    "longitude": -95.2755
+  },
+  {
+    "id": "kemah-running-club",
+    "club_name": "Kemah Running Club",
+    "location": "Kemah",
+    "website_url": "https://runclubnearme.com/club/kemah-running-club",
+    "description": "A club that holds weekly runs and events in the Kemah/Seabrook area.",
+    "latitude": 29.5398,
+    "longitude": -95.0202
+  },
+  {
+    "id": "texas-trackstars",
+    "club_name": "Texas Trackstars",
+    "location": "Richmond, Texas",
+    "website_url": "https://txtrackstars.com/",
+    "description": "A track and field club that has been training athletes for over 30 years.",
+    "latitude": 29.5801,
+    "longitude": -95.7610
+  },
+  {
+    "id": "the-woodlands-running-club",
+    "club_name": "The Woodlands Running Club",
+    "location": "The Woodlands",
+    "website_url": null,
+    "description": "A very active and large club with a strong community in the northern suburbs.",
+    "latitude": 30.1658,
+    "longitude": -95.4746
+  },
+  {
+    "id": "fass-run-club",
+    "club_name": "Fass Run Club",
+    "location": "Conroe",
+    "website_url": "https://fassbrewing.com/events",
+    "description": "Conroe's only \"running and beer\" club, open to all skill levels.",
+    "latitude": 30.3113,
+    "longitude": -95.4566
+  },
+  {
+    "id": "champions-running-association",
+    "club_name": "Champions Running Association",
+    "location": "Spring/Klein",
+    "website_url": "https://www.championsrunning.org/about-us",
+    "description": "A non-profit club that serves the Spring, Klein, and Cypress areas.",
+    "latitude": 30.0763,
+    "longitude": -95.4800
+  },
+  {
+    "id": "the-gooses-acre-run-club",
+    "club_name": "The Goose's Acre Run Club",
+    "location": "The Woodlands",
+    "website_url": "https://www.goosesacre.com/running-club",
+    "description": "A social club that meets for a weekly run, starting and finishing at the Goose's Acre pub.",
+    "latitude": 30.1658,
+    "longitude": -95.4746
+  },
+  {
+    "id": "northside-running-tri",
+    "club_name": "Northside Running + Tri",
+    "location": "The Woodlands",
+    "website_url": "https://www.northsiderunning.com/about",
+    "description": "A community of runners and coaches on Houston's north side with a focus on running and triathlon training.",
+    "latitude": 30.1658,
+    "longitude": -95.4746
+  },
+  {
+    "id": "atascocita-titans-track-club",
+    "club_name": "Atascocita Titans Track Club",
+    "location": "Humble",
+    "website_url": "https://www.atascocitatitanstrackclub.com/about-us",
+    "description": "A track and field club that helps athletes of all skill levels, located in the Humble area.",
+    "latitude": 29.9961,
+    "longitude": -95.1888
+  },
+  {
+    "id": "northwest-flyers-track-club",
+    "club_name": "Northwest Flyers Track Club",
+    "location": "Tomball/Northwest Houston",
+    "website_url": "https://www.northwestflyerstc.com/",
+    "description": "A track club that trains athletes in multiple locations in Northwest Houston, including Tomball and Spring.",
+    "latitude": 30.0980,
+    "longitude": -95.6631
+  },
+  {
+    "id": "houston-fit",
+    "club_name": "Houston Fit",
+    "location": "Multiple locations",
+    "website_url": "https://www.fithouston.org/",
+    "description": "A large training program for runners of all abilities aiming to complete marathons or half marathons.",
+    "latitude": 29.7604,
+    "longitude": -95.3698
+  },
+  {
+    "id": "ffp-running-clubs",
+    "club_name": "FFP Running Clubs",
+    "location": "Various locations throughout Houston",
+    "website_url": "https://www.ffprunningclubs.org/",
+    "description": "A non-profit organization that creates free, community-based running clubs throughout the country, with locations in Houston.",
+    "latitude": 29.7604,
+    "longitude": -95.3698
+  },
+  {
+    "id": "houston-masters-sports-association",
+    "club_name": "Houston Masters Sports Association (HMSA)",
+    "location": "Houston",
+    "website_url": null,
+    "description": "A club that offers training and competition for adult runners, swimmers, and cyclists.",
+    "latitude": 29.7604,
+    "longitude": -95.3698
+  }
+]
