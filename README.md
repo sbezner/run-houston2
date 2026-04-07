@@ -12,7 +12,7 @@ Vanilla HTML/CSS/JS, no build step, hosted on GitHub Pages.
 - All data lives in flat JSON files under [`data/`](./data).
 - Pages load JSON via `fetch()` and query it client-side with [AlaSQL](https://github.com/AlaSQL/alasql) (loaded from a CDN).
 - Data is curated by AI agents through GitHub Actions (cron + Anthropic API with web search). There is no admin UI &mdash; data is managed entirely through prompts and pull requests.
-- Hosted on GitHub Pages from the `main` branch root.
+- Hosted on GitHub Pages from the `master` branch root.
 
 ## Project layout
 
@@ -50,6 +50,6 @@ python3 -m http.server 8000
 
 ## Deploying
 
-Push to `main`. GitHub Pages must be enabled in the repo settings:
+Push to `master`. GitHub Pages must be enabled in the repo settings:
 
-> Settings &rarr; Pages &rarr; Build and deployment &rarr; Source: **Deploy from a branch** &rarr; Branch: `main` / `(root)`
+> Settings &rarr; Pages &rarr; Build and deployment &rarr; Source: **Deploy from a branch** &rarr; Branch: `master` / `(root)`
