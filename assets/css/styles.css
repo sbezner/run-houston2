@@ -1,22 +1,54 @@
+/* Run Houston — editorial athletic refresh
+ *
+ * Typography: Barlow Condensed (display) + DM Sans (body) via Google
+ * Fonts. Dark header/footer, warm off-white surface, richer card
+ * depth, surface-keyed left accent on hover.
+ *
+ * All existing selectors and custom-property names are preserved so
+ * the JS continues to work unchanged. New custom properties have
+ * been added for dark UI surfaces, hover states, and font stacks.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap');
+
 :root {
-  --bg: #f7f7f5;
+  /* Page surfaces */
+  --bg: #f5f4f0;              /* warm off-white */
   --surface: #ffffff;
-  --border: #e4e4e0;
-  --text: #1a1a1a;
-  --muted: #6b6b66;
-  --accent: #c0392b;
-  --accent-soft: #fbeae6;
-  --trail: #2d6a4f;
-  --trail-soft: #e3f1ea;
-  --road: #1f4e79;
-  --road-soft: #e3edf6;
-  --track: #6a4c93;
-  --track-soft: #ece5f5;
-  --virtual: #555555;
-  --virtual-soft: #eeeeee;
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.04);
-  --radius: 10px;
+  --border: #e8e6df;
+  --text: #0f0f0f;
+  --muted: #6b6a63;
+
+  /* Brand */
+  --accent: #dc2626;          /* vivid punch red */
+  --accent-hover: #b91c1c;    /* darker red, hover states */
+  --accent-soft: #fde8e8;
+
+  /* Surface types (badges + race-card hover accent) */
+  --trail: #1b5e20;
+  --trail-soft: #dff3e3;
+  --road: #1e3a8a;
+  --road-soft: #dce7f5;
+  --track: #5b3a8a;
+  --track-soft: #e8dff5;
+  --virtual: #4a4a4a;
+  --virtual-soft: #ecebe5;
+
+  /* Dark UI (header + footer) */
+  --dark-bg: #0f0f0f;
+  --dark-text: #ffffff;
+  --dark-muted: #9a9a95;
+
+  /* Elevation + shape */
+  --shadow: 0 1px 2px rgba(15, 15, 15, 0.04), 0 4px 16px rgba(15, 15, 15, 0.06);
+  --shadow-lg: 0 4px 8px rgba(15, 15, 15, 0.06), 0 16px 32px rgba(15, 15, 15, 0.10);
+  --radius: 14px;
+  --radius-sm: 8px;
   --max-w: 1100px;
+
+  /* Typography */
+  --font-display: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 * {
@@ -29,27 +61,35 @@ html {
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-body);
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 1.55;
   color: var(--text);
   background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
   color: var(--accent);
   text-decoration: none;
+  transition: color 150ms ease;
 }
 
 a:hover {
+  color: var(--accent-hover);
   text-decoration: underline;
 }
 
-/* Header */
+/* -------------------- Header -------------------- */
+
 .site-header {
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  padding: 0.75rem 1rem;
+  background: var(--dark-bg);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 1rem 1.25rem;
+  position: sticky;
+  top: 0;
+  z-index: 50;
 }
 
 .site-header-inner {
@@ -63,14 +103,18 @@ a:hover {
 }
 
 .brand {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--text);
-  letter-spacing: -0.01em;
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--dark-text);
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  line-height: 1;
 }
 
 .brand:hover {
   text-decoration: none;
+  color: var(--dark-text);
 }
 
 .brand-mark {
@@ -79,48 +123,87 @@ a:hover {
 
 .site-nav {
   display: flex;
-  gap: 1.25rem;
-  font-size: 0.95rem;
+  gap: 1.5rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 .site-nav a {
-  color: var(--muted);
-  font-weight: 500;
+  color: var(--dark-muted);
+  padding: 0.65rem 0;
+  transition: color 150ms ease;
+}
+
+.site-nav a:hover {
+  color: var(--dark-text);
+  text-decoration: none;
 }
 
 .site-nav a[aria-current="page"] {
-  color: var(--text);
+  color: var(--dark-text);
+  position: relative;
 }
 
-/* Main */
+.site-nav a[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--accent);
+}
+
+/* -------------------- Main + page hero -------------------- */
+
 main {
   max-width: var(--max-w);
   margin: 0 auto;
-  padding: 1.25rem 1rem 3rem;
+  padding: 1.75rem 1.25rem 3rem;
 }
 
 .page-title {
-  font-size: 1.5rem;
-  margin: 0.5rem 0 0.25rem;
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.05;
   letter-spacing: -0.01em;
+  text-transform: uppercase;
+  margin: 0.5rem 0 0;
+  color: var(--text);
+}
+
+.page-title::after {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 4px;
+  background: var(--accent);
+  margin-top: 0.85rem;
+  border-radius: 2px;
 }
 
 .page-subtitle {
-  margin: 0 0 1.5rem;
+  margin: 1rem 0 1.75rem;
   color: var(--muted);
-  font-size: 0.95rem;
+  font-size: 1.02rem;
+  line-height: 1.55;
+  max-width: 640px;
 }
 
-/* Filters */
+/* -------------------- Filters -------------------- */
+
 .filters {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 1rem;
-  margin-bottom: 1.25rem;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
   box-shadow: var(--shadow);
   display: grid;
-  gap: 1rem;
+  gap: 1.1rem;
 }
 
 .filter-group {
@@ -131,19 +214,20 @@ main {
 }
 
 .filter-legend {
-  font-size: 0.78rem;
-  font-weight: 600;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.1em;
   color: var(--muted);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.65rem;
   padding: 0;
 }
 
 .chip-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: 0.5rem;
 }
 
 .chip {
@@ -159,73 +243,107 @@ main {
 }
 
 .chip label {
-  display: inline-block;
-  padding: 0.35rem 0.75rem;
-  border: 1px solid var(--border);
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 0.55rem 1.1rem;
+  border: 1.5px solid var(--border);
   border-radius: 999px;
-  font-size: 0.85rem;
-  background: var(--bg);
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: var(--surface);
   color: var(--text);
   cursor: pointer;
   user-select: none;
-  transition: background 120ms, border-color 120ms, color 120ms;
+  transition: background 150ms ease, border-color 150ms ease,
+              color 150ms ease, box-shadow 150ms ease;
+}
+
+.chip label:hover {
+  border-color: var(--text);
 }
 
 .chip input:checked + label {
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+}
+
+.chip input:checked + label:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
 }
 
 .chip input:focus-visible + label {
   outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
 
 .filter-row-inline {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
+  gap: 0.65rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   color: var(--muted);
 }
 
 .filter-row-inline select,
 .filter-row-inline input[type="search"] {
   font: inherit;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: normal;
   color: var(--text);
-  padding: 0.35rem 0.6rem;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--bg);
+  padding: 0.7rem 0.9rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  min-height: 44px;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.filter-row-inline select:focus,
+.filter-row-inline input[type="search"]:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
 }
 
 .filter-row-inline input[type="search"] {
   flex: 1 1 220px;
   min-width: 0;
+  font-size: 1rem;
 }
+
+/* -------------------- Result bar + view toggle -------------------- */
 
 .result-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  margin: 0 0 0.75rem;
+  margin: 0 0 1rem;
 }
 
 .result-count {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   color: var(--muted);
   margin: 0;
 }
 
-/* List / Map view toggle */
 .view-toggle {
   display: inline-flex;
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border);
   border-radius: 999px;
   background: var(--surface);
-  padding: 2px;
+  padding: 3px;
   box-shadow: var(--shadow);
 }
 
@@ -235,12 +353,15 @@ main {
   background: transparent;
   color: var(--muted);
   font: inherit;
-  font-size: 0.85rem;
-  font-weight: 600;
-  padding: 0.3rem 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.6rem 1.2rem;
+  min-height: 40px;
   border-radius: 999px;
   cursor: pointer;
-  transition: background 120ms, color 120ms;
+  transition: background 150ms ease, color 150ms ease;
 }
 
 .view-toggle-btn:hover {
@@ -250,14 +371,16 @@ main {
 .view-toggle-btn.is-active {
   background: var(--accent);
   color: #fff;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
 }
 
 .view-toggle-btn:focus-visible {
   outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
 
-/* Map container — shared between races and clubs pages */
+/* -------------------- Map container (shared) -------------------- */
+
 .rh-map {
   height: 520px;
   max-height: 70vh;
@@ -268,24 +391,27 @@ main {
 }
 
 .map-note {
-  margin: 0.5rem 0 0;
-  font-size: 0.82rem;
+  margin: 0.75rem 0 0;
+  font-size: 0.85rem;
+  font-weight: 500;
   color: var(--muted);
   text-align: center;
 }
 
 /* Leaflet popup — match the rest of the site */
 .rh-popup {
+  font-family: var(--font-body);
   font-size: 0.88rem;
-  line-height: 1.45;
-  min-width: 160px;
-  max-width: 240px;
+  line-height: 1.5;
+  min-width: 180px;
+  max-width: 260px;
 }
 
 .rh-popup strong,
 .rh-popup strong a {
   color: var(--text);
-  font-size: 0.95rem;
+  font-size: 1rem;
+  font-weight: 700;
 }
 
 .rh-popup strong a:hover {
@@ -297,18 +423,21 @@ main {
 }
 
 .rh-popup ul {
-  margin: 0.4rem 0 0;
+  margin: 0.5rem 0 0;
   padding-left: 1.1rem;
 }
 
 .rh-popup ul li {
-  margin: 0.15rem 0;
+  margin: 0.2rem 0;
 }
 
 .rh-popup-link {
   display: inline-block;
-  margin-top: 0.4rem;
-  font-weight: 600;
+  margin-top: 0.55rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.78rem;
 }
 
 @media (max-width: 480px) {
@@ -317,15 +446,14 @@ main {
   }
 }
 
-/* Race list */
+/* -------------------- Race list grid -------------------- */
+
 #race-list {
   display: grid;
-  gap: 1rem;
+  gap: 1.25rem;
   grid-template-columns: 1fr;
 }
 
-/* ID specificity beats the UA [hidden] rule, so re-assert it when the
-   list is toggled off (e.g. while the map view is active). */
 #race-list[hidden] {
   display: none;
 }
@@ -339,25 +467,50 @@ main {
 .race-card {
   background: var(--surface);
   border: 1px solid var(--border);
+  border-left: 3px solid transparent;
   border-radius: var(--radius);
-  padding: 1rem 1.1rem 1.1rem;
+  padding: 1.35rem 1.4rem 1.4rem;
   box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
-  gap: 0.55rem;
-  transition: transform 120ms ease, box-shadow 120ms ease;
+  gap: 0.75rem;
+  transition: transform 220ms ease, box-shadow 220ms ease,
+              border-left-color 220ms ease;
 }
 
 .race-card:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 6px 16px rgba(0, 0, 0, 0.06);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  border-left-color: var(--accent);
+}
+
+/* Modern engines: color the left accent by the card's surface type.
+   Older engines fall back to the plain red from .race-card:hover. */
+.race-card:has(.badge.surface-road):hover {
+  border-left-color: var(--road);
+}
+
+.race-card:has(.badge.surface-trail):hover {
+  border-left-color: var(--trail);
+}
+
+.race-card:has(.badge.surface-track):hover {
+  border-left-color: var(--track);
+}
+
+.race-card:has(.badge.surface-virtual):hover,
+.race-card:has(.badge.surface-other):hover {
+  border-left-color: var(--virtual);
 }
 
 .race-card h2 {
   margin: 0;
-  font-size: 1.1rem;
-  line-height: 1.3;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.12;
   letter-spacing: -0.005em;
+  text-transform: uppercase;
 }
 
 .race-card h2 a {
@@ -372,7 +525,7 @@ main {
 .race-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem 0.9rem;
+  gap: 0.35rem 1rem;
   font-size: 0.88rem;
   color: var(--muted);
 }
@@ -385,15 +538,16 @@ main {
 .race-badges {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem;
+  gap: 0.4rem;
 }
 
 .badge {
-  font-size: 0.72rem;
-  font-weight: 600;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
-  padding: 0.2rem 0.55rem;
+  letter-spacing: 0.07em;
+  padding: 0.3rem 0.65rem;
   border-radius: 999px;
   background: var(--bg);
   color: var(--muted);
@@ -432,34 +586,40 @@ main {
 }
 
 .badge.kid-run {
-  background: #fff7d6;
+  background: #fff3c4;
   color: #8a6d00;
   border-color: transparent;
 }
 
 .race-description {
   margin: 0;
-  font-size: 0.92rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
   color: var(--text);
 }
 
 .race-card-footer {
   margin-top: auto;
-  padding-top: 0.4rem;
-  font-size: 0.85rem;
+  padding-top: 0.55rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .race-card-footer a {
-  font-weight: 600;
+  font-weight: 700;
 }
 
-/* States */
+/* -------------------- States -------------------- */
+
 .loading,
 .empty,
 .error {
   text-align: center;
-  padding: 2.5rem 1rem;
+  padding: 3rem 1.25rem;
   color: var(--muted);
+  font-weight: 500;
   background: var(--surface);
   border: 1px dashed var(--border);
   border-radius: var(--radius);
@@ -470,18 +630,23 @@ main {
   color: var(--accent);
   border-color: var(--accent);
   background: var(--accent-soft);
+  font-weight: 600;
 }
 
 .race-card-footer.muted {
   color: var(--muted);
   font-style: italic;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: normal;
 }
 
-/* Race list grid hooks for clubs and reports too */
+/* -------------------- Clubs + reports grid hooks -------------------- */
+
 #club-list,
 #report-list {
   display: grid;
-  gap: 1rem;
+  gap: 1.25rem;
   grid-template-columns: 1fr;
 }
 
@@ -497,7 +662,8 @@ main {
   }
 }
 
-/* Long-form prose pages (about, single report, single race) */
+/* -------------------- Long-form prose pages -------------------- */
+
 .prose,
 #report-article,
 #race-article {
@@ -506,7 +672,7 @@ main {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 1.75rem 1.5rem 2rem;
+  padding: 2rem 1.75rem 2.25rem;
   box-shadow: var(--shadow);
 }
 
@@ -514,32 +680,40 @@ main {
 #report-article h1,
 #race-article h1 {
   margin-top: 0;
-  letter-spacing: -0.01em;
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.005em;
 }
 
 .prose h2,
 .report-body h2 {
-  margin-top: 1.75rem;
-  font-size: 1.15rem;
-  letter-spacing: -0.005em;
+  margin-top: 2rem;
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 .prose h3,
 .report-body h3 {
-  margin-top: 1.5rem;
-  font-size: 1rem;
+  margin-top: 1.75rem;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 .prose p,
 .report-body p {
   font-size: 1rem;
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
 .prose ul,
 .report-body ul {
   font-size: 1rem;
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
 .prose code,
@@ -547,78 +721,87 @@ main {
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 4px;
-  padding: 0.05em 0.3em;
-  font-size: 0.9em;
+  padding: 0.08em 0.35em;
+  font-size: 0.88em;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
 
 .report-header {
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 1rem;
-  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.25rem;
 }
 
 .report-race {
-  margin: 0.25rem 0 0;
+  margin: 0.5rem 0 0;
   color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 500;
 }
 
 .report-photos {
   display: grid;
-  gap: 0.5rem;
+  gap: 0.75rem;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  margin-top: 1.5rem;
+  margin-top: 1.75rem;
 }
 
 .report-photos img {
   width: 100%;
   height: auto;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--border);
 }
 
-/* Single race detail (race.html) */
+/* -------------------- Single race detail -------------------- */
+
 .race-detail-header {
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 1rem;
-  margin-bottom: 1.25rem;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
 }
 
 .race-detail-header h1 {
-  margin: 0 0 0.5rem;
-  font-size: 1.5rem;
+  margin: 0 0 0.6rem;
+  font-family: var(--font-display);
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
 }
 
 .race-detail-subtitle {
-  margin: 0 0 0.75rem;
+  margin: 0 0 0.85rem;
   color: var(--muted);
-  font-size: 1rem;
+  font-size: 1.05rem;
 }
 
 .race-detail-subtitle strong {
   color: var(--text);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .race-description-full {
-  font-size: 1rem;
-  line-height: 1.6;
-  margin: 0 0 1.5rem;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  margin: 0 0 1.75rem;
 }
 
 .race-detail-grid {
-  margin: 0 0 1.5rem;
+  margin: 0 0 1.75rem;
   display: grid;
   grid-template-columns: max-content 1fr;
-  gap: 0.5rem 1rem;
+  gap: 0.65rem 1.25rem;
   font-size: 0.95rem;
 }
 
 .race-detail-grid dt {
-  font-weight: 600;
+  font-weight: 700;
   color: var(--muted);
   text-transform: uppercase;
-  font-size: 0.78rem;
-  letter-spacing: 0.04em;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
   align-self: center;
 }
 
@@ -631,10 +814,10 @@ main {
 @media (max-width: 480px) {
   .race-detail-grid {
     grid-template-columns: 1fr;
-    gap: 0.15rem 0;
+    gap: 0.2rem 0;
   }
   .race-detail-grid dt {
-    margin-top: 0.6rem;
+    margin-top: 0.75rem;
   }
   .race-detail-grid dt:first-child {
     margin-top: 0;
@@ -642,32 +825,51 @@ main {
 }
 
 .race-website-cta {
-  margin: 1.5rem 0 0;
+  margin: 1.75rem 0 0;
   text-align: center;
 }
 
+/* -------------------- Primary CTA button -------------------- */
+
 .btn-primary {
   display: inline-block;
-  padding: 0.7rem 1.25rem;
+  padding: 1rem 2.1rem;
   background: var(--accent);
   color: #fff;
-  border-radius: 6px;
-  font-weight: 600;
-  font-size: 0.95rem;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.92rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   text-decoration: none;
-  transition: background 120ms;
+  box-shadow: 0 4px 14px rgba(220, 38, 38, 0.28);
+  transition: background 200ms ease, transform 200ms ease,
+              box-shadow 200ms ease;
 }
 
 .btn-primary:hover {
-  background: #a0291e;
+  background: var(--accent-hover);
   text-decoration: none;
   color: #fff;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 22px rgba(220, 38, 38, 0.38);
 }
+
+.btn-primary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* -------------------- Back link -------------------- */
 
 .back-link {
   max-width: 720px;
-  margin: 0 auto 0.75rem;
-  font-size: 0.9rem;
+  margin: 0 auto 1rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .back-link a {
@@ -678,14 +880,58 @@ main {
   color: var(--accent);
 }
 
-/* Footer */
+/* -------------------- Footer -------------------- */
+
 .site-footer {
+  padding: 2.5rem 1.25rem 3rem;
+  margin-top: 3rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--dark-muted);
+  text-align: center;
+  background: var(--dark-bg);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.site-footer p {
   max-width: var(--max-w);
   margin: 0 auto;
-  padding: 2rem 1rem 3rem;
-  font-size: 0.85rem;
-  color: var(--muted);
-  text-align: center;
-  border-top: 1px solid var(--border);
-  margin-top: 2rem;
+}
+
+/* -------------------- Desktop breakpoints -------------------- */
+
+@media (min-width: 640px) {
+  main {
+    padding: 2.5rem 1.5rem 4rem;
+  }
+
+  .site-header {
+    padding: 1.1rem 1.5rem;
+  }
+
+  .brand {
+    font-size: 2rem;
+  }
+
+  .page-title {
+    font-size: 3rem;
+  }
+
+  .race-detail-header h1 {
+    font-size: 2.75rem;
+  }
+
+  .filters {
+    padding: 1.5rem 1.75rem;
+  }
+}
+
+@media (min-width: 960px) {
+  .page-title {
+    font-size: 3.5rem;
+  }
+
+  .race-detail-header h1 {
+    font-size: 3rem;
+  }
 }
