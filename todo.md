@@ -36,6 +36,33 @@ remain to make the launch actually go smoothly.
   sitemap (one per page); a 5-line `robots.txt` saying "allow everything,
   here's the sitemap". Tells Google to actually crawl the site once the
   custom domain is live. **(Me)**
+- [ ] **Search engine optimization (broader than OG + sitemap).** Highest-
+  leverage wins for a small content site like this:
+  - **JSON-LD structured data on `race.html`.** Each race detail page
+    should embed a `<script type="application/ld+json">` with a
+    `schema.org/Event` blob (name, startDate, location with
+    PostalAddress + GeoCoordinates, eventStatus, organizer, url). This
+    is what makes Google show race results as enriched cards in search
+    with the date, venue, and a "register" button directly in the SERP.
+    Also add `SportsClub` JSON-LD on `clubs.html` for each club.
+    Generated client-side from the existing JSON data — same render
+    path as the rest of the page.
+  - **`<link rel="canonical">`** on every page pointing at the
+    `runhouston.app` URL, so Google doesn't penalize duplicate content
+    if the same page is reachable at both `sbezner.github.io/run-houston2/`
+    and `runhouston.app`.
+  - **Per-page `<title>` and `<meta name="description">` audit.**
+    Some pages have generic titles like "Run Houston — Race" (the
+    fallback before JS rewrites it) which Google may index as-is for
+    no-JS crawls. Make every static title descriptive even before JS
+    runs. The race / report detail pages should ideally include the
+    race / recap name in the static title, but that requires either a
+    build step or accepting the no-JS limitation.
+  - **Heading hierarchy + alt text audit** on the few images that
+    exist (the `report-photos` slot mostly).
+  - **Submit the sitemap to Google Search Console** once the custom
+    domain is live and the sitemap exists.
+  **(Me for the markup work, You for Search Console)**
 - [ ] **Test the live site after the cutover.** Hit `https://runhouston.app/`
   and every nav link, hit a `race.html?id=…` URL directly, hit a
   nonexistent URL to confirm the themed 404 shows up, share a link to
@@ -110,10 +137,25 @@ do you actually want?" question, not on engineering effort.
 
 Nice but not urgent. None of these are blocking launch.
 
-- [ ] **Analytics.** Zero today. Plausible or Cloudflare Web Analytics are
-  privacy-respecting, no-cookie, GDPR-friendly options. ~5 lines of
-  `<script>` per HTML page (or just on `index.html` if you only care
-  about landing-page traffic). **(You decide, then Me)**
+- [ ] **Google Analytics (GA4).** Zero analytics today — no idea
+  whether anyone is visiting. Add the GA4 measurement snippet to every
+  HTML page so you can see traffic, top pages, geographic distribution,
+  and which races people are clicking through to. Steps:
+  1. Create a GA4 property in Google Analytics (`analytics.google.com`),
+     get the `G-XXXXXXXXXX` measurement ID. **(You)**
+  2. Add the GA4 gtag snippet (~7 lines) to the `<head>` of every HTML
+     page: `index.html`, `race.html`, `clubs.html`, `reports.html`,
+     `report.html`, `about.html`, `404.html`. Could be done as a single
+     find/replace once you hand over the measurement ID. **(Me)**
+  3. Verify in the GA4 Realtime view by visiting the live site after
+     deploy. **(You)**
+
+  Heads-up tradeoffs: GA4 sets cookies and reports to Google, so a
+  privacy banner / consent management tool is technically required in
+  some jurisdictions (GDPR, CCPA). For a Houston-area community site
+  the practical risk is low, but worth knowing. Privacy-respecting
+  alternatives exist (Plausible, Cloudflare Web Analytics, Fathom)
+  if you'd rather skip the cookies and the consent banner.
 
 - [ ] **Race search tokenizer.** Search currently ORs across `name`,
   `city`, and `description`, so typing "5k katy" matches nearly every
