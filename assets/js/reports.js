@@ -24,9 +24,6 @@
     var raceLine = [report.race_name, RH.formatDate(report.race_date)]
       .filter(Boolean)
       .join(' &middot; ');
-    var byline = report.author_name
-      ? '<span>By ' + RH.escapeHtml(report.author_name) + '</span>'
-      : '';
 
     return (
       '<article class="race-card">' +
@@ -34,11 +31,10 @@
       RH.escapeHtml(report.title) + '</a></h2>' +
       '<div class="race-meta">' +
       '<span><strong>' + raceLine + '</strong></span>' +
-      byline +
       '</div>' +
       '<p class="race-description">' + RH.escapeHtml(preview) + '</p>' +
       '<div class="race-card-footer">' +
-      '<a href="report.html?id=' + encodeURIComponent(report.id) + '">Read report &rarr;</a>' +
+      '<a href="report.html?id=' + encodeURIComponent(report.id) + '">Read more &rarr;</a>' +
       '</div>' +
       '</article>'
     );

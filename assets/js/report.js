@@ -10,9 +10,6 @@
     var raceLine = [report.race_name, RH.formatDateLong(report.race_date)]
       .filter(Boolean)
       .join(' &middot; ');
-    var byline = report.author_name
-      ? '<p class="report-byline">By <strong>' + RH.escapeHtml(report.author_name) + '</strong></p>'
-      : '';
 
     // marked v12 is HTML-safe by default for the input fields we use here.
     // Content is curated, not user-submitted, but we still avoid raw HTML by
@@ -41,7 +38,6 @@
       '<header class="report-header">' +
       '<h1>' + RH.escapeHtml(report.title) + '</h1>' +
       '<p class="report-race"><strong>' + raceLine + '</strong></p>' +
-      byline +
       '</header>' +
       '<div class="report-body">' + bodyHtml + '</div>' +
       photos

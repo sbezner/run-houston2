@@ -41,23 +41,9 @@
     if (cityLine) parts.push(cityLine + (race.zip ? ' ' + race.zip : ''));
     if (!parts.length) return '';
 
-    var mapLink = '';
-    if (typeof race.latitude === 'number' && typeof race.longitude === 'number') {
-      mapLink =
-        ' &middot; <a href="https://www.google.com/maps/search/?api=1&query=' +
-        encodeURIComponent(race.latitude + ',' + race.longitude) +
-        '" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>';
-    } else if (race.address) {
-      var q = [race.address, race.city, race.state, race.zip].filter(Boolean).join(', ');
-      mapLink =
-        ' &middot; <a href="https://www.google.com/maps/search/?api=1&query=' +
-        encodeURIComponent(q) +
-        '" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>';
-    }
-
     return (
       '<dt>Location</dt>' +
-      '<dd>' + parts.map(RH.escapeHtml).join('<br>') + mapLink + '</dd>'
+      '<dd>' + parts.map(RH.escapeHtml).join('<br>') + '</dd>'
     );
   }
 
