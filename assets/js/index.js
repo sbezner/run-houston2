@@ -174,7 +174,7 @@
     var location = [race.city, race.state].filter(Boolean).join(', ');
 
     return (
-      '<div class="race-popup">' +
+      '<div class="rh-popup">' +
       '<strong>' + nameHtml + '</strong><br>' +
       RH.escapeHtml(dateLine) +
       (location ? '<br><span class="muted">' + RH.escapeHtml(location) + '</span>' : '') +

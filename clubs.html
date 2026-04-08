@@ -6,6 +6,10 @@
   <title>Run Houston &mdash; Running Clubs</title>
   <meta name="description" content="A directory of running clubs across the Houston, Texas area. Search by name, neighborhood, or what kind of running you're looking for.">
   <meta name="theme-color" content="#c0392b">
+  <link rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin="">
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
@@ -36,10 +40,23 @@
       </fieldset>
     </section>
 
-    <p id="result-count" class="result-count" aria-live="polite"></p>
+    <div class="result-bar">
+      <p id="result-count" class="result-count" aria-live="polite"></p>
+      <div class="view-toggle" role="group" aria-label="View mode">
+        <button type="button" id="view-list-btn" class="view-toggle-btn is-active"
+                aria-pressed="true">List</button>
+        <button type="button" id="view-map-btn" class="view-toggle-btn"
+                aria-pressed="false">Map</button>
+      </div>
+    </div>
 
     <section id="club-list" aria-live="polite">
       <p class="loading">Loading clubs&hellip;</p>
+    </section>
+
+    <section id="club-map-wrap" hidden>
+      <div id="club-map" class="rh-map" role="region" aria-label="Map of Houston running clubs"></div>
+      <p id="map-note" class="map-note"></p>
     </section>
   </main>
 
@@ -48,6 +65,9 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/alasql@4.5.1/dist/alasql.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+          crossorigin=""></script>
   <script src="assets/js/common.js"></script>
   <script src="assets/js/clubs.js"></script>
 </body>

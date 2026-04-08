@@ -257,8 +257,8 @@ main {
   outline-offset: 2px;
 }
 
-/* Map container */
-#race-map {
+/* Map container — shared between races and clubs pages */
+.rh-map {
   height: 520px;
   max-height: 70vh;
   border: 1px solid var(--border);
@@ -275,27 +275,44 @@ main {
 }
 
 /* Leaflet popup — match the rest of the site */
-.race-popup {
+.rh-popup {
   font-size: 0.88rem;
   line-height: 1.45;
-  min-width: 140px;
+  min-width: 160px;
+  max-width: 240px;
 }
 
-.race-popup strong a {
+.rh-popup strong,
+.rh-popup strong a {
   color: var(--text);
   font-size: 0.95rem;
 }
 
-.race-popup strong a:hover {
+.rh-popup strong a:hover {
   color: var(--accent);
 }
 
-.race-popup .muted {
+.rh-popup .muted {
   color: var(--muted);
 }
 
+.rh-popup ul {
+  margin: 0.4rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.rh-popup ul li {
+  margin: 0.15rem 0;
+}
+
+.rh-popup-link {
+  display: inline-block;
+  margin-top: 0.4rem;
+  font-weight: 600;
+}
+
 @media (max-width: 480px) {
-  #race-map {
+  .rh-map {
     height: 60vh;
   }
 }
