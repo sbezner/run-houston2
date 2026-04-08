@@ -4,14 +4,6 @@
 
   var DATA_URL = 'data/races-upcoming.json';
 
-  var SURFACES = [
-    { value: 'road', label: 'Road' },
-    { value: 'trail', label: 'Trail' },
-    { value: 'track', label: 'Track' },
-    { value: 'virtual', label: 'Virtual' },
-    { value: 'other', label: 'Other' }
-  ];
-
   // Canonical display order; anything not listed is appended alphabetically.
   var DISTANCE_ORDER = [
     '1 Mile',
@@ -32,7 +24,7 @@
   var allRaces = [];
   var state = {
     distances: [],
-    surfaces: [],
+    search: '',
     window: '90',
     view: 'list' // 'list' | 'map'
   };
@@ -141,9 +133,10 @@
       'SELECT * FROM ? ' +
         'WHERE date >= ? AND date <= ? ' +
         'AND HASANY(distance, ?) ' +
-        'AND INSET(surface, ?) ' +
+        'AND (HASTEXT(name, ?) OR HASTEXT(city, ?) OR HASTEXT(description, ?)) ' +
         'ORDER BY date ASC',
-      [allRaces, today, cutoff, state.distances, state.surfaces]
+      [allRaces, today, cutoff, state.distances,
+        state.search, state.search, state.search]
     );
   }
 
@@ -151,7 +144,7 @@
     var listEl = document.getElementById('race-list');
     if (rows.length === 0) {
       listEl.innerHTML =
-        '<p class="empty">No races match these filters. Try widening the date window or clearing a chip.</p>';
+        '<p class="empty">No races match. Try clearing the search box, widening the date window, or clearing a distance chip.</p>';
       return;
     }
     listEl.innerHTML = rows.map(renderRaceCard).join('');
@@ -229,7 +222,7 @@
     var missing = rows.length - geo.length;
     if (rows.length === 0) {
       noteEl.textContent =
-        'No races match these filters. Try widening the date window or clearing a chip.';
+        'No races match. Try clearing the search box, widening the date window, or clearing a distance chip.';
     } else if (missing > 0) {
       noteEl.textContent =
         missing + ' race' + (missing === 1 ? ' is' : 's are') +
@@ -311,12 +304,16 @@
         render();
       });
 
-    document
-      .getElementById('surface-chips')
-      .addEventListener('change', function () {
-        state.surfaces = readChipState('surface');
+    var searchEl = document.getElementById('race-search');
+    var debounce;
+    searchEl.addEventListener('input', function (e) {
+      clearTimeout(debounce);
+      var val = e.target.value;
+      debounce = setTimeout(function () {
+        state.search = val;
         render();
-      });
+      }, 150);
+    });
 
     document
       .getElementById('date-window')
@@ -342,7 +339,6 @@
         }
         allRaces = data;
         renderChips('distance-chips', buildDistanceOptions(allRaces), 'distance');
-        renderChips('surface-chips', SURFACES, 'surface');
         attachFilterHandlers();
         render();
       })
