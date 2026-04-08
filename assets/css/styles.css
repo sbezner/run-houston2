@@ -324,6 +324,12 @@ main {
   grid-template-columns: 1fr;
 }
 
+/* ID specificity beats the UA [hidden] rule, so re-assert it when the
+   list is toggled off (e.g. while the map view is active). */
+#race-list[hidden] {
+  display: none;
+}
+
 @media (min-width: 640px) {
   #race-list {
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -477,6 +483,11 @@ main {
   display: grid;
   gap: 1rem;
   grid-template-columns: 1fr;
+}
+
+#club-list[hidden],
+#report-list[hidden] {
+  display: none;
 }
 
 @media (min-width: 640px) {
