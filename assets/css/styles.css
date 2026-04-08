@@ -562,12 +562,6 @@ main {
   color: var(--muted);
 }
 
-.report-byline {
-  margin: 0.25rem 0 0;
-  color: var(--muted);
-  font-size: 0.95rem;
-}
-
 .report-photos {
   display: grid;
   gap: 0.5rem;

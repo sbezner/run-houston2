@@ -115,6 +115,18 @@
     }
   }
 
+  // Defense-in-depth: scrub URLs that come from data files before we stick
+  // them into an href. Returns '#' for anything that isn't http(s), mailto,
+  // tel, or a fragment, so a compromised data file can't plant a
+  // `javascript:` URL that executes on click.
+  var SAFE_URL_RE = /^(https?:|mailto:|tel:|#|\/|\.\/|\.\.\/)/i;
+  function safeUrl(url) {
+    if (url == null) return '#';
+    var s = String(url).trim();
+    if (s === '') return '#';
+    return SAFE_URL_RE.test(s) ? s : '#';
+  }
+
   // ---------- Fetch helper with friendly error ----------
 
   function loadJson(url) {
@@ -142,6 +154,7 @@
     escapeHtml: escapeHtml,
     escapeAttr: escapeAttr,
     prettyHost: prettyHost,
+    safeUrl: safeUrl,
     loadJson: loadJson,
     getQueryParam: getQueryParam
   };

@@ -7,13 +7,17 @@
   function renderReport(report) {
     document.title = report.title + ' — Run Houston';
 
-    var raceLine = [report.race_name, RH.formatDateLong(report.race_date)]
-      .filter(Boolean)
-      .join(' &middot; ');
+    // Escape each component before joining so that a future race_name
+    // containing HTML can't inject into innerHTML below.
+    var raceLine = [
+      report.race_name ? RH.escapeHtml(report.race_name) : '',
+      RH.formatDateLong(report.race_date)
+    ].filter(Boolean).join(' &middot; ');
 
-    // marked v12 is HTML-safe by default for the input fields we use here.
-    // Content is curated, not user-submitted, but we still avoid raw HTML by
-    // forcing the parser into pure Markdown mode.
+    // Trust model: marked v12 does NOT sanitize embedded HTML by default.
+    // We rely on data/race_reports.json being curated (hand-committed to
+    // the repo, not user-submitted). If that ever changes, add a
+    // sanitizer like DOMPurify around this call.
     var bodyHtml;
     try {
       bodyHtml = marked.parse(report.content_md || '', { gfm: true, breaks: true });
@@ -50,7 +54,7 @@
 
     if (!id) {
       articleEl.innerHTML =
-        '<p class="error">No report id specified. <a href="reports.html">Browse all reports</a>.</p>';
+        '<p class="error">No recap id specified. <a href="reports.html">Browse all recaps</a>.</p>';
       return;
     }
 
@@ -62,8 +66,8 @@
         var report = data.find(function (r) { return r.id === id; });
         if (!report) {
           articleEl.innerHTML =
-            '<p class="error">Report not found: <code>' + RH.escapeHtml(id) +
-            '</code>. <a href="reports.html">Browse all reports</a>.</p>';
+            '<p class="error">Recap not found: <code>' + RH.escapeHtml(id) +
+            '</code>. <a href="reports.html">Browse all recaps</a>.</p>';
           return;
         }
         articleEl.innerHTML = renderReport(report);
@@ -71,7 +75,7 @@
       .catch(function (err) {
         console.error(err);
         articleEl.innerHTML =
-          '<p class="error">Could not load report. ' +
+          '<p class="error">Could not load recap. ' +
           RH.escapeHtml(err.message) + '</p>';
       });
   }

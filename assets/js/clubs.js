@@ -10,9 +10,12 @@
 
   function deriveArea(club) {
     var loc = (club.location || '').toLowerCase();
-    // Order matters: Inner Loop is checked first so neighborhoods like
-    // "West University Place" stay inside the loop instead of being lumped
-    // in with the western suburbs.
+    // Order matters. "Spring Branch" is a central-west Houston neighborhood,
+    // not the far-north suburb of Spring, TX — catch it BEFORE the North
+    // regex below (which would otherwise match on /spring/). "West
+    // University Place" is also inner-loop even though it starts with
+    // "West", so the Inner Loop regex includes /west university/.
+    if (/spring branch/.test(loc)) return 'Inner Loop';
     if (/heights|memorial|inner loop|central|downtown|east end|second ward|washington|rice|midtown|west university/.test(loc)) return 'Inner Loop';
     if (/woodlands|conroe|spring|klein|tomball|humble|atascocita|northwest|north houston|northside/.test(loc)) return 'North';
     if (/katy|cypress|citycentre|westchase/.test(loc)) return 'West';
@@ -52,8 +55,10 @@
   }
 
   function renderClubCard(club) {
+    var safeWebsite = club.website_url ? RH.safeUrl(club.website_url) : '';
+
     var nameHtml = club.website_url
-      ? '<a href="' + RH.escapeAttr(club.website_url) + '" target="_blank" rel="noopener noreferrer">' +
+      ? '<a href="' + RH.escapeAttr(safeWebsite) + '" target="_blank" rel="noopener noreferrer">' +
         RH.escapeHtml(club.club_name) + '</a>'
       : RH.escapeHtml(club.club_name);
 
@@ -66,7 +71,7 @@
       : '';
 
     var siteFooter = club.website_url
-      ? '<div class="race-card-footer"><a href="' + RH.escapeAttr(club.website_url) +
+      ? '<div class="race-card-footer"><a href="' + RH.escapeAttr(safeWebsite) +
         '" target="_blank" rel="noopener noreferrer">' +
         RH.escapeHtml(RH.prettyHost(club.website_url)) + ' &rarr;</a></div>'
       : '<div class="race-card-footer muted">No website listed</div>';
@@ -126,7 +131,7 @@
 
   function clubLinkHtml(club) {
     return club.website_url
-      ? '<a href="' + RH.escapeAttr(club.website_url) +
+      ? '<a href="' + RH.escapeAttr(RH.safeUrl(club.website_url)) +
         '" target="_blank" rel="noopener noreferrer">' +
         RH.escapeHtml(club.club_name) + '</a>'
       : RH.escapeHtml(club.club_name);
@@ -145,7 +150,7 @@
           ? '<br>' + RH.escapeHtml(c.description)
           : '') +
         (c.website_url
-          ? '<br><a class="rh-popup-link" href="' + RH.escapeAttr(c.website_url) +
+          ? '<br><a class="rh-popup-link" href="' + RH.escapeAttr(RH.safeUrl(c.website_url)) +
             '" target="_blank" rel="noopener noreferrer">' +
             RH.escapeHtml(RH.prettyHost(c.website_url)) + ' &rarr;</a>'
           : '') +

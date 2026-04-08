@@ -21,9 +21,12 @@
 
   function renderReportCard(report) {
     var preview = makePreview(report.content_md);
-    var raceLine = [report.race_name, RH.formatDate(report.race_date)]
-      .filter(Boolean)
-      .join(' &middot; ');
+    // Escape each component before joining so that a future race_name
+    // containing HTML can't inject into innerHTML below.
+    var raceLine = [
+      report.race_name ? RH.escapeHtml(report.race_name) : '',
+      RH.formatDate(report.race_date)
+    ].filter(Boolean).join(' &middot; ');
 
     return (
       '<article class="race-card">' +
@@ -54,9 +57,9 @@
           [data]
         );
         countEl.textContent =
-          rows.length + ' report' + (rows.length === 1 ? '' : 's');
+          rows.length + ' recap' + (rows.length === 1 ? '' : 's');
         if (rows.length === 0) {
-          listEl.innerHTML = '<p class="empty">No reports yet.</p>';
+          listEl.innerHTML = '<p class="empty">No recaps yet.</p>';
           return;
         }
         listEl.innerHTML = rows.map(renderReportCard).join('');
@@ -64,7 +67,7 @@
       .catch(function (err) {
         console.error(err);
         listEl.innerHTML =
-          '<p class="error">Could not load reports. ' +
+          '<p class="error">Could not load recaps. ' +
           RH.escapeHtml(err.message) + '</p>';
       });
   }

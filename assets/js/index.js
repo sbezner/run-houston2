@@ -106,7 +106,7 @@
 
     var footer = race.official_website_url
       ? '<div class="race-card-footer"><a href="' +
-        RH.escapeAttr(race.official_website_url) +
+        RH.escapeAttr(RH.safeUrl(race.official_website_url)) +
         '" target="_blank" rel="noopener noreferrer">Race website &rarr;</a></div>'
       : '';
 

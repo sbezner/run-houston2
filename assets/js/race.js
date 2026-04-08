@@ -40,7 +40,7 @@
 
     var websiteButton = race.official_website_url
       ? '<p class="race-website-cta">' +
-        '<a href="' + RH.escapeAttr(race.official_website_url) +
+        '<a href="' + RH.escapeAttr(RH.safeUrl(race.official_website_url)) +
         '" target="_blank" rel="noopener noreferrer" class="btn-primary">' +
         'Visit official website &rarr;</a>' +
         '</p>'
@@ -72,7 +72,7 @@
         : '') +
       '<dt>Kid-friendly</dt><dd>' + (race.kid_run ? 'Yes' : 'No') + '</dd>' +
       (race.source_url
-        ? '<dt>Source</dt><dd><a href="' + RH.escapeAttr(race.source_url) +
+        ? '<dt>Source</dt><dd><a href="' + RH.escapeAttr(RH.safeUrl(race.source_url)) +
           '" target="_blank" rel="noopener noreferrer">' +
           RH.escapeHtml(RH.prettyHost(race.source_url)) + '</a></dd>'
         : '') +
