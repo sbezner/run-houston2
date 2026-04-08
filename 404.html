@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Run Houston &mdash; Race</title>
-  <meta name="description" content="Race details for a Houston-area running event.">
+  <title>Run Houston &mdash; Off course (404)</title>
+  <meta name="description" content="That page took a wrong turn. Head back to upcoming Houston races.">
   <meta name="theme-color" content="#c0392b">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="assets/css/styles.css?v=7">
@@ -14,7 +14,7 @@
     <div class="site-header-inner">
       <a href="index.html" class="brand">Run<span class="brand-mark"> Houston</span></a>
       <nav class="site-nav" aria-label="Primary">
-        <a href="index.html" aria-current="page">Races</a>
+        <a href="index.html">Races</a>
         <a href="clubs.html">Clubs</a>
         <a href="reports.html">Reports</a>
         <a href="about.html">About</a>
@@ -23,18 +23,19 @@
   </header>
 
   <main>
-    <p class="back-link"><a href="index.html">&larr; All upcoming races</a></p>
-
-    <article id="race-article">
-      <p class="loading">Loading race&hellip;</p>
-    </article>
+    <section class="not-found">
+      <p class="not-found-number" aria-hidden="true">404</p>
+      <h1 class="not-found-title">Off course</h1>
+      <p class="not-found-lede">
+        This page took a wrong turn somewhere around the Heights.
+        Let's get you back on the route.
+      </p>
+      <a href="index.html" class="btn-primary">Back to upcoming races &rarr;</a>
+    </section>
   </main>
 
   <footer class="site-footer">
     <p>Run Houston &middot; A community race guide for the Bayou City.</p>
   </footer>
-
-  <script src="assets/js/common.js?v=3"></script>
-  <script src="assets/js/race.js?v=6"></script>
 </body>
 </html>
