@@ -9,7 +9,7 @@
   <link rel="stylesheet"
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         crossorigin="">
-  <link rel="stylesheet" href="assets/css/styles.css?v=5">
+  <link rel="stylesheet" href="assets/css/styles.css?v=6">
 </head>
 <body>
   <header class="site-header">
@@ -30,13 +30,20 @@
 
     <section class="filters" aria-label="Club filters">
       <div class="filter-row-inline">
-        <label for="club-search">Search</label>
-        <input id="club-search" type="search" placeholder="Name, neighborhood, or description&hellip;" autocomplete="off">
+        <input id="club-search" type="search"
+               placeholder="Search clubs by name, neighborhood, or description&hellip;"
+               aria-label="Search clubs" autocomplete="off">
       </div>
-      <fieldset class="filter-group">
-        <legend class="filter-legend">Area</legend>
-        <div id="area-chips" class="chip-row"></div>
-      </fieldset>
+
+      <details class="filter-details">
+        <summary class="filter-summary">More filters</summary>
+        <div class="filter-details-body">
+          <fieldset class="filter-group">
+            <legend class="visually-hidden">Area</legend>
+            <div id="area-chips" class="chip-row"></div>
+          </fieldset>
+        </div>
+      </details>
     </section>
 
     <div class="result-bar">

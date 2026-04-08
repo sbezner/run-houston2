@@ -9,7 +9,7 @@
   <link rel="stylesheet"
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         crossorigin="">
-  <link rel="stylesheet" href="assets/css/styles.css?v=5">
+  <link rel="stylesheet" href="assets/css/styles.css?v=6">
 </head>
 <body>
   <header class="site-header">
@@ -26,28 +26,33 @@
 
   <main>
     <h1 class="page-title">Upcoming races</h1>
-    <p class="page-subtitle">Road, trail, and track races happening around Houston in the next 90 days.</p>
 
     <section class="filters" aria-label="Race filters">
       <div class="filter-row-inline">
-        <label for="race-search">Search</label>
-        <input id="race-search" type="search" placeholder="Name, city, or keyword&hellip;" autocomplete="off">
+        <input id="race-search" type="search"
+               placeholder="Search races by name, city, or keyword&hellip;"
+               aria-label="Search races" autocomplete="off">
       </div>
 
-      <fieldset class="filter-group">
-        <legend class="filter-legend">Distance</legend>
-        <div id="distance-chips" class="chip-row"></div>
-      </fieldset>
+      <details class="filter-details">
+        <summary class="filter-summary">More filters</summary>
+        <div class="filter-details-body">
+          <fieldset class="filter-group">
+            <legend class="visually-hidden">Distance</legend>
+            <div id="distance-chips" class="chip-row"></div>
+          </fieldset>
 
-      <div class="filter-row-inline">
-        <label for="date-window">Within</label>
-        <select id="date-window">
-          <option value="30">30 days</option>
-          <option value="60">60 days</option>
-          <option value="90" selected>90 days</option>
-          <option value="all">All upcoming</option>
-        </select>
-      </div>
+          <div class="filter-row-inline">
+            <label for="date-window">In the next</label>
+            <select id="date-window">
+              <option value="30">30 days</option>
+              <option value="60">60 days</option>
+              <option value="90" selected>90 days</option>
+              <option value="all">All upcoming</option>
+            </select>
+          </div>
+        </div>
+      </details>
     </section>
 
     <div class="result-bar">

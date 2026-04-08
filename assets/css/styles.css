@@ -55,6 +55,20 @@
   box-sizing: border-box;
 }
 
+/* Visually hidden utility — keeps content available to screen readers
+   while removing it from the visual layout. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 html {
   -webkit-text-size-adjust: 100%;
 }
@@ -317,6 +331,77 @@ main {
   flex: 1 1 220px;
   min-width: 0;
   font-size: 1rem;
+}
+
+/* Collapsible "More filters" disclosure. The search input above stays
+   always-visible; distance + date window hide behind this on mobile
+   where vertical real estate matters most. Native <details>/<summary>
+   means no JS and built-in keyboard + screen-reader support. */
+.filter-details {
+  margin: 0;
+}
+
+.filter-summary {
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.6rem 1.15rem;
+  min-height: 42px;
+  border: 1.5px solid var(--border);
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text);
+  background: var(--surface);
+  cursor: pointer;
+  user-select: none;
+  transition: background 150ms ease, border-color 150ms ease,
+              color 150ms ease, box-shadow 150ms ease;
+}
+
+/* Hide the default disclosure marker on WebKit/Blink. */
+.filter-summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Custom "+" that rotates into an "×" when the details open. */
+.filter-summary::after {
+  content: "+";
+  display: inline-block;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 0.85;
+  transition: transform 220ms ease;
+}
+
+.filter-details[open] .filter-summary::after {
+  transform: rotate(45deg);
+}
+
+.filter-summary:hover {
+  border-color: var(--text);
+}
+
+.filter-summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.filter-details[open] .filter-summary {
+  background: var(--text);
+  color: var(--surface);
+  border-color: var(--text);
+  box-shadow: 0 2px 8px rgba(15, 15, 15, 0.15);
+}
+
+.filter-details-body {
+  display: grid;
+  gap: 1.1rem;
+  margin-top: 1rem;
 }
 
 /* -------------------- Result bar + view toggle -------------------- */
