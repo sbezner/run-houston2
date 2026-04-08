@@ -95,11 +95,9 @@
     var time = RH.formatTime(race.start_time);
     var dateLine = RH.formatDate(race.date) + (time ? ' &middot; ' + time : '');
 
-    var nameHtml = race.official_website_url
-      ? '<a href="' + RH.escapeAttr(race.official_website_url) + '" ' +
-        'target="_blank" rel="noopener noreferrer">' +
-        RH.escapeHtml(race.name) + '</a>'
-      : RH.escapeHtml(race.name);
+    var nameHtml =
+      '<a href="race.html?id=' + encodeURIComponent(race.id) + '">' +
+      RH.escapeHtml(race.name) + '</a>';
 
     var description = race.description
       ? '<p class="race-description">' + RH.escapeHtml(race.description) + '</p>'

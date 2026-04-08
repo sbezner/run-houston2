@@ -380,9 +380,10 @@ main {
   }
 }
 
-/* Long-form prose pages (about, single report) */
+/* Long-form prose pages (about, single report, single race) */
 .prose,
-#report-article {
+#report-article,
+#race-article {
   max-width: 720px;
   margin: 0 auto;
   background: var(--surface);
@@ -393,7 +394,8 @@ main {
 }
 
 .prose h1,
-#report-article h1 {
+#report-article h1,
+#race-article h1 {
   margin-top: 0;
   letter-spacing: -0.01em;
 }
@@ -461,6 +463,94 @@ main {
   height: auto;
   border-radius: 6px;
   border: 1px solid var(--border);
+}
+
+/* Single race detail (race.html) */
+.race-detail-header {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.race-detail-header h1 {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+}
+
+.race-detail-subtitle {
+  margin: 0 0 0.75rem;
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.race-detail-subtitle strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.race-description-full {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0 0 1.5rem;
+}
+
+.race-detail-grid {
+  margin: 0 0 1.5rem;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.5rem 1rem;
+  font-size: 0.95rem;
+}
+
+.race-detail-grid dt {
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  align-self: center;
+}
+
+.race-detail-grid dd {
+  margin: 0;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+  .race-detail-grid {
+    grid-template-columns: 1fr;
+    gap: 0.15rem 0;
+  }
+  .race-detail-grid dt {
+    margin-top: 0.6rem;
+  }
+  .race-detail-grid dt:first-child {
+    margin-top: 0;
+  }
+}
+
+.race-website-cta {
+  margin: 1.5rem 0 0;
+  text-align: center;
+}
+
+.btn-primary {
+  display: inline-block;
+  padding: 0.7rem 1.25rem;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: background 120ms;
+}
+
+.btn-primary:hover {
+  background: #a0291e;
+  text-decoration: none;
+  color: #fff;
 }
 
 .back-link {

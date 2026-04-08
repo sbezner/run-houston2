@@ -1,0 +1,134 @@
+/* race.html — single race detail (?id=...) */
+(function () {
+  'use strict';
+
+  var DATA_URL = 'data/races-upcoming.json';
+
+  function renderAddressBlock(race) {
+    var parts = [];
+    if (race.address) parts.push(race.address);
+    var cityLine = [race.city, race.state].filter(Boolean).join(', ');
+    if (cityLine) parts.push(cityLine + (race.zip ? ' ' + race.zip : ''));
+    if (!parts.length) return '';
+
+    var mapLink = '';
+    if (typeof race.latitude === 'number' && typeof race.longitude === 'number') {
+      mapLink =
+        ' &middot; <a href="https://www.google.com/maps/search/?api=1&query=' +
+        encodeURIComponent(race.latitude + ',' + race.longitude) +
+        '" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>';
+    } else if (race.address) {
+      var q = [race.address, race.city, race.state, race.zip].filter(Boolean).join(', ');
+      mapLink =
+        ' &middot; <a href="https://www.google.com/maps/search/?api=1&query=' +
+        encodeURIComponent(q) +
+        '" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>';
+    }
+
+    return (
+      '<dt>Location</dt>' +
+      '<dd>' + parts.map(RH.escapeHtml).join('<br>') + mapLink + '</dd>'
+    );
+  }
+
+  function renderRace(race) {
+    document.title = race.name + ' — Run Houston';
+
+    var distances = (race.distance || [])
+      .map(function (d) {
+        return '<span class="badge distance">' + RH.escapeHtml(d) + '</span>';
+      })
+      .join('');
+
+    var surfaceBadge = race.surface
+      ? '<span class="badge surface-' + RH.escapeAttr(race.surface) + '">' +
+        RH.escapeHtml(race.surface) + '</span>'
+      : '';
+
+    var kidBadge = race.kid_run
+      ? '<span class="badge kid-run">Kid run</span>'
+      : '';
+
+    var date = RH.formatDateLong(race.date);
+    var time = RH.formatTime(race.start_time);
+
+    var websiteButton = race.official_website_url
+      ? '<p class="race-website-cta">' +
+        '<a href="' + RH.escapeAttr(race.official_website_url) +
+        '" target="_blank" rel="noopener noreferrer" class="btn-primary">' +
+        'Visit official website &rarr;</a>' +
+        '</p>'
+      : '';
+
+    var description = race.description
+      ? '<p class="race-description-full">' + RH.escapeHtml(race.description) + '</p>'
+      : '';
+
+    return (
+      '<header class="race-detail-header">' +
+      '<h1>' + RH.escapeHtml(race.name) + '</h1>' +
+      '<p class="race-detail-subtitle">' +
+      '<strong>' + RH.escapeHtml(date) + '</strong>' +
+      (time ? ' &middot; ' + RH.escapeHtml(time) : '') +
+      '</p>' +
+      '<div class="race-badges">' + distances + surfaceBadge + kidBadge + '</div>' +
+      '</header>' +
+      description +
+      '<dl class="race-detail-grid">' +
+      renderAddressBlock(race) +
+      (race.distance && race.distance.length
+        ? '<dt>Distances</dt><dd>' +
+          race.distance.map(RH.escapeHtml).join(', ') +
+          '</dd>'
+        : '') +
+      (race.surface
+        ? '<dt>Surface</dt><dd>' + RH.escapeHtml(race.surface) + '</dd>'
+        : '') +
+      '<dt>Kid-friendly</dt><dd>' + (race.kid_run ? 'Yes' : 'No') + '</dd>' +
+      (race.source_url
+        ? '<dt>Source</dt><dd><a href="' + RH.escapeAttr(race.source_url) +
+          '" target="_blank" rel="noopener noreferrer">' +
+          RH.escapeHtml(RH.prettyHost(race.source_url)) + '</a></dd>'
+        : '') +
+      '</dl>' +
+      websiteButton
+    );
+  }
+
+  function init() {
+    var articleEl = document.getElementById('race-article');
+    var id = RH.getQueryParam('id');
+
+    if (!id) {
+      articleEl.innerHTML =
+        '<p class="error">No race id specified. <a href="index.html">Browse upcoming races</a>.</p>';
+      return;
+    }
+
+    RH.loadJson(DATA_URL)
+      .then(function (data) {
+        if (!Array.isArray(data)) {
+          throw new Error('Expected ' + DATA_URL + ' to be a JSON array');
+        }
+        var race = data.find(function (r) { return r.id === id; });
+        if (!race) {
+          articleEl.innerHTML =
+            '<p class="error">Race not found: <code>' + RH.escapeHtml(id) +
+            '</code>. <a href="index.html">Browse upcoming races</a>.</p>';
+          return;
+        }
+        articleEl.innerHTML = renderRace(race);
+      })
+      .catch(function (err) {
+        console.error(err);
+        articleEl.innerHTML =
+          '<p class="error">Could not load race. ' + RH.escapeHtml(err.message) + '</p>';
+      });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
