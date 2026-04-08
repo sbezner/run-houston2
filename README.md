@@ -18,8 +18,9 @@ Vanilla HTML/CSS/JS, no build step, hosted on GitHub Pages.
 
 ```
 .
-├── index.html                  # Upcoming race calendar
-├── clubs.html                  # Houston-area running clubs
+├── index.html                  # Upcoming race calendar (list + map view)
+├── race.html                   # Single race detail (?id=...)
+├── clubs.html                  # Houston-area running clubs (list + map view)
 ├── reports.html                # Race report listing
 ├── report.html                 # Single race report (?id=...)
 ├── about.html                  # About the project
@@ -27,18 +28,30 @@ Vanilla HTML/CSS/JS, no build step, hosted on GitHub Pages.
 │   ├── css/styles.css
 │   └── js/                     # common.js + per-page scripts
 ├── data/
-│   ├── races-upcoming.json     # Races in the next 90 days
+│   ├── races-upcoming.json     # Races in the next 90 days (rolling window)
+│   ├── races-2026.json         # Archive of 2026 races that have already happened
 │   ├── clubs.json              # Houston-area running clubs
 │   └── race_reports.json       # First-person race reports (markdown)
 ├── prompts/                    # Research prompts for refreshing data
 │   ├── README.md
 │   └── upcoming-races-research.md
+├── scripts/
+│   └── refresh-upcoming-races.js  # Applies a new upcoming JSON and archives dropped races
 ├── .nojekyll                   # Disable Jekyll on GitHub Pages
 └── README.md
 ```
 
-Still to come: `race.html` (single race detail), `data/races-2026.json` (full
-2026 archive), and a map view.
+### Race data, upcoming vs. archive
+
+`data/races-upcoming.json` is a rolling window — it only holds races in
+roughly the next 90 days, and the weekly research prompt overwrites it each
+time it runs. When a race falls off that window (because it has happened),
+it gets copied into `data/races-YYYY.json` first so that `race.html?id=...`
+URLs keep resolving forever. `assets/js/race.js` looks the id up in the
+upcoming file first and falls back to the matching year archive. The
+archive step is handled by `scripts/refresh-upcoming-races.js`; see
+[`prompts/README.md`](./prompts/README.md) for how it fits into the
+weekly workflow.
 
 ## Editing data
 
