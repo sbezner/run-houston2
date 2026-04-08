@@ -2,37 +2,7 @@
 (function () {
   'use strict';
 
-  var UPCOMING_URL = 'data/races-upcoming.json';
-
-  // Resolve a race id against the rolling upcoming file first, and fall
-  // back to the per-year archive (data/races-YYYY.json) based on the year
-  // suffix in the id (e.g. "bayou-city-classic-10k-2026" -> races-2026.json).
-  // This keeps race.html?id=... URLs alive after a race has happened and
-  // fallen out of the upcoming window.
-  function findRaceById(id) {
-    return RH.loadJson(UPCOMING_URL).then(function (data) {
-      if (!Array.isArray(data)) {
-        throw new Error('Expected ' + UPCOMING_URL + ' to be a JSON array');
-      }
-      var race = data.find(function (r) { return r.id === id; });
-      if (race) return race;
-
-      var match = /-(\d{4})$/.exec(id);
-      if (!match) return null;
-      var archiveUrl = 'data/races-' + match[1] + '.json';
-
-      return RH.loadJson(archiveUrl)
-        .then(function (archive) {
-          if (!Array.isArray(archive)) return null;
-          return archive.find(function (r) { return r.id === id; }) || null;
-        })
-        .catch(function () {
-          // Missing archive file (e.g. no races-2025.json yet) just means
-          // this id can't be resolved — treat it as "not found".
-          return null;
-        });
-    });
-  }
+  var DATA_URL = 'data/races-upcoming.json';
 
   function renderAddressBlock(race) {
     var parts = [];
@@ -121,8 +91,12 @@
       return;
     }
 
-    findRaceById(id)
-      .then(function (race) {
+    RH.loadJson(DATA_URL)
+      .then(function (data) {
+        if (!Array.isArray(data)) {
+          throw new Error('Expected ' + DATA_URL + ' to be a JSON array');
+        }
+        var race = data.find(function (r) { return r.id === id; });
         if (!race) {
           articleEl.innerHTML =
             '<p class="error">Race not found: <code>' + RH.escapeHtml(id) +

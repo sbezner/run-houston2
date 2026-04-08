@@ -43,22 +43,10 @@ deliberately manual and human-in-the-loop:
    > ```
 
    Claude Code will:
-   - Parse and validate the pasted JSON.
+   - Parse and validate the JSON.
    - Spot-check field types, the date window, and obviously bad coordinates.
-   - Write the JSON to a temp file (e.g. `/tmp/new-upcoming.json`) and run
-     `node scripts/refresh-upcoming-races.js /tmp/new-upcoming.json`.
-     The script diffs the new file against the current
-     `data/races-upcoming.json`, moves any ids that "fell off" into the
-     appropriate `data/races-YYYY.json` archive, then overwrites
-     `data/races-upcoming.json`. This keeps `race.html?id=...` URLs alive
-     forever even after a race has happened.
-   - Show you the resulting diff of both the upcoming file and any archive
-     file that changed.
+   - Show you a diff vs. the current file.
    - Commit the result on a clean commit so it's easy to revert.
-
-   If you're editing `data/races-upcoming.json` by hand (e.g. fixing a typo
-   in an existing race), you don't need the script — it's only for the
-   weekly bulk refresh where races leave the upcoming window.
 
 ## Available prompts
 
