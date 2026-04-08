@@ -1,0 +1,45 @@
+name: validate
+
+# Option A: early-warning CI. GitHub Pages still auto-deploys from
+# master on every push (Settings -> Pages -> Deploy from a branch),
+# so a failed run won't block the deploy. It just turns the commit
+# red and emails the maintainer so the break gets noticed in minutes
+# instead of when a visitor reports it.
+#
+# See prompts/README.md and the README for the data refresh flow
+# that this workflow is guarding.
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: JSON syntax
+        run: |
+          for f in data/*.json; do
+            echo "Checking $f"
+            python3 -m json.tool "$f" > /dev/null
+          done
+
+      - name: JS syntax
+        run: |
+          for f in assets/js/*.js; do
+            echo "Checking $f"
+            node --check "$f"
+          done
+
+      - name: Data contract
+        run: python3 scripts/validate-data.py
