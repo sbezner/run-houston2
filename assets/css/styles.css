@@ -205,10 +205,99 @@ main {
   min-width: 0;
 }
 
+.result-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0 0 0.75rem;
+}
+
 .result-count {
   font-size: 0.85rem;
   color: var(--muted);
-  margin: 0 0 0.75rem;
+  margin: 0;
+}
+
+/* List / Map view toggle */
+.view-toggle {
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  padding: 2px;
+  box-shadow: var(--shadow);
+}
+
+.view-toggle-btn {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 120ms, color 120ms;
+}
+
+.view-toggle-btn:hover {
+  color: var(--text);
+}
+
+.view-toggle-btn.is-active {
+  background: var(--accent);
+  color: #fff;
+}
+
+.view-toggle-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Map container */
+#race-map {
+  height: 520px;
+  max-height: 70vh;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.map-note {
+  margin: 0.5rem 0 0;
+  font-size: 0.82rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* Leaflet popup — match the rest of the site */
+.race-popup {
+  font-size: 0.88rem;
+  line-height: 1.45;
+  min-width: 140px;
+}
+
+.race-popup strong a {
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.race-popup strong a:hover {
+  color: var(--accent);
+}
+
+.race-popup .muted {
+  color: var(--muted);
+}
+
+@media (max-width: 480px) {
+  #race-map {
+    height: 60vh;
+  }
 }
 
 /* Race list */
