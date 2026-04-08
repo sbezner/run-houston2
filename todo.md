@@ -1,0 +1,169 @@
+# Run Houston — todo
+
+Open items as of 2026-04-08. Updated by hand; not auto-synced with anything.
+Grouped by who needs to act, not by priority. Items marked **(Me)** I can do
+in a Claude Code session as soon as you say so. Items marked **(You)** need
+something I can't reach from this sandbox (DNS, GitHub UI settings, real-world
+content, product decisions).
+
+---
+
+## In flight: launching `runhouston.app`
+
+You just landed the `CNAME` file (commit `2381b78`), which tells GitHub
+Pages to serve the site at the custom domain. A handful of related steps
+remain to make the launch actually go smoothly.
+
+- [ ] **Confirm DNS is pointed at GitHub Pages.** Either four `A` records to
+  GitHub's IPs (`185.199.108.153`, `185.199.109.153`, `185.199.110.153`,
+  `185.199.111.153`) at the apex, or a `CNAME` record at your DNS provider
+  pointing `runhouston.app` (or the relevant subdomain) at `sbezner.github.io`.
+  Use whichever your registrar supports for the apex. **(You)**
+- [ ] **Flip "Enforce HTTPS"** in repo Settings → Pages once DNS has
+  propagated and GitHub finishes provisioning the Let's Encrypt cert. Usually
+  takes 5–30 minutes after DNS is correct. The toggle is grayed out until the
+  cert is ready. **(You)**
+- [ ] **Open Graph + Twitter Card meta tags** on every HTML page (`index.html`,
+  `clubs.html`, `reports.html`, `report.html`, `race.html`, `about.html`,
+  `404.html`). When someone shares a `runhouston.app/race.html?id=…` link in
+  iMessage, Slack, Twitter, or LinkedIn today, they get an unstyled gray box.
+  Adding ~6 lines per `<head>` (`og:title`, `og:description`, `og:type`,
+  `og:image`, `og:url`, `twitter:card`) fixes it. Needs a 1200×630 PNG
+  social-card image showing the Run Houston wordmark on the dark background.
+  I can describe one in SVG you can export, or hand me a designer-made one.
+  **(Me, with one decision from You on the image)**
+- [ ] **`sitemap.xml` + `robots.txt`** at the repo root. Seven URLs in the
+  sitemap (one per page); a 5-line `robots.txt` saying "allow everything,
+  here's the sitemap". Tells Google to actually crawl the site once the
+  custom domain is live. **(Me)**
+- [ ] **Test the live site after the cutover.** Hit `https://runhouston.app/`
+  and every nav link, hit a `race.html?id=…` URL directly, hit a
+  nonexistent URL to confirm the themed 404 shows up, share a link to
+  yourself in a chat app to confirm the OG card renders. **(You)**
+
+---
+
+## Quick wins (no decisions, no dependencies)
+
+- [ ] **Delete the stale `claude/refactor-run-houston-4qUO3` remote branch.**
+  The only leftover from the original refactor session. GitHub UI →
+  Branches → trash icon, or `git push origin --delete
+  claude/refactor-run-houston-4qUO3` from your local machine. I can't do
+  this from this sandbox: the GitHub MCP server I have doesn't expose a
+  `delete_branch` tool, and the git proxy returns HTTP 403 on destructive
+  ref pushes. **(You)**
+
+---
+
+## Product decisions still pending
+
+These are all 30-second changes once you decide. They're stuck on a "what
+do you actually want?" question, not on engineering effort.
+
+- [ ] **Real race recaps vs. fictional seeds.** All 3 entries in
+  `data/race_reports.json` are AI-generated news-style descriptions of
+  2025 races (Chevron Houston Marathon, Brazos Bend 50, Bayou City Classic
+  10K). They're factual-sounding but not from real sources. Options:
+  - (a) Leave as clearly-seeded placeholder content
+  - (b) Replace with real recaps as you (or someone) writes them
+  - (c) Hide the Reports nav link entirely until real content exists
+  **(You decide, then Me)**
+
+- [ ] **Nav label: "Reports" vs "Recaps".** You deferred this earlier in
+  the session. The nav still says "Reports" on every page, while the
+  section H1, subtitle, page title, and meta description all say
+  "Race news & recaps". Inconsistency on purpose for now; 15-second
+  find/replace across 7 HTML files if you want consistency.
+  **(You decide, then Me)**
+
+- [ ] **Desktop default for "More filters" disclosure.** Currently the
+  `<details>` filter section is collapsed on every viewport, including
+  desktop. Desktop users pay a one-click cost to see distance/date chips.
+  Add `open` attribute to `<details>` for default-expanded; cost is mobile
+  loses the ~320px savings the disclosure was added for. There's no clean
+  CSS-only "closed on mobile, open on desktop" without JS.
+  **(You decide, then Me)**
+
+---
+
+## Deferred at your request
+
+- [ ] **Race data refresh** for the new 365-day window. You said "we'll do
+  it another way" earlier in the session. The prompt at
+  `prompts/upcoming-races-research.md` is now updated for a 365-day
+  exhaustive sweep with JSON-only output and explicit "no artifacts"
+  guidance (commit `b32e4ee`). Whenever you re-run it on claude.ai, paste
+  the result back to me and I'll validate + diff + apply + commit.
+  **(You triggers, Me applies)**
+
+- [ ] **Recap content workflow.** No prompt or intake path exists for
+  adding race recaps. If you want regular news/recap coverage as an actual
+  feature (it's currently listed in `about.html` "What's coming"), a
+  parallel `prompts/race-recap-research.md` would make it a reusable
+  monthly flow: "find races that happened in the last 30 days in
+  Houston, write a factual news recap from verifiable sources for each."
+  **(Me, when you want the feature)**
+
+---
+
+## Optional polish
+
+Nice but not urgent. None of these are blocking launch.
+
+- [ ] **Analytics.** Zero today. Plausible or Cloudflare Web Analytics are
+  privacy-respecting, no-cookie, GDPR-friendly options. ~5 lines of
+  `<script>` per HTML page (or just on `index.html` if you only care
+  about landing-page traffic). **(You decide, then Me)**
+
+- [ ] **Race search tokenizer.** Search currently ORs across `name`,
+  `city`, and `description`, so typing "5k katy" matches nearly every
+  race because each token alone matches a lot. Could fix with a small
+  AND-style tokenizer in `assets/js/index.js` that splits the query on
+  whitespace and requires every token to match somewhere. **(Me)**
+
+- [ ] **Semantic date validation in CI.** The validator regex
+  (`scripts/validate-data.py`) catches `2026-99-99` shape failures but
+  not `2026-13-45` semantic-invalid dates. Could add `datetime.strptime`
+  for stricter checking. Maybe 5 lines. **(Me)**
+
+- [ ] **Mobile accessibility audit.** I've reviewed CSS and a11y
+  attributes manually but never run an actual axe-core or Lighthouse
+  pass against the live site, and never tested with a real screen
+  reader. Worth a one-time check before announcing the custom domain.
+  **(You runs the audit, Me fixes findings)**
+
+- [ ] **HTML / CSS validation in CI.** The current CI checks JSON
+  syntax, JS syntax, and the data contract, but does NOT validate HTML
+  structure or CSS syntax. A typo in `index.html` or `styles.css`
+  would slip through. Could add `htmlhint` and `stylelint` steps to
+  the workflow. Lower-leverage than the existing checks because HTML
+  rarely changes. **(Me)**
+
+---
+
+## Things to know but not action items
+
+- **"All upcoming" date window option** is currently effectively a no-op
+  since the data file only holds the upcoming-races slice. Once you run
+  the new 365-day refresh, "All upcoming" will start actually showing
+  more races than "90 days". No code change needed — it'll fix itself
+  the next time you refresh data.
+
+- **CI is live** as of commit `ed2938c`. Three checks on every push and
+  PR to master: JSON syntax (`python3 -m json.tool`), JS syntax
+  (`node --check`), and data contract (`scripts/validate-data.py`).
+  GitHub Pages still auto-deploys regardless of CI status — failures
+  turn the commit red and email you so you find out in minutes, not
+  when a visitor reports a broken page.
+
+- **Two layers of safety net.** Manual diff review + CI together cover
+  most failure modes you'd actually hit on a personal-scale site like
+  this one. The remaining gaps (HTML structure, CSS syntax, runtime JS
+  behavior, live URL reachability) are documented in
+  `scripts/validate-data.py`'s docstring and in the bullet above about
+  HTML/CSS validation in CI.
+
+---
+
+_Last updated 2026-04-08 by a Claude Code session. Edit by hand or ask
+Claude to update. Not auto-synced with anything._
