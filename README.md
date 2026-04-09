@@ -67,6 +67,13 @@ python3 -m http.server 8000
 
 (Plain `file://` won't work because `fetch()` blocks local file URLs.)
 
+**One-time setup (recommended):** enable the tracked git pre-commit
+hook so the data contract validator runs before every commit:
+
+```bash
+git config core.hooksPath .githooks
+```
+
 ## Deploying
 
 Push to `master`. GitHub Pages must be enabled in the repo settings:
