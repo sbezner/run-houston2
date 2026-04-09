@@ -25,7 +25,7 @@
   var state = {
     distances: [],
     search: '',
-    window: '90',
+    window: 'all',
     view: 'list' // 'list' | 'map'
   };
 
