@@ -34,10 +34,13 @@ CANONICAL_DISTANCES = {
 CANONICAL_SURFACES = {"road", "trail", "track", "virtual", "other"}
 
 # Houston metro bounding box: generous enough to include Galveston,
-# Port Bolivar, Conroe, and Katy, tight enough to catch lat/lng swaps
-# or a race accidentally geocoded to the wrong hemisphere.
-HOUSTON_LAT = (28.5, 30.5)
-HOUSTON_LNG = (-96.5, -94.0)
+# Port Bolivar, Conroe, Katy, and the drive-to state parks explicitly
+# listed as in-scope by prompts/upcoming-races-research.md (Brazos
+# Bend, Huntsville State Park, Sam Houston National Forest, Stephen
+# F. Austin State Park). Tight enough to catch lat/lng swaps or a
+# race accidentally geocoded to the wrong hemisphere.
+HOUSTON_LAT = (28.5, 30.85)
+HOUSTON_LNG = (-96.55, -94.0)
 
 ISO_DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 TIME_RE = re.compile(r"^\d{2}:\d{2}$")
