@@ -9,3 +9,6 @@ Thumbs.db
 # Local notes
 /notes/
 /scratch/
+
+# Claude Code per-clone overrides (keep .claude/settings.json tracked)
+.claude/settings.local.json

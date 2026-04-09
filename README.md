@@ -28,7 +28,7 @@ Vanilla HTML/CSS/JS, no build step, hosted on GitHub Pages.
 │   ├── css/styles.css
 │   └── js/                     # common.js + per-page scripts
 ├── data/
-│   ├── races-upcoming.json     # Races in the next 90 days (rolling window)
+│   ├── races-upcoming.json     # Upcoming races (manually curated)
 │   ├── clubs.json              # Houston-area running clubs
 │   └── race_reports.json       # Race news & recap content (markdown)
 ├── prompts/                    # Research prompts for refreshing data
@@ -38,11 +38,10 @@ Vanilla HTML/CSS/JS, no build step, hosted on GitHub Pages.
 └── README.md
 ```
 
-`data/races-upcoming.json` is a rolling window: it only holds races in
-roughly the next 90 days, and the weekly research prompt overwrites it
-each time it runs. Races that have already happened fall off the list
-and their `race.html?id=...` URLs will stop resolving — that's a known
-and accepted trade-off for keeping the data model simple.
+`data/races-upcoming.json` is curated by hand. There is no automatic
+date window — the file can hold any number of races, near or far. The
+maintainer manages what's in it. Note that races whose dates have
+passed will still resolve at `race.html?id=...` until they are removed.
 
 ## Editing data
 

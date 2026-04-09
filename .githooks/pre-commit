@@ -1,0 +1,4 @@
+#!/bin/sh
+# Run data contract validator before allowing a commit.
+# Enable once per clone with: git config core.hooksPath .githooks
+exec python3 scripts/validate-data.py
