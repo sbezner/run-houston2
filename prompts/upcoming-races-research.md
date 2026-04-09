@@ -4,38 +4,50 @@
 
 1. Open [claude.ai](https://claude.ai) in a fresh conversation.
 2. Make sure **Web Search** is turned on (toggle in the message composer).
-3. Copy everything below the `---` divider and paste it as your message. Send.
-4. Wait. A full one-year exhaustive sweep usually takes 15–45 minutes — Claude will run many web searches.
-5. When Claude finishes, copy the entire response. It should be ONLY a JSON array — starting with `[` and ending with `]`. Nothing before it, nothing after it. If Claude tries to build an artifact, app, canvas, or tool instead of just returning JSON, reply "Just return the JSON array as plain text in the chat, no artifact." and try again.
-6. Come back to Claude Code in the `run-houston2` repo and say something like:
+3. **Set the date window.** Below, under the `---` divider, find the line that starts with `DATE WINDOW:`. Replace the placeholder with the exact dates you want researched in `YYYY-MM-DD to YYYY-MM-DD` form. For a quarterly refresh, pick a ~90-day span (e.g. `2026-04-08 to 2026-07-07`). For a full rolling year, leave the default placeholder or write `default` — Claude will then use today through today + 365 days.
+4. Copy everything below the `---` divider (including your edited `DATE WINDOW:` line) and paste it as your message. Send.
+5. Wait. A quarterly sweep usually takes 10–25 minutes; a full year takes 30–60+. Claude will run many web searches in sequence.
+6. **When Claude finishes, it will have produced a single code artifact in the right-hand side panel**, containing a JSON array. Click the download button on the artifact (the one that looks like a down-arrow or "Download") and save the `.json` file somewhere you can find it — e.g. your Downloads folder.
+7. Come back to Claude Code in the `run-houston2` repo and say something like:
 
-   > Here's the latest research from claude.ai. Please update `data/races-upcoming.json` with this. Replace the file contents with the array below. Then sanity-check it, commit, and push.
-   >
-   > ```json
-   > [ ...paste here... ]
-   > ```
+   > Here's the latest race research from claude.ai. The file is at `/Users/me/Downloads/races-2026-04-08-to-2026-07-07.json`. Please validate it, diff it against `data/races-upcoming.json`, show me the add/update/remove summary, and apply it after I confirm.
 
-   Claude Code will validate the JSON, diff it against the current file, flag anything suspicious (missing fields, bad coordinates, races outside the time window), and commit the update.
+   Claude Code will run the data contract validator, compute the upsert-by-id diff, ask you about any deletes, and commit the update.
 
-**Suggested cadence:** monthly, or whenever you notice the list looks stale. Because the window is now a full year, weekly re-runs mostly burn tokens for races that haven't moved — monthly is the sweet spot.
+**Suggested cadence:** run a quarterly refresh (90-day window) about once a month, or a full-year refresh once a quarter. Each call is cheaper than repeatedly re-running the full year for the same data.
 
 ---
 
-You are a research assistant for **Run Houston**, a community race-discovery website that lists road, trail, and track races in the greater Houston, Texas metropolitan area. Your job is to use web search to perform an **exhaustive** sweep for every legitimate running race happening in the next **365 days** and return the results as a strictly-formatted JSON array.
+DATE WINDOW: [REPLACE WITH "YYYY-MM-DD to YYYY-MM-DD" — OR WRITE "default" FOR TODAY + 365 DAYS]
 
-**This is a research-and-output task, not a build task.** Do not create an artifact. Do not propose a webpage, app, dashboard, tool, canvas, React component, HTML file, or any kind of interactive output. Do not summarize the data after listing it. Do not write a preamble explaining what you're about to do. Do not wrap the output in a code fence. **Your entire response must be a single JSON array — the first character is `[` and the last character is `]`, with nothing else around it.**
+You are a research assistant for **Run Houston**, a community race-discovery website that lists road, trail, and track races in the greater Houston, Texas metropolitan area. Your job is to use web search to perform an **exhaustive** sweep for every legitimate running race in the date window specified above and return the results as a strictly-formatted JSON array delivered in a single downloadable code artifact.
 
-This output will be pasted directly into a static JSON file that powers a public website. **The JSON you produce must be valid, parseable, and conform exactly to the schema below.** Treat the schema as a hard contract.
+**Step 1: Parse the date window.** Look at the `DATE WINDOW:` line above. It controls how far ahead you search.
 
-**Exhaustive means exhaustive.** Keep searching until you have crawled every source listed below, plus follow-on searches for race series, charity events, and venue calendars. Do not stop at the first 10 or 20 results. A complete year of Houston-area racing is realistically 150–400+ events. If you find fewer than ~100 races, you have not searched thoroughly enough — keep going.
+- If the line contains two ISO dates in `YYYY-MM-DD to YYYY-MM-DD` form (e.g. `2026-04-08 to 2026-07-07`), use that as an inclusive window: every race must fall on or after the start date and on or before the end date.
+- If the line says `default`, or the placeholder text is still there, or the line is missing, use today (the actual date you are running this) through today + 365 days.
+- **Do not** silently ignore the user-specified window. If they wrote dates, respect them exactly.
+
+Announce the window you are using as the first thing you do — not in the chat, but in the artifact's description when you create it.
+
+**Step 2: This is a research task with a specific output format.** Your final answer is **a single code artifact** (not chat text, not a React component, not an HTML page, not a dashboard, not a tool). The artifact contains a JSON array and nothing else. Specifics are in the "Output format" section near the bottom of this prompt.
+
+Do not build a website, app, interactive viewer, or any UI around the data. The user already has a website; your job is to produce the data file it reads.
+
+This output will be saved as a static JSON file that powers a public website. **The JSON you produce must be valid, parseable, and conform exactly to the schema below.** Treat the schema as a hard contract.
+
+**Exhaustive means exhaustive.** Keep searching until you have crawled every source listed below, plus follow-on searches for race series, charity events, and venue calendars. Do not stop at the first 10 or 20 results. A complete year of Houston-area racing is realistically 150–400+ events; a single quarter is typically 40–120. If you find fewer than ~30 races for a quarterly window or fewer than ~100 for a year, you have not searched thoroughly enough — keep going.
 
 ## Time window
 
 - **Today** is the date you are executing this prompt. Do NOT hardcode any date — use whatever the current date is when you run this.
-- Include only races that take place **on or after today** and **on or before today + 365 days**.
-- Do NOT include races that have already happened.
-- Do NOT include races more than 365 days out.
-- Races spanning multiple years (e.g. you run this in October and the window stretches into next year's spring marathon season) are expected and welcome — list them all.
+- The window is defined by the `DATE WINDOW:` line at the top of this prompt (see Step 1 above).
+  - If it specifies `YYYY-MM-DD to YYYY-MM-DD`, use those dates as an inclusive range. Include only races whose race-day falls on or after the start and on or before the end.
+  - If it says `default` or the placeholder is unchanged, use **today through today + 365 days**.
+- Do NOT include races that have already happened (date < today), even if they fall inside a user-specified window that starts in the past. The window is capped on the lower end at today.
+- Do NOT include races beyond the end date of the window.
+- For a full-year run, races spanning into the following calendar year are expected and welcome — list them all.
+- For a quarterly run, be precise about the boundaries. A race on the start date is in; a race one day before is out.
 
 ## Geographic scope
 
@@ -207,35 +219,49 @@ Use these canonical strings, in this order if multiple apply:
 
 ## Output format
 
-**Your entire response must be a single JSON array. Nothing else.**
+**Your final answer is a single downloadable code artifact containing a JSON array. Nothing else.**
 
-- The very first character of your response is `[`.
-- The very last character of your response is `]`.
-- No preamble, no greeting, no "I'll research…" message before the array.
-- No summary, no research notes, no "I found N races" message after the array.
-- No markdown code fence (no ```` ``` ````, no ` ```json `).
-- No comments inside the JSON.
+This is the one place where a Claude artifact is explicitly wanted — because the user needs a real file they can download and hand to another tool, not text they have to select and copy out of a chat bubble.
+
+### Artifact specifics
+
+- Create **exactly one** artifact in your final answer.
+- **Artifact type:** a code block (plain JSON code), NOT a React component, NOT HTML, NOT an interactive visualizer, NOT a dashboard. In the Claude.ai artifact system, this is the "code" artifact type with language set to `json`.
+- **Artifact title:** `races-<start>-to-<end>.json`, using the actual start and end dates of the window you researched. Examples:
+  - `races-2026-04-08-to-2026-07-07.json` for a Q1 quarterly run
+  - `races-2026-04-08-to-2027-04-08.json` for a full-year default run
+- **Artifact content:** a valid JSON array of race objects conforming to the schema above. Nothing else — no leading `json` fence line, no trailing prose, no comments. The very first character of the artifact content is `[` and the very last character is `]`.
+- **Artifact description (the short text Claude writes next to the artifact):** one sentence stating the window and race count, e.g. `Exhaustive Houston-area race research for 2026-04-08 to 2026-07-07 — 63 races.` Nothing more.
+
+### What the chat message itself should contain
+
+Minimal. A one-sentence confirmation of the window and the race count is fine (it helps the user see at a glance whether the sweep was complete). Example:
+
+> Completed an exhaustive sweep for **2026-04-08 to 2026-07-07**. Found **63 races** from **runintexas.com, runsignup.com, trailracingovertexas.com, harra.org, bcrr.org, runguides.com, houstonrunning.co**, and event websites. Artifact is ready to download.
+
+Do NOT:
+- Paste the JSON array into the chat in addition to the artifact. The artifact is the only place it belongs.
+- Write a "here are all the races I found" section in chat.
+- Write a "things I was uncertain about" section in chat.
+- Wrap the chat message in a fence.
+- Propose follow-up actions, offer to build a webpage, or suggest visualizing the data.
+
+### Formatting rules inside the JSON
+
+These apply to the content inside the artifact:
+
+- No preamble, no greeting, no "Here's the JSON" line before the `[`.
+- No markdown fence inside the artifact — it's already a code artifact, wrapping it again is wrong.
+- No comments inside the JSON (JSON doesn't support them).
 - No trailing commas.
-- No artifact, canvas, app, webpage, React component, HTML file, or any kind of interactive output. **The output is plain text in the chat, and that plain text is a JSON array.**
-- If you have notes about sources you used or races you excluded, **discard them**. The human reviewer does not need them for this prompt. Save tokens for finding more races.
-
-Example of the entire valid response (and yes, this is the whole thing — no text before or after):
-
-```
-[
-  { ...race 1... },
-  { ...race 2... },
-  ...
-]
-```
-
-If you catch yourself about to write "Here is the JSON…" or "I researched…" or "Let me know if…" — stop. Delete it. Start your response with `[`.
+- Two-space indentation is fine and preferred for readability.
+- Race objects in date-ascending order (earliest race first).
 
 ## Quality checklist (apply this to every race before including it)
 
 Before adding a race to your output, confirm all of these:
 
-- [ ] Date is in the next 365 days, inclusive of today.
+- [ ] Date falls inside the `DATE WINDOW:` you parsed at the top of the prompt (or inside today through today + 365 days if no explicit window was given), inclusive.
 - [ ] Race is in the geographic scope above.
 - [ ] You verified it on a primary source (race website or registration page).
 - [ ] All required fields are populated; optional fields are `null` if unknown, never invented.
@@ -272,4 +298,11 @@ Here is exactly the format we want, taken from the live data. Match this style:
 }
 ```
 
-Now run the exhaustive research and produce the JSON. **Your entire response is a single JSON array. The first character is `[`. The last character is `]`. No artifact, no canvas, no app, no preamble, no notes, no summary.**
+Now run the exhaustive research and produce the output.
+
+**Reminder of the output contract:**
+
+1. Parse the `DATE WINDOW:` line at the top. If it specifies explicit dates, use them. Otherwise default to today through today + 365 days.
+2. Do an exhaustive sweep. Don't stop at 20 races when there are 60.
+3. Produce **exactly one code artifact**, titled `races-<start>-to-<end>.json`, containing a valid JSON array. No React, no HTML, no dashboard, no interactive visualizer — just a plain JSON code artifact the user can download with one click.
+4. In the chat body, a single confirmation sentence stating the window and race count. Nothing else.
