@@ -1,27 +1,5 @@
 [
   {
-    "id": "bellaire-trolley-run-2026",
-    "name": "Bellaire Trolley Run",
-    "date": "2026-04-11",
-    "start_time": "07:30",
-    "tz": "America/Chicago",
-    "address": "7008 South Rice Ave",
-    "city": "Bellaire",
-    "state": "TX",
-    "zip": "77401",
-    "latitude": 29.7099,
-    "longitude": -95.4577,
-    "distance": [
-      "1 Mile",
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Bellaire/BellaireTrolleyRun",
-    "source_url": "https://runsignup.com/Race/TX/Bellaire/BellaireTrolleyRun",
-    "description": "The 30th Annual Bellaire Trolley Run starts and finishes at Bellaire City Hall, featuring a 1-mile division at 7:30 a.m. and a 5K at 8:00 a.m. Organized by the PATRONS for Bellaire Parks nonprofit, the event supports local parks preservation."
-  },
-  {
     "id": "brazos-bend-50-2026",
     "name": "Brazos Bend 50",
     "date": "2026-04-11",
@@ -45,6 +23,52 @@
     "official_website_url": "https://www.trailracingovertexas.com/brazos-50",
     "source_url": "https://runsignup.com/Race/TX/Needville/BrazosBend502",
     "description": "Trail Racing Over Texas's spring edition at Brazos Bend State Park offers distances from 5K to 50 miles on one of the flattest trail courses in Texas, with wildlife including alligators visible along the course. The 2026 50K serves as the RRCA Texas State Championships."
+  },
+  {
+    "id": "bellaire-trolley-run-2026",
+    "name": "Bellaire Trolley Run",
+    "date": "2026-04-11",
+    "start_time": "07:30",
+    "tz": "America/Chicago",
+    "address": "7008 South Rice Ave",
+    "city": "Bellaire",
+    "state": "TX",
+    "zip": "77401",
+    "latitude": 29.7099,
+    "longitude": -95.4577,
+    "distance": [
+      "1 Mile",
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Bellaire/BellaireTrolleyRun",
+    "source_url": "https://runsignup.com/Race/TX/Bellaire/BellaireTrolleyRun",
+    "description": "The 30th Annual Bellaire Trolley Run starts and finishes at Bellaire City Hall, featuring a 1-mile division at 7:30 a.m. and a 5K at 8:00 a.m. Organized by the PATRONS for Bellaire Parks nonprofit, the event supports local parks preservation."
+  },
+  {
+    "id": "spring-fling-houston-2026",
+    "name": "Spring Fling Houston",
+    "date": "2026-04-11",
+    "start_time": "08:00",
+    "tz": "America/Chicago",
+    "address": "18427 Southwest Fwy",
+    "city": "Sugar Land",
+    "state": "TX",
+    "zip": "77479",
+    "latitude": 29.5707,
+    "longitude": -95.6643,
+    "distance": [
+      "1 Mile",
+      "5K",
+      "10K",
+      "Kids"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/SpringFlingHouston",
+    "source_url": "https://runsignup.com/Race/TX/Houston/SpringFlingHouston",
+    "description": "A Bigfoot Running Co. spring race at Brazos River Park in Sugar Land featuring a Kids Dash, 1 Mile, 5K, and 10K. All distances start at 8:00 a.m., with chip timing, a live DJ at the finish line, and the coveted Bigfoot Trophy for overall winners."
   },
   {
     "id": "race-for-the-dome-2026",
@@ -90,28 +114,26 @@
     "description": "A 5K road race in Missouri City in Fort Bend County, part of a springtime rose-themed community running event."
   },
   {
-    "id": "spring-fling-houston-2026",
-    "name": "Spring Fling Houston",
-    "date": "2026-04-11",
+    "id": "run-for-the-rose-2026",
+    "name": "Run for the Rose",
+    "date": "2026-04-12",
     "start_time": "08:00",
     "tz": "America/Chicago",
-    "address": "18427 Southwest Fwy",
-    "city": "Sugar Land",
+    "address": "7255 Helix Park Ave",
+    "city": "Houston",
     "state": "TX",
-    "zip": "77479",
-    "latitude": 29.5707,
-    "longitude": -95.6643,
+    "zip": "77030",
+    "latitude": 29.7044,
+    "longitude": -95.4005,
     "distance": [
-      "1 Mile",
       "5K",
-      "10K",
       "Kids"
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/SpringFlingHouston",
-    "source_url": "https://runsignup.com/Race/TX/Houston/SpringFlingHouston",
-    "description": "A Bigfoot Running Co. spring race at Brazos River Park in Sugar Land featuring a Kids Dash, 1 Mile, 5K, and 10K. All distances start at 8:00 a.m., with chip timing, a live DJ at the finish line, and the coveted Bigfoot Trophy for overall winners."
+    "official_website_url": "https://drmarnierose.org/run-for-the-rose/",
+    "source_url": "https://runsignup.com/Race/TX/Houston/runfortherose",
+    "description": "The 22nd Annual Run for the Rose at Helix Park in the Texas Medical Center features a timed 5K, a 5K walk, and a Family 1K, raising funds for brain cancer research and pediatric initiatives at MD Anderson and UTHealth Houston."
   },
   {
     "id": "art-car-ipa-5k-2026",
@@ -133,28 +155,6 @@
     "official_website_url": "https://runsignup.com/Race/TX/Houston/ArtCarIPA5K",
     "source_url": "https://runsignup.com/Race/TX/Houston/ArtCarIPA5K",
     "description": "A timed 5K road race in the Greater Fifth Ward area of Houston held on Art Car Weekend in April. The race is associated with the city's Art Car IPA event series at Saint Arnold Brewing."
-  },
-  {
-    "id": "run-for-the-rose-2026",
-    "name": "Run for the Rose",
-    "date": "2026-04-12",
-    "start_time": "08:00",
-    "tz": "America/Chicago",
-    "address": "7255 Helix Park Ave",
-    "city": "Houston",
-    "state": "TX",
-    "zip": "77030",
-    "latitude": 29.7044,
-    "longitude": -95.4005,
-    "distance": [
-      "5K",
-      "Kids"
-    ],
-    "surface": "road",
-    "kid_run": true,
-    "official_website_url": "https://drmarnierose.org/run-for-the-rose/",
-    "source_url": "https://runsignup.com/Race/TX/Houston/runfortherose",
-    "description": "The 22nd Annual Run for the Rose at Helix Park in the Texas Medical Center features a timed 5K, a 5K walk, and a Family 1K, raising funds for brain cancer research and pediatric initiatives at MD Anderson and UTHealth Houston."
   },
   {
     "id": "vintage-park-13-1-2026",
@@ -634,32 +634,6 @@
     "description": "A 5K fun run on Galveston Island organized by the Young Champions Foundation."
   },
   {
-    "id": "hometown-half-marathon-houston-2026",
-    "name": "Hometown Half Marathon & 5K/10K",
-    "date": "2026-05-10",
-    "start_time": "07:00",
-    "tz": "America/Chicago",
-    "address": "TBD",
-    "city": "Houston",
-    "state": "TX",
-    "zip": "77085",
-    "latitude": null,
-    "longitude": null,
-    "distance": [
-      "1 Mile",
-      "5K",
-      "10K",
-      "15K",
-      "Half Marathon",
-      "Kids"
-    ],
-    "surface": "road",
-    "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/HometownHalfMarathon5k10kHouston",
-    "source_url": "https://runsignup.com/Race/TX/Houston/HometownHalfMarathon5k10kHouston",
-    "description": "A family-friendly multi-distance road race in southwest Houston offering a Kids Dash, 1 Mile, 5K, 10K, 15K, and half marathon starting at 7:00 a.m. Chip timing and free race photos are included for all finishers."
-  },
-  {
     "id": "houston-humane-society-k9-fun-run-2026",
     "name": "Houston Humane Society 43rd Annual K-9 Fun Run + Walk",
     "date": "2026-05-16",
@@ -924,17 +898,38 @@
     "description": "The 10th Annual Independence Day 8K & 5K at Meyerland Plaza is the 6th race in the Houston Holiday Series. The 8K and 5K start at 7:00 a.m. on a fast, mostly flat patriotic-themed course, followed by a Kids and Family 1K at 9:00 a.m."
   },
   {
+    "id": "firecracker-5k-the-woodlands-2026",
+    "name": "Firecracker 5K",
+    "date": "2026-07-02",
+    "start_time": "19:00",
+    "tz": "America/Chicago",
+    "address": "2099 Lake Robbins Drive",
+    "city": "The Woodlands",
+    "state": "TX",
+    "zip": "77380",
+    "latitude": 30.1733,
+    "longitude": -95.5148,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://www.thewoodlandstownship-tx.gov/Departments/Parks-Recreation/Special-Events/Races",
+    "source_url": "https://hellowoodlands.com/celebrate-america-250-with-a-patriotic-run-along-the-woodlands-waterway-on-july-2/",
+    "description": "A one-time-only, USATF-sanctioned evening 5K celebrating America's 250th anniversary, held along The Woodlands Waterway on July 2. Produced by The Woodlands Township Parks and Recreation Department, the chip-timed course starts at 7 p.m. with no race-day registration available."
+  },
+  {
     "id": "houston-fourth-fest-road-race-2026",
     "name": "Houston Fourth Fest Road Race",
     "date": "2026-07-04",
     "start_time": "07:00",
     "tz": "America/Chicago",
-    "address": "Vintage Park south parking lot, Vintage Preserve Pkwy",
-    "city": "Houston",
+    "address": "18030 Vintage Preserve Pkwy",
+    "city": "Spring",
     "state": "TX",
-    "zip": "77070",
-    "latitude": 29.9746,
-    "longitude": -95.5474,
+    "zip": "77379",
+    "latitude": 30.1272,
+    "longitude": -95.5199,
     "distance": [
       "5K",
       "Kids"
@@ -942,8 +937,51 @@
     "surface": "road",
     "kid_run": true,
     "official_website_url": "https://www.houstonfourthfest.com",
-    "source_url": "https://runsignup.com/Race/TX/Houston/HoustonFourthFest",
-    "description": "The 2nd Annual Houston Fourth Fest at Vintage Park offers a flat, mostly shaded course with 5K, 9K, and 17.76K distance options plus a Family 1.776K walk/run starting at 7:00 a.m. The festival also features Houston's Beer Mile Championship and Hot Dog Eating Contest."
+    "source_url": "https://www.houstonfourthfest.com/road-race",
+    "description": "The 2nd annual Houston Fourth Fest features a flat, mostly shaded July 4th road race at Vintage Park in NW Houston with distances of 5K, 9K, 17.76K (commemorating 1776), and a family 1.776K fun run. The event also hosts Houston's Beer Mile Championship and Hot Dog Eating Contest Championship post-race."
+  },
+  {
+    "id": "run-wild-5k-2026",
+    "name": "Run Wild 5K & Kids Run",
+    "date": "2026-07-04",
+    "start_time": "07:00",
+    "tz": "America/Chicago",
+    "address": "1141 Uptown Park Blvd",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77056",
+    "latitude": 29.7633,
+    "longitude": -95.4607,
+    "distance": [
+      "5K",
+      "Kids"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/RunWild5KKidsRun",
+    "source_url": "https://runsignup.com/Race/TX/Houston/RunWild5KKidsRun",
+    "description": "A beloved annual July 4th 5K in Houston's Uptown Park neighborhood benefiting Special Olympics Texas and Girls on the Run Greater Houston. The chip-timed course runs through the Uptown area near I-610 and Post Oak, with a separate kids' 0.6-mile fun run; typically sells out well in advance."
+  },
+  {
+    "id": "texas-bud-heat-wave-2026",
+    "name": "Texas Bud Heat Wave",
+    "date": "2026-07-04",
+    "start_time": "07:00",
+    "tz": "America/Chicago",
+    "address": "13827 I-10 East Frontage Road",
+    "city": "Mont Belvieu",
+    "state": "TX",
+    "zip": "77523",
+    "latitude": 29.829,
+    "longitude": -94.841,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://texas5milerun.org",
+    "source_url": "https://texas5milerun.org",
+    "description": "A July 4th tradition east of Houston offering a 5K and 5-mile run on a flat, out-and-back road course starting and finishing at Wismer Distributing in Mont Belvieu. Post-race festivities connect with the city's Independence Day celebration featuring food, live music, and a patriotic costume contest."
   },
   {
     "id": "july-4th-run-houston-2026",
@@ -970,25 +1008,232 @@
     "description": "A small-group July 4th road race in Houston offering 5K, 10K, and Half Marathon distances starting at 7:30 a.m. plus a Family 1 Mile Fun Run at 9:00 a.m. 10% of net proceeds plus 100% of fundraising goes to Hope for the Warriors."
   },
   {
-    "id": "run-wild-5k-2026",
-    "name": "Run Wild 5K & Kids Run",
+    "id": "kingwood-freedom-run-2026",
+    "name": "Kingwood Texas 4th of July Freedom Run",
     "date": "2026-07-04",
-    "start_time": "07:30",
+    "start_time": null,
     "tz": "America/Chicago",
-    "address": "6590 Woodway Dr",
+    "address": "8 N Main St",
+    "city": "Kingwood",
+    "state": "TX",
+    "zip": "77339",
+    "latitude": 29.9803,
+    "longitude": -95.1935,
+    "distance": [
+      "Kids"
+    ],
+    "surface": "trail",
+    "kid_run": true,
+    "official_website_url": "https://runsignup.com/Race/TX/Kingwood/KingwoodTexas4thofJulyFREEDOMRUN",
+    "source_url": "https://runsignup.com/Race/TX/Kingwood/KingwoodTexas4thofJulyFREEDOMRUN",
+    "description": "The 3rd annual Kingwood July 4th Freedom Run takes participants through the scenic Kingwood Greenbelt Trails with 8-mile, 4-mile, and 2-mile options plus a Kids Dash, starting from Town Center Park. Organized by Rad Racing Company with a patriotic attire contest and charity support for Team RWB and the Torch of Freedom Foundation."
+  },
+  {
+    "id": "hometown-half-marathon-houston-2026",
+    "name": "Hometown Half Marathon & 5K/10K - Houston",
+    "date": "2026-07-05",
+    "start_time": "07:00",
+    "tz": "America/Chicago",
+    "address": "TBD",
     "city": "Houston",
     "state": "TX",
-    "zip": "77057",
-    "latitude": 29.7607,
-    "longitude": -95.4848,
+    "zip": "77085",
+    "latitude": null,
+    "longitude": null,
     "distance": [
       "5K",
+      "10K",
+      "Half Marathon",
+      "1 Mile",
       "Kids"
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/RunWild5KKidsRun",
-    "source_url": "https://runsignup.com/Race/TX/Houston/RunWild5KKidsRun",
-    "description": "A July 4th holiday 5K and Kids Run in the Memorial/Galleria area of Houston, a long-running Independence Day tradition sponsored by Runner's High Club and Fleet Feet Sports."
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/HometownHalfMarathon5k10kHouston",
+    "source_url": "https://runsignup.com/Race/TX/Houston/HometownHalfMarathon5k10kHouston",
+    "description": "A summer half marathon weekend hosted by Bigfoot Running Company in southwest Houston, offering a kids' dash, 1-mile, 5K, 10K, and full 13.1-mile option with chip timing, custom medals, and free finisher photos. Venue in the 77085 area to be announced closer to race day."
+  },
+  {
+    "id": "treat-trot-houston-2026",
+    "name": "Treat Trot Houston",
+    "date": "2026-07-05",
+    "start_time": "07:00",
+    "tz": "America/Chicago",
+    "address": "TBD",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77085",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K",
+      "10K",
+      "15K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/TreatTrotHouston",
+    "source_url": "https://runsignup.com/Race/TX/Houston/TreatTrotHouston",
+    "description": "A summer road race in Houston offering 5K, 10K, and 15K distances with chip timing, custom finisher medals, designer shirt, and age group awards. Produced by Bodies Race Company; venue in the southwest Houston area to be confirmed closer to race day."
+  },
+  {
+    "id": "eagle-katy-28-2026",
+    "name": "Eagle 5K, 10K & 13.1M at Katy, TX (28)",
+    "date": "2026-07-11",
+    "start_time": "08:00",
+    "tz": "America/Chicago",
+    "address": "2500 Porter Road",
+    "city": "Katy",
+    "state": "TX",
+    "zip": "77493",
+    "latitude": 29.7657,
+    "longitude": -95.7975,
+    "distance": [
+      "5K",
+      "10K",
+      "Half Marathon"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Katy/CypressTX28",
+    "source_url": "https://runsignup.com/Race/TX/Katy/CypressTX28",
+    "description": "Part of the US Road Running Eagle Series, this summer race at Mason Creek Hike & Bike Trail in Katy offers 5K, 10K, and half marathon distances on a flat out-and-back course with a 3.5-hour time limit. Chip-timed with finisher medals; no on-site registration available."
+  },
+  {
+    "id": "eagle-cypress-28-2026",
+    "name": "Eagle 5K, 10K & 13.1M at Cypress, TX (28)",
+    "date": "2026-07-11",
+    "start_time": "08:00",
+    "tz": "America/Chicago",
+    "address": "24502 West Rd",
+    "city": "Cypress",
+    "state": "TX",
+    "zip": "77433",
+    "latitude": 29.9135,
+    "longitude": -95.6392,
+    "distance": [
+      "5K",
+      "10K",
+      "Half Marathon"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Cypress/CypressTX28",
+    "source_url": "https://runsignup.com/Race/TX/Cypress/CypressTX28",
+    "description": "Part of the US Road Running Eagle Series, this weekly race at John Paul Landing Park in Cypress features 5K, 10K, and half marathon on a flat out-and-back course with a 3.5-hour time limit. No on-site registration; chip-timed with finisher medals."
+  },
+  {
+    "id": "popsicle-dash-houston-2026",
+    "name": "Popsicle Dash Houston",
+    "date": "2026-07-11",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "2032 Karbach St",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77092",
+    "latitude": 29.8168,
+    "longitude": -95.4571,
+    "distance": [
+      "5K",
+      "10K",
+      "Kids"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": "https://houstonrunning.co/popsicledash/",
+    "source_url": "https://runsignup.com/Race/TX/Houston/PopsicleDash",
+    "description": "The 7th annual Popsicle Dash is the second race in Houston Running Co.'s Summer Dash Series, held at Karbach Brewing Co. in northwest Houston. Runners choose from a 5K, 10K, or kids' family 1K, with post-race celebration at the brewery; the series also includes the Lemonade Dash and Watermelon Dash."
+  },
+  {
+    "id": "eagle-deer-park-29-2026",
+    "name": "Eagle 5K, 10K & 13.1M at Deer Park, TX (29)",
+    "date": "2026-07-18",
+    "start_time": "08:00",
+    "tz": "America/Chicago",
+    "address": "801 E P St",
+    "city": "Deer Park",
+    "state": "TX",
+    "zip": "77536",
+    "latitude": 29.7022,
+    "longitude": -95.0936,
+    "distance": [
+      "5K",
+      "10K",
+      "Half Marathon"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/DeerPark/Eagle5K10KMDeerParkTX",
+    "source_url": "https://runsignup.com/Race/TX/DeerPark/Eagle5K10KMDeerParkTX",
+    "description": "Part of the US Road Running Eagle Series, this weekly race at Dow Park in Deer Park offers 5K, 10K, and half marathon on a flat out-and-back course with a 3.5-hour time limit. Chip-timed with finisher medals; no on-site registration."
+  },
+  {
+    "id": "red-white-and-blue-half-marathon-houston-2026",
+    "name": "Red, White and Blue Half Marathon - Houston",
+    "date": "2026-07-25",
+    "start_time": "07:00",
+    "tz": "America/Chicago",
+    "address": "6011 West Orem Drive",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77085",
+    "latitude": 29.6393,
+    "longitude": -95.4879,
+    "distance": [
+      "Half Marathon",
+      "Kids"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": "https://runsignup.com/Race/TX/Sugarland/RedWhiteandBlueHalfMarathonHouston",
+    "source_url": "https://runsignup.com/Race/TX/Sugarland/RedWhiteandBlueHalfMarathonHouston",
+    "description": "Hosted by Bigfoot Running Company at Kingdom Builders Center in southwest Houston, this summer race offers a half marathon, 8-mile, 4-mile, 2-mile, and kids' dash with chip timing and custom medals. Top finishers in the longer distances earn a coveted Bigfoot trophy."
+  },
+  {
+    "id": "eagle-cypress-30-2026",
+    "name": "Eagle 5K, 10K & 13.1M at Cypress, TX (30)",
+    "date": "2026-07-25",
+    "start_time": "08:00",
+    "tz": "America/Chicago",
+    "address": "24502 West Rd",
+    "city": "Cypress",
+    "state": "TX",
+    "zip": "77433",
+    "latitude": 29.9135,
+    "longitude": -95.6392,
+    "distance": [
+      "5K",
+      "10K",
+      "Half Marathon"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Cypress/CypressTX30",
+    "source_url": "https://runsignup.com/Race/TX/Cypress/CypressTX30",
+    "description": "Part of the US Road Running Eagle Series, this weekly race at John Paul Landing Park in Cypress offers 5K, 10K, and half marathon on a flat out-and-back course. No on-site registration; chip-timed with finisher medals and a 3.5-hour course limit."
+  },
+  {
+    "id": "triple-dog-dare-2026",
+    "name": "Triple Dog Dare",
+    "date": "2026-07-25",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "14240 University Blvd",
+    "city": "Sugar Land",
+    "state": "TX",
+    "zip": "77478",
+    "latitude": 29.5985,
+    "longitude": -95.5943,
+    "distance": [
+      "5K",
+      "10K",
+      "15K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/SugarLand/TripleDogDareHOU",
+    "source_url": "https://www.findtherun.com/race/104975/triple-dog-dare",
+    "description": "A summer road race at Sugar Land Memorial Park offering 5K, 10K, and 15K distances with chip timing, custom finisher medals, and age group awards four deep. Runners who register by July 18 are guaranteed their shirt size."
   }
 ]
