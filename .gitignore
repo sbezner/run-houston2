@@ -12,3 +12,7 @@ Thumbs.db
 
 # Claude Code per-clone overrides (keep .claude/settings.json tracked)
 .claude/settings.local.json
+
+# Python bytecode (from running scripts/validate-data.py)
+__pycache__/
+*.pyc

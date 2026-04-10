@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://runhouston.app/sitemap.xml

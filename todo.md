@@ -32,10 +32,7 @@ remain to make the launch actually go smoothly.
   social-card image showing the Run Houston wordmark on the dark background.
   I can describe one in SVG you can export, or hand me a designer-made one.
   **(Me, with one decision from You on the image)**
-- [ ] **`sitemap.xml` + `robots.txt`** at the repo root. Seven URLs in the
-  sitemap (one per page); a 5-line `robots.txt` saying "allow everything,
-  here's the sitemap". Tells Google to actually crawl the site once the
-  custom domain is live. **(Me)**
+- [x] ~~**`sitemap.xml` + `robots.txt`**~~ Done — both committed at repo root.
 - [ ] **Search engine optimization (broader than OG + sitemap).** Highest-
   leverage wins for a small content site like this:
   - **JSON-LD structured data on `race.html`.** Each race detail page
@@ -47,17 +44,15 @@ remain to make the launch actually go smoothly.
     Also add `SportsClub` JSON-LD on `clubs.html` for each club.
     Generated client-side from the existing JSON data — same render
     path as the rest of the page.
-  - **`<link rel="canonical">`** on every page pointing at the
-    `runhouston.app` URL, so Google doesn't penalize duplicate content
-    if the same page is reachable at both `sbezner.github.io/run-houston2/`
-    and `runhouston.app`.
+  - ~~**`<link rel="canonical">`** on every page pointing at the
+    `runhouston.app` URL~~ — done for index, clubs, reports, about.
+    `race.html` and `report.html` skipped (need JS-injected dynamic
+    canonical per `?id=`); `404.html` intentionally omitted.
   - **Per-page `<title>` and `<meta name="description">` audit.**
-    Some pages have generic titles like "Run Houston — Race" (the
-    fallback before JS rewrites it) which Google may index as-is for
-    no-JS crawls. Make every static title descriptive even before JS
-    runs. The race / report detail pages should ideally include the
-    race / recap name in the static title, but that requires either a
-    build step or accepting the no-JS limitation.
+    Done — `race.html` and `report.html` static titles/descriptions
+    upgraded from generic placeholders to descriptive copy crawlers
+    can index. Still no per-instance race/recap name in the static
+    title (would need a build step or pre-rendering).
   - **Heading hierarchy + alt text audit** on the few images that
     exist (the `report-photos` slot mostly).
   - **Submit the sitemap to Google Search Console** once the custom
@@ -115,13 +110,9 @@ do you actually want?" question, not on engineering effort.
 
 ## Deferred at your request
 
-- [ ] **Race data refresh** for the new 365-day window. You said "we'll do
-  it another way" earlier in the session. The prompt at
-  `prompts/upcoming-races-research.md` is now updated for a 365-day
-  exhaustive sweep with JSON-only output and explicit "no artifacts"
-  guidance (commit `b32e4ee`). Whenever you re-run it on claude.ai, paste
-  the result back to me and I'll validate + diff + apply + commit.
-  **(You triggers, Me applies)**
+- [x] ~~**Race data refresh**~~ Apr–Nov 2026 merged in this session
+  (45 → 107 races). Dec 2026+ window currently being researched in
+  claude.ai. See `data/MERGED.md` for the full merge log.
 
 - [ ] **Recap content workflow.** No prompt or intake path exists for
   adding race recaps. If you want regular news/recap coverage as an actual
@@ -185,12 +176,6 @@ Nice but not urgent. None of these are blocking launch.
 
 ## Things to know but not action items
 
-- **"All upcoming" date window option** is currently effectively a no-op
-  since the data file only holds the upcoming-races slice. Once you run
-  the new 365-day refresh, "All upcoming" will start actually showing
-  more races than "90 days". No code change needed — it'll fix itself
-  the next time you refresh data.
-
 - **CI is live** as of commit `ed2938c`. Three checks on every push and
   PR to master: JSON syntax (`python3 -m json.tool`), JS syntax
   (`node --check`), and data contract (`scripts/validate-data.py`).
@@ -207,5 +192,5 @@ Nice but not urgent. None of these are blocking launch.
 
 ---
 
-_Last updated 2026-04-08 by a Claude Code session. Edit by hand or ask
+_Last updated 2026-04-09 by a Claude Code session. Edit by hand or ask
 Claude to update. Not auto-synced with anything._
