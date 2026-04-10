@@ -15,31 +15,22 @@ Pages to serve the site at the custom domain. A handful of related steps
 remain to make the launch actually go smoothly.
 
 - [x] ~~**Confirm DNS is pointed at GitHub Pages.**~~ Confirmed 2026-04-09.
-- [ ] **Flip "Enforce HTTPS"** in repo Settings → Pages once DNS has
-  propagated and GitHub finishes provisioning the Let's Encrypt cert. Usually
-  takes 5–30 minutes after DNS is correct. The toggle is grayed out until the
-  cert is ready. **(You)**
-- [ ] **Open Graph + Twitter Card meta tags** on every HTML page (`index.html`,
-  `clubs.html`, `reports.html`, `report.html`, `race.html`, `about.html`,
-  `404.html`). When someone shares a `runhouston.app/race.html?id=…` link in
-  iMessage, Slack, Twitter, or LinkedIn today, they get an unstyled gray box.
-  Adding ~6 lines per `<head>` (`og:title`, `og:description`, `og:type`,
-  `og:image`, `og:url`, `twitter:card`) fixes it. Needs a 1200×630 PNG
-  social-card image showing the Run Houston wordmark on the dark background.
-  I can describe one in SVG you can export, or hand me a designer-made one.
-  **(Me, with one decision from You on the image)**
+- [x] ~~**Flip "Enforce HTTPS"**~~ Done 2026-04-09 via Cloudflare.
+  GitHub's toggle stayed grayed out because runhouston.app is proxied
+  through Cloudflare (orange cloud), so Let's Encrypt's HTTP-01
+  challenge can't reach GitHub Pages. Worked around by enabling
+  Cloudflare → SSL/TLS → Edge Certificates → **Always Use HTTPS**.
+  `curl -sI http://runhouston.app/` now returns 301 → https.
+- [x] ~~**Open Graph + Twitter Card meta tags**~~ Done 2026-04-09. All 7
+  HTML pages have og:title/description/image/url/type/site_name and
+  twitter:card=summary_large_image. `social-card.svg` (dark bg, red
+  HOUSTON wordmark) committed alongside a 1200×630 PNG export.
 - [x] ~~**`sitemap.xml` + `robots.txt`**~~ Done — both committed at repo root.
 - [ ] **Search engine optimization (broader than OG + sitemap).** Highest-
   leverage wins for a small content site like this:
-  - **JSON-LD structured data on `race.html`.** Each race detail page
-    should embed a `<script type="application/ld+json">` with a
-    `schema.org/Event` blob (name, startDate, location with
-    PostalAddress + GeoCoordinates, eventStatus, organizer, url). This
-    is what makes Google show race results as enriched cards in search
-    with the date, venue, and a "register" button directly in the SERP.
-    Also add `SportsClub` JSON-LD on `clubs.html` for each club.
-    Generated client-side from the existing JSON data — same render
-    path as the rest of the page.
+  - ~~**JSON-LD structured data on `race.html` and `clubs.html`**~~
+    Done 2026-04-09. `race.js` injects a `schema.org/Event` blob per
+    race; `clubs.js` injects a `@graph` of `SportsClub` nodes.
   - ~~**`<link rel="canonical">`** on every page pointing at the
     `runhouston.app` URL~~ — done for index, clubs, reports, about.
     `race.html` and `report.html` skipped (need JS-injected dynamic
@@ -51,8 +42,7 @@ remain to make the launch actually go smoothly.
     title (would need a build step or pre-rendering).
   - **Heading hierarchy + alt text audit** on the few images that
     exist (the `report-photos` slot mostly).
-  - **Submit the sitemap to Google Search Console** once the custom
-    domain is live and the sitemap exists.
+  - ~~**Submit the sitemap to Google Search Console**~~ Done 2026-04-09.
   **(Me for the markup work, You for Search Console)**
 - [ ] **Test the live site after the cutover.** Hit `https://runhouston.app/`
   and every nav link, hit a `race.html?id=…` URL directly, hit a
@@ -63,13 +53,9 @@ remain to make the launch actually go smoothly.
 
 ## Quick wins (no decisions, no dependencies)
 
-- [ ] **Delete the stale `claude/refactor-run-houston-4qUO3` remote branch.**
-  The only leftover from the original refactor session. GitHub UI →
-  Branches → trash icon, or `git push origin --delete
-  claude/refactor-run-houston-4qUO3` from your local machine. I can't do
-  this from this sandbox: the GitHub MCP server I have doesn't expose a
-  `delete_branch` tool, and the git proxy returns HTTP 403 on destructive
-  ref pushes. **(You)**
+- [x] ~~**Delete stale remote branches**~~ Done 2026-04-09.
+  `claude/refactor-run-houston-4qUO3` and `mvp1` both deleted. Only
+  `master` remains.
 
 ---
 
