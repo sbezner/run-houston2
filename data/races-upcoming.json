@@ -802,20 +802,21 @@
     "date": "2026-05-09",
     "start_time": null,
     "tz": "America/Chicago",
-    "address": "Port Bolivar area",
-    "city": "Port Bolivar",
+    "address": "Swedes Park",
+    "city": "Crystal Beach",
     "state": "TX",
     "zip": "77650",
-    "latitude": 29.3697,
-    "longitude": -94.7636,
+    "latitude": 29.479,
+    "longitude": -94.632,
     "distance": [
-      "5K"
+      "5K",
+      "Kids"
     ],
     "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/PortBolivar/TexasCrabFestivalFunRun",
-    "source_url": "https://runsignup.com/Race/TX/PortBolivar/TexasCrabFestivalFunRun",
-    "description": "A 5K fun run held as part of the Texas Crab Festival on the Bolivar Peninsula, combining coastal scenery with festival activities."
+    "kid_run": true,
+    "official_website_url": "https://texascrabfestival.org/events/",
+    "source_url": "https://texascrabfestival.org/events/",
+    "description": "A timed 5K run/walk and Kids 1K held as part of the annual Texas Crab Festival on the Bolivar Peninsula. The festival runs May 7-9 at Swedes Park in Crystal Beach with live music, food, and vendors."
   },
   {
     "id": "ycf-5k-galveston-2026",
@@ -837,6 +838,121 @@
     "official_website_url": "https://www.zeffy.com/en-US/ticketing/2026-ycf-5k-fun-run",
     "source_url": "https://harra.org/",
     "description": "A 5K fun run on Galveston Island organized by the Young Champions Foundation."
+  },
+  {
+    "id": "galveston-sand-crab-5k-10k-2026",
+    "name": "Galveston Sand Crab 5K/10K/Kid's Beach 1K",
+    "date": "2026-05-09",
+    "start_time": "20:30",
+    "tz": "America/Chicago",
+    "address": "1923 Boddeker Rd",
+    "city": "Galveston",
+    "state": "TX",
+    "zip": "77550",
+    "latitude": 29.338,
+    "longitude": -94.756,
+    "distance": [
+      "5K",
+      "10K",
+      "Kids"
+    ],
+    "surface": "other",
+    "kid_run": true,
+    "official_website_url": "https://www.runintexas.com/gcrab",
+    "source_url": "https://www.runintexas.com/gcrab",
+    "description": "A nighttime beach run at East Beach / Apffel Park in Galveston, with the 5K and 10K starting at 8:30 PM and the Kid's Beach Mile at 8:00 PM. The course is lit with LED lights; runners must carry a flashlight or headlamp. Part of the Run In Texas race series."
+  },
+  {
+    "id": "sprint-for-life-5k-2026",
+    "name": "29th Annual Sprint for Life 5K Run/Walk",
+    "date": "2026-05-09",
+    "start_time": "07:30",
+    "tz": "America/Chicago",
+    "address": "7255 Helix Park Avenue",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77030",
+    "latitude": 29.7069,
+    "longitude": -95.3998,
+    "distance": [
+      "5K",
+      "Kids"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/ANNUALSPRINTFORLIFE",
+    "source_url": "https://runsignup.com/Race/TX/Houston/ANNUALSPRINTFORLIFE",
+    "description": "The 29th Annual Sprint for Life 5K at Helix Park in the Texas Medical Center raises funds for the Blanton-Davis Ovarian Cancer Research Program at MD Anderson Cancer Center. Includes a Sprint for Sprouts/Tot Trot kids event at 9:30 AM."
+  },
+  {
+    "id": "yagas-wild-5k-fun-run-2026",
+    "name": "Yaga's Children's Fund WILD 5K Fun Run",
+    "date": "2026-05-09",
+    "start_time": "10:00",
+    "tz": "America/Chicago",
+    "address": "1 Hope Blvd",
+    "city": "Galveston",
+    "state": "TX",
+    "zip": "77554",
+    "latitude": 29.2571,
+    "longitude": -94.8439,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://www.ycfgalveston.org/wild-game-cook-off",
+    "source_url": "https://www.zeffy.com/en-US/ticketing/2026-ycf-5k-fun-run",
+    "description": "A 5K fun run at Moody Gardens in Galveston kicking off Yaga's Wild Game & BBQ Cook-Off weekend. All proceeds benefit Yaga's Children's Fund, supporting charities that serve the children of Galveston County. Post-race BBQ, live music, and vendors follow at 11 AM."
+  },
+  {
+    "id": "hometown-half-marathon-houston-2026",
+    "name": "Hometown Half Marathon & 5K/10K - Houston",
+    "date": "2026-05-10",
+    "start_time": "07:00",
+    "tz": "America/Chicago",
+    "address": "18427 Southwest Fwy",
+    "city": "Sugar Land",
+    "state": "TX",
+    "zip": "77479",
+    "latitude": 29.5707,
+    "longitude": -95.6643,
+    "distance": [
+      "1 Mile",
+      "5K",
+      "10K",
+      "Half Marathon",
+      "Kids"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/HometownHalfMarathon5k10kHouston",
+    "source_url": "https://runsignup.com/Race/TX/Houston/HometownHalfMarathon5k10kHouston",
+    "description": "A multi-distance race at Brazos River Park in Sugar Land offering a Kid's Dash, 1 Mile, 5K, 10K, and Half Marathon. The flat course follows the Brazos River and includes chip timing, pacers for the half marathon, and a post-race celebration."
+  },
+  {
+    "id": "legacy-of-courage-half-marathon-houston-2026",
+    "name": "Legacy of Courage Half Marathon - Houston",
+    "date": "2026-05-10",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "Burroughs Park",
+    "city": "Tomball",
+    "state": "TX",
+    "zip": null,
+    "latitude": 30.1277,
+    "longitude": -95.5783,
+    "distance": [
+      "1 Mile",
+      "5K",
+      "Half Marathon",
+      "Kids"
+    ],
+    "surface": "trail",
+    "kid_run": true,
+    "official_website_url": "https://runsignup.com/Race/TX/Tomball/LegacyOfCourageHalfMarathonHouston",
+    "source_url": "https://runsignup.com/Race/TX/Tomball/LegacyOfCourageHalfMarathonHouston",
+    "description": "A trail half marathon through the 320-acre Burroughs Park in Tomball on well-maintained hiking trails beneath a canopy of pine trees. Also offers 1 Mile, 5K, and Kids Dash options. Proceeds benefit The Outdoor Disabled Veterans Program through Knowledge Point Network."
   },
   {
     "id": "houston-humane-society-k9-fun-run-2026",
@@ -865,20 +981,21 @@
     "date": "2026-05-16",
     "start_time": null,
     "tz": "America/Chicago",
-    "address": "Hitchcock area",
+    "address": null,
     "city": "Hitchcock",
     "state": "TX",
-    "zip": "77563",
-    "latitude": 29.353,
-    "longitude": -95.0116,
+    "zip": null,
+    "latitude": 29.3483,
+    "longitude": -95.0163,
     "distance": [
-      "10 Mile"
+      "5K",
+      "Kids"
     ],
     "surface": "road",
-    "kid_run": false,
+    "kid_run": true,
     "official_website_url": "https://runsignup.com/Race/TX/Hitchcock/SantaFeTenMemorialRunInRemembrance",
     "source_url": "https://runsignup.com/Race/TX/Hitchcock/SantaFeTenMemorialRunInRemembrance",
-    "description": "A 10-mile memorial road race in Hitchcock held in remembrance of victims of the 2018 Santa Fe High School shooting, drawing participants from across the Houston area each year."
+    "description": "A 5K run/walk and Kids 1K in Hitchcock, TX honoring the ten victims lost in the May 18, 2018 Santa Fe High School shooting. Proceeds benefit the Santa Fe Ten Memorial. Includes music, a silent auction, food trucks, and age-group awards."
   },
   {
     "id": "terlingua-track-club-lp-run-2026",
@@ -902,17 +1019,17 @@
     "description": "Billed as the oldest race in Texas, the Terlingua Track Club LP Run at Rice University has all participants run as far as possible in exactly 33 minutes and 20 seconds. A HARRA Spring Series event."
   },
   {
-    "id": "run-houston-clear-lake-2026",
-    "name": "Run Houston! Clear Lake 5K & 10K",
-    "date": "2026-05-17",
-    "start_time": "07:15",
+    "id": "operation-ruck-the-bayou-2026",
+    "name": "Operation: Ruck the Bayou",
+    "date": "2026-05-16",
+    "start_time": "07:30",
     "tz": "America/Chicago",
-    "address": "Bay Area Blvd at University Dr",
+    "address": "2000 Lyons Ave",
     "city": "Houston",
     "state": "TX",
-    "zip": "77058",
-    "latitude": 29.5789,
-    "longitude": -95.1316,
+    "zip": "77020",
+    "latitude": 29.7722,
+    "longitude": -95.352,
     "distance": [
       "5K",
       "10K",
@@ -920,31 +1037,102 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://txruns.com/runhoustonclearlake",
-    "source_url": "https://txruns.com/runhoustonclearlake",
-    "description": "Race 5 of 9 in the Run Houston Race Series presented by Houston Methodist, with a 10K at 7:15 a.m. and a 5K at 8:15 a.m. in the Clear Lake area near Johnson Space Center. A Kids K follows and benefits Sole Loved children's shoe charity."
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/OperationRuckTheBayou",
+    "source_url": "https://runsignup.com/Race/TX/Houston/OperationRuckTheBayou",
+    "description": "The 2nd annual Operation: Ruck the Bayou at Saint Arnold Brewery offers 5K and 10K run and ruck options plus a Kids/Family K. Proceeds support The Joshua Chamberlain Society's Houston Chapter, which provides long-term support to veterans with permanent combat injuries and Gold Star families."
+  },
+  {
+    "id": "wiener-run-houston-2026",
+    "name": "The Wiener Run 5K & 10K - Houston",
+    "date": "2026-05-16",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "4033 State Highway 6 South",
+    "city": "Sugar Land",
+    "state": "TX",
+    "zip": "77479",
+    "latitude": 29.5803,
+    "longitude": -95.6192,
+    "distance": [
+      "1 Mile",
+      "5K",
+      "10K",
+      "Kids"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": "https://runsignup.com/Race/TX/SugarLand/TheWienerRun5K10KHouston",
+    "source_url": "https://findarace.com/us/events/the-wiener-run-5k-10k-houston",
+    "description": "A dachshund-themed 5K and 10K at Oyster Creek Park in Sugar Land with a Kids Dash for ages 10 and under and a 1 Mile option. Every finisher gets a complimentary hot dog and beverage at the post-race BBQ bash with live music. Supports a local wiener dog rescue group."
+  },
+  {
+    "id": "run-houston-clear-lake-2026",
+    "name": "Run Houston! Clear Lake 5K & 10K presented by Houston Methodist",
+    "date": "2026-05-17",
+    "start_time": "07:15",
+    "tz": "America/Chicago",
+    "address": "635 Bayou Rd",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77058",
+    "latitude": 29.5581,
+    "longitude": -95.0983,
+    "distance": [
+      "5K",
+      "10K",
+      "Kids"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/RunHoustonClearLake",
+    "source_url": "https://runsignup.com/Race/TX/Houston/RunHoustonClearLake",
+    "description": "The third race in the Run Houston! Spring Series, at Clear Lake near NASA. Includes timed and untimed 5K and 10K plus a Kid's 1K for ages 1-12. The series partners with community nonprofits to provide sneakers and socks to underserved children."
   },
   {
     "id": "fit-foodie-family-5k-2026",
     "name": "Fit Foodie Family 5K & Kids' 1K",
     "date": "2026-05-23",
-    "start_time": null,
+    "start_time": "08:00",
     "tz": "America/Chicago",
-    "address": "2711 Town Center Blvd N",
+    "address": "Sugar Land Town Square",
     "city": "Sugar Land",
     "state": "TX",
     "zip": "77479",
-    "latitude": 29.5978,
-    "longitude": -95.6357,
+    "latitude": 29.5932,
+    "longitude": -95.6219,
     "distance": [
       "5K",
       "Kids"
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://www.fitfoodiele.com/5k1k",
-    "source_url": "https://harra.org/",
-    "description": "A family-friendly 5K and Kids' 1K at Sugar Land Town Square benefiting Kids' Meals, a Houston nonprofit providing free daily home-delivered meals to young children facing hunger."
+    "official_website_url": "https://runsignup.com/Race/TX/SugarLand/fitfoodiele",
+    "source_url": "https://findarace.com/us/events/fit-foodie-family-5k-kids-1k",
+    "description": "A spring fitness and food-themed 5K and Kids' 1K at Sugar Land Town Square on Memorial Day weekend. Post-race party features live entertainment, massages, family activities, and vendor tastings."
+  },
+  {
+    "id": "run-for-mental-health-houston-2026",
+    "name": "Run for Mental Health 5K/10K/13.1 Houston",
+    "date": "2026-05-23",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": null,
+    "city": "Houston",
+    "state": "TX",
+    "zip": null,
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "1 Mile",
+      "5K",
+      "10K",
+      "Half Marathon"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/RunForMentalHealth5K10KHOUSTON523",
+    "source_url": "https://runsignup.com/Race/TX/Houston/RunForMentalHealth5K10KHOUSTON523",
+    "description": "A mental health awareness run offering 5K, 10K, half marathon, and 1-mile family fun run distances in Houston. Includes optional chip timing, a finisher's medal, and race T-shirt. Venue listed as Eleanor Tinsley Park or Bayou Loop Trails area."
   },
   {
     "id": "memorial-day-10k-2026",
@@ -970,6 +1158,54 @@
     "description": "The 5th race in Houston Running Co.'s Holiday Series, a Memorial Day Half Marathon (7:00 a.m. start), 10K, and 5K (both 7:30 a.m.) in the Washington Avenue Corridor area honoring the men and women who gave their lives serving in the U.S. Military."
   },
   {
+    "id": "memorial-day-run-houston-2026",
+    "name": "Memorial Day Run",
+    "date": "2026-05-25",
+    "start_time": "07:00",
+    "tz": "America/Chicago",
+    "address": "4500 Memorial Dr",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77007",
+    "latitude": 29.7607,
+    "longitude": -95.41,
+    "distance": [
+      "5K",
+      "10K",
+      "Half Marathon",
+      "Kids"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/MemorialDayHouston",
+    "source_url": "https://houstonrunning.co/memorialday/",
+    "description": "Houston Running Co.'s annual Memorial Day event at St. Thomas High School honoring fallen service members. Features a scenic Memorial Drive route with half marathon (7:00 AM), 5K/10K (7:30 AM), and Kids/Family 1K (9:15 AM). Part of the Houston Holiday Series."
+  },
+  {
+    "id": "memorial-day-hero-salute-2026",
+    "name": "Memorial Day Hero Salute",
+    "date": "2026-05-25",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "Town Center Park",
+    "city": "Kingwood",
+    "state": "TX",
+    "zip": null,
+    "latitude": 30.0503,
+    "longitude": -95.1843,
+    "distance": [
+      "5K",
+      "10K",
+      "Half Marathon",
+      "Kids"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": "https://runsignup.com/Race/TX/Kingwood/MemorialDayHeroSalute",
+    "source_url": "https://runsignup.com/Race/TX/Kingwood/MemorialDayHeroSalute",
+    "description": "The 2nd Annual Memorial Day Hero Salute at Town Center Park in Kingwood offers a half marathon, 10K, 5K, and Kids Mini-Salute, plus optional MURPH and LOREDO military fitness challenges. Organized by Rad Racing Company to honor fallen service members. Post-race includes a kids and winners tug-of-war."
+  },
+  {
     "id": "pasadena-superhero-5k-2026",
     "name": "Pasadena Police Department Superhero 5K/Kids 1K",
     "date": "2026-05-30",
@@ -992,25 +1228,47 @@
     "description": "A superhero-themed 5K and Kids 1K presented by the Pasadena Police Department, encouraging participants to dress as their favorite superhero. The event benefits community programs in Pasadena."
   },
   {
+    "id": "pasadena-police-superhero-5k-2026",
+    "name": "Pasadena Police Department Superhero 5K/Kids 1K",
+    "date": "2026-05-30",
+    "start_time": "08:00",
+    "tz": "America/Chicago",
+    "address": "6052 Genoa Red Bluff Rd",
+    "city": "Pasadena",
+    "state": "TX",
+    "zip": "77507",
+    "latitude": 29.6232,
+    "longitude": -95.1433,
+    "distance": [
+      "5K",
+      "Kids"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": "https://runsignup.com/Race/Events/TX/Pasadena/PasadenaPoliceDepartment5K",
+    "source_url": "https://findarace.com/us/events/pasadena-police-department-superhero-5k-kids-1k",
+    "description": "A superhero-themed 5K and Kids 1K at the Pasadena Police Academy. Participants are encouraged to wear superhero costumes. The Kids 1K for ages 12 and under starts at 8:30 AM. Benefits the Pasadena Police Department community programs."
+  },
+  {
     "id": "tejas-beer-5k-2026",
     "name": "Tejas Beer 5K",
-    "date": "2026-05-30",
-    "start_time": null,
+    "date": "2026-05-31",
+    "start_time": "06:30",
     "tz": "America/Chicago",
-    "address": "Houston downtown/bayou area",
+    "address": "2101 Summer St",
     "city": "Houston",
     "state": "TX",
-    "zip": "77019",
-    "latitude": null,
-    "longitude": null,
+    "zip": "77007",
+    "latitude": 29.7678,
+    "longitude": -95.381,
     "distance": [
       "5K"
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "http://runintexas.com/tejas",
-    "source_url": "https://harra.org/",
-    "description": "A 5K beer run at a multi-story Houston brewery overlooking downtown, with a course running to the bayou trail and back. Two pints included post-race."
+    "official_website_url": "https://www.runintexas.com/tejas",
+    "source_url": "https://www.runintexas.com/tejas",
+    "description": "An early-morning 5K starting and finishing at Tejas Brewery in the Sawyer Yards neighborhood with views of the downtown Houston skyline. Part of the Run In Texas 2026 Texas 5K 6-Pack Beer Challenge. Entry includes a finisher glass, four tastings, and a performance fabric race tee."
   },
   {
     "id": "lemonade-dash-houston-2026",
@@ -1232,31 +1490,6 @@
     "official_website_url": "https://runsignup.com/Race/TX/Kingwood/KingwoodTexas4thofJulyFREEDOMRUN",
     "source_url": "https://runsignup.com/Race/TX/Kingwood/KingwoodTexas4thofJulyFREEDOMRUN",
     "description": "The 3rd annual Kingwood July 4th Freedom Run takes participants through the scenic Kingwood Greenbelt Trails with 8-mile, 4-mile, and 2-mile options plus a Kids Dash, starting from Town Center Park. Organized by Rad Racing Company with a patriotic attire contest and charity support for Team RWB and the Torch of Freedom Foundation."
-  },
-  {
-    "id": "hometown-half-marathon-houston-2026",
-    "name": "Hometown Half Marathon & 5K/10K - Houston",
-    "date": "2026-07-05",
-    "start_time": "07:00",
-    "tz": "America/Chicago",
-    "address": "TBD",
-    "city": "Houston",
-    "state": "TX",
-    "zip": "77085",
-    "latitude": null,
-    "longitude": null,
-    "distance": [
-      "5K",
-      "10K",
-      "Half Marathon",
-      "1 Mile",
-      "Kids"
-    ],
-    "surface": "road",
-    "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/HometownHalfMarathon5k10kHouston",
-    "source_url": "https://runsignup.com/Race/TX/Houston/HometownHalfMarathon5k10kHouston",
-    "description": "A summer half marathon weekend hosted by Bigfoot Running Company in southwest Houston, offering a kids' dash, 1-mile, 5K, 10K, and full 13.1-mile option with chip timing, custom medals, and free finisher photos. Venue in the 77085 area to be announced closer to race day."
   },
   {
     "id": "treat-trot-houston-2026",
@@ -1765,29 +1998,6 @@
     "official_website_url": "https://runsignup.com/Race/TX/Houston/911HeroesRunHouston",
     "source_url": "https://runsignup.com/Race/TX/Houston/911HeroesRunHouston",
     "description": "An annual 5K held near September 11 in downtown Houston honoring the sacrifices of first responders, veterans, and military service members, organized by the Travis Manion Foundation. The event welcomes runners, walkers, and ruckers of all fitness levels with a rucking division available."
-  },
-  {
-    "id": "galveston-sand-crab-5k-10k-2026",
-    "name": "Galveston Island Sand Crab Nighttime Beach Run",
-    "date": "2026-09-05",
-    "start_time": "20:30",
-    "tz": "America/Chicago",
-    "address": "1923 Boddeker Rd",
-    "city": "Galveston",
-    "state": "TX",
-    "zip": "77550",
-    "latitude": 29.3105,
-    "longitude": -94.7449,
-    "distance": [
-      "5K",
-      "10K",
-      "Kids"
-    ],
-    "surface": "road",
-    "kid_run": true,
-    "official_website_url": "https://www.runintexas.com/gcrab",
-    "source_url": "https://www.runintexas.com/events",
-    "description": "A nighttime beach race starting and finishing at R.A. Apffel East Beach Park, run entirely on Galveston Island sand under the stars. The 5K and 10K courses are marked with LED lights; runners must carry a flashlight or headlamp, and all finishers receive a medal and Galveston Island Brewing post-race beverages."
   },
   {
     "id": "medal-madness-katy-37-2026",
