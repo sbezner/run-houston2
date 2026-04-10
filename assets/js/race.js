@@ -17,8 +17,73 @@
     );
   }
 
+  function injectJsonLd(race) {
+    // schema.org/Event — makes the race eligible for Google's enriched
+    // event cards / events vertical. Googlebot executes JS and picks this
+    // up post-render. Only emit fields we actually have; omit the rest
+    // rather than guessing.
+    var data = {
+      '@context': 'https://schema.org',
+      '@type': 'Event',
+      'name': race.name,
+      'url': 'https://runhouston.app/race.html?id=' + encodeURIComponent(race.id),
+      'eventStatus': 'https://schema.org/EventScheduled',
+      'eventAttendanceMode': 'https://schema.org/OfflineEventAttendanceMode'
+    };
+
+    if (race.date) {
+      data.startDate = race.start_time
+        ? race.date + 'T' + race.start_time + (race.tz === 'America/Chicago' ? '-05:00' : '')
+        : race.date;
+    }
+    if (race.description) data.description = race.description;
+    if (race.official_website_url) {
+      data.offers = {
+        '@type': 'Offers',
+        'url': race.official_website_url,
+        'availability': 'https://schema.org/InStock'
+      };
+    }
+
+    var place = { '@type': 'Place' };
+    var hasPlace = false;
+    if (race.address || race.city) {
+      place.name = race.address || (race.city + (race.state ? ', ' + race.state : ''));
+      hasPlace = true;
+    }
+    if (race.city || race.state || race.zip || race.address) {
+      place.address = {
+        '@type': 'PostalAddress',
+        'streetAddress': race.address || undefined,
+        'addressLocality': race.city || undefined,
+        'addressRegion': race.state || undefined,
+        'postalCode': race.zip || undefined,
+        'addressCountry': 'US'
+      };
+      hasPlace = true;
+    }
+    if (typeof race.latitude === 'number' && typeof race.longitude === 'number') {
+      place.geo = {
+        '@type': 'GeoCoordinates',
+        'latitude': race.latitude,
+        'longitude': race.longitude
+      };
+      hasPlace = true;
+    }
+    if (hasPlace) data.location = place;
+
+    var script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.id = 'race-jsonld';
+    script.textContent = JSON.stringify(data);
+    var existing = document.getElementById('race-jsonld');
+    if (existing) existing.remove();
+    document.head.appendChild(script);
+  }
+
   function renderRace(race) {
     document.title = race.name + ' — Run Houston';
+    injectJsonLd(race);
 
     var distances = (race.distance || [])
       .map(function (d) {

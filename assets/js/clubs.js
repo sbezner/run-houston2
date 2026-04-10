@@ -317,6 +317,46 @@
       .addEventListener('click', function () { setView('map'); });
   }
 
+  function injectJsonLd(clubs) {
+    // schema.org/SportsClub per club — helps Google surface clubs as
+    // local-organization results. Emitted as a single @graph blob so
+    // there's just one <script> tag to manage.
+    var graph = clubs.map(function (c) {
+      var node = {
+        '@type': 'SportsClub',
+        'name': c.club_name,
+        'sport': 'Running'
+      };
+      if (c.website_url) node.url = c.website_url;
+      if (c.description) node.description = c.description;
+      if (c.location) {
+        node.address = {
+          '@type': 'PostalAddress',
+          'addressLocality': c.location,
+          'addressRegion': 'TX',
+          'addressCountry': 'US'
+        };
+      }
+      if (typeof c.latitude === 'number' && typeof c.longitude === 'number') {
+        node.geo = {
+          '@type': 'GeoCoordinates',
+          'latitude': c.latitude,
+          'longitude': c.longitude
+        };
+      }
+      return node;
+    });
+
+    var data = { '@context': 'https://schema.org', '@graph': graph };
+    var script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.id = 'clubs-jsonld';
+    script.textContent = JSON.stringify(data);
+    var existing = document.getElementById('clubs-jsonld');
+    if (existing) existing.remove();
+    document.head.appendChild(script);
+  }
+
   function init() {
     var listEl = document.getElementById('club-list');
     RH.loadJson(DATA_URL)
@@ -328,6 +368,7 @@
         allClubs = data.map(function (c) {
           return Object.assign({}, c, { area: deriveArea(c) });
         });
+        injectJsonLd(data);
         renderAreaChips();
         attachHandlers();
         render();
