@@ -89,17 +89,19 @@ do you actually want?" question, not on engineering effort.
 
 ## Deferred at your request
 
-- [x] ~~**Race data refresh**~~ Apr–Nov 2026 merged in this session
-  (45 → 107 races). Dec 2026+ window currently being researched in
-  claude.ai. See `data/MERGED.md` for the full merge log.
+- [x] ~~**Race data refresh**~~ Through Jan 2027 merged. Live count:
+  120 races. See `data/MERGED.md` for the full merge log. Future
+  merges should use `scripts/merge-races.py PATH --apply` (added
+  2026-04-09; auto-canonicalizes distance abbreviations and skips
+  no-op updates so dig-deeper passes are idempotent).
 
-- [ ] **Recap content workflow.** No prompt or intake path exists for
-  adding race recaps. If you want regular news/recap coverage as an actual
-  feature (it's currently listed in `about.html` "What's coming"), a
-  parallel `prompts/race-recap-research.md` would make it a reusable
-  monthly flow: "find races that happened in the last 30 days in
-  Houston, write a factual news recap from verifiable sources for each."
-  **(Me, when you want the feature)**
+- [x] ~~**Recap content workflow.**~~ Done 2026-04-09.
+  `prompts/race-recap-research.md` exists, hardened with the same
+  coverage-floor / required-searches / 7-pass / anchor-race machinery
+  as the upcoming-races prompt. First sweep merged 3 real recaps for
+  the 2026-04-04 weekend (Yuri's Fun Run, green6.2, Running With My
+  PEEPS). The 2 fictional placeholders (Brazos Bend, Bayou City) were
+  dropped; the Chevron Houston Marathon recap is retained.
 
 ---
 
@@ -107,36 +109,20 @@ do you actually want?" question, not on engineering effort.
 
 Nice but not urgent. None of these are blocking launch.
 
-- [ ] **Google Analytics (GA4).** Zero analytics today — no idea
-  whether anyone is visiting. Add the GA4 measurement snippet to every
-  HTML page so you can see traffic, top pages, geographic distribution,
-  and which races people are clicking through to. Steps:
-  1. Create a GA4 property in Google Analytics (`analytics.google.com`),
-     get the `G-XXXXXXXXXX` measurement ID. **(You)**
-  2. Add the GA4 gtag snippet (~7 lines) to the `<head>` of every HTML
-     page: `index.html`, `race.html`, `clubs.html`, `reports.html`,
-     `report.html`, `about.html`, `404.html`. Could be done as a single
-     find/replace once you hand over the measurement ID. **(Me)**
-  3. Verify in the GA4 Realtime view by visiting the live site after
-     deploy. **(You)**
+- [x] ~~**Google Analytics (GA4).**~~ Done 2026-04-09. Property
+  `G-0HSJBPL4J0` wired into every HTML page via gtag.js. GA4 reports
+  may take 24-48 hours to populate; Realtime view works immediately.
 
-  Heads-up tradeoffs: GA4 sets cookies and reports to Google, so a
-  privacy banner / consent management tool is technically required in
-  some jurisdictions (GDPR, CCPA). For a Houston-area community site
-  the practical risk is low, but worth knowing. Privacy-respecting
-  alternatives exist (Plausible, Cloudflare Web Analytics, Fathom)
-  if you'd rather skip the cookies and the consent banner.
+- [x] ~~**Race search tokenizer.**~~ Done 2026-04-09. `assets/js/index.js`
+  now splits the query on whitespace and requires every token to match
+  somewhere in name/city/description (case-insensitive). Single-word
+  queries behave the same as before; multi-word queries like "5k katy"
+  now actually return 5Ks in Katy.
 
-- [ ] **Race search tokenizer.** Search currently ORs across `name`,
-  `city`, and `description`, so typing "5k katy" matches nearly every
-  race because each token alone matches a lot. Could fix with a small
-  AND-style tokenizer in `assets/js/index.js` that splits the query on
-  whitespace and requires every token to match somewhere. **(Me)**
-
-- [ ] **Semantic date validation in CI.** The validator regex
-  (`scripts/validate-data.py`) catches `2026-99-99` shape failures but
-  not `2026-13-45` semantic-invalid dates. Could add `datetime.strptime`
-  for stricter checking. Maybe 5 lines. **(Me)**
+- [x] ~~**Semantic date validation in CI.**~~ Done 2026-04-09.
+  `scripts/validate-data.py` now does a `datetime.strptime` round-trip
+  on race.date and race_reports.race_date to reject 2026-13-45,
+  2026-02-30, etc.
 
 - [ ] **Mobile accessibility audit.** I've reviewed CSS and a11y
   attributes manually but never run an actual axe-core or Lighthouse
@@ -171,5 +157,5 @@ Nice but not urgent. None of these are blocking launch.
 
 ---
 
-_Last updated 2026-04-09 by a Claude Code session. Edit by hand or ask
+_Last updated 2026-04-09 (evening) by a Claude Code session. Edit by hand or ask
 Claude to update. Not auto-synced with anything._
