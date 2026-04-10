@@ -1104,8 +1104,12 @@ main {
   color: var(--border);
 }
 
-.race-actions {
-  margin: 0 0 0.5rem;
+.race-detail-actions {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .btn-share {

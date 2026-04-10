@@ -262,7 +262,10 @@
       '<strong>' + RH.escapeHtml(date) + '</strong>' +
       (time ? ' &middot; ' + RH.escapeHtml(time) : '') +
       '</p>' +
+      '<div class="race-detail-actions">' +
       '<div class="race-badges">' + distances + surfaceBadge + kidBadge + '</div>' +
+      shareButton +
+      '</div>' +
       '</header>' +
       description +
       '<dl class="race-detail-grid">' +
@@ -278,7 +281,6 @@
       '<dt>Kid-friendly</dt><dd>' + (race.kid_run ? 'Yes' : 'No') + '</dd>' +
       '</dl>' +
       calendarLinks +
-      '<div class="race-actions">' + shareButton + '</div>' +
       websiteButton
     );
   }
