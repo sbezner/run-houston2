@@ -417,6 +417,13 @@ main {
   margin-top: 1rem;
 }
 
+.page-intro {
+  font-size: 0.95rem;
+  color: var(--muted);
+  margin: 0 0 1.25rem;
+  line-height: 1.5;
+}
+
 /* -------------------- Result bar + view toggle -------------------- */
 
 .result-bar {
@@ -565,7 +572,7 @@ main {
 .race-card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-left: 3px solid transparent;
+  border-left: 3px solid var(--accent);
   border-radius: var(--radius);
   padding: 1.35rem 1.4rem 1.4rem;
   box-shadow: var(--shadow);
@@ -576,29 +583,27 @@ main {
               border-left-color 220ms ease;
 }
 
-.race-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-lg);
-  border-left-color: var(--accent);
-}
-
-/* Modern engines: color the left accent by the card's surface type.
-   Older engines fall back to the plain red from .race-card:hover. */
-.race-card:has(.badge.surface-road):hover {
+/* Color the left accent by surface type on load. */
+.race-card:has(.badge.surface-road) {
   border-left-color: var(--road);
 }
 
-.race-card:has(.badge.surface-trail):hover {
+.race-card:has(.badge.surface-trail) {
   border-left-color: var(--trail);
 }
 
-.race-card:has(.badge.surface-track):hover {
+.race-card:has(.badge.surface-track) {
   border-left-color: var(--track);
 }
 
-.race-card:has(.badge.surface-virtual):hover,
-.race-card:has(.badge.surface-other):hover {
+.race-card:has(.badge.surface-virtual),
+.race-card:has(.badge.surface-other) {
   border-left-color: var(--virtual);
+}
+
+.race-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
 }
 
 .race-card h2 {
@@ -656,6 +661,13 @@ main {
   background: var(--accent-soft);
   color: var(--accent);
   border-color: transparent;
+}
+
+.badge.this-week {
+  background: #fef3c7;
+  color: #92400e;
+  border-color: transparent;
+  font-weight: 800;
 }
 
 .badge.surface-road {
@@ -1036,14 +1048,61 @@ main {
   font-size: 0.8rem;
   font-weight: 500;
   color: var(--dark-muted);
-  text-align: center;
   background: var(--dark-bg);
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.site-footer p {
+.site-footer-inner {
   max-width: var(--max-w);
   margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .site-footer-inner {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+  }
+}
+
+.site-footer h3 {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--dark-text);
+  margin: 0 0 0.6rem;
+}
+
+.site-footer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.site-footer ul li {
+  margin: 0.3rem 0;
+}
+
+.site-footer a {
+  color: var(--dark-muted);
+  transition: color 150ms ease;
+}
+
+.site-footer a:hover {
+  color: var(--dark-text);
+  text-decoration: none;
+}
+
+.site-footer-bottom {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--dark-muted);
 }
 
 /* -------------------- Desktop breakpoints -------------------- */

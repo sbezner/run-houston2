@@ -92,6 +92,18 @@
       ? '<span class="badge kid-run">Kid run</span>'
       : '';
 
+    // "This week" badge for races within the next 7 days
+    var thisWeekBadge = '';
+    if (race.date) {
+      var today = new Date(RH.isoToday());
+      var raceDate = new Date(race.date);
+      var daysAway = Math.round((raceDate - today) / 86400000);
+      if (daysAway >= 0 && daysAway <= 7) {
+        var label = daysAway === 0 ? 'Today' : daysAway === 1 ? 'Tomorrow' : 'This week';
+        thisWeekBadge = '<span class="badge this-week">' + label + '</span>';
+      }
+    }
+
     var locationParts = [race.city, race.state].filter(Boolean);
     var location = locationParts.join(', ');
 
@@ -119,7 +131,7 @@
       '<span><strong>' + dateLine + '</strong></span>' +
       (location ? '<span>' + RH.escapeHtml(location) + '</span>' : '') +
       '</div>' +
-      '<div class="race-badges">' + distances + surfaceBadge + kidBadge + '</div>' +
+      '<div class="race-badges">' + thisWeekBadge + distances + surfaceBadge + kidBadge + '</div>' +
       description +
       footer +
       '</article>'
