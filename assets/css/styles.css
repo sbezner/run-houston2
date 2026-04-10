@@ -633,6 +633,15 @@ main {
   .race-table .col-surface {
     display: none;
   }
+
+  .race-table .badges-cell {
+    white-space: normal;
+  }
+}
+
+#race-list {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .race-card {
