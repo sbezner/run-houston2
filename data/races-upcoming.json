@@ -5,24 +5,24 @@
     "date": "2026-04-11",
     "start_time": "06:00",
     "tz": "America/Chicago",
-    "address": "21901 Farm to Market Rd 762",
+    "address": "21901 FM 762 Rd",
     "city": "Needville",
     "state": "TX",
     "zip": "77461",
-    "latitude": 29.3712,
-    "longitude": -95.6024,
+    "latitude": 29.3822,
+    "longitude": -95.6344,
     "distance": [
       "5K",
       "10K",
-      "Ultra",
       "50K",
-      "50 Mile"
+      "50 Mile",
+      "Kids"
     ],
     "surface": "trail",
-    "kid_run": false,
+    "kid_run": true,
     "official_website_url": "https://www.trailracingovertexas.com/brazos-50",
-    "source_url": "https://runsignup.com/Race/TX/Needville/BrazosBend502",
-    "description": "Trail Racing Over Texas's spring edition at Brazos Bend State Park offers distances from 5K to 50 miles on one of the flattest trail courses in Texas, with wildlife including alligators visible along the course. The 2026 50K serves as the RRCA Texas State Championships."
+    "source_url": "https://www.trailracingovertexas.com/brazos-50",
+    "description": "Trail Racing Over Texas's flagship April event at Brazos Bend State Park, offering distances from 5K to 50 miles on one of the flattest trail courses in Texas. The 50K serves as the 2026 RRCA Texas State Championships. All races start and finish at Elm Lake Pavilion among the park's famous alligators and wildlife."
   },
   {
     "id": "bellaire-trolley-run-2026",
@@ -30,45 +30,46 @@
     "date": "2026-04-11",
     "start_time": "07:30",
     "tz": "America/Chicago",
-    "address": "7008 South Rice Ave",
+    "address": "7008 S Rice Ave",
     "city": "Bellaire",
     "state": "TX",
     "zip": "77401",
-    "latitude": 29.7099,
-    "longitude": -95.4577,
+    "latitude": 29.7059,
+    "longitude": -95.4682,
     "distance": [
       "1 Mile",
       "5K"
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Bellaire/BellaireTrolleyRun",
-    "source_url": "https://runsignup.com/Race/TX/Bellaire/BellaireTrolleyRun",
-    "description": "The 30th Annual Bellaire Trolley Run starts and finishes at Bellaire City Hall, featuring a 1-mile division at 7:30 a.m. and a 5K at 8:00 a.m. Organized by the PATRONS for Bellaire Parks nonprofit, the event supports local parks preservation."
+    "official_website_url": "https://www.bellairetx.gov/835/Bellaire-Trolley-Run",
+    "source_url": "https://www.bellaireconnect.com/dont-miss-the-30th-annual-bellaire-trolley-run-saturday-april-11/",
+    "description": "The 30th Annual Bellaire Trolley Run starts in front of Bellaire City Hall with a 1-mile division at 7:30 AM and the 5K at 8:00 AM, plus a wheelchair 5K and stroller 5K. A beloved community tradition, all finishers receive a medal and t-shirt, followed by a post-race party."
   },
   {
     "id": "spring-fling-houston-2026",
-    "name": "Spring Fling Houston",
+    "name": "Spring Fling - Houston",
     "date": "2026-04-11",
     "start_time": "08:00",
     "tz": "America/Chicago",
     "address": "18427 Southwest Fwy",
-    "city": "Sugar Land",
+    "city": "Houston",
     "state": "TX",
-    "zip": "77479",
+    "zip": "77047",
     "latitude": 29.5707,
     "longitude": -95.6643,
     "distance": [
       "1 Mile",
       "5K",
       "10K",
+      "Half Marathon",
       "Kids"
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/SpringFlingHouston",
-    "source_url": "https://runsignup.com/Race/TX/Houston/SpringFlingHouston",
-    "description": "A Bigfoot Running Co. spring race at Brazos River Park in Sugar Land featuring a Kids Dash, 1 Mile, 5K, and 10K. All distances start at 8:00 a.m., with chip timing, a live DJ at the finish line, and the coveted Bigfoot Trophy for overall winners."
+    "official_website_url": "https://runsignup.com/Race/Events/TX/Houston/SpringFlingHouston",
+    "source_url": "https://runsignup.com/Race/Events/TX/Houston/SpringFlingHouston",
+    "description": "A multi-distance spring running event in the south Houston area by Bigfoot Running Company, offering a Kids Dash, 1-mile, 5K, 10K, and half marathon. The course location is TBD in the Houston 77047 area."
   },
   {
     "id": "race-for-the-dome-2026",
@@ -80,17 +81,17 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77054",
-    "latitude": 29.6847,
-    "longitude": -95.4105,
+    "latitude": 29.6848,
+    "longitude": -95.4107,
     "distance": [
       "5K",
       "Kids"
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/RaceForTheDome",
+    "official_website_url": "https://astrodomeconservancy.org/events/",
     "source_url": "https://runsignup.com/Race/TX/Houston/RaceForTheDome",
-    "description": "The 6th Annual Race for the Dome benefits the Astrodome Conservancy and features a 5K and Kids 1K through NRG Park, starting and finishing at the historic Astrodome with the course crossing the bridge over Kirby."
+    "description": "The 6th Annual Race for the Dome celebrates the Astrodome's 61st birthday with a 5K road course through NRG Park and a Kids 1K fun run. Participants are encouraged to wear vintage gear or Dome attire; the event benefits the Astrodome Conservancy."
   },
   {
     "id": "run-for-the-rose-missouri-city-2026",
@@ -114,6 +115,90 @@
     "description": "A 5K road race in Missouri City in Fort Bend County, part of a springtime rose-themed community running event."
   },
   {
+    "id": "agpma-run-for-the-goal-5k-2026",
+    "name": "AGPMA Run for the Goal 5K",
+    "date": "2026-04-11",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "2301 W NASA Pkwy",
+    "city": "Webster",
+    "state": "TX",
+    "zip": "77598",
+    "latitude": 29.5388,
+    "longitude": -95.1372,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Webster/AGPMARunfortheGoal",
+    "source_url": "https://findarace.com/us/events/agpma-run-for-the-goal-5k",
+    "description": "The 13th Annual AGPMA Run for the Goal 5K takes place at Challenger Seven Memorial Park in Webster, benefiting Al Garza's Premier Martial Arts Black Belt Candidate class. A community-focused fundraiser 5K open to runners and walkers of all abilities."
+  },
+  {
+    "id": "project-joy-and-hope-fun-run-2026",
+    "name": "Project Joy and Hope Fun Run",
+    "date": "2026-04-11",
+    "start_time": "08:00",
+    "tz": "America/Chicago",
+    "address": "1 Monument Circle",
+    "city": "La Porte",
+    "state": "TX",
+    "zip": "77571",
+    "latitude": 29.7492,
+    "longitude": -95.087,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://www.joyandhope.org/events",
+    "source_url": "https://runsignup.com/Race/TX/LaPorte/JoyandHopeFunRun",
+    "description": "The 4th Annual Project Joy and Hope 5K Fun Run/Walk takes place at the San Jacinto Monument with stunning views of the San Jacinto Battleground. Proceeds support Project Joy and Hope, a nonprofit dedicated to helping seriously ill children and their families in the greater Houston area."
+  },
+  {
+    "id": "sienna-run-for-the-rose-5k-2026",
+    "name": "Sienna Run for the Ros\u00e9 5K",
+    "date": "2026-04-11",
+    "start_time": "08:00",
+    "tz": "America/Chicago",
+    "address": "10323 Mount Logan",
+    "city": "Missouri City",
+    "state": "TX",
+    "zip": "77459",
+    "latitude": 29.5189,
+    "longitude": -95.5344,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://www.siennatx.com/5k",
+    "source_url": "https://www.eventbrite.com/e/sienna-run-for-the-rose-5k-tickets-1980015213805",
+    "description": "A chip-timed 5K through the Sienna master-planned community centered around Sawmill Lake in Missouri City, with a finish-line ros\u00e9 and brunch celebration. Entry benefits Child Advocates of Fort Bend, a local nonprofit serving foster children."
+  },
+  {
+    "id": "terry-hershey-parkrun-2026-04-11",
+    "name": "Terry Hershey parkrun",
+    "date": "2026-04-11",
+    "start_time": "08:00",
+    "tz": "America/Chicago",
+    "address": "15200 Memorial Dr",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77079",
+    "latitude": 29.7606,
+    "longitude": -95.5583,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://www.parkrun.us/terryhershey/",
+    "source_url": "https://www.parkrun.us/terryhershey/",
+    "description": "A free, weekly timed 5K community run held every Saturday at 8:00 AM in Terry Hershey Park along the Buffalo Bayou trail in west Houston. Open to runners of all abilities with no pre-registration required; results are published online for all finishers."
+  },
+  {
     "id": "run-for-the-rose-2026",
     "name": "Run for the Rose",
     "date": "2026-04-12",
@@ -123,8 +208,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77030",
-    "latitude": 29.7044,
-    "longitude": -95.4005,
+    "latitude": 29.7069,
+    "longitude": -95.3998,
     "distance": [
       "5K",
       "Kids"
@@ -133,28 +218,28 @@
     "kid_run": true,
     "official_website_url": "https://drmarnierose.org/run-for-the-rose/",
     "source_url": "https://runsignup.com/Race/TX/Houston/runfortherose",
-    "description": "The 22nd Annual Run for the Rose at Helix Park in the Texas Medical Center features a timed 5K, a 5K walk, and a Family 1K, raising funds for brain cancer research and pediatric initiatives at MD Anderson and UTHealth Houston."
+    "description": "A free-to-register 5K run and Family 1K at Helix Park in the Texas Medical Center, benefiting brain cancer research and patient support through the Dr. Marnie Rose Foundation. The event includes a Survivor Stroll at 7:45 AM and welcomes walkers alongside runners."
   },
   {
     "id": "art-car-ipa-5k-2026",
-    "name": "Art Car IPA 5K",
+    "name": "Saint Arnold Art Car IPA 5K presented by UHD",
     "date": "2026-04-12",
-    "start_time": null,
+    "start_time": "08:30",
     "tz": "America/Chicago",
     "address": "2000 Lyons Ave",
     "city": "Houston",
     "state": "TX",
     "zip": "77020",
-    "latitude": 29.7722,
-    "longitude": -95.352,
+    "latitude": 29.779,
+    "longitude": -95.3562,
     "distance": [
       "5K"
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/ArtCarIPA5K",
+    "official_website_url": "https://artcar5k.com/",
     "source_url": "https://runsignup.com/Race/TX/Houston/ArtCarIPA5K",
-    "description": "A timed 5K road race in the Greater Fifth Ward area of Houston held on Art Car Weekend in April. The race is associated with the city's Art Car IPA event series at Saint Arnold Brewing."
+    "description": "Houston's most festive 5K, coinciding with Art Car Parade weekend and starting and finishing at Saint Arnold Brewing Company. Participants receive a finisher medal, pint glass, and their choice of Saint Arnold beverages; the course winds through Houston's Fifth Ward neighborhood."
   },
   {
     "id": "vintage-park-13-1-2026",
@@ -267,24 +352,24 @@
   },
   {
     "id": "stop-the-silence-5k-2026",
-    "name": "Stop The Silence 5K Run/Walk",
+    "name": "Sisters Network Inc. 16th Annual Stop the Silence 5K Walk/Run",
     "date": "2026-04-18",
     "start_time": null,
     "tz": "America/Chicago",
-    "address": "Tom Bass Regional Park",
+    "address": "3452 Fellows Rd",
     "city": "Houston",
     "state": "TX",
-    "zip": "77048",
-    "latitude": 29.6063,
-    "longitude": -95.361,
+    "zip": "77047",
+    "latitude": 29.6464,
+    "longitude": -95.3817,
     "distance": [
       "5K"
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/StoptheSilenceWalk",
-    "source_url": "https://runsignup.com/Race/TX/Houston/StoptheSilenceWalk",
-    "description": "A charity 5K run and walk at Tom Bass Regional Park in southwest Houston raising community awareness."
+    "official_website_url": "https://www.stopthesilencewalk.org/",
+    "source_url": "https://www.stopthesilencewalk.org/",
+    "description": "The 16th Annual Stop the Silence 5K Walk/Run at Tom Bass Regional Park benefits the Karen E. Jackson Breast Cancer Assistance Program, supporting Black women affected by breast cancer. The Sisters Network Inc. event attracts approximately 3,000 participants and raises awareness for early detection and support resources."
   },
   {
     "id": "xklusive-06k-2026",
@@ -308,29 +393,94 @@
     "description": "A 6K road race and walk in Sugar Land celebrating Houston area culture, held in Fort Bend County."
   },
   {
-    "id": "space-city-half-marathon-2026",
-    "name": "Space City Half Marathon, 10K, 5K & Mile",
-    "date": "2026-04-19",
+    "id": "terry-hershey-parkrun-2026-04-18",
+    "name": "Terry Hershey parkrun",
+    "date": "2026-04-18",
+    "start_time": "08:00",
+    "tz": "America/Chicago",
+    "address": "15200 Memorial Dr",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77079",
+    "latitude": 29.7606,
+    "longitude": -95.5583,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://www.parkrun.us/terryhershey/",
+    "source_url": "https://www.parkrun.us/terryhershey/",
+    "description": "A free, weekly timed 5K community run held every Saturday at 8:00 AM in Terry Hershey Park along the Buffalo Bayou trail in west Houston. Open to runners of all abilities with no pre-registration required; results are published online for all finishers."
+  },
+  {
+    "id": "xklusive-06k-race-walk-2026",
+    "name": "XKLusive '06K Race/Walk",
+    "date": "2026-04-18",
     "start_time": null,
+    "tz": "America/Chicago",
+    "address": "15890 Southwest Fwy",
+    "city": "Sugar Land",
+    "state": "TX",
+    "zip": "77479",
+    "latitude": 29.609,
+    "longitude": -95.608,
+    "distance": [
+      "6K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/SugarLand/XKLusive06KRaceWalk",
+    "source_url": "https://runsignup.com/Race/TX/SugarLand/XKLusive06KRaceWalk",
+    "description": "The Alexandria Foundation's '06K Race adds an extra 1K to a standard 5K to honor the 1906 founding year of Alpha Phi Alpha Fraternity, Inc., held at Brazos River Park in Sugar Land. Now in its fifth year, 2026 proceeds benefit local Autism nonprofits Hope for Three and Seensory and Me Ministries."
+  },
+  {
+    "id": "space-city-half-marathon-2026",
+    "name": "Space City Half Marathon, 10k, 5k, & Mile",
+    "date": "2026-04-19",
+    "start_time": "07:00",
     "tz": "America/Chicago",
     "address": "2020 Mangum Rd",
     "city": "Houston",
     "state": "TX",
     "zip": "77092",
-    "latitude": 29.806,
-    "longitude": -95.4576,
+    "latitude": 29.8121,
+    "longitude": -95.4483,
     "distance": [
       "1 Mile",
       "5K",
       "10K",
+      "Half Marathon"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://www.spacecityhalf.com/",
+    "source_url": "https://www.spacecityhalf.com/",
+    "description": "The debut Space City Half Marathon makes its first appearance as the Season Opener of the Lone Star Race Series, offering a flat, fast course through Houston's westside inner-loop. The event is produced by the team behind the popular Houston Turkey Dash and includes half marathon, 10K, 5K, and mile distances."
+  },
+  {
+    "id": "running-through-the-decades-houston-2026",
+    "name": "Running through the Decades Half Marathon - Houston",
+    "date": "2026-04-19",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "18427 Southwest Fwy",
+    "city": "Sugar Land",
+    "state": "TX",
+    "zip": "77479",
+    "latitude": 29.6085,
+    "longitude": -95.5901,
+    "distance": [
+      "1 Mile",
+      "5K",
       "Half Marathon",
       "Kids"
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://www.spacecityhalf.com/",
-    "source_url": "https://runsignup.com/Race/TX/Houston/SpaceCityHalf",
-    "description": "The debut Space City Half Marathon at Delmar Stadium on Houston's westside inner-loop, offering a flat and fast half marathon, 10K, 5K, and mile run. Season opener of the Lone Star Race Series presented by Houston Running Co."
+    "official_website_url": "https://runsignup.com/Race/TX/Sugarland/RunningThroughTheDecadesHalfMarathonHouston",
+    "source_url": "https://runsignup.com/Race/TX/Sugarland/RunningThroughTheDecadesHalfMarathonHouston",
+    "description": "The 1980s Edition of Bigfoot Running Company's themed half marathon series, set at Brazos River Park in Sugar Land with a pre-race costume contest and 80s music throughout. Distances include a Kids Dash, 1 Mile, 5K, Quarter Marathon (6.55 miles), and Half Marathon."
   },
   {
     "id": "bayou-bash-relay-2026",
