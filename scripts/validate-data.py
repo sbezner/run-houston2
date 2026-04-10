@@ -17,6 +17,7 @@ field, new canonical distance, new surface), update this file too.
 import json
 import re
 import sys
+from datetime import datetime
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
@@ -119,6 +120,11 @@ def validate_race(i, r):
 
     if not isinstance(r["date"], str) or not ISO_DATE_RE.match(r["date"]):
         error(f"races-upcoming[{rid}]: 'date' must be YYYY-MM-DD, got {r['date']!r}")
+    else:
+        try:
+            datetime.strptime(r["date"], "%Y-%m-%d")
+        except ValueError:
+            error(f"races-upcoming[{rid}]: 'date' {r['date']!r} is not a real calendar date")
 
     if not isinstance(r["distance"], list) or not r["distance"]:
         error(f"races-upcoming[{rid}]: 'distance' must be a non-empty array")
@@ -181,8 +187,14 @@ def validate_report(i, r):
         error(f"race_reports[{rid}]: 'content_md' must be a non-empty string")
 
     rd = r.get("race_date")
-    if rd is not None and (not isinstance(rd, str) or not ISO_DATE_RE.match(rd)):
-        error(f"race_reports[{rid}]: 'race_date' must be YYYY-MM-DD or null, got {rd!r}")
+    if rd is not None:
+        if not isinstance(rd, str) or not ISO_DATE_RE.match(rd):
+            error(f"race_reports[{rid}]: 'race_date' must be YYYY-MM-DD or null, got {rd!r}")
+        else:
+            try:
+                datetime.strptime(rd, "%Y-%m-%d")
+            except ValueError:
+                error(f"race_reports[{rid}]: 'race_date' {rd!r} is not a real calendar date")
 
 
 # ----- Main ------------------------------------------------------------------
