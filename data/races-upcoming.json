@@ -2178,15 +2178,102 @@
     "description": "Part of the US Road Running Medal Madness series, this race at Mason Creek Hike & Bike Trail in Katy offers 5K, 10K, and half marathon on a flat out-and-back course. No on-site registration; chip-timed with themed finisher medals and a 3.5-hour course limit."
   },
   {
+    "id": "beneeezy-purple-monkey-fun-run-2026",
+    "name": "BENeezy Purple Monkey Fun Run",
+    "date": "2026-09-05",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": null,
+    "city": "Alvin",
+    "state": "TX",
+    "zip": null,
+    "latitude": 29.4241,
+    "longitude": -95.2441,
+    "distance": [
+      "5K",
+      "10K",
+      "Kids"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": "https://purplemonkeyfunrun.com/",
+    "source_url": "https://www.runguides.com/event/1000/beneeezy-purple-monkey-fun-run",
+    "description": "Annual fun run in Alvin honoring the memory of Ben Garcia, raising scholarship funds for Alvin High School student athletes. Features a 1K kids run, 5K, and 10K. Produced by Running Alliance Sport."
+  },
+  {
+    "id": "chance-for-hope-going-gold-fun-run-2026",
+    "name": "Chance for Hope Going Gold Fun Run",
+    "date": "2026-09-05",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": null,
+    "city": "Pearland",
+    "state": "TX",
+    "zip": null,
+    "latitude": 29.5636,
+    "longitude": -95.286,
+    "distance": [
+      "5K",
+      "10K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://chanceforhopefoundation.org/go-gold-fun-run/",
+    "source_url": "https://runsignup.com/Race/TX/Pearland/Chanceforhope",
+    "description": "A timed 5K and 10K in Pearland supporting the Chance for Hope Foundation, which provides services for children with cancer and their families and funds pediatric cancer research. Features an event village with music, raffle prizes, and children's activities."
+  },
+  {
+    "id": "texas-gatorfest-5k-2026",
+    "name": "Texas Gatorfest Twilight 5K",
+    "date": "2026-09-06",
+    "start_time": "18:00",
+    "tz": "America/Chicago",
+    "address": "Fort Anahuac Park",
+    "city": "Anahuac",
+    "state": "TX",
+    "zip": null,
+    "latitude": 29.7693,
+    "longitude": -94.6851,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://www.texasgatorfest.com/5k-run",
+    "source_url": "https://www.texasgatorfest.com/5k-run",
+    "description": "A twilight 5K run/walk at Fort Anahuac Park as the sun sets, held during the annual Texas Gatorfest weekend. Check-in at 5:00 PM, race at 6:00 PM. Registration $30, closes August 14."
+  },
+  {
+    "id": "tunnel-to-towers-5k-cypress-2026",
+    "name": "Tunnel to Towers 5K Run & Walk - Cypress, TX / Northwest Houston",
+    "date": "2026-09-06",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "9950 Katy Hockley Rd",
+    "city": "Cypress",
+    "state": "TX",
+    "zip": "77433",
+    "latitude": 29.9522,
+    "longitude": -95.7269,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/Info/TX/Cypress/TunneltoTowers5KRunWalkCypressTX",
+    "source_url": "https://myneighborhoodnews.com/tunnel-to-towers-foundation-5k-runwalk-cypress-returns-september-6-to-honor-first-responders-and-military-heroes",
+    "description": "The 4th annual Tunnel to Towers 5K at John Paul Landing Park in Cypress, honoring the memory of FDNY firefighter Stephen Siller and saluting local first responders and military. Stroller and wheelchair friendly."
+  },
+  {
     "id": "911-heroes-run-houston-2026",
     "name": "9/11 Heroes Run - Houston, Texas",
-    "date": "2026-09-05",
-    "start_time": "08:30",
+    "date": "2026-09-07",
+    "start_time": null,
     "tz": "America/Chicago",
-    "address": "TBD",
+    "address": null,
     "city": "Houston",
     "state": "TX",
-    "zip": "77002",
+    "zip": null,
     "latitude": null,
     "longitude": null,
     "distance": [
@@ -2194,9 +2281,32 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/911HeroesRunHouston",
-    "source_url": "https://runsignup.com/Race/TX/Houston/911HeroesRunHouston",
-    "description": "An annual 5K held near September 11 in downtown Houston honoring the sacrifices of first responders, veterans, and military service members, organized by the Travis Manion Foundation. The event welcomes runners, walkers, and ruckers of all fitness levels with a rucking division available."
+    "official_website_url": "https://runsignup.com/Race/Events/TX/Houston/911HeroesRunHouston",
+    "source_url": "https://runsignup.com/Race/Events/TX/Houston/911HeroesRunHouston",
+    "description": "A 5K run and ruck event paying tribute to the heroes of September 11th and honoring those who have served since. Benefits Assist the Officer, IAFF Local 341, and Operation Lone Star."
+  },
+  {
+    "id": "run-houston-university-of-houston-2026",
+    "name": "Run Houston! at University of Houston 5K & 10K presented by Houston Methodist",
+    "date": "2026-09-09",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "University of Houston",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77004",
+    "latitude": 29.7199,
+    "longitude": -95.3422,
+    "distance": [
+      "5K",
+      "10K",
+      "Kids"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/RunHoustonUH",
+    "source_url": "https://www.raceentry.com/run-houston-at-university-of-houston-5k-and-10k/race-information",
+    "description": "Part of the Run Houston Race Series, this 5K, 10K, and Kids K is set on the University of Houston campus. The series partners with community nonprofits to provide sneakers and socks to underserved children."
   },
   {
     "id": "medal-madness-katy-37-2026",
@@ -2255,15 +2365,15 @@
     "state": "TX",
     "zip": "77565",
     "latitude": 29.5435,
-    "longitude": -95.02,
+    "longitude": -95.0213,
     "distance": [
       "10K"
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Kemah/Toughest10Kemah",
+    "official_website_url": "https://www.onetough10k.org/",
     "source_url": "https://runsignup.com/Race/TX/Kemah/Toughest10Kemah",
-    "description": "The opening event of the Texas Bridge Series, the Toughest 10K sends runners from the Kemah Boardwalk over two loops of the Kemah-Seabrook Bridge, featuring a 3.5% grade with scenic views of Galveston Bay and Clear Lake before finishing back at the Boardwalk. All finishers receive a medal; the race has a strict 2-hour time limit."
+    "description": "The kickoff race of the Texas Bridge Series, taking runners over the Kemah-Seabrook Bridge with a 3.5% grade and views of Galveston Bay and Clear Lake. Finishes at the Kemah Boardwalk. Strict 2-hour time limit. No strollers or dogs on course."
   },
   {
     "id": "heroes-and-villains-half-marathon-houston-2026",
@@ -2288,6 +2398,29 @@
     "official_website_url": "https://runsignup.com/Race/TX/Sugarland/HeroesAndVillainsHouston",
     "source_url": "https://runsignup.com/Race/TX/Sugarland/HeroesAndVillainsHouston",
     "description": "A superhero-and-villain themed race hosted by Bigfoot Running Company in the Sugar Land area, offering kids' dash, 1-mile, 5K, quarter marathon, and half marathon with chip timing, costume contest, and Bigfoot Trophy for top finishers. Venue to be confirmed closer to race day."
+  },
+  {
+    "id": "woodforest-charity-run-2026",
+    "name": "16th Annual Woodforest Charity Run",
+    "date": "2026-09-20",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "500 Collins St",
+    "city": "Conroe",
+    "state": "TX",
+    "zip": "77301",
+    "latitude": 30.3119,
+    "longitude": -95.4561,
+    "distance": [
+      "5K",
+      "10K",
+      "Kids"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": "https://runsignup.com/Race/TX/Conroe/WoodforestCharityRun",
+    "source_url": "https://runsignup.com/Race/TX/Conroe/WoodforestCharityRun",
+    "description": "A 5K, 10K, and kids' dash at Heritage Place Park in downtown Conroe benefiting the Woodforest Charitable Foundation. All net proceeds support the foundation's community programs."
   },
   {
     "id": "medal-madness-cypress-39-2026",
@@ -2336,6 +2469,52 @@
     "official_website_url": "https://runsignup.com/Race/TX/Houston/GoldenHarvestHalfMarathon5k10kHouston",
     "source_url": "https://runsignup.com/Race/TX/Houston/GoldenHarvestHalfMarathon5k10kHouston",
     "description": "A fall-season road race in Houston offering kids' dash, 1-mile, 5K, 10K, and half marathon with chip timing, custom finisher medals, and free photos. Produced by Bodies Race Company; venue to be confirmed closer to race day."
+  },
+  {
+    "id": "turkey-trails-houston-2026",
+    "name": "Turkey Trails - Houston",
+    "date": "2026-09-26",
+    "start_time": "08:00",
+    "tz": "America/Chicago",
+    "address": "4033 State Highway 6 South",
+    "city": "Sugar Land",
+    "state": "TX",
+    "zip": "77479",
+    "latitude": 29.5803,
+    "longitude": -95.6192,
+    "distance": [
+      "1 Mile",
+      "5K",
+      "10K",
+      "Half Marathon",
+      "Kids"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": "https://runsignup.com/Race/TX/SugarLand/TurkeyTrailsHouston",
+    "source_url": "https://runsignup.com/Race/TX/SugarLand/TurkeyTrailsHouston",
+    "description": "A multi-distance race at Oyster Creek Park in Sugar Land offering a Kids Dash, 1 Mile, 5K, 10K, and Half Marathon. Custom soft t-shirt and finisher medal for all participants."
+  },
+  {
+    "id": "galveston-shrimp-festival-5k-2026",
+    "name": "Galveston Island Shrimp Festival 5K",
+    "date": "2026-09-27",
+    "start_time": "09:00",
+    "tz": "America/Chicago",
+    "address": null,
+    "city": "Galveston",
+    "state": "TX",
+    "zip": null,
+    "latitude": 29.3013,
+    "longitude": -94.7977,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://galvestonislandshrimpfestival.com/5k-fun-run/",
+    "source_url": "https://galvestonislandshrimpfestival.com/5k-fun-run/",
+    "description": "A 5K fun run on Galveston Island held during the annual Shrimp Festival. Warm-up at 8:45 AM, 5K start at 9:00 AM. A portion of proceeds benefits The Justin Hughes Fund at UTMB for medical student depression awareness."
   },
   {
     "id": "zeal-rumrunners-race-series-2026",
