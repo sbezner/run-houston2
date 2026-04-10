@@ -14,11 +14,7 @@ You just landed the `CNAME` file (commit `2381b78`), which tells GitHub
 Pages to serve the site at the custom domain. A handful of related steps
 remain to make the launch actually go smoothly.
 
-- [ ] **Confirm DNS is pointed at GitHub Pages.** Either four `A` records to
-  GitHub's IPs (`185.199.108.153`, `185.199.109.153`, `185.199.110.153`,
-  `185.199.111.153`) at the apex, or a `CNAME` record at your DNS provider
-  pointing `runhouston.app` (or the relevant subdomain) at `sbezner.github.io`.
-  Use whichever your registrar supports for the apex. **(You)**
+- [x] ~~**Confirm DNS is pointed at GitHub Pages.**~~ Confirmed 2026-04-09.
 - [ ] **Flip "Enforce HTTPS"** in repo Settings → Pages once DNS has
   propagated and GitHub finishes provisioning the Let's Encrypt cert. Usually
   takes 5–30 minutes after DNS is correct. The toggle is grayed out until the
