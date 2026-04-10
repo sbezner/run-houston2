@@ -38,6 +38,28 @@ This output will be saved as a static JSON file that powers a public website. **
 
 **Exhaustive means exhaustive.** Keep searching until you have crawled every source listed below, plus follow-on searches for race series, charity events, and venue calendars. Do not stop at the first 10 or 20 results. A complete year of Houston-area racing is realistically 150–400+ events; a single quarter is typically 40–120. If you find fewer than ~30 races for a quarterly window or fewer than ~100 for a year, you have not searched thoroughly enough — keep going.
 
+## Coverage targets (hard floors)
+
+Use these as a "you are not done" signal. If your output is below the floor for the window size, do another pass before producing the artifact. Do not produce the artifact while below floor.
+
+| Window size | Floor | Typical |
+|---|---|---|
+| 30 days   | 25 races  | 30–50    |
+| 60 days   | 50 races  | 60–100   |
+| 90 days   | 75 races  | 90–150   |
+| 180 days  | 150 races | 180–280  |
+| 365 days  | 280 races | 320–450  |
+
+If you are below the floor, the most likely cause is that you stopped searching too early. Re-run the seasonal-keyword sweep, the search-by-venue pass, and the Saturday density check before finalizing.
+
+## Choosing your window size
+
+If you are advising the user on what window size to pick (or running a default sweep), prefer **smaller windows**:
+
+- **Recommended:** 30–60 day windows. These give the most thorough coverage per pass because the model can hold the entire date space in working memory and run targeted date-specific searches.
+- **Acceptable:** 90 day windows. Coverage drops slightly; expect to need one dig-deeper pass for ~10% of races.
+- **Use sparingly:** 180–365 day windows. Coverage drops noticeably; the seasonal keyword sweep and Saturday density check both become impractical to apply uniformly. Only use these for an initial bootstrap of an empty data set.
+
 ## Time window
 
 - **Today** is the date you are executing this prompt. Do NOT hardcode any date — use whatever the current date is when you run this.
@@ -172,13 +194,80 @@ Houston has at least one running race on **almost every Saturday** of the year, 
 2. For each Saturday with **0 races** in your output, do a fresh search for that specific date (`"houston race november 7 2026"`, etc.). It's almost certainly because you missed something, not because the city is quiet that day.
 3. Only finalize once every Saturday has at least 1 race or you've explicitly searched and confirmed nothing happens that day (rare — almost always tied to a major holiday like Christmas Day).
 
+## Required searches
+
+Before producing the artifact you MUST have run at least one search against each of the following sources for the date window. Don't skip any — the cost of an extra search is small, the cost of missing a major race is large.
+
+1. `runintexas.com/race-calendar` (paginate through every page within the window)
+2. `runsignup.com` filtered to `Houston, TX` and 50-mile radius
+3. `active.com` Houston listings
+4. `findarace.com/texas`
+5. `athlinks.com` upcoming Houston-area events
+6. `harra.org` event calendar
+7. `bcrr.org` event calendar
+8. `houstonstriders.org` event list
+9. `houstonmarathon.com/events`
+10. `trailracingovertexas.com` upcoming events
+11. `texas10series.com` (or current series site)
+12. Texas Parks & Wildlife events page filtered to Brazos Bend, Huntsville, Lake Houston
+13. Memorial Park Conservancy event calendar
+14. Each seasonal keyword from the "Seasonal keyword sweeps" section that applies to your window's months
+15. Each marquee venue from the "Search-by-venue pass" section
+
+If a source is unreachable or returns nothing for your window, note it briefly in your chat confirmation message — don't silently skip.
+
+## Anchor race report
+
+Houston has a known set of recurring marquee races. For each anchor below that has *ever* been held in any month covered by your window, you MUST either include it in the JSON OR explicitly note in the chat confirmation that it is not in the window and (if you can find it) the date of the next instance.
+
+Anchor races to account for:
+
+- **Chevron Houston Marathon** + **Aramco Houston Half Marathon** (mid-January)
+- **We Are Houston 5K** (early January, paired with the marathon weekend)
+- **Memorial Hermann Sugar Land 30K** + **Sugar Land Half Marathon** (late January)
+- **The Woodlands Marathon** (early March)
+- **Bayou City Classic 10K** (mid-March)
+- **Texas Independence Relay** (early March)
+- **Bellaire Trolley Run** (April)
+- **Brazos Bend 50** (April) and **Brazos Bend 100** (December)
+- **Sam Houston Trail 100K** (mid-October)
+- **Houston Half Marathon** (November)
+- **Run for the Rose** (November)
+- **Turkey Trot** (Thanksgiving morning, multiple in metro area — Houston, Sugar Land, Cypress, Katy, The Woodlands)
+- **Jingle Bell Run** (early December, multiple in metro area)
+- **BCS Marathon** (College Station — only if it's within your driving radius interpretation)
+- **Run Houston! series** (Sugar Land, Clear Lake, La Porte, etc. — recurring through the year)
+- **Texas 10 Series** (recurring through the year, find every instance in the window)
+
+Silent omission of an anchor race is a failure mode. Either it's in the JSON or it's explicitly accounted for in chat.
+
+## Search procedure (do all passes in order)
+
+Replace any vague "be exhaustive" instinct with this explicit pass list. Do them in order. Only after Pass 7 passes do you produce the artifact.
+
+**Pass 1 — Calendar sweep.** Walk every source in the "Required searches" list. Paginate through results. After this pass, you should have a baseline of ~70% of the in-window races.
+
+**Pass 2 — Seasonal keyword sweep.** For every month in your window, run the seasonal keyword searches from the "Seasonal keyword sweeps" section. Add anything Pass 1 missed.
+
+**Pass 3 — Series enumeration.** For every series mentioned in any race you've already found, do a follow-up search of the form "all [series name] events 2026" or "[series name] schedule 2026-2027". Add any in-window dates you find.
+
+**Pass 4 — Venue sweep.** Walk every venue in the "Search-by-venue pass" section. For each venue, run a search like "Memorial Park 5K 2026" or "Brazos Bend race December 2026". Add anything not already in your output.
+
+**Pass 5 — Saturday density check.** List every Saturday and Sunday in the window. For any with 0 races in your output, do a fresh date-specific search ("houston race november 7 2026"). It's almost certainly because you missed something, not because the city is quiet that day.
+
+**Pass 6 — Anchor race accountability.** Walk the anchor list above. For each anchor whose typical month falls in the window, confirm it's either in your output or accounted for in chat.
+
+**Pass 7 — Coverage floor check.** Compare your race count against the coverage target for your window size from the "Coverage targets" section. If below floor, return to Pass 1 and identify what kinds of races you've under-counted (themed? trail? small charity? track meets?). Repeat until at or above the floor.
+
 ## Self-audit before finalizing
 
 Before producing the artifact, do a final coverage check:
 
 1. **Count races per month** in your window. If any month has fewer than 60–70% of the count of a typical neighboring month, search that month again.
-2. **Confirm canonical races are present.** For a window that includes January, the Chevron Houston Marathon and Aramco Houston Half should be there. For November, the Houston Half Marathon and Run for the Rose. For March, The Woodlands Marathon. For December, the BCS Marathon and Sugar Land Half. If any of these obvious anchors are missing, your sweep is incomplete.
+2. **Confirm canonical races are present.** Walk the Anchor race list one more time. Any anchor in the window's date range is either in the JSON or noted in chat.
 3. **Check for series gaps.** If you found Texas 10 Series race #2 and #4 in the window but not #3, find #3.
+4. **Confirm you're at or above the coverage floor.** Re-check the Coverage targets table.
+5. **Confirm all required searches were actually run.** If you skipped any, run them now.
 
 ## Output schema
 
