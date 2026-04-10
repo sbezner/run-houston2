@@ -178,6 +178,46 @@
     );
   }
 
+  function buildShareButton(race) {
+    var url = 'https://runhouston.app/race.html?id=' + encodeURIComponent(race.id);
+    var text = race.name + ' — ' + RH.formatDateLong(race.date);
+    return (
+      '<button type="button" class="btn-share" ' +
+      'data-url="' + RH.escapeAttr(url) + '" ' +
+      'data-title="' + RH.escapeAttr(race.name + ' — Run Houston') + '" ' +
+      'data-text="' + RH.escapeAttr(text) + '">' +
+      '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>' +
+      '<polyline points="16 6 12 2 8 6"/>' +
+      '<line x1="12" y1="2" x2="12" y2="15"/>' +
+      '</svg>' +
+      'Share this race</button>'
+    );
+  }
+
+  function handleShare(e) {
+    var btn = e.currentTarget;
+    var data = {
+      title: btn.dataset.title,
+      text: btn.dataset.text,
+      url: btn.dataset.url
+    };
+
+    if (navigator.share) {
+      navigator.share(data).catch(function () {});
+    } else {
+      navigator.clipboard.writeText(data.url).then(function () {
+        var orig = btn.innerHTML;
+        btn.innerHTML = 'Link copied!';
+        btn.classList.add('is-copied');
+        setTimeout(function () {
+          btn.innerHTML = orig;
+          btn.classList.remove('is-copied');
+        }, 2000);
+      });
+    }
+  }
+
   function renderRace(race) {
     updateMeta(race);
     injectJsonLd(race);
@@ -209,6 +249,7 @@
       : '';
 
     var calendarLinks = buildCalendarLinks(race);
+    var shareButton = buildShareButton(race);
 
     var description = race.description
       ? '<p class="race-description-full">' + RH.escapeHtml(race.description) + '</p>'
@@ -237,6 +278,7 @@
       '<dt>Kid-friendly</dt><dd>' + (race.kid_run ? 'Yes' : 'No') + '</dd>' +
       '</dl>' +
       calendarLinks +
+      '<div class="race-actions">' + shareButton + '</div>' +
       websiteButton
     );
   }
@@ -264,6 +306,8 @@
           return;
         }
         articleEl.innerHTML = renderRace(race);
+        var shareBtn = articleEl.querySelector('.btn-share');
+        if (shareBtn) shareBtn.addEventListener('click', handleShare);
       })
       .catch(function (err) {
         console.error(err);

@@ -1104,6 +1104,46 @@ main {
   color: var(--border);
 }
 
+.race-actions {
+  margin: 0 0 0.5rem;
+}
+
+.btn-share {
+  appearance: none;
+  border: 1.5px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.55rem 1.15rem;
+  min-height: 40px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  transition: background 150ms ease, border-color 150ms ease,
+              color 150ms ease;
+}
+
+.btn-share:hover {
+  border-color: var(--text);
+}
+
+.btn-share.is-copied {
+  background: var(--trail-soft);
+  border-color: var(--trail);
+  color: var(--trail);
+}
+
+.btn-share:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
 .race-website-cta {
   margin: 1.75rem 0 0;
   text-align: center;
