@@ -172,12 +172,19 @@ a:hover {
 
 /* -------------------- Hero (slim) -------------------- */
 
+/* On pages with has-hero, the header floats over the hero image */
+.has-hero .site-header {
+  background: transparent;
+  border-bottom: none;
+}
+
 .hero-slim {
   background: var(--dark-bg);
-  background-image: linear-gradient(rgba(15,15,15,0.55), rgba(15,15,15,0.7)), url('/hero-bg.jpg');
+  background-image: linear-gradient(rgba(15,15,15,0.45), rgba(15,15,15,0.65)), url('/hero-bg.jpg');
   background-size: cover;
   background-position: center 40%;
-  padding: 2.5rem 1.25rem;
+  margin-top: -60px;
+  padding: 5.5rem 1.25rem 2.5rem;
   border-bottom: 3px solid var(--accent);
 }
 
