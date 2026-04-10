@@ -181,7 +181,7 @@
     var el = document.getElementById('race-cards');
     if (rows.length === 0) {
       el.innerHTML =
-        '<p class="empty">No races match. Try clearing the search box, widening the date window, or clearing a distance chip.</p>';
+        '<p class="empty">Hmm, nothing matches. Try widening your filters or clearing the search.</p>';
       return;
     }
     el.innerHTML = rows.map(renderRaceCard).join('');
@@ -191,7 +191,7 @@
     var el = document.getElementById('race-list');
     if (rows.length === 0) {
       el.innerHTML =
-        '<p class="empty">No races match. Try clearing the search box, widening the date window, or clearing a distance chip.</p>';
+        '<p class="empty">Hmm, nothing matches. Try widening your filters or clearing the search.</p>';
       return;
     }
     var html =
@@ -297,7 +297,7 @@
     var missing = rows.length - geo.length;
     if (rows.length === 0) {
       noteEl.textContent =
-        'No races match. Try clearing the search box, widening the date window, or clearing a distance chip.';
+        'Hmm, nothing matches. Try widening your filters or clearing the search.';
     } else if (missing > 0) {
       noteEl.textContent =
         missing + ' race' + (missing === 1 ? ' is' : 's are') +
@@ -322,7 +322,7 @@
     }
 
     countEl.textContent =
-      rows.length + ' race' + (rows.length === 1 ? '' : 's') + ' found';
+      rows.length + ' race' + (rows.length === 1 ? '' : 's') + ' near Houston';
 
     if (state.view === 'map') {
       renderMap(rows);

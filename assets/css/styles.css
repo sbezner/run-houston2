@@ -13,37 +13,37 @@
 
 :root {
   /* Page surfaces */
-  --bg: #f5f4f0;              /* warm off-white */
+  --bg: #faf9f6;              /* warm cream */
   --surface: #ffffff;
-  --border: #e8e6df;
-  --text: #0f0f0f;
-  --muted: #6b6a63;
+  --border: #ebe8e0;
+  --text: #1a1a1a;
+  --muted: #706b63;
 
   /* Brand */
-  --accent: #dc2626;          /* vivid punch red */
-  --accent-hover: #b91c1c;    /* darker red, hover states */
-  --accent-soft: #fde8e8;
+  --accent: #d93636;          /* warm energetic red */
+  --accent-hover: #c02828;    /* deeper warm red */
+  --accent-soft: #fdeaea;
 
   /* Surface types (badges + race-card hover accent) */
-  --trail: #1b5e20;
-  --trail-soft: #dff3e3;
-  --road: #1e3a8a;
-  --road-soft: #dce7f5;
-  --track: #5b3a8a;
-  --track-soft: #e8dff5;
-  --virtual: #4a4a4a;
-  --virtual-soft: #ecebe5;
+  --trail: #2e7d32;
+  --trail-soft: #e3f5e6;
+  --road: #1565c0;
+  --road-soft: #e0ecf8;
+  --track: #6a3f9a;
+  --track-soft: #ede3f5;
+  --virtual: #5a5a5a;
+  --virtual-soft: #eeede8;
 
   /* Dark UI (header + footer) */
-  --dark-bg: #0f0f0f;
-  --dark-text: #ffffff;
-  --dark-muted: #9a9a95;
+  --dark-bg: #1e1e2a;         /* deep warm navy-charcoal */
+  --dark-text: #f5f4f0;
+  --dark-muted: #a8a4a0;
 
   /* Elevation + shape */
-  --shadow: 0 1px 2px rgba(15, 15, 15, 0.04), 0 4px 16px rgba(15, 15, 15, 0.06);
-  --shadow-lg: 0 4px 8px rgba(15, 15, 15, 0.06), 0 16px 32px rgba(15, 15, 15, 0.10);
-  --radius: 14px;
-  --radius-sm: 8px;
+  --shadow: 0 1px 3px rgba(30, 30, 42, 0.04), 0 4px 16px rgba(30, 30, 42, 0.06);
+  --shadow-lg: 0 4px 8px rgba(30, 30, 42, 0.06), 0 16px 32px rgba(30, 30, 42, 0.10);
+  --radius: 16px;
+  --radius-sm: 10px;
   --max-w: 1100px;
 
   /* Typography */
@@ -80,6 +80,7 @@ body {
   line-height: 1.55;
   color: var(--text);
   background: var(--bg);
+  background-image: linear-gradient(180deg, #f5f0ea 0%, var(--bg) 300px);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -637,13 +638,13 @@ main {
 .race-card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
+  border-left: 3.5px solid var(--accent);
   border-radius: var(--radius);
-  padding: 1.35rem 1.4rem 1.4rem;
+  padding: 1.5rem 1.5rem 1.5rem;
   box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.8rem;
   transition: transform 220ms ease, box-shadow 220ms ease,
               border-left-color 220ms ease;
 }
