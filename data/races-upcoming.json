@@ -355,24 +355,28 @@
   },
   {
     "id": "donot-stop-half-marathon-2026",
-    "name": "Donot Stop Half Marathon",
+    "name": "DoNot Stop Half Marathon (5k/10k) - Houston",
     "date": "2026-04-25",
     "start_time": null,
     "tz": "America/Chicago",
-    "address": "Cypress area",
+    "address": "24202 West Rd",
     "city": "Cypress",
     "state": "TX",
-    "zip": "77429",
+    "zip": "77433",
     "latitude": 29.9691,
     "longitude": -95.6972,
     "distance": [
-      "Half Marathon"
+      "1 Mile",
+      "5K",
+      "10K",
+      "Half Marathon",
+      "Kids"
     ],
     "surface": "road",
-    "kid_run": false,
+    "kid_run": true,
     "official_website_url": "https://runsignup.com/Race/TX/Cypress/DonotStopSouthHouston",
     "source_url": "https://runsignup.com/Race/TX/Cypress/DonotStopSouthHouston",
-    "description": "A half marathon road race in Cypress in northwest Houston, part of the Donot Stop South Houston race series."
+    "description": "A donut-themed half marathon, 10K, 5K, 1-mile, and Kids Dash held at John Paul Landing Park & Education Center in Cypress. Every participant receives a designer shirt, finisher medal, chip timing with live results, and free race-day photos, plus a donut waiting at the finish line."
   },
   {
     "id": "galveston-island-brewing-5k-2026",
@@ -399,30 +403,32 @@
     "id": "smilin-rylen-fun-run-2026",
     "name": "Smilin' Rylen Fun Run",
     "date": "2026-04-25",
-    "start_time": null,
+    "start_time": "08:15",
     "tz": "America/Chicago",
-    "address": "Katy area",
+    "address": "22400 Grand Cir Blvd",
     "city": "Katy",
     "state": "TX",
-    "zip": "77494",
+    "zip": "77450",
     "latitude": 29.7858,
     "longitude": -95.8245,
     "distance": [
-      "5K"
+      "1 Mile",
+      "5K",
+      "10K"
     ],
     "surface": "road",
     "kid_run": false,
     "official_website_url": "https://www.smilinrylenfoundation.org/smilin-rylen-run.html",
-    "source_url": "https://www.smilinrylenfoundation.org/smilin-rylen-run.html",
-    "description": "A charity fun run in Katy organized by the Smilin' Rylen Foundation to support families affected by childhood illness."
+    "source_url": "https://runsignup.com/Race/TX/Katy/SmilinRylenRun",
+    "description": "Annual charity run at the University of Houston at Katy campus supporting the Smilin' Rylen Foundation, which raises awareness about organ donation and assists families in crisis. Offers 5K, 10K, and 1-mile distances; 10K and 5K start at 8:15 AM, 1-mile at approximately 9:00 AM."
   },
   {
     "id": "strides-for-schools-fun-run-2026",
-    "name": "Strides For Schools Fun Run",
+    "name": "17th Annual Strides for Schools Fun Run",
     "date": "2026-04-25",
-    "start_time": null,
+    "start_time": "08:00",
     "tz": "America/Chicago",
-    "address": "Deer Park area",
+    "address": "710 W San Augustine",
     "city": "Deer Park",
     "state": "TX",
     "zip": "77536",
@@ -433,9 +439,9 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://thedriven.net/cw/strides-for-schools-fun-run/",
-    "source_url": "https://thedriven.net/cw/strides-for-schools-fun-run/",
-    "description": "A community fun run in Deer Park benefiting local schools through The Driven nonprofit organization."
+    "official_website_url": "https://www.stridesforschools.com",
+    "source_url": "https://helpdpkids.org/shell-dp-strides-for-schools-fun-run/",
+    "description": "A community 5K fun run starting and finishing at the parking lot of Clyde Abshier Stadium near Deer Park High School South Campus, presented by Shell Deer Park. All proceeds benefit the Deer Park Education Foundation's teacher enhancement grant program."
   },
   {
     "id": "divas-galveston-half-marathon-2026",
@@ -450,58 +456,37 @@
     "latitude": 29.2893,
     "longitude": -94.8057,
     "distance": [
-      "Half Marathon",
-      "5K"
+      "5K",
+      "Half Marathon"
     ],
     "surface": "road",
     "kid_run": false,
     "official_website_url": "https://divasrun.com/galveston-tx/",
     "source_url": "https://divasrun.com/galveston-tx/",
-    "description": "An all-women's half marathon and 5K starting and finishing at Beach Central on Galveston's Seawall, on a flat oceanfront course with tiaras, boas, and tutus. Benefits the Resource and Crisis Center of Galveston County."
+    "description": "A women's half marathon and 5K held along Galveston's iconic Seawall Boulevard, starting and finishing at Beach Central Park. Part of the national Divas Running Series, this flat coastal course runs along the Gulf of Mexico from start to finish, with glamorous finisher swag including a tutu, tiara, and medal."
   },
   {
     "id": "vintage-half-marathon-2026",
-    "name": "Run Houston! Vintage Half Marathon & 5K",
+    "name": "Vintage Half Marathon, 5K & Kid's K presented by Houston Methodist",
     "date": "2026-04-26",
     "start_time": null,
     "tz": "America/Chicago",
-    "address": "Vintage Park Blvd",
+    "address": "16715 Stuebner Airline Rd",
     "city": "Houston",
     "state": "TX",
-    "zip": "77070",
+    "zip": "77379",
     "latitude": 29.9711,
     "longitude": -95.5516,
     "distance": [
-      "Half Marathon",
       "5K",
+      "Half Marathon",
       "Kids"
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://txruns.com/runhoustonraceseries",
-    "source_url": "https://txruns.com/runhoustonraceseries",
-    "description": "Race 4 of 9 in the Run Houston Race Series presented by Houston Methodist, featuring a half marathon, 5K, and Kids K in the Vintage Park area of northwest Houston. Part of the Spring Series Running Challenge."
-  },
-  {
-    "id": "el-cinco-cinco-2026",
-    "name": "El Cinco Cinco",
-    "date": "2026-05-02",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "Spring Branch area",
-    "city": "Houston",
-    "state": "TX",
-    "zip": "77055",
-    "latitude": 29.7896,
-    "longitude": -95.4938,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://houstonrunning.co/thecincocinco/",
-    "source_url": "https://houstonrunning.co/thecincocinco/",
-    "description": "A Cinco de Mayo-themed 5K road race in the Spring Branch area of Houston organized by Houston Running Co."
+    "official_website_url": "https://www.vintageparkhalfmarathon.com",
+    "source_url": "https://runsignup.com/Race/TX/Klein/VintageParkHalfMarathon",
+    "description": "A half marathon, 5K, and Kids 1K starting and finishing at Klein High School in the Klein/Spring area of north Houston, part of the Run Houston Race Series presented by Houston Methodist. The race draws 1,000\u20135,000 participants across its distance options."
   },
   {
     "id": "girls-on-the-run-houston-5k-2026",
@@ -529,9 +514,9 @@
     "id": "klein-isd-5k-2026",
     "name": "Klein ISD Education Foundation 5K and Kids Fun Run",
     "date": "2026-05-02",
-    "start_time": null,
+    "start_time": "07:30",
     "tz": "America/Chicago",
-    "address": "Klein ISD area",
+    "address": "16715 Stuebner Airline Rd",
     "city": "Spring",
     "state": "TX",
     "zip": "77379",
@@ -543,15 +528,15 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Spring/KleinISD5K",
+    "official_website_url": "https://www.kleinisdeducationfoundation.net/fun-run",
     "source_url": "https://runsignup.com/Race/TX/Spring/KleinISD5K",
-    "description": "A community 5K and Kids Fun Run in Spring organized by the Klein ISD Education Foundation to support educational programs in the Klein Independent School District."
+    "description": "A USATF-certified 5K race and Kids Fun Run benefiting the Klein ISD Education Foundation's teacher classroom grants, starting and finishing at Klein Memorial Stadium at Klein High School. The 5K starts at 7:30 AM; the Kids Fun Run (ages 5\u201312) is a 600-meter race around the stadium track at 8:45 AM."
   },
   {
     "id": "pear-run-2026",
     "name": "The Pear Run",
     "date": "2026-05-02",
-    "start_time": null,
+    "start_time": "07:30",
     "tz": "America/Chicago",
     "address": "3449 Pearland Pkwy",
     "city": "Pearland",
@@ -566,9 +551,79 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://pearrun.com/",
+    "official_website_url": "https://pearrun.com",
     "source_url": "https://pearrun.com/event-details/",
-    "description": "The 20th Annual Pear Run at Independence Park in Pearland features a USATF-certified 10K, 5K, and Kids Run, with an out-and-back course down Pearland Parkway and Dixie Farm Road. Founded as a fundraiser benefiting the Pearland Police Department through the Citizens Police Academy Alumni Association."
+    "description": "Celebrating its 20th anniversary, this annual 5K and 10K race is held at Independence Park in Pearland, with both courses USATF certified. The 10K starts at 7:30 AM and the 5K at 8:00 AM; also features a Kids Fun Run and the debut of the Pear Ruck for 2026."
+  },
+  {
+    "id": "cinco-de-mayo-run-houston-may-2-2026",
+    "name": "Cinco De Mayo Run 5K/10K/13.1 HOUSTON",
+    "date": "2026-05-02",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "Bayou Loop Trails",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77077",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "1 Mile",
+      "5K",
+      "10K",
+      "Half Marathon"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/CincoDeMeyoRun5K10KHOUSTON",
+    "source_url": "https://runsignup.com/Race/TX/Houston/CincoDeMeyoRun5K10KHOUSTON",
+    "description": "A Cinco de Mayo-themed race offering half marathon, 10K, 5K, and family 1-mile fun run distances along the Bayou Loop Trails in west Houston. Virtual run options are also available for those who prefer to participate remotely."
+  },
+  {
+    "id": "el-cinco-cinco-2026",
+    "name": "El Cinco Cinco",
+    "date": "2026-05-03",
+    "start_time": "07:30",
+    "tz": "America/Chicago",
+    "address": "2032 Karbach St",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77018",
+    "latitude": 29.8017,
+    "longitude": -95.4448,
+    "distance": [
+      "5K",
+      "10K",
+      "Kids"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/ElCincoCinco",
+    "source_url": "https://runsignup.com/Race/TX/Houston/ElCincoCinco",
+    "description": "A Cinco de Mayo-themed 5K and 10K starting and finishing at Karbach Brewing Company in northwest Houston, with a Kids & Family 1K at 9:15 AM. Post-race festivities include live music, a Cinco de Mayo market, and refreshments; proceeds benefit Ainsley's Angels Southeast Texas, The Asher House Animal Sanctuary, and LifeGift Organ Donation."
+  },
+  {
+    "id": "fuzzys-taco-dash-sugar-land-2026",
+    "name": "Fuzzy's Taco Dash",
+    "date": "2026-05-03",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "1912 Wescott Ave",
+    "city": "Sugar Land",
+    "state": "TX",
+    "zip": "77479",
+    "latitude": 29.5962,
+    "longitude": -95.6405,
+    "distance": [
+      "5K",
+      "10K",
+      "Kids"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": "https://runsignup.com/Race/TX/Sugarland/SugarlandTacoDash",
+    "source_url": "https://runsignup.com/Race/TX/Sugarland/SugarlandTacoDash",
+    "description": "A taco-themed 5K and 10K held at Fuzzy's Taco Shop in Sugar Land, with 10K relay team options available. Includes a Kids Dash for children ages 10 and under."
   },
   {
     "id": "sprint-for-life-2026",
