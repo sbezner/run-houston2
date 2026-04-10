@@ -171,10 +171,19 @@ a:hover {
 
 /* -------------------- Hero (slim) -------------------- */
 
-/* On pages with has-hero, the header floats over the hero image */
+/* On hero pages the header sits inside the hero image. On mobile
+   we keep a semi-transparent dark scrim so the nav stays readable
+   even when the brand + nav wrap onto two lines. On desktop (where
+   the header fits one line) we go fully transparent. */
 .has-hero .site-header {
-  background: transparent;
+  background: rgba(15, 15, 15, 0.6);
   border-bottom: none;
+}
+
+@media (min-width: 700px) {
+  .has-hero .site-header {
+    background: transparent;
+  }
 }
 
 .hero-slim {
@@ -182,23 +191,18 @@ a:hover {
   background-image: linear-gradient(rgba(15,15,15,0.7), rgba(15,15,15,0.8)), url('/hero-bg.jpg');
   background-size: cover;
   background-position: center 40%;
-  margin-top: -60px;
-  padding: 5.5rem 1.25rem 2.5rem;
+  padding: 1.75rem 1.25rem;
   border-bottom: 3px solid var(--accent);
 }
 
 .hero-slim-inner {
   max-width: var(--max-w);
   margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
 }
 
 .hero-slim-title {
   font-family: var(--font-display);
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   font-weight: 800;
   text-transform: uppercase;
   color: #ffffff;
@@ -215,9 +219,9 @@ a:hover {
 
 .hero-slim-sub {
   font-family: var(--font-body);
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   color: #e0e0e0;
-  margin: 0.35rem 0 0;
+  margin: 0.3rem 0 0;
   letter-spacing: 0.03em;
   text-shadow: 0 1px 4px rgba(0,0,0,0.5);
 }
