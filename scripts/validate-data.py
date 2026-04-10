@@ -25,7 +25,7 @@ DATA = REPO / "data"
 # ----- Canonical vocabularies (must match what the data + index.js use) -----
 
 CANONICAL_DISTANCES = {
-    "1 Mile", "5K", "10K", "15K", "10 Mile",
+    "1 Mile", "5K", "6K", "10K", "12K", "15K", "10 Mile",
     "Half Marathon", "Marathon",
     "50K", "50 Mile", "100K", "100 Mile",
     "Ultra", "Kids",

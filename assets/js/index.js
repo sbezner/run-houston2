@@ -8,7 +8,9 @@
   var DISTANCE_ORDER = [
     '1 Mile',
     '5K',
+    '6K',
     '10K',
+    '12K',
     '15K',
     '10 Mile',
     'Half Marathon',
