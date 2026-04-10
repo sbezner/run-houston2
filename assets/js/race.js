@@ -235,11 +235,6 @@
         ? '<dt>Surface</dt><dd>' + RH.escapeHtml(race.surface) + '</dd>'
         : '') +
       '<dt>Kid-friendly</dt><dd>' + (race.kid_run ? 'Yes' : 'No') + '</dd>' +
-      (race.source_url
-        ? '<dt>Source</dt><dd><a href="' + RH.escapeAttr(RH.safeUrl(race.source_url)) +
-          '" target="_blank" rel="noopener noreferrer">' +
-          RH.escapeHtml(RH.prettyHost(race.source_url)) + '</a></dd>'
-        : '') +
       '</dl>' +
       calendarLinks +
       websiteButton
