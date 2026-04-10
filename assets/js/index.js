@@ -126,20 +126,43 @@
     );
   }
 
+  // Split the search query into whitespace-separated tokens and require
+  // EVERY token to match somewhere across name/city/description. Without
+  // this, "5k katy" was matched as a single literal substring (which
+  // appears in zero races). Tokenizing makes multi-word queries behave
+  // the way users expect — "5k katy" returns 5Ks in Katy, not nothing.
+  function matchesSearch(race, tokens) {
+    if (tokens.length === 0) return true;
+    var haystack = (
+      (race.name || '') + ' ' +
+      (race.city || '') + ' ' +
+      (race.description || '')
+    ).toLowerCase();
+    for (var i = 0; i < tokens.length; i++) {
+      if (haystack.indexOf(tokens[i]) === -1) return false;
+    }
+    return true;
+  }
+
   function filterRaces() {
     var today = RH.isoToday();
     var cutoff =
       state.window === 'all' ? '9999-12-31' : RH.isoPlusDays(parseInt(state.window, 10));
 
-    return alasql(
+    var rows = alasql(
       'SELECT * FROM ? ' +
         'WHERE date >= ? AND date <= ? ' +
         'AND HASANY(distance, ?) ' +
-        'AND (HASTEXT(name, ?) OR HASTEXT(city, ?) OR HASTEXT(description, ?)) ' +
         'ORDER BY date ASC',
-      [allRaces, today, cutoff, state.distances,
-        state.search, state.search, state.search]
+      [allRaces, today, cutoff, state.distances]
     );
+
+    var tokens = (state.search || '')
+      .toLowerCase()
+      .split(/\s+/)
+      .filter(function (t) { return t.length > 0; });
+
+    return rows.filter(function (race) { return matchesSearch(race, tokens); });
   }
 
   function renderList(rows) {
