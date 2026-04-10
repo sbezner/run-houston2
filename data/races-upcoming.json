@@ -1752,7 +1752,7 @@
     "date": "2026-10-03",
     "start_time": "08:30",
     "tz": "America/Chicago",
-    "address": "TBD — Kingwood area",
+    "address": "TBD \u2014 Kingwood area",
     "city": "Houston",
     "state": "TX",
     "zip": "77339",
@@ -1836,7 +1836,7 @@
     "kid_run": false,
     "official_website_url": "https://spacecity10.com",
     "source_url": "https://runsignup.com/Race/TX/Houston/spacecity10",
-    "description": "A HARRA Fall Series event at the University of Houston – Clear Lake campus, featuring a certified 10-mile single loop through the scenic Clear Lake area past Armand Bayou and NASA, plus a 5K and 2-person relay option. Cash prizes up to $500 for overall winners, long-sleeve shirts for all entrants, and finisher medals."
+    "description": "A HARRA Fall Series event at the University of Houston \u2013 Clear Lake campus, featuring a certified 10-mile single loop through the scenic Clear Lake area past Armand Bayou and NASA, plus a 5K and 2-person relay option. Cash prizes up to $500 for overall winners, long-sleeve shirts for all entrants, and finisher medals."
   },
   {
     "id": "shipley-donut-dash-2026",
@@ -1883,7 +1883,7 @@
     "kid_run": true,
     "official_website_url": "https://runsignup.com/Race/TX/Houston/DayoftheDeadHalfMarathonHouston",
     "source_url": "https://runsignup.com/Race/TX/Houston/DayoftheDeadHalfMarathonHouston",
-    "description": "A Día de los Muertos–themed half marathon hosted by Bigfoot Running Company at Brazos River Park in Sugar Land, offering kids' dash, 1-mile, 5K, quarter marathon, and half marathon. Features a pre-race costume contest, DJ, Bigfoot trophies for top finishers, and a festive post-race celebration at the Race Rally Tent."
+    "description": "A D\u00eda de los Muertos\u2013themed half marathon hosted by Bigfoot Running Company at Brazos River Park in Sugar Land, offering kids' dash, 1-mile, 5K, quarter marathon, and half marathon. Features a pre-race costume contest, DJ, Bigfoot trophies for top finishers, and a festive post-race celebration at the Race Rally Tent."
   },
   {
     "id": "haunted-5k-10k-half-deer-park-42-2026",
@@ -2089,7 +2089,7 @@
     "kid_run": false,
     "official_website_url": "https://runsignup.com/Race/TX/Baytown/Xracersrideatthepark",
     "source_url": "https://runsignup.com/Race/TX/Baytown/Xracersrideatthepark",
-    "description": "A Día de los Muertos–themed hybrid event at the beautiful Baytown Nature Center, combining a 5K trail run and a 10K bike-and-run distance. Participants enjoy the park's wildlife, trails, and waterfront scenery; all finishers receive a shirt and medal at the finish line."
+    "description": "A D\u00eda de los Muertos\u2013themed hybrid event at the beautiful Baytown Nature Center, combining a 5K trail run and a 10K bike-and-run distance. Participants enjoy the park's wildlife, trails, and waterfront scenery; all finishers receive a shirt and medal at the finish line."
   },
   {
     "id": "whatarun-5k-10k-houston-2026",
@@ -2247,7 +2247,7 @@
     "kid_run": false,
     "official_website_url": "https://runsignup.com/Race/TX/LaPorte/LaPorteByTheBayHalf",
     "source_url": "https://runsignup.com/Race/TX/LaPorte/LaPorteByTheBayHalf",
-    "description": "The third and final race of the Texas Bridge Series, this half marathon starts at Sylvan Beach Park in La Porte and crosses the iconic Fred Hartman Bridge — whose 440-foot yellow cable towers have been called an open-air cathedral — twice before finishing at Five Points Town Plaza. Organized by 3 Bros Running Company with a strict 4-hour time limit; all finishers receive a medal and post-race celebration with food and cold beer."
+    "description": "The third and final race of the Texas Bridge Series, this half marathon starts at Sylvan Beach Park in La Porte and crosses the iconic Fred Hartman Bridge \u2014 whose 440-foot yellow cable towers have been called an open-air cathedral \u2014 twice before finishing at Five Points Town Plaza. Organized by 3 Bros Running Company with a strict 4-hour time limit; all finishers receive a medal and post-race celebration with food and cold beer."
   },
   {
     "id": "great-houston-pie-run-2026",
@@ -2319,7 +2319,7 @@
     "kid_run": false,
     "official_website_url": "https://theturkeytrot.org",
     "source_url": "https://runsignup.com/Race/TX/Houston/CoolxDad5kRun",
-    "description": "Downtown Houston's Thanksgiving morning tradition at Saint Arnold Brewing Company, featuring a chip-timed 5K and 10K course with views of the Downtown skyline plus an inclusive 1-mile walk. Multiple wave starts run from 7:00–9:30 AM; proceeds benefit CoolxDad, a Houston nonprofit uplifting fathers and families."
+    "description": "Downtown Houston's Thanksgiving morning tradition at Saint Arnold Brewing Company, featuring a chip-timed 5K and 10K course with views of the Downtown skyline plus an inclusive 1-mile walk. Multiple wave starts run from 7:00\u20139:30 AM; proceeds benefit CoolxDad, a Houston nonprofit uplifting fathers and families."
   },
   {
     "id": "houston-methodist-turkey-trot-2026",
@@ -2366,7 +2366,7 @@
     "kid_run": true,
     "official_website_url": "https://runsignup.com/Race/TX/Katy/KatyYMCATurkeyDash",
     "source_url": "https://runsignup.com/Race/TX/Katy/KatyYMCATurkeyDash",
-    "description": "A beloved 24-year Thanksgiving morning tradition organized by the Katy Area YMCAs near Cinco Ranch, featuring a 10K, 5K, 1-mile family walk/run, and 1-mile kids race (ages 3–12). All finishers receive medals, and proceeds fund YMCA scholarships for Katy community members."
+    "description": "A beloved 24-year Thanksgiving morning tradition organized by the Katy Area YMCAs near Cinco Ranch, featuring a 10K, 5K, 1-mile family walk/run, and 1-mile kids race (ages 3\u201312). All finishers receive medals, and proceeds fund YMCA scholarships for Katy community members."
   },
   {
     "id": "turkey-trails-houston-sugar-land-2026",
@@ -2438,7 +2438,7 @@
     "kid_run": false,
     "official_website_url": "https://www.texascityhalf.com",
     "source_url": "https://www.texascityhalf.com/",
-    "description": "The December finale of the Lone Star Race Series, run on the traffic-free Texas City Dike with panoramic Galveston Bay views. The half marathon course traces the full 5-mile dike as an out-and-back, then finishes with a 3.1-mile loop through Texas City's shoreline park — flat and fast throughout."
+    "description": "The December finale of the Lone Star Race Series, run on the traffic-free Texas City Dike with panoramic Galveston Bay views. The half marathon course traces the full 5-mile dike as an out-and-back, then finishes with a 3.1-mile loop through Texas City's shoreline park \u2014 flat and fast throughout."
   },
   {
     "id": "run-houston-sugar-land-santa-2026",
@@ -2487,6 +2487,76 @@
     "official_website_url": "https://www.trailracingovertexas.com/brazos-100",
     "source_url": "https://runsignup.com/BB100",
     "description": "Texas's largest trail race, held the first Saturday of December at Brazos Bend State Park in Needville. Events span 100 miles (a Western States 100 lottery qualifier for sub-32-hour finishers), 100K, marathon, and half marathon on a flat, wildlife-rich multi-loop course through bayou flats shared with American alligators. A free kids race runs at noon Saturday; the finish line closes Sunday at 2 PM."
+  },
+  {
+    "id": "a-charlie-brown-christmas-5k-10k-2026",
+    "name": "A Charlie Brown Christmas 5K/10K",
+    "date": "2026-12-05",
+    "start_time": "08:20",
+    "tz": "America/Chicago",
+    "address": "14230 Katy Fwy",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77079",
+    "latitude": 29.771,
+    "longitude": -95.6478,
+    "distance": [
+      "5K",
+      "10K",
+      "Kids"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": "https://www.houstonholiday5k.com/",
+    "source_url": "https://www.houstonholiday5k.com/",
+    "description": "The 5th Annual officially licensed Peanuts event at Addicks Park and Ride in Houston's Energy Corridor. The flat, USATF-certified out-and-back course runs on Park Row Drive. Schedule: Snoopy Kids Dash 8:00 AM, 10K 8:15 AM, 5K 8:20 AM. Capped at 2,000 participants and sold out all four prior years. All finishers receive a limited-edition collector's snow globe medal, performance tee, and numbered Peanuts bib."
+  },
+  {
+    "id": "gingerbread-lane-houston-2026",
+    "name": "Gingerbread Lane 5K & 10K Houston",
+    "date": "2026-12-06",
+    "start_time": "09:00",
+    "tz": "America/Chicago",
+    "address": "24202 W Rd",
+    "city": "Cypress",
+    "state": "TX",
+    "zip": "77433",
+    "latitude": 29.9413,
+    "longitude": -95.7467,
+    "distance": [
+      "5K",
+      "10K",
+      "1 Mile",
+      "Kids"
+    ],
+    "surface": "trail",
+    "kid_run": true,
+    "official_website_url": "https://runsignup.com/Race/TX/Cypress/GingerbreadLaneHouston",
+    "source_url": "https://runsignup.com/Race/TX/Cypress/GingerbreadLaneHouston",
+    "description": "A festive holiday trail race at John Paul Landing Park along the Cypress greenbelt, featuring a 5K, 10K, untimed 1 Mile, and Kids Dash (50-meter sprint). DJ Sasquatch provides holiday music on course; post-race includes gingerbread cookies and milk. Costume contest with prizes. Part of the multi-city Bigfoot Running Company Gingerbread Lane series."
+  },
+  {
+    "id": "kingwood-christmas-cookie-dash-2026",
+    "name": "Kingwood Christmas Cookie Dash",
+    "date": "2026-12-12",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "4360 Kingwood Dr",
+    "city": "Kingwood",
+    "state": "TX",
+    "zip": "77339",
+    "latitude": 30.0497,
+    "longitude": -95.1941,
+    "distance": [
+      "5K",
+      "10K",
+      "Kids"
+    ],
+    "surface": "trail",
+    "kid_run": true,
+    "official_website_url": "https://runsignup.com/Race/TX/Kingwood/KingwoodChristmasCookieDash",
+    "source_url": "https://runsignup.com/Race/TX/Kingwood/KingwoodChristmasCookieDash",
+    "description": "The 3rd Annual Kingwood Christmas Cookie Dash on the trails of Kingwood Country Club, co-located with the Kingwood Christmas Market. Offers 5K, 10K, a unique 10K relay (4 legs of 1.5 miles each \u2014 runners decorate a cookie before tagging off), and Kids Dash. Benefiting Lily's Toy Box, Toys for Tots, and Angel Tree Houston. NOTE: The 2026 edition is already sold out."
   },
   {
     "id": "houstons-12k-of-christmas-2026",
@@ -2579,7 +2649,7 @@
     "kid_run": true,
     "official_website_url": "https://runsignup.com/Race/TX/SugarLand/2022LoneStarStampedeTexasExesHoustonChapter",
     "source_url": "https://runsignup.com/Race/TX/SugarLand/2022LoneStarStampedeTexasExesHoustonChapter",
-    "description": "The 48th annual Texas Exes Houston Chapter scholarship run at Brazos River Park, featuring a 5K, 10K, kids dash, and — new for 2027 — a first-ever half marathon. A Houston tradition for UT Austin alumni and supporters, with proceeds funding college scholarships for Houston-area students."
+    "description": "The 48th annual Texas Exes Houston Chapter scholarship run at Brazos River Park, featuring a 5K, 10K, kids dash, and \u2014 new for 2027 \u2014 a first-ever half marathon. A Houston tradition for UT Austin alumni and supporters, with proceeds funding college scholarships for Houston-area students."
   },
   {
     "id": "we-are-houston-5k-2027",

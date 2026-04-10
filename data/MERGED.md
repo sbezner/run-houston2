@@ -11,3 +11,4 @@ artifact (from `prompts/upcoming-races-research.md`) is merged in.
 | 2026-04-09 | 2026-10-01 → 2026-10-31 | `races-2026-10-01-to-2026-10-31.json`    | 15   | 0       | Clean adds, no near-duplicates                        | `0f22c81` |
 | 2026-04-09 | 2026-11-01 → 2026-11-30 | `races-2026-11-01-to-2026-11-30.json`    | 15   | 0       | Clean adds, no near-duplicates                        | `0f22c81` |
 | 2026-04-09 | 2026-11-29 → 2027-01-31 | `races-2026-11-29-to-2027-01-31.json`    | 10   | 0       | Normalized 100M/1 Mi/10 Mi aliases; added 6K+12K to canonical vocab for 12K of Christmas | `9ecc729` |
+| 2026-04-09 | 2026-11-29 → 2027-01-31 | `races-2026-11-29-to-2027-01-31 (1).json` (dig-deeper) | 3    | 0       | 3 holiday-themed adds (Charlie Brown 5K, Gingerbread Lane, Kingwood Cookie Dash). Skipped 3 false-positive "updates" that only re-introduced 1 Mi/10 Mi/100M abbreviations on already-canonical races. | _pending_ |
