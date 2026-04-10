@@ -201,22 +201,25 @@ a:hover {
   font-size: 1.6rem;
   font-weight: 800;
   text-transform: uppercase;
-  color: var(--dark-text);
+  color: #ffffff;
   margin: 0;
   line-height: 1.15;
   letter-spacing: -0.01em;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
 }
 
 .hero-accent {
   color: var(--accent);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
 }
 
 .hero-slim-sub {
   font-family: var(--font-body);
   font-size: 0.82rem;
-  color: var(--dark-muted);
+  color: #e0e0e0;
   margin: 0.35rem 0 0;
   letter-spacing: 0.03em;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
 }
 
 @media (min-width: 700px) {
