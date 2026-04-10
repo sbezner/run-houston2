@@ -76,7 +76,25 @@ This output will be saved as a static JSON file that powers a public website. **
 - Tiny private/internal events with no public results or coverage
 - Races you cannot verify on a primary source
 
-**Coverage target:** A typical Houston-area month has 8–25 races worth recapping. If you find fewer than ~5 for a 30-day window, you have not searched thoroughly. Keep going.
+## Coverage targets (hard floors)
+
+Use these as a "you are not done" signal. If your output is below the floor for the window size, do another pass before producing the artifact. Recap floors are lower than upcoming-race floors because tiny private events don't get recap-worthy coverage.
+
+| Window size | Floor | Typical |
+|---|---|---|
+| 30 days  | 8 recaps  | 10–20 |
+| 60 days  | 16 recaps | 20–35 |
+| 90 days  | 25 recaps | 30–50 |
+
+If you are below the floor, the most likely cause is that you stopped searching too early. Re-run the seasonal-keyword sweep, the search-by-venue pass, and the anchor race accountability check before finalizing.
+
+## Choosing your window size
+
+Prefer **smaller windows**:
+
+- **Recommended:** 30-day windows, run monthly, a few days after the end of each month (so timing companies have had time to post results).
+- **Acceptable:** 60-day windows for a catch-up sweep.
+- **Use sparingly:** 90+ day windows. Coverage drops noticeably; result pages and news stories age out of search rankings, making older races progressively harder to find.
 
 ## Recommended starting sources
 
@@ -102,6 +120,125 @@ Start your research from these and branch out. Cross-reference at least two sour
   - `runsignup.com` filtered to Houston, TX
 
 For each race you find, **visit at least one primary source** (results page, race website, or news article) to confirm the date, distances, location, and any factual claims you make in the recap. If you can only confirm a race exists but cannot find any results or coverage, write a shorter recap from what you do know — but never invent details.
+
+## Seasonal keyword sweeps
+
+Many races are branded under a theme, not under "5K." For any month inside the window, run web searches pairing the relevant keywords below with `houston results`, `katy results`, etc., or with `houston news` for coverage.
+
+- **November:** turkey trot, gobble, thanksgiving, drumstick, pie run
+- **December:** jingle, santa, reindeer, gingerbread, cookie, christmas, ugly sweater, hot chocolate, polar, charlie brown
+- **January:** new year, resolution, frostbite, polar bear
+- **February:** cupid, sweetheart, valentine, mardi gras
+- **March:** shamrock, leprechaun, st patrick, st paddy
+- **April:** bunny, easter, eggshell, bluebonnet
+- **May:** mom, mother, memorial day
+- **June:** dad, father, juneteenth
+- **July:** firecracker, freedom, independence, fourth, red white blue
+- **September:** labor day, back to school
+- **October:** monster, pumpkin, ghoul, boo, zombie, spook, halloween, witches
+- **Year-round:** color run, glow run, beer run, costume
+
+## Race series enumeration
+
+If you find one event from a recurring series in the window, search for **all** other events in that series within the window. Series to check exhaustively:
+
+- Texas 10 Series
+- Trail Racing Over Texas (TROT)
+- Run Houston! series
+- USA Fit / Fit Houston training-cycle events
+- Bayou City Road Runners (BCRR) monthly club races
+- Houston Striders monthly events
+- Park-hosted series (Brazos Bend, Memorial Park)
+
+## Search-by-venue pass
+
+For high-traffic venues, search "[venue] race [month] [year] results" to catch races you might have missed in calendar listings:
+
+- Memorial Park
+- Hermann Park
+- Buffalo Bayou Park / Sam Houston Park / Allen Parkway
+- Discovery Green
+- Rice University track
+- University of Houston track
+- Brazos Bend State Park
+- Huntsville State Park
+- Lake Houston Wilderness Park
+- Stephen F. Austin State Park
+- Galveston Seawall
+
+## Required searches
+
+Before producing the artifact you MUST have run at least one search against each of the following sources for the date window. Skipping a source requires noting it in the chat confirmation.
+
+1. `runsignup.com` results filter — search for past races by date in Houston, TX
+2. `athlinks.com` — past results aggregator
+3. `chiptime.com`, `sweatengineering.com`, `fishercreative.com` — Houston-area timing companies' result archives
+4. `chron.com` / `houstonchronicle.com` sports / community sections for the window's months
+5. `khou.com`, `abc13.com`, `click2houston.com` for marquee event coverage
+6. `community-impact.com` Houston-area editions for the window's months
+7. `houstonmarathon.com` post-race news
+8. `bcrr.org` race reports for the window
+9. `houstonstriders.org` event reports
+10. `trailracingovertexas.com` past events
+11. `harra.org` news section
+12. Each seasonal keyword from the "Seasonal keyword sweeps" section that applies to the window's months
+13. Each marquee venue from the "Search-by-venue pass" section
+14. Each anchor race from the "Anchor race report" section whose typical month falls in the window
+
+If a source is unreachable or returns nothing, note it briefly in your chat confirmation message.
+
+## Anchor race report
+
+Houston has a known set of recurring marquee races. For each anchor that has a typical date *inside* the window, you MUST either include it in the JSON OR explicitly note in the chat confirmation that it didn't happen this year (cancelled, rescheduled out of window, etc.) and link the source.
+
+Anchor races to account for:
+
+- **Chevron Houston Marathon** + **Aramco Houston Half Marathon** (mid-January)
+- **We Are Houston 5K** (early January)
+- **Memorial Hermann Sugar Land 30K** + **Sugar Land Half Marathon** (late January)
+- **The Woodlands Marathon** (early March)
+- **Bayou City Classic 10K** (mid-March)
+- **Texas Independence Relay** (early March)
+- **Bellaire Trolley Run** (April)
+- **Brazos Bend 50** (April) and **Brazos Bend 100** (December)
+- **Sam Houston Trail 100K** (mid-October)
+- **Houston Half Marathon** (November)
+- **Run for the Rose** (November)
+- **Turkey Trot** (Thanksgiving morning, multiple in metro area)
+- **Jingle Bell Run** (early December, multiple in metro area)
+- **Run Houston! series** (Sugar Land, Clear Lake, La Porte, etc. — recurring through the year)
+- **Texas 10 Series** (recurring through the year)
+
+Silent omission of an anchor race that fell in the window is a failure mode. Either it's in the JSON or it's explicitly accounted for in chat.
+
+## Search procedure (do all passes in order)
+
+Replace any vague "be thorough" instinct with this explicit pass list. Do them in order. Only after Pass 7 passes do you produce the artifact.
+
+**Pass 1 — Calendar / results sweep.** Walk every source in the "Required searches" list. After this pass, you should have a baseline of ~70% of the in-window races.
+
+**Pass 2 — Seasonal keyword sweep.** For every month in your window, run the seasonal keyword searches. Add anything Pass 1 missed.
+
+**Pass 3 — Series enumeration.** For every series mentioned in any race you've already found, search for all other events in that series within the window.
+
+**Pass 4 — Venue sweep.** Walk every venue in the search-by-venue section. Add anything not already in your output.
+
+**Pass 5 — Saturday density check.** List every Saturday and Sunday in the window. For any with 0 races in your output, do a fresh date-specific search ("houston race results november 7 2026").
+
+**Pass 6 — Anchor race accountability.** Walk the anchor list. For each anchor whose typical month falls in the window, confirm it's either in your output or accounted for in chat.
+
+**Pass 7 — Coverage floor check.** Compare your recap count against the coverage target for your window size. If below floor, return to Pass 1 and identify what kinds of races you've under-counted (themed? trail? small charity?). Repeat until at or above the floor.
+
+## Self-audit before finalizing
+
+Before producing the artifact, do a final coverage check:
+
+1. **Count recaps per week** in your window. If any week has 0 races, search that week again — almost every weekend in Houston has at least one race.
+2. **Confirm anchor races are accounted for.** Walk the Anchor race list one more time.
+3. **Check for series gaps.** If you found Texas 10 Series race #2 and #4 but not #3, find #3.
+4. **Confirm you're at or above the coverage floor.**
+5. **Confirm all required searches were actually run.** If you skipped any, run them now.
+6. **Source-check every recap.** For each entry in your output, verify you can name the source URL you used. If you can't, the recap is invented and must be removed.
 
 ## Output schema
 
