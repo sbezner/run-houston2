@@ -2563,6 +2563,27 @@
     "description": "A multi-sport fall festival celebrating BMX culture featuring 5K and 10K running races, a kids' dash, a bike race experience, and the RAD Zone festival area with music, vendors, food, and a costume contest. Held along the Kingwood Country Club Trails and organized in partnership with H-Town BMX."
   },
   {
+    "id": "ainsleys-angels-texas-twilight-5k-2026",
+    "name": "Ainsley's Angels Texas Twilight 5K",
+    "date": "2026-10-04",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": null,
+    "city": "Tomball",
+    "state": "TX",
+    "zip": null,
+    "latitude": 30.0972,
+    "longitude": -95.6161,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": null,
+    "source_url": "https://www.houstonrunningcalendar.com/2026/",
+    "description": "A twilight 5K in Tomball benefiting Ainsley's Angels, an organization providing racing wheelchairs and inclusivity for athletes with disabilities."
+  },
+  {
     "id": "haunted-5k-10k-half-katy-41-2026",
     "name": "Haunted 5K, 10K & 13.1M at Katy, TX (41)",
     "date": "2026-10-10",
@@ -2630,6 +2651,73 @@
     "official_website_url": "https://spacecity10.com",
     "source_url": "https://runsignup.com/Race/TX/Houston/spacecity10",
     "description": "A HARRA Fall Series event at the University of Houston \u2013 Clear Lake campus, featuring a certified 10-mile single loop through the scenic Clear Lake area past Armand Bayou and NASA, plus a 5K and 2-person relay option. Cash prizes up to $500 for overall winners, long-sleeve shirts for all entrants, and finisher medals."
+  },
+  {
+    "id": "houston-heights-fun-run-2026",
+    "name": "40th Annual Houston Heights Fun Run",
+    "date": "2026-10-11",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "Marmion Park, Heights Blvd",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77008",
+    "latitude": 29.7935,
+    "longitude": -95.3984,
+    "distance": [
+      "5K",
+      "10K",
+      "Kids"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": "https://houstonheights.org/events1/fun-run/",
+    "source_url": "https://houstonheights.org/events1/fun-run/",
+    "description": "The 40th annual Houston Heights Fun Run starting and finishing at Marmion Park on Heights Boulevard. Features a 10K, 5K, 5K Walk, and Kids Fun Run (~1K). A beloved Heights neighborhood tradition since 1984."
+  },
+  {
+    "id": "space-city-10-miler-2026",
+    "name": "Space City 10 Miler and 5K",
+    "date": "2026-10-11",
+    "start_time": "07:00",
+    "tz": "America/Chicago",
+    "address": "635 Bayou Rd",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77058",
+    "latitude": 29.5581,
+    "longitude": -95.0983,
+    "distance": [
+      "5K",
+      "10 Mile"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/spacecity10",
+    "source_url": "https://runsignup.com/Race/TX/Houston/spacecity10",
+    "description": "A HARRA Fall Series race at UH-Clear Lake campus with a 10-mile loop through the Clear Lake area and a 5K option. Cash awards for top finishers. Also offers a 2-person relay."
+  },
+  {
+    "id": "child-advocates-superhero-run-2026",
+    "name": "Child Advocates 5K and 1K Superhero Run",
+    "date": "2026-10-11",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": null,
+    "city": "Houston",
+    "state": "TX",
+    "zip": null,
+    "latitude": 29.7784,
+    "longitude": -95.5569,
+    "distance": [
+      "5K",
+      "Kids"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": null,
+    "source_url": "https://www.houstonrunningcalendar.com/2026/",
+    "description": "A superhero-themed 5K and Kids 1K at CityCentre in west Houston benefiting Child Advocates, Houston's court-appointed special advocates for children."
   },
   {
     "id": "shipley-donut-dash-2026",
@@ -2724,6 +2812,27 @@
     "description": "An annual fundraiser honoring Matthew, a young boy who lost his life at age 9 to leukemia, held at No Label Brewing Co. in Katy. Proceeds provide financial support to families battling pediatric cancer; participants choose from 5K, 10K, or a free kids 1K fun run."
   },
   {
+    "id": "angels-race-for-space-5k-2026",
+    "name": "Angels' Race For Space 5K",
+    "date": "2026-10-18",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "Space Center Houston",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77058",
+    "latitude": 29.5519,
+    "longitude": -95.0981,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": null,
+    "source_url": "https://www.houstonrunningcalendar.com/2026/",
+    "description": "A 5K at Space Center Houston near the Johnson Space Center campus."
+  },
+  {
     "id": "haunted-5k-10k-half-cypress-43-2026",
     "name": "Haunted 5K, 10K & 13.1M at Cypress, TX (43)",
     "date": "2026-10-24",
@@ -2792,6 +2901,28 @@
     "official_website_url": "https://houstonhalf.com",
     "source_url": "https://runsignup.com/Race/TX/Houston/UTHealthHoustonHalf",
     "description": "Hosted by the Houston Striders since 2006, this USATF-certified race starts at Sam Houston Park and follows a mostly flat downtown route along Allen Parkway and through the city. Title-sponsored by UTHealth Houston, the event raises over $1 million for area nonprofits and includes free Saint Arnold beer, IHOP pancakes, photo downloads, and wheelchair/handcycle divisions."
+  },
+  {
+    "id": "west-u-halloween-dash-2026",
+    "name": "West U Halloween Dash and Kids' Fun Run",
+    "date": "2026-10-25",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": null,
+    "city": "West University Place",
+    "state": "TX",
+    "zip": "77005",
+    "latitude": 29.7158,
+    "longitude": -95.4341,
+    "distance": [
+      "5K",
+      "Kids"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": null,
+    "source_url": "https://www.houstonrunningcalendar.com/2026/",
+    "description": "A Halloween-themed 5K and Kids Fun Run in West University Place, a tradition in one of Houston's most walkable inner-loop neighborhoods."
   },
   {
     "id": "medal-madness-deer-park-44-2026",
@@ -2883,6 +3014,48 @@
     "official_website_url": "https://runsignup.com/Race/TX/Baytown/Xracersrideatthepark",
     "source_url": "https://runsignup.com/Race/TX/Baytown/Xracersrideatthepark",
     "description": "A D\u00eda de los Muertos\u2013themed hybrid event at the beautiful Baytown Nature Center, combining a 5K trail run and a 10K bike-and-run distance. Participants enjoy the park's wildlife, trails, and waterfront scenery; all finishers receive a shirt and medal at the finish line."
+  },
+  {
+    "id": "race-for-permanent-sanctuary-2026",
+    "name": "Race For Permanent Sanctuary",
+    "date": "2026-11-01",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": null,
+    "city": "Sugar Land",
+    "state": "TX",
+    "zip": null,
+    "latitude": 29.5932,
+    "longitude": -95.6219,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": null,
+    "source_url": "https://www.houstonrunningcalendar.com/2026/",
+    "description": "A 5K in Sugar Land supporting permanent animal sanctuary efforts."
+  },
+  {
+    "id": "harvest-marathon-relay-2026",
+    "name": "Harvest Marathon Relay",
+    "date": "2026-11-02",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "Rice University",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77005",
+    "latitude": 29.7174,
+    "longitude": -95.4018,
+    "distance": [
+      "Marathon"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": null,
+    "source_url": "https://www.houstonrunningcalendar.com/2026/",
+    "description": "A marathon-distance relay race at Rice University, a popular Houston marathon training benchmark typically run in 4-person teams on the Rice outer loop."
   },
   {
     "id": "whatarun-5k-10k-houston-2026",
@@ -3067,6 +3240,28 @@
     "description": "Race 8 of 9 in Houston Running Co.'s Houston Holiday Series, held the Saturday before Thanksgiving at King's BierHaus in the Lazybrook/Timbergrove neighborhood. Runners choose from a half marathon, 10K, 5K, or kids/family 1K, then celebrate with cold beer, mini pie, and the satisfaction of earning dessert before Turkey Day."
   },
   {
+    "id": "hmsa-classical-25k-2026",
+    "name": "HMSA Classical 25K, 10 Mile & 5K",
+    "date": "2026-11-23",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "Sam Houston Park",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77002",
+    "latitude": 29.7589,
+    "longitude": -95.3677,
+    "distance": [
+      "5K",
+      "10 Mile"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://www.houston25k.com/",
+    "source_url": "https://www.hmsaclassical25k.com/",
+    "description": "The 40th annual Houston 25K (15.5 miles), 10 Mile, and 5K at Sam Houston Park in downtown Houston. The third race in the Houston Marathon Warm-up Series, a key training benchmark for January marathon runners. Hosted by Houston Masters Sports Association."
+  },
+  {
     "id": "houston-turkey-dash-2026",
     "name": "Houston Turkey Dash",
     "date": "2026-11-26",
@@ -3160,6 +3355,28 @@
     "official_website_url": "https://runsignup.com/Race/TX/Katy/KatyYMCATurkeyDash",
     "source_url": "https://runsignup.com/Race/TX/Katy/KatyYMCATurkeyDash",
     "description": "A beloved 24-year Thanksgiving morning tradition organized by the Katy Area YMCAs near Cinco Ranch, featuring a 10K, 5K, 1-mile family walk/run, and 1-mile kids race (ages 3\u201312). All finishers receive medals, and proceeds fund YMCA scholarships for Katy community members."
+  },
+  {
+    "id": "the-turkey-trot-houston-2026",
+    "name": "The Turkey Trot Presented by Saint Arnold",
+    "date": "2026-11-26",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": null,
+    "city": "Houston",
+    "state": "TX",
+    "zip": null,
+    "latitude": 29.7604,
+    "longitude": -95.3698,
+    "distance": [
+      "5K",
+      "10K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://theturkeytrot.org/",
+    "source_url": "https://theturkeytrot.org/",
+    "description": "Houston's official Thanksgiving morning 5K, 10K, and 1-Mile Family Walk presented by Saint Arnold Brewing Company along the downtown skyline. Benefits CoolxDad."
   },
   {
     "id": "turkey-trails-houston-sugar-land-2026",
@@ -3329,6 +3546,112 @@
     "description": "A festive holiday trail race at John Paul Landing Park along the Cypress greenbelt, featuring a 5K, 10K, untimed 1 Mile, and Kids Dash (50-meter sprint). DJ Sasquatch provides holiday music on course; post-race includes gingerbread cookies and milk. Costume contest with prizes. Part of the multi-city Bigfoot Running Company Gingerbread Lane series."
   },
   {
+    "id": "trafigura-run-for-the-house-2026",
+    "name": "Trafigura Run for the House",
+    "date": "2026-12-06",
+    "start_time": "08:00",
+    "tz": "America/Chicago",
+    "address": "Sam Houston Park",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77002",
+    "latitude": 29.7589,
+    "longitude": -95.3677,
+    "distance": [
+      "5K",
+      "Kids"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": "https://rmhhouston.org/run",
+    "source_url": "https://rmhhouston.org/run",
+    "description": "The 16th annual USATF-certified 5K and Kids 1-Miler in downtown Houston benefiting Ronald McDonald House Charities Greater Houston. The Trafigura Foundation matches proceeds dollar for dollar up to $300,000."
+  },
+  {
+    "id": "flapjack-fun-run-5k-friendswood-2026",
+    "name": "Flapjack Fun Run 5K",
+    "date": "2026-12-06",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": null,
+    "city": "Friendswood",
+    "state": "TX",
+    "zip": null,
+    "latitude": 29.5293,
+    "longitude": -95.201,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": null,
+    "source_url": "https://www.houstonrunningcalendar.com/2026/",
+    "description": "A 5K fun run in Friendswood, a south-Houston suburb between Pearland and League City."
+  },
+  {
+    "id": "tavola-reindeer-run-2026",
+    "name": "Tavola Reindeer Run",
+    "date": "2026-12-06",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": null,
+    "city": "New Caney",
+    "state": "TX",
+    "zip": null,
+    "latitude": 30.1626,
+    "longitude": -95.1847,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": null,
+    "source_url": "https://www.houstonrunningcalendar.com/2026/",
+    "description": "A holiday-themed reindeer run in the Tavola community in New Caney, northeast of Houston."
+  },
+  {
+    "id": "jingle-bell-run-houston-2026",
+    "name": "Jingle Bell Run Houston",
+    "date": "2026-12-06",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "T.C. Jester Park",
+    "city": "Houston",
+    "state": "TX",
+    "zip": null,
+    "latitude": 29.8147,
+    "longitude": -95.4238,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": null,
+    "source_url": "https://www.houstonrunningcalendar.com/2026/",
+    "description": "A jingle-bell-themed holiday 5K at T.C. Jester Park in northwest Houston."
+  },
+  {
+    "id": "conroe-10-miler-2026",
+    "name": "Conroe 10 Miler",
+    "date": "2026-12-07",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": null,
+    "city": "Conroe",
+    "state": "TX",
+    "zip": null,
+    "latitude": 30.3119,
+    "longitude": -95.4561,
+    "distance": [
+      "10 Mile"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": null,
+    "source_url": "https://www.houstonrunningcalendar.com/2026/",
+    "description": "A 10-mile road race in Conroe, north of Houston. Part of the Texas Bridge Series."
+  },
+  {
     "id": "kingwood-christmas-cookie-dash-2026",
     "name": "Kingwood Christmas Cookie Dash",
     "date": "2026-12-12",
@@ -3350,6 +3673,69 @@
     "official_website_url": "https://runsignup.com/Race/TX/Kingwood/KingwoodChristmasCookieDash",
     "source_url": "https://runsignup.com/Race/TX/Kingwood/KingwoodChristmasCookieDash",
     "description": "The 3rd Annual Kingwood Christmas Cookie Dash on the trails of Kingwood Country Club, co-located with the Kingwood Christmas Market. Offers 5K, 10K, a unique 10K relay (4 legs of 1.5 miles each \u2014 runners decorate a cookie before tagging off), and Kids Dash. Benefiting Lily's Toy Box, Toys for Tots, and Angel Tree Houston. NOTE: The 2026 edition is already sold out."
+  },
+  {
+    "id": "rudolph-fun-run-2026",
+    "name": "Rudolph Fun Run",
+    "date": "2026-12-13",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "CityCentre",
+    "city": "Houston",
+    "state": "TX",
+    "zip": null,
+    "latitude": 29.7784,
+    "longitude": -95.5569,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": null,
+    "source_url": "https://www.houstonrunningcalendar.com/2026/",
+    "description": "A Rudolph-themed holiday fun run at CityCentre in west Houston."
+  },
+  {
+    "id": "reindeer-fun-run-nassau-bay-2026",
+    "name": "Reindeer Fun Run",
+    "date": "2026-12-13",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": null,
+    "city": "Nassau Bay",
+    "state": "TX",
+    "zip": null,
+    "latitude": 29.5458,
+    "longitude": -95.0906,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": null,
+    "source_url": "https://www.houstonrunningcalendar.com/2026/",
+    "description": "A reindeer-themed holiday 5K in Nassau Bay, near the Clear Lake/NASA area."
+  },
+  {
+    "id": "coach-andy-stewart-30k-10k-2026",
+    "name": "Coach Andy Stewart's 30K & 10K",
+    "date": "2026-12-14",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": null,
+    "city": "Sugar Land",
+    "state": "TX",
+    "zip": null,
+    "latitude": 29.5932,
+    "longitude": -95.6219,
+    "distance": [
+      "10K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": null,
+    "source_url": "https://www.houstonrunningcalendar.com/2026/",
+    "description": "A 30K (18.6 miles) and 10K in Sugar Land, a key final long-run training race for Houston Marathon runners in January. Named for legendary Houston running coach Andy Stewart."
   },
   {
     "id": "houstons-12k-of-christmas-2026",
@@ -3397,6 +3783,50 @@
     "official_website_url": "https://santahustle.com/galveston/",
     "source_url": "https://runsignup.com/Race/TX/Galveston/SantaHustleTexas",
     "description": "A Christmas-costumed road race along Galveston's seawall starting at Beach Central, with a half marathon, 10K, 5K, and kids dash. Aid stations are stocked with candy canes and holiday treats; finishers receive a long-sleeve ugly-sweater dri-fit shirt, medal, and beanie."
+  },
+  {
+    "id": "candy-cane-course-2026",
+    "name": "Candy Cane Course",
+    "date": "2026-12-20",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": null,
+    "city": "Sugar Land",
+    "state": "TX",
+    "zip": null,
+    "latitude": 29.5932,
+    "longitude": -95.6219,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": null,
+    "source_url": "https://www.houstonrunningcalendar.com/2026/",
+    "description": "A candy-cane-themed holiday 5K in Sugar Land."
+  },
+  {
+    "id": "resolution-run-houston-2026",
+    "name": "Houston Resolution Run",
+    "date": "2026-12-28",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "Fish Plaza",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77002",
+    "latitude": 29.7604,
+    "longitude": -95.3698,
+    "distance": [
+      "5K",
+      "10K",
+      "Half Marathon"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://www.houstonresolutionrun.com/",
+    "source_url": "https://runsignup.com/Race/Events/TX/Houston/ResolutionRunHouston",
+    "description": "A year-end race at Fish Plaza in downtown Houston with flexible start times. Offers a Nearly Half Marathon, 10K, 5K, and Family 1 Mile. A popular way to close out the running year and set New Year's resolutions."
   },
   {
     "id": "texas-marathon-kingwood-2027",
