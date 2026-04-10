@@ -107,7 +107,7 @@
       ? '<p class="race-website-cta">' +
         '<a href="' + RH.escapeAttr(RH.safeUrl(race.official_website_url)) +
         '" target="_blank" rel="noopener noreferrer" class="btn-primary">' +
-        'Visit official website &rarr;</a>' +
+        'Register for this race &rarr;</a>' +
         '</p>'
       : '';
 
