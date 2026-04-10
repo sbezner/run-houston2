@@ -635,6 +635,10 @@ main {
     display: none;
   }
 
+  .race-table {
+    table-layout: fixed;
+  }
+
   .race-table .badges-cell {
     white-space: normal;
   }
