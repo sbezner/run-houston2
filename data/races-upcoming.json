@@ -199,6 +199,48 @@
     "description": "A free, weekly timed 5K community run held every Saturday at 8:00 AM in Terry Hershey Park along the Buffalo Bayou trail in west Houston. Open to runners of all abilities with no pre-registration required; results are published online for all finishers."
   },
   {
+    "id": "houston-empower-walk-5k-run-2026",
+    "name": "Houston Empower Walk & 5K Run",
+    "date": "2026-04-11",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "CityPlace",
+    "city": "Spring",
+    "state": "TX",
+    "zip": "77389",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Spring/HoustonEmpowerWalk5KRun?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Spring/HoustonEmpowerWalk5KRun?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Spring, TX."
+  },
+  {
+    "id": "sheldon-shuffle-5k-2026",
+    "name": "Sheldon Shuffle 5K",
+    "date": "2026-04-11",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "11433C East Sam Houston Parkway North",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77044",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/SheldonShuffle5KandFunRun?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Houston/SheldonShuffle5KandFunRun?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Houston, TX."
+  },
+  {
     "id": "run-for-the-rose-2026",
     "name": "Run for the Rose",
     "date": "2026-04-12",
@@ -435,6 +477,49 @@
     "description": "The Alexandria Foundation's '06K Race adds an extra 1K to a standard 5K to honor the 1906 founding year of Alpha Phi Alpha Fraternity, Inc., held at Brazos River Park in Sugar Land. Now in its fifth year, 2026 proceeds benefit local Autism nonprofits Hope for Three and Seensory and Me Ministries."
   },
   {
+    "id": "sjh-sabercat-stampede-2026",
+    "name": "SJH Sabercat Stampede",
+    "date": "2026-04-18",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "4777 Peek Road",
+    "city": "Katy",
+    "state": "TX",
+    "zip": "77449",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Katy/SJHSabercatStampede?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Katy/SJHSabercatStampede?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Katy, TX."
+  },
+  {
+    "id": "space-city-gym-5k-10k-2026",
+    "name": "Space City Gym 5k/10k",
+    "date": "2026-04-18",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "20634 Kenswick Dr, Humble, TX 77338",
+    "city": "Humble",
+    "state": "TX",
+    "zip": "77338",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K",
+      "10K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Humble/SpaceCity5k10k?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Humble/SpaceCity5k10k?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Humble, TX."
+  },
+  {
     "id": "space-city-half-marathon-2026",
     "name": "Space City Half Marathon, 10k, 5k, & Mile",
     "date": "2026-04-19",
@@ -481,6 +566,27 @@
     "official_website_url": "https://runsignup.com/Race/TX/Sugarland/RunningThroughTheDecadesHalfMarathonHouston?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://runsignup.com/Race/TX/Sugarland/RunningThroughTheDecadesHalfMarathonHouston",
     "description": "The 1980s Edition of Bigfoot Running Company's themed half marathon series, set at Brazos River Park in Sugar Land with a pre-race costume contest and 80s music throughout. Distances include a Kids Dash, 1 Mile, 5K, Quarter Marathon (6.55 miles), and Half Marathon."
+  },
+  {
+    "id": "inaugural-kalayaan-5k-fun-run-2026",
+    "name": "Inaugural Kalayaan 5K Fun Run",
+    "date": "2026-04-19",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "9118 Wheat Cross Dr",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77095",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/InauguralKalayaan5KFunRun?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Houston/InauguralKalayaan5KFunRun?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Houston, TX."
   },
   {
     "id": "bayou-bash-relay-2026",
@@ -639,6 +745,69 @@
     "description": "A half marathon, 5K, and Kids 1K starting and finishing at Klein High School in the Klein/Spring area of north Houston, part of the Run Houston Race Series presented by Houston Methodist. The race draws 1,000\u20135,000 participants across its distance options."
   },
   {
+    "id": "biz-run-2026",
+    "name": "Biz Run",
+    "date": "2026-04-26",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "18427 Southwest Fwy, Sugar Land, TX 77479",
+    "city": "Sugarland",
+    "state": "TX",
+    "zip": "77479",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Sugarland/BizRun?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Sugarland/BizRun?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Sugarland, TX."
+  },
+  {
+    "id": "move-for-mds-2026",
+    "name": "Move for MDS",
+    "date": "2026-04-26",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "MacGregor Park\u00a0 5225 Calhoun Rd.",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77021",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/MoveforMDS?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Houston/MoveforMDS?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Houston, TX."
+  },
+  {
+    "id": "run-like-a-diva-2026",
+    "name": "Run Like a Diva",
+    "date": "2026-04-26",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "Beach Central",
+    "city": "Galveston",
+    "state": "TX",
+    "zip": "77550",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Galveston/RunLikeaDiva?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Galveston/RunLikeaDiva?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Galveston, TX."
+  },
+  {
     "id": "girls-on-the-run-houston-5k-2026",
     "name": "Girls on the Run Greater Houston Celebratory 5K",
     "date": "2026-05-02",
@@ -728,6 +897,111 @@
     "official_website_url": "https://runsignup.com/Race/TX/Houston/CincoDeMeyoRun5K10KHOUSTON?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://runsignup.com/Race/TX/Houston/CincoDeMeyoRun5K10KHOUSTON",
     "description": "A Cinco de Mayo-themed race offering half marathon, 10K, 5K, and family 1-mile fun run distances along the Bayou Loop Trails in west Houston. Virtual run options are also available for those who prefer to participate remotely."
+  },
+  {
+    "id": "2026-preventive-medicine-initiative-heart-sole-5k-2026",
+    "name": "2026 Preventive Medicine Initiative: Heart & Sole 5K",
+    "date": "2026-05-02",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "2222 28th St",
+    "city": "Galveston",
+    "state": "TX",
+    "zip": "77550",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Galveston/PMI5K?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Galveston/PMI5K?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Galveston, TX."
+  },
+  {
+    "id": "astros-race-to-the-pennant-2026",
+    "name": "Astros Race to the Pennant",
+    "date": "2026-05-02",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "Daikin Park at the Corner of Texas and Hamilton",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77002",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/AstrosRaceToThePennant?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Houston/AstrosRaceToThePennant?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Houston, TX."
+  },
+  {
+    "id": "fuzzy-s-taco-dash-2026",
+    "name": "Fuzzy's Taco Dash",
+    "date": "2026-05-02",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "4360 Kingwood Dr",
+    "city": "Kingwood",
+    "state": "TX",
+    "zip": "77339",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Kingwood/KingwoodTacoDash?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Kingwood/KingwoodTacoDash?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Kingwood, TX."
+  },
+  {
+    "id": "run-for-hope-2026",
+    "name": "RUN FOR HOPE",
+    "date": "2026-05-02",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "6055 CREEKSIDE FOREST DRIVE",
+    "city": "Spring",
+    "state": "TX",
+    "zip": "77389",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Spring/runforhopewoodlands?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Spring/runforhopewoodlands?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Spring, TX."
+  },
+  {
+    "id": "run-like-a-warrior-5k-houston-area-2026",
+    "name": "Run Like A Warrior 5k -Houston Area",
+    "date": "2026-05-02",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "15012 Brown Road",
+    "city": "Tomball",
+    "state": "TX",
+    "zip": "77377",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Tomball/RunLikeAWarrior5kHoustonArea?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Tomball/RunLikeAWarrior5kHoustonArea?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Tomball, TX."
   },
   {
     "id": "el-cinco-cinco-2026",
@@ -906,6 +1180,27 @@
     "description": "A 5K fun run at Moody Gardens in Galveston kicking off Yaga's Wild Game & BBQ Cook-Off weekend. All proceeds benefit Yaga's Children's Fund, supporting charities that serve the children of Galveston County. Post-race BBQ, live music, and vendors follow at 11 AM."
   },
   {
+    "id": "the-race-to-grand-oaks-2026",
+    "name": "The Race to Grand Oaks",
+    "date": "2026-05-09",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "4800 Riley Fuzzle Rd",
+    "city": "Spring",
+    "state": "TX",
+    "zip": "77386",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Spring/TheRaceToGrandOaks?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Spring/TheRaceToGrandOaks?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Spring, TX."
+  },
+  {
     "id": "hometown-half-marathon-houston-2026",
     "name": "Hometown Half Marathon & 5K/10K - Houston",
     "date": "2026-05-10",
@@ -953,6 +1248,27 @@
     "official_website_url": "https://runsignup.com/Race/TX/Tomball/LegacyOfCourageHalfMarathonHouston?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://runsignup.com/Race/TX/Tomball/LegacyOfCourageHalfMarathonHouston",
     "description": "A trail half marathon through the 320-acre Burroughs Park in Tomball on well-maintained hiking trails beneath a canopy of pine trees. Also offers 1 Mile, 5K, and Kids Dash options. Proceeds benefit The Outdoor Disabled Veterans Program through Knowledge Point Network."
+  },
+  {
+    "id": "5k-mamas-fun-run-2026",
+    "name": "5K Mamas Fun Run",
+    "date": "2026-05-10",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "1122 Buffalo Run Park",
+    "city": "Missouri City",
+    "state": "TX",
+    "zip": "77489",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/MissouriCity/5KMamasFunRun?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/MissouriCity/5KMamasFunRun?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Missouri City, TX."
   },
   {
     "id": "houston-humane-society-k9-fun-run-2026",
@@ -1066,6 +1382,27 @@
     "description": "A dachshund-themed 5K and 10K at Oyster Creek Park in Sugar Land with a Kids Dash for ages 10 and under and a 1 Mile option. Every finisher gets a complimentary hot dog and beverage at the post-race BBQ bash with live music. Supports a local wiener dog rescue group."
   },
   {
+    "id": "mindy-moses-5k-memorial-fun-run-2026",
+    "name": "Mindy Moses 5K Memorial Fun Run",
+    "date": "2026-05-16",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "650 North Holland",
+    "city": "Bellville",
+    "state": "TX",
+    "zip": "77418",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Bellville/MindyMoses5KMemorialFunRun?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Bellville/MindyMoses5KMemorialFunRun?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Bellville, TX."
+  },
+  {
     "id": "run-houston-clear-lake-2026",
     "name": "Run Houston! Clear Lake 5K & 10K presented by Houston Methodist",
     "date": "2026-05-17",
@@ -1133,6 +1470,48 @@
     "official_website_url": "https://runsignup.com/Race/TX/Houston/RunForMentalHealth5K10KHOUSTON523?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://runsignup.com/Race/TX/Houston/RunForMentalHealth5K10KHOUSTON523",
     "description": "A mental health awareness run offering 5K, 10K, half marathon, and 1-mile family fun run distances in Houston. Includes optional chip timing, a finisher's medal, and race T-shirt. Venue listed as Eleanor Tinsley Park or Bayou Loop Trails area."
+  },
+  {
+    "id": "daily-news-press-run-texas-city-2026",
+    "name": "Daily News Press Run - Texas City",
+    "date": "2026-05-23",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "800 Bay St N",
+    "city": "Texas City",
+    "state": "TX",
+    "zip": "77590",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/TexasCity/DailyNewsPressRunTC?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/TexasCity/DailyNewsPressRunTC?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Texas City, TX."
+  },
+  {
+    "id": "run-to-rebuild-texas-5k-fun-run-2026",
+    "name": "Run To Rebuild Texas - 5k Fun Run",
+    "date": "2026-05-23",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "22152 Baptist Encampment Rd",
+    "city": "New Caney",
+    "state": "TX",
+    "zip": "77357",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/NewCaney/RunToRebuildTexas5kFunRun?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/NewCaney/RunToRebuildTexas5kFunRun?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in New Caney, TX."
   },
   {
     "id": "memorial-day-10k-2026",
@@ -1336,6 +1715,27 @@
     "official_website_url": "https://runsignup.com/Race/TX/NewCaney/BigRiversSplashDash?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://runsignup.com/Race/TX/NewCaney/BigRiversSplashDash",
     "description": "A 5K, 10K, and Kid's Dash at Big Rivers Waterpark in New Caney. The scenic course winds through the waterpark and around the lake. Proceeds support research and awareness for TANGO2, a rare genetic disorder."
+  },
+  {
+    "id": "2026-outrun-hunger-2026",
+    "name": "2026 Outrun Hunger",
+    "date": "2026-06-13",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "The Lake House at Grand Central Park",
+    "city": "Conroe",
+    "state": "TX",
+    "zip": "77304",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Conroe/OutrunHungerMCFoodBank?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Conroe/OutrunHungerMCFoodBank?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Conroe, TX."
   },
   {
     "id": "houston-stars-stripes-half-marathon-2026",
@@ -1718,6 +2118,27 @@
     "description": "The 7th Annual Popsicle Dash at Karbach Brewing Co., the second race in Houston Running Co.'s Summer Dash Series. Includes 5K, 10K, and Kids/Family Fun Run with free parking at the brewery."
   },
   {
+    "id": "coastal-plains-relay-2026",
+    "name": "Coastal Plains Relay",
+    "date": "2026-07-17",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "27043 FM 1093",
+    "city": "Richmond",
+    "state": "TX",
+    "zip": "77406",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Richmond/CoastalPlainsRelay?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Richmond/CoastalPlainsRelay?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Richmond, TX."
+  },
+  {
     "id": "eagle-deer-park-29-2026",
     "name": "Eagle 5K, 10K & 13.1M at Deer Park, TX (29)",
     "date": "2026-07-18",
@@ -1851,6 +2272,28 @@
     "official_website_url": null,
     "source_url": "https://www.findtherun.com/races/houston-tx/5k/july",
     "description": "A Christmas-themed summer 5K and 10K in Houston. Part of the seasonal themed race series popular in the Houston area."
+  },
+  {
+    "id": "shark-week-showdown-5k-10k-galveston-tx-2026",
+    "name": "Shark Week Showdown 5K, 10K - Galveston, TX",
+    "date": "2026-07-25",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "Stewart Beach",
+    "city": "Galveston",
+    "state": "TX",
+    "zip": "77550",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K",
+      "10K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Galveston/SharkWeekShowdown5K10KGalvestonTX?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Galveston/SharkWeekShowdown5K10KGalvestonTX?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Galveston, TX."
   },
   {
     "id": "terrain-race-houston-2026",
@@ -2178,6 +2621,27 @@
     "description": "Part of the US Road Running Medal Madness series, this race at Mason Creek Hike & Bike Trail in Katy offers 5K, 10K, and half marathon on a flat out-and-back course. No on-site registration; chip-timed with themed finisher medals and a 3.5-hour course limit."
   },
   {
+    "id": "apwa-pwx-2026-5k-2026",
+    "name": "APWA - PWX 2026 - 5K",
+    "date": "2026-09-01",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "1005 Commerce St",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77002",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/HoustonAPWAPWX5K?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Houston/HoustonAPWAPWX5K?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Houston, TX."
+  },
+  {
     "id": "beneeezy-purple-monkey-fun-run-2026",
     "name": "BENeezy Purple Monkey Fun Run",
     "date": "2026-09-05",
@@ -2355,6 +2819,48 @@
     "description": "Part of the US Road Running Medal Madness series at John Paul Landing Park in Cypress, offering 5K, 10K, and half marathon on a flat out-and-back course along a park trail. No on-site registration; chip-timed with themed finisher medals."
   },
   {
+    "id": "night-moves-trail-races-2026",
+    "name": "Night Moves Trail Races",
+    "date": "2026-09-12",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "Stephen F. Austin State Park",
+    "city": "San Felipe",
+    "state": "TX",
+    "zip": "77473",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/SanFelipe/NightMovesTrailRaces?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/SanFelipe/NightMovesTrailRaces?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in San Felipe, TX."
+  },
+  {
+    "id": "run-for-a-new-day-2026",
+    "name": "Run for a New Day",
+    "date": "2026-09-12",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "8423 Stewart Rd.",
+    "city": "Galveston",
+    "state": "TX",
+    "zip": "77554",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Galveston/RunForaNewDay?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Galveston/RunForaNewDay?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Galveston, TX."
+  },
+  {
     "id": "toughest-10k-kemah-2026",
     "name": "Toughest 10K Kemah",
     "date": "2026-09-13",
@@ -2398,6 +2904,27 @@
     "official_website_url": "https://runsignup.com/Race/TX/Sugarland/HeroesAndVillainsHouston?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://runsignup.com/Race/TX/Sugarland/HeroesAndVillainsHouston",
     "description": "A superhero-and-villain themed race hosted by Bigfoot Running Company in the Sugar Land area, offering kids' dash, 1-mile, 5K, quarter marathon, and half marathon with chip timing, costume contest, and Bigfoot Trophy for top finishers. Venue to be confirmed closer to race day."
+  },
+  {
+    "id": "sugar-land-space-cowboys-5k-2026",
+    "name": "SUGAR LAND SPACE COWBOYS 5K",
+    "date": "2026-09-19",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "Start Line Location: Space Cowboys Stadium (Parking Lot)",
+    "city": "Sugar Land",
+    "state": "TX",
+    "zip": "77498",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/SugarLand/SUGARLANDSPACECOWBOYS5K10KKIDSDASH?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/SugarLand/SUGARLANDSPACECOWBOYS5K10KKIDSDASH?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Sugar Land, TX."
   },
   {
     "id": "woodforest-charity-run-2026",
@@ -2517,6 +3044,27 @@
     "description": "A 5K fun run on Galveston Island held during the annual Shrimp Festival. Warm-up at 8:45 AM, 5K start at 9:00 AM. A portion of proceeds benefits The Justin Hughes Fund at UTMB for medical student depression awareness."
   },
   {
+    "id": "houston-hftc-5k-2026",
+    "name": "Houston - HFTC 5k",
+    "date": "2026-09-27",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "11200 Broadway St",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77584",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/HoustonHFTC5k?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Houston/HoustonHFTC5k?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Houston, TX."
+  },
+  {
     "id": "zeal-rumrunners-race-series-2026",
     "name": "Zeal RumRunners Race Series",
     "date": "2026-10-03",
@@ -2563,6 +3111,27 @@
     "description": "A multi-sport fall festival celebrating BMX culture featuring 5K and 10K running races, a kids' dash, a bike race experience, and the RAD Zone festival area with music, vendors, food, and a costume contest. Held along the Kingwood Country Club Trails and organized in partnership with H-Town BMX."
   },
   {
+    "id": "ainsley-s-angels-9th-annual-twilight-5k-2026",
+    "name": "Ainsley's Angels 9th Annual Twilight 5K",
+    "date": "2026-10-03",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "20235 Cypress Rosehill Rd",
+    "city": "Tomball",
+    "state": "TX",
+    "zip": "77377",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Tomball/AinsleysAngelsTwilight5K?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Tomball/AinsleysAngelsTwilight5K?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Tomball, TX."
+  },
+  {
     "id": "ainsleys-angels-texas-twilight-5k-2026",
     "name": "Ainsley's Angels Texas Twilight 5K",
     "date": "2026-10-04",
@@ -2605,6 +3174,27 @@
     "official_website_url": "https://runsignup.com/Race/TX/Katy/KatyTX41?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://runsignup.com/Race/TX/Katy/KatyTX41",
     "description": "Part of the US Road Running Haunted series at Mason Creek Hike & Bike Trail in Katy, offering 5K, 10K, and half marathon on a flat out-and-back course with themed finisher medals. No on-site registration; chip-timed with a 3.5-hour course limit."
+  },
+  {
+    "id": "day-of-the-dead-half-marathon-galveston-2026",
+    "name": "Day of the Dead Half Marathon - Galveston",
+    "date": "2026-10-10",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "401 Seawall Blvd",
+    "city": "Galveston",
+    "state": "TX",
+    "zip": "77550",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "Half Marathon"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Galveston/DayOfTheDeadHalfMarathonGalveston?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Galveston/DayOfTheDeadHalfMarathonGalveston?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Galveston, TX."
   },
   {
     "id": "sugar-land-half-marathon-2026",
@@ -2720,6 +3310,27 @@
     "description": "A superhero-themed 5K and Kids 1K at CityCentre in west Houston benefiting Child Advocates, Houston's court-appointed special advocates for children."
   },
   {
+    "id": "breast-reconstruction-awareness-close-the-loop-5k-2026",
+    "name": "Breast Reconstruction Awareness Close the Loop 5K 2026",
+    "date": "2026-10-16",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "Buffalo Bayou Park",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77010",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/BreastReconstructionAwarenessClosetheLoop5K?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Houston/BreastReconstructionAwarenessClosetheLoop5K?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Houston, TX."
+  },
+  {
     "id": "shipley-donut-dash-2026",
     "name": "Shipley Donut Dash",
     "date": "2026-10-17",
@@ -2812,6 +3423,48 @@
     "description": "An annual fundraiser honoring Matthew, a young boy who lost his life at age 9 to leukemia, held at No Label Brewing Co. in Katy. Proceeds provide financial support to families battling pediatric cancer; participants choose from 5K, 10K, or a free kids 1K fun run."
   },
   {
+    "id": "friends-of-mae-s-bruce-library-fun-run-2026",
+    "name": "Friends of Mae S. Bruce Library Fun Run",
+    "date": "2026-10-17",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "JOE A. TAMBRELLA PARK",
+    "city": "Santa Fe",
+    "state": "TX",
+    "zip": "77510",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/SantaFe/FriendsofMaeSBruceLibraryFunRun?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/SantaFe/FriendsofMaeSBruceLibraryFunRun?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Santa Fe, TX."
+  },
+  {
+    "id": "galveston-ultra-trail-2026",
+    "name": "Galveston Ultra Trail",
+    "date": "2026-10-17",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "E Beach Dr",
+    "city": "Galveston",
+    "state": "TX",
+    "zip": "77550",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "Ultra"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Galveston/RISERunningFestival?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Galveston/RISERunningFestival?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Galveston, TX."
+  },
+  {
     "id": "angels-race-for-space-5k-2026",
     "name": "Angels' Race For Space 5K",
     "date": "2026-10-18",
@@ -2831,6 +3484,48 @@
     "official_website_url": null,
     "source_url": "https://www.houstonrunningcalendar.com/2026/",
     "description": "A 5K at Space Center Houston near the Johnson Space Center campus."
+  },
+  {
+    "id": "toughest-10k-galveston-2026",
+    "name": "Toughest 10k Galveston",
+    "date": "2026-10-18",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "8522 Teichman Rd",
+    "city": "Galveston",
+    "state": "TX",
+    "zip": "77554",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "10K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Galveston/Toughest10Galveston?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Galveston/Toughest10Galveston?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Galveston, TX."
+  },
+  {
+    "id": "chord-energy-houston-corporate-5k-2026",
+    "name": "CHORD ENERGY HOUSTON CORPORATE 5K",
+    "date": "2026-10-20",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "Start Line Location: Eastern Glades (East Memorial Park Loop) - Flat and Fast, One Lap Around Seymour Lieberman Trail Loop",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77007",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/HoustonCorporateRun5k?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Houston/HoustonCorporateRun5k?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Houston, TX."
   },
   {
     "id": "haunted-5k-10k-half-cypress-43-2026",
@@ -2994,6 +3689,27 @@
     "description": "Part of the US Road Running Medal Madness series at Mason Creek Hike & Bike Trail in Katy, offering 5K, 10K, and half marathon on a flat out-and-back course. No on-site registration; chip-timed with themed Halloween-season finisher medals and a 3.5-hour course limit."
   },
   {
+    "id": "daily-news-press-run-galveston-2026",
+    "name": "Daily News Press Run - Galveston",
+    "date": "2026-10-31",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "8522 Teichman Rd",
+    "city": "Galveston",
+    "state": "TX",
+    "zip": "77554",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Galveston/DailyNewsPressRun?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Galveston/DailyNewsPressRun?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Galveston, TX."
+  },
+  {
     "id": "xracers-day-of-dead-10k-2026",
     "name": "2026 Xracers Day Of The Dead 10K (Ride and Run)",
     "date": "2026-11-01",
@@ -3125,6 +3841,69 @@
     "description": "Part of the Run In Texas 5K Six Pack Beer Challenge, this flat and fast out-and-back 5K starts and finishes at Back Pew Brewing Co. in Porter (NE Houston area), with one water stop benefiting Family Promise of Lake Houston. Entry includes a souvenir pint glass, four 8-oz beer tastings, food trucks, and custom awards for top finishers."
   },
   {
+    "id": "big-tex-backyard-ultra-2026",
+    "name": "Big Tex Backyard Ultra",
+    "date": "2026-11-07",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "Park Rd 38",
+    "city": "San Felipe",
+    "state": "TX",
+    "zip": "77473",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "Ultra"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/SanFelipe/BigTexBackyardUltra?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/SanFelipe/BigTexBackyardUltra?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in San Felipe, TX."
+  },
+  {
+    "id": "fall-family-fun-run-2026",
+    "name": "Fall Family Fun Run",
+    "date": "2026-11-07",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "19623 Windy Stone Dr",
+    "city": "Katy",
+    "state": "TX",
+    "zip": "77449",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Katy/FFFR5K?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Katy/FFFR5K?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Katy, TX."
+  },
+  {
+    "id": "warriors-of-hope-irene-s-5k-2026",
+    "name": "Warriors of Hope - Irene's 5K",
+    "date": "2026-11-07",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "7700 Cypresswood Dr",
+    "city": "Spring",
+    "state": "TX",
+    "zip": "77379",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Spring/WarriorsOfHope5K?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Spring/WarriorsOfHope5K?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Spring, TX."
+  },
+  {
     "id": "turkey-shuffle-houston-sugar-land-2026",
     "name": "Turkey Shuffle - Houston",
     "date": "2026-11-14",
@@ -3238,6 +4017,28 @@
     "official_website_url": "https://runsignup.com/Race/TX/Houston/GreatHoustonPieRun?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://runsignup.com/Race/TX/Houston/GreatHoustonPieRun",
     "description": "Race 8 of 9 in Houston Running Co.'s Houston Holiday Series, held the Saturday before Thanksgiving at King's BierHaus in the Lazybrook/Timbergrove neighborhood. Runners choose from a half marathon, 10K, 5K, or kids/family 1K, then celebrate with cold beer, mini pie, and the satisfaction of earning dessert before Turkey Day."
+  },
+  {
+    "id": "houston-25k-2026",
+    "name": "Houston 25K",
+    "date": "2026-11-22",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "Wortham Center - Fish Plaza",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77002",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K",
+      "Ultra"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/Houston25K?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Houston/Houston25K?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Houston, TX."
   },
   {
     "id": "hmsa-classical-25k-2026",
@@ -3522,6 +4323,50 @@
     "description": "The 5th Annual officially licensed Peanuts event at Addicks Park and Ride in Houston's Energy Corridor. The flat, USATF-certified out-and-back course runs on Park Row Drive. Schedule: Snoopy Kids Dash 8:00 AM, 10K 8:15 AM, 5K 8:20 AM. Capped at 2,000 participants and sold out all four prior years. All finishers receive a limited-edition collector's snow globe medal, performance tee, and numbered Peanuts bib."
   },
   {
+    "id": "last-man-standing-2026",
+    "name": "Last Man Standing",
+    "date": "2026-12-05",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "13621 Lake Breeze Ln",
+    "city": "Willis",
+    "state": "TX",
+    "zip": "77318",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "Ultra"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Willis/TheLastManStanding?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Willis/TheLastManStanding?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Willis, TX."
+  },
+  {
+    "id": "run-for-the-house-ronald-mcdonald-house-charities-greater-houston-5k-and-kids-1-miler-2026",
+    "name": "Run for the House - Ronald McDonald House Charities Greater Houston 5K and Kids 1 Miler",
+    "date": "2026-12-05",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "1000 Bagby",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77002",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "Kids",
+      "1 Mile",
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/RunfortheHouse5K?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Houston/RunfortheHouse5K?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Houston, TX."
+  },
+  {
     "id": "gingerbread-lane-houston-2026",
     "name": "Gingerbread Lane 5K & 10K Houston",
     "date": "2026-12-06",
@@ -3673,6 +4518,27 @@
     "official_website_url": "https://runsignup.com/Race/TX/Kingwood/KingwoodChristmasCookieDash?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://runsignup.com/Race/TX/Kingwood/KingwoodChristmasCookieDash",
     "description": "The 3rd Annual Kingwood Christmas Cookie Dash on the trails of Kingwood Country Club, co-located with the Kingwood Christmas Market. Offers 5K, 10K, a unique 10K relay (4 legs of 1.5 miles each \u2014 runners decorate a cookie before tagging off), and Kids Dash. Benefiting Lily's Toy Box, Toys for Tots, and Angel Tree Houston. NOTE: The 2026 edition is already sold out."
+  },
+  {
+    "id": "candy-cane-course-houston-2026",
+    "name": "Candy Cane Course - Houston",
+    "date": "2026-12-12",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "Oyster Creek Park",
+    "city": "Sugar Land",
+    "state": "TX",
+    "zip": "77479",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/SugarLand/CandyCaneCourseHouston?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/SugarLand/CandyCaneCourseHouston?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Sugar Land, TX."
   },
   {
     "id": "rudolph-fun-run-2026",
@@ -3939,5 +4805,26 @@
     "official_website_url": "https://hotchocolate15k.com/city/houston/",
     "source_url": "https://hotchocolate15k.com/city/houston/",
     "description": "America's sweetest road race starting and finishing at Sam Houston Park, with the course running along Allen Parkway beside Buffalo Bayou. Offered in 5K (7:15 AM), 10K, and 10-mile distances; every finisher receives a chocolate fondue mug with dippables, a commemorative full-zip SKECHERS jacket, and a finisher medal."
+  },
+  {
+    "id": "run-the-distance-for-kylie-5th-annual-event-2027",
+    "name": "Run the Distance for Kylie - 5th Annual Event",
+    "date": "2027-01-30",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "707 Redemption Square Road",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77044",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/RunTheDistanceForKylie?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Houston/RunTheDistanceForKylie?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Houston, TX."
   }
 ]
