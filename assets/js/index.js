@@ -363,11 +363,6 @@
           throw new Error('Expected ' + DATA_URL + ' to be a JSON array');
         }
         allRaces = data;
-        // Populate hero stat if present
-        var heroStat = document.getElementById('hero-stat');
-        if (heroStat && data.length) {
-          heroStat.textContent = data.length + ' races \u00B7 Apr 2026 \u2013 Jan 2027';
-        }
         renderChips('distance-chips', buildDistanceOptions(allRaces), 'distance');
         attachFilterHandlers();
         render();
