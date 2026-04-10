@@ -1,33 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
-  <!-- Run Houston social card. Reuses site brand: dark bg, red accent,
-       Barlow Condensed wordmark. Export to social-card.png at 1200x630. -->
   <rect width="1200" height="630" fill="#0f0f0f"/>
-
-  <!-- Subtle diagonal accent stripe on the right edge -->
   <polygon points="1050,0 1200,0 1200,630 900,630" fill="#1a1a1a"/>
 
-  <!-- Red bar under the wordmark -->
-  <rect x="120" y="392" width="140" height="8" fill="#dc2626"/>
+  <rect x="100" y="370" width="140" height="9" fill="#dc2626"/>
 
-  <!-- Wordmark -->
-  <text x="120" y="360"
-        font-family="'Barlow Condensed', 'Arial Narrow', Impact, sans-serif"
-        font-weight="800"
-        font-size="220"
-        letter-spacing="2"
-        fill="#ffffff">RUN <tspan fill="#dc2626">HOUSTON</tspan></text>
+  <text x="100" y="340"
+        font-family="Helvetica, Arial, sans-serif"
+        font-weight="900"
+        font-size="120"
+        fill="#ffffff">RUN</text>
+  <text x="362" y="340"
+        font-family="Helvetica, Arial, sans-serif"
+        font-weight="900"
+        font-size="120"
+        fill="#dc2626">HOUSTON</text>
 
-  <!-- Tagline -->
-  <text x="120" y="460"
-        font-family="'DM Sans', -apple-system, 'Helvetica Neue', Arial, sans-serif"
+  <text x="100" y="445"
+        font-family="Helvetica, Arial, sans-serif"
         font-weight="500"
-        font-size="38"
+        font-size="34"
         fill="#9a9a95">A community race guide for the Bayou City</text>
 
-  <!-- URL -->
-  <text x="120" y="540"
-        font-family="'DM Sans', -apple-system, 'Helvetica Neue', Arial, sans-serif"
+  <text x="100" y="525"
+        font-family="Helvetica, Arial, sans-serif"
         font-weight="700"
-        font-size="32"
+        font-size="30"
         fill="#ffffff">runhouston.app</text>
 </svg>
