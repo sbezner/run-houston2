@@ -35,7 +35,7 @@
   --virtual-soft: #eeede8;
 
   /* Dark UI (header + footer) */
-  --dark-bg: #1e1e2a;         /* deep warm navy-charcoal */
+  --dark-bg: #2b2d3a;         /* warm navy-charcoal, noticeably off-black */
   --dark-text: #f5f4f0;
   --dark-muted: #a8a4a0;
 
