@@ -1274,14 +1274,14 @@
     "id": "lemonade-dash-houston-2026",
     "name": "Lemonade Dash Houston",
     "date": "2026-06-06",
-    "start_time": "07:30",
+    "start_time": "06:55",
     "tz": "America/Chicago",
     "address": "2032 Karbach St",
     "city": "Houston",
     "state": "TX",
     "zip": "77092",
-    "latitude": 29.8118,
-    "longitude": -95.4444,
+    "latitude": 29.8017,
+    "longitude": -95.4448,
     "distance": [
       "5K",
       "10K",
@@ -1291,7 +1291,51 @@
     "kid_run": true,
     "official_website_url": "https://houstonrunning.co/lemonadedash/",
     "source_url": "https://runsignup.com/Race/TX/Houston/LemonadeDash",
-    "description": "The 6th Annual Lemonade Dash at Karbach Brewing Co. is the first race in Houston Running Co.'s Summer Dash Series, featuring a 5K and 10K starting at 7:30 a.m. plus a Kids and Family 1K. Every finisher gets a custom bib, medal, and a signature cup of lemonade."
+    "description": "The 6th Annual Lemonade Dash kicks off Houston Running Co.'s Summer Dash Series at Karbach Brewing Co. Includes 5K, 10K, and Kids/Family Fun Run. Post-race party with lemonade-themed refreshments and free parking at the brewery."
+  },
+  {
+    "id": "harmonie-grace-5k-miles-for-miracles-2026",
+    "name": "Miles for Miracles: 5K for NICU Families",
+    "date": "2026-06-06",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "5225 Calhoun Rd",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77021",
+    "latitude": 29.7199,
+    "longitude": -95.3467,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/MilesForMiracles5KForNICUFamilies",
+    "source_url": "https://runsignup.com/Race/TX/Houston/MilesForMiracles5KForNICUFamilies",
+    "description": "A 5K fun run supporting the Harmonie Grace Foundation and families of micro preemies. Family-friendly event open to all ages and fitness levels, raising awareness and funds for NICU families."
+  },
+  {
+    "id": "big-rivers-splash-and-dash-2026",
+    "name": "Big Rivers Splash & Dash",
+    "date": "2026-06-13",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "23101 Highway 242",
+    "city": "New Caney",
+    "state": "TX",
+    "zip": "77357",
+    "latitude": 30.1626,
+    "longitude": -95.1847,
+    "distance": [
+      "5K",
+      "10K",
+      "Kids"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": "https://runsignup.com/Race/TX/NewCaney/BigRiversSplashDash",
+    "source_url": "https://runsignup.com/Race/TX/NewCaney/BigRiversSplashDash",
+    "description": "A 5K, 10K, and Kid's Dash at Big Rivers Waterpark in New Caney. The scenic course winds through the waterpark and around the lake. Proceeds support research and awareness for TANGO2, a rare genetic disorder."
   },
   {
     "id": "houston-stars-stripes-half-marathon-2026",
@@ -1327,8 +1371,8 @@
     "city": "Katy",
     "state": "TX",
     "zip": "77493",
-    "latitude": 29.7998,
-    "longitude": -95.8145,
+    "latitude": 29.7858,
+    "longitude": -95.8245,
     "distance": [
       "5K"
     ],
@@ -1336,7 +1380,31 @@
     "kid_run": false,
     "official_website_url": "https://www.runintexas.com/beerrun",
     "source_url": "https://www.runintexas.com/beerrun",
-    "description": "A 5K beer run starting and finishing at No Label Brewing in historic downtown Katy, running the shaded streets east of the brewery. Finisher pint glass and post-race beer tastings included."
+    "description": "A 5K beer run starting and finishing at No Label Brewing in downtown Katy. Part of the Run In Texas 2026 Texas 5K 6-Pack Beer Challenge. Entry includes a souvenir pint glass, four 8-oz tastings, a race tee, and food trucks on site."
+  },
+  {
+    "id": "houston-stars-and-stripes-half-2026",
+    "name": "Houston Stars and Stripes Half Marathon, 10K, 5K & Kid's K presented by Houston Methodist",
+    "date": "2026-06-20",
+    "start_time": "07:05",
+    "tz": "America/Chicago",
+    "address": null,
+    "city": "Houston",
+    "state": "TX",
+    "zip": null,
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K",
+      "10K",
+      "Half Marathon",
+      "Kids"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/HoustonStarsandStripesHalfMarathon5K",
+    "source_url": "https://runsignup.com/Race/TX/Houston/HoustonStarsandStripesHalfMarathon5K",
+    "description": "A patriotic race in the Run Houston series where finishers receive an American flag to wave across the finish line, plus finisher medals and bomb pops. Half marathon starts at 7:05 AM, 5K/10K at 7:15 AM. Timed and untimed 5K options available."
   },
   {
     "id": "independence-day-8k-2026",
@@ -1359,6 +1427,28 @@
     "official_website_url": "https://houstonrunning.co/independenceday/",
     "source_url": "https://runsignup.com/Race/TX/Houston/IndependenceDay8k",
     "description": "The 10th Annual Independence Day 8K & 5K at Meyerland Plaza is the 6th race in the Houston Holiday Series. The 8K and 5K start at 7:00 a.m. on a fast, mostly flat patriotic-themed course, followed by a Kids and Family 1K at 9:00 a.m."
+  },
+  {
+    "id": "independence-day-8k-houston-2026",
+    "name": "Independence Day 8K",
+    "date": "2026-06-27",
+    "start_time": "07:00",
+    "tz": "America/Chicago",
+    "address": "Meyerland Plaza",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77096",
+    "latitude": 29.6868,
+    "longitude": -95.4639,
+    "distance": [
+      "5K",
+      "Kids"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": "https://houstonrunning.co/independenceday/",
+    "source_url": "https://runsignup.com/Race/TX/Houston/IndependenceDay8k",
+    "description": "Houston Running Co.'s 10th annual Independence Day 8K and 5K at Meyerland Plaza. The 8K (not a standard 5K/10K distance) and 5K start at 7:00 AM with an award ceremony at 8:45 AM and Kids/Family 1K at 9:00 AM. Part of the Houston Holiday Series."
   },
   {
     "id": "firecracker-5k-the-woodlands-2026",
@@ -1492,15 +1582,59 @@
     "description": "The 3rd annual Kingwood July 4th Freedom Run takes participants through the scenic Kingwood Greenbelt Trails with 8-mile, 4-mile, and 2-mile options plus a Kids Dash, starting from Town Center Park. Organized by Rad Racing Company with a patriotic attire contest and charity support for Team RWB and the Torch of Freedom Foundation."
   },
   {
+    "id": "houston-fourth-fest-2026",
+    "name": "Houston Fourth Fest",
+    "date": "2026-07-04",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "Vintage Park",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77070",
+    "latitude": 29.9737,
+    "longitude": -95.5515,
+    "distance": [
+      "5K",
+      "Kids"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": "https://www.houstonfourthfest.com/Race/HoustonFourthFest/Page/Road-Race",
+    "source_url": "https://findarace.com/us/events/houston-fourth-fest",
+    "description": "The 2nd annual Houston Fourth Fest at Vintage Park featuring a flat, mostly-shaded road race (5K, 9K, and 17.76K loops plus a Family 1.776K), Houston's Beer Mile Championship, a hot dog eating contest, and a post-race celebration with free beer, pizza, and live music from 104.1 KRBE."
+  },
+  {
+    "id": "run-wild-5k-houston-2026",
+    "name": "Run Wild 5K & Kids Run",
+    "date": "2026-07-04",
+    "start_time": "07:00",
+    "tz": "America/Chicago",
+    "address": "6590 Woodway Dr",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77057",
+    "latitude": 29.7594,
+    "longitude": -95.4818,
+    "distance": [
+      "5K",
+      "Kids"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/RunWild5KKidsRun",
+    "source_url": "https://runsignup.com/Race/TX/Houston/RunWild5KKidsRun",
+    "description": "A flat, fast Independence Day 5K at Uptown Park hosted by Runner's High Club with a 0.6-mile Kids' Run. Benefits Special Olympics Texas and Girls on the Run Greater Houston. All kids receive medals."
+  },
+  {
     "id": "treat-trot-houston-2026",
     "name": "Treat Trot Houston",
     "date": "2026-07-05",
-    "start_time": "07:00",
+    "start_time": null,
     "tz": "America/Chicago",
-    "address": "TBD",
+    "address": null,
     "city": "Houston",
     "state": "TX",
-    "zip": "77085",
+    "zip": null,
     "latitude": null,
     "longitude": null,
     "distance": [
@@ -1510,9 +1644,9 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/TreatTrotHouston",
-    "source_url": "https://runsignup.com/Race/TX/Houston/TreatTrotHouston",
-    "description": "A summer road race in Houston offering 5K, 10K, and 15K distances with chip timing, custom finisher medals, designer shirt, and age group awards. Produced by Bodies Race Company; venue in the southwest Houston area to be confirmed closer to race day."
+    "official_website_url": null,
+    "source_url": "https://www.findtherun.com/races/houston-tx/5k/july",
+    "description": "A summer trot offering 5K, 10K, and 15K distances in Houston. Includes a designer shirt, custom medal, chip timing with live results, free photos, and snacks at the finish line. Youth pricing available for ages 12 and under."
   },
   {
     "id": "eagle-katy-28-2026",
@@ -1570,8 +1704,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77092",
-    "latitude": 29.8168,
-    "longitude": -95.4571,
+    "latitude": 29.8017,
+    "longitude": -95.4448,
     "distance": [
       "5K",
       "10K",
@@ -1581,7 +1715,7 @@
     "kid_run": true,
     "official_website_url": "https://houstonrunning.co/popsicledash/",
     "source_url": "https://runsignup.com/Race/TX/Houston/PopsicleDash",
-    "description": "The 7th annual Popsicle Dash is the second race in Houston Running Co.'s Summer Dash Series, held at Karbach Brewing Co. in northwest Houston. Runners choose from a 5K, 10K, or kids' family 1K, with post-race celebration at the brewery; the series also includes the Lemonade Dash and Watermelon Dash."
+    "description": "The 7th Annual Popsicle Dash at Karbach Brewing Co., the second race in Houston Running Co.'s Summer Dash Series. Includes 5K, 10K, and Kids/Family Fun Run with free parking at the brewery."
   },
   {
     "id": "eagle-deer-park-29-2026",
@@ -1605,6 +1739,28 @@
     "official_website_url": "https://runsignup.com/Race/TX/DeerPark/Eagle5K10KMDeerParkTX",
     "source_url": "https://runsignup.com/Race/TX/DeerPark/Eagle5K10KMDeerParkTX",
     "description": "Part of the US Road Running Eagle Series, this weekly race at Dow Park in Deer Park offers 5K, 10K, and half marathon on a flat out-and-back course with a 3.5-hour time limit. Chip-timed with finisher medals; no on-site registration."
+  },
+  {
+    "id": "lunar-landing-5k-2026",
+    "name": "Lunar Landing 5K & Kids 1K",
+    "date": "2026-07-18",
+    "start_time": "07:00",
+    "tz": "America/Chicago",
+    "address": "16511 Diana Ln",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77062",
+    "latitude": 29.5648,
+    "longitude": -95.1133,
+    "distance": [
+      "5K",
+      "Kids"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": "https://www.runningalliancesport.org/lunar-landing5k/",
+    "source_url": "https://raceroster.com/events/2026/118454/lunar-landing-5k-and-kids-1k-2026",
+    "description": "A 5K and Kids 1K at the Clear Lake Recreation and Community Center near NASA, celebrating the Apollo 11 moon landing. Kids 1K starts at 7:00 AM with the 5K immediately after. Part of the Texas 5K Series. 90-minute time limit."
   },
   {
     "id": "red-white-and-blue-half-marathon-houston-2026",
@@ -1675,6 +1831,28 @@
     "description": "A summer road race at Sugar Land Memorial Park offering 5K, 10K, and 15K distances with chip timing, custom finisher medals, and age group awards four deep. Runners who register by July 18 are guaranteed their shirt size."
   },
   {
+    "id": "christmas-in-july-houston-2026",
+    "name": "Christmas in July 5K & 10K Houston",
+    "date": "2026-07-25",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": null,
+    "city": "Houston",
+    "state": "TX",
+    "zip": null,
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K",
+      "10K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": null,
+    "source_url": "https://www.findtherun.com/races/houston-tx/5k/july",
+    "description": "A Christmas-themed summer 5K and 10K in Houston. Part of the seasonal themed race series popular in the Houston area."
+  },
+  {
     "id": "terrain-race-houston-2026",
     "name": "Terrain Race | Houston",
     "date": "2026-08-01",
@@ -1705,20 +1883,20 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77036",
-    "latitude": 29.6875,
-    "longitude": -95.5085,
+    "latitude": 29.6834,
+    "longitude": -95.5143,
     "distance": [
+      "1 Mile",
       "5K",
       "10K",
       "Half Marathon",
-      "1 Mile",
       "Kids"
     ],
     "surface": "road",
     "kid_run": true,
     "official_website_url": "https://runsignup.com/Race/TX/Houston/HeatwaveHalfMarathonHouston",
     "source_url": "https://runsignup.com/Race/TX/Houston/HeatwaveHalfMarathonHouston",
-    "description": "A summer half marathon weekend in southwest Houston offering kids' dash, 1-mile, 5K, 10K, and half marathon with chip timing, custom finisher medals, free ice cream at the finish line, and free photos. Organized by Bodies Race Company with youth pricing for participants 12 and under."
+    "description": "A mid-summer multi-distance race offering a Kids Dash, 1 Mile, 5K, 10K, half marathon, and half marathon relay. Chip timing, custom medals, and a post-race celebration."
   },
   {
     "id": "watermelon-dash-houston-2026",
@@ -1730,8 +1908,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77092",
-    "latitude": 29.8168,
-    "longitude": -95.4571,
+    "latitude": 29.8017,
+    "longitude": -95.4448,
     "distance": [
       "5K",
       "10K",
@@ -1741,7 +1919,7 @@
     "kid_run": true,
     "official_website_url": "https://houstonrunning.co/watermelondash/",
     "source_url": "https://runsignup.com/Race/TX/Houston/WatermelonDash",
-    "description": "The 7th annual Watermelon Dash is the final event in Houston Running Co.'s Summer Dash Series, held at Karbach Brewing Co. in northwest Houston. Runners choose from a 5K, 10K, or kids' family 1K, with watermelon and post-race celebration at the brewery benefiting four local nonprofits."
+    "description": "The 7th Annual Watermelon Dash at Karbach Brewing Co., the third and final race in Houston Running Co.'s Summer Dash Series. 5K and 10K start at 7:00 AM, award ceremony at 8:45 AM, Kids/Family 1K at 9:00 AM. Early packet pickup at Sun & Ski Sports Westheimer."
   },
   {
     "id": "houston-party-in-the-park-2026",
@@ -1810,28 +1988,49 @@
     "description": "Event #6 in the Run In Texas 5K Six Pack Beer Challenge, this annual 5K beer run starts and finishes at Southern Star Brewing Company in Conroe. Benefiting Toys for Tots, the flat course winds through the Sunset Ridge neighborhood; entry includes a souvenir pint glass and post-race beer tastings."
   },
   {
+    "id": "southern-star-brewing-5k-2026",
+    "name": "Southern Star Brewing Co 5K Beer Run",
+    "date": "2026-08-08",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "3525 N Frazier St",
+    "city": "Conroe",
+    "state": "TX",
+    "zip": "77303",
+    "latitude": 30.3318,
+    "longitude": -95.4683,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://www.runintexas.com/star",
+    "source_url": "https://www.runintexas.com/star",
+    "description": "A 5K beer run starting and finishing at Southern Star Brewing Co. in Conroe. Part of the Run In Texas 2026 Texas 5K 6-Pack Beer Challenge. Entry includes a finisher glass, four 8-oz tastings, a race tee, and a walker/stroller/dog-friendly course."
+  },
+  {
     "id": "summer-meltdown-half-marathon-houston-2026",
     "name": "Summer Meltdown Half Marathon - Houston",
     "date": "2026-08-09",
     "start_time": "07:00",
     "tz": "America/Chicago",
-    "address": "18427 SW Freeway",
+    "address": "18427 Southwest Fwy",
     "city": "Sugar Land",
     "state": "TX",
     "zip": "77479",
-    "latitude": 29.5927,
-    "longitude": -95.6369,
+    "latitude": 29.5707,
+    "longitude": -95.6643,
     "distance": [
+      "1 Mile",
       "5K",
       "Half Marathon",
-      "1 Mile",
       "Kids"
     ],
     "surface": "road",
     "kid_run": true,
     "official_website_url": "https://runsignup.com/Race/TX/Sugarland/SummerMeltdownHalfMarathonHouston",
     "source_url": "https://runsignup.com/Race/TX/Sugarland/SummerMeltdownHalfMarathonHouston",
-    "description": "Hosted by Bigfoot Running Company at Brazos River Park in Sugar Land, this summer half marathon also offers a quarter marathon (6.55 mi), 5K, 1-mile, and kids' dash with chip timing, custom medals, and Bigfoot trophies for top finishers. The course blends pavement, crushed granite, and light dirt trail."
+    "description": "A summer half marathon at Brazos River Park in Sugar Land, also offering a quarter marathon (6.55 miles), 5K, 1 Mile, and Kids Dash. All distances start at 7:00 AM with chip timing and custom medals."
   },
   {
     "id": "habanero-hundred-2026",
