@@ -28,7 +28,7 @@
     distances: [],
     search: '',
     window: 'all',
-    view: 'list' // 'list' | 'map'
+    view: 'cards' // 'cards' | 'list' | 'map'
   };
 
   // Leaflet map objects are created lazily the first time the user switches
@@ -177,14 +177,52 @@
     return rows.filter(function (race) { return matchesSearch(race, tokens); });
   }
 
-  function renderList(rows) {
-    var listEl = document.getElementById('race-list');
+  function renderCards(rows) {
+    var el = document.getElementById('race-cards');
     if (rows.length === 0) {
-      listEl.innerHTML =
+      el.innerHTML =
         '<p class="empty">No races match. Try clearing the search box, widening the date window, or clearing a distance chip.</p>';
       return;
     }
-    listEl.innerHTML = rows.map(renderRaceCard).join('');
+    el.innerHTML = rows.map(renderRaceCard).join('');
+  }
+
+  function renderTable(rows) {
+    var el = document.getElementById('race-list');
+    if (rows.length === 0) {
+      el.innerHTML =
+        '<p class="empty">No races match. Try clearing the search box, widening the date window, or clearing a distance chip.</p>';
+      return;
+    }
+    var html =
+      '<table class="race-table">' +
+      '<thead><tr>' +
+      '<th>Date</th>' +
+      '<th>Race</th>' +
+      '<th class="col-city">City</th>' +
+      '<th>Distances</th>' +
+      '<th class="col-surface">Surface</th>' +
+      '</tr></thead><tbody>';
+    rows.forEach(function (race) {
+      var dists = (race.distance || []).map(function (d) {
+        return '<span class="badge distance">' + RH.escapeHtml(d) + '</span>';
+      }).join(' ');
+      var surfaceBadge = race.surface
+        ? '<span class="badge surface-' + RH.escapeAttr(race.surface) + '">' +
+          RH.escapeHtml(race.surface) + '</span>'
+        : '';
+      html +=
+        '<tr>' +
+        '<td>' + RH.escapeHtml(RH.formatDate(race.date)) + '</td>' +
+        '<td><a href="race.html?id=' + encodeURIComponent(race.id) + '">' +
+        RH.escapeHtml(race.name) + '</a></td>' +
+        '<td class="col-city">' + RH.escapeHtml(race.city || '') + '</td>' +
+        '<td class="badges-cell">' + dists + '</td>' +
+        '<td class="col-surface">' + surfaceBadge + '</td>' +
+        '</tr>';
+    });
+    html += '</tbody></table>';
+    el.innerHTML = html;
   }
 
   // ---------- Map rendering ----------
@@ -271,14 +309,14 @@
 
   function render() {
     var countEl = document.getElementById('result-count');
-    var listEl = document.getElementById('race-list');
+    var cardsEl = document.getElementById('race-cards');
 
     var rows;
     try {
       rows = filterRaces();
     } catch (err) {
       console.error('AlaSQL query failed:', err);
-      listEl.innerHTML = '<p class="error">Sorry, something went wrong filtering the races.</p>';
+      cardsEl.innerHTML = '<p class="error">Sorry, something went wrong filtering the races.</p>';
       countEl.textContent = '';
       return;
     }
@@ -288,35 +326,36 @@
 
     if (state.view === 'map') {
       renderMap(rows);
+    } else if (state.view === 'list') {
+      renderTable(rows);
     } else {
-      renderList(rows);
+      renderCards(rows);
     }
   }
 
   function setView(view) {
-    if (view !== 'list' && view !== 'map') return;
+    if (view !== 'cards' && view !== 'list' && view !== 'map') return;
     state.view = view;
 
+    var cardsWrap = document.getElementById('race-cards');
     var listWrap = document.getElementById('race-list');
     var mapWrap = document.getElementById('race-map-wrap');
+    var cardsBtn = document.getElementById('view-cards-btn');
     var listBtn = document.getElementById('view-list-btn');
     var mapBtn = document.getElementById('view-map-btn');
 
-    if (view === 'map') {
-      listWrap.hidden = true;
-      mapWrap.hidden = false;
-      listBtn.classList.remove('is-active');
-      mapBtn.classList.add('is-active');
-      listBtn.setAttribute('aria-pressed', 'false');
-      mapBtn.setAttribute('aria-pressed', 'true');
-    } else {
-      listWrap.hidden = false;
-      mapWrap.hidden = true;
-      listBtn.classList.add('is-active');
-      mapBtn.classList.remove('is-active');
-      listBtn.setAttribute('aria-pressed', 'true');
-      mapBtn.setAttribute('aria-pressed', 'false');
-    }
+    cardsWrap.hidden = view !== 'cards';
+    listWrap.hidden = view !== 'list';
+    mapWrap.hidden = view !== 'map';
+
+    [cardsBtn, listBtn, mapBtn].forEach(function (btn) {
+      btn.classList.remove('is-active');
+      btn.setAttribute('aria-pressed', 'false');
+    });
+
+    var activeBtn = view === 'cards' ? cardsBtn : view === 'list' ? listBtn : mapBtn;
+    activeBtn.classList.add('is-active');
+    activeBtn.setAttribute('aria-pressed', 'true');
 
     render();
   }
@@ -360,6 +399,9 @@
       });
 
     document
+      .getElementById('view-cards-btn')
+      .addEventListener('click', function () { setView('cards'); });
+    document
       .getElementById('view-list-btn')
       .addEventListener('click', function () { setView('list'); });
     document
@@ -368,20 +410,25 @@
   }
 
   function init() {
-    var listEl = document.getElementById('race-list');
+    var cardsEl = document.getElementById('race-cards');
     RH.loadJson(DATA_URL)
       .then(function (data) {
         if (!Array.isArray(data)) {
           throw new Error('Expected ' + DATA_URL + ' to be a JSON array');
         }
         allRaces = data;
+        // Populate hero stat if present
+        var heroStat = document.getElementById('hero-stat');
+        if (heroStat && data.length) {
+          heroStat.textContent = data.length + ' races \u00B7 Apr 2026 \u2013 Jan 2027';
+        }
         renderChips('distance-chips', buildDistanceOptions(allRaces), 'distance');
         attachFilterHandlers();
         render();
       })
       .catch(function (err) {
         console.error(err);
-        listEl.innerHTML =
+        cardsEl.innerHTML =
           '<p class="error">Could not load races. ' +
           RH.escapeHtml(err.message) +
           '</p>';

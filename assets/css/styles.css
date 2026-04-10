@@ -551,21 +551,86 @@ main {
   }
 }
 
-/* -------------------- Race list grid -------------------- */
+/* -------------------- Race cards grid -------------------- */
 
-#race-list {
+#race-cards {
   display: grid;
   gap: 1.25rem;
   grid-template-columns: 1fr;
+}
+
+#race-cards[hidden] {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  #race-cards {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
+}
+
+/* -------------------- Race list (compact table) -------------------- */
+
+#race-list {
+  width: 100%;
 }
 
 #race-list[hidden] {
   display: none;
 }
 
-@media (min-width: 640px) {
-  #race-list {
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+.race-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.race-table th {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+}
+
+.race-table td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.race-table tr:hover {
+  background: var(--accent-soft);
+}
+
+.race-table a {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.race-table a:hover {
+  color: var(--accent);
+}
+
+.race-table .badges-cell {
+  white-space: nowrap;
+}
+
+.race-table .badges-cell .badge {
+  font-size: 0.62rem;
+  padding: 0.2rem 0.45rem;
+}
+
+/* Hide less important columns on small screens */
+@media (max-width: 640px) {
+  .race-table .col-city,
+  .race-table .col-surface {
+    display: none;
   }
 }
 
