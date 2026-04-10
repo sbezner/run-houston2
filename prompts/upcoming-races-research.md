@@ -110,6 +110,76 @@ Start your research from these and branch out. Don't trust any single source —
 
 For each race you find, **visit its primary source** (registration page or official event website) to confirm the date, distances, and location. If you can't verify a race on a primary source, do not include it.
 
+## Seasonal keyword sweeps
+
+Race calendars miss many seasonal/themed events because they're branded under the theme, not under "5K" or "10K". For any month inside the window, also run web searches pairing the relevant keywords below with `houston`, `katy`, `cypress`, `the woodlands`, `sugar land`, `pearland`, etc. Holiday-themed runs are some of the highest-attendance races on the calendar; missing them is a sign the sweep wasn't exhaustive.
+
+- **November:** turkey trot, gobble, thanksgiving, drumstick, pie run
+- **December:** jingle, santa, reindeer, gingerbread, cookie, christmas, ugly sweater, hot chocolate, polar, charlie brown
+- **January:** new year, resolution, frostbite, polar bear
+- **February:** cupid, sweetheart, valentine, mardi gras
+- **March:** shamrock, leprechaun, st patrick, st paddy
+- **April:** bunny, easter, eggshell, bluebonnet
+- **May:** mom, mother, memorial day
+- **June:** dad, father, juneteenth
+- **July:** firecracker, freedom, independence, fourth, red white blue
+- **September:** labor day, back to school
+- **October:** monster, pumpkin, ghoul, boo, zombie, spook, halloween, witches
+- **Year-round:** color run, glow run, beer run, costume
+
+Treat each keyword as a separate web search if the relevant month is in your window.
+
+## Race series enumeration
+
+Many Houston-area race series hold multiple events on different dates within a single window. **If you find one race in a series, search explicitly for all other events in that series within the window.** Don't list a single Texas 10 Series race when there are 3 of them in your window.
+
+Known series to check exhaustively:
+
+- **Texas 10 Series** — multiple 10-mile events per year at different Houston venues
+- **Trail Racing Over Texas (TROT)** — Brazos Bend (multiple per year), Huntsville, Sam Houston, Bandera, Rocky Raccoon
+- **USA Fit / Fit Houston** training-cycle events
+- **Run Wild Houston** events
+- **Memorial Hermann IRONMAN training races**
+- **Bayou City Road Runners (BCRR)** monthly club races
+- **Houston Striders** monthly events
+- **Kids Marathon Foundation** events
+- **Park-hosted series:** Brazos Bend State Park hosts ~6–10 trail races per year; Memorial Park hosts multiple road races per year — search each park's name + "race" within the window.
+
+## Search-by-venue pass
+
+After exhausting calendar listings, do a **second pass by venue**. For each Saturday and Sunday in your window, the highest-traffic running venues almost always have an event. If you've found 0 races at a marquee venue across multiple months, you missed something. Venues to check:
+
+- Memorial Park
+- Hermann Park
+- Buffalo Bayou Park / Sam Houston Park / Allen Parkway
+- Discovery Green
+- Rice University track
+- University of Houston track
+- George Bush Park (Cullen Park)
+- Terry Hershey Park
+- Eleanor Tinsley Park
+- Brazos Bend State Park
+- Huntsville State Park
+- Lake Houston Wilderness Park
+- Stephen F. Austin State Park
+- Galveston Seawall
+
+## Saturday density sanity check
+
+Houston has at least one running race on **almost every Saturday** of the year, and most Saturdays have 2–5. Before finalizing your output, walk through every Saturday in your window:
+
+1. List the Saturdays (and Sundays — many trail races are Sunday).
+2. For each Saturday with **0 races** in your output, do a fresh search for that specific date (`"houston race november 7 2026"`, etc.). It's almost certainly because you missed something, not because the city is quiet that day.
+3. Only finalize once every Saturday has at least 1 race or you've explicitly searched and confirmed nothing happens that day (rare — almost always tied to a major holiday like Christmas Day).
+
+## Self-audit before finalizing
+
+Before producing the artifact, do a final coverage check:
+
+1. **Count races per month** in your window. If any month has fewer than 60–70% of the count of a typical neighboring month, search that month again.
+2. **Confirm canonical races are present.** For a window that includes January, the Chevron Houston Marathon and Aramco Houston Half should be there. For November, the Houston Half Marathon and Run for the Rose. For March, The Woodlands Marathon. For December, the BCS Marathon and Sugar Land Half. If any of these obvious anchors are missing, your sweep is incomplete.
+3. **Check for series gaps.** If you found Texas 10 Series race #2 and #4 in the window but not #3, find #3.
+
 ## Output schema
 
 Return a JSON array. Each element is a race object with **exactly** these fields, in this order, no extras:
@@ -164,13 +234,28 @@ Return a JSON array. Each element is a race object with **exactly** these fields
 Use these canonical strings, in this order if multiple apply:
 
 ```
-"1 Mile", "5K", "10K", "15K", "10 Mile", "Half Marathon", "Marathon",
+"1 Mile", "5K", "6K", "10K", "12K", "15K", "10 Mile", "Half Marathon", "Marathon",
 "50K", "50 Mile", "100K", "100 Mile", "Ultra", "Kids"
 ```
 
-- For ultras at non-canonical distances (e.g. 60K), use `"Ultra"`.
+**Do NOT abbreviate.** These are the *exact* strings to use, character-for-character. Any of the following are wrong and will fail validation:
+
+| Wrong | Right |
+|---|---|
+| `1 Mi`, `1 mi`, `1mile`, `Mile` | `1 Mile` |
+| `10 Mi`, `10 mi`, `10mile`, `10M` | `10 Mile` |
+| `50M`, `50mi`, `50 Mi` | `50 Mile` |
+| `100M`, `100mi`, `100 Mi` | `100 Mile` |
+| `Half`, `half marathon`, `HM`, `13.1` | `Half Marathon` |
+| `Full`, `full marathon`, `26.2` | `Marathon` |
+| `5k`, `5 K`, `5km` | `5K` |
+| `10k`, `10 K`, `10km` | `10K` |
+| `Children`, `Kid`, `kids fun run` | `Kids` |
+
+- For ultras at non-canonical distances (e.g. 60K, 200 mile), use `"Ultra"`.
 - If a race offers multiple distances on the same day, list them all in this array.
 - If there's a separate kids' run as part of a larger event, include `"Kids"` in the array AND set `kid_run: true`.
+- If a race lists a non-standard road distance like `"4 Mile"` or `"8K"` that isn't in the canonical list, prefer the closest canonical match if obvious; otherwise omit that distance from the array (don't invent a new canonical value).
 
 **`surface`**
 
