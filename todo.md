@@ -44,10 +44,7 @@ remain to make the launch actually go smoothly.
     exist (the `report-photos` slot mostly).
   - ~~**Submit the sitemap to Google Search Console**~~ Done 2026-04-09.
   **(Me for the markup work, You for Search Console)**
-- [ ] **Test the live site after the cutover.** Hit `https://runhouston.app/`
-  and every nav link, hit a `race.html?id=…` URL directly, hit a
-  nonexistent URL to confirm the themed 404 shows up, share a link to
-  yourself in a chat app to confirm the OG card renders. **(You)**
+- [x] ~~**Test the live site after the cutover.**~~ Done 2026-04-09.
 
 ---
 
