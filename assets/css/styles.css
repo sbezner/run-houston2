@@ -174,10 +174,10 @@ a:hover {
 
 .hero-slim {
   background: var(--dark-bg);
-  /* When a photo is added: uncomment the next two lines */
-  /* background-image: linear-gradient(rgba(15,15,15,0.65), rgba(15,15,15,0.75)), url('/hero-bg.jpg'); */
-  /* background-size: cover; background-position: center 30%; */
-  padding: 2rem 1.25rem;
+  background-image: linear-gradient(rgba(15,15,15,0.55), rgba(15,15,15,0.7)), url('/hero-bg.jpg');
+  background-size: cover;
+  background-position: center 40%;
+  padding: 2.5rem 1.25rem;
   border-bottom: 3px solid var(--accent);
 }
 
