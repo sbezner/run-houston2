@@ -71,6 +71,7 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -637,11 +638,11 @@ main {
   .race-table .badges-cell {
     white-space: normal;
   }
-}
 
-#race-list {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+  #race-list {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 .race-card {
