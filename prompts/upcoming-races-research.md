@@ -8,11 +8,21 @@
 4. Copy everything below the `---` divider (including your edited `DATE WINDOW:` line) and paste it as your message. Send.
 5. Wait. A quarterly sweep usually takes 10–25 minutes; a full year takes 30–60+. Claude will run many web searches in sequence.
 6. **When Claude finishes, it will have produced a single code artifact in the right-hand side panel**, containing a JSON array. Click the download button on the artifact (the one that looks like a down-arrow or "Download") and save the `.json` file somewhere you can find it — e.g. your Downloads folder.
-7. Come back to Claude Code in the `run-houston2` repo and say something like:
+7. **Come back to Claude Code in the `run-houston2` repo.** Claude Code runs in an isolated sandbox — **it cannot read your local Downloads folder** or any other path on your laptop. You have two ways to hand off the data:
 
-   > Here's the latest race research from claude.ai. The file is at `/Users/me/Downloads/races-2026-04-08-to-2026-07-07.json`. Please validate it, diff it against `data/races-upcoming.json`, show me the add/update/remove summary, and apply it after I confirm.
+   **Option A — paste the contents inline** (most common). Open the downloaded `.json` in any editor, select all, copy, and paste into a Claude Code message:
 
-   Claude Code will run the data contract validator, compute the upsert-by-id diff, ask you about any deletes, and commit the update.
+   > Here's the latest race research from claude.ai covering 2026-04-08 to 2026-07-07. Please validate it, diff it against `data/races-upcoming.json`, show me the add/update/remove summary, and apply it after I confirm.
+   >
+   > ```json
+   > [ ...paste the entire JSON array here... ]
+   > ```
+
+   **Option B — copy the file into the sandbox.** If your Claude Code environment mounts the repo from your local filesystem, you can copy the downloaded file into the repo directory or `/tmp` and reference it by path:
+
+   > Here's the latest race research from claude.ai — I put it at `./tmp/races-refresh.json`. Please validate it, diff it against `data/races-upcoming.json`, show me the add/update/remove summary, and apply it after I confirm.
+
+   Either way, Claude Code will run the data contract validator, compute the upsert-by-id diff, ask you about any deletes, and commit the update. See `CLAUDE.md` at the repo root for the full merge runbook.
 
 **Suggested cadence:** run a quarterly refresh (90-day window) about once a month, or a full-year refresh once a quarter. Each call is cheaper than repeatedly re-running the full year for the same data.
 
