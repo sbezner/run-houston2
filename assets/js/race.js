@@ -81,8 +81,105 @@
     document.head.appendChild(script);
   }
 
-  function renderRace(race) {
+  function updateMeta(race) {
     document.title = race.name + ' — Run Houston';
+
+    var date = RH.formatDateLong(race.date);
+    var dists = (race.distance || []).join(', ');
+    var desc = race.name + ' — ' + date +
+      (dists ? '. Distances: ' + dists + '.' : '.') +
+      (race.city ? ' ' + race.city + ', TX.' : '') +
+      ' Find details and register on Run Houston.';
+    var url = 'https://runhouston.app/race.html?id=' + encodeURIComponent(race.id);
+
+    var metaMap = {
+      'meta[name="description"]': desc,
+      'meta[property="og:title"]': race.name + ' — Run Houston',
+      'meta[property="og:description"]': desc,
+      'meta[property="og:url"]': url
+    };
+    Object.keys(metaMap).forEach(function (sel) {
+      var el = document.querySelector(sel);
+      if (el) el.setAttribute('content', metaMap[sel]);
+    });
+
+    var canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.rel = 'canonical';
+      document.head.appendChild(canonical);
+    }
+    canonical.href = url;
+  }
+
+  function buildCalendarLinks(race) {
+    if (!race.date) return '';
+
+    // Build start/end timestamps. If no start_time, treat as all-day.
+    var dateClean = race.date.replace(/-/g, '');
+    var hasTime = !!race.start_time;
+    var startDT, endDT;
+
+    if (hasTime) {
+      var timeClean = race.start_time.replace(':', '') + '00';
+      startDT = dateClean + 'T' + timeClean;
+      // Default 3-hour event duration
+      var h = parseInt(race.start_time.split(':')[0], 10);
+      var endH = String(h + 3).padStart(2, '0');
+      endDT = dateClean + 'T' + endH + race.start_time.split(':')[1] + '00';
+    } else {
+      // All-day event: just the date, next day as end
+      startDT = dateClean;
+      var d = new Date(race.date + 'T12:00:00');
+      d.setDate(d.getDate() + 1);
+      var y = d.getFullYear();
+      var m = String(d.getMonth() + 1).padStart(2, '0');
+      var day = String(d.getDate()).padStart(2, '0');
+      endDT = y + m + day;
+    }
+
+    var location = [race.address, race.city, race.state].filter(Boolean).join(', ');
+    var details = race.official_website_url || '';
+
+    // Google Calendar URL
+    var gcalUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE' +
+      '&text=' + encodeURIComponent(race.name) +
+      '&dates=' + startDT + '/' + endDT +
+      (location ? '&location=' + encodeURIComponent(location) : '') +
+      (details ? '&details=' + encodeURIComponent(details) : '');
+
+    // iCal (.ics) data URI
+    var icsLines = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Run Houston//runhouston.app//EN',
+      'BEGIN:VEVENT',
+      hasTime ? 'DTSTART:' + startDT : 'DTSTART;VALUE=DATE:' + startDT,
+      hasTime ? 'DTEND:' + endDT : 'DTEND;VALUE=DATE:' + endDT,
+      'SUMMARY:' + race.name.replace(/[,;\\]/g, '\\$&'),
+      location ? 'LOCATION:' + location.replace(/[,;\\]/g, '\\$&') : '',
+      details ? 'URL:' + details : '',
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ].filter(Boolean).join('\r\n');
+
+    var icsBlob = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(icsLines);
+
+    return (
+      '<div class="calendar-links">' +
+      '<span class="calendar-links-label">Add to calendar:</span> ' +
+      '<a href="' + RH.escapeAttr(gcalUrl) + '" target="_blank" rel="noopener noreferrer">' +
+      'Google</a>' +
+      ' <span class="calendar-links-sep">&middot;</span> ' +
+      '<a href="' + RH.escapeAttr(icsBlob) + '" download="' +
+      RH.escapeAttr(race.name.replace(/[^a-zA-Z0-9 ]/g, '').replace(/\s+/g, '-')) +
+      '.ics">iCal / Outlook</a>' +
+      '</div>'
+    );
+  }
+
+  function renderRace(race) {
+    updateMeta(race);
     injectJsonLd(race);
 
     var distances = (race.distance || [])
@@ -110,6 +207,8 @@
         'Register for this race &rarr;</a>' +
         '</p>'
       : '';
+
+    var calendarLinks = buildCalendarLinks(race);
 
     var description = race.description
       ? '<p class="race-description-full">' + RH.escapeHtml(race.description) + '</p>'
@@ -142,6 +241,7 @@
           RH.escapeHtml(RH.prettyHost(race.source_url)) + '</a></dd>'
         : '') +
       '</dl>' +
+      calendarLinks +
       websiteButton
     );
   }

@@ -547,6 +547,55 @@ main {
   font-size: 0.78rem;
 }
 
+.map-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.65rem;
+}
+
+.btn-near-me {
+  appearance: none;
+  border: 1.5px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.55rem 1.1rem;
+  min-height: 40px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  box-shadow: var(--shadow);
+  transition: background 150ms ease, border-color 150ms ease,
+              color 150ms ease, box-shadow 150ms ease;
+}
+
+.btn-near-me:hover {
+  border-color: var(--text);
+}
+
+.btn-near-me.is-active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+}
+
+.btn-near-me:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-near-me:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
 @media (max-width: 480px) {
   .rh-map {
     height: 60vh;
@@ -1032,6 +1081,27 @@ main {
   .race-detail-grid dt:first-child {
     margin-top: 0;
   }
+}
+
+.calendar-links {
+  margin: 0 0 1.25rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.calendar-links-label {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+}
+
+.calendar-links a {
+  font-weight: 600;
+}
+
+.calendar-links-sep {
+  color: var(--border);
 }
 
 .race-website-cta {

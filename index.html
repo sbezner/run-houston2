@@ -20,7 +20,7 @@
   <link rel="stylesheet"
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         crossorigin="">
-  <link rel="stylesheet" href="assets/css/styles.css?v=21">
+  <link rel="stylesheet" href="assets/css/styles.css?v=22">
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-0HSJBPL4J0"></script>
   <script>
@@ -61,6 +61,11 @@
             <div id="distance-chips" class="chip-row"></div>
           </fieldset>
 
+          <fieldset class="filter-group">
+            <legend class="visually-hidden">Surface</legend>
+            <div id="surface-chips" class="chip-row"></div>
+          </fieldset>
+
           <div class="filter-row-inline">
             <label for="date-window">In the next</label>
             <select id="date-window">
@@ -93,6 +98,12 @@
     <section id="race-list" hidden aria-live="polite"></section>
 
     <section id="race-map-wrap" hidden>
+      <div class="map-toolbar">
+        <button type="button" id="near-me-btn" class="btn-near-me" aria-label="Show races near my location">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>
+          Near me
+        </button>
+      </div>
       <div id="race-map" class="rh-map" role="region" aria-label="Map of upcoming races"></div>
       <p id="map-note" class="map-note"></p>
     </section>
@@ -136,6 +147,6 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
           crossorigin=""></script>
   <script src="assets/js/common.js?v=3"></script>
-  <script src="assets/js/index.js?v=12"></script>
+  <script src="assets/js/index.js?v=13"></script>
 </body>
 </html>

@@ -23,9 +23,12 @@
     'Kids'
   ];
 
+  var SURFACE_ORDER = ['road', 'trail', 'track', 'other'];
+
   var allRaces = [];
   var state = {
     distances: [],
+    surfaces: [],
     search: '',
     window: 'all',
     view: 'cards' // 'cards' | 'list' | 'map'
@@ -73,6 +76,24 @@
       }
     });
     Object.keys(seen).sort().forEach(function (d) { ordered.push(d); });
+    return ordered;
+  }
+
+  function buildSurfaceOptions(races) {
+    var seen = {};
+    races.forEach(function (r) {
+      if (r.surface) seen[r.surface] = true;
+    });
+    var ordered = [];
+    SURFACE_ORDER.forEach(function (s) {
+      if (seen[s]) {
+        ordered.push({ value: s, label: s.charAt(0).toUpperCase() + s.slice(1) });
+        delete seen[s];
+      }
+    });
+    Object.keys(seen).sort().forEach(function (s) {
+      ordered.push({ value: s, label: s.charAt(0).toUpperCase() + s.slice(1) });
+    });
     return ordered;
   }
 
@@ -165,8 +186,9 @@
       'SELECT * FROM ? ' +
         'WHERE date >= ? AND date <= ? ' +
         'AND HASANY(distance, ?) ' +
+        'AND INSET(surface, ?) ' +
         'ORDER BY date ASC',
-      [allRaces, today, cutoff, state.distances]
+      [allRaces, today, cutoff, state.distances, state.surfaces]
     );
 
     var tokens = (state.search || '')
@@ -360,6 +382,64 @@
     render();
   }
 
+  // ---------- Geolocation ("Near me") ----------
+
+  var userMarker = null;
+
+  function handleNearMe() {
+    var btn = document.getElementById('near-me-btn');
+    if (!navigator.geolocation) {
+      btn.textContent = 'Not supported';
+      btn.disabled = true;
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Locating\u2026';
+
+    navigator.geolocation.getCurrentPosition(
+      function (pos) {
+        var lat = pos.coords.latitude;
+        var lng = pos.coords.longitude;
+
+        btn.innerHTML =
+          '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>' +
+          'Near me';
+        btn.disabled = false;
+        btn.classList.add('is-active');
+
+        ensureMap();
+
+        // Add / move user marker
+        if (userMarker) {
+          userMarker.setLatLng([lat, lng]);
+        } else {
+          var icon = L.divIcon({
+            className: 'user-location-icon',
+            html: '<div style="width:14px;height:14px;background:#d93636;border:3px solid #fff;border-radius:50%;box-shadow:0 1px 4px rgba(0,0,0,0.3)"></div>',
+            iconSize: [14, 14],
+            iconAnchor: [7, 7]
+          });
+          userMarker = L.marker([lat, lng], { icon: icon, zIndexOffset: 1000 })
+            .bindPopup('<div class="rh-popup"><strong>You are here</strong></div>')
+            .addTo(map);
+        }
+
+        // Zoom to show user + nearby races
+        map.setView([lat, lng], 11);
+      },
+      function () {
+        btn.innerHTML =
+          '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>' +
+          'Near me';
+        btn.disabled = false;
+        document.getElementById('map-note').textContent =
+          'Could not get your location. Check your browser permissions.';
+      },
+      { enableHighAccuracy: false, timeout: 10000 }
+    );
+  }
+
   // ---------- Wiring ----------
 
   function readChipState(group) {
@@ -377,6 +457,13 @@
       .getElementById('distance-chips')
       .addEventListener('change', function () {
         state.distances = readChipState('distance');
+        render();
+      });
+
+    document
+      .getElementById('surface-chips')
+      .addEventListener('change', function () {
+        state.surfaces = readChipState('surface');
         render();
       });
 
@@ -407,6 +494,10 @@
     document
       .getElementById('view-map-btn')
       .addEventListener('click', function () { setView('map'); });
+
+    document
+      .getElementById('near-me-btn')
+      .addEventListener('click', handleNearMe);
   }
 
   function init() {
@@ -423,6 +514,7 @@
           heroStat.textContent = data.length + ' races \u00B7 Apr 2026 \u2013 Jan 2027';
         }
         renderChips('distance-chips', buildDistanceOptions(allRaces), 'distance');
+        renderChips('surface-chips', buildSurfaceOptions(allRaces), 'surface');
         attachFilterHandlers();
         render();
       })
