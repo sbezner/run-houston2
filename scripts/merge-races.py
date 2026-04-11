@@ -33,6 +33,7 @@ Design:
 """
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -103,16 +104,57 @@ def records_equal(a, b):
     return json.dumps(canonicalize(a), sort_keys=True) == json.dumps(canonicalize(b), sort_keys=True)
 
 
+def normalize_name(name):
+    """Lowercase, strip punctuation, remove common noise for fuzzy matching."""
+    name = name.lower()
+    name = re.sub(r"[''\".,!?&/:;()@#\-–—']", " ", name)
+    name = re.sub(r"\s+", " ", name).strip()
+    for noise in ["presented by houston methodist", "presented by", "annual"]:
+        name = name.replace(noise, "")
+    name = re.sub(r"^\d+(st|nd|rd|th)\s+", "", name)
+    return name.strip()
+
+
+def name_overlap(a, b):
+    """Fraction of tokens in common (on the smaller set)."""
+    ta = set(normalize_name(a).split())
+    tb = set(normalize_name(b).split())
+    if not ta or not tb:
+        return 0
+    return len(ta & tb) / min(len(ta), len(tb))
+
+
+def find_near_dupe(race, live_by_date):
+    """Check if a race with a different ID is a near-dupe of a live race
+    (same date + high name overlap). Returns the live race if found."""
+    candidates = live_by_date.get(race.get("date"), [])
+    for c in candidates:
+        if name_overlap(race.get("name", ""), c.get("name", "")) >= 0.65:
+            return c
+    return None
+
+
 def compute_plan(new_records, live_records):
     new_by_id = {r["id"]: r for r in new_records}
     live_by_id = {r["id"]: r for r in live_records}
 
+    # Index live records by date for near-dupe detection
+    live_by_date = {}
+    for r in live_records:
+        live_by_date.setdefault(r.get("date"), []).append(r)
+
     adds = []
     real_updates = []
     noop_updates = []  # ids present in both, identical after canonicalization
+    near_dupes = []    # new races that match a live race by name+date
     for rid, n in new_by_id.items():
         if rid not in live_by_id:
-            adds.append(canonicalize(n))
+            # Check for near-dupe before treating as add
+            dupe = find_near_dupe(n, live_by_date)
+            if dupe:
+                near_dupes.append((rid, n, dupe))
+            else:
+                adds.append(canonicalize(n))
         elif records_equal(n, live_by_id[rid]):
             noop_updates.append(rid)
         else:
@@ -136,6 +178,7 @@ def compute_plan(new_records, live_records):
         "adds": adds,
         "real_updates": real_updates,
         "noop_updates": noop_updates,
+        "near_dupes": near_dupes,
         "in_window_live_missing": in_window_live_missing,
     }
 
@@ -151,6 +194,7 @@ def print_plan(plan, new_count, live_count):
     print(f"  Adds:               {len(plan['adds'])}")
     print(f"  Real updates:       {len(plan['real_updates'])}")
     print(f"  No-op updates:      {len(plan['noop_updates'])}  (canonicalization-only, will be skipped)")
+    print(f"  Near-dupes:         {len(plan['near_dupes'])}  (same race, different ID — skipped)")
     print(f"  In-window missing:  {len(plan['in_window_live_missing'])}  (informational; never auto-removed)")
     print()
 
@@ -175,6 +219,16 @@ def print_plan(plan, new_count, live_count):
         print("--- NO-OP UPDATES (skipped) ---")
         for rid in plan["noop_updates"]:
             print(f"  = {rid}")
+        print()
+
+    if plan["near_dupes"]:
+        print("--- NEAR-DUPES (same race, different ID — skipped) ---")
+        for new_id, n, live_match in plan["near_dupes"]:
+            score = name_overlap(n.get("name", ""), live_match.get("name", ""))
+            print(f"  ≈ {new_id}")
+            print(f"    new:  {n.get('name')}  ({n.get('date')})")
+            print(f"    live: {live_match['id']}  —  {live_match.get('name')}  ({live_match.get('date')})")
+            print(f"    overlap: {score:.0%}")
         print()
 
     if plan["in_window_live_missing"]:
