@@ -2192,20 +2192,20 @@
     "date": "2026-07-25",
     "start_time": null,
     "tz": "America/Chicago",
-    "address": null,
+    "address": "4201 T C Jester Blvd",
     "city": "Houston",
     "state": "TX",
-    "zip": null,
-    "latitude": null,
-    "longitude": null,
+    "zip": "77018",
+    "latitude": 29.8147,
+    "longitude": -95.4238,
     "distance": [
       "5K",
       "10K"
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": null,
-    "source_url": "https://www.findtherun.com/races/houston-tx/5k/july",
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/ChristmasInJulyRun?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Houston/ChristmasInJulyRun",
     "description": "A Christmas-themed summer 5K and 10K in Houston. Part of the seasonal themed race series popular in the Houston area."
   },
   {
