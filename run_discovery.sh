@@ -21,12 +21,21 @@ set -e
 
 if [ $# -lt 2 ]; then
     echo "Usage: $0 START_DATE NUM_WEEKS [--fresh]"
-    echo "Example: $0 2026-06-01 4"
-    echo "Example: $0 2026-06-01 4 --fresh"
     echo ""
+    echo "Examples:"
+    echo "  $0 2026-06-01 4           Resume (skips completed weeks)"
+    echo "  $0 2026-06-01 4 --fresh   Start over (clears logs first)"
+    echo ""
+    echo "Controls:"
     echo "  Detach:  Ctrl+B, D"
     echo "  Attach:  tmux attach -t discovery"
     echo "  Stop:    tmux kill-session -t discovery"
+    echo "  Pause:   touch pause-discovery"
+    echo "  Resume:  rm pause-discovery"
+    echo ""
+    echo "Logs:"
+    echo "  discovery-run.log          Full timestamped output"
+    echo "  discovery-progress.log     One line per week (OK/FAILED)"
     exit 1
 fi
 
