@@ -233,6 +233,8 @@ main {
   box-shadow: var(--shadow);
   display: grid;
   gap: 1.1rem;
+  position: relative;
+  z-index: 1000;
 }
 
 .filter-group {
@@ -404,7 +406,7 @@ main {
   position: absolute;
   top: calc(100% + 6px);
   left: 0;
-  z-index: 100;
+  z-index: 10000;
   background: var(--surface);
   border: 1.5px solid var(--border);
   border-radius: var(--radius-sm);
