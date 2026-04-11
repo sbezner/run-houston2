@@ -3007,12 +3007,12 @@
     "date": "2026-10-03",
     "start_time": "08:30",
     "tz": "America/Chicago",
-    "address": "TBD \u2014 Kingwood area",
-    "city": "Houston",
+    "address": "Kingwood Country Club Trails",
+    "city": "Kingwood",
     "state": "TX",
-    "zip": "77339",
-    "latitude": null,
-    "longitude": null,
+    "zip": null,
+    "latitude": 29.964,
+    "longitude": -95.423,
     "distance": [
       "5K",
       "10K",
@@ -3020,9 +3020,9 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://www.bikesignup.com/Race/TX/Houston/TheRadRace",
-    "source_url": "https://www.bikesignup.com/Race/TX/Houston/TheRadRace",
-    "description": "A multi-sport fall festival celebrating BMX culture featuring 5K and 10K running races, a kids' dash, a bike race experience, and the RAD Zone festival area with music, vendors, food, and a costume contest. Held along the Kingwood Country Club Trails and organized in partnership with H-Town BMX."
+    "official_website_url": "https://runsignup.com/Race/TX/Kingwood/TheRadRace?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://www.runguides.com/event/29837/the-rad-race-rad-fest",
+    "description": "A 5K, 10K, and Kids Dash on the Kingwood Country Club trails, plus a Rad Fest with BMX competition, glow party, bounce houses, vendors, and food. Produced by Rad Racing Company."
   },
   {
     "id": "ainsley-s-angels-9th-annual-twilight-5k-2026",
