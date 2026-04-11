@@ -67,16 +67,20 @@
     <div class="result-bar">
       <p id="result-count" class="result-count" aria-live="polite"></p>
       <div class="view-toggle" role="group" aria-label="View mode">
-        <button type="button" id="view-list-btn" class="view-toggle-btn is-active"
-                aria-pressed="true">List</button>
+        <button type="button" id="view-cards-btn" class="view-toggle-btn is-active"
+                aria-pressed="true">Cards</button>
+        <button type="button" id="view-list-btn" class="view-toggle-btn"
+                aria-pressed="false">List</button>
         <button type="button" id="view-map-btn" class="view-toggle-btn"
                 aria-pressed="false">Map</button>
       </div>
     </div>
 
-    <section id="club-list" aria-live="polite">
+    <section id="club-cards" aria-live="polite">
       <p class="loading">Loading clubs&hellip;</p>
     </section>
+
+    <section id="club-list" hidden aria-live="polite"></section>
 
     <section id="club-map-wrap" hidden>
       <div class="map-toolbar">
@@ -129,6 +133,6 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
           crossorigin=""></script>
   <script src="assets/js/common.js?v=3"></script>
-  <script src="assets/js/clubs.js?v=5"></script>
+  <script src="assets/js/clubs.js?v=6"></script>
 </body>
 </html>

@@ -27,7 +27,7 @@
   var state = {
     search: '',
     areas: [],
-    view: 'list' // 'list' | 'map'
+    view: 'cards' // 'cards' | 'list' | 'map'
   };
 
   // Leaflet objects are created lazily on first switch to map view, so
@@ -97,14 +97,45 @@
     );
   }
 
-  function renderList(rows) {
-    var listEl = document.getElementById('club-list');
+  function renderCards(rows) {
+    var cardsEl = document.getElementById('club-cards');
     if (rows.length === 0) {
-      listEl.innerHTML =
+      cardsEl.innerHTML =
         '<p class="empty">No clubs match. Try clearing the search box or an area chip.</p>';
       return;
     }
-    listEl.innerHTML = rows.map(renderClubCard).join('');
+    cardsEl.innerHTML = rows.map(renderClubCard).join('');
+  }
+
+  function renderTable(rows) {
+    var el = document.getElementById('club-list');
+    if (rows.length === 0) {
+      el.innerHTML =
+        '<p class="empty">No clubs match. Try clearing the search box or an area chip.</p>';
+      return;
+    }
+    var html =
+      '<table class="race-table">' +
+      '<thead><tr>' +
+      '<th>Club</th>' +
+      '<th>Area</th>' +
+      '<th class="col-city">Location</th>' +
+      '</tr></thead><tbody>';
+    rows.forEach(function (club) {
+      var nameCell = club.website_url
+        ? '<a href="' + RH.escapeAttr(RH.safeUrl(club.website_url)) +
+          '" target="_blank" rel="noopener noreferrer">' +
+          RH.escapeHtml(club.club_name) + '</a>'
+        : RH.escapeHtml(club.club_name);
+      html +=
+        '<tr>' +
+        '<td>' + nameCell + '</td>' +
+        '<td>' + RH.escapeHtml(club.area || '') + '</td>' +
+        '<td class="col-city">' + RH.escapeHtml(club.location || '') + '</td>' +
+        '</tr>';
+    });
+    html += '</tbody></table>';
+    el.innerHTML = html;
   }
 
   // ---------- Map rendering ----------
@@ -282,7 +313,7 @@
   }
 
   function render() {
-    var listEl = document.getElementById('club-list');
+    var cardsEl = document.getElementById('club-cards');
     var countEl = document.getElementById('result-count');
 
     var rows;
@@ -290,7 +321,7 @@
       rows = filterClubs();
     } catch (err) {
       console.error('AlaSQL query failed:', err);
-      listEl.innerHTML = '<p class="error">Sorry, something went wrong filtering the clubs.</p>';
+      cardsEl.innerHTML = '<p class="error">Sorry, something went wrong filtering the clubs.</p>';
       countEl.textContent = '';
       return;
     }
@@ -300,35 +331,36 @@
 
     if (state.view === 'map') {
       renderMap(rows);
+    } else if (state.view === 'list') {
+      renderTable(rows);
     } else {
-      renderList(rows);
+      renderCards(rows);
     }
   }
 
   function setView(view) {
-    if (view !== 'list' && view !== 'map') return;
+    if (view !== 'cards' && view !== 'list' && view !== 'map') return;
     state.view = view;
 
+    var cardsWrap = document.getElementById('club-cards');
     var listWrap = document.getElementById('club-list');
     var mapWrap = document.getElementById('club-map-wrap');
+    var cardsBtn = document.getElementById('view-cards-btn');
     var listBtn = document.getElementById('view-list-btn');
     var mapBtn = document.getElementById('view-map-btn');
 
-    if (view === 'map') {
-      listWrap.hidden = true;
-      mapWrap.hidden = false;
-      listBtn.classList.remove('is-active');
-      mapBtn.classList.add('is-active');
-      listBtn.setAttribute('aria-pressed', 'false');
-      mapBtn.setAttribute('aria-pressed', 'true');
-    } else {
-      listWrap.hidden = false;
-      mapWrap.hidden = true;
-      listBtn.classList.add('is-active');
-      mapBtn.classList.remove('is-active');
-      listBtn.setAttribute('aria-pressed', 'true');
-      mapBtn.setAttribute('aria-pressed', 'false');
-    }
+    cardsWrap.hidden = view !== 'cards';
+    listWrap.hidden = view !== 'list';
+    mapWrap.hidden = view !== 'map';
+
+    [cardsBtn, listBtn, mapBtn].forEach(function (btn) {
+      btn.classList.remove('is-active');
+      btn.setAttribute('aria-pressed', 'false');
+    });
+
+    var activeBtn = view === 'cards' ? cardsBtn : view === 'list' ? listBtn : mapBtn;
+    activeBtn.classList.add('is-active');
+    activeBtn.setAttribute('aria-pressed', 'true');
 
     render();
   }
@@ -364,6 +396,9 @@
       }, 150);
     });
 
+    document
+      .getElementById('view-cards-btn')
+      .addEventListener('click', function () { setView('cards'); });
     document
       .getElementById('view-list-btn')
       .addEventListener('click', function () { setView('list'); });
@@ -417,7 +452,7 @@
   }
 
   function init() {
-    var listEl = document.getElementById('club-list');
+    var cardsEl = document.getElementById('club-cards');
     RH.loadJson(DATA_URL)
       .then(function (data) {
         if (!Array.isArray(data)) {
@@ -434,7 +469,7 @@
       })
       .catch(function (err) {
         console.error(err);
-        listEl.innerHTML =
+        cardsEl.innerHTML =
           '<p class="error">Could not load clubs. ' + RH.escapeHtml(err.message) + '</p>';
       });
   }
