@@ -1,23 +1,28 @@
 #!/bin/bash
 # run_discovery.sh — automated race discovery pipeline in a tmux session
-# Usage: ./run_discovery.sh START_DATE NUM_WEEKS
+# Usage: ./run_discovery.sh START_DATE NUM_WEEKS [--fresh]
 # Example: ./run_discovery.sh 2026-06-01 4
+# Example: ./run_discovery.sh 2026-06-01 4 --fresh   (ignore previous progress)
 #
 # Launches a detachable tmux session called "discovery".
 #   - Detach: Ctrl+B, D
 #   - Reattach: tmux attach -t discovery
 #   - Status: tmux ls
 #   - Stop: tmux kill-session -t discovery
+#   - Pause: touch pause-discovery
+#   - Resume: rm pause-discovery
 #
-# If Claude Code fails (rate limit, credits, crash), waits 4 hours
-# and retries once. If it fails again, logs the error and moves to
-# the next week. Progress is logged to .discovery-progress.log.
+# Resumes automatically: re-run the same command and it skips
+# weeks already completed. Use --fresh to start over.
+#
+# If Claude Code fails, waits 4 hours and retries once.
 
 set -e
 
 if [ $# -lt 2 ]; then
-    echo "Usage: $0 START_DATE NUM_WEEKS"
+    echo "Usage: $0 START_DATE NUM_WEEKS [--fresh]"
     echo "Example: $0 2026-06-01 4"
+    echo "Example: $0 2026-06-01 4 --fresh"
     echo ""
     echo "  Detach:  Ctrl+B, D"
     echo "  Attach:  tmux attach -t discovery"
@@ -27,8 +32,16 @@ fi
 
 START_DATE="$1"
 NUM_WEEKS="$2"
+FRESH="$3"
 REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
 SESSION_NAME="discovery"
+
+# Clear progress log if --fresh
+if [ "$FRESH" = "--fresh" ]; then
+    rm -f "$REPO_DIR/discovery-progress.log"
+    rm -f "$REPO_DIR/discovery-run.log"
+    echo "Fresh start — cleared progress and run logs."
+fi
 
 if ! command -v tmux &> /dev/null; then
     echo "tmux not installed. Run: brew install tmux"
@@ -83,7 +96,19 @@ $(cat "$INSTRUCTIONS_FILE")"
 
 PAUSE_FILE="$REPO_DIR/pause-discovery"
 
+# Check which weeks already completed (for resume support)
+already_done() {
+    local week_start="$1"
+    local week_end="$2"
+    if [ -f "$PROGRESS_LOG" ]; then
+        grep -q "OK: $week_start to $week_end" "$PROGRESS_LOG"
+        return $?
+    fi
+    return 1
+}
+
 WEEK_NUM=0
+SKIPPED=0
 FAILED_WEEKS=""
 while [ "$CURRENT_EPOCH" -le "$END_EPOCH" ]; do
     # Check for pause file before starting each week
@@ -100,6 +125,15 @@ while [ "$CURRENT_EPOCH" -le "$END_EPOCH" ]; do
     WEEK_START=$(date -r "$CURRENT_EPOCH" "+%Y-%m-%d")
     WEEK_END_EPOCH=$((CURRENT_EPOCH + 604799))
     WEEK_END=$(date -r "$WEEK_END_EPOCH" "+%Y-%m-%d")
+
+    # Skip weeks already completed in a previous run
+    if already_done "$WEEK_START" "$WEEK_END"; then
+        log "Week $WEEK_NUM: $WEEK_START to $WEEK_END — already done, skipping."
+        SKIPPED=$((SKIPPED + 1))
+        CURRENT_EPOCH=$((CURRENT_EPOCH + 604800))
+        continue
+    fi
+
     RSU_FILE="$DOWNLOADS_DIR/rsu-${WEEK_START}-to-${WEEK_END}.json"
     CLAUDE_FILE="$DOWNLOADS_DIR/races-${WEEK_START}-to-${WEEK_END}.json"
 
@@ -168,7 +202,7 @@ done
 
 log ""
 log "================================================"
-log "Discovery complete! $WEEK_NUM weeks processed."
+log "Discovery complete! $WEEK_NUM weeks total, $SKIPPED skipped (already done), $((WEEK_NUM - SKIPPED)) processed."
 FINAL_TOTAL=$(python3 -c "import json; print(len(json.load(open('data/races-upcoming.json'))))")
 log "Final race count: $FINAL_TOTAL"
 if [ -n "$FAILED_WEEKS" ]; then
