@@ -1,7 +1,6 @@
 [
   {
     "id": "chevron-houston-marathon-2025-recap",
-    "race_id": null,
     "race_name": "Chevron Houston Marathon",
     "race_date": "2025-01-19",
     "title": "Chevron Houston Marathon returns to downtown under ideal January conditions",
@@ -10,7 +9,6 @@
   },
   {
     "id": "run-houston-sam-houston-race-park-2026-recap",
-    "race_id": null,
     "race_name": "Run Houston! Sam Houston Race Park 5K & 10K",
     "race_date": "2026-01-03",
     "title": "Run Houston series opens 2026 season at Sam Houston Race Park",
@@ -19,7 +17,6 @@
   },
   {
     "id": "we-are-houston-5k-2026-recap",
-    "race_id": null,
     "race_name": "We Are Houston 5K",
     "race_date": "2026-01-10",
     "title": "We Are Houston 5K kicks off marathon weekend in downtown Houston",
@@ -28,7 +25,6 @@
   },
   {
     "id": "aramco-houston-half-marathon-2026-recap",
-    "race_id": null,
     "race_name": "Aramco Houston Half Marathon",
     "race_date": "2026-01-11",
     "title": "Habtom Samuel shatters course record with 59:01 debut at Aramco Houston Half Marathon",
@@ -37,7 +33,6 @@
   },
   {
     "id": "katy-half-marathon-2026-recap",
-    "race_id": null,
     "race_name": "Katy Half Marathon & 5K",
     "race_date": "2026-02-08",
     "title": "Katy Half Marathon draws runners to Typhoon Texas for Run Houston series race two",
@@ -46,7 +41,6 @@
   },
   {
     "id": "rodeo-run-houston-2026-recap",
-    "race_id": null,
     "race_name": "Rodeo Run",
     "race_date": "2026-02-28",
     "title": "Over 12,000 runners fill downtown Houston streets for 2026 Rodeo Run",
@@ -55,7 +49,6 @@
   },
   {
     "id": "bayou-city-classic-10k-2026-recap",
-    "race_id": null,
     "race_name": "Bayou City Classic 10K & 5K",
     "race_date": "2026-03-07",
     "title": "49th Bayou City Classic draws 3,000 to downtown Houston as RRCA State Championship",
@@ -64,7 +57,6 @@
   },
   {
     "id": "woodlands-marathon-2026-recap",
-    "race_id": null,
     "race_name": "The Woodlands Marathon",
     "race_date": "2026-03-07",
     "title": "The Woodlands Marathon weekend fills The Woodlands with distance runners",
@@ -73,7 +65,6 @@
   },
   {
     "id": "houston-roast-run-2026-recap",
-    "race_id": null,
     "race_name": "Houston Roast Run & Comedy Show",
     "race_date": "2026-03-07",
     "title": "Inaugural Houston Roast Run pairs 5K with live comedy along Buffalo Bayou",
@@ -82,7 +73,6 @@
   },
   {
     "id": "h-town-half-marathon-2026-recap",
-    "race_id": null,
     "race_name": "H-Town Half Marathon, 10K & 5K",
     "race_date": "2026-03-14",
     "title": "H-Town Half Marathon sets course records at Minute Maid Park",
@@ -91,7 +81,6 @@
   },
   {
     "id": "yuris-fun-run-houston-2026-recap",
-    "race_id": null,
     "race_name": "Yuri's Fun Run Houston",
     "race_date": "2026-04-04",
     "title": "Yuri's Fun Run returns to Nassau Bay to celebrate space history",
@@ -100,7 +89,6 @@
   },
   {
     "id": "green62-2026-recap",
-    "race_id": null,
     "race_name": "green6.2",
     "race_date": "2026-04-04",
     "title": "18th annual green6.2 draws Earth Week crowd to CITYCENTRE",
@@ -109,7 +97,6 @@
   },
   {
     "id": "running-with-my-peeps-5k-10k-2026-recap",
-    "race_id": null,
     "race_name": "Running With My PEEPS 5K/10K",
     "race_date": "2026-04-04",
     "title": "Third annual PEEPS race fills Energy Corridor on Easter weekend",
@@ -118,7 +105,6 @@
   },
   {
     "id": "brazos-bend-50-2026-recap",
-    "race_id": "brazos-bend-50-2026",
     "race_name": "Brazos Bend 50",
     "race_date": "2026-04-11",
     "title": "Brazos Bend 50 sends runners past alligators on Texas's flattest trail course",
@@ -127,7 +113,6 @@
   },
   {
     "id": "bellaire-trolley-run-2026-recap",
-    "race_id": "bellaire-trolley-run-2026",
     "race_name": "Bellaire Trolley Run",
     "race_date": "2026-04-11",
     "title": "30th annual Bellaire Trolley Run celebrates three decades at City Hall",
@@ -136,7 +121,6 @@
   },
   {
     "id": "race-for-the-dome-2026-recap",
-    "race_id": "race-for-the-dome-2026",
     "race_name": "Race for the Dome",
     "race_date": "2026-04-11",
     "title": "Race for the Dome celebrates Astrodome's 61st birthday with NRG Park 5K",
