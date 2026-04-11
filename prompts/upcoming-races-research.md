@@ -286,8 +286,8 @@ Return a JSON array. Each element is a race object with **exactly** these fields
   "city": "string",
   "state": "string",                 // 2-letter state code, almost always "TX"
   "zip": "string",                   // 5-digit zip
-  "latitude": number | null,         // signed decimal degrees, e.g. 29.7604; null if unknown
-  "longitude": number | null,        // signed decimal degrees, e.g. -95.3698 (W is negative); null if unknown
+  "latitude": number | null,         // signed decimal degrees, e.g. 29.7604. REQUIRED if you have a street address or named venue — null ONLY when the start line is genuinely unknown.
+  "longitude": number | null,        // signed decimal degrees, e.g. -95.3698 (W is negative). REQUIRED if you have a street address or named venue — null ONLY when the start line is genuinely unknown.
   "distance": ["string", ...],       // canonical distance strings (see below); always an array, never empty
   "surface": "road" | "trail" | "track" | "virtual" | "other",
   "kid_run": boolean,                // true if the event is a kids-only race OR includes a separate kids' fun run
@@ -358,8 +358,9 @@ Use these canonical strings, in this order if multiple apply:
 
 - **Signed decimal degrees**, not degree-minute-second strings.
 - Houston is at roughly latitude `29.76` (positive, north) and longitude `-95.37` (negative, west).
-- If you only know the venue's address, you may estimate coordinates from the address using a known source (Google Maps, OpenStreetMap). Round to 4 decimal places.
-- If you cannot get coordinates with reasonable confidence, use `null` for both fields. **Do not invent coordinates.**
+- **If the record has a street address OR a named venue, you MUST geocode it.** Look up the address on Google Maps or OpenStreetMap and read off the coordinates. Round to 4 decimal places. This is not optional — a race without coordinates silently disappears from the site's map view, so every geocodable row matters. An address without matching coordinates is a pipeline bug, not an acceptable output.
+- `null` is acceptable ONLY when the start line is genuinely unknown (e.g. the race website says "TBD" or lists a city with no venue). In that case, `address`, `latitude`, and `longitude` should all be `null` together.
+- **Do not invent coordinates.** If the only thing you can find is "Houston, TX" with no venue, do not geocode the city centroid — leave both fields `null`.
 
 **`official_website_url`**
 
@@ -445,6 +446,7 @@ Before adding a race to your output, confirm all of these:
 - [ ] `distance` array uses canonical strings.
 - [ ] `surface` is one of the five enum values.
 - [ ] Coordinates are signed decimal degrees, or both `null`.
+- [ ] If you populated `address` or named a venue, you ALSO populated `latitude` and `longitude`. An address without coordinates is a bug, not an acceptable state.
 - [ ] Description is factual, 1–3 sentences, no marketing language.
 - [ ] You're confident the race is real and not duplicated in the array.
 
