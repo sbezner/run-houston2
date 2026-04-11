@@ -320,6 +320,7 @@ main {
   color: var(--muted);
 }
 
+.filter-row-inline select,
 .filter-row-inline input[type="search"] {
   font: inherit;
   font-weight: 500;
@@ -331,47 +332,91 @@ main {
   border-radius: var(--radius-sm);
   background: var(--surface);
   min-height: 44px;
-  width: 100%;
-  font-size: 1rem;
   transition: border-color 150ms ease, box-shadow 150ms ease;
 }
 
+.filter-row-inline select:focus,
 .filter-row-inline input[type="search"]:focus {
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
 }
 
-/* ---- Scrollable chip bar ---- */
-
-.filter-scroll {
-  display: flex;
-  gap: 0.4rem;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;          /* Firefox */
-  padding: 0.25rem 0;
+.filter-row-inline input[type="search"] {
+  flex: 1 1 220px;
+  min-width: 0;
+  font-size: 1rem;
 }
 
-.filter-scroll::-webkit-scrollbar {
-  display: none;                  /* Chrome/Safari */
+/* Collapsible "More filters" disclosure. The search input above stays
+   always-visible; distance + date window hide behind this on mobile
+   where vertical real estate matters most. Native <details>/<summary>
+   means no JS and built-in keyboard + screen-reader support. */
+.filter-details {
+  margin: 0;
 }
 
-.filter-scroll-inner {
-  display: flex;
-  gap: 0.4rem;
-  flex-shrink: 0;
+.filter-summary {
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.6rem 1.15rem;
+  min-height: 42px;
+  border: 1.5px solid var(--border);
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text);
+  background: var(--surface);
+  cursor: pointer;
+  user-select: none;
+  transition: background 150ms ease, border-color 150ms ease,
+              color 150ms ease, box-shadow 150ms ease;
 }
 
-/* Thin separator between chip groups */
-.filter-scroll-inner + .filter-scroll-inner::before {
-  content: "";
-  display: block;
-  width: 1px;
-  align-self: stretch;
-  margin: 4px 4px;
-  background: var(--border);
-  flex-shrink: 0;
+/* Hide the default disclosure marker on WebKit/Blink. */
+.filter-summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Custom "+" that rotates into an "×" when the details open. */
+.filter-summary::after {
+  content: "+";
+  display: inline-block;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 0.85;
+  transition: transform 220ms ease;
+}
+
+.filter-details[open] .filter-summary::after {
+  transform: rotate(45deg);
+}
+
+.filter-summary:hover {
+  border-color: var(--text);
+}
+
+.filter-summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.filter-details[open] .filter-summary {
+  background: var(--text);
+  color: var(--surface);
+  border-color: var(--text);
+  box-shadow: 0 2px 8px rgba(15, 15, 15, 0.15);
+}
+
+.filter-details-body {
+  display: grid;
+  gap: 1.1rem;
+  margin-top: 1rem;
 }
 
 .page-intro {

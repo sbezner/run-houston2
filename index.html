@@ -20,7 +20,7 @@
   <link rel="stylesheet"
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         crossorigin="">
-  <link rel="stylesheet" href="assets/css/styles.css?v=24">
+  <link rel="stylesheet" href="assets/css/styles.css?v=23">
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-0HSJBPL4J0"></script>
   <script>
@@ -53,11 +53,30 @@
                aria-label="Search races" autocomplete="off">
       </div>
 
-      <div class="filter-scroll" role="group" aria-label="Filter chips">
-        <div id="distance-chips" class="filter-scroll-inner"></div>
-        <div id="surface-chips" class="filter-scroll-inner"></div>
-        <div id="date-chips" class="filter-scroll-inner"></div>
-      </div>
+      <details class="filter-details">
+        <summary class="filter-summary">More filters</summary>
+        <div class="filter-details-body">
+          <fieldset class="filter-group">
+            <legend class="visually-hidden">Distance</legend>
+            <div id="distance-chips" class="chip-row"></div>
+          </fieldset>
+
+          <fieldset class="filter-group">
+            <legend class="visually-hidden">Surface</legend>
+            <div id="surface-chips" class="chip-row"></div>
+          </fieldset>
+
+          <div class="filter-row-inline">
+            <label for="date-window">In the next</label>
+            <select id="date-window">
+              <option value="30">30 days</option>
+              <option value="60">60 days</option>
+              <option value="90">90 days</option>
+              <option value="all" selected>All upcoming</option>
+            </select>
+          </div>
+        </div>
+      </details>
     </section>
 
     <div class="result-bar">
@@ -129,6 +148,6 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
           crossorigin=""></script>
   <script src="assets/js/common.js?v=3"></script>
-  <script src="assets/js/index.js?v=14"></script>
+  <script src="assets/js/index.js?v=13"></script>
 </body>
 </html>
