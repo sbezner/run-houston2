@@ -4,8 +4,36 @@
 
   var DATA_URL = 'data/race_reports.json';
 
+  function updateMeta(report) {
+    var url = 'https://runhouston.app/report.html?id=' + encodeURIComponent(report.id);
+    var desc = report.title +
+      (report.race_name ? ' — ' + report.race_name : '') +
+      (report.race_date ? ' (' + RH.formatDateLong(report.race_date) + ')' : '') +
+      '. Read the recap on Run Houston.';
+
+    var metaMap = {
+      'meta[name="description"]': desc,
+      'meta[property="og:title"]': report.title + ' — Run Houston',
+      'meta[property="og:description"]': desc,
+      'meta[property="og:url"]': url
+    };
+    Object.keys(metaMap).forEach(function (sel) {
+      var el = document.querySelector(sel);
+      if (el) el.setAttribute('content', metaMap[sel]);
+    });
+
+    var canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.rel = 'canonical';
+      document.head.appendChild(canonical);
+    }
+    canonical.href = url;
+  }
+
   function renderReport(report) {
     document.title = report.title + ' — Run Houston';
+    updateMeta(report);
 
     // Escape each component before joining so that a future race_name
     // containing HTML can't inject into innerHTML below.

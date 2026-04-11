@@ -414,27 +414,6 @@
     "description": "The 16th Annual Stop the Silence 5K Walk/Run at Tom Bass Regional Park benefits the Karen E. Jackson Breast Cancer Assistance Program, supporting Black women affected by breast cancer. The Sisters Network Inc. event attracts approximately 3,000 participants and raises awareness for early detection and support resources."
   },
   {
-    "id": "xklusive-06k-2026",
-    "name": "XKLusive '06K Race/Walk",
-    "date": "2026-04-18",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "Sugar Land area",
-    "city": "Sugar Land",
-    "state": "TX",
-    "zip": "77479",
-    "latitude": 29.6196,
-    "longitude": -95.6349,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/SugarLand/XKLusive06KRaceWalk?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/SugarLand/XKLusive06KRaceWalk",
-    "description": "A 6K road race and walk in Sugar Land celebrating Houston area culture, held in Fort Bend County."
-  },
-  {
     "id": "terry-hershey-parkrun-2026-04-18",
     "name": "Terry Hershey parkrun",
     "date": "2026-04-18",
@@ -1585,28 +1564,6 @@
     "description": "The 2nd Annual Memorial Day Hero Salute at Town Center Park in Kingwood offers a half marathon, 10K, 5K, and Kids Mini-Salute, plus optional MURPH and LOREDO military fitness challenges. Organized by Rad Racing Company to honor fallen service members. Post-race includes a kids and winners tug-of-war."
   },
   {
-    "id": "pasadena-superhero-5k-2026",
-    "name": "Pasadena Police Department Superhero 5K/Kids 1K",
-    "date": "2026-05-30",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "Pasadena area",
-    "city": "Pasadena",
-    "state": "TX",
-    "zip": "77502",
-    "latitude": 29.6911,
-    "longitude": -95.2091,
-    "distance": [
-      "5K",
-      "Kids"
-    ],
-    "surface": "road",
-    "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Pasadena/PasadenaPoliceDepartment5K?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Pasadena/PasadenaPoliceDepartment5K",
-    "description": "A superhero-themed 5K and Kids 1K presented by the Pasadena Police Department, encouraging participants to dress as their favorite superhero. The event benefits community programs in Pasadena."
-  },
-  {
     "id": "pasadena-police-superhero-5k-2026",
     "name": "Pasadena Police Department Superhero 5K/Kids 1K",
     "date": "2026-05-30",
@@ -2002,28 +1959,6 @@
     "official_website_url": "https://runsignup.com/Race/TX/Houston/HoustonFourthFest?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://findarace.com/us/events/houston-fourth-fest",
     "description": "The 2nd annual Houston Fourth Fest at Vintage Park featuring a flat, mostly-shaded road race (5K, 9K, and 17.76K loops plus a Family 1.776K), Houston's Beer Mile Championship, a hot dog eating contest, and a post-race celebration with free beer, pizza, and live music from 104.1 KRBE."
-  },
-  {
-    "id": "run-wild-5k-houston-2026",
-    "name": "Run Wild 5K & Kids Run",
-    "date": "2026-07-04",
-    "start_time": "07:00",
-    "tz": "America/Chicago",
-    "address": "6590 Woodway Dr",
-    "city": "Houston",
-    "state": "TX",
-    "zip": "77057",
-    "latitude": 29.7594,
-    "longitude": -95.4818,
-    "distance": [
-      "5K",
-      "Kids"
-    ],
-    "surface": "road",
-    "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/RunWild5KKidsRun?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Houston/RunWild5KKidsRun",
-    "description": "A flat, fast Independence Day 5K at Uptown Park hosted by Runner's High Club with a 0.6-mile Kids' Run. Benefits Special Olympics Texas and Girls on the Run Greater Houston. All kids receive medals."
   },
   {
     "id": "treat-trot-houston-2026",
@@ -2429,27 +2364,6 @@
     "official_website_url": "https://www.runintexas.com/star",
     "source_url": "https://www.runintexas.com/events",
     "description": "Event #6 in the Run In Texas 5K Six Pack Beer Challenge, this annual 5K beer run starts and finishes at Southern Star Brewing Company in Conroe. Benefiting Toys for Tots, the flat course winds through the Sunset Ridge neighborhood; entry includes a souvenir pint glass and post-race beer tastings."
-  },
-  {
-    "id": "southern-star-brewing-5k-2026",
-    "name": "Southern Star Brewing Co 5K Beer Run",
-    "date": "2026-08-08",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "3525 N Frazier St",
-    "city": "Conroe",
-    "state": "TX",
-    "zip": "77303",
-    "latitude": 30.3318,
-    "longitude": -95.4683,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://www.runintexas.com/star",
-    "source_url": "https://www.runintexas.com/star",
-    "description": "A 5K beer run starting and finishing at Southern Star Brewing Co. in Conroe. Part of the Run In Texas 2026 Texas 5K 6-Pack Beer Challenge. Entry includes a finisher glass, four 8-oz tastings, a race tee, and a walker/stroller/dog-friendly course."
   },
   {
     "id": "summer-meltdown-half-marathon-houston-2026",
@@ -4156,28 +4070,6 @@
     "official_website_url": "https://runsignup.com/Race/TX/Katy/KatyYMCATurkeyDash?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://runsignup.com/Race/TX/Katy/KatyYMCATurkeyDash",
     "description": "A beloved 24-year Thanksgiving morning tradition organized by the Katy Area YMCAs near Cinco Ranch, featuring a 10K, 5K, 1-mile family walk/run, and 1-mile kids race (ages 3\u201312). All finishers receive medals, and proceeds fund YMCA scholarships for Katy community members."
-  },
-  {
-    "id": "the-turkey-trot-houston-2026",
-    "name": "The Turkey Trot Presented by Saint Arnold",
-    "date": "2026-11-26",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": null,
-    "city": "Houston",
-    "state": "TX",
-    "zip": null,
-    "latitude": 29.7604,
-    "longitude": -95.3698,
-    "distance": [
-      "5K",
-      "10K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://theturkeytrot.org/",
-    "source_url": "https://theturkeytrot.org/",
-    "description": "Houston's official Thanksgiving morning 5K, 10K, and 1-Mile Family Walk presented by Saint Arnold Brewing Company along the downtown skyline. Benefits CoolxDad."
   },
   {
     "id": "turkey-trails-houston-sugar-land-2026",
