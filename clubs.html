@@ -79,6 +79,12 @@
     </section>
 
     <section id="club-map-wrap" hidden>
+      <div class="map-toolbar">
+        <button type="button" id="near-me-btn" class="btn-near-me" aria-label="Show clubs near my location">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>
+          Near me
+        </button>
+      </div>
       <div id="club-map" class="rh-map" role="region" aria-label="Map of Houston running clubs"></div>
       <p id="map-note" class="map-note"></p>
     </section>
@@ -123,6 +129,6 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
           crossorigin=""></script>
   <script src="assets/js/common.js?v=3"></script>
-  <script src="assets/js/clubs.js?v=4"></script>
+  <script src="assets/js/clubs.js?v=5"></script>
 </body>
 </html>
