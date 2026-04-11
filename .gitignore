@@ -21,6 +21,8 @@ __pycache__/
 .discovery-worker.sh
 .discovery-progress.log
 .discovery-run.log
+discovery-progress.log
+discovery-run.log
 .recaps-worker.sh
 .recaps-progress.log
 .recaps-run.log

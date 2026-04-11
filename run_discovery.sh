@@ -46,14 +46,14 @@ INSTRUCTIONS_FILE="$REPO_DIR/prompts/run_discovery.md"
 DOWNLOADS_DIR="$HOME/Downloads"
 COOLDOWN=1200          # 20 min between weeks
 RETRY_WAIT=14400       # 4 hours before retry
-PROGRESS_LOG="$REPO_DIR/.discovery-progress.log"
+PROGRESS_LOG="$REPO_DIR/discovery-progress.log"
 START_DATE="START_DATE_PLACEHOLDER"
 NUM_WEEKS="NUM_WEEKS_PLACEHOLDER"
 
 cd "$REPO_DIR"
 caffeinate -i -w $$ &
 
-LOG_FILE="$REPO_DIR/.discovery-run.log"
+LOG_FILE="$REPO_DIR/discovery-run.log"
 
 log() {
     local msg="[$(date '+%Y-%m-%d %H:%M:%S')] $*"
@@ -149,7 +149,7 @@ while [ "$CURRENT_EPOCH" -le "$END_EPOCH" ]; do
     CURRENT_EPOCH=$((CURRENT_EPOCH + 604800))
 
     if [ "$CURRENT_EPOCH" -le "$END_EPOCH" ]; then
-        echo "Resting for 20 mins..."
+        log "Resting for 20 mins before next week..."
         sleep $COOLDOWN
     fi
 done
