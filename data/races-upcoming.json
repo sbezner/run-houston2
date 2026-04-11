@@ -839,8 +839,8 @@
     "city": "Pearland",
     "state": "TX",
     "zip": "77581",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.5636,
+    "longitude": -95.286,
     "distance": [
       "5K",
       "10K",
@@ -850,7 +850,7 @@
     "kid_run": true,
     "official_website_url": "https://pearrun.com/",
     "source_url": "https://pearrun.com/event-details/",
-    "description": "20th annual Pearland Pear Run at Independence Park. USATF certified 5K and 10K out-and-back courses along Pearland Parkway, plus a kids fun run and 10K ruck option."
+    "description": "20th annual community race at Independence Park benefiting the Pearland Citizens Police Academy Alumni Association and the Pearland Police Department. Out-and-back course along Pearland Parkway."
   },
   {
     "id": "cinco-de-mayo-run-houston-may-2-2026",
@@ -899,16 +899,16 @@
   },
   {
     "id": "astros-race-to-the-pennant-2026",
-    "name": "Astros Race to the Pennant",
+    "name": "Astros Race to the Pennant presented by Houston Methodist",
     "date": "2026-05-02",
-    "start_time": "07:30",
+    "start_time": "07:00",
     "tz": "America/Chicago",
     "address": "501 Crawford St",
     "city": "Houston",
     "state": "TX",
     "zip": "77002",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.7573,
+    "longitude": -95.3555,
     "distance": [
       "5K",
       "10K",
@@ -916,9 +916,9 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/AstrosRaceToThePennant?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Houston/AstrosRaceToThePennant",
-    "description": "Course begins on Texas Street and finishes across the Daikin Park warning track. Includes Orbit's Kids Dash, live DJ, and post-race party on the concourse."
+    "official_website_url": "https://www.mlb.com/astros/fans/race",
+    "source_url": "https://findarace.com/us/events/astros-race-to-the-pennant",
+    "description": "Annual race starting and finishing at Daikin Park (home of the Houston Astros). Features a 10K, 5K, adapted divisions, and Orbit's Kids Dash, with a post-race celebration on the ballpark concourse."
   },
   {
     "id": "fuzzy-s-taco-dash-2026",
@@ -1082,18 +1082,19 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77092",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.8027,
+    "longitude": -95.4529,
     "distance": [
       "1 Mile",
       "5K",
-      "10K"
+      "10K",
+      "Kids"
     ],
     "surface": "road",
     "kid_run": true,
     "official_website_url": "https://houstonrunning.co/thecincocinco/",
-    "source_url": "https://runsignup.com/Race/TX/Houston/ElCincoCinco",
-    "description": "Third annual Cinco de Mayo celebration race at Karbach Brewing Co., part of the Houston Running Co Holiday Series. Fiesta wear encouraged, with a Cinco de Mayo market and post-race drinks."
+    "source_url": "https://findarace.com/us/events/el-cinco-cinco",
+    "description": "Cinco de Mayo-themed race hosted at Karbach Brewing Co featuring a 5K, 10K, 1-mile, and Kids & Family 1K. Post-race fiesta includes music, a Cinco de Mayo market, and beverages."
   },
   {
     "id": "fuzzys-taco-dash-sugar-land-2026",
