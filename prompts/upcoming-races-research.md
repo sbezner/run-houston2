@@ -107,13 +107,16 @@ If you are advising the user on what window size to pick (or running a default s
 - Races whose registration is closed or full (sold out is fine; closed registration with no replacement date is not)
 - Races you cannot verify on a primary source (registration page, race website, or known race calendar)
 
+## Important: Do NOT search RunSignUp
+
+**Do NOT search `runsignup.com` for race listings.** RunSignUp races are imported separately via API before this prompt runs. Searching RunSignUp again via web search is wasted effort and produces duplicates. Focus your entire search budget on sources that RunSignUp does not cover.
+
 ## Recommended starting sources
 
 Start your research from these and branch out. Don't trust any single source — cross-reference at least two for each race when possible.
 
 - **Race calendars:**
   - `runintexas.com` (Houston-area calendar)
-  - `runsignup.com` filtered to Houston, TX and surrounding cities
   - `active.com` Houston listings
   - `findarace.com` Texas listings
   - `houstonrunning.co` (Houston-area community race calendar; see `#calendar` section)
@@ -200,21 +203,22 @@ Houston has at least one running race on **almost every Saturday** of the year, 
 Before producing the artifact you MUST have run at least one search against each of the following sources for the date window. Don't skip any — the cost of an extra search is small, the cost of missing a major race is large.
 
 1. `runintexas.com/race-calendar` (paginate through every page within the window)
-2. `runsignup.com` filtered to `Houston, TX` and 50-mile radius
-3. `active.com` Houston listings
-4. `findarace.com/texas`
-5. `houstonrunning.co/#calendar` (scroll through every event within the window)
-6. `athlinks.com` upcoming Houston-area events
-7. `harra.org` event calendar
-8. `bcrr.org` event calendar
-9. `houstonstriders.org` event list
-10. `houstonmarathon.com/events`
-11. `trailracingovertexas.com` upcoming events
-12. `texas10series.com` (or current series site)
-13. Texas Parks & Wildlife events page filtered to Brazos Bend, Huntsville, Lake Houston
-14. Memorial Park Conservancy event calendar
-15. Each seasonal keyword from the "Seasonal keyword sweeps" section that applies to your window's months
-16. Each marquee venue from the "Search-by-venue pass" section
+2. `active.com` Houston listings
+3. `findarace.com/texas`
+4. `houstonrunning.co/#calendar` (scroll through every event within the window)
+5. `athlinks.com` upcoming Houston-area events
+6. `harra.org` event calendar
+7. `bcrr.org` event calendar
+8. `houstonstriders.org` event list
+9. `houstonmarathon.com/events`
+10. `trailracingovertexas.com` upcoming events
+11. `texas10series.com` (or current series site)
+12. Texas Parks & Wildlife events page filtered to Brazos Bend, Huntsville, Lake Houston
+13. Memorial Park Conservancy event calendar
+14. Each seasonal keyword from the "Seasonal keyword sweeps" section that applies to your window's months
+15. Each marquee venue from the "Search-by-venue pass" section
+
+(Note: `runsignup.com` is intentionally excluded — see "Do NOT search RunSignUp" above.)
 
 If a source is unreachable or returns nothing for your window, note it briefly in your chat confirmation message — don't silently skip.
 

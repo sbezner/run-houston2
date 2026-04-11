@@ -16,3 +16,9 @@ Thumbs.db
 # Python bytecode (from running scripts/validate-data.py)
 __pycache__/
 *.pyc
+
+# Pipeline worker scripts and progress logs (generated at runtime)
+.discovery-worker.sh
+.discovery-progress.log
+.recaps-worker.sh
+.recaps-progress.log
