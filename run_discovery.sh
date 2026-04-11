@@ -81,9 +81,21 @@ $(cat "$INSTRUCTIONS_FILE")"
     claude -p "$PROMPT" --permission-mode auto
 }
 
+PAUSE_FILE="$REPO_DIR/pause-discovery"
+
 WEEK_NUM=0
 FAILED_WEEKS=""
 while [ "$CURRENT_EPOCH" -le "$END_EPOCH" ]; do
+    # Check for pause file before starting each week
+    if [ -f "$PAUSE_FILE" ]; then
+        log "PAUSED — found pause-discovery file. Waiting..."
+        log "  Remove it to resume: rm pause-discovery"
+        while [ -f "$PAUSE_FILE" ]; do
+            sleep 30
+        done
+        log "RESUMED — pause-discovery file removed. Continuing..."
+    fi
+
     WEEK_NUM=$((WEEK_NUM + 1))
     WEEK_START=$(date -r "$CURRENT_EPOCH" "+%Y-%m-%d")
     WEEK_END_EPOCH=$((CURRENT_EPOCH + 604799))
