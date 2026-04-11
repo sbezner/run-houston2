@@ -208,8 +208,8 @@
     "city": "Spring",
     "state": "TX",
     "zip": "77389",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 30.0981,
+    "longitude": -95.4406,
     "distance": [
       "5K"
     ],
@@ -225,12 +225,12 @@
     "date": "2026-04-11",
     "start_time": null,
     "tz": "America/Chicago",
-    "address": "11433C East Sam Houston Parkway North",
+    "address": "11433 E Sam Houston Pkwy N",
     "city": "Houston",
     "state": "TX",
     "zip": "77044",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.8878,
+    "longitude": -95.1617,
     "distance": [
       "5K"
     ],
@@ -465,8 +465,8 @@
     "city": "Katy",
     "state": "TX",
     "zip": "77449",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.8436,
+    "longitude": -95.775,
     "distance": [
       "5K"
     ],
@@ -482,12 +482,12 @@
     "date": "2026-04-18",
     "start_time": null,
     "tz": "America/Chicago",
-    "address": "20634 Kenswick Dr, Humble, TX 77338",
+    "address": "20634 Kenswick Dr",
     "city": "Humble",
     "state": "TX",
     "zip": "77338",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 30.0069,
+    "longitude": -95.2634,
     "distance": [
       "5K",
       "10K"
@@ -556,8 +556,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77095",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.8227,
+    "longitude": -95.5889,
     "distance": [
       "5K"
     ],
@@ -729,12 +729,12 @@
     "date": "2026-04-26",
     "start_time": null,
     "tz": "America/Chicago",
-    "address": "18427 Southwest Fwy, Sugar Land, TX 77479",
+    "address": "18427 Southwest Fwy",
     "city": "Sugarland",
     "state": "TX",
     "zip": "77479",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.5707,
+    "longitude": -95.6643,
     "distance": [
       "5K"
     ],
@@ -750,12 +750,12 @@
     "date": "2026-04-26",
     "start_time": null,
     "tz": "America/Chicago",
-    "address": "MacGregor Park\u00a0 5225 Calhoun Rd.",
+    "address": "5225 Calhoun Rd",
     "city": "Houston",
     "state": "TX",
     "zip": "77021",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.7199,
+    "longitude": -95.3467,
     "distance": [
       "5K"
     ],
@@ -775,8 +775,8 @@
     "city": "Galveston",
     "state": "TX",
     "zip": "77550",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.2854,
+    "longitude": -94.7854,
     "distance": [
       "5K"
     ],
@@ -863,8 +863,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77077",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.7386,
+    "longitude": -95.5508,
     "distance": [
       "1 Mile",
       "5K",
@@ -887,8 +887,8 @@
     "city": "Galveston",
     "state": "TX",
     "zip": "77550",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.2875,
+    "longitude": -94.7939,
     "distance": [
       "5K"
     ],
@@ -904,12 +904,12 @@
     "date": "2026-05-02",
     "start_time": null,
     "tz": "America/Chicago",
-    "address": "Daikin Park at the Corner of Texas and Hamilton",
+    "address": "501 Crawford St",
     "city": "Houston",
     "state": "TX",
     "zip": "77002",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.7573,
+    "longitude": -95.3555,
     "distance": [
       "5K"
     ],
@@ -929,8 +929,8 @@
     "city": "Kingwood",
     "state": "TX",
     "zip": "77339",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 30.0488,
+    "longitude": -95.1861,
     "distance": [
       "5K"
     ],
@@ -946,12 +946,12 @@
     "date": "2026-05-02",
     "start_time": null,
     "tz": "America/Chicago",
-    "address": "6055 CREEKSIDE FOREST DRIVE",
+    "address": "6055 Creekside Forest Dr",
     "city": "Spring",
     "state": "TX",
     "zip": "77389",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 30.1658,
+    "longitude": -95.5023,
     "distance": [
       "5K"
     ],
@@ -971,8 +971,8 @@
     "city": "Tomball",
     "state": "TX",
     "zip": "77377",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 30.1004,
+    "longitude": -95.652,
     "distance": [
       "5K"
     ],
@@ -1164,12 +1164,12 @@
     "date": "2026-05-09",
     "start_time": null,
     "tz": "America/Chicago",
-    "address": "4800 Riley Fuzzle Rd",
+    "address": "4800 Riley Fuzzel Rd",
     "city": "Spring",
     "state": "TX",
     "zip": "77386",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 30.085,
+    "longitude": -95.444,
     "distance": [
       "5K"
     ],
@@ -1234,12 +1234,12 @@
     "date": "2026-05-10",
     "start_time": null,
     "tz": "America/Chicago",
-    "address": "1122 Buffalo Run Park",
+    "address": "1122 Buffalo Run",
     "city": "Missouri City",
     "state": "TX",
     "zip": "77489",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.5584,
+    "longitude": -95.5384,
     "distance": [
       "5K"
     ],
@@ -1370,8 +1370,8 @@
     "city": "Bellville",
     "state": "TX",
     "zip": "77418",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.9565,
+    "longitude": -96.2549,
     "distance": [
       "5K"
     ],
@@ -1460,8 +1460,8 @@
     "city": "Texas City",
     "state": "TX",
     "zip": "77590",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.3926,
+    "longitude": -94.8934,
     "distance": [
       "5K"
     ],
@@ -1481,8 +1481,8 @@
     "city": "New Caney",
     "state": "TX",
     "zip": "77357",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 30.1626,
+    "longitude": -95.1847,
     "distance": [
       "5K"
     ],
@@ -1683,8 +1683,8 @@
     "city": "Conroe",
     "state": "TX",
     "zip": "77304",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 30.19,
+    "longitude": -95.47,
     "distance": [
       "5K"
     ],
@@ -2062,8 +2062,8 @@
     "city": "Richmond",
     "state": "TX",
     "zip": "77406",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.539,
+    "longitude": -95.728,
     "distance": [
       "5K"
     ],
@@ -2218,8 +2218,8 @@
     "city": "Galveston",
     "state": "TX",
     "zip": "77550",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.3063,
+    "longitude": -94.7703,
     "distance": [
       "5K",
       "10K"
@@ -2544,8 +2544,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77002",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.7637,
+    "longitude": -95.3593,
     "distance": [
       "5K"
     ],
@@ -2742,8 +2742,8 @@
     "city": "San Felipe",
     "state": "TX",
     "zip": "77473",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.828,
+    "longitude": -96.1003,
     "distance": [
       "5K"
     ],
@@ -2763,8 +2763,8 @@
     "city": "Galveston",
     "state": "TX",
     "zip": "77554",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.2557,
+    "longitude": -94.8493,
     "distance": [
       "5K"
     ],
@@ -2825,12 +2825,12 @@
     "date": "2026-09-19",
     "start_time": null,
     "tz": "America/Chicago",
-    "address": "Start Line Location: Space Cowboys Stadium (Parking Lot)",
+    "address": "1 Stadium Dr",
     "city": "Sugar Land",
     "state": "TX",
     "zip": "77498",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.5916,
+    "longitude": -95.6452,
     "distance": [
       "5K"
     ],
@@ -2967,8 +2967,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77584",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.6579,
+    "longitude": -95.2768,
     "distance": [
       "5K"
     ],
@@ -3034,8 +3034,8 @@
     "city": "Tomball",
     "state": "TX",
     "zip": "77377",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 30.067,
+    "longitude": -95.67,
     "distance": [
       "5K"
     ],
@@ -3099,8 +3099,8 @@
     "city": "Galveston",
     "state": "TX",
     "zip": "77550",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.3068,
+    "longitude": -94.7707,
     "distance": [
       "Half Marathon"
     ],
@@ -3233,8 +3233,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77010",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.7617,
+    "longitude": -95.3732,
     "distance": [
       "5K"
     ],
@@ -3346,8 +3346,8 @@
     "city": "Santa Fe",
     "state": "TX",
     "zip": "77510",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.3853,
+    "longitude": -95.1034,
     "distance": [
       "5K"
     ],
@@ -3367,8 +3367,8 @@
     "city": "Galveston",
     "state": "TX",
     "zip": "77550",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.3115,
+    "longitude": -94.7657,
     "distance": [
       "Ultra"
     ],
@@ -3409,8 +3409,8 @@
     "city": "Galveston",
     "state": "TX",
     "zip": "77554",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.2839,
+    "longitude": -94.8652,
     "distance": [
       "10K"
     ],
@@ -3430,8 +3430,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77007",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.764,
+    "longitude": -95.435,
     "distance": [
       "5K"
     ],
@@ -3612,8 +3612,8 @@
     "city": "Galveston",
     "state": "TX",
     "zip": "77554",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.2839,
+    "longitude": -94.8652,
     "distance": [
       "5K"
     ],
@@ -3764,8 +3764,8 @@
     "city": "San Felipe",
     "state": "TX",
     "zip": "77473",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.828,
+    "longitude": -96.1003,
     "distance": [
       "Ultra"
     ],
@@ -3785,8 +3785,8 @@
     "city": "Katy",
     "state": "TX",
     "zip": "77449",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.7782,
+    "longitude": -95.7525,
     "distance": [
       "5K"
     ],
@@ -3806,8 +3806,8 @@
     "city": "Spring",
     "state": "TX",
     "zip": "77379",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 30.0654,
+    "longitude": -95.4108,
     "distance": [
       "5K"
     ],
@@ -3942,8 +3942,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77002",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.7634,
+    "longitude": -95.3656,
     "distance": [
       "5K",
       "Ultra"
@@ -4224,8 +4224,8 @@
     "city": "Willis",
     "state": "TX",
     "zip": "77318",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 30.44,
+    "longitude": -95.495,
     "distance": [
       "Ultra"
     ],
@@ -4245,8 +4245,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77002",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.76,
+    "longitude": -95.3702,
     "distance": [
       "Kids",
       "1 Mile",
@@ -4421,8 +4421,8 @@
     "city": "Sugar Land",
     "state": "TX",
     "zip": "77479",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.5803,
+    "longitude": -95.6192,
     "distance": [
       "5K"
     ],
@@ -4708,8 +4708,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77044",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.84,
+    "longitude": -95.15,
     "distance": [
       "5K"
     ],
