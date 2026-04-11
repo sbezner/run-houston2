@@ -53,12 +53,21 @@ NUM_WEEKS="NUM_WEEKS_PLACEHOLDER"
 cd "$REPO_DIR"
 caffeinate -i -w $$ &
 
-echo "================================================"
-echo "Run Houston — Race Discovery"
-echo "Starting: $START_DATE for $NUM_WEEKS weeks"
-echo "Detach: Ctrl+B, D | Reattach: tmux attach -t discovery"
-echo "Stop: tmux kill-session -t discovery"
-echo "================================================"
+LOG_FILE="$REPO_DIR/.discovery-run.log"
+
+log() {
+    local msg="[$(date '+%Y-%m-%d %H:%M:%S')] $*"
+    echo "$msg"
+    echo "$msg" >> "$LOG_FILE"
+}
+
+log "================================================"
+log "Run Houston — Race Discovery"
+log "Starting: $START_DATE for $NUM_WEEKS weeks"
+log "Log file: $LOG_FILE"
+log "Detach: Ctrl+B, D | Reattach: tmux attach -t discovery"
+log "Stop: tmux kill-session -t discovery"
+log "================================================"
 
 CURRENT_EPOCH=$(date -j -f "%Y-%m-%d" "$START_DATE" "+%s")
 END_EPOCH=$((CURRENT_EPOCH + (NUM_WEEKS * 604800)))
@@ -82,40 +91,36 @@ while [ "$CURRENT_EPOCH" -le "$END_EPOCH" ]; do
     RSU_FILE="$DOWNLOADS_DIR/rsu-${WEEK_START}-to-${WEEK_END}.json"
     CLAUDE_FILE="$DOWNLOADS_DIR/races-${WEEK_START}-to-${WEEK_END}.json"
 
-    echo ""
-    echo "================================================"
-    echo "Week $WEEK_NUM: $WEEK_START to $WEEK_END"
-    echo "$(date '+%Y-%m-%d %H:%M:%S')"
-    echo "================================================"
+    log ""
+    log "================================================"
+    log "Week $WEEK_NUM: $WEEK_START to $WEEK_END"
+    log "================================================"
 
     # --- Step 1: RunSignUp API ---
-    echo ""
-    echo "Step 1: Fetching from RunSignUp API..."
-    python3 "$REPO_DIR/scripts/fetch-runsignup-window.py" "$WEEK_START" "$WEEK_END" "$RSU_FILE" || echo "  RunSignUp API failed, continuing..."
+    log "Step 1: Fetching from RunSignUp API..."
+    RSU_OUT=$(python3 "$REPO_DIR/scripts/fetch-runsignup-window.py" "$WEEK_START" "$WEEK_END" "$RSU_FILE" 2>&1) || RSU_OUT="RunSignUp API failed"
+    log "  $RSU_OUT"
 
     # --- Step 2: Merge RunSignUp races ---
     if [ -f "$RSU_FILE" ]; then
-        echo ""
-        echo "Step 2: Merging RunSignUp races..."
-        python3 "$REPO_DIR/scripts/merge-races.py" "$RSU_FILE" --apply 2>&1 | grep -E "Adds:|Real updates:|Wrote" || true
+        log "Step 2: Merging RunSignUp races..."
+        RSU_MERGE=$(python3 "$REPO_DIR/scripts/merge-races.py" "$RSU_FILE" --apply 2>&1 | grep -E "Adds:|Real updates:|Wrote" || echo "  No changes")
+        log "  $RSU_MERGE"
     fi
 
     # --- Step 3: Claude Code with retry ---
-    echo ""
-    echo "Step 3: Claude Code searching non-RunSignUp sources..."
+    log "Step 3: Claude Code searching non-RunSignUp sources..."
     if run_claude "$WEEK_START" "$WEEK_END"; then
-        echo "  Claude Code succeeded."
+        log "  Claude Code succeeded."
     else
-        echo ""
-        echo "  Claude Code FAILED. Waiting 4 hours before retry..."
-        echo "  $(date '+%Y-%m-%d %H:%M:%S') — will retry at $(date -r $(($(date +%s) + RETRY_WAIT)) '+%H:%M:%S')"
+        log "  Claude Code FAILED. Waiting 4 hours before retry..."
         sleep $RETRY_WAIT
 
-        echo "  Retrying Claude Code..."
+        log "  Retrying Claude Code..."
         if run_claude "$WEEK_START" "$WEEK_END"; then
-            echo "  Retry succeeded."
+            log "  Retry succeeded."
         else
-            echo "  Retry FAILED. Skipping week $WEEK_START and moving on."
+            log "  Retry FAILED. Skipping week $WEEK_START."
             FAILED_WEEKS="$FAILED_WEEKS $WEEK_START"
             echo "$(date '+%Y-%m-%d %H:%M:%S') FAILED: $WEEK_START to $WEEK_END" >> "$PROGRESS_LOG"
         fi
@@ -123,21 +128,22 @@ while [ "$CURRENT_EPOCH" -le "$END_EPOCH" ]; do
 
     # --- Step 4: Merge Claude's findings ---
     if [ -f "$CLAUDE_FILE" ]; then
-        echo ""
-        echo "Step 4: Merging Claude's findings..."
-        python3 "$REPO_DIR/scripts/merge-races.py" "$CLAUDE_FILE" --apply 2>&1 | grep -E "Adds:|Real updates:|Wrote" || true
+        log "Step 4: Merging Claude's findings..."
+        CLAUDE_MERGE=$(python3 "$REPO_DIR/scripts/merge-races.py" "$CLAUDE_FILE" --apply 2>&1 | grep -E "Adds:|Real updates:|Wrote" || echo "  No changes")
+        log "  $CLAUDE_MERGE"
+    else
+        log "Step 4: No Claude output file found for this week."
     fi
 
     # --- Step 5: Affiliate tokens ---
-    echo ""
-    echo "Step 5: Adding affiliate tokens..."
-    ENRICHED=$(python3 "$REPO_DIR/scripts/enrich-runsignup.py" --step1 --apply 2>&1 | grep "URL(s) to update" || echo "  0 URLs enriched")
-    echo "  $ENRICHED"
+    log "Step 5: Adding affiliate tokens..."
+    ENRICHED=$(python3 "$REPO_DIR/scripts/enrich-runsignup.py" --step1 --apply 2>&1 | grep "URL(s) to update" || echo "0 URLs enriched")
+    log "  $ENRICHED"
 
     # --- Summary for this week ---
     TOTAL=$(python3 -c "import json; print(len(json.load(open('data/races-upcoming.json'))))")
-    echo ""
-    echo "Week $WEEK_NUM ($WEEK_START) done at $(date '+%H:%M:%S'). Total races: $TOTAL"
+    log ""
+    log "WEEK $WEEK_NUM COMPLETE: $WEEK_START to $WEEK_END | Total races: $TOTAL"
     echo "$(date '+%Y-%m-%d %H:%M:%S') OK: $WEEK_START to $WEEK_END (total: $TOTAL)" >> "$PROGRESS_LOG"
 
     CURRENT_EPOCH=$((CURRENT_EPOCH + 604800))
@@ -148,20 +154,22 @@ while [ "$CURRENT_EPOCH" -le "$END_EPOCH" ]; do
     fi
 done
 
-echo ""
-echo "================================================"
-echo "Discovery complete! $WEEK_NUM weeks processed."
-echo "Finished at $(date '+%Y-%m-%d %H:%M:%S')"
+log ""
+log "================================================"
+log "Discovery complete! $WEEK_NUM weeks processed."
+FINAL_TOTAL=$(python3 -c "import json; print(len(json.load(open('data/races-upcoming.json'))))")
+log "Final race count: $FINAL_TOTAL"
 if [ -n "$FAILED_WEEKS" ]; then
-    echo ""
-    echo "FAILED WEEKS (Claude Code errors):$FAILED_WEEKS"
-    echo "Re-run these manually or retry the script for those dates."
+    log ""
+    log "FAILED WEEKS:$FAILED_WEEKS"
+    log "Re-run these manually or retry the script for those dates."
 fi
-echo "================================================"
-echo ""
-echo "Next steps:"
-echo "  git diff data/races-upcoming.json"
-echo "  git add -A && git commit"
+log "================================================"
+log "Log saved to: $LOG_FILE"
+log ""
+log "Next steps:"
+log "  git diff data/races-upcoming.json"
+log "  git add -A && git commit"
 WORKER_EOF
 
 # Replace placeholders

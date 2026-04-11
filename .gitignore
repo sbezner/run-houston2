@@ -20,5 +20,7 @@ __pycache__/
 # Pipeline worker scripts and progress logs (generated at runtime)
 .discovery-worker.sh
 .discovery-progress.log
+.discovery-run.log
 .recaps-worker.sh
 .recaps-progress.log
+.recaps-run.log
