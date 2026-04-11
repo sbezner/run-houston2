@@ -97,6 +97,27 @@
     return ordered;
   }
 
+  function renderDateChips() {
+    var options = [
+      { value: '30', label: '30 days' },
+      { value: '60', label: '60 days' },
+      { value: '90', label: '90 days' },
+      { value: 'all', label: 'All' }
+    ];
+    var el = document.getElementById('date-chips');
+    el.innerHTML = options.map(function (opt) {
+      var id = 'date-' + opt.value;
+      var checked = opt.value === 'all' ? ' checked' : '';
+      return (
+        '<span class="chip">' +
+        '<input type="radio" id="' + id + '" name="date" value="' +
+        RH.escapeAttr(opt.value) + '"' + checked + '>' +
+        '<label for="' + id + '">' + RH.escapeHtml(opt.label) + '</label>' +
+        '</span>'
+      );
+    }).join('');
+  }
+
   function renderRaceCard(race) {
     var distances = (race.distance || [])
       .map(function (d) {
@@ -479,9 +500,10 @@
     });
 
     document
-      .getElementById('date-window')
-      .addEventListener('change', function (e) {
-        state.window = e.target.value;
+      .getElementById('date-chips')
+      .addEventListener('change', function () {
+        var checked = document.querySelector('input[name="date"]:checked');
+        state.window = checked ? checked.value : 'all';
         render();
       });
 
@@ -515,6 +537,7 @@
         }
         renderChips('distance-chips', buildDistanceOptions(allRaces), 'distance');
         renderChips('surface-chips', buildSurfaceOptions(allRaces), 'surface');
+        renderDateChips();
         attachFilterHandlers();
         render();
       })
