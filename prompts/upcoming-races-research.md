@@ -116,6 +116,7 @@ Start your research from these and branch out. Don't trust any single source —
   - `runsignup.com` filtered to Houston, TX and surrounding cities
   - `active.com` Houston listings
   - `findarace.com` Texas listings
+  - `houstonrunning.co` (Houston-area community race calendar; see `#calendar` section)
 - **Race series & organizations:**
   - `houstonmarathon.com` (Chevron Houston Marathon, Aramco Houston Half, We Are Houston 5K)
   - `bcrr.org` (Bayou City Road Runners) race calendar
@@ -202,17 +203,18 @@ Before producing the artifact you MUST have run at least one search against each
 2. `runsignup.com` filtered to `Houston, TX` and 50-mile radius
 3. `active.com` Houston listings
 4. `findarace.com/texas`
-5. `athlinks.com` upcoming Houston-area events
-6. `harra.org` event calendar
-7. `bcrr.org` event calendar
-8. `houstonstriders.org` event list
-9. `houstonmarathon.com/events`
-10. `trailracingovertexas.com` upcoming events
-11. `texas10series.com` (or current series site)
-12. Texas Parks & Wildlife events page filtered to Brazos Bend, Huntsville, Lake Houston
-13. Memorial Park Conservancy event calendar
-14. Each seasonal keyword from the "Seasonal keyword sweeps" section that applies to your window's months
-15. Each marquee venue from the "Search-by-venue pass" section
+5. `houstonrunning.co/#calendar` (scroll through every event within the window)
+6. `athlinks.com` upcoming Houston-area events
+7. `harra.org` event calendar
+8. `bcrr.org` event calendar
+9. `houstonstriders.org` event list
+10. `houstonmarathon.com/events`
+11. `trailracingovertexas.com` upcoming events
+12. `texas10series.com` (or current series site)
+13. Texas Parks & Wildlife events page filtered to Brazos Bend, Huntsville, Lake Houston
+14. Memorial Park Conservancy event calendar
+15. Each seasonal keyword from the "Seasonal keyword sweeps" section that applies to your window's months
+16. Each marquee venue from the "Search-by-venue pass" section
 
 If a source is unreachable or returns nothing for your window, note it briefly in your chat confirmation message — don't silently skip.
 
