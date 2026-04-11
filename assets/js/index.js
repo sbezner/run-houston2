@@ -478,12 +478,91 @@
       }, 150);
     });
 
-    document
-      .getElementById('date-window')
-      .addEventListener('change', function (e) {
-        state.window = e.target.value;
-        render();
+    // ---- Dropdown filter panels ----
+    var ddPairs = [
+      { btn: 'dd-date-btn', panel: 'dd-date-panel' },
+      { btn: 'dd-surface-btn', panel: 'dd-surface-panel' },
+      { btn: 'dd-distance-btn', panel: 'dd-distance-panel' }
+    ];
+
+    ddPairs.forEach(function (pair) {
+      var btn = document.getElementById(pair.btn);
+      var panel = document.getElementById(pair.panel);
+      btn.addEventListener('click', function () {
+        var open = !panel.hidden;
+        // Close all panels first
+        ddPairs.forEach(function (p) {
+          document.getElementById(p.panel).hidden = true;
+          document.getElementById(p.btn).setAttribute('aria-expanded', 'false');
+        });
+        if (!open) {
+          panel.hidden = false;
+          btn.setAttribute('aria-expanded', 'true');
+        }
       });
+    });
+
+    // Close panels when clicking outside
+    document.addEventListener('click', function (e) {
+      var inDropdown = e.target.closest('.filter-dd');
+      if (!inDropdown) {
+        ddPairs.forEach(function (p) {
+          document.getElementById(p.panel).hidden = true;
+          document.getElementById(p.btn).setAttribute('aria-expanded', 'false');
+        });
+      }
+    });
+
+    // Date radios
+    document.getElementById('dd-date-panel').addEventListener('change', function () {
+      var checked = document.querySelector('input[name="date"]:checked');
+      state.window = checked ? checked.value : 'all';
+      var label = document.getElementById('dd-date-label');
+      var btn = document.getElementById('dd-date-btn');
+      if (state.window === 'all') {
+        label.textContent = 'All dates';
+        btn.classList.remove('has-selection');
+      } else {
+        label.textContent = 'Next ' + state.window + ' days';
+        btn.classList.add('has-selection');
+      }
+      render();
+    });
+
+    // Surface chips
+    document.getElementById('dd-surface-panel').addEventListener('change', function () {
+      state.surfaces = readChipState('surface');
+      var label = document.getElementById('dd-surface-label');
+      var btn = document.getElementById('dd-surface-btn');
+      if (state.surfaces.length === 0) {
+        label.textContent = 'All surfaces';
+        btn.classList.remove('has-selection');
+      } else {
+        label.textContent = state.surfaces.map(function (s) {
+          return s.charAt(0).toUpperCase() + s.slice(1);
+        }).join(', ');
+        btn.classList.add('has-selection');
+      }
+      render();
+    });
+
+    // Distance chips
+    document.getElementById('dd-distance-panel').addEventListener('change', function () {
+      state.distances = readChipState('distance');
+      var label = document.getElementById('dd-distance-label');
+      var btn = document.getElementById('dd-distance-btn');
+      if (state.distances.length === 0) {
+        label.textContent = 'All distances';
+        btn.classList.remove('has-selection');
+      } else if (state.distances.length <= 3) {
+        label.textContent = state.distances.join(', ');
+        btn.classList.add('has-selection');
+      } else {
+        label.textContent = state.distances.length + ' selected';
+        btn.classList.add('has-selection');
+      }
+      render();
+    });
 
     document
       .getElementById('view-cards-btn')

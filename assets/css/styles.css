@@ -348,75 +348,115 @@ main {
   font-size: 1rem;
 }
 
-/* Collapsible "More filters" disclosure. The search input above stays
-   always-visible; distance + date window hide behind this on mobile
-   where vertical real estate matters most. Native <details>/<summary>
-   means no JS and built-in keyboard + screen-reader support. */
-.filter-details {
-  margin: 0;
+/* ---- Filter dropdown buttons ---- */
+
+.filter-dropdowns {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
-.filter-summary {
-  list-style: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  padding: 0.6rem 1.15rem;
-  min-height: 42px;
+.filter-dd {
+  position: relative;
+}
+
+.filter-dd-btn {
+  appearance: none;
   border: 1.5px solid var(--border);
   border-radius: 999px;
+  background: var(--surface);
   font-family: var(--font-body);
   font-size: 0.78rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   color: var(--text);
-  background: var(--surface);
+  padding: 0.55rem 1rem;
+  min-height: 40px;
   cursor: pointer;
-  user-select: none;
-  transition: background 150ms ease, border-color 150ms ease,
-              color 150ms ease, box-shadow 150ms ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: border-color 150ms ease, background 150ms ease;
 }
 
-/* Hide the default disclosure marker on WebKit/Blink. */
-.filter-summary::-webkit-details-marker {
-  display: none;
-}
-
-/* Custom "+" that rotates into an "×" when the details open. */
-.filter-summary::after {
-  content: "+";
-  display: inline-block;
-  font-size: 1.2rem;
-  font-weight: 700;
-  line-height: 0.85;
-  transition: transform 220ms ease;
-}
-
-.filter-details[open] .filter-summary::after {
-  transform: rotate(45deg);
-}
-
-.filter-summary:hover {
+.filter-dd-btn:hover {
   border-color: var(--text);
 }
 
-.filter-summary:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-}
-
-.filter-details[open] .filter-summary {
+.filter-dd-btn[aria-expanded="true"] {
   background: var(--text);
   color: var(--surface);
   border-color: var(--text);
-  box-shadow: 0 2px 8px rgba(15, 15, 15, 0.15);
 }
 
-.filter-details-body {
-  display: grid;
-  gap: 1.1rem;
-  margin-top: 1rem;
+.filter-dd-btn.has-selection {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.dd-arrow {
+  font-size: 0.65rem;
+  opacity: 0.6;
+}
+
+.filter-dd-panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 40;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg);
+  padding: 0.6rem;
+  min-width: 180px;
+}
+
+.filter-dd-panel-wide {
+  min-width: 280px;
+}
+
+/* On small screens, panels align left and don't overflow viewport */
+@media (max-width: 480px) {
+  .filter-dd-panel {
+    position: fixed;
+    left: 1rem;
+    right: 1rem;
+    top: auto;
+    width: auto;
+    min-width: 0;
+  }
+}
+
+.filter-dd-panel[hidden] {
+  display: none;
+}
+
+.filter-dd-option {
+  display: block;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 100ms ease;
+}
+
+.filter-dd-option:hover {
+  background: var(--accent-soft);
+}
+
+.filter-dd-option input[type="radio"] {
+  margin-right: 0.5rem;
+}
+
+/* Chips inside dropdown panels */
+.filter-dd-panel .chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
 }
 
 .page-intro {
