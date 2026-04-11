@@ -790,14 +790,14 @@
     "id": "girls-on-the-run-houston-5k-2026",
     "name": "Girls on the Run Greater Houston Celebratory 5K",
     "date": "2026-05-02",
-    "start_time": null,
+    "start_time": "08:00",
     "tz": "America/Chicago",
-    "address": "Houston area",
+    "address": "6100 Main St",
     "city": "Houston",
     "state": "TX",
-    "zip": "77002",
-    "latitude": null,
-    "longitude": null,
+    "zip": "77005",
+    "latitude": 29.7174,
+    "longitude": -95.4018,
     "distance": [
       "5K",
       "Kids"
@@ -806,7 +806,7 @@
     "kid_run": true,
     "official_website_url": "https://www.gotrgreaterhouston.org/",
     "source_url": "https://www.runguides.com/event/935/girls-on-the-run-greater-houston-celebratory-5k",
-    "description": "The seasonal Girls on the Run Greater Houston Celebratory 5K marks the culmination of the spring program season, open to girl participants and their running buddies."
+    "description": "The Girls on the Run Greater Houston Spring Season Celebratory 5K at Rice University. A non-competitive celebration where participants walk, roll, push, run, or skip at their happy pace. All finishers receive a commemorative medal. Free parking at Lots 13A and 13B."
   },
   {
     "id": "klein-isd-5k-2026",
