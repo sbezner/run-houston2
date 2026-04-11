@@ -44,7 +44,7 @@ cat > "$WORKER" << 'WORKER_EOF'
 REPO_DIR="REPO_DIR_PLACEHOLDER"
 INSTRUCTIONS_FILE="$REPO_DIR/prompts/run_discovery.md"
 DOWNLOADS_DIR="$HOME/Downloads"
-COOLDOWN=1200          # 20 min between weeks
+COOLDOWN=3600          # 60 min between weeks (Pro plan rate limit buffer)
 RETRY_WAIT=14400       # 4 hours before retry
 PROGRESS_LOG="$REPO_DIR/discovery-progress.log"
 START_DATE="START_DATE_PLACEHOLDER"
