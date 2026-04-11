@@ -1106,10 +1106,15 @@ main {
 
 .race-detail-actions {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  gap: 0.75rem;
+  gap: 1rem;
   flex-wrap: wrap;
+  margin-top: 1.25rem;
+}
+
+.race-detail-actions .race-badges {
+  flex: 1 1 auto;
 }
 
 .btn-share {
