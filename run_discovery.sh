@@ -78,7 +78,7 @@ run_claude() {
     local PROMPT="DATE WINDOW: $WEEK_START to $WEEK_END
 
 $(cat "$INSTRUCTIONS_FILE")"
-    claude -p "$PROMPT" --yes
+    claude -p "$PROMPT" --permission-mode auto
 }
 
 WEEK_NUM=0
