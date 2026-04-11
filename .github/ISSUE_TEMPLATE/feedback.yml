@@ -1,0 +1,42 @@
+name: Feedback
+description: Share feedback, report a problem, or suggest an improvement to Run Houston.
+title: "Feedback: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping make Run Houston better! Use this form for general feedback,
+        bug reports, or suggestions. For race data issues, please include the race name
+        and a link to the source (the race's own website, a registration page, etc.).
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of feedback is this?
+      options:
+        - Bug or broken link
+        - Missing or incorrect race info
+        - Missing or incorrect running club
+        - Suggestion / feature idea
+        - Something else
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: Which page is this about?
+      description: URL of the page you were on, or leave blank if it's general feedback.
+      placeholder: https://runhouston.app/
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: |
+        Describe what's wrong, what's missing, or what you'd like to see.
+        If reporting a race data issue, include a link to the source so we can verify it.
+    validations:
+      required: true
+  - type: input
+    id: contact
+    attributes:
+      label: Contact (optional)
+      description: If you'd like a reply, leave an email or other contact info. Otherwise leave blank.
