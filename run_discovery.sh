@@ -197,11 +197,6 @@ while [ "$CURRENT_EPOCH" -le "$END_EPOCH" ]; do
     ENRICHED=$(python3 "$REPO_DIR/scripts/enrich-runsignup.py" --step1 --apply 2>&1 | grep "URL(s) to update" || echo "0 URLs enriched")
     log "  $ENRICHED"
 
-    # --- Step 6: Auto-commit and push ---
-    log "Step 6: Committing and pushing to GitHub..."
-    COMMIT_OUT=$(python3 "$REPO_DIR/scripts/auto-commit.py" 2>&1)
-    log "  $COMMIT_OUT"
-
     # --- Summary for this week ---
     TOTAL=$(python3 -c "import json; print(len(json.load(open('data/races-upcoming.json'))))")
     log ""
