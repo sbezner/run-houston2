@@ -242,29 +242,29 @@
   },
   {
     "id": "run-for-the-rose-2026",
-    "name": "Run for the Rose",
+    "name": "Run for the Rose 2026",
     "date": "2026-04-12",
     "start_time": "08:00",
     "tz": "America/Chicago",
-    "address": "7255 Helix Park Ave",
+    "address": "Helix Park, Texas Medical Center",
     "city": "Houston",
     "state": "TX",
     "zip": "77030",
-    "latitude": 29.7069,
-    "longitude": -95.3998,
+    "latitude": 29.7078,
+    "longitude": -95.3983,
     "distance": [
       "5K",
-      "Kids"
+      "1 Mile"
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/runfortherose?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Houston/runfortherose",
-    "description": "A free-to-register 5K run and Family 1K at Helix Park in the Texas Medical Center, benefiting brain cancer research and patient support through the Dr. Marnie Rose Foundation. The event includes a Survivor Stroll at 7:45 AM and welcomes walkers alongside runners."
+    "official_website_url": "https://drmarnierose.org/run-for-the-rose/",
+    "source_url": "https://www.fleetfeet.com/races/tx/houston/72477-run-for-the-rose-2026",
+    "description": "Annual charity 5K and family 1K benefiting brain cancer research through the Dr. Marnie Rose Foundation. The certified course winds through Helix Park in the Texas Medical Center."
   },
   {
     "id": "art-car-ipa-5k-2026",
-    "name": "Saint Arnold Art Car IPA 5K presented by UHD",
+    "name": "Saint Arnold Art Car IPA 5K",
     "date": "2026-04-12",
     "start_time": "08:30",
     "tz": "America/Chicago",
@@ -272,16 +272,16 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77020",
-    "latitude": 29.779,
-    "longitude": -95.3562,
+    "latitude": 29.7715,
+    "longitude": -95.3453,
     "distance": [
       "5K"
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/ArtCarIPA5K?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Houston/ArtCarIPA5K",
-    "description": "Houston's most festive 5K, coinciding with Art Car Parade weekend and starting and finishing at Saint Arnold Brewing Company. Participants receive a finisher medal, pint glass, and their choice of Saint Arnold beverages; the course winds through Houston's Fifth Ward neighborhood."
+    "official_website_url": "https://artcar5k.com/",
+    "source_url": "https://findarace.com/us/events/art-car-ipa-5k-presented-by-uhd",
+    "description": "Beer-themed 5K at Saint Arnold Brewing Company celebrating Houston's Art Car Parade. Entry includes a finisher medal, pint glass, and three Saint Arnold beverages."
   },
   {
     "id": "vintage-park-13-1-2026",
@@ -308,110 +308,113 @@
     "id": "b52-brewing-5k-beer-run-2026",
     "name": "B52 Brewing 5K Beer Run",
     "date": "2026-04-18",
-    "start_time": null,
+    "start_time": "08:00",
     "tz": "America/Chicago",
-    "address": "2257 Longmire Rd",
+    "address": "12470 Milroy Ln",
     "city": "Conroe",
     "state": "TX",
     "zip": "77304",
-    "latitude": 30.3282,
-    "longitude": -95.5035,
+    "latitude": 30.3044,
+    "longitude": -95.4413,
     "distance": [
       "5K"
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "http://runintexas.com/tejas",
-    "source_url": "https://harra.org/",
-    "description": "A 5K beer run starting and finishing at B52 Brewing in Conroe, with two pints included post-race and food trucks on site."
+    "official_website_url": "https://www.runintexas.com/b52",
+    "source_url": "https://harra.org/racing",
+    "description": "5K beer run on a flat out-and-back course starting and finishing at B52 Brewing in Conroe. Part of the Texas 5K 6-Pack Beer Challenge series with post-race tastings included."
   },
   {
     "id": "bearkat-bash-2026",
     "name": "Bearkat Bash",
     "date": "2026-04-18",
-    "start_time": null,
+    "start_time": "07:30",
     "tz": "America/Chicago",
-    "address": "Klein ISD area",
+    "address": "16715 Stuebner-Airline Rd",
     "city": "Spring",
     "state": "TX",
     "zip": "77379",
-    "latitude": 30.0138,
-    "longitude": -95.4741,
+    "latitude": 30.0065,
+    "longitude": -95.49,
     "distance": [
-      "5K"
+      "5K",
+      "Kids"
     ],
     "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Spring/BearkatBashTX?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Spring/BearkatBashTX",
-    "description": "A community 5K road race held in the Klein area of Spring, Texas."
+    "kid_run": true,
+    "official_website_url": "https://findarace.com/us/events/bearkat-bash",
+    "source_url": "https://racemob.com/races/238176-20th-annual-bearkat-bash",
+    "description": "20th annual 5K run and 1K kids fun run at Klein High School benefiting the Klein High School Cross Country team and Klein ISD programs."
   },
   {
     "id": "gulf-coast-grind-2026",
     "name": "Gulf Coast Grind",
     "date": "2026-04-18",
-    "start_time": null,
+    "start_time": "06:00",
     "tz": "America/Chicago",
-    "address": "Surfside Beach area",
+    "address": "3312 County Rd 257",
     "city": "Surfside Beach",
     "state": "TX",
     "zip": "77541",
-    "latitude": 28.9549,
-    "longitude": -95.2893,
+    "latitude": 29.0462,
+    "longitude": -95.2928,
     "distance": [
       "5K",
       "10K",
       "Half Marathon",
       "Marathon",
+      "50K",
       "100K"
     ],
-    "surface": "other",
+    "surface": "trail",
     "kid_run": false,
     "official_website_url": "https://www.riseracingco.com/gulf-coast-grind",
-    "source_url": "https://www.riseracingco.com/gulf-coast-grind",
-    "description": "A multi-distance race on packed sand along Surfside Beach on the Texas Gulf Coast, offering distances from 5K through 100K. Courses run along the water's edge with full aid stations."
+    "source_url": "https://ultrasignup.com/register.aspx?did=131297",
+    "description": "Beach ultramarathon event with distances from 5K to 100K on hard-packed sand along Surfside Beach. Organized by Rise Racing Co. with a 20-hour cutoff for the longest distance."
   },
   {
     "id": "steps-for-vets-5k-2026",
-    "name": "Steps for Vets 5K Run/Walk/Roll",
+    "name": "Steps for Vets 5K - Run | Walk | Roll",
     "date": "2026-04-18",
-    "start_time": null,
+    "start_time": "07:00",
     "tz": "America/Chicago",
     "address": "7575 N Sam Houston Pkwy W",
     "city": "Houston",
     "state": "TX",
     "zip": "77064",
-    "latitude": 29.875,
-    "longitude": -95.5536,
+    "latitude": 29.928,
+    "longitude": -95.552,
     "distance": [
       "5K"
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://honor.usvets.org/event/steps-for-vets-houston/e725803",
-    "source_url": "https://harra.org/",
-    "description": "A peer-to-peer fundraising 5K run, walk, and roll benefiting U.S.VETS Houston, supporting the organization's mission to prevent and end veteran homelessness."
+    "official_website_url": "https://raceroster.com/events/2026/118716/steps-for-vets-5k",
+    "source_url": "https://harra.org/racing",
+    "description": "Second annual peer-to-peer fundraising 5K at Sam Houston Race Park supporting U.S.VETS' mission to prevent and end veteran homelessness in the Houston area."
   },
   {
     "id": "stop-the-silence-5k-2026",
-    "name": "Sisters Network Inc. 16th Annual Stop the Silence 5K Walk/Run",
+    "name": "Sisters Network 16th Annual Stop the Silence 5K Walk/Run",
     "date": "2026-04-18",
-    "start_time": null,
+    "start_time": "09:00",
     "tz": "America/Chicago",
     "address": "3452 Fellows Rd",
     "city": "Houston",
     "state": "TX",
     "zip": "77047",
-    "latitude": 29.6464,
-    "longitude": -95.3817,
+    "latitude": 29.602,
+    "longitude": -95.381,
     "distance": [
-      "5K"
+      "5K",
+      "Kids"
     ],
     "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/StoptheSilenceWalk?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://www.stopthesilencewalk.org/",
-    "description": "The 16th Annual Stop the Silence 5K Walk/Run at Tom Bass Regional Park benefits the Karen E. Jackson Breast Cancer Assistance Program, supporting Black women affected by breast cancer. The Sisters Network Inc. event attracts approximately 3,000 participants and raises awareness for early detection and support resources."
+    "kid_run": true,
+    "official_website_url": "https://www.stopthesilencewalk.org/",
+    "source_url": "https://findarace.com/us/events/sisters-network-inc-16th-annual-stop-the-silence-5k-walk-run-april-18-2026",
+    "description": "Sisters Network's 16th annual 5K walk/run at Tom Bass Regional Park raising awareness about breast cancer among African American women. Includes a kids walk/run option."
   },
   {
     "id": "terry-hershey-parkrun-2026-04-18",
@@ -478,29 +481,52 @@
   },
   {
     "id": "space-city-gym-5k-10k-2026",
-    "name": "Space City Gym 5k/10k",
+    "name": "Space City Gym 5K/10K",
     "date": "2026-04-18",
-    "start_time": null,
+    "start_time": "08:00",
     "tz": "America/Chicago",
     "address": "20634 Kenswick Dr",
     "city": "Humble",
     "state": "TX",
     "zip": "77338",
-    "latitude": 30.0069,
-    "longitude": -95.2634,
+    "latitude": 30.033,
+    "longitude": -95.315,
     "distance": [
       "5K",
       "10K"
     ],
+    "surface": "trail",
+    "kid_run": false,
+    "official_website_url": "https://findarace.com/us/events/space-city-gym-5k-10k",
+    "source_url": "https://findarace.com/us/events/space-city-gym-5k-10k",
+    "description": "Third annual 5K and 10K through the trails and pathways of Jesse Jones Park in Humble, organized by Space City Gym. Course winds through lush trails and open pathways."
+  },
+  {
+    "id": "pirate-5k-10k-half-deer-park-2026",
+    "name": "Pirate 5K, 10K & 13.1M at Deer Park",
+    "date": "2026-04-18",
+    "start_time": "08:00",
+    "tz": "America/Chicago",
+    "address": "801 E P St",
+    "city": "Deer Park",
+    "state": "TX",
+    "zip": "77536",
+    "latitude": 29.705,
+    "longitude": -95.113,
+    "distance": [
+      "5K",
+      "10K",
+      "Half Marathon"
+    ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Humble/SpaceCity5k10k?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Humble/SpaceCity5k10k?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "description": "A running race in Humble, TX."
+    "official_website_url": "https://usroadrunning.com",
+    "source_url": "https://findarace.com/us/events/pirate-5k-10k-13-1m-at-deer-park-tx-16",
+    "description": "Multi-distance loop course race at Dow Park in Deer Park organized by US Road Running. Participants are encouraged to run in pirate-themed costumes for prize consideration."
   },
   {
     "id": "space-city-half-marathon-2026",
-    "name": "Space City Half Marathon, 10k, 5k, & Mile",
+    "name": "Space City Half Marathon, 10K, 5K & Mile",
     "date": "2026-04-19",
     "start_time": "07:00",
     "tz": "America/Chicago",
@@ -508,8 +534,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77092",
-    "latitude": 29.8121,
-    "longitude": -95.4483,
+    "latitude": 29.8101,
+    "longitude": -95.4625,
     "distance": [
       "1 Mile",
       "5K",
@@ -518,22 +544,22 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/SpaceCityHalf?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://www.spacecityhalf.com/",
-    "description": "The debut Space City Half Marathon makes its first appearance as the Season Opener of the Lone Star Race Series, offering a flat, fast course through Houston's westside inner-loop. The event is produced by the team behind the popular Houston Turkey Dash and includes half marathon, 10K, 5K, and mile distances."
+    "official_website_url": "https://www.spacecityhalf.com/",
+    "source_url": "https://www.spacecityhalf.com/schedule",
+    "description": "Inaugural spring half marathon on a fast, flat course through Houston's westside inner-loop, starting and finishing at Delmar-Tuso Sports Complex. Also the finale of the Lone Star Race Series."
   },
   {
     "id": "running-through-the-decades-houston-2026",
-    "name": "Running through the Decades Half Marathon - Houston",
+    "name": "Running Through the Decades Half Marathon - Houston",
     "date": "2026-04-19",
     "start_time": null,
     "tz": "America/Chicago",
-    "address": "18427 Southwest Fwy",
+    "address": "Sugar Land, TX",
     "city": "Sugar Land",
     "state": "TX",
     "zip": "77479",
-    "latitude": 29.6085,
-    "longitude": -95.5901,
+    "latitude": null,
+    "longitude": null,
     "distance": [
       "1 Mile",
       "5K",
@@ -542,9 +568,9 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Sugarland/RunningThroughTheDecadesHalfMarathonHouston?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Sugarland/RunningThroughTheDecadesHalfMarathonHouston",
-    "description": "The 1980s Edition of Bigfoot Running Company's themed half marathon series, set at Brazos River Park in Sugar Land with a pre-race costume contest and 80s music throughout. Distances include a Kids Dash, 1 Mile, 5K, Quarter Marathon (6.55 miles), and Half Marathon."
+    "official_website_url": "https://bigfootrunningco.com/",
+    "source_url": "https://www.runguides.com/event/34023/running-through-the-decades-half-marathon-houston",
+    "description": "80s-themed multi-distance road race in Sugar Land featuring a costume contest, live DJ, and post-race celebration. Organized by Bigfoot Running Company with distances from 1 mile to half marathon."
   },
   {
     "id": "inaugural-kalayaan-5k-fun-run-2026",
@@ -571,22 +597,22 @@
     "id": "bayou-bash-relay-2026",
     "name": "Bayou Bash Relay",
     "date": "2026-04-25",
-    "start_time": null,
+    "start_time": "13:00",
     "tz": "America/Chicago",
-    "address": "4201 TC Jester Blvd",
+    "address": "4201 T C Jester Blvd",
     "city": "Houston",
     "state": "TX",
     "zip": "77018",
-    "latitude": 29.8201,
-    "longitude": -95.4307,
+    "latitude": 29.8178,
+    "longitude": -95.4352,
     "distance": [
       "5K"
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/BayouBash?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/Info/TX/Houston/BayouBash",
-    "description": "A 4-person x 2.2 mile relay at T.C. Jester Park presented by the Bayou City Road Runners on paved and crushed granite trails. A HARRA Spring Series race followed by the HARRA end-of-year family picnic."
+    "official_website_url": "https://www.bcrr.org/bayou-bash-relay.html",
+    "source_url": "https://www.bcrr.org/bayou-bash-relay.html",
+    "description": "A 4-person x 2.2-mile relay on paved and crushed granite trails at T.C. Jester Park, followed by the HARRA Family Picnic. Part of the HARRA Spring Race Series, hosted by Bayou City Road Runners."
   },
   {
     "id": "donot-stop-half-marathon-2026",
@@ -615,7 +641,7 @@
   },
   {
     "id": "galveston-island-brewing-5k-2026",
-    "name": "Galveston Island Brewing Co 5K Beer Run",
+    "name": "Galveston Island Brewing Co. 5K Beer Run",
     "date": "2026-04-25",
     "start_time": null,
     "tz": "America/Chicago",
@@ -623,8 +649,8 @@
     "city": "Galveston",
     "state": "TX",
     "zip": "77554",
-    "latitude": 29.2666,
-    "longitude": -94.8924,
+    "latitude": 29.2659,
+    "longitude": -94.8608,
     "distance": [
       "5K"
     ],
@@ -632,7 +658,7 @@
     "kid_run": false,
     "official_website_url": "https://www.runintexas.com/galveston",
     "source_url": "https://www.runintexas.com/galveston",
-    "description": "A chip-timed 5K beer run starting and finishing at Galveston Island Brewing Co., running along the Seawall on a flat out-and-back course with ocean views. Entry includes a souvenir pint glass and post-race beer tastings."
+    "description": "Chip-timed 5K starting and finishing at Galveston Island Brewing, running along the Galveston Seawall. Part of the Texas 5K 6-Pack Beer Challenge series. Entry includes a finisher glass, four 8-oz beer tastings, and a tech tee. Benefits the Galveston Island Humane Society."
   },
   {
     "id": "smilin-rylen-fun-run-2026",
@@ -659,24 +685,48 @@
   },
   {
     "id": "strides-for-schools-fun-run-2026",
-    "name": "17th Annual Strides for Schools Fun Run",
+    "name": "Strides for Schools 5K Fun Run/Walk",
     "date": "2026-04-25",
     "start_time": "08:00",
     "tz": "America/Chicago",
-    "address": "710 W San Augustine",
+    "address": "710 W San Augustine St",
     "city": "Deer Park",
     "state": "TX",
     "zip": "77536",
-    "latitude": 29.7055,
-    "longitude": -95.1238,
+    "latitude": 29.6986,
+    "longitude": -95.1293,
     "distance": [
       "5K"
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://www.stridesforschools.com",
-    "source_url": "https://helpdpkids.org/shell-dp-strides-for-schools-fun-run/",
-    "description": "A community 5K fun run starting and finishing at the parking lot of Clyde Abshier Stadium near Deer Park High School South Campus, presented by Shell Deer Park. All proceeds benefit the Deer Park Education Foundation's teacher enhancement grant program."
+    "official_website_url": "https://helpdpkids.org/shell-dp-strides-for-schools-fun-run/",
+    "source_url": "https://thedriven.net/cw/strides-for-schools-fun-run/",
+    "description": "Annual community 5K fun run/walk at Clyde Abshier Stadium presented by Shell Deer Park, with 100% of registration proceeds benefiting the Deer Park Education Foundation."
+  },
+  {
+    "id": "coffee-lovers-run-houston-2026",
+    "name": "Coffee Lovers Run 5K/10K/13.1 Houston",
+    "date": "2026-04-25",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "3600 Allen Pkwy",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77019",
+    "latitude": 29.7604,
+    "longitude": -95.3899,
+    "distance": [
+      "1 Mile",
+      "5K",
+      "10K",
+      "Half Marathon"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://www.coffeeloversrun.com/",
+    "source_url": "https://www.runguides.com/houston/runs",
+    "description": "Coffee-themed group run at Eleanor Tinsley Park along Allen Parkway. Participants receive a finisher medal, running t-shirt, and giveaway. Open to all paces and ages."
   },
   {
     "id": "divas-galveston-half-marathon-2026",
@@ -688,8 +738,8 @@
     "city": "Galveston",
     "state": "TX",
     "zip": "77550",
-    "latitude": 29.2893,
-    "longitude": -94.8057,
+    "latitude": 29.2854,
+    "longitude": -94.7916,
     "distance": [
       "5K",
       "Half Marathon"
@@ -698,30 +748,30 @@
     "kid_run": false,
     "official_website_url": "https://divasrun.com/galveston-tx/",
     "source_url": "https://divasrun.com/galveston-tx/",
-    "description": "A women's half marathon and 5K held along Galveston's iconic Seawall Boulevard, starting and finishing at Beach Central Park. Part of the national Divas Running Series, this flat coastal course runs along the Gulf of Mexico from start to finish, with glamorous finisher swag including a tutu, tiara, and medal."
+    "description": "All-women's half marathon and 5K along Galveston's scenic Seawall with ocean views. Every participant receives a designer race shirt, finisher medal, tutu, and tiara. A portion of proceeds benefits a local women's charity."
   },
   {
     "id": "vintage-half-marathon-2026",
-    "name": "Vintage Half Marathon, 5K & Kid's K presented by Houston Methodist",
+    "name": "Vintage Half Marathon, 5K & Kid's K",
     "date": "2026-04-26",
-    "start_time": null,
+    "start_time": "07:30",
     "tz": "America/Chicago",
     "address": "16715 Stuebner Airline Rd",
-    "city": "Houston",
+    "city": "Klein",
     "state": "TX",
     "zip": "77379",
-    "latitude": 29.9711,
-    "longitude": -95.5516,
+    "latitude": 30.012,
+    "longitude": -95.5646,
     "distance": [
-      "5K",
       "Half Marathon",
+      "5K",
       "Kids"
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Klein/VintageParkHalfMarathon?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Klein/VintageParkHalfMarathon",
-    "description": "A half marathon, 5K, and Kids 1K starting and finishing at Klein High School in the Klein/Spring area of north Houston, part of the Run Houston Race Series presented by Houston Methodist. The race draws 1,000\u20135,000 participants across its distance options."
+    "official_website_url": "https://txruns.com/vintagehalfmarathon",
+    "source_url": "https://txruns.com/vintagehalfmarathon",
+    "description": "Part of the Run Houston Race Series presented by Houston Methodist. Starting at Klein High School, this event features a half marathon, timed and untimed 5K, and a Kid's 1K."
   },
   {
     "id": "biz-run-2026",
@@ -1032,24 +1082,48 @@
     "id": "fuzzys-taco-dash-sugar-land-2026",
     "name": "Fuzzy's Taco Dash Sugar Land",
     "date": "2026-05-03",
-    "start_time": "08:00",
+    "start_time": null,
     "tz": "America/Chicago",
-    "address": "1912 Wescott Ave Ste 250",
+    "address": null,
     "city": "Sugar Land",
     "state": "TX",
     "zip": "77479",
-    "latitude": 29.5932,
-    "longitude": -95.6219,
+    "latitude": null,
+    "longitude": null,
     "distance": [
       "5K",
       "10K",
       "Kids"
     ],
-    "surface": "trail",
+    "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Sugarland/SugarlandTacoDash?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Sugarland/SugarlandTacoDash",
-    "description": "Inaugural taco-themed trail race along Sugar Land Greenbelt Trails. Features 10K relay where each leg requires making a taco before tagging a partner, plus kids dash, post-race tacos, and margaritas."
+    "official_website_url": "https://www.runguides.com/houston/runs",
+    "source_url": "https://www.runguides.com/houston/runs",
+    "description": "Cinco de Mayo-themed 5K, 10K, relay, and kids run in Sugar Land in partnership with Fuzzy's Tacos & Margs. Post-race festivities include food and celebration."
+  },
+  {
+    "id": "cinco-cinco-5k-2026",
+    "name": "The Cinco Cinco 5K",
+    "date": "2026-05-03",
+    "start_time": "07:30",
+    "tz": "America/Chicago",
+    "address": "2032 Karbach St",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77092",
+    "latitude": 29.8123,
+    "longitude": -95.453,
+    "distance": [
+      "1 Mile",
+      "5K",
+      "10K",
+      "Kids"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": "https://houstonrunning.co/thecincocinco/",
+    "source_url": "https://patch.com/texas/houston/spice-your-stride-3rd-annual-cinco-cinco-5k-10k-1k",
+    "description": "Annual Cinco de Mayo celebration hosted by Houston Running Co at Karbach Brewing Company. The event features 5K, 10K, and Kids 1K distances plus a post-race fiesta with music, a Cinco de Mayo market, and beverages. Proceeds benefit Ainsley's Angels, The Asher House, and LifeGift."
   },
   {
     "id": "texas-crab-festival-5k-2026",
