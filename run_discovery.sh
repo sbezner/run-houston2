@@ -66,7 +66,7 @@ cat > "$WORKER" << 'WORKER_EOF'
 REPO_DIR="REPO_DIR_PLACEHOLDER"
 INSTRUCTIONS_FILE="$REPO_DIR/prompts/run_discovery.md"
 DOWNLOADS_DIR="$HOME/Downloads"
-COOLDOWN=3600          # 60 min between weeks (Pro plan rate limit buffer)
+COOLDOWN=7200          # 2 hours between weeks (Pro plan, safe for long unattended runs)
 RETRY_WAIT=14400       # 4 hours before retry
 PROGRESS_LOG="$REPO_DIR/discovery-progress.log"
 START_DATE="START_DATE_PLACEHOLDER"
@@ -210,7 +210,7 @@ while [ "$CURRENT_EPOCH" -le "$END_EPOCH" ]; do
     CURRENT_EPOCH=$((CURRENT_EPOCH + 604800))
 
     if [ "$CURRENT_EPOCH" -le "$END_EPOCH" ]; then
-        log "Resting for 60 mins before next week..."
+        log "Resting for 2 hours before next week..."
         sleep $COOLDOWN
     fi
 done
