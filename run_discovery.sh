@@ -164,6 +164,7 @@ while [ "$CURRENT_EPOCH" -le "$END_EPOCH" ]; do
     fi
 
     # --- Step 3: Claude Code with retry ---
+    CLAUDE_OK=true
     log "Step 3: Claude Code searching non-RunSignUp sources..."
     if run_claude "$WEEK_START" "$WEEK_END"; then
         log "  Claude Code succeeded."
@@ -176,6 +177,7 @@ while [ "$CURRENT_EPOCH" -le "$END_EPOCH" ]; do
             log "  Retry succeeded."
         else
             log "  Retry FAILED. Skipping week $WEEK_START."
+            CLAUDE_OK=false
             FAILED_WEEKS="$FAILED_WEEKS $WEEK_START"
             echo "$(date '+%Y-%m-%d %I:%M:%S %p') FAILED: $WEEK_START to $WEEK_END" >> "$PROGRESS_LOG"
         fi
@@ -198,8 +200,12 @@ while [ "$CURRENT_EPOCH" -le "$END_EPOCH" ]; do
     # --- Summary for this week ---
     TOTAL=$(python3 -c "import json; print(len(json.load(open('data/races-upcoming.json'))))")
     log ""
-    log "WEEK $WEEK_NUM COMPLETE: $WEEK_START to $WEEK_END | Total races: $TOTAL"
-    echo "$(date '+%Y-%m-%d %I:%M:%S %p') OK: $WEEK_START to $WEEK_END (total: $TOTAL)" >> "$PROGRESS_LOG"
+    if [ "$CLAUDE_OK" = true ]; then
+        log "WEEK $WEEK_NUM COMPLETE: $WEEK_START to $WEEK_END | Total races: $TOTAL"
+        echo "$(date '+%Y-%m-%d %I:%M:%S %p') OK: $WEEK_START to $WEEK_END (total: $TOTAL)" >> "$PROGRESS_LOG"
+    else
+        log "WEEK $WEEK_NUM PARTIAL (Claude failed): $WEEK_START to $WEEK_END | Total races: $TOTAL"
+    fi
 
     CURRENT_EPOCH=$((CURRENT_EPOCH + 604800))
 
