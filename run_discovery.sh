@@ -204,7 +204,7 @@ while [ "$CURRENT_EPOCH" -le "$END_EPOCH" ]; do
     CURRENT_EPOCH=$((CURRENT_EPOCH + 604800))
 
     if [ "$CURRENT_EPOCH" -le "$END_EPOCH" ]; then
-        log "Resting for 20 mins before next week..."
+        log "Resting for 60 mins before next week..."
         sleep $COOLDOWN
     fi
 done
