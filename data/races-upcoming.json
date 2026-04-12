@@ -1103,18 +1103,17 @@
   },
   {
     "id": "cinco-cinco-5k-2026",
-    "name": "The Cinco Cinco 5K",
+    "name": "The Cinco Cinco 5K, 10K & Kids 1K",
     "date": "2026-05-03",
     "start_time": "07:30",
     "tz": "America/Chicago",
-    "address": "2032 Karbach St",
+    "address": "2032 Karbach Street",
     "city": "Houston",
     "state": "TX",
     "zip": "77092",
-    "latitude": 29.8123,
-    "longitude": -95.453,
+    "latitude": 29.8059,
+    "longitude": -95.4606,
     "distance": [
-      "1 Mile",
       "5K",
       "10K",
       "Kids"
@@ -1122,8 +1121,8 @@
     "surface": "road",
     "kid_run": true,
     "official_website_url": "https://houstonrunning.co/thecincocinco/",
-    "source_url": "https://patch.com/texas/houston/spice-your-stride-3rd-annual-cinco-cinco-5k-10k-1k",
-    "description": "Annual Cinco de Mayo celebration hosted by Houston Running Co at Karbach Brewing Company. The event features 5K, 10K, and Kids 1K distances plus a post-race fiesta with music, a Cinco de Mayo market, and beverages. Proceeds benefit Ainsley's Angels, The Asher House, and LifeGift."
+    "source_url": "https://findarace.com/us/events/el-cinco-cinco",
+    "description": "Annual Cinco de Mayo celebration hosted by Houston Running Co. at Karbach Brewing Company. Participants are encouraged to dress in fiesta attire and enjoy a post-race Cinco de Mayo market. Proceeds benefit Ainsley's Angels Southeast Texas, The Asher House Animal Sanctuary, and LifeGift Organ Donation."
   },
   {
     "id": "texas-crab-festival-5k-2026",
@@ -1201,17 +1200,17 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77030",
-    "latitude": 29.704,
-    "longitude": -95.4,
+    "latitude": 29.7055,
+    "longitude": -95.3988,
     "distance": [
       "5K",
       "Kids"
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://www.mdanderson.org/donors-volunteers/other-ways-to-help/attend-events/sprint-for-life.html",
+    "official_website_url": "https://www.sprintforlife.com",
     "source_url": "https://findarace.com/us/events/29th-annual-sprint-for-life-5k-run-walk",
-    "description": "Annual charity 5K at Helix Park in the Texas Medical Center supporting MD Anderson's Blanton-Davis Ovarian Cancer Research Program. Includes a Sprint for Sprouts kids' run. The event has raised more than $5.8 million for ovarian cancer research."
+    "description": "Charity 5K at Helix Park in the Texas Medical Center benefiting ovarian cancer research at MD Anderson Cancer Center. Since 1998, Sprint for Life has raised over $5.8 million for the Blanton-Davis Ovarian Cancer Research Program. Includes a Sprint for Sprouts/Tot Trot kids race at 9:15 AM."
   },
   {
     "id": "yagas-wild-5k-fun-run-2026",
@@ -1261,12 +1260,12 @@
     "date": "2026-05-10",
     "start_time": "07:00",
     "tz": "America/Chicago",
-    "address": "18427 Southwest Freeway",
+    "address": "18427 SW Freeway",
     "city": "Sugar Land",
     "state": "TX",
     "zip": "77479",
-    "latitude": 29.5946,
-    "longitude": -95.6327,
+    "latitude": 29.5712,
+    "longitude": -95.6611,
     "distance": [
       "1 Mile",
       "5K",
@@ -1276,9 +1275,9 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://findarace.com/us/events/hometown-half-marathon-5k-10k-houston",
-    "source_url": "https://www.runguides.com/event/24083/hometown-half-marathon-5k-10k-houston",
-    "description": "Family-friendly running event at Brazos River Park in Sugar Land offering distances from a kids' dash through half marathon. Features chip timing, live results, and pacers for the half marathon."
+    "official_website_url": "https://runsignup.com/Race/TX/SugarLand/HometownHalfMarathon5k10kHouston?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://findarace.com/us/events/hometown-half-marathon-5k-10k-houston",
+    "description": "Family-friendly race at Brazos River Park in Sugar Land featuring chip-timed events from a Kids Dash through a half marathon. Includes pacers for the half marathon, free photos, designer shirts, and custom finisher medals."
   },
   {
     "id": "legacy-of-courage-half-marathon-houston-2026",
@@ -1286,23 +1285,23 @@
     "date": "2026-05-10",
     "start_time": null,
     "tz": "America/Chicago",
-    "address": "Burroughs Park",
+    "address": "9738 Hufsmith Road",
     "city": "Tomball",
     "state": "TX",
-    "zip": null,
-    "latitude": 30.1277,
-    "longitude": -95.5783,
+    "zip": "77375",
+    "latitude": 30.131,
+    "longitude": -95.5768,
     "distance": [
       "1 Mile",
       "5K",
       "Half Marathon",
       "Kids"
     ],
-    "surface": "trail",
+    "surface": "road",
     "kid_run": true,
     "official_website_url": "https://runsignup.com/Race/TX/Tomball/LegacyOfCourageHalfMarathonHouston?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Tomball/LegacyOfCourageHalfMarathonHouston",
-    "description": "A trail half marathon through the 320-acre Burroughs Park in Tomball on well-maintained hiking trails beneath a canopy of pine trees. Also offers 1 Mile, 5K, and Kids Dash options. Proceeds benefit The Outdoor Disabled Veterans Program through Knowledge Point Network."
+    "source_url": "https://www.runguides.com/event/31485/legacy-of-courage-half-marathon-houston",
+    "description": "Race at Burroughs Park in Tomball honoring disabled veterans. All proceeds benefit The Outdoor Disabled Veterans Program (The ODV) through Knowledge Point Network. Also includes a quarter marathon distance."
   },
   {
     "id": "5k-mamas-fun-run-2026",
