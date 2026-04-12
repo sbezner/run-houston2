@@ -78,7 +78,7 @@ caffeinate -i -w $$ &
 LOG_FILE="$REPO_DIR/discovery-run.log"
 
 log() {
-    local msg="[$(date '+%Y-%m-%d %H:%M:%S')] $*"
+    local msg="[$(date '+%Y-%m-%d %I:%M:%S %p')] $*"
     echo "$msg"
     echo "$msg" >> "$LOG_FILE"
 }
@@ -177,7 +177,7 @@ while [ "$CURRENT_EPOCH" -le "$END_EPOCH" ]; do
         else
             log "  Retry FAILED. Skipping week $WEEK_START."
             FAILED_WEEKS="$FAILED_WEEKS $WEEK_START"
-            echo "$(date '+%Y-%m-%d %H:%M:%S') FAILED: $WEEK_START to $WEEK_END" >> "$PROGRESS_LOG"
+            echo "$(date '+%Y-%m-%d %I:%M:%S %p') FAILED: $WEEK_START to $WEEK_END" >> "$PROGRESS_LOG"
         fi
     fi
 
@@ -199,7 +199,7 @@ while [ "$CURRENT_EPOCH" -le "$END_EPOCH" ]; do
     TOTAL=$(python3 -c "import json; print(len(json.load(open('data/races-upcoming.json'))))")
     log ""
     log "WEEK $WEEK_NUM COMPLETE: $WEEK_START to $WEEK_END | Total races: $TOTAL"
-    echo "$(date '+%Y-%m-%d %H:%M:%S') OK: $WEEK_START to $WEEK_END (total: $TOTAL)" >> "$PROGRESS_LOG"
+    echo "$(date '+%Y-%m-%d %I:%M:%S %p') OK: $WEEK_START to $WEEK_END (total: $TOTAL)" >> "$PROGRESS_LOG"
 
     CURRENT_EPOCH=$((CURRENT_EPOCH + 604800))
 
