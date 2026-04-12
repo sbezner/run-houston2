@@ -796,8 +796,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77005",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.7168,
+    "longitude": -95.4048,
     "distance": [
       "5K"
     ],
@@ -817,8 +817,8 @@
     "city": "Spring",
     "state": "TX",
     "zip": "77379",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 30.0265,
+    "longitude": -95.5028,
     "distance": [
       "5K",
       "Kids"
@@ -1017,8 +1017,8 @@
     "city": "Kingwood",
     "state": "TX",
     "zip": "77339",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 30.0488,
+    "longitude": -95.1861,
     "distance": [
       "5K",
       "10K",
@@ -1040,8 +1040,8 @@
     "city": "Tomball",
     "state": "TX",
     "zip": "77377",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 30.1004,
+    "longitude": -95.652,
     "distance": [
       "5K"
     ],
@@ -1106,8 +1106,8 @@
     "city": "Sugar Land",
     "state": "TX",
     "zip": "77479",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.5932,
+    "longitude": -95.6219,
     "distance": [
       "5K",
       "10K",
@@ -1142,25 +1142,25 @@
   },
   {
     "id": "texas-crab-festival-5k-2026",
-    "name": "Texas Crab Festival 5K Fun Run",
+    "name": "Texas Crab Festival 5K",
     "date": "2026-05-09",
-    "start_time": null,
+    "start_time": "08:00",
     "tz": "America/Chicago",
-    "address": null,
+    "address": "1605 Highway 87",
     "city": "Crystal Beach",
     "state": "TX",
-    "zip": null,
-    "latitude": null,
-    "longitude": null,
+    "zip": "77650",
+    "latitude": 29.47,
+    "longitude": -94.654,
     "distance": [
       "5K",
       "Kids"
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/CrystalBeach/TexasCrabFestivalFunRun?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/CrystalBeach/TexasCrabFestivalFunRun",
-    "description": "Chip-timed 5K and Kids 1K Run/Walk held during the annual Texas Crab Festival weekend at Camp Margaritaville Resort Crystal Beach on the Bolivar Peninsula."
+    "official_website_url": "https://texascrabfestival.org/events/",
+    "source_url": "https://texascrabfestival.org/events/",
+    "description": "Timed 5K on a certified course at Swedes Park on the Bolivar Peninsula, kicking off the annual Texas Crab Festival. Includes a Kids 1K. Participants are encouraged to wear crab costumes."
   },
   {
     "id": "ycf-5k-galveston-2026",
@@ -1212,21 +1212,21 @@
     "date": "2026-05-09",
     "start_time": "07:30",
     "tz": "America/Chicago",
-    "address": "7255 Helix Park Ave",
+    "address": "7255 Helix Park Avenue",
     "city": "Houston",
     "state": "TX",
-    "zip": null,
-    "latitude": null,
-    "longitude": null,
+    "zip": "77030",
+    "latitude": 29.704,
+    "longitude": -95.4,
     "distance": [
       "5K",
       "Kids"
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/ANNUALSPRINTFORLIFE?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Houston/ANNUALSPRINTFORLIFE",
-    "description": "MD Anderson Cancer Center's annual 5K near the Texas Medical Center supporting ovarian cancer research. Has raised over $5.8 million for the Blanton-Davis Ovarian Cancer Research Program since 1998."
+    "official_website_url": "https://www.mdanderson.org/donors-volunteers/other-ways-to-help/attend-events/sprint-for-life.html",
+    "source_url": "https://findarace.com/us/events/29th-annual-sprint-for-life-5k-run-walk",
+    "description": "Annual charity 5K at Helix Park in the Texas Medical Center supporting MD Anderson's Blanton-Davis Ovarian Cancer Research Program. Includes a Sprint for Sprouts kids' run. The event has raised more than $5.8 million for ovarian cancer research."
   },
   {
     "id": "yagas-wild-5k-fun-run-2026",
@@ -1280,8 +1280,8 @@
     "city": "Galveston",
     "state": "TX",
     "zip": "77554",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.2571,
+    "longitude": -94.8439,
     "distance": [
       "5K"
     ],
@@ -1297,12 +1297,12 @@
     "date": "2026-05-10",
     "start_time": "07:00",
     "tz": "America/Chicago",
-    "address": "18427 SW Freeway",
+    "address": "18427 Southwest Freeway",
     "city": "Sugar Land",
     "state": "TX",
     "zip": "77479",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.5946,
+    "longitude": -95.6327,
     "distance": [
       "1 Mile",
       "5K",
@@ -1312,9 +1312,9 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/HometownHalfMarathon5k10kHouston?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Houston/HometownHalfMarathon5k10kHouston",
-    "description": "Family-friendly spring race at Brazos River Park emphasizing Fun, Family, Fitness. Includes chip-timing, custom finisher medals, free photos, and an untimed Kids' Dash for ages 10 and under."
+    "official_website_url": "https://findarace.com/us/events/hometown-half-marathon-5k-10k-houston",
+    "source_url": "https://www.runguides.com/event/24083/hometown-half-marathon-5k-10k-houston",
+    "description": "Family-friendly running event at Brazos River Park in Sugar Land offering distances from a kids' dash through half marathon. Features chip timing, live results, and pacers for the half marathon."
   },
   {
     "id": "legacy-of-courage-half-marathon-houston-2026",
@@ -1388,22 +1388,22 @@
     "id": "houston-humane-society-k9-fun-run-2026",
     "name": "Houston Humane Society 44th Annual K9 Fun Run + Walk",
     "date": "2026-05-16",
-    "start_time": "09:30",
+    "start_time": "09:00",
     "tz": "America/Chicago",
-    "address": "2101 Summer St",
+    "address": "2101 Summer Street",
     "city": "Houston",
     "state": "TX",
     "zip": "77007",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.7711,
+    "longitude": -95.3744,
     "distance": [
       "5K"
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/HoustonHumaneSocietyK9FunRunandWalk?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Houston/HoustonHumaneSocietyK9FunRunandWalk",
-    "description": "Dog-friendly 3.2K (2-mile) timed run and walk at Sawyer Yards. Features an alumni parade of adopted pets, costume contest, and awards for top finishers. Dogs must remain leashed."
+    "official_website_url": "https://www.houstonhumane.org/fundraisers/k9-fun-run-walk",
+    "source_url": "https://findarace.com/us/events/houston-humane-society-44th-annual-k9-fun-run-walk",
+    "description": "Annual charity fun run and walk benefiting the Houston Humane Society, featuring a 3.2K dog-friendly course through the Sawyer Yards area. Includes a timed competitive run, alumni parade of adopted pets, and costume contest."
   },
   {
     "id": "santa-fe-ten-memorial-run-2026",
@@ -1411,21 +1411,21 @@
     "date": "2026-05-16",
     "start_time": "08:00",
     "tz": "America/Chicago",
-    "address": null,
+    "address": "5700 FM 2004",
     "city": "Hitchcock",
     "state": "TX",
     "zip": "77563",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.3467,
+    "longitude": -95.0178,
     "distance": [
       "5K",
       "Kids"
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Hitchcock/SantaFeTenMemorialRunInRemembrance?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Hitchcock/SantaFeTenMemorialRunInRemembrance",
-    "description": "Annual 5K run/walk and kids 1K at Jack Brooks Park to remember the ten lives lost at Santa Fe High School on May 18, 2018."
+    "official_website_url": "https://www.sftenmemorial.org/",
+    "source_url": "https://www.houstonrunningcalendar.com/2026/",
+    "description": "Annual memorial run at Jack Brooks Park honoring the ten victims of the May 18, 2018 Santa Fe High School shooting. Proceeds support the Santa Fe Ten Memorial Foundation, building a permanent memorial."
   },
   {
     "id": "terlingua-track-club-lp-run-2026",
@@ -1458,8 +1458,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77020",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.7711,
+    "longitude": -95.3485,
     "distance": [
       "5K",
       "10K",
@@ -1477,12 +1477,12 @@
     "date": "2026-05-16",
     "start_time": "08:00",
     "tz": "America/Chicago",
-    "address": "4033 State Highway 6 S",
+    "address": "4033 State Highway 6 South",
     "city": "Sugar Land",
     "state": "TX",
     "zip": "77479",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.589,
+    "longitude": -95.636,
     "distance": [
       "1 Mile",
       "5K",
@@ -1491,9 +1491,9 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/SugarLand/TheWienerRun5K10KHouston?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "official_website_url": "https://www.bigfootraces.com/w/BigfootRunningCompany/Page/The-Wiener-Run",
     "source_url": "https://findarace.com/us/events/the-wiener-run-5k-10k-houston",
-    "description": "Community run at Oyster Creek Park featuring BBQ, live music, and support for a local wiener dog rescue. Every finisher receives a free hot dog and beverage."
+    "description": "A spring running event at Oyster Creek Park featuring 10K, 5K, 1 Mile, and Kids Dash distances. Supports a local wiener dog rescue group, with finishers receiving complimentary hot dogs, medals, and live music."
   },
   {
     "id": "mindy-moses-5k-memorial-fun-run-2026",
@@ -1518,16 +1518,16 @@
   },
   {
     "id": "run-houston-clear-lake-2026",
-    "name": "Run Houston! Clear Lake 5K & 10K",
+    "name": "Run Houston! Clear Lake 5K & 10K presented by Houston Methodist",
     "date": "2026-05-17",
     "start_time": "07:15",
     "tz": "America/Chicago",
-    "address": null,
+    "address": "635 Bayou Road West",
     "city": "Houston",
     "state": "TX",
-    "zip": null,
-    "latitude": null,
-    "longitude": null,
+    "zip": "77058",
+    "latitude": 29.571,
+    "longitude": -95.1014,
     "distance": [
       "5K",
       "10K",
@@ -1535,9 +1535,9 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/RunHoustonClearLake?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Houston/RunHoustonClearLake",
-    "description": "Part of the Run Houston Race Series presented by Houston Methodist. 10K starts at 7:15 AM, 5K at 8:15 AM, Kids K at 9:15 AM. Supports Sole Loved children's shoe charity."
+    "official_website_url": "https://www.runclearlake.com/Race/Events/TX/Houston/RunHoustonClearLake",
+    "source_url": "https://findarace.com/us/events/run-houston-clear-lake-5k-10k-presented-by-houston-methodist",
+    "description": "Part of the Run Houston! Race Series presented by Houston Methodist. The third race in the Spring Series features 10K, 5K, and Kids 1K distances on an out-and-back course starting at the University of Houston-Clear Lake campus."
   },
   {
     "id": "fit-foodie-family-5k-2026",
@@ -1549,17 +1549,17 @@
     "city": "Sugar Land",
     "state": "TX",
     "zip": "77479",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.5934,
+    "longitude": -95.6225,
     "distance": [
       "5K",
       "Kids"
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/SugarLand/fitfoodiele?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/SugarLand/fitfoodiele",
-    "description": "Spring 5K and Kids' 1K at Sugar Land Town Square featuring a post-race party with live entertainment, food, and family activities. Benefits Kids' Meals, Inc."
+    "official_website_url": "https://visitsugarlandtx.com/do/fit-foodie-family-5k-and-kids-1k",
+    "source_url": "https://findarace.com/us/events/fit-foodie-family-5k-kids-1k",
+    "description": "Family-friendly race at Sugar Land Town Square benefiting Kids' Meals, Inc. Features a post-race festival with live entertainment, recovery services, food vendors, and family activities."
   },
   {
     "id": "run-for-mental-health-houston-2026",
@@ -1676,7 +1676,7 @@
   },
   {
     "id": "memorial-day-run-houston-2026",
-    "name": "Memorial Day Run",
+    "name": "Memorial Day 10K/5K & Half Marathon",
     "date": "2026-05-25",
     "start_time": "07:00",
     "tz": "America/Chicago",
@@ -1684,10 +1684,9 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77007",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.7605,
+    "longitude": -95.4071,
     "distance": [
-      "1 Mile",
       "5K",
       "10K",
       "Half Marathon",
@@ -1696,21 +1695,21 @@
     "surface": "road",
     "kid_run": true,
     "official_website_url": "https://houstonrunning.co/memorialday/",
-    "source_url": "https://runsignup.com/Race/TX/Houston/MemorialDayHouston",
-    "description": "Houston Running Co Holiday Series race at St. Thomas High School honoring fallen service members. Half marathon at 7:00 AM, 5K/10K at 7:30 AM, Kids/Family 1K at 9:30 AM. Scenic Memorial Drive route with patriotic post-race celebration."
+    "source_url": "https://www.runguides.com/event/16312/memorial-day-run",
+    "description": "Houston Running Co's annual Memorial Day event honoring fallen military service members. Scenic course along Memorial Drive starting and finishing at St. Thomas High School, with a patriotic post-race celebration."
   },
   {
     "id": "memorial-day-hero-salute-2026",
     "name": "Memorial Day Hero Salute",
     "date": "2026-05-25",
-    "start_time": "06:05",
+    "start_time": "06:00",
     "tz": "America/Chicago",
     "address": "8 N Main St",
     "city": "Kingwood",
     "state": "TX",
     "zip": "77339",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 30.05,
+    "longitude": -95.1814,
     "distance": [
       "5K",
       "10K",
@@ -1719,31 +1718,31 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Kingwood/MemorialDayHeroSalute?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Kingwood/MemorialDayHeroSalute",
-    "description": "Second annual Memorial Day event at Town Center Park in Kingwood featuring half marathon, 10K, 5K, Hero Races (Murph/Loredo), and Kids Mini-Salute. Benefits Semper Fi & America's Fund."
+    "official_website_url": "https://www.fleetfeet.com/races/tx/kingwood/177103-memorial-day-hero-salute",
+    "source_url": "https://findarace.com/us/events/memorial-day-hero-salute",
+    "description": "2nd annual event in Kingwood's Town Center Park honoring military heroes, benefiting Semper Fi & America's Fund and Impact a Hero. Also features unique Murph and Loredo fitness challenges and a kids tug-of-war."
   },
   {
     "id": "pasadena-police-superhero-5k-2026",
-    "name": "Pasadena Police Department Superhero 5K/Kids 1K",
+    "name": "Pasadena Police Department Superhero 5K / Kids 1K",
     "date": "2026-05-30",
     "start_time": "08:00",
     "tz": "America/Chicago",
-    "address": "6052 Genoa Red Bluff Rd",
+    "address": "6052 Genoa Red Bluff Road",
     "city": "Pasadena",
     "state": "TX",
     "zip": "77507",
-    "latitude": 29.6232,
-    "longitude": -95.1433,
+    "latitude": 29.6405,
+    "longitude": -95.1044,
     "distance": [
       "5K",
       "Kids"
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/Events/TX/Pasadena/PasadenaPoliceDepartment5K?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "official_website_url": "https://runsignup.com/Race/TX/Pasadena/PasadenaPoliceDepartment5K?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://findarace.com/us/events/pasadena-police-department-superhero-5k-kids-1k",
-    "description": "A superhero-themed 5K and Kids 1K at the Pasadena Police Academy. Participants are encouraged to wear superhero costumes. The Kids 1K for ages 12 and under starts at 8:30 AM. Benefits the Pasadena Police Department community programs."
+    "description": "Annual community superhero-themed 5K and Kids 1K hosted by the Pasadena Police Department at the Police Academy. Participants are encouraged to dress as their favorite superhero. Registration includes a swag bag and medal."
   },
   {
     "id": "tejas-beer-5k-2026",
@@ -1751,20 +1750,20 @@
     "date": "2026-05-30",
     "start_time": "08:00",
     "tz": "America/Chicago",
-    "address": "2101 Summer St",
+    "address": "2101 Summer Street",
     "city": "Houston",
     "state": "TX",
     "zip": "77007",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.7726,
+    "longitude": -95.3795,
     "distance": [
       "5K"
     ],
     "surface": "road",
     "kid_run": false,
     "official_website_url": "https://www.runintexas.com/tejas",
-    "source_url": "https://www.runintexas.com/tejas",
-    "description": "Out-and-back 5K starting and finishing at Tejas Brewery in Sawyer Yards. Entry includes a custom finisher glass, four 8-oz beer tastings, performance race shirt, and post-race brewery party."
+    "source_url": "https://harra.org/racing",
+    "description": "Out-and-back 5K starting and finishing at Tejas Brewery in the Sawyer Yards area. Part of the Texas 5K 6-Pack Beer Challenge series. Entry includes a finisher glass, four beer tastings, and a performance-fabric race shirt."
   },
   {
     "id": "pasadena-pd-superhero-5k-2026",
@@ -1776,8 +1775,8 @@
     "city": "Pasadena",
     "state": "TX",
     "zip": "77507",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.6405,
+    "longitude": -95.1044,
     "distance": [
       "5K",
       "Kids"
@@ -1789,6 +1788,27 @@
     "description": "Superhero-themed 5K and Kids 1K at the Pasadena Police Academy. Participants are encouraged to dress as their favorite hero. Free parking on site."
   },
   {
+    "id": "terry-hershey-parkrun-2026-05-30",
+    "name": "Terry Hershey parkrun",
+    "date": "2026-05-30",
+    "start_time": "08:00",
+    "tz": "America/Chicago",
+    "address": "Terry Hershey Park, west of Eldridge Parkway",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77077",
+    "latitude": 29.774,
+    "longitude": -95.6287,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://www.parkrun.us/terryhershey/",
+    "source_url": "https://www.parkrun.us/terryhershey/",
+    "description": "Free weekly timed 5K held every Saturday morning on the paved Terry Hershey Park trail. Open to all abilities \u2014 runners, joggers, and walkers welcome. Registration required but no cost."
+  },
+  {
     "id": "the-big-run-fleet-feet-greenbriar-2026",
     "name": "The Big Run with Fleet Feet Greenbriar",
     "date": "2026-06-03",
@@ -1798,8 +1818,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77005",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.7254,
+    "longitude": -95.4129,
     "distance": [
       "5K"
     ],
@@ -1819,8 +1839,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77092",
-    "latitude": 29.8058,
-    "longitude": -95.4611,
+    "latitude": 29.801,
+    "longitude": -95.4527,
     "distance": [
       "5K",
       "10K",
@@ -1830,7 +1850,7 @@
     "kid_run": true,
     "official_website_url": "https://houstonrunning.co/lemonadedash/",
     "source_url": "https://findarace.com/us/events/lemonade-dash-houston",
-    "description": "Annual summer race at Karbach Brewing Co. featuring a scenic course with ice-cold lemonade at the finish line. Part of Houston Running Co.'s Summer Dash Series, now in its sixth year."
+    "description": "Part of the Summer Dash Series by Houston Running Co., the Lemonade Dash is a family-friendly 5K/10K and Kids K held at Karbach Brewing Co. Participants receive a custom bib, finisher medal, and a signature cup of lemonade."
   },
   {
     "id": "harmonie-grace-5k-miles-for-miracles-2026",
@@ -1842,8 +1862,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77021",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.7107,
+    "longitude": -95.3416,
     "distance": [
       "5K"
     ],
@@ -1887,8 +1907,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77077",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.7386,
+    "longitude": -95.5508,
     "distance": [
       "1 Mile",
       "5K",
@@ -1897,9 +1917,9 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://www.runagainstbreastcancer.com/",
+    "official_website_url": "https://www.thebestraces.com/houstonruns/",
     "source_url": "https://findarace.com/us/events/run-for-breast-cancer-5k-10k-13-1-houston-2",
-    "description": "Small-group breast cancer awareness run along Houston's bayou trails with capped waves for an intimate experience. Organized by The Best Races."
+    "description": "A charity race raising awareness for breast cancer, held on paved bayou trails in west Houston. Offers wave starts across multiple distances in a supportive community atmosphere."
   },
   {
     "id": "big-rivers-splash-and-dash-2026",
@@ -1911,8 +1931,8 @@
     "city": "New Caney",
     "state": "TX",
     "zip": "77357",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 30.1973,
+    "longitude": -95.2006,
     "distance": [
       "5K",
       "10K",
@@ -1934,8 +1954,8 @@
     "city": "Conroe",
     "state": "TX",
     "zip": "77304",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 30.19,
+    "longitude": -95.47,
     "distance": [
       "5K",
       "Kids"
@@ -1980,8 +2000,8 @@
     "city": "Katy",
     "state": "TX",
     "zip": "77493",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.7865,
+    "longitude": -95.8142,
     "distance": [
       "5K"
     ],
@@ -2001,8 +2021,8 @@
     "city": "Humble",
     "state": "TX",
     "zip": "77346",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.9794,
+    "longitude": -95.1725,
     "distance": [
       "5K",
       "10K",
@@ -2040,6 +2060,50 @@
     "description": "Juneteenth celebration run on Bayou Loop Trails with small-group waves and optional timing. Celebrates freedom, community, and the unbreakable human spirit."
   },
   {
+    "id": "medal-madness-dow-park-deer-park-2026",
+    "name": "Medal Madness 5K, 10K & Half Marathon at Dow Park",
+    "date": "2026-06-20",
+    "start_time": "08:30",
+    "tz": "America/Chicago",
+    "address": "610 E San Augustine St",
+    "city": "Deer Park",
+    "state": "TX",
+    "zip": "77536",
+    "latitude": 29.7053,
+    "longitude": -95.1123,
+    "distance": [
+      "5K",
+      "10K",
+      "Half Marathon"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://usroadrunning.com",
+    "source_url": "https://usroadrunning.com/RaceSearch.php?event_type=running_race&state=TX",
+    "description": "A US Road Running Medal Madness event at Dow Park in Deer Park. Offers 5K, 10K, and half marathon distances with finisher medals for all participants."
+  },
+  {
+    "id": "terry-hershey-parkrun-2026-06-20",
+    "name": "Terry Hershey parkrun",
+    "date": "2026-06-20",
+    "start_time": "08:00",
+    "tz": "America/Chicago",
+    "address": "15200 Memorial Dr",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77079",
+    "latitude": 29.7563,
+    "longitude": -95.6222,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://www.parkrun.us/terryhershey/",
+    "source_url": "https://www.parkrun.us/terryhershey/",
+    "description": "A free, weekly, timed 5K run held every Saturday at Terry Hershey Park. The paved out-and-back course runs west of Eldridge Parkway. Open to all, organized entirely by volunteers."
+  },
+  {
     "id": "independence-day-8k-2026",
     "name": "Independence Day 8K & 5K",
     "date": "2026-06-27",
@@ -2049,8 +2113,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77096",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.6871,
+    "longitude": -95.4651,
     "distance": [
       "5K",
       "Kids"
@@ -2159,8 +2223,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77056",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.7553,
+    "longitude": -95.4571,
     "distance": [
       "5K",
       "Kids"
@@ -2181,8 +2245,8 @@
     "city": "Mont Belvieu",
     "state": "TX",
     "zip": "77523",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.83,
+    "longitude": -94.88,
     "distance": [
       "5K"
     ],
@@ -2202,8 +2266,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77019",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.761,
+    "longitude": -95.3777,
     "distance": [
       "1 Mile",
       "5K",
@@ -2226,8 +2290,8 @@
     "city": "Kingwood",
     "state": "TX",
     "zip": "77339",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 30.0503,
+    "longitude": -95.1843,
     "distance": [
       "Kids"
     ],
@@ -2247,8 +2311,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77070",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.9944,
+    "longitude": -95.5718,
     "distance": [
       "5K",
       "Kids"
@@ -2269,8 +2333,8 @@
     "city": "Lake Jackson",
     "state": "TX",
     "zip": "77566",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.0755,
+    "longitude": -95.4135,
     "distance": [
       "Kids"
     ],
@@ -2290,8 +2354,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77019",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.761,
+    "longitude": -95.3777,
     "distance": [
       "1 Mile",
       "5K",
@@ -2314,8 +2378,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77030",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.7174,
+    "longitude": -95.3904,
     "distance": [
       "1 Mile",
       "5K",
@@ -2361,8 +2425,8 @@
     "city": "Richmond",
     "state": "TX",
     "zip": "77406",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.539,
+    "longitude": -95.728,
     "distance": [
       "Ultra"
     ],
@@ -2428,8 +2492,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77092",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.8064,
+    "longitude": -95.4605,
     "distance": [
       "5K",
       "10K",
@@ -2451,8 +2515,8 @@
     "city": "Katy",
     "state": "TX",
     "zip": "77493",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.7858,
+    "longitude": -95.758,
     "distance": [
       "5K",
       "10K",
@@ -2497,8 +2561,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77062",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.5598,
+    "longitude": -95.121,
     "distance": [
       "5K",
       "Kids"
@@ -2519,8 +2583,8 @@
     "city": "Deer Park",
     "state": "TX",
     "zip": "77536",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.7052,
+    "longitude": -95.1118,
     "distance": [
       "5K",
       "10K",
@@ -2654,8 +2718,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77085",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.65,
+    "longitude": -95.53,
     "distance": [
       "Half Marathon",
       "Kids"
@@ -2676,8 +2740,8 @@
     "city": "Cypress",
     "state": "TX",
     "zip": "77433",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.9522,
+    "longitude": -95.7269,
     "distance": [
       "5K",
       "10K",
@@ -2699,8 +2763,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77019",
-    "latitude": null,
-    "longitude": null,
+    "latitude": 29.761,
+    "longitude": -95.3777,
     "distance": [
       "1 Mile",
       "5K",
