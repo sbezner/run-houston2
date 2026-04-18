@@ -109,18 +109,18 @@ log() {
     echo "$msg" >> "$LOG_FILE"
 }
 
-log "================================================"
-log "Run Houston — Reports Discovery"
-log "Starting: $START_DATE walking back $NUM_WEEKS weeks (5 windows total when NUM_WEEKS=4)"
-log "Log file: $LOG_FILE"
-log "Detach: Ctrl+B, D | Reattach: tmux attach -t reports_discovery"
-log "Stop: tmux kill-session -t reports_discovery"
-log "================================================"
-
 # Iteration date moves backward each week. Iteration i covers the 7 days
 # ENDING on iter_date (i.e. WEEK_START = iter_date - 7, WEEK_END = iter_date).
 ITER_EPOCH=$(date -j -f "%Y-%m-%d" "$START_DATE" "+%s")
 TOTAL_WINDOWS=$((NUM_WEEKS + 1))
+
+log "================================================"
+log "Run Houston — Reports Discovery"
+log "Starting: $START_DATE walking back $NUM_WEEKS weeks ($TOTAL_WINDOWS windows total)"
+log "Log file: $LOG_FILE"
+log "Detach: Ctrl+B, D | Reattach: tmux attach -t reports_discovery"
+log "Stop: tmux kill-session -t reports_discovery"
+log "================================================"
 
 run_claude() {
     local WEEK_START="$1"
