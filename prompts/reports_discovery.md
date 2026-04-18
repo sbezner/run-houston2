@@ -1,11 +1,18 @@
 ### RESEARCH TASK: HOUSTON RACE RECAPS (Claude Code CLI) ###
 
-GOAL: Find and recap races within the specified DATE WINDOW.
-CONTEXT: Read data/race_reports.json to identify races already documented and avoid duplicates.
+GOAL: Find and recap races within the specified DATE WINDOW. The window
+always describes a 7-day period that ALREADY HAPPENED — this prompt is
+called by reports_discovery.sh, which walks backward in time one week at a time.
+
+CONTEXT: Read data/race_reports.json to know which races already have a
+recap. **Do not skip them blindly.** Re-emit a recap for an existing id
+when you can now enrich it with newly-available results, winners, or
+weather data — the merge step (scripts/merge-reports.py) compares records
+and skips true no-ops, so re-emitting an identical recap is harmless.
 
 OUTPUT REQUIREMENTS:
 - Format: Strictly valid JSON array, nothing else.
-- Save using the Write tool to ~/Downloads/recaps-START-to-END.json (replace START/END with actual dates).
+- Save using the Write tool to ~/Downloads/reports_discovery-START-to-END.json (replace START/END with actual dates).
 - Do not output prose or commentary in the file — only the JSON array.
 - Print a one-line summary when done: "Wrote N recaps for YYYY-MM-DD to YYYY-MM-DD."
 
@@ -15,9 +22,9 @@ You are a research assistant for **Run Houston**, a community race-discovery web
 
 **Step 1: Parse the date window.** The DATE WINDOW is provided as the first line of this prompt by the calling script. It contains two ISO dates in `YYYY-MM-DD to YYYY-MM-DD` form. Both dates must be on or before today. Treat the window as inclusive.
 
-**Step 2: Check for duplicates.** Read `data/race_reports.json` and note all existing `id` values. Do not produce recaps for races that already have entries.
+**Step 2: Cross-reference existing recaps.** Read `data/race_reports.json` and note all existing `id` values. For races already recapped: include them in your output **only if** you have new information to add (post-race results that hadn't been published before, weather data, corrections to facts). The merge step diffs records and skips identical re-emits, so re-emitting an unchanged recap is wasted effort but not harmful. If you're confident the existing recap is already complete, omit it.
 
-**Step 3: This is a research-and-writing task with a specific output format.** Your final answer is a JSON array saved to `~/Downloads/recaps-START-to-END.json` using the Write tool. Nothing else — no chat commentary, no UI, no interactive viewer.
+**Step 3: This is a research-and-writing task with a specific output format.** Your final answer is a JSON array saved to `~/Downloads/reports_discovery-START-to-END.json` using the Write tool. Nothing else — no chat commentary, no UI, no interactive viewer.
 
 This output will be merged into a static JSON file that powers a public website. **The JSON you produce must be valid, parseable, and conform exactly to the schema below.** Treat the schema as a hard contract.
 
@@ -79,7 +86,7 @@ If you are below the floor, the most likely cause is that you stopped searching 
 
 Prefer **smaller windows**:
 
-- **Recommended:** 7–14 day windows when called by `run_recaps.sh` (the script loops weekly).
+- **Recommended:** 7–14 day windows when called by `reports_discovery.sh` (the script loops weekly).
 - **Acceptable:** 30-day windows for manual catch-up sweeps.
 - **Use sparingly:** 60+ day windows. Coverage drops noticeably; result pages and news stories age out of search rankings.
 
@@ -169,9 +176,10 @@ Before saving your output you MUST have run at least one WebSearch against each 
 9. `houstonstriders.org` event reports
 10. `trailracingovertexas.com` past events
 11. `harra.org` news section
-12. Each seasonal keyword from the "Seasonal keyword sweeps" section that applies to the window's months
-13. Each marquee venue from the "Search-by-venue pass" section
-14. Each anchor race from the "Anchor race report" section whose typical month falls in the window
+12. **Historical weather** for the race date(s) at the race venue location — `wunderground.com/history`, `weatherspark.com`, or `timeanddate.com/weather`. This is required for every recap, not optional.
+13. Each seasonal keyword from the "Seasonal keyword sweeps" section that applies to the window's months
+14. Each marquee venue from the "Search-by-venue pass" section
+15. Each anchor race from the "Anchor race report" section whose typical month falls in the window
 
 If a source is unreachable or returns nothing, note it briefly in console output.
 
@@ -227,7 +235,7 @@ Before saving the file, do a final coverage check:
 4. **Confirm you're at or above the coverage floor.**
 5. **Confirm all required searches were actually run.** If you skipped any, run them now.
 6. **Source-check every recap.** For each entry in your output, verify you can name the source URL you used. If you can't, the recap is invented and must be removed.
-7. **Check for duplicates against data/race_reports.json.** Remove any recap whose `id` already exists in the live data.
+7. **Cross-reference existing recaps.** For any `id` that already exists in `data/race_reports.json`: keep it in your output only if you genuinely have new information (results, weather, corrections). Otherwise omit it — the merge step will skip identical re-emits anyway, but it's wasted effort.
 
 ## Output schema
 
@@ -290,9 +298,11 @@ Return a JSON array. Each element is a recap object with **exactly** these field
 - **Structure (loose):**
   1. Lead paragraph: who, what, when, where. One sentence on conditions if known.
   2. Course / distances paragraph: what runners actually ran.
-  3. Notable details: top finishers (with times if available), field size, charity beneficiary, any incidents, weather impact, anything unusual.
-  4. Optional context: history of the event, year it started, what it's known for, traditions.
-- **Source rule:** every factual claim must trace to a source you visited. If you don't know top finishers, don't make any up — just don't mention them. If you don't know field size, omit it. **Use null-equivalents (silence) rather than guesses.**
+  3. **Results paragraph (REQUIRED when available):** top finishers (overall male, overall female, and notable age-group or masters winners) with finishing times. Course records broken, notable performances, large age-group fields, etc. Search the timing-company results pages and athlinks.com aggressively for this — it's often the part of the recap that ages best.
+  4. **Weather paragraph (REQUIRED when available):** temperature at the start (and high during the race if it was a longer event), conditions (clear, overcast, rain, fog), wind, humidity if notable, and any heat or cold that affected the race. Use a historical weather source for the race date and venue location: `wunderground.com/history`, `weatherspark.com`, `timeanddate.com/weather`, or NWS / KHOU archives. Cite the location specifically (e.g., "Hobby Airport observation" or "Memorial Park station") when the source allows.
+  5. Notable details: field size, charity beneficiary, any incidents, weather impact on the race itself, anything unusual.
+  6. Optional context: history of the event, year it started, what it's known for, traditions.
+- **Source rule:** every factual claim must trace to a source you visited. If you don't know top finishers, don't make any up — just don't mention them. If you don't know field size, omit it. **Use null-equivalents (silence) rather than guesses.** This applies equally to results and weather: a recap with no results paragraph is fine; a recap with invented winners is a failure.
 - Do not include source URLs in the body. The recap is meant to read like a newspaper article.
 - Use straight quotes (`"`), not curly quotes.
 - Use `\n\n` to separate paragraphs in the JSON string.
@@ -325,14 +335,16 @@ Before saving, confirm all of these for each recap:
 - [ ] Every factual claim in `content_md` traces to a source you visited.
 - [ ] No invented finishers, times, weather, field sizes, or quotes.
 - [ ] `id` is unique within your output and ends with `-YYYY-recap`.
-- [ ] `id` does not already exist in `data/race_reports.json`.
+- [ ] If `id` already exists in `data/race_reports.json`, this recap genuinely adds new information (results, weather, corrections).
+- [ ] Results paragraph included if results were findable on a primary source.
+- [ ] Weather paragraph included if historical weather was findable for the race date and location.
 - [ ] `photos` is `[]`.
 - [ ] `title` is a factual news headline, no hype, no emoji.
 - [ ] `content_md` is 3–5 paragraphs, factual, past tense, no marketing voice.
 
 ## Reference example
 
-Match this style:
+Match this style. Note the dedicated results and weather paragraphs.
 
 ```json
 {
@@ -342,12 +354,12 @@ Match this style:
   "race_date": "2026-03-07",
   "title": "49th Bayou City Classic draws 3,000 to downtown Houston as RRCA State Championship",
   "photos": [],
-  "content_md": "The 49th running of the Bayou City Classic 10K and 5K Fun Run returned to Hermann Square on Saturday, March 7, 2026, drawing more than 3,000 runners to downtown Houston.\n\nThe flat, fast course starts and finishes at Sam Houston Park, winding through downtown along Buffalo Bayou. The race was selected as the 2026 RRCA State Championship 10K.\n\nPost-race festivities included awards, food, and the community atmosphere that has kept runners coming back for nearly five decades."
+  "content_md": "The 49th running of the Bayou City Classic 10K and 5K Fun Run returned to Hermann Square on Saturday, March 7, 2026, drawing more than 3,000 runners to downtown Houston.\n\nThe flat, fast course starts and finishes at Sam Houston Park, winding through downtown along Buffalo Bayou. The race was selected as the 2026 RRCA State Championship 10K.\n\nIn the men's 10K, [Winner Name] of Houston broke the tape in 30:42, holding off a chase pack of three through the final mile along Allen Parkway. [Second Name] (31:08) and [Third Name] (31:24) rounded out the men's podium. The women's race went to [Winner Name] in 34:51, with [Second Name] (35:30) and [Third Name] (35:58) following.\n\nWeather at the 7:30 a.m. start was cool and calm — 52°F at the downtown observation, overcast with light winds out of the north and dew points in the low 40s — close to ideal conditions for a 10K and a likely contributor to several age-group personal bests reported on the timing-company results page.\n\nPost-race festivities included awards, food, and the community atmosphere that has kept runners coming back for nearly five decades."
 }
 ```
 
 ## Final step
 
-1. Save the JSON array to `~/Downloads/recaps-START-to-END.json` using the Write tool (replace START and END with actual dates).
+1. Save the JSON array to `~/Downloads/reports_discovery-START-to-END.json` using the Write tool (replace START and END with actual dates).
 2. Print to console: "Wrote N recaps for YYYY-MM-DD to YYYY-MM-DD."
 3. Do not propose follow-up actions, offer to merge, or build anything else.

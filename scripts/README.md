@@ -1,119 +1,87 @@
 # scripts/
 
-Reference for the helper scripts that maintain `data/*.json` and run the
-discovery / recap pipelines.
+Helper scripts that maintain `data/*.json` and run the discovery /
+report pipelines. Grouped by what they're for.
 
-All paths below are relative to the repo root. Run scripts from the repo
-root unless noted.
+---
 
 ## Data contract
 
-### `validate-data.py`
-Enforces the schema for every `data/*.json` file: required fields,
-canonical distance/surface vocabularies, unique ids, ISO dates,
-HH:MM times, and Houston-bbox lat/lng. Source of truth for the data
-contract — extend this file when the data model changes.
+**`validate-data.py`**
+Enforces the schema for every `data/*.json` file. The source of truth
+for what shape the data must have.
+*Depends on:* nothing.
+*Called from:* `.githooks/pre-commit`, `.claude/settings.json` PostToolUse hook,
+`.github/workflows/validate.yml` CI, and the merge / enrich / geocode
+scripts after they apply changes. Also runnable by hand.
 
-```
-python3 scripts/validate-data.py
-```
+---
 
-Exits 0 on success, 1 on any error. Run automatically by:
-- `.claude/settings.json` PostToolUse hook (after Edit/Write on `data/*`)
-- `.githooks/pre-commit` (if you've enabled `git config core.hooksPath .githooks`)
-- `.github/workflows/validate.yml` (CI early-warning, non-blocking)
+## Discovery (upcoming races)
 
-## Race data refresh
+**`fetch-runsignup-window.py`**
+Pulls Houston-area races from the RunSignUp API for a given date
+window and writes them in the shape `merge-races.py` expects.
+*Depends on:* RunSignUp API.
+*Called from:* `run_discovery.sh`. Also runnable by hand.
 
-### `merge-races.py`
-Diff and upsert a research-artifact JSON into `data/races-upcoming.json`.
-Upsert by id; canonicalizes distances and rounds coords before diffing
-so abbreviation-only changes are no-ops. Detects near-dupes (same date +
-65%+ name overlap). Never auto-removes records.
+**`merge-races.py`**
+Diffs and upserts a race-research artifact into
+`data/races-upcoming.json`. Adds new races, updates changed ones,
+skips no-ops, and never auto-deletes.
+*Depends on:* `validate-data.py`.
+*Called from:* `run_discovery.sh`. Also runnable by hand for one-off
+research artifact merges.
 
-```
-python3 scripts/merge-races.py PATH_TO_NEW_JSON           # dry-run
-python3 scripts/merge-races.py PATH_TO_NEW_JSON --apply   # write + validate
-```
+**`enrich-runsignup.py`**
+Appends affiliate tokens to RunSignUp URLs and replaces non-RunSignUp
+URLs with RunSignUp ones via API lookup.
+*Depends on:* `validate-data.py`, RunSignUp API.
+*Called from:* `run_discovery.sh` (`--step1 --apply` only). Also
+runnable by hand for the full multi-step run.
 
-### `fetch-runsignup-window.py`
-Pull all Houston-area races from the RunSignUp API for a date window
-and write them in the shape `merge-races.py` expects.
+**`geocode-missing.py`**
+Backfills null `latitude` / `longitude` in `data/races-upcoming.json`
+via Nominatim. Rejects hits outside the Houston bbox.
+*Depends on:* `validate-data.py`, Nominatim.
+*Called from:* by hand only — needs network egress and isn't part of
+the weekly pipeline.
 
-```
-python3 scripts/fetch-runsignup-window.py START_DATE END_DATE OUTPUT_FILE
-```
+**`run_discovery.sh`**
+The weekly discovery pipeline. Runs in a tmux session called
+`discovery`, processes one date window at a time, fetches from
+RunSignUp, runs Claude Code to find the rest, and merges everything.
+*Depends on:* `fetch-runsignup-window.py`, `merge-races.py`,
+`enrich-runsignup.py`, `prompts/run_discovery.md`, `claude` CLI, tmux.
+*Called from:* by hand by the maintainer.
 
-### `enrich-runsignup.py`
-Three-step enrichment of `data/races-upcoming.json` against RunSignUp:
-1. Append affiliate token to existing RunSignUp URLs.
-2. Replace non-RunSignUp URLs with RunSignUp URLs (API lookup, ≥75% name match).
-3. Discover new races (placeholder, not yet implemented).
+**`discovery-status.py`**
+Prints a quick summary of the current discovery pipeline state:
+running or stopped, weeks done, weeks remaining, ETA.
+*Depends on:* `logs/discovery-*.log`.
+*Called from:* by hand.
 
-```
-python3 scripts/enrich-runsignup.py                 # dry-run, all steps
-python3 scripts/enrich-runsignup.py --step1 --apply # one step, write
-```
-
-### `geocode-missing.py`
-Backfill null `latitude`/`longitude` in `data/races-upcoming.json` via
-Nominatim, using each record's existing address fields. Rejects hits
-outside the Houston bbox. Skips weak addresses ("TBD", "Houston area",
-null) unless `--include-weak`. Rate-limited to 1.1 req/s. Run locally
-(needs network egress).
-
-```
-python3 scripts/geocode-missing.py                  # dry-run
-python3 scripts/geocode-missing.py --apply
-python3 scripts/geocode-missing.py --include-weak
-```
-
-## Pipeline runners
-
-### `run_discovery.sh`
-Launches the weekly race-discovery pipeline in a detachable tmux session
-called `discovery`. Per week: RunSignUp fetch → merge → Claude Code
-search → merge → affiliate-token enrich. Resumable (skips weeks already
-in the progress log); use `--fresh` to start over. 2-hour cooldown
-between weeks; one 4-hour retry on Claude failure.
-
-```
-./scripts/run_discovery.sh START_DATE NUM_WEEKS [--fresh]
-./scripts/run_discovery.sh 2026-06-01 4
-```
-
-Controls: `tmux attach -t discovery` · `Ctrl+B D` to detach ·
-`tmux kill-session -t discovery` · `touch pause-discovery` to pause ·
-`rm pause-discovery` to resume.
-
-Logs: `logs/discovery-run.log` (full output), `logs/discovery-progress.log`
-(one line per week).
-
-### `run_recaps.sh`
-Same shape as `run_discovery.sh` but for race recaps. tmux session
-`recaps`, 20-min cooldown, 4-hour retry. Writes recap JSON to
-`~/Downloads/`; merge into `data/race_reports.json` by hand.
-
-```
-./scripts/run_recaps.sh START_DATE NUM_WEEKS
-```
-
-Log: `logs/recaps-progress.log`.
-
-### `discovery-status.py`
-Quick summary of the current discovery pipeline state: tmux session
-status, race count, weeks done / failed / remaining, ETA, last log
-line. Reads `logs/discovery-*.log`.
-
-```
-python3 scripts/discovery-status.py
-```
-
-### `auto-commit.py`
+**`auto-commit.py`**
 Commits and pushes `data/races-upcoming.json` if it has uncommitted
-changes. Designed to be called by `run_discovery.sh` after each week
-so the live site stays current during unattended runs.
+changes. Standalone; no longer wired into the discovery pipeline.
+*Depends on:* git.
+*Called from:* by hand.
 
-```
-python3 scripts/auto-commit.py
-```
+---
+
+## Reports (past races)
+
+**`merge-reports.py`**
+Diffs and upserts a report artifact into `data/race_reports.json`.
+Sorts the result newest first.
+*Depends on:* `validate-data.py`.
+*Called from:* `reports_discovery.sh`. Also runnable by hand.
+
+**`reports_discovery.sh`**
+The weekly race-report pipeline. Walks BACKWARD from a start date,
+one week at a time, runs Claude Code to research recaps for each
+window, merges the result, and auto-commits and pushes per week. Runs
+in a tmux session called `reports_discovery`.
+*Depends on:* `merge-reports.py`, `prompts/reports_discovery.md`,
+`claude` CLI, tmux.
+*Called from:* by hand by the maintainer.
