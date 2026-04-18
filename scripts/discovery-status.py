@@ -17,8 +17,8 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-PROGRESS_LOG = REPO / "discovery-progress.log"
-RUN_LOG = REPO / "discovery-run.log"
+PROGRESS_LOG = REPO / "logs" / "discovery-progress.log"
+RUN_LOG = REPO / "logs" / "discovery-run.log"
 RACES_FILE = REPO / "data" / "races-upcoming.json"
 
 
@@ -154,7 +154,7 @@ def main():
         print("    Pause:   touch pause-discovery")
         print("    Stop:    tmux kill-session -t discovery")
     else:
-        print("  To restart: ./run_discovery.sh 2026-04-12 52")
+        print("  To restart: ./scripts/run_discovery.sh 2026-04-12 52")
 
     print()
     print("=" * 55)

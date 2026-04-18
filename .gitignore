@@ -12,6 +12,7 @@ Thumbs.db
 
 # Claude Code per-clone overrides (keep .claude/settings.json tracked)
 .claude/settings.local.json
+.claude/worktrees/
 
 # Python bytecode (from running scripts/validate-data.py)
 __pycache__/
@@ -19,10 +20,5 @@ __pycache__/
 
 # Pipeline worker scripts and progress logs (generated at runtime)
 .discovery-worker.sh
-.discovery-progress.log
-.discovery-run.log
-discovery-progress.log
-discovery-run.log
 .recaps-worker.sh
-.recaps-progress.log
-.recaps-run.log
+logs/

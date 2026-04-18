@@ -1,8 +1,8 @@
 #!/bin/bash
 # run_discovery.sh — automated race discovery pipeline in a tmux session
-# Usage: ./run_discovery.sh START_DATE NUM_WEEKS [--fresh]
-# Example: ./run_discovery.sh 2026-06-01 4
-# Example: ./run_discovery.sh 2026-06-01 4 --fresh   (ignore previous progress)
+# Usage: ./scripts/run_discovery.sh START_DATE NUM_WEEKS [--fresh]
+# Example: ./scripts/run_discovery.sh 2026-06-01 4
+# Example: ./scripts/run_discovery.sh 2026-06-01 4 --fresh   (ignore previous progress)
 #
 # Launches a detachable tmux session called "discovery".
 #   - Detach: Ctrl+B, D
@@ -34,23 +34,25 @@ if [ $# -lt 2 ]; then
     echo "  Resume:  rm pause-discovery"
     echo ""
     echo "Logs:"
-    echo "  discovery-run.log          Full timestamped output"
-    echo "  discovery-progress.log     One line per week (OK/FAILED)"
+    echo "  logs/discovery-run.log         Full timestamped output"
+    echo "  logs/discovery-progress.log    One line per week (OK/FAILED)"
     exit 1
 fi
 
 START_DATE="$1"
 NUM_WEEKS="$2"
 FRESH="$3"
-REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
+REPO_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 SESSION_NAME="discovery"
 
 # Clear progress log if --fresh
 if [ "$FRESH" = "--fresh" ]; then
-    rm -f "$REPO_DIR/discovery-progress.log"
-    rm -f "$REPO_DIR/discovery-run.log"
+    rm -f "$REPO_DIR/logs/discovery-progress.log"
+    rm -f "$REPO_DIR/logs/discovery-run.log"
     echo "Fresh start — cleared progress and run logs."
 fi
+
+mkdir -p "$REPO_DIR/logs"
 
 if ! command -v tmux &> /dev/null; then
     echo "tmux not installed. Run: brew install tmux"
@@ -68,14 +70,14 @@ INSTRUCTIONS_FILE="$REPO_DIR/prompts/run_discovery.md"
 DOWNLOADS_DIR="$HOME/Downloads"
 COOLDOWN=7200          # 2 hours between weeks (Pro plan, safe for long unattended runs)
 RETRY_WAIT=14400       # 4 hours before retry
-PROGRESS_LOG="$REPO_DIR/discovery-progress.log"
+PROGRESS_LOG="$REPO_DIR/logs/discovery-progress.log"
 START_DATE="START_DATE_PLACEHOLDER"
 NUM_WEEKS="NUM_WEEKS_PLACEHOLDER"
 
 cd "$REPO_DIR"
 caffeinate -i -w $$ &
 
-LOG_FILE="$REPO_DIR/discovery-run.log"
+LOG_FILE="$REPO_DIR/logs/discovery-run.log"
 
 log() {
     local msg="[$(date '+%Y-%m-%d %I:%M:%S %p')] $*"

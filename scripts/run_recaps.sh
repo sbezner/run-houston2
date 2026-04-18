@@ -1,7 +1,7 @@
 #!/bin/bash
 # run_recaps.sh — automated race recap pipeline in a tmux session
-# Usage: ./run_recaps.sh START_DATE NUM_WEEKS
-# Example: ./run_recaps.sh 2026-04-11 8
+# Usage: ./scripts/run_recaps.sh START_DATE NUM_WEEKS
+# Example: ./scripts/run_recaps.sh 2026-04-11 8
 #
 # Launches a detachable tmux session called "recaps".
 #   - Detach: Ctrl+B, D
@@ -11,7 +11,7 @@
 #
 # If Claude Code fails, waits 4 hours and retries once.
 # If retry fails, logs the error and moves to the next week.
-# Progress is logged to .recaps-progress.log.
+# Progress is logged to logs/recaps-progress.log.
 
 set -e
 
@@ -27,7 +27,7 @@ fi
 
 START_DATE="$1"
 NUM_WEEKS="$2"
-REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
+REPO_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 SESSION_NAME="recaps"
 
 if ! command -v tmux &> /dev/null; then
@@ -36,6 +36,8 @@ if ! command -v tmux &> /dev/null; then
 fi
 
 tmux kill-session -t "$SESSION_NAME" 2>/dev/null || true
+
+mkdir -p "$REPO_DIR/logs"
 
 WORKER="$REPO_DIR/.recaps-worker.sh"
 cat > "$WORKER" << 'WORKER_EOF'
@@ -46,7 +48,7 @@ INSTRUCTIONS_FILE="$REPO_DIR/prompts/run_recaps.md"
 DATABASE_FILE="data/race_reports.json"
 COOLDOWN=1200          # 20 min between weeks
 RETRY_WAIT=14400       # 4 hours before retry
-PROGRESS_LOG="$REPO_DIR/.recaps-progress.log"
+PROGRESS_LOG="$REPO_DIR/logs/recaps-progress.log"
 START_DATE="START_DATE_PLACEHOLDER"
 NUM_WEEKS="NUM_WEEKS_PLACEHOLDER"
 
