@@ -7,7 +7,7 @@
  * All existing JS-facing selectors and IDs preserved.
  */
 
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap');
 
 :root {
   /* Surfaces */
@@ -143,51 +143,56 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
 /* ─── Page Hero ──────────────────────────────────────────── */
 
 .page-hero {
-  background: var(--night);
-  position: relative; overflow: hidden;
+  background-color: #0d1117;
+  background-color: var(--night);
+  position: relative;
 }
 
 .page-hero::before {
   content: '';
-  position: absolute; inset: 0;
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
   background:
-    radial-gradient(ellipse 60% 80% at 85% 40%, rgba(232,48,42,.2) 0%, transparent 65%),
-    radial-gradient(ellipse 40% 60% at 10% 85%, rgba(22,96,199,.12) 0%, transparent 60%);
+    radial-gradient(ellipse 60% 80% at 85% 40%, rgba(232,48,42,.18) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 60% at 10% 85%, rgba(22,96,199,.1) 0%, transparent 60%);
   pointer-events: none;
+  z-index: 0;
 }
 
 .page-hero__inner {
   max-width: var(--max-w); margin: 0 auto;
-  padding: 3.5rem 1.25rem 3rem;
+  padding: 3rem 1.25rem 2.5rem;
   position: relative; z-index: 1;
 }
 
 .page-hero__eyebrow {
   font-size: 0.67rem; font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.22em;
-  color: var(--night-muted); margin: 0 0 0.9rem;
+  color: rgba(240,239,233,.48); margin: 0 0 0.75rem;
 }
 
 .page-hero__title {
-  font-family: var(--font-display);
-  font-size: clamp(3.8rem, 10vw, 7rem);
-  font-weight: 800; line-height: 0.93;
+  font-family: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
+  font-size: clamp(3rem, 9vw, 6rem);
+  font-weight: 800; line-height: 0.95;
   letter-spacing: -0.02em; text-transform: uppercase;
-  margin: 0 0 1.4rem; color: var(--night-text);
+  margin: 0 0 1.1rem;
+  color: #f0efe9;
+  color: var(--night-text);
 }
-.page-hero__title em { font-style: normal; color: var(--accent); }
+.page-hero__title em { font-style: normal; color: #e8302a; color: var(--accent); }
 
 .page-hero__stats {
   display: flex; flex-wrap: wrap;
   align-items: center; gap: 0.5rem 0.9rem;
   margin: 0; font-size: 0.83rem; font-weight: 600;
-  color: var(--night-muted);
+  color: rgba(240,239,233,.5);
 }
-.page-hero__stats strong { color: rgba(240,239,233,.88); font-weight: 700; }
+.page-hero__stats strong { color: rgba(240,239,233,.9); font-weight: 700; }
 .page-hero__stats-sep { opacity: 0.25; }
 
 @media (min-width: 640px) {
-  .page-hero__inner { padding: 4.5rem 1.5rem 3.5rem; }
+  .page-hero__inner { padding: 4rem 1.5rem 3rem; }
 }
 
 /* Hide hero and spotlight in map full-screen mode */
@@ -214,13 +219,18 @@ body.map-view-active #spotlight  { display: none; }
 }
 
 .spotlight-grid {
-  display: grid; gap: 0.85rem; grid-template-columns: 1fr;
+  display: grid; gap: 0.75rem; grid-template-columns: 1fr;
+}
+/* On mobile: show at most 2 cards by hiding the 3rd */
+@media (max-width: 499px) {
+  .spotlight-card:nth-child(3) { display: none; }
 }
 @media (min-width: 500px) {
   .spotlight-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (min-width: 860px) {
   .spotlight-grid { grid-template-columns: repeat(3, 1fr); }
+  .spotlight-card:nth-child(3) { display: flex; }
 }
 
 .spotlight-card {
