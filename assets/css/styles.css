@@ -199,96 +199,6 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   .page-hero__inner { padding: 4rem 1.5rem 3rem; }
 }
 
-/* ─── Spotlight ──────────────────────────────────────────── */
-
-.spotlight { margin-bottom: 2rem; }
-
-.spotlight-header {
-  display: flex; align-items: baseline;
-  gap: 0.75rem; margin-bottom: 0.9rem;
-}
-.spotlight-eyebrow {
-  font-size: 0.67rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted);
-}
-.spotlight-title {
-  font-family: var(--font-display);
-  font-size: 1.45rem; font-weight: 800;
-  text-transform: uppercase; letter-spacing: -0.01em;
-  color: var(--text); margin: 0; line-height: 1;
-}
-
-.spotlight-grid {
-  display: grid; gap: 0.75rem; grid-template-columns: 1fr;
-}
-@media (min-width: 500px) {
-  .spotlight-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (min-width: 860px) {
-  .spotlight-grid { grid-template-columns: repeat(3, 1fr); }
-}
-
-.spotlight-card {
-  background: var(--night-2);
-  border-radius: var(--radius);
-  padding: 1.35rem 1.4rem 1.25rem;
-  position: relative; overflow: hidden;
-  display: flex; flex-direction: column; gap: 0.55rem;
-  text-decoration: none;
-  transition: transform 200ms ease, box-shadow 200ms ease;
-  cursor: pointer;
-}
-.spotlight-card::before {
-  content: '';
-  position: absolute; top: 0; right: 0;
-  width: 65%; height: 100%;
-  background: radial-gradient(ellipse 100% 80% at 100% 0%,
-    var(--sc-color, rgba(232,48,42,.2)), transparent 70%);
-  pointer-events: none;
-}
-.spotlight-card--road  { --sc-color: rgba(22, 96, 199, .22); }
-.spotlight-card--trail { --sc-color: rgba(31, 138, 58, .22); }
-.spotlight-card--track { --sc-color: rgba(107, 63, 168, .22); }
-
-.spotlight-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 16px 44px rgba(0,0,0,.32);
-  text-decoration: none;
-}
-
-.spotlight-card__when {
-  font-size: 0.64rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.16em;
-  color: var(--night-muted); position: relative; z-index: 1;
-}
-.spotlight-card__name {
-  font-family: var(--font-display);
-  font-size: 1.55rem; font-weight: 800;
-  text-transform: uppercase; line-height: 1.02;
-  letter-spacing: -0.01em; color: var(--night-text);
-  position: relative; z-index: 1;
-}
-.spotlight-card__meta {
-  font-size: 0.8rem; color: var(--night-muted);
-  position: relative; z-index: 1;
-  display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;
-}
-.spotlight-card__badge {
-  display: inline-flex; align-items: center;
-  background: rgba(255,255,255,.09);
-  border-radius: 999px;
-  padding: 0.2rem 0.6rem;
-  font-size: 0.64rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.06em;
-  color: rgba(240,239,233,.8);
-}
-.spotlight-card__arrow {
-  margin-top: auto; padding-top: 0.4rem;
-  font-size: 0.67rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.1em;
-  color: var(--accent); position: relative; z-index: 1;
-}
-
 /* ─── Main ───────────────────────────────────────────────── */
 
 main {
@@ -591,8 +501,11 @@ main {
 }
 #race-cards[hidden] { display: none; }
 
-@media (min-width: 640px) {
-  #race-cards { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
+@media (min-width: 500px) {
+  #race-cards { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 860px) {
+  #race-cards { grid-template-columns: repeat(3, 1fr); }
 }
 
 /* ─── Club / Report card grids ───────────────────────────── */
@@ -641,9 +554,80 @@ main {
   #race-list { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 }
 
-/* ─── Race Card ──────────────────────────────────────────── */
+/* ─── Race Card (dark spotlight-style, races page) ───────── */
 
-.race-card {
+a.race-card {
+  background-color: #161b27;
+  background-color: var(--night-2);
+  border-radius: var(--radius);
+  padding: 1.35rem 1.4rem 1.25rem;
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; gap: 0.55rem;
+  text-decoration: none;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+a.race-card::before {
+  content: '';
+  position: absolute; top: 0; right: 0;
+  width: 65%; height: 100%;
+  background: radial-gradient(ellipse 100% 80% at 100% 0%,
+    var(--rc-color, rgba(232,48,42,.18)), transparent 70%);
+  pointer-events: none;
+}
+a.race-card--road  { --rc-color: rgba(22, 96, 199, .22); }
+a.race-card--trail { --rc-color: rgba(31, 138, 58, .22); }
+a.race-card--track { --rc-color: rgba(107, 63, 168, .22); }
+
+a.race-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 44px rgba(0,0,0,.32);
+  text-decoration: none;
+}
+
+.race-card__when {
+  font-size: 0.64rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.14em;
+  color: rgba(240,239,233,.48); position: relative; z-index: 1;
+}
+
+.race-card__name {
+  font-family: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
+  font-size: 1.45rem; font-weight: 800;
+  text-transform: uppercase; line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: #f0efe9; color: var(--night-text);
+  position: relative; z-index: 1;
+}
+
+.race-card__meta {
+  font-size: 0.8rem; color: rgba(240,239,233,.48);
+  position: relative; z-index: 1;
+  display: flex; gap: 0.45rem; flex-wrap: wrap; align-items: center;
+}
+
+.race-card__badge {
+  display: inline-flex; align-items: center;
+  background: rgba(255,255,255,.09);
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.63rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  color: rgba(240,239,233,.8);
+}
+.race-card__badge--urgent { background: rgba(232,48,42,.22); color: #e8302a; color: var(--accent); }
+.race-card__badge--kid    { background: rgba(245,166,35,.2); color: #f5a623; }
+
+.race-card__arrow {
+  margin-top: auto; padding-top: 0.5rem;
+  font-size: 0.67rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: #e8302a; color: var(--accent);
+  position: relative; z-index: 1;
+}
+
+/* ─── Club / Report card (article.race-card, light style) ── */
+
+article.race-card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -651,63 +635,12 @@ main {
   box-shadow: var(--shadow);
   display: flex; flex-direction: column;
   transition: transform 200ms ease, box-shadow 200ms ease;
-  position: relative; overflow: hidden;
+  position: relative;
 }
-
-/* Surface-type top accent bar */
-.race-card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0;
-  height: 3px; background: var(--accent);
-}
-.race-card:has(.badge.surface-road)::before   { background: var(--road); }
-.race-card:has(.badge.surface-trail)::before  { background: var(--trail); }
-.race-card:has(.badge.surface-track)::before  { background: var(--track); }
-.race-card:has(.badge.surface-virtual)::before,
-.race-card:has(.badge.surface-other)::before  { background: var(--virtual); }
-
-.race-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
-
-/* ── Date chip + title head (races only — injected by index.js) ── */
-
-.race-card-head {
-  display: flex; gap: 0.9rem;
-  align-items: flex-start; margin-bottom: 0.8rem;
-}
-
-.race-date-chip {
-  flex-shrink: 0; width: 48px; min-height: 52px;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  background: var(--accent-soft); border-radius: var(--radius-sm);
-  padding: 0.3rem 0.35rem; margin-top: 0.05rem;
-}
-.race-card:has(.badge.surface-road)  .race-date-chip { background: var(--road-soft); }
-.race-card:has(.badge.surface-trail) .race-date-chip { background: var(--trail-soft); }
-.race-card:has(.badge.surface-track) .race-date-chip { background: var(--track-soft); }
-
-.race-date-chip__month {
-  font-size: 0.59rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.06em;
-  color: var(--accent); line-height: 1;
-}
-.race-card:has(.badge.surface-road)  .race-date-chip__month { color: var(--road); }
-.race-card:has(.badge.surface-trail) .race-date-chip__month { color: var(--trail); }
-.race-card:has(.badge.surface-track) .race-date-chip__month { color: var(--track); }
-
-.race-date-chip__day {
-  font-family: var(--font-display);
-  font-size: 1.55rem; font-weight: 800; line-height: 1.05; color: var(--accent);
-}
-.race-card:has(.badge.surface-road)  .race-date-chip__day { color: var(--road); }
-.race-card:has(.badge.surface-trail) .race-date-chip__day { color: var(--trail); }
-.race-card:has(.badge.surface-track) .race-date-chip__day { color: var(--track); }
-
-.race-card-title-block { flex: 1; min-width: 0; }
-
-/* ── Card h2 — works both inside .race-card-head and standalone ── */
+article.race-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
 
 .race-card h2 {
-  margin: 0 0 0.3rem;
+  margin: 0 0 0.35rem;
   font-family: var(--font-display);
   font-size: 1.4rem; font-weight: 800;
   line-height: 1.08; letter-spacing: -0.005em; text-transform: uppercase;
@@ -721,13 +654,7 @@ main {
 }
 .race-meta strong { color: var(--text-2); font-weight: 600; }
 
-.race-badges {
-  display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.75rem;
-}
-
-/* When no .race-card-head present (clubs, reports), add space after h2 row */
-.race-card > h2 { margin-bottom: 0.35rem; }
-.race-card > .race-meta { margin-bottom: 0; }
+.race-badges { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.75rem; }
 
 .badge {
   font-size: 0.66rem; font-weight: 700;
@@ -736,22 +663,18 @@ main {
   background: var(--bg); color: var(--muted); border: 1px solid var(--border);
 }
 .badge.distance    { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
-.badge.this-week   { background: #fef3c7; color: #92400e; border-color: transparent; font-weight: 800; }
 .badge.surface-road  { background: var(--road-soft);  color: var(--road);  border-color: transparent; }
 .badge.surface-trail { background: var(--trail-soft); color: var(--trail); border-color: transparent; }
 .badge.surface-track { background: var(--track-soft); color: var(--track); border-color: transparent; }
 .badge.surface-virtual, .badge.surface-other { background: var(--virtual-soft); color: var(--virtual); border-color: transparent; }
 .badge.kid-run { background: #fff3c4; color: #8a6d00; border-color: transparent; }
 
-.race-description {
-  margin: 0.7rem 0 0; font-size: 0.9rem; line-height: 1.55; color: var(--text-2);
-}
+.race-description { margin: 0.7rem 0 0; font-size: 0.9rem; line-height: 1.55; color: var(--text-2); }
 
 .race-card-footer { margin-top: auto; padding-top: 0.95rem; }
 
 .btn-register {
-  display: inline-block;
-  padding: 0.52rem 1.15rem;
+  display: inline-block; padding: 0.52rem 1.15rem;
   background: var(--accent); color: #fff !important;
   font-family: var(--font-body); font-size: 0.74rem; font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.08em;

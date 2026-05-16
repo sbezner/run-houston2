@@ -103,127 +103,47 @@
   }
 
   function renderRaceCard(race) {
-    var distances = (race.distance || [])
-      .map(function (d) {
-        return '<span class="badge distance">' + RH.escapeHtml(d) + '</span>';
-      })
-      .join('');
+    var d = race.date ? new Date(race.date + 'T12:00:00') : null;
 
-    var surfaceBadge = race.surface
-      ? '<span class="badge surface-' + RH.escapeAttr(race.surface) + '">' +
-        RH.escapeHtml(race.surface) + '</span>'
-      : '';
+    // Date + time label
+    var whenParts = [];
+    if (d) {
+      var weekday = d.toLocaleString('en-US', { weekday: 'short' }).toUpperCase();
+      var mon = d.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+      whenParts.push(weekday + ' · ' + mon + ' ' + d.getDate());
+    }
+    var time = RH.formatTime(race.start_time);
+    if (time) whenParts.push(time);
+
+    // Urgency badge
+    var urgencyHtml = '';
+    if (d) {
+      var today = new Date(RH.isoToday());
+      var daysAway = Math.round((d - today) / 86400000);
+      if (daysAway === 0) urgencyHtml = '<span class="race-card__badge race-card__badge--urgent">Today</span>';
+      else if (daysAway === 1) urgencyHtml = '<span class="race-card__badge race-card__badge--urgent">Tomorrow</span>';
+    }
+
+    var surfaceClass = race.surface ? ' race-card--' + RH.escapeAttr(race.surface) : '';
+
+    var badges = (race.distance || []).slice(0, 4).map(function (dist) {
+      return '<span class="race-card__badge">' + RH.escapeHtml(dist) + '</span>';
+    }).join('');
 
     var kidBadge = race.kid_run
-      ? '<span class="badge kid-run">Kid run</span>'
+      ? '<span class="race-card__badge race-card__badge--kid">Kids</span>'
       : '';
 
-    // "This week" badge for races within the next 7 days
-    var thisWeekBadge = '';
-    var daysAway = null;
-    if (race.date) {
-      var today = new Date(RH.isoToday());
-      var raceDate = new Date(race.date + 'T12:00:00');
-      daysAway = Math.round((raceDate - today) / 86400000);
-      if (daysAway >= 0 && daysAway <= 7) {
-        var weekLabel = daysAway === 0 ? 'Today' : daysAway === 1 ? 'Tomorrow' : 'This week';
-        thisWeekBadge = '<span class="badge this-week">' + weekLabel + '</span>';
-      }
-    }
-
-    var locationParts = [race.city, race.state].filter(Boolean);
-    var location = locationParts.join(', ');
-
-    var time = RH.formatTime(race.start_time);
-
-    var nameHtml =
-      '<a href="race.html?id=' + encodeURIComponent(race.id) + '">' +
-      RH.escapeHtml(race.name) + '</a>';
-
-    // Date chip — calendar-style month + day
-    var dateChipHtml = '';
-    if (race.date) {
-      var d = new Date(race.date + 'T12:00:00');
-      var mon = d.toLocaleString('en-US', { month: 'short' }).toUpperCase();
-      var day = d.getDate();
-      dateChipHtml =
-        '<div class="race-date-chip">' +
-        '<span class="race-date-chip__month">' + mon + '</span>' +
-        '<span class="race-date-chip__day">' + day + '</span>' +
-        '</div>';
-    }
-
-    var metaParts = [];
-    if (time) metaParts.push('<strong>' + time + '</strong>');
-    if (location) metaParts.push(RH.escapeHtml(location));
-
-    var description = race.description
-      ? '<p class="race-description">' + RH.escapeHtml(race.description) + '</p>'
-      : '';
-
-    var footer = race.official_website_url
-      ? '<div class="race-card-footer"><a href="' +
-        RH.escapeAttr(RH.safeUrl(race.official_website_url)) +
-        '" target="_blank" rel="noopener noreferrer" class="btn-register">Register &rarr;</a></div>'
-      : '';
+    var location = race.city ? '<span>' + RH.escapeHtml(race.city) + '</span>' : '';
 
     return (
-      '<article class="race-card">' +
-      '<div class="race-card-head">' +
-      dateChipHtml +
-      '<div class="race-card-title-block">' +
-      '<h2>' + nameHtml + '</h2>' +
-      (metaParts.length ? '<div class="race-meta"><span>' + metaParts.join(' &middot; ') + '</span></div>' : '') +
-      '</div>' +
-      '</div>' +
-      '<div class="race-badges">' + thisWeekBadge + distances + surfaceBadge + kidBadge + '</div>' +
-      description +
-      footer +
-      '</article>'
+      '<a href="race.html?id=' + encodeURIComponent(race.id) + '" class="race-card' + surfaceClass + '">' +
+      '<div class="race-card__when">' + RH.escapeHtml(whenParts.join(' · ')) + '</div>' +
+      '<div class="race-card__name">' + RH.escapeHtml(race.name) + '</div>' +
+      '<div class="race-card__meta">' + urgencyHtml + location + badges + kidBadge + '</div>' +
+      '<div class="race-card__arrow">View details &rarr;</div>' +
+      '</a>'
     );
-  }
-
-  function renderSpotlight(races) {
-    var el = document.getElementById('spotlight');
-    if (!el) return;
-    var todayStr = RH.isoToday();
-    var cutoffStr = RH.isoPlusDays(14);
-    var upcoming = races.filter(function (r) {
-      return r.date >= todayStr && r.date <= cutoffStr;
-    }).slice(0, 6);
-    if (upcoming.length === 0) { el.hidden = true; return; }
-
-    var html = '<div class="spotlight">' +
-      '<div class="spotlight-header">' +
-      '<span class="spotlight-eyebrow">Coming up</span>' +
-      '<h2 class="spotlight-title">This Weekend</h2>' +
-      '</div>' +
-      '<div class="spotlight-grid">';
-
-    upcoming.forEach(function (race) {
-      var today = new Date(RH.isoToday());
-      var rd = new Date(race.date + 'T12:00:00');
-      var days = Math.round((rd - today) / 86400000);
-      var whenLabel = days === 0 ? 'Today' : days === 1 ? 'Tomorrow' : RH.formatDate(race.date);
-      var sc = race.surface ? 'spotlight-card--' + race.surface : '';
-      var badges = (race.distance || []).slice(0, 3).map(function (d) {
-        return '<span class="spotlight-card__badge">' + RH.escapeHtml(d) + '</span>';
-      }).join('');
-      html +=
-        '<a href="race.html?id=' + encodeURIComponent(race.id) + '" class="spotlight-card ' + sc + '">' +
-        '<div class="spotlight-card__when">' + RH.escapeHtml(whenLabel) + '</div>' +
-        '<div class="spotlight-card__name">' + RH.escapeHtml(race.name) + '</div>' +
-        '<div class="spotlight-card__meta">' +
-        (race.city ? RH.escapeHtml(race.city) + ' ' : '') +
-        badges +
-        '</div>' +
-        '<div class="spotlight-card__arrow">View race &rarr;</div>' +
-        '</a>';
-    });
-
-    html += '</div></div>';
-    el.innerHTML = html;
-    el.hidden = false;
   }
 
   // Split the search query into whitespace-separated tokens and require
@@ -246,24 +166,40 @@
 
   function filterRaces() {
     var today = RH.isoToday();
-    var cutoff =
-      state.window === 'all' ? '9999-12-31' : RH.isoPlusDays(parseInt(state.window, 10));
+    var tokens = (state.search || '').toLowerCase().split(/\s+/).filter(function (t) { return t.length > 0; });
 
+    if (state.window === 'weekend') {
+      var d = new Date(today + 'T12:00:00');
+      var dow = d.getDay(); // 0=Sun, 6=Sat
+      var weekendDates = [];
+      if (dow === 6) {
+        weekendDates.push(today);
+        var sun = new Date(d); sun.setDate(sun.getDate() + 1);
+        weekendDates.push(sun.toISOString().slice(0, 10));
+      } else if (dow === 0) {
+        weekendDates.push(today);
+      } else {
+        var sat = new Date(d); sat.setDate(sat.getDate() + (6 - dow));
+        var sun2 = new Date(sat); sun2.setDate(sun2.getDate() + 1);
+        weekendDates.push(sat.toISOString().slice(0, 10));
+        weekendDates.push(sun2.toISOString().slice(0, 10));
+      }
+      var dp = state.distances, sp = state.surfaces;
+      var rows = allRaces.filter(function (r) {
+        return weekendDates.indexOf(r.date) !== -1 &&
+          (dp.length === 0 || (r.distance || []).some(function (x) { return dp.indexOf(x) !== -1; })) &&
+          (sp.length === 0 || sp.indexOf(r.surface) !== -1);
+      });
+      rows.sort(function (a, b) { return a.date < b.date ? -1 : a.date > b.date ? 1 : 0; });
+      return rows.filter(function (r) { return matchesSearch(r, tokens); });
+    }
+
+    var cutoff = state.window === 'all' ? '9999-12-31' : RH.isoPlusDays(parseInt(state.window, 10));
     var rows = alasql(
-      'SELECT * FROM ? ' +
-        'WHERE date >= ? AND date <= ? ' +
-        'AND HASANY(distance, ?) ' +
-        'AND INSET(surface, ?) ' +
-        'ORDER BY date ASC',
+      'SELECT * FROM ? WHERE date >= ? AND date <= ? AND HASANY(distance, ?) AND INSET(surface, ?) ORDER BY date ASC',
       [allRaces, today, cutoff, state.distances, state.surfaces]
     );
-
-    var tokens = (state.search || '')
-      .toLowerCase()
-      .split(/\s+/)
-      .filter(function (t) { return t.length > 0; });
-
-    return rows.filter(function (race) { return matchesSearch(race, tokens); });
+    return rows.filter(function (r) { return matchesSearch(r, tokens); });
   }
 
   function renderCards(rows) {
@@ -675,6 +611,9 @@
       if (state.window === 'all') {
         label.textContent = 'All dates';
         btn.classList.remove('has-selection');
+      } else if (state.window === 'weekend') {
+        label.textContent = 'This weekend';
+        btn.classList.add('has-selection');
       } else {
         label.textContent = 'Next ' + state.window + ' days';
         btn.classList.add('has-selection');
@@ -754,7 +693,6 @@
             '<span class="page-hero__stats-sep">\u00B7</span>' +
             'Updated weekly';
         }
-        renderSpotlight(data);
         renderChips('distance-chips', buildDistanceOptions(allRaces), 'distance');
         renderChips('surface-chips', buildSurfaceOptions(allRaces), 'surface');
         attachFilterHandlers();
