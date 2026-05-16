@@ -130,11 +130,15 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   background: rgba(255,255,255,0.09);
 }
 
-/* Hide nav on mobile — mobile-nav takes over */
 @media (max-width: 640px) {
-  .site-nav { display: none; }
-  .site-header { padding: 0 1rem; }
-  .brand { font-size: 1.65rem; }
+  .site-header { padding: 0 0.85rem; }
+  .brand { font-size: 1.45rem; }
+  .site-nav { gap: 0; }
+  .site-nav a {
+    font-size: 0.68rem;
+    padding: 0.45rem 0.55rem;
+    letter-spacing: 0.06em;
+  }
 }
 
 /* Remove tagline — hero replaces it */
@@ -976,34 +980,7 @@ main {
   color: var(--night-muted); font-size: 0.76rem;
 }
 
-/* ─── Mobile Bottom Navigation ───────────────────────────── */
-
-.mobile-nav {
-  display: none;
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 300;
-  background: var(--night); border-top: 1px solid var(--night-border);
-  padding-bottom: env(safe-area-inset-bottom, 0);
-  box-shadow: 0 -4px 20px rgba(0,0,0,.28);
-}
-
-@media (max-width: 640px) {
-  .mobile-nav { display: flex; }
-  body { padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px)); }
-}
-
-.mobile-nav-item {
-  flex: 1; display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  padding: 0.6rem 0.4rem 0.65rem;
-  text-decoration: none; color: rgba(240,239,233,.35);
-  font-size: 0.57rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.06em;
-  gap: 0.22rem; transition: color 140ms;
-  -webkit-tap-highlight-color: transparent;
-}
-.mobile-nav-item svg { width: 20px; height: 20px; }
-.mobile-nav-item[aria-current="page"] { color: var(--accent); }
-.mobile-nav-item:hover { text-decoration: none; }
+/* .mobile-nav removed — nav lives in the header on all screen sizes */
 
 /* ─── Desktop breakpoints ────────────────────────────────── */
 
