@@ -85,6 +85,25 @@ log() {
     echo "$msg" >> "$LOG_FILE"
 }
 
+capture_ids() {
+    python3 -c "
+import json, sys
+try:
+    ids = [r['id'] for r in json.load(open('$REPO_DIR/data/races-upcoming.json'))]
+    print('\n'.join(ids))
+except Exception:
+    pass
+" > /tmp/rh_ids_$$
+}
+
+log_new_races() {
+    local source="$1"
+    python3 "$REPO_DIR/scripts/log-new-races.py" \
+        "$SESSION_ID" "$WEEK_START" "$WEEK_END" "$source" \
+        "/tmp/rh_ids_$$" "$SESSION_LOG" | while IFS= read -r line; do log "  $line"; done
+    rm -f "/tmp/rh_ids_$$"
+}
+
 log "================================================"
 log "Run Houston — Race Discovery"
 log "Starting: $START_DATE for $NUM_WEEKS weeks"
@@ -106,6 +125,17 @@ $(cat "$INSTRUCTIONS_FILE")"
 }
 
 PAUSE_FILE="$REPO_DIR/pause-discovery"
+
+SESSION_COUNTER="$REPO_DIR/logs/races-discovery-session"
+mkdir -p "$REPO_DIR/logs"
+if [ -f "$SESSION_COUNTER" ]; then
+    SESSION_ID=$(($(cat "$SESSION_COUNTER") + 1))
+else
+    SESSION_ID=1
+fi
+echo "$SESSION_ID" > "$SESSION_COUNTER"
+SESSION_LOG="$REPO_DIR/logs/races-added-session-${SESSION_ID}.jsonl"
+log "Session ID: $SESSION_ID"
 
 # Check which weeks already completed (for resume support)
 already_done() {
@@ -161,8 +191,10 @@ while [ "$CURRENT_EPOCH" -le "$END_EPOCH" ]; do
     # --- Step 2: Merge RunSignUp races ---
     if [ -f "$RSU_FILE" ]; then
         log "Step 2: Merging RunSignUp races..."
+        capture_ids
         RSU_MERGE=$(python3 "$REPO_DIR/scripts/merge-races.py" "$RSU_FILE" --apply 2>&1 | grep -E "Adds:|Real updates:|Wrote" || echo "  No changes")
         log "  $RSU_MERGE"
+        log_new_races "runsignup"
     fi
 
     # --- Step 3: Claude Code with retry ---
@@ -188,8 +220,10 @@ while [ "$CURRENT_EPOCH" -le "$END_EPOCH" ]; do
     # --- Step 4: Merge Claude's findings ---
     if [ -f "$CLAUDE_FILE" ]; then
         log "Step 4: Merging Claude's findings..."
+        capture_ids
         CLAUDE_MERGE=$(python3 "$REPO_DIR/scripts/merge-races.py" "$CLAUDE_FILE" --apply 2>&1 | grep -E "Adds:|Real updates:|Wrote" || echo "  No changes")
         log "  $CLAUDE_MERGE"
+        log_new_races "web"
     else
         log "Step 4: No Claude output file found for this week."
     fi
@@ -233,6 +267,7 @@ log ""
 log "Next steps:"
 log "  git diff data/races-upcoming.json"
 log "  git add -A && git commit"
+osascript -e "display notification \"Discovery complete — Session $SESSION_ID finished. Use /races-log session $SESSION_ID to review.\" with title \"Run Houston\""
 WORKER_EOF
 
 # Replace placeholders
@@ -253,4 +288,6 @@ echo "  Status:  tmux ls"
 echo "  Stop:    tmux kill-session -t $SESSION_NAME"
 echo "================================================"
 
-tmux attach -t "$SESSION_NAME"
+if [ -t 1 ]; then
+    tmux attach -t "$SESSION_NAME"
+fi

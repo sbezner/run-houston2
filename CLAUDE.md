@@ -61,7 +61,25 @@ update the validator in the same change.
 
 ## Workflows
 
-### Refreshing race data
+### Automated race discovery (pipeline)
+
+Run `/races-discovery START_DATE NUM_WEEKS` (e.g. `/races-discovery 2026-06-01 5`)
+from Claude Code. This launches `scripts/run_discovery.sh` in a detached tmux
+session — Claude Code stays free immediately. Per week the pipeline:
+
+1. Fetches from RunSignUp API (`scripts/fetch-runsignup-window.py`)
+2. Merges RunSignUp results into `data/races-upcoming.json` (auto, no approval)
+3. Runs Claude Code web search for non-RunSignUp sources (`prompts/run_discovery.md`)
+4. Merges web results (auto)
+5. Enriches affiliate tokens (`scripts/enrich-runsignup.py`)
+6. Logs newly added races to `logs/races-added-session-N.jsonl`
+
+Cooldown is 2 hours between weeks. A macOS notification fires on completion.
+
+- `/races-status` — check progress (weeks done/failed, ETA, current activity)
+- `/races-log session N` — review races added in session N; say "remove X" to back out
+
+### Refreshing race data (manual)
 
 1. Maintainer runs `prompts/upcoming-races-research.md` in claude.ai
    with web search on, sets the `DATE WINDOW:` line to the desired
@@ -72,6 +90,16 @@ update the validator in the same change.
    (adds / updates / removes), surface the summary, and **wait for
    confirmation** before applying — especially for deletes.
 4. Apply, run the validator, commit. Do not push without being asked.
+
+### Refreshing clubs data
+
+Run `/clubs-discovery` from Claude Code. A background research agent sweeps
+HARRA, FFP, RunSignUp, Meetup, and suburb-specific searches, then writes a
+proposed JSON to `~/Downloads/clubs-research-YYYY-MM.json`. When done, the
+diff is presented (new clubs, URL updates) and you confirm before anything is
+written. Validator runs automatically; commit and push on approval.
+
+- `/clubs-status` — check progress of the background research agent
 
 ### Editing site code
 
@@ -100,7 +128,17 @@ update the validator in the same change.
 | `assets/css/styles.css` | All site CSS |
 | `data/*.json` | All site data |
 | `scripts/validate-data.py` | Data contract validator (source of truth for the schema) |
-| `prompts/upcoming-races-research.md` | The claude.ai research prompt for race refreshes |
+| `scripts/merge-races.py` | Diff/merge race research artifacts into `races-upcoming.json` |
+| `scripts/merge-clubs.py` | Diff/merge clubs research artifacts into `clubs.json` |
+| `scripts/run_discovery.sh` | Automated multi-week race discovery pipeline (tmux) |
+| `scripts/fetch-runsignup-window.py` | RunSignUp API fetch for a date window |
+| `scripts/log-new-races.py` | Appends newly added races to per-session JSONL log |
+| `scripts/discovery-status.py` | Pipeline status reporter (reads discovery logs) |
+| `scripts/enrich-runsignup.py` | Adds affiliate tokens to RunSignUp registration URLs |
+| `prompts/upcoming-races-research.md` | Manual claude.ai research prompt for race refreshes |
+| `prompts/run_discovery.md` | Per-week Claude Code research prompt (used by pipeline) |
+| `prompts/clubs-research.md` | Claude Code research prompt for clubs discovery |
+| `.claude/commands/` | Claude Code skill definitions (`/races-discovery`, `/races-status`, `/races-log`, `/clubs-discovery`, `/clubs-status`) |
 | `.github/workflows/validate.yml` | CI early-warning runner |
 | `.claude/settings.json` | Claude Code hooks (auto-validate on data edits) |
 | `.githooks/pre-commit` | Tracked git pre-commit validator hook |
