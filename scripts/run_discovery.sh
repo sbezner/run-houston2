@@ -113,7 +113,7 @@ log "Stop: tmux kill-session -t discovery"
 log "================================================"
 
 CURRENT_EPOCH=$(date -j -f "%Y-%m-%d" "$START_DATE" "+%s")
-END_EPOCH=$((CURRENT_EPOCH + (NUM_WEEKS * 604800)))
+END_EPOCH=$((CURRENT_EPOCH + (NUM_WEEKS * 604800) - 1))
 
 run_claude() {
     local WEEK_START="$1"
