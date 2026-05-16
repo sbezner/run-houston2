@@ -34,6 +34,11 @@
     view: 'cards' // 'cards' | 'list' | 'map'
   };
 
+  // Detect touch/mobile once — mirrors the Harris Tax Appeals pattern.
+  var MOBILE =
+    window.matchMedia('(pointer: coarse)').matches ||
+    window.matchMedia('(max-width: 720px)').matches;
+
   // Leaflet map objects are created lazily the first time the user switches
   // to the map view, so list-only visitors don't pay for tile loading / DOM.
   var map = null;
@@ -276,15 +281,24 @@
   function ensureMap() {
     if (map) return;
     map = L.map('race-map', {
-      scrollWheelZoom: false // avoid trapping page scroll on mobile
+      scrollWheelZoom: !MOBILE
     }).fitBounds(HOUSTON_BOUNDS);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      maxZoom: 18
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors ' +
+        '&copy; <a href="https://carto.com/attributions">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 20,
+      detectRetina: true
     }).addTo(map);
 
     markerLayer = L.layerGroup().addTo(map);
+
+    // On mobile, tapping empty map space closes any open sheet.
+    if (MOBILE) {
+      map.on('click', function () { closeSheet(); });
+    }
   }
 
   function renderMap(rows) {
@@ -299,7 +313,18 @@
     var geo = rows.filter(hasCoords);
     var latLngs = geo.map(function (race) {
       var marker = L.marker([race.latitude, race.longitude]);
-      marker.bindPopup(renderPopup(race));
+      if (MOBILE) {
+        // Tap opens a slide-up bottom sheet; stop propagation so the
+        // map's own click handler (which closes the sheet) doesn't fire.
+        marker.on('click', function (e) {
+          L.DomEvent.stopPropagation(e);
+          openSheet(race);
+        });
+      } else {
+        marker.bindPopup(renderPopup(race));
+        marker.on('mouseover', function () { map.getContainer().style.cursor = 'pointer'; });
+        marker.on('mouseout', function () { map.getContainer().style.cursor = ''; });
+      }
       marker.addTo(markerLayer);
       return [race.latitude, race.longitude];
     });
@@ -359,6 +384,14 @@
     if (view !== 'cards' && view !== 'list' && view !== 'map') return;
     state.view = view;
 
+    // Viewport-filling map mode: lock body to 100dvh when map is active.
+    if (view === 'map') {
+      document.body.classList.add('map-view-active');
+    } else {
+      document.body.classList.remove('map-view-active');
+      closeSheet();
+    }
+
     var cardsWrap = document.getElementById('race-cards');
     var listWrap = document.getElementById('race-list');
     var mapWrap = document.getElementById('race-map-wrap');
@@ -380,6 +413,61 @@
     activeBtn.setAttribute('aria-pressed', 'true');
 
     render();
+  }
+
+  // ---------- Mobile bottom sheet ----------
+
+  function renderSheetHtml(race) {
+    var distances = (race.distance || [])
+      .map(function (d) {
+        return '<span class="badge distance">' + RH.escapeHtml(d) + '</span>';
+      })
+      .join('');
+    var surfaceBadge = race.surface
+      ? '<span class="badge surface-' + RH.escapeAttr(race.surface) + '">' +
+        RH.escapeHtml(race.surface) + '</span>'
+      : '';
+    var location = [race.city, race.state].filter(Boolean).join(', ');
+    var dateLine = RH.formatDate(race.date) +
+      (race.start_time ? ' &middot; ' + RH.formatTime(race.start_time) : '');
+    var registerBtn = race.official_website_url
+      ? '<a href="' + RH.escapeAttr(RH.safeUrl(race.official_website_url)) +
+        '" target="_blank" rel="noopener noreferrer" class="btn-register">Register &rarr;</a>'
+      : '';
+    return (
+      '<button class="sheet-close" type="button" aria-label="Close">&times;</button>' +
+      '<div class="sheet-race-name" id="sheet-race-name">' + RH.escapeHtml(race.name) + '</div>' +
+      '<div class="sheet-meta">' + dateLine +
+        (location ? ' &middot; ' + RH.escapeHtml(location) : '') + '</div>' +
+      '<div class="sheet-badges">' + distances + surfaceBadge + '</div>' +
+      '<div class="sheet-actions">' +
+        '<a href="race.html?id=' + encodeURIComponent(race.id) + '" class="sheet-detail-link">View details</a>' +
+        (registerBtn ? registerBtn : '') +
+      '</div>'
+    );
+  }
+
+  function openSheet(race) {
+    var sheet = document.getElementById('race-map-sheet');
+    if (!sheet) return;
+    sheet.innerHTML = renderSheetHtml(race);
+    sheet.hidden = false;
+    void sheet.offsetWidth; // force reflow to trigger CSS transition
+    sheet.classList.add('open');
+    var closeBtn = sheet.querySelector('.sheet-close');
+    if (closeBtn) closeBtn.addEventListener('click', closeSheet);
+  }
+
+  function closeSheet() {
+    var sheet = document.getElementById('race-map-sheet');
+    if (!sheet || sheet.hidden) return;
+    sheet.classList.remove('open');
+    setTimeout(function () {
+      if (!sheet.classList.contains('open')) {
+        sheet.hidden = true;
+        sheet.innerHTML = '';
+      }
+    }, 220);
   }
 
   // ---------- Geolocation ("Near me") ----------

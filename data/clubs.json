@@ -57,7 +57,7 @@
     "id": "west-end-running-club",
     "club_name": "West End Running Club",
     "location": "Washington Ave, Houston",
-    "website_url": "https://runclubnearme.com/club/west-end-running-club",
+    "website_url": "http://westend.ffprunningclubs.org/",
     "description": "A free, all-levels club that holds weekly runs, with runs often ending at bars.",
     "latitude": 29.7709,
     "longitude": -95.3970
@@ -129,7 +129,7 @@
     "id": "tornados-running-club",
     "club_name": "Tornados Running Club",
     "location": "Houston",
-    "website_url": null,
+    "website_url": "https://tornadosrunningclub.com/",
     "description": "A club focused on running for fun and social aspects with year-round training.",
     "latitude": 29.7604,
     "longitude": -95.3698
@@ -138,7 +138,7 @@
     "id": "runners-high-club",
     "club_name": "Runner's High Club",
     "location": "Houston",
-    "website_url": "https://runclubnearme.com/club/runner-s-high-club",
+    "website_url": "http://www.runnershighclub.com/",
     "description": "A social club open to both beginners and advanced runners.",
     "latitude": 29.7604,
     "longitude": -95.3698
@@ -147,7 +147,7 @@
     "id": "citycentre-running-club",
     "club_name": "CityCentre Running Club",
     "location": "CityCentre/Memorial",
-    "website_url": "https://runclubnearme.com/club/citycentre-running-club",
+    "website_url": null,
     "description": "A free, social club that meets in the CityCentre open-air shopping district.",
     "latitude": 29.7820,
     "longitude": -95.5562
@@ -174,7 +174,7 @@
     "id": "hardloop-endurance",
     "club_name": "Hardloop Endurance",
     "location": "Katy",
-    "website_url": "https://runsignup.com/MemberOrg/HardloopEndurance",
+    "website_url": "https://www.hardloop.run/",
     "description": "A club specializing in providing custom training plans and coaching for endurance runners.",
     "latitude": 29.7858,
     "longitude": -95.8249
@@ -183,7 +183,7 @@
     "id": "no-label-running-club",
     "club_name": "No Label Running Club",
     "location": "Katy",
-    "website_url": "https://runclubnearme.com/club/no-label-running-club",
+    "website_url": "https://www.ffprunningclubs.org/",
     "description": "A running club that meets for weekly runs that start and end at the No Label Brewing Company.",
     "latitude": 29.7858,
     "longitude": -95.8249
@@ -219,7 +219,7 @@
     "id": "fort-bend-fit",
     "club_name": "Fort Bend Fit",
     "location": "Missouri City/Sugar Land",
-    "website_url": null,
+    "website_url": "https://www.fithouston.org/fitfortbend",
     "description": "A training club focused on preparing runners for marathons and half marathons.",
     "latitude": 29.5630,
     "longitude": -95.5391
@@ -246,7 +246,7 @@
     "id": "kemah-running-club",
     "club_name": "Kemah Running Club",
     "location": "Kemah",
-    "website_url": "https://runclubnearme.com/club/kemah-running-club",
+    "website_url": "https://www.ffprunningclubs.org/",
     "description": "A club that holds weekly runs and events in the Kemah/Seabrook area.",
     "latitude": 29.5398,
     "longitude": -95.0202
@@ -264,7 +264,7 @@
     "id": "the-woodlands-running-club",
     "club_name": "The Woodlands Running Club",
     "location": "The Woodlands",
-    "website_url": null,
+    "website_url": "https://thewoodlandsrunningclub.org/",
     "description": "A very active and large club with a strong community in the northern suburbs.",
     "latitude": 30.1658,
     "longitude": -95.4746
@@ -349,5 +349,41 @@
     "description": "A club that offers training and competition for adult runners, swimmers, and cyclists.",
     "latitude": 29.7604,
     "longitude": -95.3698
+  },
+  {
+    "id": "zft-run-club-houston",
+    "club_name": "ZFT Run Club Houston",
+    "location": "Stude Park / Houston Heights",
+    "website_url": "https://zftrunclub.com/zft-houston",
+    "description": "A 501(c)(3) nonprofit run club meeting at Stude Park in the Heights, founded in 2017 to foster community and celebrate African American culture through running. Meets multiple times per week during training season; all paces welcome.",
+    "latitude": 29.7735,
+    "longitude": -95.3982
+  },
+  {
+    "id": "good-guys-run-club",
+    "club_name": "Good Guys Run Club",
+    "location": "Houston Heights / MKT Trail",
+    "website_url": "https://goodguysrunclubhtx.com/",
+    "description": "A community-led social run club meeting Wednesdays at 7 PM along the MKT Heritage Trail and Heights Highline. Routes are 2–4K with an emphasis on psychological safety and peer motivation.",
+    "latitude": null,
+    "longitude": null
+  },
+  {
+    "id": "galveston-running-club",
+    "club_name": "Galveston Running Club",
+    "location": "Galveston",
+    "website_url": "https://www.galvestonrunningclub.org/",
+    "description": "A Galveston Island-based club dedicated to promoting running community and healthy living through organized group runs.",
+    "latitude": null,
+    "longitude": null
+  },
+  {
+    "id": "texas-storm-track-club",
+    "club_name": "Texas Storm Track Club",
+    "location": "Pearland",
+    "website_url": "https://texasstormtrack.org/",
+    "description": "A member-based track and field club serving the Pearland area, offering training programs, events, and community outreach across the Houston metro.",
+    "latitude": null,
+    "longitude": null
   }
 ]
