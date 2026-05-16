@@ -195,9 +195,11 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   .page-hero__inner { padding: 4rem 1.5rem 3rem; }
 }
 
-/* Hide hero and spotlight in map full-screen mode */
-body.map-view-active .page-hero { display: none; }
-body.map-view-active #spotlight  { display: none; }
+/* Hide non-essential elements in map full-screen mode */
+body.map-view-active .page-hero    { display: none; }
+body.map-view-active #spotlight    { display: none; }
+body.map-view-active .site-footer  { display: none; }
+body.map-view-active .mobile-nav   { display: none; }
 
 /* ─── Spotlight ──────────────────────────────────────────── */
 
