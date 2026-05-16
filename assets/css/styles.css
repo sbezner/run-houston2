@@ -515,10 +515,11 @@ main {
 }
 #club-cards[hidden], #report-list[hidden] { display: none; }
 
-@media (min-width: 640px) {
-  #club-cards, #report-list {
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  }
+@media (min-width: 500px) {
+  #club-cards, #report-list { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 860px) {
+  #club-cards, #report-list { grid-template-columns: repeat(3, 1fr); }
 }
 
 /* List table containers */

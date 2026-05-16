@@ -58,32 +58,33 @@
   function renderClubCard(club) {
     var safeWebsite = club.website_url ? RH.safeUrl(club.website_url) : '';
 
-    var nameHtml = club.website_url
-      ? '<a href="' + RH.escapeAttr(safeWebsite) + '" target="_blank" rel="noopener noreferrer">' +
-        RH.escapeHtml(club.club_name) + '</a>'
-      : RH.escapeHtml(club.club_name);
-
-    var location = club.location
-      ? '<div class="race-meta"><span>' + RH.escapeHtml(club.location) + '</span></div>'
+    var domain = club.website_url
+      ? '<span class="race-card__badge">' + RH.escapeHtml(RH.prettyHost(club.website_url)) + '</span>'
       : '';
 
     var description = club.description
-      ? '<p class="race-description">' + RH.escapeHtml(club.description) + '</p>'
+      ? '<div class="race-card__meta" style="opacity:0.7;font-size:0.78rem;line-height:1.4;">' +
+        RH.escapeHtml(club.description.length > 120 ? club.description.slice(0, 117) + '…' : club.description) +
+        '</div>'
       : '';
 
-    var siteFooter = club.website_url
-      ? '<div class="race-card-footer"><a href="' + RH.escapeAttr(safeWebsite) +
-        '" target="_blank" rel="noopener noreferrer">' +
-        RH.escapeHtml(RH.prettyHost(club.website_url)) + ' &rarr;</a></div>'
-      : '<div class="race-card-footer muted">No website listed</div>';
+    var arrow = club.website_url
+      ? '<div class="race-card__arrow">Visit website &rarr;</div>'
+      : '<div class="race-card__arrow" style="color:rgba(240,239,233,.3);">No website listed</div>';
+
+    var tag = club.website_url ? 'a' : 'div';
+    var attrs = club.website_url
+      ? ' href="' + RH.escapeAttr(safeWebsite) + '" target="_blank" rel="noopener noreferrer"'
+      : '';
 
     return (
-      '<article class="race-card">' +
-      '<h2>' + nameHtml + '</h2>' +
-      location +
+      '<' + tag + attrs + ' class="race-card">' +
+      '<div class="race-card__when">' + RH.escapeHtml(club.location || '') + '</div>' +
+      '<div class="race-card__name">' + RH.escapeHtml(club.club_name) + '</div>' +
+      '<div class="race-card__meta">' + domain + '</div>' +
       description +
-      siteFooter +
-      '</article>'
+      arrow +
+      '</' + tag + '>'
     );
   }
 
