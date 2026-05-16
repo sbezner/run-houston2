@@ -30,7 +30,7 @@
     distances: [],
     surfaces: [],
     search: '',
-    window: 'all',
+    window: 'weekend',
     view: 'cards' // 'cards' | 'list' | 'map'
   };
 
