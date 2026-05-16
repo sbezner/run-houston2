@@ -15,9 +15,9 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#c0392b">
+  <meta name="theme-color" content="#0d1117">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="stylesheet" href="assets/css/styles.css?v=23">
+  <link rel="stylesheet" href="assets/css/styles.css?v=30">
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-0HSJBPL4J0"></script>
   <script>
@@ -38,8 +38,17 @@
         <a href="about.html" aria-current="page">About</a>
       </nav>
     </div>
-    <div class="site-header-tagline">Made by runners, for Houston runners.</div>
   </header>
+
+  <section class="page-hero" aria-label="About Run Houston">
+    <div class="page-hero__inner">
+      <p class="page-hero__eyebrow">About</p>
+      <h1 class="page-hero__title">Run<br><em>Houston</em></h1>
+      <p class="page-hero__stats">
+        Made by runners, for Houston runners
+      </p>
+    </div>
+  </section>
 
   <main>
     <article class="prose">
@@ -124,5 +133,20 @@
       </div>
     </div>
   </footer>
+
+  <nav class="mobile-nav" aria-label="Main navigation">
+    <a href="index.html" class="mobile-nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Races
+    </a>
+    <a href="clubs.html" class="mobile-nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Clubs
+    </a>
+    <a href="reports.html" class="mobile-nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Reports
+    </a>
+  </nav>
 </body>
 </html>
