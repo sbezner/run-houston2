@@ -195,12 +195,6 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   .page-hero__inner { padding: 4rem 1.5rem 3rem; }
 }
 
-/* Hide non-essential elements in map full-screen mode */
-body.map-view-active .page-hero    { display: none; }
-body.map-view-active #spotlight    { display: none; }
-body.map-view-active .site-footer  { display: none; }
-body.map-view-active .mobile-nav   { display: none; }
-
 /* ─── Spotlight ──────────────────────────────────────────── */
 
 .spotlight { margin-bottom: 2rem; }
@@ -552,46 +546,6 @@ main {
 .btn-near-me:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
 @media (max-width: 480px) { .rh-map { height: 60vh; } }
-
-/* ─── Viewport-filling map mode ──────────────────────────── */
-
-body.map-view-active {
-  display: flex; flex-direction: column;
-  height: 100vh; height: 100dvh; overflow: hidden;
-}
-body.map-view-active main {
-  flex: 1; min-height: 0;
-  display: flex; flex-direction: column;
-  max-width: 100%; margin: 0; padding: 0; overflow: hidden;
-}
-body.map-view-active .filters {
-  flex: 0 0 auto; margin: 0; border-radius: 0;
-  border-left: none; border-right: none; border-top: none;
-  padding: 0.6rem 1.25rem;
-}
-body.map-view-active .result-bar {
-  flex: 0 0 auto; padding: 0.45rem 1.25rem; margin: 0;
-  border-bottom: 1px solid var(--border);
-}
-body.map-view-active #race-map-wrap {
-  flex: 1; min-height: 0;
-  display: flex; flex-direction: column; position: relative;
-}
-body.map-view-active .rh-map {
-  flex: 1; height: auto; max-height: none; border: none; border-radius: 0;
-}
-body.map-view-active .map-toolbar {
-  position: absolute; top: 12px; right: 16px; z-index: 1000; margin: 0;
-}
-body.map-view-active .map-note {
-  position: absolute; bottom: 36px; left: 50%;
-  transform: translateX(-50%);
-  background: rgba(255,255,255,.92);
-  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
-  padding: 5px 16px; border-radius: 999px;
-  box-shadow: 0 2px 10px rgba(0,0,0,.15);
-  z-index: 1000; margin: 0; white-space: nowrap; text-align: center;
-}
 
 /* ─── Mobile bottom sheet ────────────────────────────────── */
 
@@ -1035,7 +989,6 @@ body.map-view-active .map-note {
 @media (max-width: 640px) {
   .mobile-nav { display: flex; }
   body { padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px)); }
-  body.map-view-active { padding-bottom: 0; }
 }
 
 .mobile-nav-item {

@@ -446,11 +446,7 @@
     if (view !== 'cards' && view !== 'list' && view !== 'map') return;
     state.view = view;
 
-    // Viewport-filling map mode: lock body to 100dvh when map is active.
-    if (view === 'map') {
-      document.body.classList.add('map-view-active');
-    } else {
-      document.body.classList.remove('map-view-active');
+    if (view !== 'map') {
       closeSheet();
     }
 
