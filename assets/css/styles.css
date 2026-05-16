@@ -221,16 +221,11 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
 .spotlight-grid {
   display: grid; gap: 0.75rem; grid-template-columns: 1fr;
 }
-/* On mobile: show at most 2 cards by hiding the 3rd */
-@media (max-width: 499px) {
-  .spotlight-card:nth-child(3) { display: none; }
-}
 @media (min-width: 500px) {
   .spotlight-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (min-width: 860px) {
   .spotlight-grid { grid-template-columns: repeat(3, 1fr); }
-  .spotlight-card:nth-child(3) { display: flex; }
 }
 
 .spotlight-card {

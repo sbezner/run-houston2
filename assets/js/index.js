@@ -190,7 +190,7 @@
     var cutoffStr = RH.isoPlusDays(14);
     var upcoming = races.filter(function (r) {
       return r.date >= todayStr && r.date <= cutoffStr;
-    }).slice(0, 3);
+    }).slice(0, 6);
     if (upcoming.length === 0) { el.hidden = true; return; }
 
     var html = '<div class="spotlight">' +
