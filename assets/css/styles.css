@@ -431,8 +431,9 @@ main {
 
 @media (max-width: 480px) {
   .filter-dd-panel {
-    position: fixed; left: 1rem; right: 1rem;
-    top: auto; width: auto; min-width: 0;
+    left: 0; right: auto;
+    max-width: calc(100vw - 1.5rem);
+    min-width: 0;
   }
 }
 
