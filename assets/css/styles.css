@@ -190,8 +190,9 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   .page-hero__inner { padding: 4.5rem 1.5rem 3.5rem; }
 }
 
-/* Hide hero in map full-screen mode */
+/* Hide hero and spotlight in map full-screen mode */
 body.map-view-active .page-hero { display: none; }
+body.map-view-active #spotlight  { display: none; }
 
 /* ─── Spotlight ──────────────────────────────────────────── */
 
