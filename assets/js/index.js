@@ -659,6 +659,13 @@
       }
     });
 
+    function closeAllPanels() {
+      ddPairs.forEach(function (p) {
+        document.getElementById(p.panel).hidden = true;
+        document.getElementById(p.btn).setAttribute('aria-expanded', 'false');
+      });
+    }
+
     // Date radios
     document.getElementById('dd-date-panel').addEventListener('change', function () {
       var checked = document.querySelector('input[name="date"]:checked');
@@ -672,6 +679,7 @@
         label.textContent = 'Next ' + state.window + ' days';
         btn.classList.add('has-selection');
       }
+      closeAllPanels();
       render();
     });
 
@@ -689,6 +697,7 @@
         }).join(', ');
         btn.classList.add('has-selection');
       }
+      closeAllPanels();
       render();
     });
 
@@ -707,6 +716,7 @@
         label.textContent = state.distances.length + ' selected';
         btn.classList.add('has-selection');
       }
+      closeAllPanels();
       render();
     });
 
