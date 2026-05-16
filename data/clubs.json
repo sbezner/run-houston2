@@ -21,7 +21,7 @@
     "id": "atascocita-titans-track-club",
     "club_name": "Atascocita Titans Track Club",
     "location": "Humble",
-    "website_url": "https://www.atascocitatitanstrackclub.com/about-us",
+    "website_url": "https://www.instagram.com/titanstrack_titanup/",
     "description": "A track and field club that helps athletes of all skill levels, located in the Humble area.",
     "latitude": 29.9961,
     "longitude": -95.1888
@@ -84,7 +84,7 @@
     "id": "citycentre-running-club",
     "club_name": "CityCentre Running Club",
     "location": "CityCentre/Memorial",
-    "website_url": "http://citycentre.ffprunningclubs.org/",
+    "website_url": "https://www.facebook.com/CCRunningClub/",
     "description": "A free FFP affiliate social club that meets in the CityCentre open-air shopping district every Monday at 5:30pm.",
     "latitude": 29.782,
     "longitude": -95.5562
@@ -192,7 +192,7 @@
     "id": "holler-haulers-run-club",
     "club_name": "Holler Haulers Run Club",
     "location": "Sawyer Yards, Houston",
-    "website_url": "https://hollerbeer.com/events/",
+    "website_url": "https://hollerbeer.com/",
     "description": "A social run club meeting Wednesday nights at Holler Brewing with a Short Haul (3 miles) and Long Haul (5 miles) route option, both departing at 6:30\u20137 PM.",
     "latitude": 29.7693,
     "longitude": -95.381
@@ -282,7 +282,7 @@
     "id": "kemah-running-club",
     "club_name": "Kemah Running Club",
     "location": "Kemah",
-    "website_url": "http://jackiesbrickhouse.ffprunningclubs.org/",
+    "website_url": null,
     "description": "An FFP affiliate club (Jackie's Brickhouse) that holds free weekly runs and events in the Kemah area, followed by a free pasta buffet.",
     "latitude": 29.5398,
     "longitude": -95.0202
@@ -462,7 +462,7 @@
     "id": "west-end-running-club",
     "club_name": "West End Running Club",
     "location": "Washington Ave, Houston",
-    "website_url": "http://westend.ffprunningclubs.org/",
+    "website_url": "https://www.facebook.com/ffp.WERC/",
     "description": "A free, all-levels FFP affiliate club that holds weekly runs along Washington Ave, with runs often ending at bars.",
     "latitude": 29.7709,
     "longitude": -95.397
