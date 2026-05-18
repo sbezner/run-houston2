@@ -1752,8 +1752,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77092",
-    "latitude": 29.801,
-    "longitude": -95.4527,
+    "latitude": 29.8058,
+    "longitude": -95.4611,
     "distance": [
       "5K",
       "10K",
@@ -1763,7 +1763,7 @@
     "kid_run": true,
     "official_website_url": "https://houstonrunning.co/lemonadedash/",
     "source_url": "https://findarace.com/us/events/lemonade-dash-houston",
-    "description": "Part of the Summer Dash Series by Houston Running Co., the Lemonade Dash is a family-friendly 5K/10K and Kids K held at Karbach Brewing Co. Participants receive a custom bib, finisher medal, and a signature cup of lemonade."
+    "description": "Annual summer race at Karbach Brewing Co. featuring a scenic course with ice-cold lemonade at the finish line. Part of Houston Running Co.'s Summer Dash Series, now in its sixth year."
   },
   {
     "id": "harmonie-grace-5k-miles-for-miracles-2026",
@@ -1796,8 +1796,8 @@
     "city": "Houston",
     "state": "TX",
     "zip": "77077",
-    "latitude": 29.7386,
-    "longitude": -95.5508,
+    "latitude": null,
+    "longitude": null,
     "distance": [
       "1 Mile",
       "5K",
@@ -1806,9 +1806,9 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://www.thebestraces.com/houstonruns/",
+    "official_website_url": "https://www.runagainstbreastcancer.com/",
     "source_url": "https://findarace.com/us/events/run-for-breast-cancer-5k-10k-13-1-houston-2",
-    "description": "A charity race raising awareness for breast cancer, held on paved bayou trails in west Houston. Offers wave starts across multiple distances in a supportive community atmosphere."
+    "description": "Small-group breast cancer awareness run along Houston's bayou trails with capped waves for an intimate experience. Organized by The Best Races."
   },
   {
     "id": "big-rivers-splash-and-dash-2026",
@@ -2874,6 +2874,27 @@
     "official_website_url": "https://runsignup.com/Race/TX/Katy/RunBrewsKAtKatyBeerGarden?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://www.findtherun.com/race/110862/2nd-annual-run-brews-fun-run-at-katy-beer-garden",
     "description": "A fun summer run-and-beer event at Katy Beer Garden offering 1-mile, 5K, and 10K distances with post-race brews in Katy. Venue address to be confirmed on the race website closer to the event."
+  },
+  {
+    "id": "runners-high-club-20262027-training-program-2026",
+    "name": "Runner's High Club 2026-2027 Training Program",
+    "date": "2026-08-22",
+    "start_time": null,
+    "tz": "America/Chicago",
+    "address": "Memorial Park Sports Complex",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77007",
+    "latitude": null,
+    "longitude": null,
+    "distance": [
+      "5K"
+    ],
+    "surface": "road",
+    "kid_run": false,
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/RunnersHighClubTrainingprograms?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Houston/RunnersHighClubTrainingprograms?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "description": "A running race in Houston, TX."
   },
   {
     "id": "summer-sizzler-sugar-land-2026",
