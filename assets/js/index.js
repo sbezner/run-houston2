@@ -607,13 +607,6 @@
   // Near me for cards/list — sorts by distance and shows "X mi" badge
   function handleCardNearMe() {
     var btn = document.getElementById('card-near-me-btn');
-    if (state.sortByDistance) {
-      state.userLat = null; state.userLng = null; state.sortByDistance = false;
-      btn.classList.remove('is-active');
-      btn.innerHTML = NEAR_ME_SVG + ' Near me';
-      render();
-      return;
-    }
     if (!navigator.geolocation) { btn.textContent = 'Not supported'; btn.disabled = true; return; }
     btn.disabled = true;
     btn.textContent = 'Locating…';
