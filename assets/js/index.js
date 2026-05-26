@@ -174,6 +174,7 @@
     if (time) whenParts.push(time);
 
     var urgencyHtml = '';
+    var countdownHtml = '';
     if (d) {
       var today = new Date(RH.isoToday());
       var daysAway = Math.round((d - today) / 86400000);
@@ -181,6 +182,10 @@
         urgencyHtml = '<span class="race-card__badge race-card__badge--urgent">Today</span>';
       else if (daysAway === 1)
         urgencyHtml = '<span class="race-card__badge race-card__badge--urgent">Tomorrow</span>';
+      if (daysAway >= 2) {
+        var cdLabel = daysAway < 90 ? daysAway + 'd' : Math.round(daysAway / 30) + 'mo';
+        countdownHtml = '<span class="race-card__countdown">' + cdLabel + '</span>';
+      }
     }
 
     var distBadge = '';
@@ -205,7 +210,7 @@
     return (
       '<a href="race.html?id=' + encodeURIComponent(race.id) +
       '" class="race-card' + surfaceClass + '">' +
-      '<div class="race-card__when">' + RH.escapeHtml(whenParts.join(' · ')) + '</div>' +
+      '<div class="race-card__when"><span>' + RH.escapeHtml(whenParts.join(' · ')) + '</span>' + countdownHtml + '</div>' +
       '<div class="race-card__name">' + RH.escapeHtml(race.name) + '</div>' +
       '<div class="race-card__meta">' + urgencyHtml + distBadge + location + badges + kidBadge + '</div>' +
       '<div class="race-card__arrow">View details &rarr;</div>' +

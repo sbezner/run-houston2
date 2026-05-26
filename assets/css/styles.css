@@ -603,6 +603,12 @@ a.race-card:hover {
   font-size: 0.64rem; font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.14em;
   color: rgba(240,239,233,.48); position: relative; z-index: 1;
+  display: flex; justify-content: space-between; align-items: center; gap: 0.5rem;
+}
+
+.race-card__countdown {
+  font-size: 0.64rem; font-weight: 700; letter-spacing: 0.08em;
+  color: rgba(240,239,233,.32); flex-shrink: 0;
 }
 
 .race-card__name {
