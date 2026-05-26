@@ -26,30 +26,6 @@
     sortByDistance: false
   };
 
-  var QUIZ_STEPS = [
-    { q: 'How far do you want to run?', key: 'distances', options: [
-      { label: '5K', value: ['5K'] },
-      { label: '10K', value: ['10K'] },
-      { label: 'Half Marathon', value: ['Half Marathon'] },
-      { label: 'Marathon', value: ['Marathon'] },
-      { label: 'Any distance', value: [] }
-    ]},
-    { q: 'Road or trail?', key: 'surfaces', options: [
-      { label: 'Road', value: ['road'] },
-      { label: 'Trail', value: ['trail'] },
-      { label: 'Either', value: [] }
-    ]},
-    { q: 'When are you racing?', key: 'window', options: [
-      { label: 'This week', value: '7' },
-      { label: 'This month', value: '30' },
-      { label: 'Next 3 months', value: '90' },
-      { label: 'Any time', value: 'all' }
-    ]}
-  ];
-
-  var quizStep = 0;
-  var quizAnswers = {};
-
   var MOBILE =
     window.matchMedia('(pointer: coarse)').matches ||
     window.matchMedia('(max-width: 720px)').matches;
@@ -652,102 +628,6 @@
     );
   }
 
-  // ---------- Race finder quiz ----------
-
-  function syncFilterUI() {
-    document.querySelectorAll('input[name="distance"]').forEach(function (cb) { cb.checked = false; });
-    state.distances.forEach(function (d) {
-      var cb = document.querySelector('input[name="distance"][value="' + d + '"]');
-      if (cb) cb.checked = true;
-    });
-    var distLabel = document.getElementById('dd-distance-label');
-    var distBtn = document.getElementById('dd-distance-btn');
-    if (!state.distances.length) { distLabel.textContent = 'All distances'; distBtn.classList.remove('has-selection'); }
-    else if (state.distances.length <= 3) { distLabel.textContent = state.distances.join(', '); distBtn.classList.add('has-selection'); }
-    else { distLabel.textContent = state.distances.length + ' selected'; distBtn.classList.add('has-selection'); }
-
-    document.querySelectorAll('input[name="surface"]').forEach(function (cb) { cb.checked = false; });
-    state.surfaces.forEach(function (s) {
-      var cb = document.querySelector('input[name="surface"][value="' + s + '"]');
-      if (cb) cb.checked = true;
-    });
-    var surfLabel = document.getElementById('dd-surface-label');
-    var surfBtn = document.getElementById('dd-surface-btn');
-    if (!state.surfaces.length) { surfLabel.textContent = 'All surfaces'; surfBtn.classList.remove('has-selection'); }
-    else {
-      surfLabel.textContent = state.surfaces.map(function (s) { return s.charAt(0).toUpperCase() + s.slice(1); }).join(', ');
-      surfBtn.classList.add('has-selection');
-    }
-
-    var radio = document.querySelector('input[name="date"][value="' + state.window + '"]');
-    if (radio) radio.checked = true;
-    var dLabel = document.getElementById('dd-date-label');
-    var dBtn = document.getElementById('dd-date-btn');
-    if (state.window === 'all') { dLabel.textContent = 'All dates'; dBtn.classList.remove('has-selection'); }
-    else { dLabel.textContent = 'Next ' + state.window + ' days'; dBtn.classList.add('has-selection'); }
-  }
-
-  function renderQuizStep(step) {
-    var panel = document.getElementById('quiz-body');
-    var s = QUIZ_STEPS[step];
-    var dots = QUIZ_STEPS.map(function (_, i) {
-      var cls = 'quiz-dot' + (i < step ? ' quiz-dot--done' : i === step ? ' quiz-dot--active' : '');
-      return '<span class="' + cls + '"></span>';
-    }).join('');
-    var opts = s.options.map(function (o, i) {
-      return '<button type="button" class="quiz-option" data-idx="' + i + '">' +
-        RH.escapeHtml(o.label) + '</button>';
-    }).join('');
-    panel.innerHTML =
-      '<div class="quiz-progress">' + dots + '</div>' +
-      '<div class="quiz-q">' + RH.escapeHtml(s.q) + '</div>' +
-      '<div class="quiz-options">' + opts + '</div>' +
-      '<div class="quiz-footer">' +
-      '<button type="button" class="quiz-back"' + (step === 0 ? ' disabled' : '') + '>&#8592; Back</button>' +
-      '<button type="button" class="quiz-close">&#215; Close</button>' +
-      '</div>';
-    panel.querySelector('.quiz-back').addEventListener('click', function () {
-      if (quizStep > 0) { quizStep--; renderQuizStep(quizStep); }
-    });
-    panel.querySelector('.quiz-close').addEventListener('click', closeQuiz);
-    panel.querySelectorAll('.quiz-option').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var idx = parseInt(btn.getAttribute('data-idx'), 10);
-        advanceQuiz(s.options[idx].value);
-      });
-    });
-  }
-
-  function advanceQuiz(value) {
-    quizAnswers[QUIZ_STEPS[quizStep].key] = value;
-    if (quizStep < QUIZ_STEPS.length - 1) {
-      quizStep++;
-      renderQuizStep(quizStep);
-    } else {
-      applyQuizAnswers();
-    }
-  }
-
-  function applyQuizAnswers() {
-    if (quizAnswers.distances !== undefined) state.distances = quizAnswers.distances;
-    if (quizAnswers.surfaces !== undefined) state.surfaces = quizAnswers.surfaces;
-    if (quizAnswers.window !== undefined) state.window = quizAnswers.window;
-    syncFilterUI();
-    closeQuiz();
-    render();
-  }
-
-  function startQuiz() {
-    quizStep = 0;
-    quizAnswers = {};
-    document.getElementById('quiz-panel').hidden = false;
-    renderQuizStep(0);
-  }
-
-  function closeQuiz() {
-    document.getElementById('quiz-panel').hidden = true;
-  }
-
   // ---------- Wiring ----------
 
   function readChipState(group) {
@@ -838,7 +718,6 @@
     document.getElementById('view-map-btn').addEventListener('click', function () { setView('map'); });
     document.getElementById('view-cal-btn').addEventListener('click', function () { setView('cal'); });
     document.getElementById('card-near-me-btn').addEventListener('click', handleCardNearMe);
-    document.getElementById('quiz-trigger').addEventListener('click', startQuiz);
   }
 
   // ---------- Init ----------
