@@ -30,7 +30,7 @@
     distances: [],
     surfaces: [],
     search: '',
-    window: 'weekend',
+    window: '7',
     view: 'cards' // 'cards' | 'list' | 'map'
   };
 
@@ -167,32 +167,6 @@
   function filterRaces() {
     var today = RH.isoToday();
     var tokens = (state.search || '').toLowerCase().split(/\s+/).filter(function (t) { return t.length > 0; });
-
-    if (state.window === 'weekend') {
-      var d = new Date(today + 'T12:00:00');
-      var dow = d.getDay(); // 0=Sun, 6=Sat
-      var weekendDates = [];
-      if (dow === 6) {
-        weekendDates.push(today);
-        var sun = new Date(d); sun.setDate(sun.getDate() + 1);
-        weekendDates.push(sun.toISOString().slice(0, 10));
-      } else if (dow === 0) {
-        weekendDates.push(today);
-      } else {
-        var sat = new Date(d); sat.setDate(sat.getDate() + (6 - dow));
-        var sun2 = new Date(sat); sun2.setDate(sun2.getDate() + 1);
-        weekendDates.push(sat.toISOString().slice(0, 10));
-        weekendDates.push(sun2.toISOString().slice(0, 10));
-      }
-      var dp = state.distances, sp = state.surfaces;
-      var rows = allRaces.filter(function (r) {
-        return weekendDates.indexOf(r.date) !== -1 &&
-          (dp.length === 0 || (r.distance || []).some(function (x) { return dp.indexOf(x) !== -1; })) &&
-          (sp.length === 0 || sp.indexOf(r.surface) !== -1);
-      });
-      rows.sort(function (a, b) { return a.date < b.date ? -1 : a.date > b.date ? 1 : 0; });
-      return rows.filter(function (r) { return matchesSearch(r, tokens); });
-    }
 
     var cutoff = state.window === 'all' ? '9999-12-31' : RH.isoPlusDays(parseInt(state.window, 10));
     var rows = alasql(
@@ -611,9 +585,6 @@
       if (state.window === 'all') {
         label.textContent = 'All dates';
         btn.classList.remove('has-selection');
-      } else if (state.window === 'weekend') {
-        label.textContent = 'This weekend';
-        btn.classList.add('has-selection');
       } else {
         label.textContent = 'Next ' + state.window + ' days';
         btn.classList.add('has-selection');
