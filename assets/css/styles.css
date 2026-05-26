@@ -1049,6 +1049,74 @@ article.race-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-
   .cal-race-list { min-width: 160px; }
 }
 
+/* ─── Race finder quiz ───────────────────────────────────── */
+
+#race-finder { text-align: center; padding: 0.5rem 0 0.25rem; }
+
+.quiz-trigger {
+  appearance: none; background: none;
+  border: 1.5px dashed var(--border); border-radius: 999px;
+  padding: 0.5rem 1.25rem;
+  font-family: var(--font-body); font-size: 0.82rem; font-weight: 600;
+  color: var(--muted); cursor: pointer;
+  transition: border-color 140ms, color 140ms;
+}
+.quiz-trigger:hover { border-color: var(--accent); color: var(--accent); }
+
+.quiz-panel {
+  background: var(--night); color: var(--night-text);
+  border-radius: var(--radius); padding: 1.75rem 1.5rem;
+  margin-top: 0.75rem; text-align: left;
+}
+
+.quiz-progress {
+  display: flex; gap: 6px; justify-content: center; margin-bottom: 1.5rem;
+}
+.quiz-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--night-border);
+  border: 1.5px solid rgba(255,255,255,0.18);
+  transition: background 200ms, border-color 200ms;
+}
+.quiz-dot--active { background: var(--accent); border-color: var(--accent); }
+.quiz-dot--done { background: rgba(255,255,255,0.3); border-color: transparent; }
+
+.quiz-q {
+  font-family: var(--font-display);
+  font-size: 1.5rem; font-weight: 800; text-transform: uppercase;
+  letter-spacing: -0.01em; text-align: center;
+  margin-bottom: 1.25rem; line-height: 1.1; color: var(--night-text);
+}
+
+.quiz-options {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 0.6rem; margin-bottom: 1.25rem;
+}
+
+.quiz-option {
+  appearance: none; background: var(--night-2);
+  border: 1.5px solid var(--night-border); border-radius: var(--radius-sm);
+  padding: 0.75rem 0.5rem; text-align: center;
+  font-family: var(--font-body); font-size: 0.88rem; font-weight: 600;
+  color: var(--night-text); cursor: pointer; line-height: 1.2;
+  transition: border-color 120ms, background 120ms;
+}
+.quiz-option:hover { border-color: var(--accent); background: rgba(232,48,42,0.1); }
+
+.quiz-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: 0.75rem; border-top: 1px solid var(--night-border);
+}
+
+.quiz-back, .quiz-close {
+  appearance: none; background: none; border: none;
+  font-family: var(--font-body); font-size: 0.8rem; font-weight: 600;
+  color: var(--night-muted); cursor: pointer; padding: 0.2rem 0;
+  transition: color 120ms;
+}
+.quiz-back:hover, .quiz-close:hover { color: var(--night-text); }
+.quiz-back:disabled { opacity: 0.3; cursor: default; }
+
 /* ─── Desktop breakpoints ────────────────────────────────── */
 
 @media (min-width: 640px) {
