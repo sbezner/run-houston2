@@ -149,7 +149,11 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
 .page-hero {
   background-color: #0d1117;
   background-color: var(--night);
+  background-image: url('../images/hero.jpg');
+  background-size: cover;
+  background-position: center 35%;
   position: relative;
+  padding-bottom: 4.5rem;
 }
 
 .page-hero::before {
@@ -157,8 +161,9 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   position: absolute;
   top: 0; right: 0; bottom: 0; left: 0;
   background:
-    radial-gradient(ellipse 60% 80% at 85% 40%, rgba(232,48,42,.18) 0%, transparent 65%),
-    radial-gradient(ellipse 40% 60% at 10% 85%, rgba(22,96,199,.1) 0%, transparent 60%);
+    linear-gradient(to bottom, rgba(13,17,23,.75) 0%, rgba(13,17,23,.88) 60%, rgba(13,17,23,.97) 100%),
+    radial-gradient(ellipse 60% 80% at 85% 40%, rgba(232,48,42,.30) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 60% at 10% 85%, rgba(22,96,199,.12) 0%, transparent 60%);
   pointer-events: none;
   z-index: 0;
 }
@@ -192,7 +197,14 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   margin: 0; font-size: 0.83rem; font-weight: 600;
   color: rgba(240,239,233,.5);
 }
-.page-hero__stats strong { color: rgba(240,239,233,.9); font-weight: 700; }
+.page-hero__stats strong {
+  background: rgba(255,255,255,.1);
+  color: rgba(240,239,233,.95);
+  font-weight: 700;
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.13);
+}
 .page-hero__stats-sep { opacity: 0.25; }
 
 @media (min-width: 640px) {
@@ -203,7 +215,7 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
 
 main {
   max-width: var(--max-w); margin: 0 auto;
-  padding: 2rem 1.25rem 4rem;
+  padding: 0 1.25rem 4rem;
 }
 
 .page-title {
@@ -236,8 +248,9 @@ main {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 1.1rem 1.25rem;
+  margin-top: -3rem;
   margin-bottom: 1.25rem;
-  box-shadow: var(--shadow);
+  box-shadow: 0 8px 32px rgba(13,17,23,.2), var(--shadow);
   display: grid; gap: 0.85rem;
   position: relative; z-index: 1000;
 }
@@ -905,7 +918,7 @@ article.race-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-
 /* ─── Desktop breakpoints ────────────────────────────────── */
 
 @media (min-width: 640px) {
-  main { padding: 2.5rem 1.5rem 5rem; }
+  main { padding: 0 1.5rem 5rem; }
   .brand { font-size: 2rem; }
   .page-title { font-size: 3rem; }
   .race-detail-header h1 { font-size: 2.75rem; }
