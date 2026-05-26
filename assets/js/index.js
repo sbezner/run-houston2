@@ -519,6 +519,14 @@
     state.view = view;
     if (view !== 'map') { closeSheet(); }
 
+    if (view === 'cal' && state.window !== 'all') {
+      state.window = 'all';
+      var allRadio = document.querySelector('input[name="date"][value="all"]');
+      if (allRadio) allRadio.checked = true;
+      document.getElementById('dd-date-label').textContent = 'All dates';
+      document.getElementById('dd-date-btn').classList.remove('has-selection');
+    }
+
     var cardsWrap = document.getElementById('race-cards');
     var listWrap = document.getElementById('race-list');
     var mapWrap = document.getElementById('race-map-wrap');
