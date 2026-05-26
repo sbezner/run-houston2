@@ -72,7 +72,7 @@
       ? '<div class="race-card__arrow">Visit website &rarr;</div>'
       : '<div class="race-card__arrow" style="color:rgba(240,239,233,.3);">No website listed</div>';
 
-    var tag = club.website_url ? 'a' : 'div';
+    var tag = 'a';
     var attrs = club.website_url
       ? ' href="' + RH.escapeAttr(safeWebsite) + '" target="_blank" rel="noopener noreferrer"'
       : '';
