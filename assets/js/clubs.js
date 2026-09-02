@@ -77,7 +77,7 @@
       '<article class="race-card" style="display:flex;flex-direction:column;">' +
       '<div style="font-size:0.75rem;color:var(--mute);text-transform:uppercase;letter-spacing:0.08em;font-weight:700;">' +
       RH.escapeHtml(club.location || '') + '</div>' +
-      '<h2 style="font-family:var(--font-display);font-size:1.35rem;font-weight:800;line-height:1.1;color:var(--ink);margin:0.5rem 0 0.4rem;">' +
+      '<h2 class="club-card__name" style="font-size:1.35rem;line-height:1.1;color:var(--ink);margin:0.5rem 0 0.4rem;">' +
       RH.escapeHtml(club.club_name) + '</h2>' +
       '<div>' + domain + '</div>' +
       description +
