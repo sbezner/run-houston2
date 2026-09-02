@@ -18,22 +18,23 @@
   }
 
   function injectJsonLd(race) {
-    // schema.org/Event — makes the race eligible for Google's enriched
+    // schema.org/SportsEvent — makes the race eligible for Google's enriched
     // event cards / events vertical. Googlebot executes JS and picks this
     // up post-render. Only emit fields we actually have; omit the rest
     // rather than guessing.
     var data = {
       '@context': 'https://schema.org',
-      '@type': 'Event',
+      '@type': 'SportsEvent',
       'name': race.name,
       'url': 'https://runhouston.app/race.html?id=' + encodeURIComponent(race.id),
       'eventStatus': 'https://schema.org/EventScheduled',
-      'eventAttendanceMode': 'https://schema.org/OfflineEventAttendanceMode'
+      'eventAttendanceMode': 'https://schema.org/OfflineEventAttendanceMode',
+      'sport': 'Running'
     };
 
     if (race.date) {
       data.startDate = race.start_time
-        ? race.date + 'T' + race.start_time + (race.tz === 'America/Chicago' ? '-05:00' : '')
+        ? race.date + 'T' + race.start_time + (race.tz === 'America/Chicago' ? '-06:00' : '-05:00')
         : race.date;
     }
     if (race.description) data.description = race.description;
