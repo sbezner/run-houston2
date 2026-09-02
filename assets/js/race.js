@@ -239,12 +239,14 @@
 
     var date = RH.formatDateLong(race.date);
     var time = RH.formatTime(race.start_time);
+    var subtitleParts = [date];
+    if (time) subtitleParts.push(time);
 
     var websiteButton = race.official_website_url
       ? '<p class="race-website-cta">' +
         '<a href="' + RH.escapeAttr(RH.safeUrl(race.official_website_url)) +
         '" target="_blank" rel="noopener noreferrer" class="btn-primary">' +
-        'Register for this race &rarr;</a>' +
+        'Register</a>' +
         '</p>'
       : '';
 
@@ -259,8 +261,7 @@
       '<header class="race-detail-header">' +
       '<h1>' + RH.escapeHtml(race.name) + '</h1>' +
       '<p class="race-detail-subtitle">' +
-      '<strong>' + RH.escapeHtml(date) + '</strong>' +
-      (time ? ' &middot; ' + RH.escapeHtml(time) : '') +
+      '<strong>' + RH.escapeHtml(subtitleParts.join(' · ')) + '</strong>' +
       '</p>' +
       '<div class="race-detail-actions">' +
       '<div class="race-badges">' + distances + surfaceBadge + kidBadge + '</div>' +
