@@ -571,15 +571,6 @@ main {
   margin: 0.5rem 0 0.4rem;
 }
 
-.club-card__name {
-  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  font-size: 1.45rem; font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: -0.01em;
-  color: #111318; color: var(--text);
-  position: relative; z-index: 1;
-}
-
 .race-card__meta {
   grid-column: 2;
   grid-row: 2;
