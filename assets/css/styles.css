@@ -75,7 +75,7 @@ a:hover { text-decoration: underline; }
 .brand-mark { color: var(--heat); }
 
 .site-nav {
-  display: flex; gap: 0.5rem;
+  display: flex; gap: 0.5rem; flex-wrap: wrap;
 }
 .site-nav a {
   color: var(--ink);
@@ -94,11 +94,12 @@ a:hover { text-decoration: underline; }
 
 @media (max-width: 640px) {
   .site-header { padding: 0 1rem; }
+  .site-header-inner { flex-wrap: wrap; height: auto; padding: 0.75rem 0; }
   .brand { font-size: 1.5rem; }
-  .site-nav { gap: 0.25rem; }
+  .site-nav { gap: 0.3rem; width: 100%; justify-content: flex-start; }
   .site-nav a {
     font-size: 0.7rem;
-    padding: 0.45rem 0.6rem;
+    padding: 0.4rem 0.55rem;
     letter-spacing: 0.05em;
   }
 }
@@ -134,14 +135,11 @@ a:hover { text-decoration: underline; }
   display: flex; flex-wrap: wrap;
   align-items: center; gap: 0.5rem;
   margin: 0; font-size: 0.8rem; font-weight: 700;
-  color: var(--mute);
+  color: var(--ink);
 }
 .page-hero__stats strong {
-  background: var(--ink);
-  color: var(--paper);
+  color: var(--ink);
   font-weight: 700;
-  padding: 0.25rem 0.65rem;
-  border-radius: 999px;
 }
 .page-hero__stats-sep { opacity: 0.4; }
 
@@ -157,10 +155,9 @@ main {
 }
 
 .page-title {
-  font-family: var(--font-display);
-  font-size: 2.5rem; font-weight: 800;
-  line-height: 1.05; letter-spacing: -0.01em;
-  text-transform: uppercase; margin: 1.5rem 0 0.5rem; color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 2.5rem; font-weight: 700;
+  line-height: 1.1; margin: 1.5rem 0 0.5rem; color: var(--ink);
 }
 
 .page-subtitle {
@@ -324,7 +321,6 @@ main {
   text-transform: uppercase; letter-spacing: 0.08em;
   padding: 0.45rem 0.9rem; min-height: 32px; border-radius: 999px;
   cursor: pointer; transition: background 140ms, color 140ms;
-  white-space: nowrap;
 }
 .view-toggle-btn:hover { color: var(--ink); }
 .view-toggle-btn.is-active {
@@ -332,6 +328,10 @@ main {
 }
 .view-toggle-btn:focus-visible {
   outline: 2px solid var(--ink); outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+  .view-toggle { flex-wrap: wrap; }
 }
 
 .btn-near-me-inline {
@@ -426,6 +426,10 @@ main {
   font-family: var(--font-display);
   font-size: 1.35rem; font-weight: 800;
   color: var(--ink); margin: 0 2rem 0.4rem 0; line-height: 1.1;
+  text-decoration: none; display: block;
+}
+.sheet-race-name:hover {
+  text-decoration: underline;
 }
 .sheet-meta { font-size: 0.82rem; color: var(--mute); margin-bottom: 0.6rem; }
 .sheet-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 0.9rem; }
@@ -500,7 +504,10 @@ main {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 1.25rem 1.3rem;
-  display: flex; flex-direction: column; gap: 0.75rem;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: auto auto auto;
+  gap: 0.75rem 1rem;
   text-decoration: none;
   position: relative;
 }
@@ -515,7 +522,10 @@ main {
 .race-card.race-card--track::before { background: var(--track); }
 
 .race-card__bib {
+  grid-column: 1;
+  grid-row: 1 / 4;
   display: flex; flex-direction: column; gap: 0.15rem;
+  align-self: start;
 }
 .race-card__day {
   font-size: 2rem; font-weight: 700;
@@ -528,6 +538,8 @@ main {
 }
 
 .race-card__name {
+  grid-column: 2;
+  grid-row: 1;
   font-family: var(--font-display);
   font-size: 1.35rem; font-weight: 800;
   line-height: 1.1;
@@ -543,11 +555,15 @@ main {
 }
 
 .race-card__meta {
+  grid-column: 2;
+  grid-row: 2;
   font-size: 0.8rem; color: var(--mute);
   display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;
 }
 
 .race-card__badges {
+  grid-column: 2;
+  grid-row: 3;
   display: flex; gap: 0.35rem; flex-wrap: wrap;
 }
 
@@ -564,7 +580,9 @@ main {
 .badge.kid-run { border-color: var(--mute); color: var(--mute); }
 
 .race-card__actions {
-  margin-top: auto; padding-top: 0.5rem;
+  grid-column: 3;
+  grid-row: 1 / 4;
+  align-self: center;
 }
 
 .btn-register {
@@ -574,6 +592,7 @@ main {
   text-transform: uppercase; letter-spacing: 0.08em;
   border-radius: var(--radius); text-decoration: none !important;
   transition: opacity 140ms;
+  white-space: nowrap;
 }
 .btn-register:hover {
   opacity: 0.85; color: #fff !important;
@@ -587,6 +606,9 @@ main {
 @media (max-width: 699px) {
   .race-card {
     display: flex; flex-direction: column;
+  }
+  .race-card__bib {
+    align-self: flex-start;
   }
   .btn-register {
     display: block; width: 100%; text-align: center;
@@ -668,25 +690,25 @@ main {
 
 .race-detail-sticky-register {
   display: none;
-  position: fixed; bottom: 0; left: 0; right: 0;
-  z-index: 1000;
-  background: var(--heat);
-  padding: 0.85rem 1.25rem;
-  box-shadow: 0 -2px 12px rgba(0,0,0,.15);
-  border-top: 1px solid rgba(0,0,0,.1);
-}
-.race-detail-sticky-register .btn-primary {
-  display: block; width: 100%; text-align: center;
-  background: var(--paper); color: var(--ink);
-  margin: 0;
-}
-.race-detail-sticky-register .btn-primary:hover {
-  background: var(--tyvek);
 }
 
 @media (max-width: 640px) {
   .race-detail-sticky-register {
     display: block;
+    position: fixed; bottom: 0; left: 0; right: 0;
+    z-index: 1000;
+    padding: 0;
+  }
+  .race-detail-sticky-register .btn-primary {
+    display: block; width: 100%; text-align: center;
+    background: var(--heat); color: #fff;
+    margin: 0; border-radius: 0;
+    padding: 1rem 1.25rem;
+    min-height: 56px;
+    box-shadow: 0 -2px 12px rgba(0,0,0,.15);
+  }
+  .race-detail-sticky-register .btn-primary:hover {
+    background: var(--heat); opacity: 0.9;
   }
   .race-website-cta {
     display: none;

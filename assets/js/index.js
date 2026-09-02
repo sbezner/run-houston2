@@ -576,13 +576,11 @@
       : '<span class="muted">No registration link</span>';
     return (
       '<button class="sheet-close" type="button" aria-label="Close">&times;</button>' +
-      '<div class="sheet-race-name" id="sheet-race-name">' + RH.escapeHtml(race.name) + '</div>' +
+      '<a href="race.html?id=' + encodeURIComponent(race.id) + '" class="sheet-race-name" id="sheet-race-name">' +
+      RH.escapeHtml(race.name) + '</a>' +
       '<div class="sheet-meta">' + dateLine + (location ? ' &middot; ' + RH.escapeHtml(location) : '') + '</div>' +
       '<div class="sheet-badges">' + distances + surfaceBadge + '</div>' +
-      '<div class="sheet-actions">' +
-        '<a href="race.html?id=' + encodeURIComponent(race.id) + '" class="sheet-detail-link">View details</a> ' +
-        registerBtn +
-      '</div>'
+      '<div class="sheet-actions">' + registerBtn + '</div>'
     );
   }
 
