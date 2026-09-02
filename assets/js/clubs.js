@@ -56,35 +56,33 @@
   }
 
   function renderClubCard(club) {
-    var safeWebsite = club.website_url ? RH.safeUrl(club.website_url) : '';
-
     var domain = club.website_url
-      ? '<span class="race-card__badge">' + RH.escapeHtml(RH.prettyHost(club.website_url)) + '</span>'
+      ? '<span class="badge">' + RH.escapeHtml(RH.prettyHost(club.website_url)) + '</span>'
       : '';
 
     var description = club.description
-      ? '<div class="race-card__meta" style="opacity:0.7;font-size:0.78rem;line-height:1.4;">' +
+      ? '<div style="opacity:0.7;font-size:0.8rem;line-height:1.4;margin-top:0.5rem;">' +
         RH.escapeHtml(club.description.length > 120 ? club.description.slice(0, 117) + '…' : club.description) +
         '</div>'
       : '';
 
-    var arrow = club.website_url
-      ? '<div class="race-card__arrow">Visit website &rarr;</div>'
-      : '<div class="race-card__arrow" style="color:rgba(240,239,233,.3);">No website listed</div>';
-
-    var tag = 'a';
-    var attrs = club.website_url
-      ? ' href="' + RH.escapeAttr(safeWebsite) + '" target="_blank" rel="noopener noreferrer"'
-      : '';
+    var linkHtml = club.website_url
+      ? '<div style="margin-top:auto;padding-top:0.75rem;">' +
+        '<a href="' + RH.escapeAttr(RH.safeUrl(club.website_url)) + '" ' +
+        'target="_blank" rel="noopener noreferrer" style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;">Visit website &rarr;</a>' +
+        '</div>'
+      : '<div style="margin-top:auto;padding-top:0.75rem;color:var(--mute);font-style:italic;font-size:0.8rem;">No website listed</div>';
 
     return (
-      '<' + tag + attrs + ' class="race-card">' +
-      '<div class="race-card__when">' + RH.escapeHtml(club.location || '') + '</div>' +
-      '<div class="race-card__name">' + RH.escapeHtml(club.club_name) + '</div>' +
-      '<div class="race-card__meta">' + domain + '</div>' +
+      '<article class="race-card" style="display:flex;flex-direction:column;">' +
+      '<div style="font-size:0.75rem;color:var(--mute);text-transform:uppercase;letter-spacing:0.08em;font-weight:700;">' +
+      RH.escapeHtml(club.location || '') + '</div>' +
+      '<h2 style="font-family:var(--font-display);font-size:1.35rem;font-weight:800;line-height:1.1;color:var(--ink);margin:0.5rem 0 0.4rem;">' +
+      RH.escapeHtml(club.club_name) + '</h2>' +
+      '<div>' + domain + '</div>' +
       description +
-      arrow +
-      '</' + tag + '>'
+      linkHtml +
+      '</article>'
     );
   }
 

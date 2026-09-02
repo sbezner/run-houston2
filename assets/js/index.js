@@ -54,7 +54,7 @@
 
   function pushStateToUrl() {
     var params = new URLSearchParams();
-    if (state.window !== '7') params.set('w', state.window);
+    if (state.window !== '90') params.set('w', state.window);
     if (state.surfaces.length) params.set('s', state.surfaces.join(','));
     if (state.distances.length) params.set('d', state.distances.join(','));
     if (state.search) params.set('q', state.search);
@@ -72,13 +72,11 @@
       var dBtn = document.getElementById('dd-date-btn');
       if (state.window === 'all') {
         dLabel.textContent = 'All dates';
-        dBtn.classList.add('has-selection');
-      } else if (state.window === '90') {
-        dLabel.textContent = 'Next 90 days';
         dBtn.classList.remove('has-selection');
       } else {
         dLabel.textContent = 'Next ' + state.window + ' days';
-        dBtn.classList.add('has-selection');
+        if (state.window !== '90') dBtn.classList.add('has-selection');
+        else dBtn.classList.remove('has-selection');
       }
     }
     if (params.has('s') && params.get('s')) {
@@ -165,42 +163,62 @@
   // ---------- Card rendering ----------
 
   function renderRaceCard(race) {
-    var surfaceClass = race.surface ? ' race-card--' + race.surface : '';
+    var d = race.date ? new Date(race.date + 'T12:00:00') : null;
     
-    var date = new Date(race.date + 'T12:00:00');
-    var day = date.getDate();
-    var monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
-    var month = monthNames[date.getMonth()];
+    var bibHtml = '';
+    if (d) {
+      var day = d.getDate();
+      var mon = d.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+      bibHtml = '<div class="race-card__bib">' +
+        '<div class="race-card__day">' + day + '</div>' +
+        '<div class="race-card__month">' + mon + '</div>' +
+        '</div>';
+    }
 
-    var badges = (race.distance || []).map(function (dist) {
+    var surfaceClass = race.surface ? ' race-card--' + RH.escapeAttr(race.surface) : '';
+
+    var metaParts = [];
+    if (race.city) metaParts.push(RH.escapeHtml(race.city));
+    var time = RH.formatTime(race.start_time);
+    if (time) metaParts.push(time);
+    var metaHtml = metaParts.length ? '<div class="race-card__meta">' + metaParts.join(' · ') + '</div>' : '';
+
+    var distSeen = {};
+    var badges = (race.distance || []).filter(function (d) {
+      var norm = d.toLowerCase().trim();
+      if (distSeen[norm]) return false;
+      distSeen[norm] = true;
+      return true;
+    }).map(function (dist) {
       return '<span class="badge distance">' + RH.escapeHtml(dist) + '</span>';
     }).join('');
+    if (race.surface) {
+      badges += '<span class="badge surface-' + RH.escapeAttr(race.surface) + '">' + 
+        RH.escapeHtml(race.surface) + '</span>';
+    }
+    if (race.kid_run && !distSeen['kids']) {
+      badges += '<span class="badge kid-run">Kids</span>';
+    }
+    var badgesHtml = badges ? '<div class="race-card__badges">' + badges + '</div>' : '';
 
-    var kidBadge = race.kid_run
-      ? '<span class="badge kid-run">Kids</span>'
-      : '';
-
-    var location = race.city ? RH.escapeHtml(race.city) : '';
-    var timeStr = race.start_time ? ' &middot; ' + RH.escapeHtml(RH.formatTime(race.start_time)) : '';
-
-    var registerBtn = race.official_website_url
-      ? '<a href="' + RH.escapeAttr(RH.safeUrl(race.official_website_url)) +
-        '" target="_blank" rel="noopener noreferrer" class="btn-register">Register</a>'
-      : '';
+    var registerHtml = '';
+    if (race.official_website_url) {
+      registerHtml = '<div class="race-card__actions">' +
+        '<a href="' + RH.escapeAttr(RH.safeUrl(race.official_website_url)) + '" ' +
+        'target="_blank" rel="noopener noreferrer" class="btn-register">Register</a>' +
+        '</div>';
+    } else {
+      registerHtml = '<div class="race-card__actions muted">No registration link</div>';
+    }
 
     return (
       '<article class="race-card' + surfaceClass + '">' +
-      '<div class="race-card__date-bib">' +
-      '<div class="race-card__date-day">' + day + '</div>' +
-      '<div class="race-card__date-mon">' + month + '</div>' +
-      '</div>' +
-      '<div class="race-card__main">' +
+      bibHtml +
       '<h2 class="race-card__name"><a href="race.html?id=' + encodeURIComponent(race.id) + '">' +
       RH.escapeHtml(race.name) + '</a></h2>' +
-      '<div class="race-card__meta">' + location + timeStr + '</div>' +
-      '<div class="race-card__badges">' + badges + kidBadge + '</div>' +
-      '</div>' +
-      '<div class="race-card__actions">' + registerBtn + '</div>' +
+      metaHtml +
+      badgesHtml +
+      registerHtml +
       '</article>'
     );
   }
@@ -233,9 +251,10 @@
     rows = rows.filter(function (r) { return matchesSearch(r, tokens); });
 
     if (state.sortByDistance && state.userLat !== null) {
+      rows = rows.filter(hasCoords);
       rows.sort(function (a, b) {
-        var da = hasCoords(a) ? haversineMi(state.userLat, state.userLng, a.latitude, a.longitude) : Infinity;
-        var db = hasCoords(b) ? haversineMi(state.userLat, state.userLng, b.latitude, b.longitude) : Infinity;
+        var da = haversineMi(state.userLat, state.userLng, a.latitude, a.longitude);
+        var db = haversineMi(state.userLat, state.userLng, b.latitude, b.longitude);
         return da - db;
       });
     }
@@ -245,10 +264,10 @@
   // ---------- Empty state ----------
 
   function emptyStateHtml() {
-    if (state.window === '7') {
-      return '<p class="empty">No races in the next 7 days. ' +
+    if (state.window === '90') {
+      return '<p class="empty">No races in the next 90 days. ' +
         '<button type="button" class="link-btn" data-action="expand-window">' +
-        'Try the next 30 days &rarr;</button></p>';
+        'Try all upcoming &rarr;</button></p>';
     }
     return '<p class="empty">Hmm, nothing matches. Try widening your filters or clearing the search.</p>';
   }
@@ -257,11 +276,11 @@
     var btn = container.querySelector('[data-action="expand-window"]');
     if (!btn) return;
     btn.addEventListener('click', function () {
-      state.window = '30';
-      var radio = document.querySelector('input[name="date"][value="30"]');
+      state.window = 'all';
+      var radio = document.querySelector('input[name="date"][value="all"]');
       if (radio) radio.checked = true;
-      document.getElementById('dd-date-label').textContent = 'Next 30 days';
-      document.getElementById('dd-date-btn').classList.add('has-selection');
+      document.getElementById('dd-date-label').textContent = 'All dates';
+      document.getElementById('dd-date-btn').classList.remove('has-selection');
       render();
     });
   }
@@ -435,11 +454,9 @@
   function ensureMap() {
     if (map) return;
     map = L.map('race-map', { scrollWheelZoom: !MOBILE }).fitBounds(HOUSTON_BOUNDS);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors ' +
-        '&copy; <a href="https://carto.com/attributions">CARTO</a>',
-      subdomains: 'abcd', maxZoom: 20, detectRetina: true
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      maxZoom: 18
     }).addTo(map);
     markerLayer = L.layerGroup().addTo(map);
     if (MOBILE) { map.on('click', function () { closeSheet(); }); }
@@ -498,7 +515,11 @@
       countEl.textContent = '';
       return;
     }
-    countEl.textContent = rows.length + ' race' + (rows.length === 1 ? '' : 's') + ' near Houston';
+    if (state.sortByDistance && state.userLat !== null && rows.length === 0) {
+      countEl.textContent = 'No races nearby with coordinates';
+    } else {
+      countEl.textContent = rows.length + ' upcoming race' + (rows.length === 1 ? '' : 's');
+    }
     if (state.view === 'map') { renderMap(rows); }
     else if (state.view === 'list') { renderTable(rows); }
     else if (state.view === 'cal') { renderCalendar(rows); }
@@ -552,20 +573,19 @@
       ? '<span class="badge surface-' + RH.escapeAttr(race.surface) + '">' + RH.escapeHtml(race.surface) + '</span>'
       : '';
     var location = [race.city, race.state].filter(Boolean).join(', ');
-    var dateLine = RH.formatDate(race.date) + (race.start_time ? ' &middot; ' + RH.formatTime(race.start_time) : '');
+    var time = RH.formatTime(race.start_time);
+    var dateLine = RH.formatDate(race.date) + (time ? ' &middot; ' + time : '');
     var registerBtn = race.official_website_url
       ? '<a href="' + RH.escapeAttr(RH.safeUrl(race.official_website_url)) +
-        '" target="_blank" rel="noopener noreferrer" class="btn-register">Register &rarr;</a>'
-      : '';
+        '" target="_blank" rel="noopener noreferrer" class="btn-register">Register</a>'
+      : '<span class="muted">No registration link</span>';
     return (
       '<button class="sheet-close" type="button" aria-label="Close">&times;</button>' +
-      '<div class="sheet-race-name" id="sheet-race-name">' + RH.escapeHtml(race.name) + '</div>' +
+      '<a href="race.html?id=' + encodeURIComponent(race.id) + '" class="sheet-race-name" id="sheet-race-name">' +
+      RH.escapeHtml(race.name) + '</a>' +
       '<div class="sheet-meta">' + dateLine + (location ? ' &middot; ' + RH.escapeHtml(location) : '') + '</div>' +
       '<div class="sheet-badges">' + distances + surfaceBadge + '</div>' +
-      '<div class="sheet-actions">' +
-        '<a href="race.html?id=' + encodeURIComponent(race.id) + '" class="sheet-detail-link">View details</a>' +
-        (registerBtn || '') +
-      '</div>'
+      '<div class="sheet-actions">' + registerBtn + '</div>'
     );
   }
 
@@ -599,7 +619,11 @@
   // Near me for cards/list — sorts by distance and shows "X mi" badge
   function handleCardNearMe() {
     var btn = document.getElementById('card-near-me-btn');
-    if (!navigator.geolocation) { btn.textContent = 'Not supported'; btn.disabled = true; return; }
+    if (!navigator.geolocation) {
+      btn.textContent = 'Not supported';
+      btn.disabled = true;
+      return;
+    }
     btn.disabled = true;
     btn.textContent = 'Locating…';
     navigator.geolocation.getCurrentPosition(
@@ -612,9 +636,13 @@
         btn.innerHTML = NEAR_ME_SVG + ' Near me';
         render();
       },
-      function () {
+      function (err) {
         btn.disabled = false;
         btn.innerHTML = NEAR_ME_SVG + ' Near me';
+        var msg = err.code === 1 ? 'Location permission denied' :
+                  err.code === 2 ? 'Location unavailable' :
+                  err.code === 3 ? 'Location timeout' : 'Location error';
+        alert(msg + '. Near me requires location access.');
       },
       { enableHighAccuracy: false, timeout: 10000 }
     );
@@ -675,11 +703,17 @@
 
     document.getElementById('dd-date-panel').addEventListener('change', function () {
       var checked = document.querySelector('input[name="date"]:checked');
-      state.window = checked ? checked.value : 'all';
+      state.window = checked ? checked.value : '90';
       var label = document.getElementById('dd-date-label');
       var btn = document.getElementById('dd-date-btn');
-      if (state.window === 'all') { label.textContent = 'All dates'; btn.classList.remove('has-selection'); }
-      else { label.textContent = 'Next ' + state.window + ' days'; btn.classList.add('has-selection'); }
+      if (state.window === 'all') {
+        label.textContent = 'All dates';
+        btn.classList.add('has-selection');
+      } else {
+        label.textContent = 'Next ' + state.window + ' days';
+        if (state.window === '90') btn.classList.remove('has-selection');
+        else btn.classList.add('has-selection');
+      }
       closeAllPanels(); render();
     });
 
@@ -723,12 +757,7 @@
         var heroStat = document.getElementById('hero-stat');
         if (heroStat && data.length) {
           var future = data.filter(function (r) { return r.date >= RH.isoToday(); });
-          heroStat.innerHTML =
-            '<strong>' + future.length + ' races</strong>' +
-            '<span class="page-hero__stats-sep">·</span>' +
-            '<strong>54 clubs</strong>' +
-            '<span class="page-hero__stats-sep">·</span>' +
-            'Updated weekly';
+          heroStat.innerHTML = '<strong>' + future.length + ' races</strong>';
         }
         renderChips('distance-chips', buildDistanceOptions(allRaces), 'distance');
         renderChips('surface-chips', buildSurfaceOptions(allRaces), 'surface');
