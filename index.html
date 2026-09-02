@@ -29,6 +29,95 @@
     gtag('js', new Date());
     gtag('config', 'G-0HSJBPL4J0');
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Run Houston",
+    "description": "Discover upcoming road, trail, and track races in the Houston, Texas area. Search and filter by distance and date.",
+    "url": "https://runhouston.app/",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://runhouston.app/?q={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+  <script type="application/ld+json" id="race-list-ld"></script>
+  <script>
+    (function() {
+      fetch('data/races-upcoming.json')
+        .then(function(res) { return res.json(); })
+        .then(function(races) {
+          var today = new Date();
+          today.setHours(0, 0, 0, 0);
+          var upcoming = races
+            .filter(function(r) { return new Date(r.date) >= today; })
+            .sort(function(a, b) { return a.date.localeCompare(b.date); })
+            .slice(0, 20);
+          
+          var itemList = {
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            "name": "Upcoming Races in Houston, Texas",
+            "itemListElement": upcoming.map(function(race, idx) {
+              var event = {
+                "@type": "SportsEvent",
+                "name": race.name,
+                "startDate": race.date + (race.start_time ? 'T' + race.start_time + ':00' : ''),
+                "description": race.description || "A running race in " + race.city + ", " + race.state + ".",
+                "url": race.official_website_url,
+                "eventStatus": "https://schema.org/EventScheduled",
+                "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode"
+              };
+              
+              if (race.latitude && race.longitude) {
+                event.location = {
+                  "@type": "Place",
+                  "name": race.address || race.city,
+                  "address": {
+                    "@type": "PostalAddress",
+                    "streetAddress": race.address,
+                    "addressLocality": race.city,
+                    "addressRegion": race.state,
+                    "postalCode": race.zip,
+                    "addressCountry": "US"
+                  },
+                  "geo": {
+                    "@type": "GeoCoordinates",
+                    "latitude": race.latitude,
+                    "longitude": race.longitude
+                  }
+                };
+              } else if (race.city) {
+                event.location = {
+                  "@type": "Place",
+                  "name": race.city,
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": race.city,
+                    "addressRegion": race.state,
+                    "addressCountry": "US"
+                  }
+                };
+              }
+              
+              return {
+                "@type": "ListItem",
+                "position": idx + 1,
+                "item": event
+              };
+            })
+          };
+          
+          document.getElementById('race-list-ld').textContent = JSON.stringify(itemList);
+        })
+        .catch(function() {});
+    })();
+  </script>
 </head>
 <body>
   <header class="site-header">
