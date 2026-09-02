@@ -1,69 +1,26 @@
 #!/usr/bin/env python3
 """
 Generate sitemap.xml for Run Houston site.
-Includes static pages and dynamic race/report pages.
+Includes only real crawlable HTML files - NO query string URLs.
+Query-string pages (?id=...) are discovered via JSON-LD structured data,
+not sitemap entries.
 """
 
-import json
 import sys
 from pathlib import Path
-from xml.sax.saxutils import escape
 from datetime import datetime
 
 def main():
     base_url = "https://runhouston.app"
-    now = datetime.utcnow().strftime("%Y-%m-%d")
+    now = datetime.now().strftime("%Y-%m-%d")
     
-    sitemap_entries = []
-    
-    # Static pages (high priority, frequently updated)
-    static_pages = [
-        ("", "1.0", "daily"),  # index.html
-        ("clubs.html", "0.8", "weekly"),
-        ("reports.html", "0.8", "weekly"),
-        ("about.html", "0.6", "monthly"),
+    # Only include real HTML files that exist as static resources
+    sitemap_entries = [
+        {"loc": f"{base_url}/", "lastmod": now, "changefreq": "daily", "priority": "1.0"},
+        {"loc": f"{base_url}/clubs.html", "lastmod": now, "changefreq": "weekly", "priority": "0.8"},
+        {"loc": f"{base_url}/reports.html", "lastmod": now, "changefreq": "weekly", "priority": "0.8"},
+        {"loc": f"{base_url}/about.html", "lastmod": now, "changefreq": "monthly", "priority": "0.6"},
     ]
-    
-    for page, priority, changefreq in static_pages:
-        url = f"{base_url}/{page}" if page else f"{base_url}/"
-        sitemap_entries.append({
-            "loc": url,
-            "lastmod": now,
-            "changefreq": changefreq,
-            "priority": priority
-        })
-    
-    # Race detail pages - only include races with a date
-    races_file = Path(__file__).parent.parent / "data" / "races-upcoming.json"
-    if races_file.exists():
-        with open(races_file, 'r', encoding='utf-8') as f:
-            races = json.load(f)
-        
-        for race in races:
-            if race.get('date') and race.get('id'):
-                url = f"{base_url}/race.html?id={escape(race['id'])}"
-                sitemap_entries.append({
-                    "loc": url,
-                    "lastmod": now,
-                    "changefreq": "weekly",
-                    "priority": "0.7"
-                })
-    
-    # Report detail pages
-    reports_file = Path(__file__).parent.parent / "data" / "race_reports.json"
-    if reports_file.exists():
-        with open(reports_file, 'r', encoding='utf-8') as f:
-            reports = json.load(f)
-        
-        for report in reports:
-            if report.get('id'):
-                url = f"{base_url}/report.html?id={escape(report['id'])}"
-                sitemap_entries.append({
-                    "loc": url,
-                    "lastmod": now,
-                    "changefreq": "monthly",
-                    "priority": "0.6"
-                })
     
     # Generate sitemap XML
     xml_lines = ['<?xml version="1.0" encoding="UTF-8"?>']
