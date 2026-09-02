@@ -131,6 +131,14 @@ a:hover { text-decoration: underline; }
 }
 .page-hero__title em { font-style: normal; color: var(--heat); }
 
+/* Clubs and reports pages use DM Sans for hero, not Barlow */
+.page-hero__title.hero-dm {
+  font-family: var(--font-body);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+.page-hero__title.hero-dm em { color: var(--ink); }
+
 .page-title em { font-style: normal; color: var(--ink); }
 
 .page-hero__stats {
@@ -554,6 +562,12 @@ main {
 .race-card__name a:hover {
   color: var(--ink);
   text-decoration: underline;
+}
+
+/* Club cards use DM Sans, not Barlow */
+#club-cards .race-card__name {
+  font-family: var(--font-body);
+  font-weight: 700;
 }
 
 .race-card__meta {
