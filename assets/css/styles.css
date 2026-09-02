@@ -635,6 +635,12 @@ main {
   .race-card__bib {
     align-self: flex-start;
   }
+  .race-card__actions {
+    grid-column: unset;
+    grid-row: unset;
+    align-self: stretch;
+    width: 100%;
+  }
   .btn-register {
     display: block; width: 100%; text-align: center;
   }
