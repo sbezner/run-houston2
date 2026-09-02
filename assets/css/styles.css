@@ -564,10 +564,11 @@ main {
   text-decoration: underline;
 }
 
-/* Club cards use DM Sans, not Barlow */
-#club-cards .race-card__name {
+.club-card__name {
   font-family: var(--font-body);
-  font-weight: 700;
+  font-size: 1.35rem; font-weight: 700;
+  line-height: 1.1; color: var(--ink);
+  margin: 0.5rem 0 0.4rem;
 }
 
 .club-card__name {
