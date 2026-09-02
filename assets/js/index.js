@@ -17,7 +17,7 @@
     distances: [],
     surfaces: [],
     search: '',
-    window: '7',
+    window: '90',
     view: 'cards',     // 'cards' | 'list' | 'map' | 'cal'
     calMonth: new Date().getMonth(),
     calYear: new Date().getFullYear(),
@@ -72,6 +72,9 @@
       var dBtn = document.getElementById('dd-date-btn');
       if (state.window === 'all') {
         dLabel.textContent = 'All dates';
+        dBtn.classList.add('has-selection');
+      } else if (state.window === '90') {
+        dLabel.textContent = 'Next 90 days';
         dBtn.classList.remove('has-selection');
       } else {
         dLabel.textContent = 'Next ' + state.window + ' days';
