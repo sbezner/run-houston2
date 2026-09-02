@@ -250,12 +250,24 @@
         '</p>'
       : '';
 
+    var stickyRegister = race.official_website_url
+      ? '<div class="race-detail-sticky-register">' +
+        '<a href="' + RH.escapeAttr(RH.safeUrl(race.official_website_url)) +
+        '" target="_blank" rel="noopener noreferrer" class="btn-primary">' +
+        'Register</a>' +
+        '</div>'
+      : '';
+
     var calendarLinks = buildCalendarLinks(race);
     var shareButton = buildShareButton(race);
 
     var description = race.description
       ? '<p class="race-description-full">' + RH.escapeHtml(race.description) + '</p>'
       : '';
+
+    if (race.official_website_url) {
+      document.body.classList.add('has-sticky-register');
+    }
 
     return (
       '<header class="race-detail-header">' +
@@ -282,7 +294,8 @@
       '<dt>Kid-friendly</dt><dd>' + (race.kid_run ? 'Yes' : 'No') + '</dd>' +
       '</dl>' +
       calendarLinks +
-      websiteButton
+      websiteButton +
+      stickyRegister
     );
   }
 

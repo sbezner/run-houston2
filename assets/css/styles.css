@@ -666,6 +666,36 @@ main {
 .race-detail-subtitle strong { color: var(--ink); font-weight: 700; }
 .race-description-full { font-size: 1.05rem; line-height: 1.65; margin: 0 0 1.75rem; }
 
+.race-detail-sticky-register {
+  display: none;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: var(--heat);
+  padding: 0.85rem 1.25rem;
+  box-shadow: 0 -2px 12px rgba(0,0,0,.15);
+  border-top: 1px solid rgba(0,0,0,.1);
+}
+.race-detail-sticky-register .btn-primary {
+  display: block; width: 100%; text-align: center;
+  background: var(--paper); color: var(--ink);
+  margin: 0;
+}
+.race-detail-sticky-register .btn-primary:hover {
+  background: var(--tyvek);
+}
+
+@media (max-width: 640px) {
+  .race-detail-sticky-register {
+    display: block;
+  }
+  .race-website-cta {
+    display: none;
+  }
+  body.has-sticky-register {
+    padding-bottom: 56px;
+  }
+}
+
 .race-detail-grid {
   margin: 0 0 1.75rem;
   display: grid; grid-template-columns: max-content 1fr;

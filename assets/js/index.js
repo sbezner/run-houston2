@@ -183,14 +183,20 @@
     if (time) metaParts.push(time);
     var metaHtml = metaParts.length ? '<div class="race-card__meta">' + metaParts.join(' · ') + '</div>' : '';
 
-    var badges = (race.distance || []).map(function (dist) {
+    var distSeen = {};
+    var badges = (race.distance || []).filter(function (d) {
+      var norm = d.toLowerCase().trim();
+      if (distSeen[norm]) return false;
+      distSeen[norm] = true;
+      return true;
+    }).map(function (dist) {
       return '<span class="badge distance">' + RH.escapeHtml(dist) + '</span>';
     }).join('');
     if (race.surface) {
       badges += '<span class="badge surface-' + RH.escapeAttr(race.surface) + '">' + 
         RH.escapeHtml(race.surface) + '</span>';
     }
-    if (race.kid_run) {
+    if (race.kid_run && !distSeen['kids']) {
       badges += '<span class="badge kid-run">Kids</span>';
     }
     var badgesHtml = badges ? '<div class="race-card__badges">' + badges + '</div>' : '';
@@ -610,7 +616,11 @@
   // Near me for cards/list — sorts by distance and shows "X mi" badge
   function handleCardNearMe() {
     var btn = document.getElementById('card-near-me-btn');
-    if (!navigator.geolocation) { btn.textContent = 'Not supported'; btn.disabled = true; return; }
+    if (!navigator.geolocation) {
+      btn.textContent = 'Not supported';
+      btn.disabled = true;
+      return;
+    }
     btn.disabled = true;
     btn.textContent = 'Locating…';
     navigator.geolocation.getCurrentPosition(
@@ -621,11 +631,20 @@
         btn.disabled = false;
         btn.classList.add('is-active');
         btn.innerHTML = NEAR_ME_SVG + ' Near me';
+        var geoRows = allRaces.filter(hasCoords);
+        if (geoRows.length === 0) {
+          document.getElementById('result-count').textContent = 
+            '0 races with coordinates (Near me requires location data)';
+        }
         render();
       },
-      function () {
+      function (err) {
         btn.disabled = false;
         btn.innerHTML = NEAR_ME_SVG + ' Near me';
+        var msg = err.code === 1 ? 'Location permission denied' :
+                  err.code === 2 ? 'Location unavailable' :
+                  err.code === 3 ? 'Location timeout' : 'Location error';
+        alert(msg + '. Near me requires location access.');
       },
       { enableHighAccuracy: false, timeout: 10000 }
     );
@@ -686,11 +705,17 @@
 
     document.getElementById('dd-date-panel').addEventListener('change', function () {
       var checked = document.querySelector('input[name="date"]:checked');
-      state.window = checked ? checked.value : 'all';
+      state.window = checked ? checked.value : '90';
       var label = document.getElementById('dd-date-label');
       var btn = document.getElementById('dd-date-btn');
-      if (state.window === 'all') { label.textContent = 'All dates'; btn.classList.remove('has-selection'); }
-      else { label.textContent = 'Next ' + state.window + ' days'; btn.classList.add('has-selection'); }
+      if (state.window === 'all') {
+        label.textContent = 'All dates';
+        btn.classList.add('has-selection');
+      } else {
+        label.textContent = 'Next ' + state.window + ' days';
+        if (state.window === '90') btn.classList.remove('has-selection');
+        else btn.classList.add('has-selection');
+      }
       closeAllPanels(); render();
     });
 
