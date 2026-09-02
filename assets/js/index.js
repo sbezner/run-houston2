@@ -17,7 +17,7 @@
     distances: [],
     surfaces: [],
     search: '',
-    window: '7',
+    window: '90',
     view: 'cards',     // 'cards' | 'list' | 'map' | 'cal'
     calMonth: new Date().getMonth(),
     calYear: new Date().getFullYear(),
@@ -72,6 +72,9 @@
       var dBtn = document.getElementById('dd-date-btn');
       if (state.window === 'all') {
         dLabel.textContent = 'All dates';
+        dBtn.classList.add('has-selection');
+      } else if (state.window === '90') {
+        dLabel.textContent = 'Next 90 days';
         dBtn.classList.remove('has-selection');
       } else {
         dLabel.textContent = 'Next ' + state.window + ' days';
@@ -162,59 +165,43 @@
   // ---------- Card rendering ----------
 
   function renderRaceCard(race) {
-    var d = race.date ? new Date(race.date + 'T12:00:00') : null;
+    var surfaceClass = race.surface ? ' race-card--' + race.surface : '';
+    
+    var date = new Date(race.date + 'T12:00:00');
+    var day = date.getDate();
+    var monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+    var month = monthNames[date.getMonth()];
 
-    var whenParts = [];
-    if (d) {
-      var weekday = d.toLocaleString('en-US', { weekday: 'short' }).toUpperCase();
-      var mon = d.toLocaleString('en-US', { month: 'short' }).toUpperCase();
-      whenParts.push(weekday + ' · ' + mon + ' ' + d.getDate());
-    }
-    var time = RH.formatTime(race.start_time);
-    if (time) whenParts.push(time);
-
-    var urgencyHtml = '';
-    var countdownHtml = '';
-    if (d) {
-      var today = new Date(RH.isoToday());
-      var daysAway = Math.round((d - today) / 86400000);
-      if (daysAway === 0)
-        urgencyHtml = '<span class="race-card__badge race-card__badge--urgent">Today</span>';
-      else if (daysAway === 1)
-        urgencyHtml = '<span class="race-card__badge race-card__badge--urgent">Tomorrow</span>';
-      if (daysAway >= 2) {
-        var cdLabel = daysAway < 90 ? daysAway + 'd' : Math.round(daysAway / 30) + 'mo';
-        countdownHtml = '<span class="race-card__countdown">' + cdLabel + '</span>';
-      }
-    }
-
-    var distBadge = '';
-    if (state.sortByDistance && state.userLat !== null && hasCoords(race)) {
-      var mi = haversineMi(state.userLat, state.userLng, race.latitude, race.longitude);
-      distBadge = '<span class="race-card__badge race-card__badge--dist">' +
-        mi.toFixed(1) + ' mi</span>';
-    }
-
-    var surfaceClass = race.surface ? ' race-card--' + RH.escapeAttr(race.surface) : '';
-
-    var badges = (race.distance || []).slice(0, 4).map(function (dist) {
-      return '<span class="race-card__badge">' + RH.escapeHtml(dist) + '</span>';
+    var badges = (race.distance || []).map(function (dist) {
+      return '<span class="badge distance">' + RH.escapeHtml(dist) + '</span>';
     }).join('');
 
     var kidBadge = race.kid_run
-      ? '<span class="race-card__badge race-card__badge--kid">Kids</span>'
+      ? '<span class="badge kid-run">Kids</span>'
       : '';
 
-    var location = race.city ? '<span>' + RH.escapeHtml(race.city) + '</span>' : '';
+    var location = race.city ? RH.escapeHtml(race.city) : '';
+    var timeStr = race.start_time ? ' &middot; ' + RH.escapeHtml(RH.formatTime(race.start_time)) : '';
+
+    var registerBtn = race.official_website_url
+      ? '<a href="' + RH.escapeAttr(RH.safeUrl(race.official_website_url)) +
+        '" target="_blank" rel="noopener noreferrer" class="btn-register">Register</a>'
+      : '';
 
     return (
-      '<a href="race.html?id=' + encodeURIComponent(race.id) +
-      '" class="race-card' + surfaceClass + '">' +
-      '<div class="race-card__when"><span>' + RH.escapeHtml(whenParts.join(' · ')) + '</span>' + countdownHtml + '</div>' +
-      '<div class="race-card__name">' + RH.escapeHtml(race.name) + '</div>' +
-      '<div class="race-card__meta">' + urgencyHtml + distBadge + location + badges + kidBadge + '</div>' +
-      '<div class="race-card__arrow">View details &rarr;</div>' +
-      '</a>'
+      '<article class="race-card' + surfaceClass + '">' +
+      '<div class="race-card__date-bib">' +
+      '<div class="race-card__date-day">' + day + '</div>' +
+      '<div class="race-card__date-mon">' + month + '</div>' +
+      '</div>' +
+      '<div class="race-card__main">' +
+      '<h2 class="race-card__name"><a href="race.html?id=' + encodeURIComponent(race.id) + '">' +
+      RH.escapeHtml(race.name) + '</a></h2>' +
+      '<div class="race-card__meta">' + location + timeStr + '</div>' +
+      '<div class="race-card__badges">' + badges + kidBadge + '</div>' +
+      '</div>' +
+      '<div class="race-card__actions">' + registerBtn + '</div>' +
+      '</article>'
     );
   }
 

@@ -234,18 +234,16 @@
       : '';
 
     var kidBadge = race.kid_run
-      ? '<span class="badge kid-run">Kid run</span>'
+      ? '<span class="badge kid-run">Kids</span>'
       : '';
 
     var date = RH.formatDateLong(race.date);
     var time = RH.formatTime(race.start_time);
 
-    var websiteButton = race.official_website_url
-      ? '<p class="race-website-cta">' +
-        '<a href="' + RH.escapeAttr(RH.safeUrl(race.official_website_url)) +
-        '" target="_blank" rel="noopener noreferrer" class="btn-primary">' +
-        'Register for this race &rarr;</a>' +
-        '</p>'
+    var registerButton = race.official_website_url
+      ? '<a href="' + RH.escapeAttr(RH.safeUrl(race.official_website_url)) +
+        '" target="_blank" rel="noopener noreferrer" class="btn-register-large">' +
+        'Register &rarr;</a>'
       : '';
 
     var calendarLinks = buildCalendarLinks(race);
@@ -255,8 +253,8 @@
       ? '<p class="race-description-full">' + RH.escapeHtml(race.description) + '</p>'
       : '';
 
-    return (
-      '<header class="race-detail-header">' +
+    var headerLeft = (
+      '<div>' +
       '<h1>' + RH.escapeHtml(race.name) + '</h1>' +
       '<p class="race-detail-subtitle">' +
       '<strong>' + RH.escapeHtml(date) + '</strong>' +
@@ -266,6 +264,17 @@
       '<div class="race-badges">' + distances + surfaceBadge + kidBadge + '</div>' +
       shareButton +
       '</div>' +
+      '</div>'
+    );
+
+    var headerRight = registerButton
+      ? '<div class="race-detail-cta">' + registerButton + '</div>'
+      : '';
+
+    return (
+      '<header class="race-detail-header">' +
+      headerLeft +
+      headerRight +
       '</header>' +
       description +
       '<dl class="race-detail-grid">' +
@@ -280,8 +289,7 @@
         : '') +
       '<dt>Kid-friendly</dt><dd>' + (race.kid_run ? 'Yes' : 'No') + '</dd>' +
       '</dl>' +
-      calendarLinks +
-      websiteButton
+      calendarLinks
     );
   }
 
