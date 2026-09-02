@@ -251,9 +251,10 @@
     rows = rows.filter(function (r) { return matchesSearch(r, tokens); });
 
     if (state.sortByDistance && state.userLat !== null) {
+      rows = rows.filter(hasCoords);
       rows.sort(function (a, b) {
-        var da = hasCoords(a) ? haversineMi(state.userLat, state.userLng, a.latitude, a.longitude) : Infinity;
-        var db = hasCoords(b) ? haversineMi(state.userLat, state.userLng, b.latitude, b.longitude) : Infinity;
+        var da = haversineMi(state.userLat, state.userLng, a.latitude, a.longitude);
+        var db = haversineMi(state.userLat, state.userLng, b.latitude, b.longitude);
         return da - db;
       });
     }
@@ -514,7 +515,11 @@
       countEl.textContent = '';
       return;
     }
-    countEl.textContent = rows.length + ' upcoming race' + (rows.length === 1 ? '' : 's');
+    if (state.sortByDistance && state.userLat !== null && rows.length === 0) {
+      countEl.textContent = 'No races nearby with coordinates';
+    } else {
+      countEl.textContent = rows.length + ' upcoming race' + (rows.length === 1 ? '' : 's');
+    }
     if (state.view === 'map') { renderMap(rows); }
     else if (state.view === 'list') { renderTable(rows); }
     else if (state.view === 'cal') { renderCalendar(rows); }
@@ -629,11 +634,6 @@
         btn.disabled = false;
         btn.classList.add('is-active');
         btn.innerHTML = NEAR_ME_SVG + ' Near me';
-        var geoRows = allRaces.filter(hasCoords);
-        if (geoRows.length === 0) {
-          document.getElementById('result-count').textContent = 
-            '0 races with coordinates (Near me requires location data)';
-        }
         render();
       },
       function (err) {

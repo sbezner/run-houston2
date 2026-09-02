@@ -242,12 +242,12 @@
     var subtitleParts = [date];
     if (time) subtitleParts.push(time);
 
-    var websiteButton = race.official_website_url
-      ? '<p class="race-website-cta">' +
+    var desktopRegister = race.official_website_url
+      ? '<div class="race-detail-header-right">' +
         '<a href="' + RH.escapeAttr(RH.safeUrl(race.official_website_url)) +
         '" target="_blank" rel="noopener noreferrer" class="btn-primary">' +
         'Register</a>' +
-        '</p>'
+        '</div>'
       : '';
 
     var stickyRegister = race.official_website_url
@@ -271,6 +271,7 @@
 
     return (
       '<header class="race-detail-header">' +
+      '<div class="race-detail-header-left">' +
       '<h1>' + RH.escapeHtml(race.name) + '</h1>' +
       '<p class="race-detail-subtitle">' +
       '<strong>' + RH.escapeHtml(subtitleParts.join(' · ')) + '</strong>' +
@@ -279,6 +280,8 @@
       '<div class="race-badges">' + distances + surfaceBadge + kidBadge + '</div>' +
       shareButton +
       '</div>' +
+      '</div>' +
+      desktopRegister +
       '</header>' +
       description +
       '<dl class="race-detail-grid">' +
@@ -294,7 +297,6 @@
       '<dt>Kid-friendly</dt><dd>' + (race.kid_run ? 'Yes' : 'No') + '</dd>' +
       '</dl>' +
       calendarLinks +
-      websiteButton +
       stickyRegister
     );
   }

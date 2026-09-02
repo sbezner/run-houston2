@@ -131,6 +131,8 @@ a:hover { text-decoration: underline; }
 }
 .page-hero__title em { font-style: normal; color: var(--heat); }
 
+.page-title em { font-style: normal; color: var(--ink); }
+
 .page-hero__stats {
   display: flex; flex-wrap: wrap;
   align-items: center; gap: 0.5rem;
@@ -367,7 +369,7 @@ main {
 .rh-popup strong, .rh-popup strong a {
   color: var(--ink); font-size: 0.95rem; font-weight: 700;
 }
-.rh-popup strong a:hover { color: var(--heat); }
+.rh-popup strong a:hover { color: var(--ink); opacity: 0.6; }
 .rh-popup .muted { color: var(--mute); }
 .rh-popup ul { margin: 0.4rem 0 0; padding-left: 1rem; }
 .rh-popup ul li { margin: 0.15rem 0; }
@@ -486,7 +488,7 @@ main {
 }
 .race-table tr:hover { background: rgba(28,25,23,.03); }
 .race-table a { color: var(--ink); font-weight: 700; }
-.race-table a:hover { color: var(--heat); }
+.race-table a:hover { color: var(--ink); opacity: 0.6; }
 .race-table .badges-cell { white-space: nowrap; }
 .race-table .badges-cell .badge { font-size: 0.6rem; padding: 0.18rem 0.4rem; }
 
@@ -631,13 +633,18 @@ main {
 
 /* ─── Long-form prose ────────────────────────────────────── */
 
-.prose, #report-article, #race-article {
+.prose, #report-article {
   max-width: 720px; margin: 0 auto;
   background: var(--tyvek); border: 1px solid var(--line);
   border-radius: var(--radius); padding: 2rem 1.75rem 2.25rem;
 }
 
-.prose h1, #report-article h1, #race-article h1 {
+#race-article {
+  max-width: 720px; margin: 0 auto;
+  padding: 0;
+}
+
+.prose h1, #report-article h1 {
   margin-top: 0; font-family: var(--font-body);
   font-weight: 700; font-size: 2rem;
 }
@@ -678,11 +685,33 @@ main {
 .race-detail-header {
   border-bottom: 1px solid var(--line);
   padding-bottom: 1.25rem; margin-bottom: 1.5rem;
+  display: flex; flex-wrap: wrap;
+  justify-content: space-between; align-items: flex-start;
+  gap: 1.5rem;
 }
 .race-detail-header h1 {
   margin: 0 0 0.6rem; font-family: var(--font-display);
   font-size: 2.5rem; font-weight: 800;
   line-height: 1.05; letter-spacing: -0.01em;
+  flex: 1 1 400px;
+}
+
+.race-detail-header-left {
+  flex: 1 1 400px;
+}
+
+.race-detail-header-right {
+  flex: 0 0 auto;
+  align-self: flex-start;
+}
+
+@media (max-width: 640px) {
+  .race-detail-header {
+    display: block;
+  }
+  .race-detail-header-right {
+    display: none;
+  }
 }
 .race-detail-subtitle { margin: 0 0 0.85rem; color: var(--mute); font-size: 1rem; }
 .race-detail-subtitle strong { color: var(--ink); font-weight: 700; }
@@ -697,21 +726,19 @@ main {
     display: block;
     position: fixed; bottom: 0; left: 0; right: 0;
     z-index: 1000;
-    padding: 0;
+    height: 56px;
   }
   .race-detail-sticky-register .btn-primary {
     display: block; width: 100%; text-align: center;
     background: var(--heat); color: #fff;
     margin: 0; border-radius: 0;
-    padding: 1rem 1.25rem;
-    min-height: 56px;
+    padding: 0;
+    height: 56px;
+    line-height: 56px;
     box-shadow: 0 -2px 12px rgba(0,0,0,.15);
   }
   .race-detail-sticky-register .btn-primary:hover {
     background: var(--heat); opacity: 0.9;
-  }
-  .race-website-cta {
-    display: none;
   }
   body.has-sticky-register {
     padding-bottom: 56px;
@@ -762,7 +789,7 @@ main {
 .btn-share.is-copied { background: rgba(46,107,72,.1); border-color: var(--trail); color: var(--trail); }
 .btn-share:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
-.race-website-cta { margin: 1.75rem 0 0; text-align: center; }
+.race-website-cta { display: none; }
 
 /* ─── 404 ────────────────────────────────────────────────── */
 
@@ -772,7 +799,7 @@ main {
 }
 .not-found-number {
   font-family: var(--font-body); font-size: 7rem; font-weight: 700;
-  line-height: 0.9; color: var(--heat); margin: 0;
+  line-height: 0.9; color: var(--ink); margin: 0;
 }
 .not-found-title {
   font-family: var(--font-body); font-size: 2rem; font-weight: 700;
@@ -905,7 +932,7 @@ main {
   margin-bottom: 0.25rem;
 }
 
-.cal-day--today .cal-day-num { background: var(--heat); color: #fff; }
+.cal-day--today .cal-day-num { background: var(--ink); color: var(--paper); }
 
 .cal-day--has-races { cursor: pointer; }
 .cal-day--has-races:hover { border-color: var(--ink); }
@@ -913,7 +940,7 @@ main {
 .cal-dots { display: flex; flex-wrap: wrap; gap: 3px; }
 
 .cal-dot {
-  width: 7px; height: 7px; border-radius: 50%; background: var(--heat);
+  width: 7px; height: 7px; border-radius: 50%; background: var(--ink);
   flex-shrink: 0;
 }
 .cal-dot--road  { background: var(--road); }
