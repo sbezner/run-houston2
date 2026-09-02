@@ -4,6 +4,42 @@
 
   var DATA_URL = 'data/race_reports.json';
 
+  function injectJsonLd(report) {
+    var url = 'https://runhouston.app/report.html?id=' + encodeURIComponent(report.id);
+    var data = {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      'headline': report.title,
+      'url': url,
+      'publisher': {
+        '@type': 'Organization',
+        'name': 'Run Houston',
+        'url': 'https://runhouston.app/'
+      }
+    };
+
+    if (report.race_date) {
+      data.datePublished = report.race_date;
+    }
+    if (report.race_name) {
+      data.about = {
+        '@type': 'SportsEvent',
+        'name': report.race_name
+      };
+      if (report.race_date) {
+        data.about.startDate = report.race_date;
+      }
+    }
+
+    var script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.id = 'report-jsonld';
+    script.textContent = JSON.stringify(data);
+    var existing = document.getElementById('report-jsonld');
+    if (existing) existing.remove();
+    document.head.appendChild(script);
+  }
+
   function updateMeta(report) {
     var url = 'https://runhouston.app/report.html?id=' + encodeURIComponent(report.id);
     var desc = report.title +
@@ -34,6 +70,7 @@
   function renderReport(report) {
     document.title = report.title + ' — Run Houston';
     updateMeta(report);
+    injectJsonLd(report);
 
     // Escape each component before joining so that a future race_name
     // containing HTML can't inject into innerHTML below.
