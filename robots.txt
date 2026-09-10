@@ -1,4 +1,8 @@
+# robots.txt for Run Houston (runhouston.app)
+# Allow all well-behaved crawlers
+
 User-agent: *
 Allow: /
 
+# Sitemap
 Sitemap: https://runhouston.app/sitemap.xml
