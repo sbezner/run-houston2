@@ -200,7 +200,7 @@
   },
   {
     "id": "sienna-run-for-the-rose-5k-2026",
-    "name": "Sienna Run for the Ros\u00e9 5K",
+    "name": "Sienna Run for the Rosé 5K",
     "date": "2026-04-11",
     "start_time": "08:00",
     "tz": "America/Chicago",
@@ -217,7 +217,7 @@
     "kid_run": false,
     "official_website_url": "https://runsignup.com/Race/TX/MissouriCity/SiennaRunForTheRose5K?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://www.eventbrite.com/e/sienna-run-for-the-rose-5k-tickets-1980015213805",
-    "description": "A chip-timed 5K through the Sienna master-planned community centered around Sawmill Lake in Missouri City, with a finish-line ros\u00e9 and brunch celebration. Entry benefits Child Advocates of Fort Bend, a local nonprofit serving foster children."
+    "description": "A chip-timed 5K through the Sienna master-planned community centered around Sawmill Lake in Missouri City, with a finish-line rosé and brunch celebration. Entry benefits Child Advocates of Fort Bend, a local nonprofit serving foster children."
   },
   {
     "id": "terry-hershey-parkrun-2026-04-11",
@@ -568,30 +568,6 @@
     "official_website_url": "https://www.spacecityhalf.com/",
     "source_url": "https://www.spacecityhalf.com/schedule",
     "description": "Inaugural spring half marathon on a fast, flat course through Houston's westside inner-loop, starting and finishing at Delmar-Tuso Sports Complex. Also the finale of the Lone Star Race Series."
-  },
-  {
-    "id": "running-through-the-decades-houston-2026",
-    "name": "Running Through the Decades Half Marathon - Houston",
-    "date": "2026-04-19",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "Sugar Land, TX",
-    "city": "Sugar Land",
-    "state": "TX",
-    "zip": "77479",
-    "latitude": null,
-    "longitude": null,
-    "distance": [
-      "1 Mile",
-      "5K",
-      "Half Marathon",
-      "Kids"
-    ],
-    "surface": "road",
-    "kid_run": true,
-    "official_website_url": null,
-    "source_url": "https://www.runguides.com/event/34023/running-through-the-decades-half-marathon-houston",
-    "description": "80s-themed multi-distance road race in Sugar Land featuring a costume contest, live DJ, and post-race celebration. Organized by Bigfoot Running Company with distances from 1 mile to half marathon."
   },
   {
     "id": "inaugural-kalayaan-5k-fun-run-2026",
@@ -1168,28 +1144,6 @@
     "description": "A 5K fun run on Galveston Island organized by the Young Champions Foundation."
   },
   {
-    "id": "sprint-for-life-5k-2026",
-    "name": "29th Annual Sprint for Life 5K Run/Walk",
-    "date": "2026-05-09",
-    "start_time": "07:30",
-    "tz": "America/Chicago",
-    "address": "7255 Helix Park Avenue",
-    "city": "Houston",
-    "state": "TX",
-    "zip": "77030",
-    "latitude": 29.7055,
-    "longitude": -95.3988,
-    "distance": [
-      "5K",
-      "Kids"
-    ],
-    "surface": "road",
-    "kid_run": true,
-    "official_website_url": null,
-    "source_url": "https://findarace.com/us/events/29th-annual-sprint-for-life-5k-run-walk",
-    "description": "Charity 5K at Helix Park in the Texas Medical Center benefiting ovarian cancer research at MD Anderson Cancer Center. Since 1998, Sprint for Life has raised over $5.8 million for the Blanton-Davis Ovarian Cancer Research Program. Includes a Sprint for Sprouts/Tot Trot kids race at 9:15 AM."
-  },
-  {
     "id": "yagas-wild-5k-fun-run-2026",
     "name": "Yaga's Children's Fund WILD 5K Fun Run",
     "date": "2026-05-09",
@@ -1675,7 +1629,7 @@
     "kid_run": false,
     "official_website_url": "https://www.parkrun.us/terryhershey/",
     "source_url": "https://www.parkrun.us/terryhershey/",
-    "description": "Free weekly timed 5K held every Saturday morning on the paved Terry Hershey Park trail. Open to all abilities \u2014 runners, joggers, and walkers welcome. Registration required but no cost."
+    "description": "Free weekly timed 5K held every Saturday morning on the paved Terry Hershey Park trail. Open to all abilities — runners, joggers, and walkers welcome. Registration required but no cost."
   },
   {
     "id": "medal-madness-deer-park-may-2026",
@@ -2505,29 +2459,6 @@
     "description": "Part of the US Road Running Eagle Series, this weekly race at John Paul Landing Park in Cypress offers 5K, 10K, and half marathon on a flat out-and-back course. No on-site registration; chip-timed with finisher medals and a 3.5-hour course limit."
   },
   {
-    "id": "triple-dog-dare-2026",
-    "name": "Triple Dog Dare",
-    "date": "2026-07-25",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "14240 University Blvd",
-    "city": "Sugar Land",
-    "state": "TX",
-    "zip": "77478",
-    "latitude": 29.5985,
-    "longitude": -95.5943,
-    "distance": [
-      "5K",
-      "10K",
-      "15K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": null,
-    "source_url": "https://www.findtherun.com/race/104975/triple-dog-dare",
-    "description": "A summer road race at Sugar Land Memorial Park offering 5K, 10K, and 15K distances with chip timing, custom finisher medals, and age group awards four deep. Runners who register by July 18 are guaranteed their shirt size."
-  },
-  {
     "id": "christmas-in-july-houston-2026",
     "name": "Christmas in July 5K & 10K Houston",
     "date": "2026-07-25",
@@ -2868,7 +2799,7 @@
     "kid_run": false,
     "official_website_url": "https://www.trailracingovertexas.com/habanero",
     "source_url": "https://findarace.com/us/events/habanero-hundred",
-    "description": "Trail Racing Over Texas ultra event at 7IL Ranch near Cat Spring. Races start at high noon in August heat on a sandy course with average temperatures above 100\u00b0F. Distances range from 10K to 135 miles with a 30-hour cutoff. Buckles for 100-mile and 100K finishers."
+    "description": "Trail Racing Over Texas ultra event at 7IL Ranch near Cat Spring. Races start at high noon in August heat on a sandy course with average temperatures above 100°F. Distances range from 10K to 135 miles with a 30-hour cutoff. Buckles for 100-mile and 100K finishers."
   },
   {
     "id": "shark-week-showdown-houston-2026",
@@ -3138,27 +3069,6 @@
     "official_website_url": "https://runsignup.com/Race/TX/TheWoodlands/R4ED?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://runsignup.com/Race/TX/TheWoodlands/R4ED?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "A running race in The Woodlands, TX."
-  },
-  {
-    "id": "texas-gatorfest-5k-2026",
-    "name": "Texas Gatorfest Twilight 5K",
-    "date": "2026-09-06",
-    "start_time": "18:00",
-    "tz": "America/Chicago",
-    "address": "Fort Anahuac Park",
-    "city": "Anahuac",
-    "state": "TX",
-    "zip": null,
-    "latitude": 29.7693,
-    "longitude": -94.6851,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": null,
-    "source_url": "https://www.texasgatorfest.com/5k-run",
-    "description": "A twilight 5K run/walk at Fort Anahuac Park as the sun sets, held during the annual Texas Gatorfest weekend. Check-in at 5:00 PM, race at 6:00 PM. Registration $30, closes August 14."
   },
   {
     "id": "tunnel-to-towers-5k-cypress-2026",
@@ -4550,27 +4460,6 @@
     "description": "A running race in Houston, TX."
   },
   {
-    "id": "houston-heights-fun-run-5k-10k-and-kids-1k-2026",
-    "name": "Houston Heights Fun Run:  5K, 10K and Kids 1K",
-    "date": "2026-10-10",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "Marmion Park",
-    "city": "Houston",
-    "state": "TX",
-    "zip": "77008",
-    "latitude": null,
-    "longitude": null,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/HoustonHeights5KRun?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Houston/HoustonHeights5KRun?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "description": "A running race in Houston, TX."
-  },
-  {
     "id": "my-place-to-race-30-day-challenge-2026",
     "name": "My Place to Race - 30 Day Challenge",
     "date": "2026-10-10",
@@ -4681,7 +4570,7 @@
   {
     "id": "houston-heights-fun-run-2026",
     "name": "40th Annual Houston Heights Fun Run",
-    "date": "2026-10-11",
+    "date": "2026-10-10",
     "start_time": null,
     "tz": "America/Chicago",
     "address": "Marmion Park, Heights Blvd",
@@ -4697,7 +4586,7 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": null,
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/HoustonHeights5KRun?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://houstonheights.org/events1/fun-run/",
     "description": "The 40th annual Houston Heights Fun Run starting and finishing at Marmion Park on Heights Boulevard. Features a 10K, 5K, 5K Walk, and Kids Fun Run (~1K). A beloved Heights neighborhood tradition since 1984."
   },
@@ -4871,7 +4760,7 @@
     "kid_run": true,
     "official_website_url": "https://runsignup.com/Race/TX/Houston/DayoftheDeadHalfMarathonHouston?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://runsignup.com/Race/TX/Houston/DayoftheDeadHalfMarathonHouston",
-    "description": "A D\u00eda de los Muertos\u2013themed half marathon hosted by Bigfoot Running Company at Brazos River Park in Sugar Land, offering kids' dash, 1-mile, 5K, quarter marathon, and half marathon. Features a pre-race costume contest, DJ, Bigfoot trophies for top finishers, and a festive post-race celebration at the Race Rally Tent."
+    "description": "A Día de los Muertos–themed half marathon hosted by Bigfoot Running Company at Brazos River Park in Sugar Land, offering kids' dash, 1-mile, 5K, quarter marathon, and half marathon. Features a pre-race costume contest, DJ, Bigfoot trophies for top finishers, and a festive post-race celebration at the Race Rally Tent."
   },
   {
     "id": "haunted-5k-10k-half-deer-park-42-2026",
@@ -5663,7 +5552,7 @@
     "kid_run": false,
     "official_website_url": "https://runsignup.com/Race/TX/Baytown/Xracersrideatthepark?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://runsignup.com/Race/TX/Baytown/Xracersrideatthepark",
-    "description": "A D\u00eda de los Muertos\u2013themed hybrid event at the beautiful Baytown Nature Center, combining a 5K trail run and a 10K bike-and-run distance. Participants enjoy the park's wildlife, trails, and waterfront scenery; all finishers receive a shirt and medal at the finish line."
+    "description": "A Día de los Muertos–themed hybrid event at the beautiful Baytown Nature Center, combining a 5K trail run and a 10K bike-and-run distance. Participants enjoy the park's wildlife, trails, and waterfront scenery; all finishers receive a shirt and medal at the finish line."
   },
   {
     "id": "race-for-permanent-sanctuary-2026",
@@ -5838,27 +5727,6 @@
     "description": "A running race in San Felipe, TX."
   },
   {
-    "id": "fall-family-fun-run-2026",
-    "name": "Fall Family Fun Run",
-    "date": "2026-11-07",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "19623 Windy Stone Dr",
-    "city": "Katy",
-    "state": "TX",
-    "zip": "77449",
-    "latitude": null,
-    "longitude": null,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": null,
-    "source_url": "https://runsignup.com/Race/TX/Katy/FFFR5K?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "description": "A running race in Katy, TX."
-  },
-  {
     "id": "warriors-of-hope-irene-s-5k-2026",
     "name": "Warriors of Hope - Irene's 5K",
     "date": "2026-11-07",
@@ -5972,7 +5840,7 @@
     "date": "2026-11-07",
     "start_time": null,
     "tz": "America/Chicago",
-    "address": "3737 O\u2019Meara Drive",
+    "address": "3737 O’Meara Drive",
     "city": "Houston",
     "state": "TX",
     "zip": "77025",
@@ -6052,7 +5920,7 @@
   },
   {
     "id": "whataburger-whatarun-5k10k-houston-tx-2026",
-    "name": "WHATABURGER \u2018WHATARUN 5K/10K\u2019 (Houston, TX)",
+    "name": "WHATABURGER ‘WHATARUN 5K/10K’ (Houston, TX)",
     "date": "2026-11-07",
     "start_time": null,
     "tz": "America/Chicago",
@@ -6480,7 +6348,7 @@
     "kid_run": false,
     "official_website_url": "https://theturkeytrot.org",
     "source_url": "https://runsignup.com/Race/TX/Houston/CoolxDad5kRun",
-    "description": "Downtown Houston's Thanksgiving morning tradition at Saint Arnold Brewing Company, featuring a chip-timed 5K and 10K course with views of the Downtown skyline plus an inclusive 1-mile walk. Multiple wave starts run from 7:00\u20139:30 AM; proceeds benefit CoolxDad, a Houston nonprofit uplifting fathers and families."
+    "description": "Downtown Houston's Thanksgiving morning tradition at Saint Arnold Brewing Company, featuring a chip-timed 5K and 10K course with views of the Downtown skyline plus an inclusive 1-mile walk. Multiple wave starts run from 7:00–9:30 AM; proceeds benefit CoolxDad, a Houston nonprofit uplifting fathers and families."
   },
   {
     "id": "houston-methodist-turkey-trot-2026",
@@ -6878,7 +6746,7 @@
     "kid_run": false,
     "official_website_url": "https://runsignup.com/Race/TX/TexasCity/TexasCityHalfMarathon?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://www.texascityhalf.com/",
-    "description": "The December finale of the Lone Star Race Series, run on the traffic-free Texas City Dike with panoramic Galveston Bay views. The half marathon course traces the full 5-mile dike as an out-and-back, then finishes with a 3.1-mile loop through Texas City's shoreline park \u2014 flat and fast throughout."
+    "description": "The December finale of the Lone Star Race Series, run on the traffic-free Texas City Dike with panoramic Galveston Bay views. The half marathon course traces the full 5-mile dike as an out-and-back, then finishes with a 3.1-mile loop through Texas City's shoreline park — flat and fast throughout."
   },
   {
     "id": "run-houston-sugar-land-santa-2026",
@@ -6991,7 +6859,7 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": null,
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/HeartoftheHouse5K?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://runsignup.com/Race/TX/Houston/RunfortheHouse5K?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "A running race in Houston, TX."
   },
@@ -7018,28 +6886,6 @@
     "official_website_url": "https://runsignup.com/Race/TX/Cypress/GingerbreadLaneHouston?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://runsignup.com/Race/TX/Cypress/GingerbreadLaneHouston",
     "description": "A festive holiday trail race at John Paul Landing Park along the Cypress greenbelt, featuring a 5K, 10K, untimed 1 Mile, and Kids Dash (50-meter sprint). DJ Sasquatch provides holiday music on course; post-race includes gingerbread cookies and milk. Costume contest with prizes. Part of the multi-city Bigfoot Running Company Gingerbread Lane series."
-  },
-  {
-    "id": "trafigura-run-for-the-house-2026",
-    "name": "Trafigura Run for the House",
-    "date": "2026-12-06",
-    "start_time": "08:00",
-    "tz": "America/Chicago",
-    "address": "Sam Houston Park",
-    "city": "Houston",
-    "state": "TX",
-    "zip": "77002",
-    "latitude": 29.7589,
-    "longitude": -95.3677,
-    "distance": [
-      "5K",
-      "Kids"
-    ],
-    "surface": "road",
-    "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/TrafiguraRunfortheHouse?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://rmhhouston.org/run",
-    "description": "The 16th annual USATF-certified 5K and Kids 1-Miler in downtown Houston benefiting Ronald McDonald House Charities Greater Houston. The Trafigura Foundation matches proceeds dollar for dollar up to $300,000."
   },
   {
     "id": "flapjack-fun-run-5k-friendswood-2026",
@@ -7146,7 +6992,7 @@
     "kid_run": true,
     "official_website_url": "https://runsignup.com/Race/TX/Kingwood/KingwoodChristmasCookieDash?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://runsignup.com/Race/TX/Kingwood/KingwoodChristmasCookieDash",
-    "description": "The 3rd Annual Kingwood Christmas Cookie Dash on the trails of Kingwood Country Club, co-located with the Kingwood Christmas Market. Offers 5K, 10K, a unique 10K relay (4 legs of 1.5 miles each \u2014 runners decorate a cookie before tagging off), and Kids Dash. Benefiting Lily's Toy Box, Toys for Tots, and Angel Tree Houston. NOTE: The 2026 edition is already sold out."
+    "description": "The 3rd Annual Kingwood Christmas Cookie Dash on the trails of Kingwood Country Club, co-located with the Kingwood Christmas Market. Offers 5K, 10K, a unique 10K relay (4 legs of 1.5 miles each — runners decorate a cookie before tagging off), and Kids Dash. Benefiting Lily's Toy Box, Toys for Tots, and Angel Tree Houston. NOTE: The 2026 edition is already sold out."
   },
   {
     "id": "candy-cane-course-houston-2026",
@@ -7214,7 +7060,7 @@
   {
     "id": "coach-andy-stewart-30k-10k-2026",
     "name": "Coach Andy Stewart's 30K & 10K",
-    "date": "2026-12-14",
+    "date": "2026-12-13",
     "start_time": null,
     "tz": "America/Chicago",
     "address": null,
@@ -7228,7 +7074,7 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": null,
+    "official_website_url": "https://runsignup.com/Race/TX/SugarLand/CoachAndy30K?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://www.houstonrunningcalendar.com/2026/",
     "description": "A 30K (18.6 miles) and 10K in Sugar Land, a key final long-run training race for Houston Marathon runners in January. Named for legendary Houston running coach Andy Stewart."
   },
@@ -7367,7 +7213,7 @@
     "kid_run": true,
     "official_website_url": "https://runsignup.com/Race/TX/SugarLand/2022LoneStarStampedeTexasExesHoustonChapter?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://runsignup.com/Race/TX/SugarLand/2022LoneStarStampedeTexasExesHoustonChapter",
-    "description": "The 48th annual Texas Exes Houston Chapter scholarship run at Brazos River Park, featuring a 5K, 10K, kids dash, and \u2014 new for 2027 \u2014 a first-ever half marathon. A Houston tradition for UT Austin alumni and supporters, with proceeds funding college scholarships for Houston-area students."
+    "description": "The 48th annual Texas Exes Houston Chapter scholarship run at Brazos River Park, featuring a 5K, 10K, kids dash, and — new for 2027 — a first-ever half marathon. A Houston tradition for UT Austin alumni and supporters, with proceeds funding college scholarships for Houston-area students."
   },
   {
     "id": "bigfoot-classic-houston-2027",
@@ -7874,7 +7720,7 @@
   },
   {
     "id": "running-with-my-peeps-5k10k-houston-tx-2027",
-    "name": "\u2018RUNNING WITH MY PEEPS 5K/10K\u2019 (Houston, TX)",
+    "name": "‘RUNNING WITH MY PEEPS 5K/10K’ (Houston, TX)",
     "date": "2027-03-27",
     "start_time": null,
     "tz": "America/Chicago",
@@ -8178,7 +8024,7 @@
   },
   {
     "id": "uncf-houston-walk-run-2027",
-    "name": "UNCF South Texas \u2013 Houston Walk/Run for Education",
+    "name": "UNCF South Texas – Houston Walk/Run for Education",
     "date": "2027-09-26",
     "start_time": "08:00",
     "tz": "America/Chicago",
@@ -8306,7 +8152,7 @@
     "kid_run": false,
     "official_website_url": "https://harra.org/harra-race-series",
     "source_url": "https://www.findtherun.com/race/98600/space-city-10-miler-and-5k",
-    "description": "Annual HARRA Fall Marathon Warm-Up Series race through the scenic Clear Lake area, starting and finishing at the University of Houston\u2013Clear Lake campus. The certified 10-mile loop course is popular with runners building mileage for the January Houston Marathon."
+    "description": "Annual HARRA Fall Marathon Warm-Up Series race through the scenic Clear Lake area, starting and finishing at the University of Houston–Clear Lake campus. The certified 10-mile loop course is popular with runners building mileage for the January Houston Marathon."
   },
   {
     "id": "galveston-ultra-trail-2027",
