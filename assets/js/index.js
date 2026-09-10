@@ -18,7 +18,7 @@
     surfaces: [],
     search: '',
     window: '90',
-    view: 'cards',     // 'cards' | 'list' | 'map' | 'cal'
+    view: 'map',     // 'cards' | 'list' | 'map' | 'cal'
     calMonth: new Date().getMonth(),
     calYear: new Date().getFullYear(),
     userLat: null,

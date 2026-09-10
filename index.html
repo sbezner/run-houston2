@@ -121,10 +121,10 @@
           Near me
         </button>
         <div class="view-toggle" role="group" aria-label="View mode">
-          <button type="button" id="view-cards-btn" class="view-toggle-btn is-active"
-                  aria-pressed="true">Cards</button>
-          <button type="button" id="view-map-btn" class="view-toggle-btn"
-                  aria-pressed="false">Map</button>
+          <button type="button" id="view-cards-btn" class="view-toggle-btn"
+                  aria-pressed="false">Cards</button>
+          <button type="button" id="view-map-btn" class="view-toggle-btn is-active"
+                  aria-pressed="true">Map</button>
           <button type="button" id="view-list-btn" class="view-toggle-btn"
                   aria-pressed="false">List</button>
           <button type="button" id="view-cal-btn" class="view-toggle-btn"
@@ -133,7 +133,7 @@
       </div>
     </div>
 
-    <section id="race-cards" aria-live="polite">
+    <section id="race-cards" hidden aria-live="polite">
       <p class="loading">Loading races&hellip;</p>
     </section>
 
@@ -141,7 +141,7 @@
 
     <section id="race-cal" hidden aria-live="polite"></section>
 
-    <section id="race-map-wrap" hidden>
+    <section id="race-map-wrap">
       <div id="race-map" class="rh-map" role="region" aria-label="Map of upcoming races"></div>
       <p id="map-note" class="map-note"></p>
     </section>
