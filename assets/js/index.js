@@ -20,10 +20,7 @@
     window: '90',
     view: 'map',     // 'cards' | 'list' | 'map' | 'cal'
     calMonth: new Date().getMonth(),
-    calYear: new Date().getFullYear(),
-    userLat: null,
-    userLng: null,
-    sortByDistance: false
+    calYear: new Date().getFullYear()
   };
 
   var MOBILE =
@@ -34,17 +31,7 @@
   var markerLayer = null;
   var HOUSTON_BOUNDS = [[29.35, -95.90], [30.20, -94.90]];
 
-  // ---------- Distance helpers ----------
-
-  function haversineMi(lat1, lng1, lat2, lng2) {
-    var R = 3959;
-    var dLat = (lat2 - lat1) * Math.PI / 180;
-    var dLng = (lng2 - lng1) * Math.PI / 180;
-    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-      Math.sin(dLng / 2) * Math.sin(dLng / 2);
-    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  }
+  // ---------- Coordinate helpers ----------
 
   function hasCoords(race) {
     return typeof race.latitude === 'number' && typeof race.longitude === 'number';
@@ -249,15 +236,6 @@
       [allRaces, today, cutoff, state.distances, state.surfaces]
     );
     rows = rows.filter(function (r) { return matchesSearch(r, tokens); });
-
-    if (state.sortByDistance && state.userLat !== null) {
-      rows = rows.filter(hasCoords);
-      rows.sort(function (a, b) {
-        var da = haversineMi(state.userLat, state.userLng, a.latitude, a.longitude);
-        var db = haversineMi(state.userLat, state.userLng, b.latitude, b.longitude);
-        return da - db;
-      });
-    }
     return rows;
   }
 
@@ -304,12 +282,10 @@
       wireExpandWindow(el);
       return;
     }
-    var showDist = state.sortByDistance && state.userLat !== null;
     var html =
       '<table class="race-table"><thead><tr>' +
       '<th>Date</th><th>Race</th><th class="col-city">City</th>' +
       '<th>Distances</th><th class="col-surface">Surface</th>' +
-      (showDist ? '<th>Away</th>' : '') +
       '</tr></thead><tbody>';
     rows.forEach(function (race) {
       var dists = (race.distance || []).map(function (d) {
@@ -319,12 +295,6 @@
         ? '<span class="badge surface-' + RH.escapeAttr(race.surface) + '">' +
           RH.escapeHtml(race.surface) + '</span>'
         : '';
-      var distCell = '';
-      if (showDist) {
-        distCell = hasCoords(race)
-          ? '<td>' + haversineMi(state.userLat, state.userLng, race.latitude, race.longitude).toFixed(1) + ' mi</td>'
-          : '<td class="muted">—</td>';
-      }
       html +=
         '<tr>' +
         '<td>' + RH.escapeHtml(RH.formatDate(race.date)) + '</td>' +
@@ -333,7 +303,6 @@
         '<td class="col-city">' + RH.escapeHtml(race.city || '') + '</td>' +
         '<td class="badges-cell">' + dists + '</td>' +
         '<td class="col-surface">' + surfaceBadge + '</td>' +
-        distCell +
         '</tr>';
     });
     html += '</tbody></table>';
@@ -515,11 +484,7 @@
       countEl.textContent = '';
       return;
     }
-    if (state.sortByDistance && state.userLat !== null && rows.length === 0) {
-      countEl.textContent = 'No races nearby with coordinates';
-    } else {
-      countEl.textContent = rows.length + ' upcoming race' + (rows.length === 1 ? '' : 's');
-    }
+    countEl.textContent = rows.length + ' upcoming race' + (rows.length === 1 ? '' : 's');
     if (state.view === 'map') { renderMap(rows); }
     else if (state.view === 'list') { renderTable(rows); }
     else if (state.view === 'cal') { renderCalendar(rows); }
@@ -607,50 +572,6 @@
     setTimeout(function () {
       if (!sheet.classList.contains('open')) { sheet.hidden = true; sheet.innerHTML = ''; }
     }, 220);
-  }
-
-  // ---------- Geolocation ----------
-
-  var NEAR_ME_SVG =
-    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
-    'stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-    '<circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>';
-
-  // Near me for cards/list — sorts by distance and shows "X mi" badge
-  function handleCardNearMe() {
-    var btn = document.getElementById('card-near-me-btn');
-    if (!navigator.geolocation) {
-      btn.textContent = 'Not supported';
-      btn.disabled = true;
-      return;
-    }
-    btn.disabled = true;
-    btn.textContent = 'Locating…';
-    navigator.geolocation.getCurrentPosition(
-      function (pos) {
-        state.userLat = pos.coords.latitude;
-        state.userLng = pos.coords.longitude;
-        state.sortByDistance = true;
-        btn.disabled = false;
-        btn.classList.add('is-active');
-        btn.innerHTML = NEAR_ME_SVG + ' Near me';
-        render();
-      },
-      function (err) {
-        btn.disabled = false;
-        btn.innerHTML = NEAR_ME_SVG + ' Near me';
-        var msg = err.code === 1 ? 'Location access denied' :
-                  err.code === 3 ? 'Location timed out' :
-                  'Location unavailable';
-        var countEl = document.getElementById('result-count');
-        if (countEl) {
-          var orig = countEl.textContent;
-          countEl.textContent = msg + '. Only races with coordinates can be sorted by distance.';
-          setTimeout(function () { countEl.textContent = orig; }, 5000);
-        }
-      },
-      { enableHighAccuracy: false, timeout: 5000 }
-    );
   }
 
   // ---------- Wiring ----------
@@ -748,7 +669,6 @@
     document.getElementById('view-list-btn').addEventListener('click', function () { setView('list'); });
     document.getElementById('view-map-btn').addEventListener('click', function () { setView('map'); });
     document.getElementById('view-cal-btn').addEventListener('click', function () { setView('cal'); });
-    document.getElementById('card-near-me-btn').addEventListener('click', handleCardNearMe);
   }
 
   // ---------- Init ----------
