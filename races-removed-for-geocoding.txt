@@ -1,0 +1,15 @@
+Races Removed During Geocoding Project
+======================================================================
+
+ID: 7-summits-elevation-challenge-2026
+Name: 7 Summits Elevation Challenge
+Reason: Out of state (CA)
+
+ID: the-giving-turkey-trot-5k-10k-half-marathon-2026
+Name: The Giving Turkey Trot - 5K, 10K & Half Marathon
+Reason: Out of state (CA)
+
+ID: midas-fa-5k-race-against-childhood-obesity-2027
+Name: Midas FA 5K Race Against Childhood Obesity
+Reason: TBA location, insufficient data
+

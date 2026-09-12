@@ -15,6 +15,11 @@ Workflow this supports (matches prompts/upcoming-races-research.md):
   3. If the plan looks right, re-run with --apply to write the merge
      into data/races-upcoming.json. The script then runs the data
      validator and exits non-zero if validation fails.
+  4. **IMPORTANT (as of 2026-09-12):** All races MUST have coordinates.
+     If the merge adds races without coordinates, run geocoding:
+         python3 scripts/geocode-missing.py --apply
+         python3 scripts/geocode-remaining.py  # for any that still fail
+     The validator will reject races with null latitude/longitude.
 
 Design:
 
@@ -249,6 +254,20 @@ def apply_plan(plan, live_records):
         out_by_id[rid] = n
     out = list(out_by_id.values())
     out.sort(key=lambda r: r.get("date", ""))
+    
+    # Check for missing coordinates in the merged data
+    missing_coords = [r for r in out if r.get("latitude") is None or r.get("longitude") is None]
+    if missing_coords:
+        print(f"\n⚠️  WARNING: {len(missing_coords)} race(s) in merged data are missing coordinates:")
+        for r in missing_coords[:10]:  # Show first 10
+            print(f"    - {r['id']}: {r.get('name', 'Unknown')}")
+        if len(missing_coords) > 10:
+            print(f"    ... and {len(missing_coords) - 10} more")
+        print("\n   Run geocoding to fill missing coordinates:")
+        print("   python3 scripts/geocode-missing.py --apply")
+        print("   python3 scripts/geocode-remaining.py  # for any that still fail")
+        print()
+    
     return out
 
 

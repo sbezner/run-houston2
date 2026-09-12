@@ -1,0 +1,14 @@
+Geocoding Report - Unplaceable Races
+======================================================================
+
+Virtual Races (6):
+These races have no physical location.
+
+Failed Geocoding (1):
+These races need manual research or removal.
+
+ID: midas-fa-5k-race-against-childhood-obesity-2027
+Name: Midas FA 5K Race Against Childhood Obesity
+Address: TBA
+City: TBA, TX
+

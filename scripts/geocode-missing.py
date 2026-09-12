@@ -3,6 +3,10 @@
 geocode-missing.py — backfill null coordinates in races-upcoming.json
 from each record's existing address fields, using Nominatim (OSM).
 
+**REQUIRED AS OF 2026-09-12:** All races must have coordinates. The
+validator rejects races with null latitude or longitude. Run this
+script after any merge that adds races without coordinates.
+
 Usage:
     python3 scripts/geocode-missing.py                   # dry run, prints plan
     python3 scripts/geocode-missing.py --apply           # write results back
@@ -26,10 +30,11 @@ Rules this script follows:
   prompts/upcoming-races-research.md asks for and scripts/merge-races.py
   canonicalizes to.
 - After --apply, runs scripts/validate-data.py. If validation fails,
-  the script exits non-zero without suppressing the errors.
+  the script exits non-zero without suppressing the errors. As of
+  2026-09-12, the validator requires all races to have coordinates,
+  so any remaining null coordinates will cause validation to fail.
 
-Run this script LOCALLY (not inside Claude Code's sandbox); it needs
-network egress to reach https://nominatim.openstreetmap.org/.
+This script can run in Cloud Agent environments with network egress.
 """
 
 import argparse

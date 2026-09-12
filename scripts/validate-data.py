@@ -87,9 +87,14 @@ def check_unique_ids(label, records):
             seen[rid] = i
 
 
-def check_coords(label, rid, lat, lng):
-    """Latitude/longitude must both be null or both be numbers in the Houston bbox."""
+def check_coords(label, rid, lat, lng, required=False):
+    """Latitude/longitude must both be null or both be numbers in the Houston bbox.
+    
+    If required=True, null coordinates are not allowed (enforces geocoding invariant).
+    """
     if lat is None and lng is None:
+        if required:
+            error(f"{label}[{rid}]: latitude and longitude are required (cannot be null)")
         return
     if lat is None or lng is None:
         error(f"{label}[{rid}]: latitude and longitude must both be null or both numbers")
@@ -142,7 +147,8 @@ def validate_race(i, r):
     if not isinstance(r["kid_run"], bool):
         error(f"races-upcoming[{rid}]: 'kid_run' must be a boolean")
 
-    check_coords("races-upcoming", rid, r.get("latitude"), r.get("longitude"))
+    # Coordinates are REQUIRED for races (geocoding invariant enforced as of 2026-09-12)
+    check_coords("races-upcoming", rid, r.get("latitude"), r.get("longitude"), required=True)
 
     st = r.get("start_time")
     if st is not None and (not isinstance(st, str) or not TIME_RE.match(st)):
