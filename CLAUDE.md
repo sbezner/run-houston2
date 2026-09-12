@@ -58,6 +58,15 @@ update the validator in the same change.
    (with justification) or the race is out of scope.
 7. **Push = deploy.** Treat `master` as production. Confirm before
    pushing. Never force-push.
+8. **All races MUST have coordinates (as of 2026-09-12).** The
+   validator requires both latitude and longitude for every race.
+   After merging races from external sources, run geocoding:
+   ```bash
+   python3 scripts/geocode-missing.py --apply
+   python3 scripts/geocode-remaining.py  # for any remaining failures
+   ```
+   Virtual races (surface="virtual") also need coordinates — use
+   city center coordinates for them.
 
 ## Workflows
 
