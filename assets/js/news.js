@@ -36,6 +36,10 @@
           return;
         }
 
+        items.sort(function (a, b) {
+          return b.date.localeCompare(a.date);
+        });
+
         listEl.innerHTML = items.map(renderNewsCard).join('');
       })
       .catch(function (err) {
