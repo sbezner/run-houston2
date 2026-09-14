@@ -1,13 +1,53 @@
 {
-  "updated": "2026-09-09",
+  "updated": "2026-09-14",
   "items": [
     {
-      "id": "power-in-motion-fall-2026",
-      "source": "HARRA/Power In Motion",
-      "date": "2026-08-17",
-      "headline": "Power In Motion Fall 2026 kicks off September 2",
-      "summary": "HARRA's 10-week 5K clinic for beginning and intermediate runners started Sep 2 at Memorial Park Fitness Center, wraps Nov 4, with Alex's 5K on Nov 7 as the goal race. Registration open through mid-September.",
-      "url": "https://powerinmotion.org/"
+      "id": "lifegift-2nd-chance-run-houston-2026",
+      "source": "LifeGift",
+      "date": "2026-09-14",
+      "headline": "LifeGift 2nd Chance Run moves to Willow Waterhole on Sept 19",
+      "summary": "LifeGift's Houston 2nd Chance Run returns Saturday, September 19 at Willow Waterhole Greenway (new venue), with a 5K and 1-mile walk/run honoring organ, eye, and tissue donors and raising awareness for Texans waiting for transplant.",
+      "url": "https://raceroster.com/events/2026/115543/2026-2nd-chance-run-houston"
+    },
+    {
+      "id": "tunnel-to-towers-5k-cypress-2026",
+      "source": "Tunnel to Towers / Cypress",
+      "date": "2026-09-14",
+      "headline": "Tunnel to Towers 5K returns to Cypress for a fifth year",
+      "summary": "The Tunnel to Towers 5K Run & Walk – Cypress / Northwest Houston is Saturday, September 19 at John Paul Landing Park's Environmental Education Center, honoring first responders and military heroes. Registration remains open; race-morning check-in starts at 7 a.m.",
+      "url": "https://runwalkcypressnorthwesthouston.t2t.org/"
+    },
+    {
+      "id": "road-kill-xc-open-5k-2026",
+      "source": "TROT/HARRA",
+      "date": "2026-09-14",
+      "headline": "Road Kill XC runs as an open 5K this Saturday at Bear Creek",
+      "summary": "HARRA Fall Series opener Road Kill XC is Saturday, September 19 at Bear Creek Pioneers Park. Hosted by Trail Racing Over Texas and Hardloop Endurance, 2026 uses an open USATF-sanctioned 5K with classic four-score team scoring (not the old relay format). Packet pickup 7 a.m.; race 8 a.m.",
+      "url": "https://runsignup.com/Race/TX/Houston/RoadKillXCRelay"
+    },
+    {
+      "id": "houston-marathon-training-kickoff-2026",
+      "source": "Houston Marathon Committee",
+      "date": "2026-09-14",
+      "headline": "2027 Houston Marathon Training Kick Off set for October 6",
+      "summary": "A free community Training Kick Off for the Chevron Houston Marathon, Aramco Houston Half Marathon, and We Are Houston 5K is Tuesday, October 6 from 6–8 p.m. at the Roy H. Cullen Timing Track in Memorial Park.",
+      "url": "https://bosplace.org/en/events/2027-houston-marathon-training-kick-off/"
+    },
+    {
+      "id": "harra-warmup-bundles",
+      "source": "RunSignUp/HARRA",
+      "date": "2026-09-10",
+      "headline": "Bundle and save on HARRA Warm-Up Series races",
+      "summary": "Register for multiple Warm-Up Series races together before Sep 20 and save: Space City 10 Miler, UTHealth Houston Half, Houston 25K, and Coach Andy 30K (or half marathon track) at discounted bundle pricing.",
+      "url": "https://runsignup.com/Race/TX/Houston/HARRAWarmupSeries"
+    },
+    {
+      "id": "chevron-houston-marathon-2027-sellout",
+      "source": "Chevron Houston Marathon",
+      "date": "2026-09-05",
+      "headline": "2027 Chevron Houston Marathon and Half sell out",
+      "summary": "The 55th annual marathon and 26th annual Aramco Half Marathon (Jan 17, 2027) are fully sold out after the final Run for a Reason Charity entries were claimed. We Are Houston 5K on Jan 16 still has spots available.",
+      "url": "https://www.chevronhoustonmarathon.com/"
     },
     {
       "id": "harra-fall-series-2026",
@@ -18,12 +58,44 @@
       "url": "https://harra.org/harra-race-series"
     },
     {
-      "id": "harra-warmup-bundles",
-      "source": "RunSignUp/HARRA",
-      "date": "2026-09-10",
-      "headline": "Bundle and save on HARRA Warm-Up Series races",
-      "summary": "Register for multiple Warm-Up Series races together before Sep 20 and save: Space City 10 Miler, UTHealth Houston Half, Houston 25K, and Coach Andy 30K (or half marathon track) at discounted bundle pricing.",
-      "url": "https://runsignup.com/Race/TX/Houston/HARRAWarmupSeries"
+      "id": "space-city-10-miler-2026",
+      "source": "HARRA/Space City 10 Miler",
+      "date": "2026-09-01",
+      "headline": "Space City 10 Miler returns October 11",
+      "summary": "The HARRA Fall Series race features a certified 10-mile course plus 5K and two-person relay at UH Clear Lake. Registration is open with pricing increasing after Aug 31. Cash awards for top finishers in the 10-miler.",
+      "url": "https://runsignup.com/Race/TX/Houston/spacecity10"
+    },
+    {
+      "id": "alexs-5k-2026",
+      "source": "BCRR/Alex's 5K",
+      "date": "2026-08-20",
+      "headline": "Alex's 5K set for November 7 at Avondale House",
+      "summary": "The 16th annual Alex's 5K Run/Walk & Kids' K benefits autism charities. The Power In Motion fall goal race takes place Nov 7 with 5K starting at 8:30 a.m. and Kids' K at 8:00 a.m. Early bird pricing ends Aug 31.",
+      "url": "https://alex5k.com/"
+    },
+    {
+      "id": "power-in-motion-fall-2026",
+      "source": "HARRA/Power In Motion",
+      "date": "2026-08-17",
+      "headline": "Power In Motion Fall 2026 kicks off September 2",
+      "summary": "HARRA's 10-week 5K clinic for beginning and intermediate runners started Sep 2 at Memorial Park Fitness Center, wraps Nov 4, with Alex's 5K on Nov 7 as the goal race. Registration open through mid-September.",
+      "url": "https://powerinmotion.org/"
+    },
+    {
+      "id": "uthealth-houston-half-2026",
+      "source": "Houston Striders",
+      "date": "2026-08-15",
+      "headline": "UTHealth Houston Half Marathon & 10K slated for October 25",
+      "summary": "The Houston Striders' signature race features a flat downtown course with half marathon and 10K distances. Early bird registration is open. The nonprofit event has donated over $1 million to Houston charities since 1985.",
+      "url": "https://www.houstonhalf.com/"
+    },
+    {
+      "id": "harra-party-in-the-park-2026",
+      "source": "HARRA",
+      "date": "2026-08-08",
+      "headline": "HARRA Party in the Park brings together Houston runners",
+      "summary": "Free community celebration took place Aug 8 at Memorial Park with refreshments, live music, club tents, and prize giveaways. The annual event marks the start of fall training season and highlights Houston's running clubs.",
+      "url": "https://runsignup.com/Race/TX/Houston/HoustonPartyinthePark"
     },
     {
       "id": "harra-student-memberships",
@@ -42,20 +114,12 @@
       "url": "https://harra.org/"
     },
     {
-      "id": "harra-party-in-the-park-2026",
+      "id": "harra-spring-rots-results",
       "source": "HARRA",
-      "date": "2026-08-08",
-      "headline": "HARRA Party in the Park brings together Houston runners",
-      "summary": "Free community celebration took place Aug 8 at Memorial Park with refreshments, live music, club tents, and prize giveaways. The annual event marks the start of fall training season and highlights Houston's running clubs.",
-      "url": "https://runsignup.com/Race/TX/Houston/HoustonPartyinthePark"
-    },
-    {
-      "id": "alexs-5k-2026",
-      "source": "BCRR/Alex's 5K",
-      "date": "2026-08-20",
-      "headline": "Alex's 5K set for November 7 at Avondale House",
-      "summary": "The 16th annual Alex's 5K Run/Walk & Kids' K benefits autism charities. The Power In Motion fall goal race takes place Nov 7 with 5K starting at 8:30 a.m. and Kids' K at 8:00 a.m. Early bird pricing ends Aug 31.",
-      "url": "https://alex5k.com/"
+      "date": "2026-07-06",
+      "headline": "Spring 2026 Runner of the Season results finalized",
+      "summary": "Final standings for the HARRA Spring 2026 Runner of the Season competition are posted. Cash prizes of $85-$120 awarded to top runners across age groups for accumulated points in the spring race series.",
+      "url": "https://harra.org/"
     },
     {
       "id": "houston-runner-friendly-community",
@@ -64,38 +128,6 @@
       "headline": "Houston renews Runner Friendly Community designation",
       "summary": "The Road Runners Club of America renewed Houston's Runner Friendly Community status in 2024, valid through 2029. The designation recognizes cities with strong running infrastructure, community support, and governmental advocacy.",
       "url": "https://harra.org/rrca"
-    },
-    {
-      "id": "space-city-10-miler-2026",
-      "source": "HARRA/Space City 10 Miler",
-      "date": "2026-09-01",
-      "headline": "Space City 10 Miler returns October 11",
-      "summary": "The HARRA Fall Series race features a certified 10-mile course plus 5K and two-person relay at UH Clear Lake. Registration is open with pricing increasing after Aug 31. Cash awards for top finishers in the 10-miler.",
-      "url": "https://runsignup.com/Race/TX/Houston/spacecity10"
-    },
-    {
-      "id": "uthealth-houston-half-2026",
-      "source": "Houston Striders",
-      "date": "2026-08-15",
-      "headline": "UTHealth Houston Half Marathon & 10K slated for October 25",
-      "summary": "The Houston Striders' signature race features a flat downtown course with half marathon and 10K distances. Early bird registration is open. The nonprofit event has donated over $1 million to Houston charities since 1985.",
-      "url": "https://www.houstonhalf.com/"
-    },
-    {
-      "id": "chevron-houston-marathon-2027-sellout",
-      "source": "Chevron Houston Marathon",
-      "date": "2026-09-05",
-      "headline": "2027 Chevron Houston Marathon and Half sell out",
-      "summary": "The 55th annual marathon and 26th annual Aramco Half Marathon (Jan 17, 2027) are fully sold out after the final Run for a Reason Charity entries were claimed. We Are Houston 5K on Jan 16 still has spots available.",
-      "url": "https://www.chevronhoustonmarathon.com/"
-    },
-    {
-      "id": "harra-spring-rots-results",
-      "source": "HARRA",
-      "date": "2026-07-06",
-      "headline": "Spring 2026 Runner of the Season results finalized",
-      "summary": "Final standings for the HARRA Spring 2026 Runner of the Season competition are posted. Cash prizes of $85-$120 awarded to top runners across age groups for accumulated points in the spring race series.",
-      "url": "https://harra.org/"
     }
   ]
 }
