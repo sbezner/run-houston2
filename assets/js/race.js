@@ -97,11 +97,22 @@
       'meta[name="description"]': desc,
       'meta[property="og:title"]': race.name + ' — Run Houston',
       'meta[property="og:description"]': desc,
-      'meta[property="og:url"]': url
+      'meta[property="og:url"]': url,
+      'meta[name="twitter:title"]': race.name + ' — Run Houston',
+      'meta[name="twitter:description"]': desc
     };
     Object.keys(metaMap).forEach(function (sel) {
       var el = document.querySelector(sel);
-      if (el) el.setAttribute('content', metaMap[sel]);
+      if (!el) {
+        el = document.createElement('meta');
+        if (sel.includes('property=')) {
+          el.setAttribute('property', sel.match(/property="([^"]+)"/)[1]);
+        } else {
+          el.setAttribute('name', sel.match(/name="([^"]+)"/)[1]);
+        }
+        document.head.appendChild(el);
+      }
+      el.setAttribute('content', metaMap[sel]);
     });
 
     var canonical = document.querySelector('link[rel="canonical"]');
