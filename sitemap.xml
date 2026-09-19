@@ -247,12 +247,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://runhouston.app/race.html?id=houston-hftc-5k-2026</loc>
-    <lastmod>2026-09-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://runhouston.app/race.html?id=island-girl-triathlon-and-duathlon-2026</loc>
     <lastmod>2026-09-27</lastmod>
     <changefreq>monthly</changefreq>
@@ -537,12 +531,6 @@
   <url>
     <loc>https://runhouston.app/race.html?id=toughest-10k-galveston-2026</loc>
     <lastmod>2026-10-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=chord-energy-houston-corporate-5k-2026</loc>
-    <lastmod>2026-10-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
