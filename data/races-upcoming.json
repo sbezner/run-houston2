@@ -467,27 +467,6 @@
     "description": "A running race in Houston, TX."
   },
   {
-    "id": "road-kill-xc-2026",
-    "name": "Road Kill XC",
-    "date": "2026-09-19",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "3560 War Memorial St",
-    "city": "Houston",
-    "state": "TX",
-    "zip": "77084",
-    "latitude": 29.7589,
-    "longitude": -95.3677,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/RoadKillXCRelay?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Houston/RoadKillXCRelay?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "description": "A running race in Houston, TX."
-  },
-  {
     "id": "run-houston-at-university-of-houston-5k-10k-presented-by-houston-methodist-2026",
     "name": "Run Houston! at University of Houston 5K & 10K presented by Houston Methodist",
     "date": "2026-09-19",
@@ -834,6 +813,28 @@
     "description": "A running race in Texas City, TX."
   },
   {
+    "id": "head-for-the-cure-5k-houston-2026",
+    "name": "Head for the Cure 5K - Houston",
+    "date": "2026-09-27",
+    "start_time": "08:00",
+    "tz": "America/Chicago",
+    "address": "11200 Broadway St",
+    "city": "Pearland",
+    "state": "TX",
+    "zip": "77584",
+    "latitude": 29.5530321,
+    "longitude": -95.3938768,
+    "distance": [
+      "5K",
+      "Kids"
+    ],
+    "surface": "road",
+    "kid_run": true,
+    "official_website_url": "https://headforthecure.org/5k-events/2026-houston-5k/",
+    "source_url": "https://impact.headforthecure.org/event/head-for-the-cure-5k-houston-2026/e744909",
+    "description": "The 14th annual Head for the Cure 5K in Pearland raises funds for brain tumor research at MD Anderson and Path to Hope. Race morning at Pearland Town Center includes a kids fun run before the 8 a.m. 5K."
+  },
+  {
     "id": "mpsg-life-after-loss-5k-fun-run-2026",
     "name": "MPSG Life After Loss 5K & Fun Run",
     "date": "2026-10-01",
@@ -1155,7 +1156,7 @@
   },
   {
     "id": "houston-heights-fun-run-2026",
-    "name": "40th Annual Houston Heights Fun Run",
+    "name": "41st Annual Houston Heights Fun Run",
     "date": "2026-10-10",
     "start_time": null,
     "tz": "America/Chicago",
@@ -1823,24 +1824,24 @@
   },
   {
     "id": "chord-energy-houston-corporate-5k-2026",
-    "name": "CHORD ENERGY HOUSTON CORPORATE 5K",
+    "name": "Chord Energy Houston Corporate 5K",
     "date": "2026-10-20",
     "start_time": null,
     "tz": "America/Chicago",
-    "address": "Start Line Location: Eastern Glades (East Memorial Park Loop) - Flat and Fast, One Lap Around Seymour Lieberman Trail Loop",
+    "address": "7575 N Picnic Ln",
     "city": "Houston",
     "state": "TX",
     "zip": "77007",
-    "latitude": 29.7671,
-    "longitude": -95.43,
+    "latitude": 29.7670628,
+    "longitude": -95.4478193,
     "distance": [
       "5K"
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/HoustonCorporateRun5k?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Houston/HoustonCorporateRun5k?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "description": "A running race in Houston, TX."
+    "official_website_url": "https://www.houstoncorporate5k.com/",
+    "source_url": "https://runsignup.com/Race/TX/Houston/HoustonCorporateRun5k",
+    "description": "The 10th annual Chord Energy Houston Corporate 5K runs Oct. 20-22 at Memorial Park for company teams and individuals, with proceeds benefiting Memorial Park Conservancy. After-work 5K around the Lieberman Trail plus a post-race gathering at the Eastern Glades."
   },
   {
     "id": "12th-annual-park-to-port-bike-ride-2026",
