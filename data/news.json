@@ -1,6 +1,62 @@
 {
-  "updated": "2026-09-14",
+  "updated": "2026-09-18",
   "items": [
+    {
+      "id": "road-kill-xc-open-5k-2026",
+      "date": "2026-09-18",
+      "headline": "Road Kill XC 2026 canceled over low registration",
+      "source": "TROT / RunSignUp",
+      "url": "https://runsignup.com/Race/TX/Houston/RoadKillXCRelay",
+      "summary": "Trail Racing Over Texas canceled the Sept. 19 Road Kill XC at Bear Creek after low registration. Registered runners are being emailed refund options, and club entry vouchers are set for automatic refunds."
+    },
+    {
+      "id": "harra-fall-series-2026",
+      "source": "HARRA",
+      "date": "2026-09-18",
+      "headline": "HARRA Fall Runner of the Season continues after Road Kill cancelation",
+      "summary": "HARRA's Fall Runner of the Season still runs through Space City 10 Miler, UTHealth Houston Half, Houston 25K, Coach Andy 30K, and the Chevron Houston Marathon. The Sept. 19 Road Kill XC opener was canceled by TROT for low registration.",
+      "url": "https://harra.org/harra-race-series"
+    },
+    {
+      "id": "komen-houston-race-for-the-cure-2026",
+      "date": "2026-09-18",
+      "headline": "Komen Houston Race for the Cure returns Oct. 3 at Sam Houston Park",
+      "source": "Susan G. Komen / RunSignUp",
+      "url": "https://runsignup.com/Race/TX/Houston/KomenHoustonRFTC",
+      "summary": "The 2026 Komen Houston Race for the Cure 5K is Saturday, Oct. 3 at Sam Houston Park, with a competitive 5K start at 8 a.m. after the survivor parade and opening ceremonies. Packet pickup is planned at Dick's Sporting Goods on Post Oak."
+    },
+    {
+      "id": "houston-heights-fun-run-2026",
+      "date": "2026-09-18",
+      "headline": "41st Houston Heights Fun Run set for Oct. 10 at Marmion Park",
+      "source": "Houston Heights Association",
+      "url": "https://runsignup.com/Race/TX/Houston/HoustonHeights5KRun",
+      "summary": "The Houston Heights Association's 41st annual Fun Run is Saturday, Oct. 10 at Marmion Park on Heights Boulevard. The 5K and 10K are USATF-certified flat courses, with a kids' 1K and 5K walk options."
+    },
+    {
+      "id": "golden-harvest-half-2026",
+      "date": "2026-09-18",
+      "headline": "Golden Harvest Half returns Sept. 26 at Brazos River Park",
+      "source": "Bodies Race Company",
+      "url": "https://runsignup.com/Race/TX/Houston/GoldenHarvestHalfMarathon5k10kHouston",
+      "summary": "Bodies Race Company's Golden Harvest Half Marathon, 5K, and 10K are Saturday, Sept. 26 at Brazos River Park in Sugar Land. The morning includes a kids' dash, chip timing, and post-race snacks at the finish."
+    },
+    {
+      "id": "angels-race-for-space-2026",
+      "date": "2026-09-18",
+      "headline": "Walt Cunningham Angels' Race for Space set for Oct. 24 at Space Center Houston",
+      "source": "Be An Angel",
+      "url": "https://www.adventuresignup.com/Race/TX/Houston/RaceforSpace",
+      "summary": "The fourth annual Walt Cunningham Angels' Race for Space is Saturday, Oct. 24 at Space Center Houston, with timed and untimed 5K and 10K options plus a family fun run. Proceeds support Be An Angel programs for children with special needs."
+    },
+    {
+      "id": "day-of-the-dead-half-houston-2026",
+      "date": "2026-09-18",
+      "headline": "Day of the Dead Half Marathon heads to Kingdom Builders Center on Oct. 17",
+      "source": "Bigfoot Running Company",
+      "url": "https://runsignup.com/Race/TX/Houston/DayoftheDeadHalfMarathonHouston",
+      "summary": "Bigfoot Running Company's Day of the Dead Half Marathon is Saturday, Oct. 17 at Kingdom Builders Center in Houston, with half, quarter marathon, 5K, and 1-mile options. The morning includes a kids' dash and a costume contest before the start."
+    },
     {
       "id": "lifegift-2nd-chance-run-houston-2026",
       "source": "LifeGift",
@@ -18,14 +74,6 @@
       "url": "https://runwalkcypressnorthwesthouston.t2t.org/"
     },
     {
-      "id": "road-kill-xc-open-5k-2026",
-      "source": "TROT/HARRA",
-      "date": "2026-09-14",
-      "headline": "Road Kill XC runs as an open 5K this Saturday at Bear Creek",
-      "summary": "HARRA Fall Series opener Road Kill XC is Saturday, September 19 at Bear Creek Pioneers Park. Hosted by Trail Racing Over Texas and Hardloop Endurance, 2026 uses an open USATF-sanctioned 5K with classic four-score team scoring (not the old relay format). Packet pickup 7 a.m.; race 8 a.m.",
-      "url": "https://runsignup.com/Race/TX/Houston/RoadKillXCRelay"
-    },
-    {
       "id": "houston-marathon-training-kickoff-2026",
       "source": "Houston Marathon Committee",
       "date": "2026-09-14",
@@ -34,28 +82,20 @@
       "url": "https://bosplace.org/en/events/2027-houston-marathon-training-kick-off/"
     },
     {
+      "id": "houston-911-heroes-run-2026",
+      "date": "2026-09-12",
+      "headline": "Houston 9/11 Heroes Run marks 25th anniversary at City Hall",
+      "source": "Travis Manion Foundation",
+      "url": "https://www.travismanion.org/events/911-heroes-run/2026-houston-911-heroes-run",
+      "summary": "The 2026 Houston 9/11 Heroes Run 5K gathered runners, ruckers, and walkers on Sept. 12 at Houston City Hall for the 25th anniversary of 9/11. Packet pickup was at the Houston Police Officers Union before race day."
+    },
+    {
       "id": "harra-warmup-bundles",
       "source": "RunSignUp/HARRA",
       "date": "2026-09-10",
       "headline": "Bundle and save on HARRA Warm-Up Series races",
       "summary": "Register for multiple Warm-Up Series races together before Sep 20 and save: Space City 10 Miler, UTHealth Houston Half, Houston 25K, and Coach Andy 30K (or half marathon track) at discounted bundle pricing.",
       "url": "https://runsignup.com/Race/TX/Houston/HARRAWarmupSeries"
-    },
-    {
-      "id": "chevron-houston-marathon-2027-sellout",
-      "source": "Chevron Houston Marathon",
-      "date": "2026-09-05",
-      "headline": "2027 Chevron Houston Marathon and Half sell out",
-      "summary": "The 55th annual marathon and 26th annual Aramco Half Marathon (Jan 17, 2027) are fully sold out after the final Run for a Reason Charity entries were claimed. We Are Houston 5K on Jan 16 still has spots available.",
-      "url": "https://www.chevronhoustonmarathon.com/"
-    },
-    {
-      "id": "harra-fall-series-2026",
-      "source": "HARRA",
-      "date": "2026-09-01",
-      "headline": "HARRA Fall Runner of the Season kicks off with Road Kill XC",
-      "summary": "Fall RotS series begins Sep 19 with Road Kill XC 5K, followed by Space City 10 Miler, UTHealth Houston Half, Houston 25K, Coach Andy 30K, and concludes with Chevron Houston Marathon on Jan 17, 2027.",
-      "url": "https://harra.org/harra-race-series"
     },
     {
       "id": "space-city-10-miler-2026",
@@ -72,6 +112,14 @@
       "headline": "Alex's 5K set for November 7 at Avondale House",
       "summary": "The 16th annual Alex's 5K Run/Walk & Kids' K benefits autism charities. The Power In Motion fall goal race takes place Nov 7 with 5K starting at 8:30 a.m. and Kids' K at 8:00 a.m. Early bird pricing ends Aug 31.",
       "url": "https://alex5k.com/"
+    },
+    {
+      "id": "memorial-hermann-10-for-texas-2026-preview",
+      "date": "2026-08-18",
+      "headline": "Memorial Hermann 10 for Texas set for Oct. 10 in The Woodlands",
+      "source": "Hello Woodlands / Township",
+      "url": "https://hellowoodlands.com/a-texas-sized-race-memorial-hermann-10-for-texas-in-the-woodlands-on-oct-10/",
+      "summary": "The Woodlands Township previewed the Memorial Hermann 10 for Texas on Oct. 10 at Northshore Park, with the USATF-sanctioned 10-mile, Armadillo Run 5K, and One 4 Texas kids' run. Fields are capped and there is no race-day registration."
     },
     {
       "id": "power-in-motion-fall-2026",
@@ -98,6 +146,14 @@
       "url": "https://runsignup.com/Race/TX/Houston/HoustonPartyinthePark"
     },
     {
+      "id": "chevron-houston-marathon-2027-sellout",
+      "date": "2026-08-04",
+      "headline": "2027 Chevron Houston Marathon and Aramco Half sell out",
+      "source": "ABC13",
+      "url": "https://abc13.com/story/chevron-houston-marathon-aramco-half-sold-organizers-say/19625067/",
+      "summary": "Organizers told ABC13 on Aug. 4 that general registration for the Jan. 17, 2027 Chevron Houston Marathon and Aramco Houston Half is sold out, the fastest sellout since the pandemic. A few Run for a Reason charity marathon entries remained through the HERO program."
+    },
+    {
       "id": "harra-student-memberships",
       "source": "HARRA",
       "date": "2026-07-06",
@@ -117,9 +173,33 @@
       "id": "harra-spring-rots-results",
       "source": "HARRA",
       "date": "2026-07-06",
-      "headline": "Spring 2026 Runner of the Season results finalized",
-      "summary": "Final standings for the HARRA Spring 2026 Runner of the Season competition are posted. Cash prizes of $85-$120 awarded to top runners across age groups for accumulated points in the spring race series.",
-      "url": "https://harra.org/"
+      "headline": "HARRA Spring 2026 Runner of the Season standings finalized",
+      "summary": "HARRA posted final Spring 2026 Runner of the Season standings. Top finishers in each age division can earn cash awards if they completed at least three series races, with prizes of $95 to $120 for the top three.",
+      "url": "https://harra.org/runner-of-the-season-rots"
+    },
+    {
+      "id": "talbi-chevron-houston-marathon-2026-win",
+      "date": "2026-01-12",
+      "headline": "Zouhair Talbi wins Chevron Houston Marathon in course-record 2:05:45",
+      "source": "ABC13",
+      "url": "https://abc13.com/post/2026-chevron-houston-marathon-aramco-half-live-coverage-air-streaming-abc13/18279715/",
+      "summary": "Zouhair Talbi became the first American man to win the Chevron Houston Marathon since 2002, finishing in a course-record 2:05:45 on Jan. 11. Calli Hauger-Thackery won the women's race in 2:24:17."
+    },
+    {
+      "id": "samuel-aramco-half-course-record-2026",
+      "date": "2026-01-11",
+      "headline": "Habtom Samuel sets Aramco Houston Half course record in 59:01",
+      "source": "Houston Chronicle",
+      "url": "https://www.houstonchronicle.com/sports/article/aramco-houston-half-marathon-habtom-samuel-21286173.php",
+      "summary": "Eritrea's Habtom Samuel won the 2026 Aramco Houston Half Marathon in a course-record 59:01 in his first half and first road race. Fantaye Belayneh of Ethiopia won the women's half."
+    },
+    {
+      "id": "houston-marathon-2026-road-closures",
+      "date": "2026-01-08",
+      "headline": "Chron guide: road closures and parking for 2026 Houston Marathon weekend",
+      "source": "Houston Chronicle",
+      "url": "https://www.houstonchronicle.com/entertainment/special_events/article/chevron-houston-marathon-road-closures-parking-21281463.php",
+      "summary": "The Houston Chronicle laid out downtown road closures, parking tips, and METRO notes ahead of the Jan. 2026 Chevron Houston Marathon and Aramco Half weekend. Start-line streets began closing early Sunday morning."
     },
     {
       "id": "houston-runner-friendly-community",
