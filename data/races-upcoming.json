@@ -771,27 +771,6 @@
     "description": "A running race in Cypress, TX."
   },
   {
-    "id": "houston-hftc-5k-2026",
-    "name": "Houston - HFTC 5k",
-    "date": "2026-09-27",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "11200 Broadway St",
-    "city": "Houston",
-    "state": "TX",
-    "zip": "77584",
-    "latitude": 29.6579,
-    "longitude": -95.2768,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/HoustonHFTC5k?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Houston/HoustonHFTC5k?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "description": "A running race in Houston, TX."
-  },
-  {
     "id": "island-girl-triathlon-and-duathlon-2026",
     "name": "Island Girl Triathlon and Duathlon",
     "date": "2026-09-27",
