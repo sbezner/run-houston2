@@ -1069,3 +1069,160 @@ main {
   .page-title { font-size: 3.5rem; }
   .race-detail-header h1 { font-size: 3.5rem; }
 }
+
+/* ─── Calendar page (calendar.html) ──────────────────────── */
+
+.calendar-main {
+  max-width: 920px; margin: 0 auto;
+  padding: 0 1rem 3rem;
+}
+
+.calendar-intro {
+  margin: 0 0 2.5rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--tyvek);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.calendar-intro p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--mute);
+}
+
+.cal-month {
+  margin-bottom: 3rem;
+}
+
+.cal-month-title {
+  font-family: var(--font-body);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--line);
+}
+
+.cal-month-races {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.cal-race-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  background: var(--tyvek);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  transition: border-color 140ms;
+}
+
+.cal-race-row:hover {
+  border-color: var(--ink);
+}
+
+.cal-race-date {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--mute);
+  white-space: nowrap;
+  min-width: 90px;
+}
+
+.cal-race-info {
+  min-width: 0;
+}
+
+.cal-race-name {
+  margin: 0 0 0.25rem;
+}
+
+.cal-race-name a {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+  transition: opacity 140ms;
+}
+
+.cal-race-name a:hover {
+  opacity: 0.7;
+  text-decoration: none;
+}
+
+.cal-race-meta {
+  font-size: 0.85rem;
+  color: var(--mute);
+}
+
+.cal-race-action {
+  text-align: right;
+}
+
+.cal-race-register {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: var(--radius);
+  transition: opacity 140ms;
+  white-space: nowrap;
+}
+
+.cal-race-register:hover {
+  opacity: 0.85;
+  color: var(--paper);
+  text-decoration: none;
+}
+
+@media (max-width: 640px) {
+  .calendar-main {
+    padding: 0 0.75rem 2rem;
+  }
+
+  .calendar-intro {
+    padding: 1rem;
+  }
+
+  .cal-month-title {
+    font-size: 1.5rem;
+  }
+
+  .cal-race-row {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+  }
+
+  .cal-race-date {
+    font-size: 0.75rem;
+    min-width: auto;
+  }
+
+  .cal-race-name a {
+    font-size: 0.95rem;
+  }
+
+  .cal-race-meta {
+    font-size: 0.8rem;
+  }
+
+  .cal-race-action {
+    text-align: left;
+  }
+
+  .cal-race-register {
+    font-size: 0.8rem;
+    padding: 0.45rem 0.875rem;
+  }
+}

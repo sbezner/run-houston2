@@ -24,6 +24,7 @@ def main():
     # Static pages (excluding report.html since it just redirects to news.html)
     static_pages = [
         ("", "daily"),              # index.html (home/races listing)
+        ("calendar.html", "weekly"),
         ("clubs.html", "weekly"),
         ("news.html", "weekly"),
         ("about.html", "monthly"),
@@ -31,11 +32,12 @@ def main():
 
     for page, changefreq in static_pages:
         loc = f"{base_url}/{page}" if page else f"{base_url}/"
+        priority = "1.0" if not page else ("0.9" if page == "calendar.html" else "0.8")
         urls.append({
             "loc": loc,
             "lastmod": now,
             "changefreq": changefreq,
-            "priority": "1.0" if not page else "0.8"
+            "priority": priority
         })
 
     # Individual race pages (race.html?id=...)
