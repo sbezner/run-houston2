@@ -1,6 +1,46 @@
 {
-  "updated": "2026-09-18",
+  "updated": "2026-09-21",
   "items": [
+    {
+      "id": "houston-25k-2026",
+      "date": "2026-09-21",
+      "headline": "Houston 25K opens registration for Nov. 22 Warm-Up Series stop",
+      "source": "HMSA / RunSignUp",
+      "url": "https://runsignup.com/Race/TX/Houston/Houston25K",
+      "summary": "The 41st annual Houston 25K (plus 10 Mile and 5K) is Sunday, Nov. 22 at Wortham Center Fish Plaza downtown. Pricing rises after Oct. 4; packet pickup is Nov. 20–21 at Fleet Feet on West Gray, with no race-day registration."
+    },
+    {
+      "id": "ainsleys-angels-twilight-5k-2026",
+      "date": "2026-09-21",
+      "headline": "Ainsley's Angels Twilight 5K returns Oct. 3 in Tomball",
+      "source": "Ainsley's Angels / Houston Runner",
+      "url": "https://runsignup.com/Race/TX/Tomball/AinsleysAngelsTwilight5K",
+      "summary": "The ninth annual Twilight 5K & Celebration of Inclusion is Saturday evening, Oct. 3 at Tomball Event Center, with a Día de los Muertos theme. Angel athletes and volunteer pushers share the course; registration remains open through race night."
+    },
+    {
+      "id": "miles-4-matthew-2026",
+      "date": "2026-09-21",
+      "headline": "Miles 4 Matthew 5K/10K returns to No Label Brewing on Oct. 17",
+      "source": "Miles 4 Matthew / RunSignUp",
+      "url": "https://runsignup.com/Race/TX/Katy/Miles4Matthew",
+      "summary": "The pediatric-cancer benefit 5K, 10K, and 1K family walk is Saturday, Oct. 17 at No Label Brewing Co. in Katy. Costumes are encouraged; prices rise after Sept. 30, with packet pickup Oct. 16 in Katy."
+    },
+    {
+      "id": "coach-andy-30k-2026",
+      "date": "2026-09-21",
+      "headline": "Coach Andy Stewart's 30K set for Dec. 13 at Sugar Land Town Square",
+      "source": "Coach Andy 30K / RunSignUp",
+      "url": "https://runsignup.com/Race/TX/SugarLand/CoachAndy30K",
+      "summary": "The USATF-certified 30K and companion 10K close the HARRA Warm-Up Series on Sunday, Dec. 13 at Sugar Land Town Square, timed for Chevron Houston Marathon prep. Registration is open, with holiday toy-drive donations benefiting the Rainbow Room Christmas Project."
+    },
+    {
+      "id": "rfar-oct1-fundraising-milestone-2026",
+      "date": "2026-09-21",
+      "headline": "Run for a Reason marathon/half fundraisers face Oct. 1 milestone",
+      "source": "Houston Marathon Committee",
+      "url": "https://www.chevronhoustonmarathon.com/rfar-charity-race-registration/",
+      "summary": "With general registration sold out, Chevron Houston Marathon and Aramco Half Run for a Reason Fundraise for Registration runners must raise at least $175 of their charity minimum by Oct. 1 or lose event eligibility. HERO donate-for-entry spots remain available through official RFAR partners."
+    },
     {
       "id": "road-kill-xc-open-5k-2026",
       "date": "2026-09-18",
@@ -56,22 +96,6 @@
       "source": "Bigfoot Running Company",
       "url": "https://runsignup.com/Race/TX/Houston/DayoftheDeadHalfMarathonHouston",
       "summary": "Bigfoot Running Company's Day of the Dead Half Marathon is Saturday, Oct. 17 at Kingdom Builders Center in Houston, with half, quarter marathon, 5K, and 1-mile options. The morning includes a kids' dash and a costume contest before the start."
-    },
-    {
-      "id": "lifegift-2nd-chance-run-houston-2026",
-      "source": "LifeGift",
-      "date": "2026-09-14",
-      "headline": "LifeGift 2nd Chance Run moves to Willow Waterhole on Sept 19",
-      "summary": "LifeGift's Houston 2nd Chance Run returns Saturday, September 19 at Willow Waterhole Greenway (new venue), with a 5K and 1-mile walk/run honoring organ, eye, and tissue donors and raising awareness for Texans waiting for transplant.",
-      "url": "https://raceroster.com/events/2026/115543/2026-2nd-chance-run-houston"
-    },
-    {
-      "id": "tunnel-to-towers-5k-cypress-2026",
-      "source": "Tunnel to Towers / Cypress",
-      "date": "2026-09-14",
-      "headline": "Tunnel to Towers 5K returns to Cypress for a fifth year",
-      "summary": "The Tunnel to Towers 5K Run & Walk – Cypress / Northwest Houston is Saturday, September 19 at John Paul Landing Park's Environmental Education Center, honoring first responders and military heroes. Registration remains open; race-morning check-in starts at 7 a.m.",
-      "url": "https://runwalkcypressnorthwesthouston.t2t.org/"
     },
     {
       "id": "houston-marathon-training-kickoff-2026",
