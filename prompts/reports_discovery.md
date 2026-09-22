@@ -247,6 +247,7 @@ Return a JSON array. Each element is a recap object with **exactly** these field
   "race_id": "string" | null,        // id from races-upcoming.json if a matching past entry exists, else null
   "race_name": "string",             // official race name
   "race_date": "YYYY-MM-DD",         // ISO date the race was held
+  "published_date": "YYYY-MM-DD",    // ISO date this recap article was published/written
   "title": "string",                 // headline of the recap (see rules below)
   "photos": [],                      // always an empty array; the site has no image hosting yet
   "content_md": "string"             // the recap body in Markdown — see rules below
@@ -276,6 +277,13 @@ Return a JSON array. Each element is a recap object with **exactly** these field
 **`race_date`**
 
 - Strict ISO `YYYY-MM-DD`. Must fall inside the date window.
+
+**`published_date`**
+
+- Strict ISO `YYYY-MM-DD`. The date when this recap was published/written.
+- For recaps sourced from external articles, use the article's publication date.
+- For recaps you write yourself, use today's date.
+- May be the same as race_date if you're writing the recap on race day, but is often days or weeks later once results are available.
 
 **`title`**
 
@@ -352,6 +360,7 @@ Match this style. Note the dedicated results and weather paragraphs.
   "race_id": null,
   "race_name": "Bayou City Classic 10K",
   "race_date": "2026-03-07",
+  "published_date": "2026-03-08",
   "title": "49th Bayou City Classic draws 3,000 to downtown Houston as RRCA State Championship",
   "photos": [],
   "content_md": "The 49th running of the Bayou City Classic 10K and 5K Fun Run returned to Hermann Square on Saturday, March 7, 2026, drawing more than 3,000 runners to downtown Houston.\n\nThe flat, fast course starts and finishes at Sam Houston Park, winding through downtown along Buffalo Bayou. The race was selected as the 2026 RRCA State Championship 10K.\n\nIn the men's 10K, [Winner Name] of Houston broke the tape in 30:42, holding off a chase pack of three through the final mile along Allen Parkway. [Second Name] (31:08) and [Third Name] (31:24) rounded out the men's podium. The women's race went to [Winner Name] in 34:51, with [Second Name] (35:30) and [Third Name] (35:58) following.\n\nWeather at the 7:30 a.m. start was cool and calm — 52°F at the downtown observation, overcast with light winds out of the north and dew points in the low 40s — close to ideal conditions for a 10K and a likely contributor to several age-group personal bests reported on the timing-company results page.\n\nPost-race festivities included awards, food, and the community atmosphere that has kept runners coming back for nearly five decades."

@@ -250,6 +250,7 @@ Return a JSON array. Each element is a recap object with **exactly** these field
   "race_id": "string" | null,        // id from races-upcoming.json if a matching past entry exists, else null
   "race_name": "string",             // official race name
   "race_date": "YYYY-MM-DD",         // ISO date the race was held
+  "published_date": "YYYY-MM-DD",    // ISO date this recap article was published/written
   "title": "string",                 // headline of the recap (see rules below)
   "photos": [],                      // always an empty array; the site has no image hosting yet
   "content_md": "string"             // the recap body in Markdown — see rules below
@@ -279,6 +280,13 @@ Return a JSON array. Each element is a recap object with **exactly** these field
 **`race_date`**
 
 - Strict ISO `YYYY-MM-DD`. Must fall inside the date window.
+
+**`published_date`**
+
+- Strict ISO `YYYY-MM-DD`. The date when this recap was published/written.
+- For recaps sourced from external articles, use the article's publication date.
+- For recaps you write yourself, use today's date.
+- May be the same as race_date if you're writing the recap on race day, but is often days or weeks later.
 
 **`title`**
 
@@ -374,6 +382,7 @@ Match this style:
   "race_id": null,
   "race_name": "Bayou City Classic 10K",
   "race_date": "2025-03-15",
+  "published_date": "2025-03-16",
   "title": "Bayou City Classic 10K opens Houston's spring road-racing season",
   "photos": [],
   "content_md": "The Bayou City Classic 10K drew runners to Sam Houston Park on Saturday, March 15, 2025, kicking off another spring racing season along Houston's downtown bayou corridor.\n\nThe out-and-back course ran along Allen Parkway and the Buffalo Bayou greenway, climbing less than 50 feet across its 10-kilometer distance. The flat profile and downtown skyline views on the return leg make it a frequent recommendation from local running clubs for those stepping up from the 5K distance for the first time.\n\nVolunteers staffed aid stations along the course, and finishers were greeted at the line with kolaches, a Central-European pastry that has become a Houston-area staple and, for many runners, a post-race tradition.\n\nA companion 5K was offered for runners preferring a shorter distance, and the event organizers supported a walk category open to all paces."

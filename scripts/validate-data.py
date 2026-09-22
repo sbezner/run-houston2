@@ -202,6 +202,19 @@ def validate_report(i, r):
             except ValueError:
                 error(f"race_reports[{rid}]: 'race_date' {rd!r} is not a real calendar date")
 
+    # published_date is optional but recommended
+    pd = r.get("published_date")
+    if pd is not None:
+        if not isinstance(pd, str) or not ISO_DATE_RE.match(pd):
+            error(f"race_reports[{rid}]: 'published_date' must be YYYY-MM-DD or null, got {pd!r}")
+        else:
+            try:
+                datetime.strptime(pd, "%Y-%m-%d")
+            except ValueError:
+                error(f"race_reports[{rid}]: 'published_date' {pd!r} is not a real calendar date")
+    # Note: published_date is strongly recommended for new reports but not required
+    # to maintain compatibility with older reports that may not have it yet
+
 
 # ----- Main ------------------------------------------------------------------
 

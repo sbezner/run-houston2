@@ -18,8 +18,10 @@
       }
     };
 
-    if (report.race_date) {
-      data.datePublished = report.race_date;
+    // Use published_date for article publication, fallback to race_date
+    var publishedDate = report.published_date || report.race_date;
+    if (publishedDate) {
+      data.datePublished = publishedDate;
     }
     if (report.race_name) {
       data.about = {
@@ -78,6 +80,13 @@
       report.race_name ? RH.escapeHtml(report.race_name) : '',
       RH.formatDateLong(report.race_date)
     ].filter(Boolean).join(' &middot; ');
+    
+    // Add published date if it differs from race date
+    var publishedDate = report.published_date || report.race_date;
+    var publishedLine = '';
+    if (publishedDate && publishedDate !== report.race_date) {
+      publishedLine = '<p class="report-published">Posted ' + RH.formatDateLong(publishedDate) + '</p>';
+    }
 
     // Trust model: marked v12 does NOT sanitize embedded HTML by default.
     // We rely on data/race_reports.json being curated (hand-committed to
@@ -107,6 +116,7 @@
       '<header class="report-header">' +
       '<h1>' + RH.escapeHtml(report.title) + '</h1>' +
       '<p class="report-race"><strong>' + raceLine + '</strong></p>' +
+      publishedLine +
       '</header>' +
       '<div class="report-body">' + bodyHtml + '</div>' +
       photos

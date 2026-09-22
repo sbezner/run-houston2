@@ -81,14 +81,15 @@ def print_plan(plan, new_count, live_count):
 
 
 def apply_plan(plan, live_records):
-    """Return a new list (sorted by race_date desc) with adds + updates applied."""
+    """Return a new list (sorted by published_date desc, fallback to race_date) with adds + updates applied."""
     out_by_id = {r["id"]: r for r in live_records}
     for r in plan["adds"]:
         out_by_id[r["id"]] = r
     for rid, n, _ in plan["real_updates"]:
         out_by_id[rid] = n
     out = list(out_by_id.values())
-    out.sort(key=lambda r: r.get("race_date", ""), reverse=True)
+    # Sort by published_date (preferred) or race_date (fallback), newest first
+    out.sort(key=lambda r: r.get("published_date") or r.get("race_date", ""), reverse=True)
     return out
 
 
