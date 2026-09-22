@@ -112,6 +112,46 @@ def check_coords(label, rid, lat, lng, required=False):
 
 # ----- Per-file record validators -------------------------------------------
 
+def validate_news_item(i, item):
+    """Validate a single news item from news.json."""
+    iid = item.get('id', f"index {i}")
+    
+    for field in ('id', 'headline', 'source', 'url', 'summary'):
+        if field not in item:
+            error(f"news[{iid}]: missing required field {field!r}")
+            return
+    
+    if not isinstance(item['headline'], str) or not item['headline'].strip():
+        error(f"news[{iid}]: 'headline' must be a non-empty string")
+    
+    # date is optional - may be null for items without verifiable publication dates
+    dt = item.get('date')
+    if dt is not None:
+        if not isinstance(dt, str) or not ISO_DATE_RE.match(dt):
+            error(f"news[{iid}]: 'date' must be YYYY-MM-DD or null, got {dt!r}")
+        else:
+            try:
+                datetime.strptime(dt, "%Y-%m-%d")
+            except ValueError:
+                error(f"news[{iid}]: 'date' {dt!r} is not a real calendar date")
+        
+        # GUARDRAIL: If date is set, evidence must be provided
+        evidence = item.get('evidence')
+        if not evidence or not isinstance(evidence, str) or not evidence.strip():
+            error(f"news[{iid}]: 'date' is set but 'evidence' field is missing or empty. "
+                  f"All news items with dates must document the source of that date to prevent "
+                  f"batch ingest dates. Use null date if no verifiable publication date exists.")
+    
+    # evidence field is required for items with dates, optional for items without
+    if 'evidence' in item and item['evidence'] is not None:
+        if not isinstance(item['evidence'], str):
+            error(f"news[{iid}]: 'evidence' must be a string or null")
+    
+    url = item.get('url')
+    if not isinstance(url, str) or not url.strip():
+        error(f"news[{iid}]: 'url' must be a non-empty string")
+
+
 def validate_race(i, r):
     rid = r.get("id", f"index {i}")
 
@@ -202,6 +242,19 @@ def validate_report(i, r):
             except ValueError:
                 error(f"race_reports[{rid}]: 'race_date' {rd!r} is not a real calendar date")
 
+    # published_date is optional but recommended
+    pd = r.get("published_date")
+    if pd is not None:
+        if not isinstance(pd, str) or not ISO_DATE_RE.match(pd):
+            error(f"race_reports[{rid}]: 'published_date' must be YYYY-MM-DD or null, got {pd!r}")
+        else:
+            try:
+                datetime.strptime(pd, "%Y-%m-%d")
+            except ValueError:
+                error(f"race_reports[{rid}]: 'published_date' {pd!r} is not a real calendar date")
+    # Note: published_date is strongly recommended for new reports but not required
+    # to maintain compatibility with older reports that may not have it yet
+
 
 # ----- Main ------------------------------------------------------------------
 
@@ -231,6 +284,30 @@ def main():
             if isinstance(r, dict):
                 validate_report(i, r)
         print(f"  race_reports.json: {len(reports)} record(s) checked")
+
+    # Validate news.json
+    news_path = DATA / "news.json"
+    if news_path.exists():
+        try:
+            with open(news_path) as f:
+                news_data = json.load(f)
+            if not isinstance(news_data, dict):
+                error("news.json: top-level value must be an object")
+            elif 'items' not in news_data:
+                error("news.json: missing required 'items' array")
+            elif not isinstance(news_data['items'], list):
+                error("news.json: 'items' must be an array")
+            else:
+                items = news_data['items']
+                check_unique_ids("news", items)
+                for i, item in enumerate(items):
+                    if isinstance(item, dict):
+                        validate_news_item(i, item)
+                print(f"  news.json: {len(items)} item(s) checked")
+        except json.JSONDecodeError as e:
+            error(f"news.json: invalid JSON at line {e.lineno}, col {e.colno}: {e.msg}")
+        except Exception as e:
+            error(f"news.json: {e}")
 
     print()
     if errors:

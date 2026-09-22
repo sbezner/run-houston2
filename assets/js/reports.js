@@ -22,10 +22,17 @@
 
   function renderReportCard(report) {
     var preview = makePreview(report.content_md);
+    
+    // Build the metadata line: race name · race date
     var raceLine = [
       report.race_name ? RH.escapeHtml(report.race_name) : '',
       RH.formatDate(report.race_date)
     ].filter(Boolean).join(' &middot; ');
+    
+    // Use published_date for the "posted" date, fallback to race_date
+    var publishedDate = report.published_date || report.race_date;
+    var publishedLine = publishedDate ? 
+      '<span class="report-published">Posted ' + RH.formatDate(publishedDate) + '</span>' : '';
 
     return (
       '<article class="race-card">' +
@@ -33,6 +40,7 @@
       RH.escapeHtml(report.title) + '</a></h2>' +
       '<div class="race-meta">' +
       '<span><strong>' + raceLine + '</strong></span>' +
+      (publishedLine ? ' &middot; ' + publishedLine : '') +
       '</div>' +
       '<p class="race-description">' + RH.escapeHtml(preview) + '</p>' +
       '<div class="race-card-footer">' +
@@ -68,9 +76,11 @@
       return matchesSearch(r, tokens);
     });
 
-    // Sort newest first
+    // Sort newest first by published_date (fallback to race_date)
     rows.sort(function (a, b) {
-      return (b.race_date || '').localeCompare(a.race_date || '');
+      var aDate = a.published_date || a.race_date || '';
+      var bDate = b.published_date || b.race_date || '';
+      return bDate.localeCompare(aDate);
     });
 
     countEl.textContent =
