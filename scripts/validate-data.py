@@ -116,7 +116,7 @@ def validate_news_item(i, item):
     """Validate a single news item from news.json."""
     iid = item.get('id', f"index {i}")
     
-    for field in ('id', 'headline', 'source', 'url', 'summary'):
+    for field in ('id', 'headline', 'source', 'url', 'summary', 'date'):
         if field not in item:
             error(f"news[{iid}]: missing required field {field!r}")
             return
@@ -124,28 +124,28 @@ def validate_news_item(i, item):
     if not isinstance(item['headline'], str) or not item['headline'].strip():
         error(f"news[{iid}]: 'headline' must be a non-empty string")
     
-    # date is optional - may be null for items without verifiable publication dates
+    # date is REQUIRED - must be non-null YYYY-MM-DD
+    # Use source publication date when verifiable, or load date as fallback
     dt = item.get('date')
-    if dt is not None:
-        if not isinstance(dt, str) or not ISO_DATE_RE.match(dt):
-            error(f"news[{iid}]: 'date' must be YYYY-MM-DD or null, got {dt!r}")
-        else:
-            try:
-                datetime.strptime(dt, "%Y-%m-%d")
-            except ValueError:
-                error(f"news[{iid}]: 'date' {dt!r} is not a real calendar date")
-        
-        # GUARDRAIL: If date is set, evidence must be provided
-        evidence = item.get('evidence')
-        if not evidence or not isinstance(evidence, str) or not evidence.strip():
-            error(f"news[{iid}]: 'date' is set but 'evidence' field is missing or empty. "
-                  f"All news items with dates must document the source of that date to prevent "
-                  f"batch ingest dates. Use null date if no verifiable publication date exists.")
+    if dt is None:
+        error(f"news[{iid}]: 'date' is required and cannot be null. "
+              f"Use source publication date if verifiable, or load date (first commit date) as fallback.")
+        return
     
-    # evidence field is required for items with dates, optional for items without
-    if 'evidence' in item and item['evidence'] is not None:
-        if not isinstance(item['evidence'], str):
-            error(f"news[{iid}]: 'evidence' must be a string or null")
+    if not isinstance(dt, str) or not ISO_DATE_RE.match(dt):
+        error(f"news[{iid}]: 'date' must be YYYY-MM-DD, got {dt!r}")
+    else:
+        try:
+            datetime.strptime(dt, "%Y-%m-%d")
+        except ValueError:
+            error(f"news[{iid}]: 'date' {dt!r} is not a real calendar date")
+    
+    # evidence is required for all items (to document whether date is source or load date)
+    evidence = item.get('evidence')
+    if not evidence or not isinstance(evidence, str) or not evidence.strip():
+        error(f"news[{iid}]: 'evidence' field is required and must be non-empty. "
+              f"Document the source of the date (article byline for source dates, "
+              f"or 'load date: first added to news.json on YYYY-MM-DD' for load dates).")
     
     url = item.get('url')
     if not isinstance(url, str) or not url.strip():
