@@ -4,11 +4,11 @@
 
   var DATA_URL = 'data/races-upcoming.json';
 
-  var DISTANCE_ORDER = [
-    '1 Mile', '5K', '6K', '10K', '12K', '15K', '10 Mile',
+var DISTANCE_ORDER = [
+    '1 Mile', '4 Mile', '5K', '6K', '6 Mile', '10K', '12K', '15K', '10 Mile',
     'Half Marathon', 'Marathon', '50K', '50 Mile', '100K', '100 Mile',
     'Ultra', 'Kids'
-  ];
+];
 
   var SURFACE_ORDER = ['road', 'trail', 'track', 'other'];
 

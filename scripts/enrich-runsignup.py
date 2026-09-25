@@ -60,18 +60,18 @@ def is_runsignup_url(url):
 
 
 def has_affiliate_token(url):
-    """Check if a URL already has an affiliate_token parameter."""
+    """Check if a URL already has an aflt_token parameter."""
     if not url:
         return False
-    return "affiliate_token=" in url
+    return "aflt_token=" in url
 
 
 def append_affiliate_token(url, token):
-    """Append affiliate_token to a URL, preserving existing query params."""
+    """Append aflt_token to a URL, preserving existing query params."""
     if not url or has_affiliate_token(url):
         return url
     separator = "&" if "?" in url else "?"
-    return url + separator + "affiliate_token=" + token
+    return url + separator + "aflt_token=" + token
 
 
 # ---------- Step 1: Enrich existing RunSignUp URLs ----------

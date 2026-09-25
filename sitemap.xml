@@ -2,201 +2,33 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://runhouston.app/</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://runhouston.app/calendar.html</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-09-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://runhouston.app/clubs.html</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-09-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://runhouston.app/news.html</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-09-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://runhouston.app/about.html</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=2026-galactic-gator-5k-run-2026</loc>
-    <lastmod>2026-09-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=911-heroes-run-houston-texas-2026</loc>
-    <lastmod>2026-09-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=chance-for-hope-going-gold-fun-run-2026</loc>
-    <lastmod>2026-09-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=kanons-space-jam-2026</loc>
-    <lastmod>2026-09-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=medal-madness-cypress-37-2026</loc>
-    <lastmod>2026-09-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=medal-madness-katy-37-2026</loc>
-    <lastmod>2026-09-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=national-chocolate-day-run-for-chocolates-5k10k131-houston-2026</loc>
-    <lastmod>2026-09-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=night-moves-trail-races-2026</loc>
-    <lastmod>2026-09-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=run-for-mental-health-5k10k131-houston-2026</loc>
-    <lastmod>2026-09-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=run-for-a-new-day-2026</loc>
-    <lastmod>2026-09-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=sickle-cell-houstons-amazing-walk-5k1k-2026</loc>
-    <lastmod>2026-09-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=st-jude-walk-run-houston-2026</loc>
-    <lastmod>2026-09-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=2026-cal-tri-houston-91326-2026</loc>
-    <lastmod>2026-09-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=captain-kids-triathlon-2026</loc>
-    <lastmod>2026-09-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=heroes-and-villains-half-marathon-houston-2026</loc>
-    <lastmod>2026-09-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=toughest-10k-kemah-2026</loc>
-    <lastmod>2026-09-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=16th-annual-woodforest-charity-run-2026</loc>
-    <lastmod>2026-09-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=5k-walkrun-for-fibroid-awareness-2026</loc>
-    <lastmod>2026-09-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=lifegift-2nd-chance-run-houston-2026</loc>
-    <lastmod>2026-09-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=manup-prostate-cancer-5k-awareness-runwalk-2026</loc>
-    <lastmod>2026-09-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=medal-madness-5k-10k-131m-at-deer-park-tx-38-2026</loc>
-    <lastmod>2026-09-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=niekro-foundation-aneurysm-avm-awareness-virtual-5k-and-houston-5k-2026</loc>
-    <lastmod>2026-09-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=run-houston-at-university-of-houston-5k-10k-presented-by-houston-methodist-2026</loc>
-    <lastmod>2026-09-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=sugar-land-space-cowboys-5k-2026</loc>
-    <lastmod>2026-09-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=texas-city-triathlon-duathlon-aquabike-2026</loc>
-    <lastmod>2026-09-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=tunnel-to-towers-5k-cypress-nw-houston-2026</loc>
-    <lastmod>2026-09-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=woodforest-charity-run-2026</loc>
-    <lastmod>2026-09-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=university-run-rice-2026</loc>
-    <lastmod>2026-09-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://runhouston.app/race.html?id=bisd-family-5k-kids-fun-run-2026</loc>
@@ -247,13 +79,13 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://runhouston.app/race.html?id=island-girl-triathlon-and-duathlon-2026</loc>
+    <loc>https://runhouston.app/race.html?id=head-for-the-cure-5k-houston-2026</loc>
     <lastmod>2026-09-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://runhouston.app/race.html?id=head-for-the-cure-5k-houston-2026</loc>
+    <loc>https://runhouston.app/race.html?id=island-girl-triathlon-and-duathlon-2026</loc>
     <lastmod>2026-09-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -871,6 +703,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://runhouston.app/race.html?id=run-for-mental-health-houston-november-2026</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://runhouston.app/race.html?id=turkey-shuffle-houston-sugar-land-2026</loc>
     <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
@@ -883,6 +721,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://runhouston.app/race.html?id=healthy-kids-running-series-fall-2026-cypress-tx-2026</loc>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://runhouston.app/race.html?id=la-porte-by-the-bay-half-marathon-2026</loc>
     <lastmod>2026-11-15</lastmod>
     <changefreq>monthly</changefreq>
@@ -890,6 +734,12 @@
   </url>
   <url>
     <loc>https://runhouston.app/race.html?id=great-houston-pie-run-2026</loc>
+    <lastmod>2026-11-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://runhouston.app/race.html?id=pnamh-5k-run-walk-2026</loc>
     <lastmod>2026-11-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -962,6 +812,12 @@
   </url>
   <url>
     <loc>https://runhouston.app/race.html?id=pecan-grove-turkey-trot-2026</loc>
+    <lastmod>2026-11-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://runhouston.app/race.html?id=pearland-turkey-trot-2026</loc>
     <lastmod>2026-11-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -1057,6 +913,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://runhouston.app/race.html?id=art-car-ipa-5k-social-runwalk-at-flying-saucer-decembeer-2026</loc>
+    <lastmod>2026-12-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://runhouston.app/race.html?id=flapjack-fun-run-5k-friendswood-2026</loc>
     <lastmod>2026-12-06</lastmod>
     <changefreq>monthly</changefreq>
@@ -1064,12 +926,6 @@
   </url>
   <url>
     <loc>https://runhouston.app/race.html?id=gingerbread-lane-houston-2026</loc>
-    <lastmod>2026-12-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=jingle-bell-run-houston-2026</loc>
     <lastmod>2026-12-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -1093,7 +949,31 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://runhouston.app/race.html?id=jingle-bell-run-houston-2026</loc>
+    <lastmod>2026-12-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://runhouston.app/race.html?id=kingwood-christmas-cookie-dash-2026</loc>
+    <lastmod>2026-12-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://runhouston.app/race.html?id=rudolph-fun-run-2026</loc>
+    <lastmod>2026-12-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://runhouston.app/race.html?id=run-for-breast-cancer-5k10k131-houston-2026</loc>
+    <lastmod>2026-12-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://runhouston.app/race.html?id=winter-run-through-the-preserve-2026</loc>
     <lastmod>2026-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -1106,12 +986,6 @@
   </url>
   <url>
     <loc>https://runhouston.app/race.html?id=reindeer-fun-run-nassau-bay-2026</loc>
-    <lastmod>2026-12-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=rudolph-fun-run-2026</loc>
     <lastmod>2026-12-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -1135,8 +1009,20 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://runhouston.app/race.html?id=a-merry-christmas-run-5k10k131-houston-2026</loc>
+    <lastmod>2026-12-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://runhouston.app/race.html?id=new-years-run-5k10k131-houston-2026</loc>
+    <lastmod>2026-12-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://runhouston.app/race.html?id=resolution-run-houston-2026</loc>
-    <lastmod>2026-12-28</lastmod>
+    <lastmod>2027-01-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

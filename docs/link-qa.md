@@ -10,6 +10,19 @@ Every outbound link on Run Houston — club websites, race registration pages, n
 2. **Points to the right page** — not a homepage when we want a specific event, not a search page when we want a race
 3. **Mentions the thing it's supposed to be about** — the club name appears on the club's page, the race name and year appear on the race page, the news headline appears in the article
 
+### RunSignUp affiliate token requirement
+
+All RunSignUp URLs must include `aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH`. This is a **hard requirement** with no exceptions:
+
+- The check fails any `runsignup.com` URL (any subdomain, any path, any short link like `runsignup.com/BB100`) that lacks `aflt_token=` in the query string
+- No `link-review.json` exception can waive this requirement
+- Applied to all data files: races, clubs, news, race reports
+- Applied in `--only-changed` mode, so daily news PRs are also enforced
+
+**Canonical form:** `aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH`
+
+**Evidence for canonical form:** The RunSignUp API itself uses `aflt_token`, not `affiliate_token` (see `scripts/enrich-runsignup.py` line 172, `scripts/fetch-runsignup-window.py` line 54). Use `aflt_token` everywhere for consistency.
+
 ## Running the check
 
 ```bash
