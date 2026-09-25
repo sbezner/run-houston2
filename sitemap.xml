@@ -739,13 +739,13 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://runhouston.app/race.html?id=pnamh-5k-run-walk-2026</loc>
+    <loc>https://runhouston.app/race.html?id=tors-race-4-sugarland-2026</loc>
     <lastmod>2026-11-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://runhouston.app/race.html?id=tors-race-4-sugarland-2026</loc>
+    <loc>https://runhouston.app/race.html?id=pnamh-5k-run-walk-2026</loc>
     <lastmod>2026-11-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -800,6 +800,12 @@
   </url>
   <url>
     <loc>https://runhouston.app/race.html?id=pecan-grove-turkey-trot-2026</loc>
+    <lastmod>2026-11-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://runhouston.app/race.html?id=pearland-turkey-trot-2026</loc>
     <lastmod>2026-11-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -919,12 +925,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://runhouston.app/race.html?id=jingle-bell-run-houston-2026</loc>
-    <lastmod>2026-12-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://runhouston.app/race.html?id=tavola-reindeer-run-2026</loc>
     <lastmod>2026-12-06</lastmod>
     <changefreq>monthly</changefreq>
@@ -939,12 +939,6 @@
   <url>
     <loc>https://runhouston.app/race.html?id=conroe-10-miler-2026</loc>
     <lastmod>2026-12-07</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://runhouston.app/race.html?id=2026-jingle-bell-run-houston-tx-2026</loc>
-    <lastmod>2026-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -967,13 +961,19 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://runhouston.app/race.html?id=winter-run-through-the-preserve-2026</loc>
+    <lastmod>2026-12-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://runhouston.app/race.html?id=run-for-breast-cancer-5k10k131-houston-2026</loc>
     <lastmod>2026-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://runhouston.app/race.html?id=winter-run-through-the-preserve-2026</loc>
+    <loc>https://runhouston.app/race.html?id=jingle-bell-run-houston-2026</loc>
     <lastmod>2026-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
