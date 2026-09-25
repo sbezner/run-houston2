@@ -895,7 +895,7 @@
     "surface": "road",
     "kid_run": false,
     "official_website_url": "https://ainsleysangels.org/single-event/twilight-run-5k-tomball-texas/",
-    "source_url": "https://findarace.com/us/events/ainsleys-angels-9th-annual-texas-twilight-5k",
+    "source_url": null,
     "description": "Inclusive evening 5K and family fun run at Tomball Event Center hosted by Ainsley's Angels of America. Features angel pushers who push athletes with disabilities in racing chairs, promoting inclusion for runners and riders of all abilities."
   },
   {
@@ -1065,7 +1065,7 @@
     "surface": "road",
     "kid_run": false,
     "official_website_url": "https://www.runintexas.com/vallensons-brewing-co-5k-beer-run",
-    "source_url": "https://www.runintexas.com/events",
+    "source_url": null,
     "description": "Part of the Texas 5K 6-Pack Beer Challenge, this chip-timed out-and-back 5K starts and finishes at Vallensons Brewing Co. Finishers receive a custom glass and craft beer tastings. Benefits the Forever Parks Foundation of Pearland."
   },
   {
@@ -1153,7 +1153,7 @@
     "surface": "road",
     "kid_run": true,
     "official_website_url": "https://runsignup.com/Race/TX/Houston/HoustonHeights5KRun?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://houstonheights.org/events1/fun-run/",
+    "source_url": null,
     "description": "The 40th annual Houston Heights Fun Run starting and finishing at Marmion Park on Heights Boulevard. Features a 10K, 5K, 5K Walk, and Kids Fun Run (~1K). A beloved Heights neighborhood tradition since 1984."
   },
   {
@@ -1494,7 +1494,7 @@
     "surface": "road",
     "kid_run": false,
     "official_website_url": "https://www.facebook.com/spacecity10miler/",
-    "source_url": "https://findarace.com/us/events/space-city-10-miler-and-5k",
+    "source_url": null,
     "description": "Annual HARRA Fall Series race featuring a scenic certified loop through the Clear Lake area, starting and finishing at the University of Houston-Clear Lake campus. Cash prizes for top finishers in the 10 Mile."
   },
   {
@@ -1517,7 +1517,7 @@
     "surface": "road",
     "kid_run": false,
     "official_website_url": "https://www.sugarlandhalf.com",
-    "source_url": "https://findarace.com/us/events/sugar-land-half-marathon-10k-mile",
+    "source_url": null,
     "description": "Race #2 of the 2026 Lone Star Race Series, featuring a flat, fast single-loop course starting and finishing at Smart Financial Centre. Sponsored by Houston Methodist Orthopedics & Sports Medicine."
   },
   {
@@ -1734,8 +1734,8 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://findarace.com/us/events/2026-miles-4-matthew-5k-10k",
-    "source_url": "https://harra.org/harra-race-series",
+    "official_website_url": null,
+    "source_url": null,
     "description": "Charity race at No Label Brewing in Katy honoring Matthew, a young boy who fought leukemia. Proceeds provide financial assistance to families facing pediatric cancer."
   },
   {
@@ -2525,8 +2525,8 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://www.mightyoaksprograms.org/",
-    "source_url": "https://findarace.com/us/events/2nd-annual-mighty-oaks-veterans-day-run",
+    "official_website_url": null,
+    "source_url": null,
     "description": "Annual Veterans Day 5K and 10K at Heritage Park in Conroe benefiting the Mighty Oaks Foundation. Raises awareness about veteran suicide and supports recovery and resiliency programs for military and first-responder communities."
   },
   {
@@ -2612,7 +2612,7 @@
     "surface": "other",
     "kid_run": true,
     "official_website_url": "https://www.trisignup.com/Race/Info/TX/Spring/RaceTheFalls",
-    "source_url": "https://findarace.com/us/events/explore-the-falls-race",
+    "source_url": null,
     "description": "A blend of road and trail racing around Lake Holcomb in the Falls at Imperial Oaks community. The 5K is one mile road, one mile gravel/grass/trail, and one mile road; the 10K adds four miles of trail. A Chick-fil-A-sponsored 1K Kids Run and a 2-mile walk/run option are also offered."
   },
   {
@@ -2782,7 +2782,7 @@
     "surface": "road",
     "kid_run": true,
     "official_website_url": "https://bcoadventures.com/events/whatarun-5k-10k/",
-    "source_url": "https://findarace.com/us/events/whatarun-5k-10k-houston-tx",
+    "source_url": null,
     "description": "Two-day race event at the Addicks Park and Ride in Houston's Energy Corridor, featuring a flat and fast USATF-certified out-and-back course on Park Row Drive. Limited to 2,000 participants per day with a 1K Kids Dash, post-race Whataburger sampling, and officially licensed Whataburger finisher swag."
   },
   {
@@ -2826,7 +2826,7 @@
     "surface": "road",
     "kid_run": true,
     "official_website_url": "https://bcoadventures.com/events/whatarun-5k-10k/",
-    "source_url": "https://findarace.com/us/events/whatarun-5k-10k-houston-tx",
+    "source_url": null,
     "description": "Day two of the WhataRun weekend at the Addicks Park and Ride in Houston's Energy Corridor. Same flat, fast USATF-certified course on Park Row Drive, limited to 2,000 runners with Whataburger-themed finisher medals and post-race food truck."
   },
   {
@@ -3148,8 +3148,8 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://www.houston25k.com/",
-    "source_url": "https://www.hmsaclassical25k.com/",
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/HMSAClassical25K",
+    "source_url": null,
     "description": "The 40th annual Houston 25K (15.5 miles), 10 Mile, and 5K at Sam Houston Park in downtown Houston. The third race in the Houston Marathon Warm-up Series, a key training benchmark for January marathon runners. Hosted by Houston Masters Sports Association."
   },
   {
@@ -3280,7 +3280,7 @@
     "surface": "road",
     "kid_run": true,
     "official_website_url": "https://www.facebook.com/ymcaturkeydash/",
-    "source_url": "https://findarace.com/us/events/katy-ymcas-24th-annual-turkey-dash",
+    "source_url": null,
     "description": "24th annual YMCA Turkey Dash on Thanksgiving morning featuring 10K, 5K, 1-mile kids race, and 1-mile family walk/run. Finishers receive medals with a post-race party and kids zone."
   },
   {
@@ -3301,8 +3301,8 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://www.kingwood.com/events/event_details.php?event_id=8385&event_date_id=41408",
-    "source_url": "https://houstonmom.com/houston-area-turkey-trots/",
+    "official_website_url": null,
+    "source_url": null,
     "description": "10th annual Thanksgiving morning fun run at Kingwood Town Center Park benefiting the L3 Foundation, a nonprofit supporting pediatric cancer patients and their families founded in honor of Landon Ahrendt."
   },
   {
@@ -3661,7 +3661,7 @@
     "surface": "road",
     "kid_run": true,
     "official_website_url": "https://runsignup.com/Race/TX/Houston/HeartoftheHouse5K?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Houston/RunfortheHouse5K?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": null,
     "description": "A running race in Houston, TX."
   },
   {
@@ -4128,7 +4128,7 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://www.chevronhoustonmarathon.com/",
+    "official_website_url": "https://www.chevronhoustonmarathon.com/race-weekend/schedule/",
     "source_url": "https://www.chevronhoustonmarathon.com/race-weekend/schedule/",
     "description": "The We Are Houston 5K presented by Aramco and Chevron is the Saturday kickoff to Houston Marathon weekend, starting at McKinney and Crawford near the George R. Brown Convention Center. Runners who complete this 5K plus the Sunday marathon or half earn the Houston Double and receive three finisher medals."
   },
@@ -4243,7 +4243,7 @@
     "surface": "trail",
     "kid_run": true,
     "official_website_url": "https://surfsidebeachmarathon.com/",
-    "source_url": "https://surfsidebeachmarathon.com/information",
+    "source_url": "https://runsignup.com/Race/TX/Freeport/SurfsideBeachMarathon",
     "description": "Annual beach marathon run entirely on the sand between Surfside Beach and San Luis Pass, one of the only fully-on-sand marathons in the world. Start and finish at Stahlman Park Pavilion, with marathon and half marathon at 7:30 a.m., Kids K at 8:00 a.m., and 10K/5K at 8:15 a.m. An early-bird walker start is offered at 5:30 a.m."
   },
   {
@@ -4348,7 +4348,7 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://www.thewoodlandsmarathon.com/",
+    "official_website_url": "https://www.thewoodlandsmarathon.com/5k-run",
     "source_url": "https://www.thewoodlandsmarathon.com/schedule",
     "description": "Companion 5K and family 2K Fun Run held one week before The Woodlands Marathon. Both events start and finish on the south side of the Cynthia Woods Mitchell Pavilion along the Woodlands Waterway."
   },
@@ -4498,7 +4498,7 @@
     "surface": "road",
     "kid_run": false,
     "official_website_url": "https://lonestarrelays.com/tir",
-    "source_url": "https://thedriven.net/tir",
+    "source_url": null,
     "description": "Team relay of roughly 200 miles split across 36 legs, starting Saturday morning in Gonzales and finishing Sunday at Saint Arnold Brewing Company in Houston. Traces the route of Sam Houston and the Texian Army from the 1835 \"Come and Take It\" skirmish to Houston."
   },
   {
@@ -4668,7 +4668,7 @@
     "surface": "road",
     "kid_run": true,
     "official_website_url": "https://astrodomeconservancy.org/3rd-annual-race-for-the-dome/",
-    "source_url": "https://findarace.com/us/events/race-for-the-dome",
+    "source_url": null,
     "description": "The 6th annual 5K road race around the Houston Astrodome and through NRG Park, benefiting the Astrodome Conservancy. A 1K kids fun run precedes the 5K, followed by a celebration marking the Astrodome's 61st birthday."
   },
   {
@@ -4777,7 +4777,7 @@
     "surface": "road",
     "kid_run": false,
     "official_website_url": "https://runsignup.com/Race/TX/Cypress/CypressTX39?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://findarace.com/us/events/medal-madness-5k-10k-13-1m-at-cypress-tx-39",
+    "source_url": null,
     "description": "A recurring Medal Madness road race held at John Paul Landing Park in Cypress, TX offering 5K, 10K, and half marathon distances on an out-and-back loop course. The 2026 edition was held on September 26 (last Saturday of September); the 2027 edition is expected on or around September 25, the last Saturday of September 2027. All runners must register online through RunSignup; no on-site registration is available."
   },
   {
@@ -4799,7 +4799,7 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://www.thebestraces.com/houstonruns/",
+    "official_website_url": null,
     "source_url": "https://runsignup.com/Race/TX/Houston/OktoberfestRun5K10KHOUSTON",
     "description": "An annual fall-themed road race held at Eleanor Tinsley Park along Buffalo Bayou in midtown Houston, organized by The Best Races and offering 5K, 10K, and half marathon distances. The 2026 edition was held on September 26; the 2027 edition is expected on or around September 25 (last Saturday of September). Participants receive course details by email the week before the event."
   },
@@ -4886,8 +4886,8 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://www.texas10series.com/",
-    "source_url": "https://runsignup.com/Race/TX/Cypress/Cypress10Miler",
+    "official_website_url": "https://runsignup.com/Race/TX/Cypress/Cypress10Miler",
+    "source_url": null,
     "description": "The Cypress 10 Miler opens the annual Texas 10 Series on the first Sunday of October at Houston Premium Outlets along US-290. The entirely flat course offers 10-mile, 5-mile, and 5K options, including a Run the Pink 5K supporting breast cancer awareness."
   },
   {
@@ -4910,7 +4910,7 @@
     "surface": "road",
     "kid_run": true,
     "official_website_url": "https://www.thewoodlandsparks.com/Events/Races/Memorial-Hermann-10-for-Texas",
-    "source_url": "https://www.active.com/the-woodlands-tx/running/distance-running-races/memorial-hermann-10-for-texas-3-1-armadillo-run-5k-and-one-4-texas-kids-fun-run-2027",
+    "source_url": null,
     "description": "The Memorial Hermann 10 for Texas is a USATF-sanctioned 10-mile race held annually on the second Saturday of October, starting and finishing at Northshore Park along Lake Woodlands in The Woodlands. The event includes the 3.1-mile Armadillo Run 5K and a children's One 4 Texas Kids' Fun Run, with a post-race party featuring food and live music."
   },
   {

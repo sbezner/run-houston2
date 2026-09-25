@@ -93,7 +93,7 @@
     "id": "cypress-running-club",
     "club_name": "Cypress Running Club",
     "location": "Cypress",
-    "website_url": "https://cypressrunningclub.com/",
+    "website_url": "https://cypressrunning.com/",
     "description": "Promotes running as part of a healthy lifestyle with various activities and events.",
     "latitude": 29.9723,
     "longitude": -95.7335
@@ -264,7 +264,7 @@
     "id": "karbach-running-club",
     "club_name": "Karbach Running Club",
     "location": "Northwest Houston/Beltway",
-    "website_url": "https://www.karbachbrewing.com/community/event/running-club/",
+    "website_url": "https://www.karbachbrewing.com/karbach-athletics#section-run-club",
     "description": "A large social run club (~700 members) that meets every Thursday evening at Karbach Brewing for a 3\u20133.5 mile run followed by craft beer.",
     "latitude": 29.8302,
     "longitude": -95.4657
@@ -300,7 +300,7 @@
     "id": "njord-running",
     "club_name": "Njord Running",
     "location": "Montrose/Houston Heights",
-    "website_url": "https://www.njordrunning.com/",
+    "website_url": "https://www.njordrunning.com/blogs/news/weekly-run-crew",
     "description": "A Houston run crew founded in 2020 that brings competitive runners together with a mission to aid underserved communities; meets Wednesdays at Heights High School Track and Saturdays at A 2nd Cup.",
     "latitude": 29.7619,
     "longitude": -95.3935
@@ -381,7 +381,7 @@
     "id": "sigma-running-club",
     "club_name": "Sigma Running Club",
     "location": "East Downtown, Houston",
-    "website_url": "https://sagicorsigmarun.com/",
+    "website_url": null,
     "description": "A social club that meets for a weekly run and beer, typically in the East End/Second Ward.",
     "latitude": 29.7547,
     "longitude": -95.3414
