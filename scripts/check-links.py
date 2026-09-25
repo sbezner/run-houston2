@@ -541,9 +541,18 @@ def check_all_links(
     # Check races
     if "races" in card_types:
         races_to_check = data_map["races"]
+        
+        # Skip races dated before 2026-09-24 (will be deleted by PR #28)
+        from datetime import date
+        cutoff_date = date(2026, 9, 24)
+        races_to_check = [
+            r for r in races_to_check 
+            if r.get("date") and date.fromisoformat(r["date"]) >= cutoff_date
+        ]
+        
         if changed_filter:
             races_to_check = [r for r in races_to_check if r["id"] in changed_filter["races"]]
-        print(f"Checking {len(races_to_check)} races...")
+        print(f"Checking {len(races_to_check)} races (skipped {len([r for r in data_map['races'] if r.get('date') and date.fromisoformat(r['date']) < cutoff_date])} past races)...")
         for race in races_to_check:
             for field in ["official_website_url", "source_url"]:
                 url = race.get(field)
