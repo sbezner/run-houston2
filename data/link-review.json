@@ -377,5 +377,34 @@
       "reviewer": "RunHouston",
       "date": "2026-09-24"
     }
+  },
+  
+  "https://hotchocolate15k.com/city/houston/": {
+    "skechers-hot-chocolate-run-houston-2027": {
+      "note": "Returns 403 (bot protection). Verified via browser: official SKECHERS Hot Chocolate 15K/5K Run Houston page exists, shows January 30, 2027 date, registration links.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://www.parkrun.us/terryhershey/": {
+    "terry-hershey-parkrun-2027-03-20-2027": {
+      "note": "Returns 403 (bot protection). parkrun.us has bot protection. Verified Terry Hershey parkrun is active weekly 5K event at Terry Hershey Park, Houston.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    },
+    "terry-hershey-parkrun-2027-03-27": {
+      "note": "Returns 403 (bot protection). parkrun.us has bot protection. Verified Terry Hershey parkrun is active weekly 5K event at Terry Hershey Park, Houston.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://www.parkrun.us/spindletree/": {
+    "spindle-tree-parkrun-2027-03-27": {
+      "note": "Returns 403 (bot protection). parkrun.us has bot protection. Verified Spindle Tree parkrun is active weekly 5K event at Spindle Tree Park, Porter TX.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
   }
 }

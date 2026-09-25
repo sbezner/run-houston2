@@ -895,7 +895,7 @@
     "surface": "road",
     "kid_run": false,
     "official_website_url": "https://ainsleysangels.org/single-event/twilight-run-5k-tomball-texas/",
-    "source_url": "https://findarace.com/us/events/ainsleys-angels-9th-annual-texas-twilight-5k",
+    "source_url": null,
     "description": "Inclusive evening 5K and family fun run at Tomball Event Center hosted by Ainsley's Angels of America. Features angel pushers who push athletes with disabilities in racing chairs, promoting inclusion for runners and riders of all abilities."
   },
   {
@@ -1153,7 +1153,7 @@
     "surface": "road",
     "kid_run": true,
     "official_website_url": "https://runsignup.com/Race/TX/Houston/HoustonHeights5KRun?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://houstonheights.org/events1/fun-run/",
+    "source_url": null,
     "description": "The 40th annual Houston Heights Fun Run starting and finishing at Marmion Park on Heights Boulevard. Features a 10K, 5K, 5K Walk, and Kids Fun Run (~1K). A beloved Heights neighborhood tradition since 1984."
   },
   {
@@ -1494,7 +1494,7 @@
     "surface": "road",
     "kid_run": false,
     "official_website_url": "https://www.facebook.com/spacecity10miler/",
-    "source_url": "https://findarace.com/us/events/space-city-10-miler-and-5k",
+    "source_url": null,
     "description": "Annual HARRA Fall Series race featuring a scenic certified loop through the Clear Lake area, starting and finishing at the University of Houston-Clear Lake campus. Cash prizes for top finishers in the 10 Mile."
   },
   {
@@ -1517,7 +1517,7 @@
     "surface": "road",
     "kid_run": false,
     "official_website_url": "https://www.sugarlandhalf.com",
-    "source_url": "https://findarace.com/us/events/sugar-land-half-marathon-10k-mile",
+    "source_url": null,
     "description": "Race #2 of the 2026 Lone Star Race Series, featuring a flat, fast single-loop course starting and finishing at Smart Financial Centre. Sponsored by Houston Methodist Orthopedics & Sports Medicine."
   },
   {
@@ -1734,8 +1734,8 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://findarace.com/us/events/2026-miles-4-matthew-5k-10k",
-    "source_url": "https://harra.org/harra-race-series",
+    "official_website_url": "https://harra.org/harra-race-series",
+    "source_url": null,
     "description": "Charity race at No Label Brewing in Katy honoring Matthew, a young boy who fought leukemia. Proceeds provide financial assistance to families facing pediatric cancer."
   },
   {
@@ -2525,8 +2525,8 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://www.mightyoaksprograms.org/",
-    "source_url": "https://findarace.com/us/events/2nd-annual-mighty-oaks-veterans-day-run",
+    "official_website_url": null,
+    "source_url": null,
     "description": "Annual Veterans Day 5K and 10K at Heritage Park in Conroe benefiting the Mighty Oaks Foundation. Raises awareness about veteran suicide and supports recovery and resiliency programs for military and first-responder communities."
   },
   {
@@ -2612,7 +2612,7 @@
     "surface": "other",
     "kid_run": true,
     "official_website_url": "https://www.trisignup.com/Race/Info/TX/Spring/RaceTheFalls",
-    "source_url": "https://findarace.com/us/events/explore-the-falls-race",
+    "source_url": null,
     "description": "A blend of road and trail racing around Lake Holcomb in the Falls at Imperial Oaks community. The 5K is one mile road, one mile gravel/grass/trail, and one mile road; the 10K adds four miles of trail. A Chick-fil-A-sponsored 1K Kids Run and a 2-mile walk/run option are also offered."
   },
   {
@@ -2782,7 +2782,7 @@
     "surface": "road",
     "kid_run": true,
     "official_website_url": "https://bcoadventures.com/events/whatarun-5k-10k/",
-    "source_url": "https://findarace.com/us/events/whatarun-5k-10k-houston-tx",
+    "source_url": null,
     "description": "Two-day race event at the Addicks Park and Ride in Houston's Energy Corridor, featuring a flat and fast USATF-certified out-and-back course on Park Row Drive. Limited to 2,000 participants per day with a 1K Kids Dash, post-race Whataburger sampling, and officially licensed Whataburger finisher swag."
   },
   {
@@ -2826,7 +2826,7 @@
     "surface": "road",
     "kid_run": true,
     "official_website_url": "https://bcoadventures.com/events/whatarun-5k-10k/",
-    "source_url": "https://findarace.com/us/events/whatarun-5k-10k-houston-tx",
+    "source_url": null,
     "description": "Day two of the WhataRun weekend at the Addicks Park and Ride in Houston's Energy Corridor. Same flat, fast USATF-certified course on Park Row Drive, limited to 2,000 runners with Whataburger-themed finisher medals and post-race food truck."
   },
   {
@@ -3148,8 +3148,8 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://www.houston25k.com/",
-    "source_url": "https://www.hmsaclassical25k.com/",
+    "official_website_url": null,
+    "source_url": null,
     "description": "The 40th annual Houston 25K (15.5 miles), 10 Mile, and 5K at Sam Houston Park in downtown Houston. The third race in the Houston Marathon Warm-up Series, a key training benchmark for January marathon runners. Hosted by Houston Masters Sports Association."
   },
   {
@@ -3280,7 +3280,7 @@
     "surface": "road",
     "kid_run": true,
     "official_website_url": "https://www.facebook.com/ymcaturkeydash/",
-    "source_url": "https://findarace.com/us/events/katy-ymcas-24th-annual-turkey-dash",
+    "source_url": null,
     "description": "24th annual YMCA Turkey Dash on Thanksgiving morning featuring 10K, 5K, 1-mile kids race, and 1-mile family walk/run. Finishers receive medals with a post-race party and kids zone."
   },
   {
@@ -3301,8 +3301,8 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://www.kingwood.com/events/event_details.php?event_id=8385&event_date_id=41408",
-    "source_url": "https://houstonmom.com/houston-area-turkey-trots/",
+    "official_website_url": "https://houstonmom.com/houston-area-turkey-trots/",
+    "source_url": null,
     "description": "10th annual Thanksgiving morning fun run at Kingwood Town Center Park benefiting the L3 Foundation, a nonprofit supporting pediatric cancer patients and their families founded in honor of Landon Ahrendt."
   },
   {
@@ -3661,7 +3661,7 @@
     "surface": "road",
     "kid_run": true,
     "official_website_url": "https://runsignup.com/Race/TX/Houston/HeartoftheHouse5K?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Houston/RunfortheHouse5K?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": null,
     "description": "A running race in Houston, TX."
   },
   {
@@ -4498,7 +4498,7 @@
     "surface": "road",
     "kid_run": false,
     "official_website_url": "https://lonestarrelays.com/tir",
-    "source_url": "https://thedriven.net/tir",
+    "source_url": null,
     "description": "Team relay of roughly 200 miles split across 36 legs, starting Saturday morning in Gonzales and finishing Sunday at Saint Arnold Brewing Company in Houston. Traces the route of Sam Houston and the Texian Army from the 1835 \"Come and Take It\" skirmish to Houston."
   },
   {
