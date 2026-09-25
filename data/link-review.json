@@ -710,5 +710,30 @@
       "reviewer": "RunHouston",
       "date": "2026-09-24"
     }
+  },
+  
+  "https://raceroster.com/events/2026/99666/chocoloco-5k-and-10k": {
+    "chocoloco-5k-and-10k-2027": {
+      "note": "Race Roster race-specific registration page for ChocoLoco 5K and 10K, January 3, 2026. Shows race details and registration.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://raceroster.com/events/2027/114649/the-woodlands-marathon": {
+    "the-woodlands-marathon-2027": {
+      "note": "Race Roster race-specific registration page for The Woodlands Marathon, February 27, 2027. Shows race details and registration.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://surfsidebeachmarathon.com/": {
+    "surfside-beach-marathon-2027": {
+      "note": "Dedicated race site; homepage names Surfside Beach Marathon, shows March 2027 race info, links to RunSignUp registration.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
   }
 }
+
