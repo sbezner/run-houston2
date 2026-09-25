@@ -67,8 +67,7 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             # On PRs: check only changed cards (faster)
-            # For now, run full check until --only-changed is implemented
-            python3 scripts/check-links.py
+            python3 scripts/check-links.py --only-changed
           else
             # On push to master or scheduled: full check
             python3 scripts/check-links.py
