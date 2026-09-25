@@ -46,6 +46,24 @@
       "note": "Organization homepage for FFP Running Clubs network; names FFP and describes free community-based clubs throughout Houston, multiple locations listed.",
       "reviewer": "RunHouston",
       "date": "2026-09-24"
+    },
+    "no-label-running-club": {
+      "note": "FFP organization homepage listing multiple clubs including No Label Running Club. No dedicated page for No Label club found on FFP site.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://www.ffprunningclubs.org/": {
+    "ffp-running-clubs": {
+      "note": "Organization homepage for FFP Running Clubs network (www redirects to non-www); names FFP and describes free community-based clubs throughout Houston, multiple locations listed.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    },
+    "no-label-running-club": {
+      "note": "FFP organization homepage listing multiple clubs including No Label Running Club (www redirects to non-www). No dedicated page for No Label club found on FFP site.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
     }
   },
   
@@ -137,25 +155,17 @@
     }
   },
   
-  "https://shop.inflightrunning.com/": {
+  "https://in-flight-running.myshopify.com/": {
     "in-flight-running": {
-      "note": "Coaching/apparel shop homepage; mentions In Flight Running offers professional coaching and structured training programs for all levels. No deeper club page found.",
+      "note": "Coaching/apparel shop homepage (redirects to shop.inflightrunning.com); mentions In Flight Running offers professional coaching and structured training programs for all levels. No deeper club page found.",
       "reviewer": "RunHouston",
       "date": "2026-09-24"
     }
   },
   
-  "https://www.katyarearunningclub.com/": {
+  "https://katyarearunningclub.com/": {
     "katy-area-running-club": {
       "note": "Dedicated club site; homepage names Katy Area Running Club (KARC), only 501(c)(3) nonprofit running club in Katy serving all ages/abilities.",
-      "reviewer": "RunHouston",
-      "date": "2026-09-24"
-    }
-  },
-  
-  "https://ffprunningclubs.org/": {
-    "no-label-running-club": {
-      "note": "FFP organization homepage listing multiple clubs including No Label Running Club. No dedicated page for No Label club found on FFP site.",
       "reviewer": "RunHouston",
       "date": "2026-09-24"
     }
@@ -177,7 +187,7 @@
     }
   },
   
-  "https://powerinmotion.org/": {
+  "http://powerinmotion.org/": {
     "power-in-motion": {
       "note": "Training program homepage; names Power In Motion (PIM), 10-week adult 5K clinic for new/intermediate runners held twice yearly at Memorial Park.",
       "reviewer": "RunHouston",
