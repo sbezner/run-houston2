@@ -2167,39 +2167,6 @@
     "description": "Annual 5K run/walk at Rob Fleming Park in The Woodlands benefiting the Michael J. Fox Foundation for Parkinson's Research. All proceeds support research programs to speed a cure for Parkinson's disease."
   },
   {
-    "id": "race-for-permanent-sanctuary-family-fun-run-2026",
-    "name": "Race For Permanent Sanctuary Family Fun Run",
-    "date": "2026-11-07",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "18427 Southwest Fwy, Sugar Land, TX 77479",
-    "city": "Sugar Land",
-    "state": "TX",
-    "zip": "77479",
-    "latitude": 29.6196,
-    "longitude": -95.6349,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/SugarLand/",
-    "source_url": "https://runsignup.com/Race/TX/SugarLand/",
-    "description": "A Sugar Land 5K supporting animal sanctuary efforts. Includes a kids 1K and family-friendly options.",
-    "_rsu_id": 162445,
-    "_events": [
-      "Kids 1K (12 & under) Timed",
-      "5K Run (Timed)",
-      "5K Walk (Timed)",
-      "Kids 1K (12 & under) Timed",
-      "5K Run (Timed)",
-      "5K Walk (Timed)",
-      "Kids 1K (12 & under) Timed",
-      "5K (Timed)",
-      "5K Walk"
-    ]
-  },
-  {
     "id": "vcg-freedom-5k-1k-friendswood-2026",
     "name": "VCG - Freedom 5K / 1K (Friendswood)",
     "date": "2026-11-07",
@@ -2687,67 +2654,6 @@
     ]
   },
   {
-    "id": "healthy-kids-running-series-fall-2026-league-city-tx-2026",
-    "name": "Healthy Kids Running Series Fall 2026 - League City, TX",
-    "date": "2026-11-15",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "Hometown Heroes Park",
-    "city": "League City",
-    "state": "TX",
-    "zip": "77573",
-    "latitude": 29.5074,
-    "longitude": -95.0949,
-    "distance": [
-      "1 Mile",
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/LeagueCity/",
-    "source_url": "https://runsignup.com/Race/TX/LeagueCity/",
-    "description": "Five-week running program for kids PreK through 8th grade at Hometown Heroes Park. Features age-appropriate distances.",
-    "_rsu_id": 189015,
-    "_events": [
-      "PreK 2/3 Yr Old - 50 Yard Dash",
-      "PreK 4/5 Yr Old - 75 Yard Dash",
-      "Kindergarten & 1st Grade - 1/4 Mile",
-      "2nd & 3rd Grade - 1/2 Mile",
-      "4th & 5th Grade - 1 Mile",
-      "6th to 8th Grade - 1 Mile",
-      "Challenger Division - 75 Yard Dash",
-      "Single Day Walk Up Week 1",
-      "Single Day Walk Up Week 2",
-      "Single Day Walk Up Week 3",
-      "Single Day Walk Up Week 4",
-      "Single Day Walk Up Week 5",
-      "PreK 2/3 Yr Old - 50 Yard Dash",
-      "PreK 4/5 Yr Old - 75 Yard Dash",
-      "Kindergarten & 1st Grade - 1/4 Mile",
-      "2nd & 3rd Grade - 1/2 Mile",
-      "4th & 5th Grade - 1 Mile",
-      "6th to 8th Grade - 1 Mile",
-      "Challenger Division - 75 Yard Dash",
-      "Single Day Walk Up Week 1",
-      "Single Day Walk Up Week 2",
-      "Single Day Walk Up Week 3",
-      "Single Day Walk Up Week 4",
-      "Single Day Walk Up Week 5",
-      "PreK 2/3 Yr Old - 50 Yard Dash",
-      "PreK 4/5 Yr Old - 75 Yard Dash",
-      "Kindergarten & 1st Grade - 1/4 Mile",
-      "2nd & 3rd Grade - 1/2 Mile",
-      "4th & 5th Grade - 1 Mile",
-      "6th to 8th Grade - 1 Mile",
-      "Challenger Division - 75 Yard Dash",
-      "Single Day Walk Up Week 1",
-      "Single Day Walk Up Week 2",
-      "Single Day Walk Up Week 3",
-      "Single Day Walk Up Week 4",
-      "Single Day Walk Up Week 5"
-    ]
-  },
-  {
     "id": "la-porte-by-the-bay-half-marathon-2026",
     "name": "La Porte By the Bay Half Marathon",
     "date": "2026-11-15",
@@ -3096,8 +3002,8 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Pearland/",
-    "source_url": "https://runsignup.com/Race/TX/Pearland/",
+    "official_website_url": "https://runsignup.com/Race/TX/Pearland/PearlandTurkeyTrot",
+    "source_url": "https://runsignup.com/Race/TX/Pearland/PearlandTurkeyTrot",
     "description": "Thanksgiving morning tradition in Pearland featuring 4-mile and 6-mile running options.",
     "_rsu_id": 183824,
     "_events": [
@@ -3666,8 +3572,8 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/",
-    "source_url": "https://runsignup.com/Race/TX/Houston/",
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/JingleBellRunHouston",
+    "source_url": "https://runsignup.com/Race/TX/Houston/JingleBellRunHouston",
     "description": "The Jingle Bell Run supports the Arthritis Foundation. This Houston 5K event features a timed and untimed race option, plus a kids run.",
     "_rsu_id": 136498,
     "_events": [
@@ -3711,35 +3617,6 @@
     "official_website_url": "https://runsignup.com/Race/TX/SugarLand/CandyCaneCourseHouston?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://runsignup.com/Race/TX/SugarLand/CandyCaneCourseHouston?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "A running race in Sugar Land, TX."
-  },
-  {
-    "id": "holiday-5k-10k-131m-at-katy-tx-50-2026",
-    "name": "Holiday 5K, 10K & 13.1M at Katy, TX (50)",
-    "date": "2026-12-12",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "2500 Porter Road",
-    "city": "Katy",
-    "state": "TX",
-    "zip": "77493",
-    "latitude": 29.7858,
-    "longitude": -95.8245,
-    "distance": [
-      "5K",
-      "10K",
-      "Half Marathon"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Katy/",
-    "source_url": "https://runsignup.com/Race/TX/Katy/",
-    "description": "Holiday race in Katy featuring 5K, 10K, and half marathon distances.",
-    "_rsu_id": 200607,
-    "_events": [
-      "5K",
-      "10K",
-      "Half Marathon"
-    ]
   },
   {
     "id": "kingwood-christmas-cookie-dash-2026",
@@ -3819,39 +3696,6 @@
     ]
   },
   {
-    "id": "sunrise-marathon-5k10k131-houston-2026",
-    "name": "Sunrise Marathon 5K/10K/13.1 HOUSTON",
-    "date": "2026-12-12",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "Eleanor Tinsley Park (Course Map will be emailed)",
-    "city": "Houston",
-    "state": "TX",
-    "zip": "77019",
-    "latitude": 29.7604,
-    "longitude": -95.3698,
-    "distance": [
-      "1 Mile",
-      "5K",
-      "10K",
-      "Half Marathon"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/",
-    "source_url": "https://runsignup.com/Race/TX/Houston/",
-    "description": "An early morning race at Eleanor Tinsley Park with 5K, 10K, and half marathon distances.",
-    "_rsu_id": 207977,
-    "_events": [
-      "5K Registration",
-      "10K Registration",
-      "13.1 Half-Marathon Registration",
-      "Virtual Run Registration (5K/10K/13.1)",
-      "Family Fun Run 1 Mile",
-      "5K/10K/13.1 Eco-Registration (No Shirt)"
-    ]
-  },
-  {
     "id": "winter-run-through-the-preserve-2026",
     "name": "Winter Run Through the Preserve",
     "date": "2026-12-12",
@@ -3868,8 +3712,8 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Conroe/",
-    "source_url": "https://runsignup.com/Race/TX/Conroe/",
+    "official_website_url": "https://runsignup.com/Race/TX/Conroe/WinterRunThroughthePreserve",
+    "source_url": "https://runsignup.com/Race/TX/Conroe/WinterRunThroughthePreserve",
     "description": "A 5K run/walk and 1K kids fun run through the Conroe preserve. Family-friendly winter event.",
     "_rsu_id": 212084,
     "_events": [
@@ -4018,35 +3862,6 @@
       "Virtual Run Registration",
       "Family 1 Mile Fun Run",
       "5K/10K/13.1 Eco-Registration (No Shirt)"
-    ]
-  },
-  {
-    "id": "holiday-5k-10k-131m-at-cypress-tx-52-2026",
-    "name": "Holiday 5K, 10K & 13.1M at Cypress, TX (52)",
-    "date": "2026-12-26",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "24502 West Rd,",
-    "city": "Cypress",
-    "state": "TX",
-    "zip": "77433",
-    "latitude": 29.9691,
-    "longitude": -95.6972,
-    "distance": [
-      "5K",
-      "10K",
-      "Half Marathon"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Cypress/",
-    "source_url": "https://runsignup.com/Race/TX/Cypress/",
-    "description": "Holiday-themed race on December 26 offering 5K, 10K, and half marathon options.",
-    "_rsu_id": 200609,
-    "_events": [
-      "5K",
-      "10K",
-      "Half Marathon"
     ]
   },
   {
