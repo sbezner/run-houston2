@@ -4085,7 +4085,7 @@
     "surface": "road",
     "kid_run": true,
     "official_website_url": "https://www.facebook.com/thechocolocorun/",
-    "source_url": "https://raceroster.com/events/2026/99666/chocoloco-5k-and-10k",
+    "source_url": null,
     "description": "Houston's original chocolate-themed race at Sam Houston Park in downtown. Features chip-timed racing, finisher medals, and a post-race celebration with hot cocoa and chocolate fountains."
   },
   {
@@ -4242,8 +4242,8 @@
     ],
     "surface": "trail",
     "kid_run": true,
-    "official_website_url": "https://surfsidebeachmarathon.com/",
-    "source_url": "https://surfsidebeachmarathon.com/information",
+    "official_website_url": null,
+    "source_url": null,
     "description": "Annual beach marathon run entirely on the sand between Surfside Beach and San Luis Pass, one of the only fully-on-sand marathons in the world. Start and finish at Stahlman Park Pavilion, with marathon and half marathon at 7:30 a.m., Kids K at 8:00 a.m., and 10K/5K at 8:15 a.m. An early-bird walker start is offered at 5:30 a.m."
   },
   {
@@ -4393,7 +4393,7 @@
     "surface": "road",
     "kid_run": false,
     "official_website_url": "https://www.thewoodlandsmarathon.com/",
-    "source_url": "https://raceroster.com/events/2027/114649/the-woodlands-marathon",
+    "source_url": null,
     "description": "The Woodlands Marathon is a Boston-qualifying road race starting and finishing at Town Green Park, with a flat course through The Woodlands' tree-lined streets and village paths. The race weekend offers a full marathon, half marathon, 10K, and 2- or 4-person marathon relay. Billed as one of the fastest marathon courses in Texas."
   },
   {
@@ -4668,7 +4668,7 @@
     "surface": "road",
     "kid_run": true,
     "official_website_url": "https://astrodomeconservancy.org/3rd-annual-race-for-the-dome/",
-    "source_url": "https://findarace.com/us/events/race-for-the-dome",
+    "source_url": null,
     "description": "The 6th annual 5K road race around the Houston Astrodome and through NRG Park, benefiting the Astrodome Conservancy. A 1K kids fun run precedes the 5K, followed by a celebration marking the Astrodome's 61st birthday."
   },
   {
@@ -4777,7 +4777,7 @@
     "surface": "road",
     "kid_run": false,
     "official_website_url": "https://runsignup.com/Race/TX/Cypress/CypressTX39?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://findarace.com/us/events/medal-madness-5k-10k-13-1m-at-cypress-tx-39",
+    "source_url": null,
     "description": "A recurring Medal Madness road race held at John Paul Landing Park in Cypress, TX offering 5K, 10K, and half marathon distances on an out-and-back loop course. The 2026 edition was held on September 26 (last Saturday of September); the 2027 edition is expected on or around September 25, the last Saturday of September 2027. All runners must register online through RunSignup; no on-site registration is available."
   },
   {
@@ -4910,7 +4910,7 @@
     "surface": "road",
     "kid_run": true,
     "official_website_url": "https://www.thewoodlandsparks.com/Events/Races/Memorial-Hermann-10-for-Texas",
-    "source_url": "https://www.active.com/the-woodlands-tx/running/distance-running-races/memorial-hermann-10-for-texas-3-1-armadillo-run-5k-and-one-4-texas-kids-fun-run-2027",
+    "source_url": null,
     "description": "The Memorial Hermann 10 for Texas is a USATF-sanctioned 10-mile race held annually on the second Saturday of October, starting and finishing at Northshore Park along Lake Woodlands in The Woodlands. The event includes the 3.1-mile Armadillo Run 5K and a children's One 4 Texas Kids' Fun Run, with a post-race party featuring food and live music."
   },
   {

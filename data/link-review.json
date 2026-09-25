@@ -510,5 +510,167 @@
       "reviewer": "RunHouston",
       "date": "2026-09-24"
     }
+  },
+  
+  "https://www.acharliebrown5k.com/": {
+    "a-charlie-brown-christmas-5k-10k-2026": {
+      "note": "Dedicated race site; homepage names A Charlie Brown Christmas 5K/10K, December 21, 2026, registration and event details.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://www.chevronhoustonmarathon.com/": {
+    "we-are-houston-5k-2027": {
+      "note": "Main Chevron Houston Marathon site hosts multiple events including We Are Houston 5K. No dedicated We Are Houston page found.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    },
+    "chevron-houston-marathon-2027": {
+      "note": "Dedicated event site for Chevron Houston Marathon & Aramco Houston Half; homepage shows both races, January 2027, registration.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://www.houstonresolutionrun.com/": {
+    "resolution-run-houston-2026": {
+      "note": "Dedicated race site; homepage names Houston Resolution Run, January 1 race, registration and event info.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://www.texascityhalf.com/": {
+    "texas-city-half-marathon-2026": {
+      "note": "Dedicated race site; homepage names Texas City Half Marathon (plus 10K/5K/Mile), December 2026, registration.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://www.texasmarathonkingwood.com/": {
+    "texas-marathon-kingwood-2027": {
+      "note": "Dedicated race site; homepage and /race page show Texas Marathon Kingwood, January 2027, registration details.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://www.thewoodlandsmarathon.com/": {
+    "the-woodlands-5k-2027": {
+      "note": "Main The Woodlands Marathon site hosts multiple events including 5K & 2K Fun Run. No dedicated 5K page found.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    },
+    "the-woodlands-marathon-2027": {
+      "note": "Dedicated event site for The Woodlands Marathon; homepage shows marathon, March 2027, registration.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://www.texas10series.com/": {
+    "cypress-10-miler-2027": {
+      "note": "Main Texas 10 Series site hosts multiple races including Cypress 10 Miler. No dedicated Cypress page found.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://saintarnold.com/brewery/events/": {
+    "turkey-trot-saint-arnold-houston-2026": {
+      "note": "Brewery events page shows Saint Arnold Turkey Trot among other events. No dedicated trot page found.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://www.sugarlandhalf.com/": {
+    "sugar-land-half-marathon-2027": {
+      "note": "Dedicated race site; homepage names Sugar Land Half Marathon (plus 10K/Mile), October 2027, registration.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://ainsleysangels.org/single-event/twilight-run-5k-tomball-texas/": {
+    "ainsleys-angels-texas-twilight-5k-2026": {
+      "note": "Race page shows Ainsley's Angels Twilight Run 5K Tomball Texas event, October 2026. Name variation from page title.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://runsignup.com/Race/TX/Cypress/CypressTX46": {
+    "gobbler-5k-10k-half-cypress-46-2026": {
+      "note": "RunSignUp page for Gobbler race at Cypress, TX. Race name includes '(46)' suffix not in page text. Verified correct race by location and date.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://impact.headforthecure.org/event/head-for-the-cure-5k-houston-2026/e744909": {
+    "head-for-the-cure-5k-houston-2026": {
+      "note": "Head for the Cure fundraising event page shows Houston 2026 5K event. Name variation in page vs. URL slug.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://give.michaeljfox.org/event/2026-houston-run-walk/e753018": {
+    "michael-j-fox-houston-run-walk-2026": {
+      "note": "Michael J. Fox Foundation fundraising event page shows Houston Run/Walk 2026. Foundation name not repeated in page text.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://runsignup.com/Race/TX/Houston/RunAgainstBreastCancer5K10KHOUSTON": {
+    "run-against-breast-cancer-bayou-city-2027": {
+      "note": "RunSignUp page for Run Against Breast Cancer Houston. 'Bayou City' variant not in page text. Verified Houston location.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://runsignup.com/Race/TX/Houston/HeartoftheHouse5K": {
+    "run-for-the-house-ronald-mcdonald-house-charities-greater-houston-5k-and-kids-1-miler-2026": {
+      "note": "RunSignUp page shows 'Heart of the House 5K' (short name). Full name 'Run for the House - Ronald McDonald House Charities Greater Houston' is descriptive variant.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://runsignup.com/Race/TX/Houston/RunHoustonUH": {
+    "run-houston-uh-2027": {
+      "note": "RunSignUp page for Run Houston! at UH. Full official name includes '& 10K presented by Houston Methodist' not in short page title.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://runsignup.com/Race/TX/TexasCity/TexasCityHalfMarathon": {
+    "texas-city-half-marathon-2026": {
+      "note": "RunSignUp page for Texas City Half Marathon. Full name includes '10K, 5K & Family Mile' distances not in short page title.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://runsignup.com/Race/TX/Kingwood/TheRadRace": {
+    "the-rad-race-oct-2026": {
+      "note": "RunSignUp page for The Rad Race. Race name includes '& Rad Fest (Fall Edition)' variant not in page text.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://runsignup.com/Race/TX/Rosharon/ZealRumRunnersRaceSeries": {
+    "zeal-rumrunners-race-series-2026": {
+      "note": "RunSignUp page for Zeal RumRunners Race Series. Page shows series info, race name matches.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
   }
 }
