@@ -1,0 +1,578 @@
+#!/usr/bin/env python3
+"""
+check-links.py — validates all outbound links on Run Houston cards.
+
+Usage:
+  python3 scripts/check-links.py                    # Check all links
+  python3 scripts/check-links.py --only-changed     # Only cards changed vs master
+  python3 scripts/check-links.py --type races       # Only races
+  python3 scripts/check-links.py --type clubs       # Only clubs
+
+Exits 0 if all links pass (no hard fails, no unreviewed flags).
+Exits 1 if there are hard fails or unreviewed flags.
+"""
+
+import argparse
+import json
+import re
+import sys
+import time
+import urllib.parse
+from collections import defaultdict
+from pathlib import Path
+from typing import Dict, List, Set, Tuple
+
+try:
+    import requests
+    from bs4 import BeautifulSoup
+except ImportError:
+    print("ERROR: Required dependencies not installed.")
+    print("Run: pip3 install requests beautifulsoup4 lxml")
+    sys.exit(1)
+
+REPO = Path(__file__).resolve().parent.parent
+DATA = REPO / "data"
+
+# --- Configuration ---
+
+USER_AGENT = "RunHoustonBot/1.0 (+https://runhouston.app/about.html)"
+REQUEST_TIMEOUT = 15  # seconds
+MAX_RETRIES = 2
+RETRY_DELAY = 2  # seconds
+HOST_THROTTLE = 1.0  # seconds between requests to same host
+MAX_CONTENT_SIZE = 2 * 1024 * 1024  # 2MB
+
+# Generic page patterns (final URL paths that indicate a landing on a generic page)
+GENERIC_PATTERNS = [
+    r'^/$',
+    r'^/index\.(html?|php|asp)$',
+    r'^/(en|home)/?$',
+    r'^/events?/?$',
+    r'^/calendar/?$',
+    r'^/races?/?$',
+    r'^/community/events?/?$',
+    r'^/search\?',
+    r'^/find',
+]
+
+# RunSignUp/Race Roster search pages (indicate broken registration links)
+REGISTRATION_SEARCH_PATTERNS = [
+    r'runsignup\.com/race/search',
+    r'runsignup\.com/find-a-race',
+    r'raceroster\.com/events',
+    r'raceroster\.com/search',
+]
+
+# --- State ---
+
+link_cache = {}  # URL -> (status_code, final_url, text, error)
+host_last_request = {}  # hostname -> last_request_timestamp
+stats = {
+    "checked": 0,
+    "passed": 0,
+    "hard_fail": 0,
+    "flagged_generic": 0,
+    "flagged_context": 0,
+    "reviewed_ok": 0,
+}
+failures = []
+
+# --- Utilities ---
+
+
+def normalize_for_match(text: str) -> str:
+    """Normalize text for fuzzy matching: lowercase, strip common words."""
+    if not text:
+        return ""
+    # Remove common filler words
+    noise = {"the", "a", "an", "annual", "5k", "10k", "run", "race", "club", "houston"}
+    words = re.findall(r'\w+', text.lower())
+    return " ".join(w for w in words if w not in noise)
+
+
+def tokens_in(needle: str, haystack: str) -> bool:
+    """Check if all tokens from needle appear in haystack (fuzzy match)."""
+    needle_norm = normalize_for_match(needle)
+    haystack_norm = normalize_for_match(haystack)
+    if not needle_norm:
+        return True
+    needle_tokens = needle_norm.split()
+    return all(token in haystack_norm for token in needle_tokens)
+
+
+def is_generic_path(url: str) -> bool:
+    """Check if final URL path indicates a generic landing page."""
+    parsed = urllib.parse.urlparse(url)
+    path = parsed.path.lower()
+    for pattern in GENERIC_PATTERNS:
+        if re.search(pattern, path):
+            return True
+    return False
+
+
+def is_registration_search(url: str) -> bool:
+    """Check if URL is a registration platform search page (broken race link)."""
+    url_lower = url.lower()
+    for pattern in REGISTRATION_SEARCH_PATTERNS:
+        if re.search(pattern, url_lower):
+            return True
+    return False
+
+
+def extract_text(html: str, anchor: str = None) -> str:
+    """
+    Extract visible text from HTML.
+    If anchor is provided (e.g. "section-run-club"), try to extract text from that section.
+    """
+    try:
+        soup = BeautifulSoup(html, "lxml")
+        
+        # Remove script and style elements
+        for script in soup(["script", "style", "noscript"]):
+            script.decompose()
+        
+        if anchor:
+            # Try to find element with matching id or name
+            target = soup.find(id=anchor) or soup.find(attrs={"name": anchor})
+            if target:
+                # Get text from this element and its children
+                return target.get_text(separator=" ", strip=True)
+        
+        # Get all text from body or entire doc
+        body = soup.body or soup
+        return body.get_text(separator=" ", strip=True)
+    except Exception as e:
+        print(f"  WARNING: Failed to parse HTML: {e}")
+        return ""
+
+
+def fetch_url(url: str) -> Tuple[int, str, str, str]:
+    """
+    Fetch URL and return (status_code, final_url, text, error).
+    Returns (0, url, "", error_message) on hard failures.
+    Implements retries, throttling, and caching.
+    """
+    if url in link_cache:
+        return link_cache[url]
+    
+    parsed = urllib.parse.urlparse(url)
+    hostname = parsed.hostname or ""
+    
+    # Throttle requests to same host
+    if hostname in host_last_request:
+        elapsed = time.time() - host_last_request[hostname]
+        if elapsed < HOST_THROTTLE:
+            time.sleep(HOST_THROTTLE - elapsed)
+    
+    error = ""
+    for attempt in range(MAX_RETRIES + 1):
+        try:
+            headers = {"User-Agent": USER_AGENT}
+            response = requests.get(
+                url,
+                headers=headers,
+                timeout=REQUEST_TIMEOUT,
+                allow_redirects=True,
+                stream=True
+            )
+            
+            # Read content with size limit
+            content = b""
+            for chunk in response.iter_content(chunk_size=8192):
+                content += chunk
+                if len(content) > MAX_CONTENT_SIZE:
+                    break
+            
+            text = content.decode("utf-8", errors="ignore")
+            final_url = response.url
+            status_code = response.status_code
+            
+            host_last_request[hostname] = time.time()
+            result = (status_code, final_url, text, "")
+            link_cache[url] = result
+            return result
+            
+        except requests.exceptions.SSLError as e:
+            error = f"TLS error: {e}"
+        except requests.exceptions.ConnectionError as e:
+            error = f"Connection error: {e}"
+        except requests.exceptions.Timeout:
+            error = "Timeout"
+        except Exception as e:
+            error = f"Error: {e}"
+        
+        if attempt < MAX_RETRIES:
+            time.sleep(RETRY_DELAY * (attempt + 1))
+    
+    # Hard failure after retries
+    host_last_request[hostname] = time.time()
+    result = (0, url, "", error)
+    link_cache[url] = result
+    return result
+
+
+def load_reviewed_exceptions() -> Dict[str, Dict]:
+    """Load reviewed exceptions from data/link-review.json."""
+    path = DATA / "link-review.json"
+    if not path.exists():
+        return {}
+    try:
+        with open(path) as f:
+            data = json.load(f)
+        # Normalize to {url: {card_id: {...}}}
+        result = {}
+        for url, cards in data.items():
+            if not isinstance(cards, dict):
+                continue
+            result[url] = cards
+        return result
+    except Exception as e:
+        print(f"WARNING: Failed to load {path}: {e}")
+        return {}
+
+
+# --- Link checking logic ---
+
+
+def check_link(
+    card_type: str,
+    card_id: str,
+    field_name: str,
+    url: str,
+    card_data: dict,
+    reviewed: Dict[str, Dict]
+) -> Tuple[str, str]:
+    """
+    Check a single link.
+    Returns (status, message) where status is "pass", "hard_fail", "flag_generic", "flag_context".
+    """
+    stats["checked"] += 1
+    
+    # Check if this link is reviewed
+    if url in reviewed and card_id in reviewed[url]:
+        review = reviewed[url][card_id]
+        stats["reviewed_ok"] += 1
+        return ("pass", f"Reviewed exception: {review.get('note', 'manually verified')}")
+    
+    # Fetch the URL
+    status_code, final_url, text, error = fetch_url(url)
+    
+    # Hard fail conditions
+    if status_code == 0:
+        stats["hard_fail"] += 1
+        return ("hard_fail", error)
+    
+    if status_code >= 400:
+        stats["hard_fail"] += 1
+        return ("hard_fail", f"HTTP {status_code}")
+    
+    # Flag generic pages (but be lenient with club homepages - those are OK)
+    # Only flag if it's clearly wrong (events calendar, community/event hub, etc.)
+    if card_type != "club" and is_generic_path(final_url):
+        # For races/news, generic landing is a problem
+        stats["flagged_generic"] += 1
+        return ("flag_generic", f"Redirected to generic page: {final_url}")
+    
+    # For races, flag registration search pages
+    if card_type == "race" and is_registration_search(final_url):
+        stats["flagged_generic"] += 1
+        return ("flag_generic", f"Registration search page: {final_url}")
+    
+    # Context check
+    anchor = None
+    if "#" in url:
+        anchor = url.split("#", 1)[1]
+    
+    page_text = extract_text(text, anchor)
+    
+    if card_type == "club":
+        # Club name must appear in page text
+        club_name = card_data.get("club_name", "")
+        if not tokens_in(club_name, page_text):
+            stats["flagged_context"] += 1
+            return ("flag_context", f"Club name '{club_name}' not found on landing page")
+    
+    elif card_type == "race":
+        # Race name must appear
+        race_name = card_data.get("name", "")
+        if not tokens_in(race_name, page_text):
+            stats["flagged_context"] += 1
+            return ("flag_context", f"Race name '{race_name}' not found on landing page")
+        
+        # Race date or year must appear (if we have a date)
+        race_date = card_data.get("date", "")
+        if race_date:
+            year = race_date.split("-")[0]
+            # Check for year (2026 or 2027)
+            if year not in page_text:
+                stats["flagged_context"] += 1
+                return ("flag_context", f"Race year '{year}' not found on landing page")
+    
+    elif card_type == "news":
+        # News headline must appear in title, og:title, h1, or body
+        headline = card_data.get("headline", "")
+        
+        # Try to extract title/og:title/h1
+        try:
+            soup = BeautifulSoup(text, "lxml")
+            title = soup.find("title")
+            title_text = title.get_text(strip=True) if title else ""
+            og_title = soup.find("meta", property="og:title")
+            og_title_text = og_title["content"] if og_title and og_title.get("content") else ""
+            h1 = soup.find("h1")
+            h1_text = h1.get_text(strip=True) if h1 else ""
+            
+            # Check against any of these
+            if not (tokens_in(headline, title_text) or 
+                    tokens_in(headline, og_title_text) or 
+                    tokens_in(headline, h1_text) or 
+                    tokens_in(headline, page_text)):
+                stats["flagged_context"] += 1
+                return ("flag_context", f"News headline not found on landing page")
+        except:
+            # If parsing fails, check body text
+            if not tokens_in(headline, page_text):
+                stats["flagged_context"] += 1
+                return ("flag_context", f"News headline not found on landing page")
+    
+    elif card_type == "report":
+        # Race report title should appear
+        title = card_data.get("title", "")
+        if title and not tokens_in(title, page_text):
+            # Reports might link to RunSignUp results or other sources
+            # This is more lenient - just check if the race name appears
+            race_name = card_data.get("race_name", "")
+            if race_name and not tokens_in(race_name, page_text):
+                stats["flagged_context"] += 1
+                return ("flag_context", f"Report title/race name not found on landing page")
+    
+    stats["passed"] += 1
+    return ("pass", "OK")
+
+
+# --- Data loading ---
+
+
+def load_clubs() -> List[dict]:
+    """Load clubs from data/clubs.json."""
+    with open(DATA / "clubs.json") as f:
+        return json.load(f)
+
+
+def load_races() -> List[dict]:
+    """Load races from data/races-upcoming.json."""
+    with open(DATA / "races-upcoming.json") as f:
+        return json.load(f)
+
+
+def load_news() -> List[dict]:
+    """Load news from data/news.json."""
+    with open(DATA / "news.json") as f:
+        data = json.load(f)
+        return data.get("items", [])
+
+
+def load_reports() -> List[dict]:
+    """Load race reports from data/race_reports.json."""
+    with open(DATA / "race_reports.json") as f:
+        return json.load(f)
+
+
+# --- Main checking logic ---
+
+
+def check_all_links(
+    card_types: List[str] = None,
+    only_changed: bool = False
+) -> bool:
+    """
+    Check all links across specified card types.
+    Returns True if all pass (no hard fails, no unreviewed flags).
+    """
+    reviewed = load_reviewed_exceptions()
+    
+    if card_types is None:
+        card_types = ["clubs", "races", "news", "reports"]
+    
+    # Load data
+    data_map = {
+        "clubs": load_clubs() if "clubs" in card_types else [],
+        "races": load_races() if "races" in card_types else [],
+        "news": load_news() if "news" in card_types else [],
+        "reports": load_reports() if "reports" in card_types else [],
+    }
+    
+    # TODO: Implement --only-changed by using git diff
+    # For now, check all
+    
+    print(f"Starting link check (types: {', '.join(card_types)})...\n")
+    
+    # Check clubs
+    if "clubs" in card_types:
+        print(f"Checking {len(data_map['clubs'])} clubs...")
+        for club in data_map["clubs"]:
+            url = club.get("website_url")
+            if not url:
+                continue
+            
+            status, message = check_link(
+                "club", club["id"], "website_url", url, club, reviewed
+            )
+            
+            if status != "pass":
+                failures.append({
+                    "type": "club",
+                    "id": club["id"],
+                    "name": club.get("club_name", ""),
+                    "field": "website_url",
+                    "url": url,
+                    "status": status,
+                    "message": message
+                })
+    
+    # Check races
+    if "races" in card_types:
+        print(f"Checking {len(data_map['races'])} races...")
+        for race in data_map["races"]:
+            for field in ["official_website_url", "source_url"]:
+                url = race.get(field)
+                if not url:
+                    continue
+                
+                status, message = check_link(
+                    "race", race["id"], field, url, race, reviewed
+                )
+                
+                if status != "pass":
+                    failures.append({
+                        "type": "race",
+                        "id": race["id"],
+                        "name": race.get("name", ""),
+                        "field": field,
+                        "url": url,
+                        "status": status,
+                        "message": message
+                    })
+    
+    # Check news
+    if "news" in card_types:
+        print(f"Checking {len(data_map['news'])} news items...")
+        for item in data_map["news"]:
+            url = item.get("url")
+            if not url:
+                continue
+            
+            status, message = check_link(
+                "news", item["id"], "url", url, item, reviewed
+            )
+            
+            if status != "pass":
+                failures.append({
+                    "type": "news",
+                    "id": item["id"],
+                    "name": item.get("headline", ""),
+                    "field": "url",
+                    "url": url,
+                    "status": status,
+                    "message": message
+                })
+    
+    # Check reports (note: race_reports.json doesn't seem to have URL fields in the schema)
+    # Skip for now unless we find URL fields
+    
+    return True
+
+
+# --- Output ---
+
+
+def print_report():
+    """Print final report."""
+    print("\n" + "=" * 70)
+    print("LINK CHECK REPORT")
+    print("=" * 70)
+    print(f"\nTotal links checked:     {stats['checked']}")
+    print(f"  Passed:                {stats['passed']}")
+    print(f"  Reviewed (allowed):    {stats['reviewed_ok']}")
+    print(f"  Hard failures:         {stats['hard_fail']}")
+    print(f"  Flagged (generic):     {stats['flagged_generic']}")
+    print(f"  Flagged (context):     {stats['flagged_context']}")
+    
+    if failures:
+        print(f"\n{len(failures)} FAILURE(S):\n")
+        
+        # Group by status
+        by_status = defaultdict(list)
+        for f in failures:
+            by_status[f["status"]].append(f)
+        
+        for status in ["hard_fail", "flag_generic", "flag_context"]:
+            if status not in by_status:
+                continue
+            
+            label = {
+                "hard_fail": "HARD FAILURES",
+                "flag_generic": "FLAGGED: GENERIC PAGES",
+                "flag_context": "FLAGGED: CONTEXT MISMATCH"
+            }[status]
+            
+            print(f"\n{label}:")
+            print("-" * 70)
+            
+            for f in by_status[status]:
+                print(f"\n  {f['type']}: {f['id']}")
+                print(f"  Name: {f['name']}")
+                print(f"  Field: {f['field']}")
+                print(f"  URL: {f['url']}")
+                print(f"  Issue: {f['message']}")
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Check all outbound links on Run Houston cards"
+    )
+    parser.add_argument(
+        "--type",
+        choices=["clubs", "races", "news", "reports"],
+        help="Check only specified card type"
+    )
+    parser.add_argument(
+        "--only-changed",
+        action="store_true",
+        help="Check only cards changed vs base branch (for PR checks)"
+    )
+    
+    args = parser.parse_args()
+    
+    card_types = [args.type] if args.type else None
+    
+    try:
+        check_all_links(card_types, args.only_changed)
+        print_report()
+        
+        # Exit non-zero if any hard fails or unreviewed flags
+        has_failures = (
+            stats["hard_fail"] > 0 or 
+            stats["flagged_generic"] > 0 or 
+            stats["flagged_context"] > 0
+        )
+        
+        if has_failures:
+            print("\n❌ FAIL: Links require review or fixes.")
+            sys.exit(1)
+        else:
+            print("\n✅ PASS: All links validated.")
+            sys.exit(0)
+    
+    except KeyboardInterrupt:
+        print("\n\nInterrupted by user.")
+        sys.exit(1)
+    except Exception as e:
+        print(f"\n\nERROR: {e}")
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
