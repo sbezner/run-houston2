@@ -4,10 +4,10 @@
     {
       "id": "houston-running-sept-19-20-weekend-recap-2026",
       "date": "2026-09-22",
-      "headline": "Houston Running Sept. 19–20 Weekend Recap: UH, Space Cowboys & Tunnel to Towers",
+      "headline": "Houston Running Sept. 19\u201320 Weekend Recap: UH, Space Cowboys & Tunnel to Towers",
       "source": "Houston Runner",
       "url": "https://houstonrunner.com/2026/09/22/september-19-20/",
-      "summary": "Houston Runner covered the Sept. 19–20 race weekend, including Run Houston! University of Houston 5K and 10K, the Space Cowboys 5K, and Tunnel to Towers 5K. Ken Yasger won the UH men's 10K in 37:10, Michael Moreno the men's 5K in 16:06, and Richard Strachan and Sydney Knepfel led Space Cowboys.",
+      "summary": "Houston Runner covered the Sept. 19\u201320 race weekend, including Run Houston! University of Houston 5K and 10K, the Space Cowboys 5K, and Tunnel to Towers 5K. Ken Yasger won the UH men's 10K in 37:10, Michael Moreno the men's 5K in 16:06, and Richard Strachan and Sydney Knepfel led Space Cowboys.",
       "evidence": "Houston Runner byline/date: September 22, 2026 (https://houstonrunner.com/2026/09/22/september-19-20/)"
     },
     {
@@ -60,8 +60,8 @@
       "date": "2026-09-21",
       "headline": "Ainsley's Angels Twilight 5K returns Oct. 3 in Tomball",
       "source": "Ainsley's Angels / Houston Runner",
-      "url": "https://runsignup.com/Race/TX/Tomball/AinsleysAngelsTwilight5K",
-      "summary": "The ninth annual Twilight 5K & Celebration of Inclusion is Saturday evening, Oct. 3 at Tomball Event Center, with a Día de los Muertos theme. Angel athletes and volunteer pushers share the course; registration remains open through race night.",
+      "url": "https://runsignup.com/Race/TX/Tomball/AinsleysAngelsTwilight5K?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+      "summary": "The ninth annual Twilight 5K & Celebration of Inclusion is Saturday evening, Oct. 3 at Tomball Event Center, with a D\u00eda de los Muertos theme. Angel athletes and volunteer pushers share the course; registration remains open through race night.",
       "evidence": "load date: first added to news.json on 2026-09-21 (no verifiable source publication date)"
     },
     {
@@ -87,7 +87,7 @@
       "date": "2026-09-21",
       "headline": "Coach Andy Stewart's 30K set for Dec. 13 at Sugar Land Town Square",
       "source": "Coach Andy 30K / RunSignUp",
-      "url": "https://runsignup.com/Race/TX/SugarLand/CoachAndy30K",
+      "url": "https://runsignup.com/Race/TX/SugarLand/CoachAndy30K?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
       "summary": "The USATF-certified 30K and companion 10K close the HARRA Warm-Up Series on Sunday, Dec. 13 at Sugar Land Town Square, timed for Chevron Houston Marathon prep. Registration is open, with holiday toy-drive donations benefiting the Rainbow Room Christmas Project.",
       "evidence": "load date: first added to news.json on 2026-09-21 (no verifiable source publication date)"
     },
@@ -96,7 +96,7 @@
       "date": "2026-09-19",
       "headline": "Day of the Dead Half Marathon heads to Kingdom Builders Center on Oct. 17",
       "source": "Bigfoot Running Company",
-      "url": "https://runsignup.com/Race/TX/Houston/DayoftheDeadHalfMarathonHouston",
+      "url": "https://runsignup.com/Race/TX/Houston/DayoftheDeadHalfMarathonHouston?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
       "summary": "Bigfoot Running Company's Day of the Dead Half Marathon is Saturday, Oct. 17 at Kingdom Builders Center in Houston, with half, quarter marathon, 5K, and 1-mile options. The morning includes a kids' dash and a costume contest before the start.",
       "evidence": "load date: first added to news.json on 2026-09-19 (no verifiable source publication date)"
     },
@@ -105,7 +105,7 @@
       "date": "2026-09-19",
       "headline": "Golden Harvest Half returns Sept. 26 at Brazos River Park",
       "source": "Bodies Race Company",
-      "url": "https://runsignup.com/Race/TX/Houston/GoldenHarvestHalfMarathon5k10kHouston",
+      "url": "https://runsignup.com/Race/TX/Houston/GoldenHarvestHalfMarathon5k10kHouston?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
       "summary": "Bodies Race Company's Golden Harvest Half Marathon, 5K, and 10K are Saturday, Sept. 26 at Brazos River Park in Sugar Land. The morning includes a kids' dash, chip timing, and post-race snacks at the finish.",
       "evidence": "load date: first added to news.json on 2026-09-19 (no verifiable source publication date)"
     },
@@ -133,7 +133,7 @@
       "date": "2026-09-10",
       "headline": "HARRA Party in the Park brings together Houston runners",
       "summary": "Free community celebration took place Aug 8 at Memorial Park with refreshments, live music, club tents, and prize giveaways. The annual event marks the start of fall training season and highlights Houston's running clubs.",
-      "url": "https://runsignup.com/Race/TX/Houston/HoustonPartyinthePark",
+      "url": "https://runsignup.com/Race/TX/Houston/HoustonPartyinthePark?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
       "evidence": "load date: first added to news.json on 2026-09-10 (no verifiable source publication date)"
     },
     {
@@ -160,7 +160,7 @@
       "date": "2026-09-10",
       "headline": "Bundle and save on HARRA Warm-Up Series races",
       "summary": "Register for multiple Warm-Up Series races together before Sep 20 and save: Space City 10 Miler, UTHealth Houston Half, Houston 25K, and Coach Andy 30K (or half marathon track) at discounted bundle pricing.",
-      "url": "https://runsignup.com/Race/TX/Houston/HARRAWarmupSeries",
+      "url": "https://runsignup.com/Race/TX/Houston/HARRAWarmupSeries?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
       "evidence": "load date: first added to news.json on 2026-09-10 (no verifiable source publication date)"
     },
     {
@@ -168,8 +168,8 @@
       "date": "2026-09-21",
       "headline": "Houston 25K opens registration for Nov. 22 Warm-Up Series stop",
       "source": "HMSA / RunSignUp",
-      "url": "https://runsignup.com/Race/TX/Houston/Houston25K",
-      "summary": "The 41st annual Houston 25K (plus 10 Mile and 5K) is Sunday, Nov. 22 at Wortham Center Fish Plaza downtown. Pricing rises after Oct. 4; packet pickup is Nov. 20–21 at Fleet Feet on West Gray, with no race-day registration.",
+      "url": "https://runsignup.com/Race/TX/Houston/Houston25K?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+      "summary": "The 41st annual Houston 25K (plus 10 Mile and 5K) is Sunday, Nov. 22 at Wortham Center Fish Plaza downtown. Pricing rises after Oct. 4; packet pickup is Nov. 20\u201321 at Fleet Feet on West Gray, with no race-day registration.",
       "evidence": "load date: first added to news.json on 2026-09-21 (no verifiable source publication date)"
     },
     {
@@ -186,7 +186,7 @@
       "date": "2026-09-19",
       "headline": "41st Houston Heights Fun Run set for Oct. 10 at Marmion Park",
       "source": "Houston Heights Association",
-      "url": "https://runsignup.com/Race/TX/Houston/HoustonHeights5KRun",
+      "url": "https://runsignup.com/Race/TX/Houston/HoustonHeights5KRun?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
       "summary": "The Houston Heights Association's 41st annual Fun Run is Saturday, Oct. 10 at Marmion Park on Heights Boulevard. The 5K and 10K are USATF-certified flat courses, with a kids' 1K and 5K walk options.",
       "evidence": "load date: first added to news.json on 2026-09-19 (no verifiable source publication date)"
     },
@@ -195,7 +195,7 @@
       "source": "Houston Marathon Committee",
       "date": "2026-09-14",
       "headline": "2027 Houston Marathon Training Kick Off set for October 6",
-      "summary": "A free community Training Kick Off for the Chevron Houston Marathon, Aramco Houston Half Marathon, and We Are Houston 5K is Tuesday, October 6 from 6–8 p.m. at the Roy H. Cullen Timing Track in Memorial Park.",
+      "summary": "A free community Training Kick Off for the Chevron Houston Marathon, Aramco Houston Half Marathon, and We Are Houston 5K is Tuesday, October 6 from 6\u20138 p.m. at the Roy H. Cullen Timing Track in Memorial Park.",
       "url": "https://bosplace.org/en/events/2027-houston-marathon-training-kick-off/",
       "evidence": "load date: first added to news.json on 2026-09-14 (no verifiable source publication date)"
     },
@@ -213,7 +213,7 @@
       "date": "2026-09-19",
       "headline": "Komen Houston Race for the Cure returns Oct. 3 at Sam Houston Park",
       "source": "Susan G. Komen / RunSignUp",
-      "url": "https://runsignup.com/Race/TX/Houston/KomenHoustonRFTC",
+      "url": "https://runsignup.com/Race/TX/Houston/KomenHoustonRFTC?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
       "summary": "The 2026 Komen Houston Race for the Cure 5K is Saturday, Oct. 3 at Sam Houston Park, with a competitive 5K start at 8 a.m. after the survivor parade and opening ceremonies. Packet pickup is planned at Dick's Sporting Goods on Post Oak.",
       "evidence": "load date: first added to news.json on 2026-09-19 (no verifiable source publication date)"
     },
@@ -222,7 +222,7 @@
       "date": "2026-09-21",
       "headline": "Miles 4 Matthew 5K/10K returns to No Label Brewing on Oct. 17",
       "source": "Miles 4 Matthew / RunSignUp",
-      "url": "https://runsignup.com/Race/TX/Katy/Miles4Matthew",
+      "url": "https://runsignup.com/Race/TX/Katy/Miles4Matthew?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
       "summary": "The pediatric-cancer benefit 5K, 10K, and 1K family walk is Saturday, Oct. 17 at No Label Brewing Co. in Katy. Costumes are encouraged; prices rise after Sept. 30, with packet pickup Oct. 16 in Katy.",
       "evidence": "load date: first added to news.json on 2026-09-21 (no verifiable source publication date)"
     },
@@ -249,7 +249,7 @@
       "date": "2026-09-14",
       "headline": "Road Kill XC 2026 canceled over low registration",
       "source": "TROT / RunSignUp",
-      "url": "https://runsignup.com/Race/TX/Houston/RoadKillXCRelay",
+      "url": "https://runsignup.com/Race/TX/Houston/RoadKillXCRelay?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
       "summary": "Trail Racing Over Texas canceled the Sept. 19 Road Kill XC at Bear Creek after low registration. Registered runners are being emailed refund options, and club entry vouchers are set for automatic refunds.",
       "evidence": "load date: first added to news.json on 2026-09-14 (no verifiable source publication date)"
     },
@@ -259,7 +259,7 @@
       "date": "2026-09-10",
       "headline": "Space City 10 Miler returns October 11",
       "summary": "The HARRA Fall Series race features a certified 10-mile course plus 5K and two-person relay at UH Clear Lake. Registration is open with pricing increasing after Aug 31. Cash awards for top finishers in the 10-miler.",
-      "url": "https://runsignup.com/Race/TX/Houston/spacecity10",
+      "url": "https://runsignup.com/Race/TX/Houston/spacecity10?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
       "evidence": "load date: first added to news.json on 2026-09-10 (no verifiable source publication date)"
     },
     {

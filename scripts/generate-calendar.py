@@ -127,7 +127,7 @@ def main():
   <meta property="og:title" content="Houston Race Calendar 2026 — Upcoming Runs by Month | Run Houston">
   <meta property="og:description" content="Month-by-month Houston running calendar: 5K, 10K, half marathon, marathon, and trail races with dates, cities, and registration links.">
   <meta property="og:url" content="https://runhouston.app/calendar.html">
-  <meta property="og:image" content="https://runhouston.app/social-card.png?v=61">
+  <meta property="og:image" content="https://runhouston.app/social-card.png?v=62">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
@@ -135,7 +135,7 @@ def main():
   <meta name="twitter:description" content="Month-by-month Houston running calendar: 5K, 10K, half marathon, marathon, and trail races with dates, cities, and registration links.">
   <meta name="theme-color" content="#f2eee6">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="stylesheet" href="assets/css/styles.css?v=61">
+  <link rel="stylesheet" href="assets/css/styles.css?v=62">
   <script type="application/ld+json">
   {{
     "@context": "https://schema.org",
@@ -211,7 +211,7 @@ def main():
           <li><a href="https://harra.org/" target="_blank" rel="noopener noreferrer">HARRA</a></li>
           <li><a href="https://www.bcrr.org/" target="_blank" rel="noopener noreferrer">Bayou City Road Runners</a></li>
           <li><a href="https://www.houstonrunningcalendar.com/" target="_blank" rel="noopener noreferrer">Houston Running Calendar</a></li>
-          <li><a href="https://runsignup.com/" target="_blank" rel="noopener noreferrer">RunSignUp</a></li>
+          <li><a href="https://runsignup.com/?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH" target="_blank" rel="noopener noreferrer">RunSignUp</a></li>
         </ul>
       </div>
       <div>
@@ -227,7 +227,7 @@ def main():
       </div>
     </div>
   </footer>
-  <script src="assets/js/common.js?v=61"></script>
+  <script src="assets/js/common.js?v=62"></script>
 </body>
 </html>
 """
