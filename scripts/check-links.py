@@ -343,6 +343,12 @@ def check_link(
     """
     stats["checked"] += 1
     
+    # HARD REQUIREMENT: All RunSignUp URLs must have aflt_token
+    # No exceptions or waivers allowed
+    if 'runsignup.com' in url.lower() and 'aflt_token=' not in url:
+        stats["hard_fail"] += 1
+        return ("hard_fail", "RunSignUp URL missing required aflt_token parameter")
+    
     # Check if this link is reviewed (per-card exceptions only)
     if url in reviewed and card_id in reviewed[url]:
         review = reviewed[url][card_id]

@@ -104,8 +104,8 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/GoldenHarvestHalfMarathon5k10kHouston?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Houston/GoldenHarvestHalfMarathon5k10kHouston",
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/GoldenHarvestHalfMarathon5k10kHouston?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Houston/GoldenHarvestHalfMarathon5k10kHouston?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "A fall-season road race in Houston offering kids' dash, 1-mile, 5K, 10K, and half marathon with chip timing, custom finisher medals, and free photos. Produced by Bodies Race Company; venue to be confirmed closer to race day."
   },
   {
@@ -127,8 +127,8 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Cypress/CypressTX39?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Cypress/CypressTX39",
+    "official_website_url": "https://runsignup.com/Race/TX/Cypress/CypressTX39?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Cypress/CypressTX39?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "Part of the US Road Running Medal Madness series at John Paul Landing Park in Cypress, offering 5K, 10K, and half marathon on a flat out-and-back course. No on-site registration; chip-timed with themed finisher medals and a 3.5-hour course limit."
   },
   {
@@ -445,8 +445,8 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Rosharon/ZealRumRunnersRaceSeries?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Rosharon/ZealRumRunnersRaceSeries",
+    "official_website_url": "https://runsignup.com/Race/TX/Rosharon/ZealRumRunnersRaceSeries?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Rosharon/ZealRumRunnersRaceSeries?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "A high-energy community timed race series at Meridiana Pkwy in Rosharon, featuring 10K (8:00 AM), 5K (8:15 AM), and a Kids 1K, presented by Zeal Premium Rum. All 21+ finishers receive a complimentary rum cocktail at the post-race celebration."
   },
   {
@@ -555,7 +555,7 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/HoustonHeights5KRun?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/HoustonHeights5KRun?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": null,
     "description": "The 40th annual Houston Heights Fun Run starting and finishing at Marmion Park on Heights Boulevard. Features a 10K, 5K, 5K Walk, and Kids Fun Run (~1K). A beloved Heights neighborhood tradition since 1984."
   },
@@ -790,8 +790,8 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Katy/KatyTX41?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Katy/KatyTX41",
+    "official_website_url": "https://runsignup.com/Race/TX/Katy/KatyTX41?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Katy/KatyTX41?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "Part of the US Road Running Haunted series at Mason Creek Hike & Bike Trail in Katy, offering 5K, 10K, and half marathon on a flat out-and-back course with themed finisher medals. No on-site registration; chip-timed with a 3.5-hour course limit."
   },
   {
@@ -1158,8 +1158,8 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/DayoftheDeadHalfMarathonHouston?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Houston/DayoftheDeadHalfMarathonHouston",
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/DayoftheDeadHalfMarathonHouston?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Houston/DayoftheDeadHalfMarathonHouston?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "A Día de los Muertos–themed half marathon hosted by Bigfoot Running Company at Brazos River Park in Sugar Land, offering kids' dash, 1-mile, 5K, quarter marathon, and half marathon. Features a pre-race costume contest, DJ, Bigfoot trophies for top finishers, and a festive post-race celebration at the Race Rally Tent."
   },
   {
@@ -1181,7 +1181,7 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/DeerPark/DeerParkTX42?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "official_website_url": "https://runsignup.com/Race/TX/DeerPark/DeerParkTX42?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://www.findtherun.com/race/117557/haunted-5k-10k-131m-at-deer-park-tx-42",
     "description": "Part of the US Road Running Haunted series at Dow Park in Deer Park, offering 5K, 10K, and half marathon on a flat out-and-back course with themed finisher medals. No on-site registration; chip-timed with a 3.5-hour course limit."
   },
@@ -1224,7 +1224,7 @@
     "surface": "road",
     "kid_run": false,
     "official_website_url": "https://www.houstoncorporate5k.com/",
-    "source_url": "https://runsignup.com/Race/TX/Houston/HoustonCorporateRun5k",
+    "source_url": "https://runsignup.com/Race/TX/Houston/HoustonCorporateRun5k?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "The 10th annual Chord Energy Houston Corporate 5K runs Oct. 20-22 at Memorial Park for company teams and individuals, with proceeds benefiting Memorial Park Conservancy. After-work 5K around the Lieberman Trail plus a post-race gathering at the Eastern Glades."
   },
   {
@@ -1265,7 +1265,7 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/RaceForSpace?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/RaceForSpace?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://www.houstonrunningcalendar.com/2026/",
     "description": "A 5K at Space Center Houston near the Johnson Space Center campus."
   },
@@ -1414,7 +1414,7 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Cypress/CypressTX43?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "official_website_url": "https://runsignup.com/Race/TX/Cypress/CypressTX43?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://www.findtherun.com/race/111930/haunted-5k-10k-131m-at-cypress-tx-43",
     "description": "Part of the US Road Running Haunted series at John Paul Landing Park in Cypress, offering 5K, 10K, and half marathon on a flat out-and-back course with themed finisher medals. No on-site registration; chip-timed with a 3.5-hour course limit."
   },
@@ -1521,7 +1521,7 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/WestUniversityPlace/WestUHalloweenDash?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "official_website_url": "https://runsignup.com/Race/TX/WestUniversityPlace/WestUHalloweenDash?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://www.houstonrunningcalendar.com/2026/",
     "description": "A Halloween-themed 5K and Kids Fun Run in West University Place, a tradition in one of Houston's most walkable inner-loop neighborhoods."
   },
@@ -1733,7 +1733,7 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/DeerPark/DeerParkTX44?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "official_website_url": "https://runsignup.com/Race/TX/DeerPark/DeerParkTX44?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://www.findtherun.com/race/117582/medal-madness-5k-10k-131m-at-deer-park-tx-44",
     "description": "Part of the US Road Running Medal Madness series at Dow Park in Deer Park, offering 5K, 10K, and half marathon on a flat out-and-back course. No on-site registration; chip-timed with themed finisher medals and a 3.5-hour course limit."
   },
@@ -1756,8 +1756,8 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Katy/KatyTX44?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Katy/KatyTX44",
+    "official_website_url": "https://runsignup.com/Race/TX/Katy/KatyTX44?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Katy/KatyTX44?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "Part of the US Road Running Medal Madness series at Mason Creek Hike & Bike Trail in Katy, offering 5K, 10K, and half marathon on a flat out-and-back course. No on-site registration; chip-timed with themed Halloween-season finisher medals and a 3.5-hour course limit."
   },
   {
@@ -1779,8 +1779,8 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/MonsterMashHouston?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Houston/MonsterMashHouston",
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/MonsterMashHouston?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Houston/MonsterMashHouston?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "Race 7 of 9 in Houston Running Co.'s Houston Holiday Series, held Halloween morning at Karbach Brewing Co. and featuring a 5K, 10K, and kids & family 1K in full costume. One of Houston's most beloved Halloween events with costume judging, post-race live music, beer at Karbach Brewing, and the complete Monster Mash after-party."
   },
   {
@@ -1801,8 +1801,8 @@
     ],
     "surface": "trail",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Baytown/Xracersrideatthepark?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Baytown/Xracersrideatthepark",
+    "official_website_url": "https://runsignup.com/Race/TX/Baytown/Xracersrideatthepark?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Baytown/Xracersrideatthepark?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "A Día de los Muertos–themed hybrid event at the beautiful Baytown Nature Center, combining a 5K trail run and a 10K bike-and-run distance. Participants enjoy the park's wildlife, trails, and waterfront scenery; all finishers receive a shirt and medal at the finish line."
   },
   {
@@ -1885,7 +1885,7 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/SugarLand/RaceForPermanentSanctuary?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "official_website_url": "https://runsignup.com/Race/TX/SugarLand/RaceForPermanentSanctuary?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://www.houstonrunningcalendar.com/2026/",
     "description": "A 5K in Sugar Land supporting permanent animal sanctuary efforts."
   },
@@ -2120,8 +2120,8 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/WHATABURGER5K10KHoustonTX?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Houston/WHATABURGER5K10KHoustonTX",
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/WHATABURGER5K10KHoustonTX?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Houston/WHATABURGER5K10KHoustonTX?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "Celebrating 75 years of Whataburger, this 2nd annual race brings burger lovers together for a flat and fast USATF-certified 5K and 10K on Park Row Drive at the Addicks Park & Ride in the Energy Corridor. Limited to 2,000 participants; entry includes officially licensed Whataburger race swag, post-race food truck sampling, and a visit from Whataguy."
   },
   {
@@ -2401,8 +2401,8 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/SugarLand/TurkeyShuffleHouston?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/SugarLand/TurkeyShuffleHouston",
+    "official_website_url": "https://runsignup.com/Race/TX/SugarLand/TurkeyShuffleHouston?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/SugarLand/TurkeyShuffleHouston?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "A Thanksgiving-themed run hosted by Bigfoot Running Company at Oyster Creek Park in Sugar Land, featuring a kids' dash, 1-mile, 5K, and 10K with chip timing, custom finisher medals, and DJ Sasquatch. Participants are encouraged to wear their best Turkey Day costumes for the pre-race costume contest."
   },
   {
@@ -2424,8 +2424,8 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Cypress/CypressTX46?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Cypress/CypressTX46",
+    "official_website_url": "https://runsignup.com/Race/TX/Cypress/CypressTX46?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Cypress/CypressTX46?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "Part of the US Road Running Gobbler series at John Paul Landing Park in Cypress, offering 5K, 10K, and half marathon on a flat out-and-back course. No on-site registration; chip-timed with themed finisher medals and a 3.5-hour course limit."
   },
   {
@@ -2447,8 +2447,8 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Katy/CypressTX46?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Katy/CypressTX46",
+    "official_website_url": "https://runsignup.com/Race/TX/Katy/CypressTX46?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Katy/CypressTX46?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "Part of the US Road Running Gobbler series at Mason Creek Hike & Bike Trail in Katy, offering 5K, 10K, and half marathon on a flat out-and-back course. No on-site registration; chip-timed with Thanksgiving-themed finisher medals and a 3.5-hour course limit."
   },
   {
@@ -2469,8 +2469,8 @@
     "surface": "trail",
     "kid_run": false,
     "description": "5K, 10K, half marathon, or 1-mile run through Buffalo Bayou Park on November 14.",
-    "official_website_url": "https://runsignup.com/Race/Events/TX/Houston/RunForMentalHealth5K10KHOUSTON1114",
-    "source_url": "https://runsignup.com/Race/Events/TX/Houston/RunForMentalHealth5K10KHOUSTON1114",
+    "official_website_url": "https://runsignup.com/Race/Events/TX/Houston/RunForMentalHealth5K10KHOUSTON1114?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/Events/TX/Houston/RunForMentalHealth5K10KHOUSTON1114?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "tz": "America/Chicago",
     "address": "Buffalo Bayou Trails",
     "zip": "77079"
@@ -2493,8 +2493,8 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/HealthyKidsRunningSeriesCypressTX",
-    "source_url": "https://runsignup.com/Race/TX/Houston/HealthyKidsRunningSeriesCypressTX",
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/HealthyKidsRunningSeriesCypressTX?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Houston/HealthyKidsRunningSeriesCypressTX?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "Five-week running series for kids ages 2-14 starting November 15. Age-appropriate distances from 50-yard dash to one mile."
   },
   {
@@ -2577,8 +2577,8 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/PNAMHKRunWalk",
-    "source_url": "https://runsignup.com/Race/TX/Houston/PNAMHKRunWalk",
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/PNAMHKRunWalk?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Houston/PNAMHKRunWalk?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "5K run or walk at Tom Bass Park III on November 21. Hosted by the Philippine Nurses Association of Metro Houston."
   },
   {
@@ -2620,7 +2620,7 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/HMSAClassical25K",
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/HMSAClassical25K?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": null,
     "description": "The 40th annual Houston 25K (15.5 miles), 10 Mile, and 5K at Sam Houston Park in downtown Houston. The third race in the Houston Marathon Warm-up Series, a key training benchmark for January marathon runners. Hosted by Houston Masters Sports Association."
   },
@@ -2795,8 +2795,8 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Pearland/PearlandTurkeyTrot",
-    "source_url": "https://runsignup.com/Race/TX/Pearland/PearlandTurkeyTrot",
+    "official_website_url": "https://runsignup.com/Race/TX/Pearland/PearlandTurkeyTrot?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Pearland/PearlandTurkeyTrot?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "Thanksgiving morning run in Pearland with 4-mile, 6-mile, and 1-mile options."
   },
   {
@@ -2819,7 +2819,7 @@
     "surface": "road",
     "kid_run": false,
     "official_website_url": "https://theturkeytrot.org",
-    "source_url": "https://runsignup.com/Race/TX/Houston/CoolxDad5kRun",
+    "source_url": "https://runsignup.com/Race/TX/Houston/CoolxDad5kRun?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "Downtown Houston's Thanksgiving morning tradition at Saint Arnold Brewing Company, featuring a chip-timed 5K and 10K course with views of the Downtown skyline plus an inclusive 1-mile walk. Multiple wave starts run from 7:00–9:30 AM; proceeds benefit CoolxDad, a Houston nonprofit uplifting fathers and families."
   },
   {
@@ -2994,8 +2994,8 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Cypress/CypressTX48?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Cypress/CypressTX48",
+    "official_website_url": "https://runsignup.com/Race/TX/Cypress/CypressTX48?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Cypress/CypressTX48?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "Part of the US Road Running Gobbler series at John Paul Landing Park in Cypress, offering 5K, 10K, and half marathon on a flat out-and-back course the Saturday after Thanksgiving. No on-site registration; chip-timed with themed finisher medals and a 3.5-hour course limit."
   },
   {
@@ -3019,8 +3019,8 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/TurkeyTrailsHouston?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Houston/TurkeyTrailsHouston",
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/TurkeyTrailsHouston?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Houston/TurkeyTrailsHouston?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "A Thanksgiving-weekend celebration hosted by Bodies Race Company at Brazos River Park in Sugar Land, offering kids' dash, 1-mile, 5K, 10K, and half marathon with chip timing and custom finisher medals. The Saturday-after-Thanksgiving timing is perfect for runners who prefer celebrating a bit later in the holiday weekend."
   },
   {
@@ -3066,7 +3066,7 @@
     "surface": "trail",
     "kid_run": true,
     "official_website_url": "https://runsignup.com/Race/TX/Needville/BrazosBend1002?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/BB100",
+    "source_url": "https://runsignup.com/BB100?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "Texas's largest trail race, held the first Saturday of December at Brazos Bend State Park in Needville. Events span 100 miles (a Western States 100 lottery qualifier for sub-32-hour finishers), 100K, marathon, and half marathon on a flat, wildlife-rich multi-loop course through bayou flats shared with American alligators. A free kids race runs at noon Saturday; the finish line closes Sunday at 2 PM."
   },
   {
@@ -3109,7 +3109,7 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/HeartoftheHouse5K?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/HeartoftheHouse5K?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": null,
     "description": "A running race in Houston, TX."
   },
@@ -3157,7 +3157,7 @@
     "surface": "road",
     "kid_run": true,
     "official_website_url": "https://runsignup.com/Race/TX/SugarLand/RunHoustonSugarLand?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/SugarLand/RunHoustonSugarLand",
+    "source_url": "https://runsignup.com/Race/TX/SugarLand/RunHoustonSugarLand?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "The holiday finale of the Run Houston! Race Series by Houston Methodist, starting and finishing at Constellation Field (Sugar Land Space Cowboys stadium). The festive 5K, 10K, and Kids 1K loop paved roads in the stadium district; proceeds benefit Fort Bend Habitat for Humanity."
   },
   {
@@ -3200,8 +3200,8 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/ArtCarIPA5KSocialRunWalkatFlyingSaucerDecemBEER",
-    "source_url": "https://runsignup.com/Race/TX/Houston/ArtCarIPA5KSocialRunWalkatFlyingSaucerDecemBEER",
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/ArtCarIPA5KSocialRunWalkatFlyingSaucerDecemBEER?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Houston/ArtCarIPA5KSocialRunWalkatFlyingSaucerDecemBEER?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "Three-mile run or walk through downtown Houston starting at Flying Saucer on Main Street."
   },
   {
@@ -3221,7 +3221,7 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Friendswood/FlapjackFunRun?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "official_website_url": "https://runsignup.com/Race/TX/Friendswood/FlapjackFunRun?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://www.houstonrunningcalendar.com/2026/",
     "description": "A 5K fun run in Friendswood, a south-Houston suburb between Pearland and League City."
   },
@@ -3242,7 +3242,7 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/NewCaney/TavolaReindeerRun?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "official_website_url": "https://runsignup.com/Race/TX/NewCaney/TavolaReindeerRun?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://www.houstonrunningcalendar.com/2026/",
     "description": "A holiday-themed reindeer run in the Tavola community in New Caney, northeast of Houston."
   },
@@ -3266,8 +3266,8 @@
     ],
     "surface": "trail",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Cypress/GingerbreadLaneHouston?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Cypress/GingerbreadLaneHouston",
+    "official_website_url": "https://runsignup.com/Race/TX/Cypress/GingerbreadLaneHouston?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Cypress/GingerbreadLaneHouston?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "A festive holiday trail race at John Paul Landing Park along the Cypress greenbelt, featuring a 5K, 10K, untimed 1 Mile, and Kids Dash (50-meter sprint). DJ Sasquatch provides holiday music on course; post-race includes gingerbread cookies and milk. Costume contest with prizes. Part of the multi-city Bigfoot Running Company Gingerbread Lane series."
   },
   {
@@ -3287,7 +3287,7 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Conroe/Conroe10Miler?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "official_website_url": "https://runsignup.com/Race/TX/Conroe/Conroe10Miler?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://www.houstonrunningcalendar.com/2026/",
     "description": "A 10-mile road race in Conroe, north of Houston. Part of the Texas Bridge Series."
   },
@@ -3331,8 +3331,8 @@
     ],
     "surface": "trail",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Kingwood/KingwoodChristmasCookieDash?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Kingwood/KingwoodChristmasCookieDash",
+    "official_website_url": "https://runsignup.com/Race/TX/Kingwood/KingwoodChristmasCookieDash?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Kingwood/KingwoodChristmasCookieDash?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "The 3rd Annual Kingwood Christmas Cookie Dash on the trails of Kingwood Country Club, co-located with the Kingwood Christmas Market. Offers 5K, 10K, a unique 10K relay (4 legs of 1.5 miles each — runners decorate a cookie before tagging off), and Kids Dash. Benefiting Lily's Toy Box, Toys for Tots, and Angel Tree Houston. NOTE: The 2026 edition is already sold out."
   },
   {
@@ -3374,8 +3374,8 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Conroe/WinterRunThroughthePreserve",
-    "source_url": "https://runsignup.com/Race/TX/Conroe/WinterRunThroughthePreserve",
+    "official_website_url": "https://runsignup.com/Race/TX/Conroe/WinterRunThroughthePreserve?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Conroe/WinterRunThroughthePreserve?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "5K run or walk and kids fun run through the preserve on December 12. Located in Conroe."
   },
   {
@@ -3398,8 +3398,8 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/RunForBreastCancer5K10KHOUSTON1212",
-    "source_url": "https://runsignup.com/Race/TX/Houston/RunForBreastCancer5K10KHOUSTON1212",
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/RunForBreastCancer5K10KHOUSTON1212?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Houston/RunForBreastCancer5K10KHOUSTON1212?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "5K, 10K, half marathon, or 1-mile run at Eleanor Tinsley Park on December 12. Starts at 7:30 AM."
   },
   {
@@ -3420,8 +3420,8 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/JingleBellRunHouston",
-    "source_url": "https://runsignup.com/Race/TX/Houston/JingleBellRunHouston",
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/JingleBellRunHouston?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Houston/JingleBellRunHouston?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "5K run or walk at T.C. Jester Park on December 12 to benefit the Arthritis Foundation. Timed and untimed options, plus kids run."
   },
   {
@@ -3441,7 +3441,7 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/SugarLand/CoachAndy30K?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "official_website_url": "https://runsignup.com/Race/TX/SugarLand/CoachAndy30K?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://www.houstonrunningcalendar.com/2026/",
     "description": "A 30K (18.6 miles) and 10K in Sugar Land, a key final long-run training race for Houston Marathon runners in January. Named for legendary Houston running coach Andy Stewart."
   },
@@ -3462,7 +3462,7 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/NassauBay/ReindeerFunRun?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "official_website_url": "https://runsignup.com/Race/TX/NassauBay/ReindeerFunRun?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://www.houstonrunningcalendar.com/2026/",
     "description": "A reindeer-themed holiday 5K in Nassau Bay, near the Clear Lake/NASA area."
   },
@@ -3485,8 +3485,8 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/Houstons12KofChristmas?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Houston/Houstons12KofChristmas",
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/Houstons12KofChristmas?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Houston/Houstons12KofChristmas?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "Houston Running Co.'s 14th-annual holiday tradition at Sam Houston Park in downtown, offering a 12K and companion 6K through the city's historic core. The festive post-race party includes hot cocoa, Santa Claus appearances, Christmas carolers, and Karbach beer; also serves as the final race in the Houston Holiday Series."
   },
   {
@@ -3506,7 +3506,7 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/SugarLand/CandyCaneCourse?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "official_website_url": "https://runsignup.com/Race/TX/SugarLand/CandyCaneCourse?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://www.houstonrunningcalendar.com/2026/",
     "description": "A candy-cane-themed holiday 5K in Sugar Land."
   },
@@ -3554,8 +3554,8 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/AMerryChristmasRun5K10KHOUSTON1226",
-    "source_url": "https://runsignup.com/Race/TX/Houston/AMerryChristmasRun5K10KHOUSTON1226",
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/AMerryChristmasRun5K10KHOUSTON1226?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Houston/AMerryChristmasRun5K10KHOUSTON1226?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "5K, 10K, half marathon, or 1-mile run on December 26 at Eleanor Tinsley Park. Small-group waves starting at 7:30 AM."
   },
   {
@@ -3578,8 +3578,8 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/NewYearSRun5K10KHOUSTON1226",
-    "source_url": "https://runsignup.com/Race/TX/Houston/NewYearSRun5K10KHOUSTON1226",
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/NewYearSRun5K10KHOUSTON1226?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/Houston/NewYearSRun5K10KHOUSTON1226?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "5K, 10K, half marathon, or 1-mile run on December 26 at Eleanor Tinsley Park. Small-group waves with optional timing."
   },
   {
@@ -3602,7 +3602,7 @@
     "surface": "road",
     "kid_run": false,
     "official_website_url": "https://www.houstonresolutionrun.com/",
-    "source_url": "https://runsignup.com/Race/Events/TX/Houston/ResolutionRunHouston",
+    "source_url": "https://runsignup.com/Race/Events/TX/Houston/ResolutionRunHouston?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "A year-end race at Fish Plaza in downtown Houston with flexible start times. Offers a Nearly Half Marathon, 10K, 5K, and Family 1 Mile. A popular way to close out the running year and set New Year's resolutions."
   },
   {
@@ -3647,8 +3647,8 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/SugarLand/2022LoneStarStampedeTexasExesHoustonChapter?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/SugarLand/2022LoneStarStampedeTexasExesHoustonChapter",
+    "official_website_url": "https://runsignup.com/Race/TX/SugarLand/2022LoneStarStampedeTexasExesHoustonChapter?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "source_url": "https://runsignup.com/Race/TX/SugarLand/2022LoneStarStampedeTexasExesHoustonChapter?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "The 48th annual Texas Exes Houston Chapter scholarship run at Brazos River Park, featuring a 5K, 10K, kids dash, and — new for 2027 — a first-ever half marathon. A Houston tradition for UT Austin alumni and supporters, with proceeds funding college scholarships for Houston-area students."
   },
   {
@@ -3854,7 +3854,7 @@
     "surface": "trail",
     "kid_run": true,
     "official_website_url": "https://surfsidebeachmarathon.com/",
-    "source_url": "https://runsignup.com/Race/TX/Freeport/SurfsideBeachMarathon",
+    "source_url": "https://runsignup.com/Race/TX/Freeport/SurfsideBeachMarathon?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "Annual beach marathon run entirely on the sand between Surfside Beach and San Luis Pass, one of the only fully-on-sand marathons in the world. Start and finish at Stahlman Park Pavilion, with marathon and half marathon at 7:30 a.m., Kids K at 8:00 a.m., and 10K/5K at 8:15 a.m. An early-bird walker start is offered at 5:30 a.m."
   },
   {
@@ -4364,7 +4364,7 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/RunAgainstBreastCancer5K10KHOUSTON?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/RunAgainstBreastCancer5K10KHOUSTON?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://www.raceentry.com/run-against-breast-cancer-bayou-city-houston/race-information",
     "description": "An annual charity race at Eleanor Tinsley Park along Buffalo Bayou supporting breast cancer awareness, offering 5K, 10K, and half marathon distances organized by The Best Races. The 2026 edition was held on September 23; the 2027 date is estimated to fall in the same week. Waves are capped at 15 participants each and sell out quickly."
   },
@@ -4388,7 +4388,7 @@
     "surface": "road",
     "kid_run": true,
     "official_website_url": "https://txruns.com/runhoustonuh",
-    "source_url": "https://runsignup.com/Race/TX/Houston/RunHoustonUH",
+    "source_url": "https://runsignup.com/Race/TX/Houston/RunHoustonUH?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "Part of the annual Run Houston Race Series presented by Houston Methodist, this event runs through the University of Houston campus starting and finishing at TDECU Stadium. The race has been held on the third or fourth Saturday of September annually since at least 2015, with the 2025 edition on Sept 20 and 2026 on Sept 19; the 2027 date is TBA but expected to fall on or around the fourth Saturday of September. Participants receive finisher medals, chip timing, and a choice of event apparel."
   },
   {
@@ -4411,7 +4411,7 @@
     "surface": "road",
     "kid_run": false,
     "official_website_url": null,
-    "source_url": "https://runsignup.com/Race/TX/Houston/OktoberfestRun5K10KHOUSTON",
+    "source_url": "https://runsignup.com/Race/TX/Houston/OktoberfestRun5K10KHOUSTON?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "An annual fall-themed road race held at Eleanor Tinsley Park along Buffalo Bayou in midtown Houston, organized by The Best Races and offering 5K, 10K, and half marathon distances. The 2026 edition was held on September 26; the 2027 edition is expected on or around September 25 (last Saturday of September). Participants receive course details by email the week before the event."
   },
   {
@@ -4433,7 +4433,7 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Cypress/CypressTX39?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
+    "official_website_url": "https://runsignup.com/Race/TX/Cypress/CypressTX39?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": null,
     "description": "A recurring Medal Madness road race held at John Paul Landing Park in Cypress, TX offering 5K, 10K, and half marathon distances on an out-and-back loop course. The 2026 edition was held on September 26 (last Saturday of September); the 2027 edition is expected on or around September 25, the last Saturday of September 2027. All runners must register online through RunSignup; no on-site registration is available."
   },
@@ -4497,7 +4497,7 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Cypress/Cypress10Miler",
+    "official_website_url": "https://runsignup.com/Race/TX/Cypress/Cypress10Miler?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": null,
     "description": "The Cypress 10 Miler opens the annual Texas 10 Series on the first Sunday of October at Houston Premium Outlets along US-290. The entirely flat course offers 10-mile, 5-mile, and 5K options, including a Run the Pink 5K supporting breast cancer awareness."
   },

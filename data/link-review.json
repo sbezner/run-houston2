@@ -512,7 +512,7 @@
       "date": "2026-09-24"
     }
   },
-  "https://runsignup.com/Race/TX/Cypress/CypressTX46": {
+  "https://runsignup.com/Race/TX/Cypress/CypressTX46?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH": {
     "gobbler-5k-10k-half-cypress-46-2026": {
       "note": "RunSignUp page for Gobbler race at Cypress, TX. Race name includes '(46)' suffix not in page text. Verified correct race by location and date.",
       "reviewer": "RunHouston",
@@ -533,42 +533,42 @@
       "date": "2026-09-24"
     }
   },
-  "https://runsignup.com/Race/TX/Houston/RunAgainstBreastCancer5K10KHOUSTON": {
+  "https://runsignup.com/Race/TX/Houston/RunAgainstBreastCancer5K10KHOUSTON?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH": {
     "run-against-breast-cancer-bayou-city-2027": {
       "note": "RunSignUp page for Run Against Breast Cancer Houston. 'Bayou City' variant not in page text. Verified Houston location.",
       "reviewer": "RunHouston",
       "date": "2026-09-24"
     }
   },
-  "https://runsignup.com/Race/TX/Houston/HeartoftheHouse5K": {
+  "https://runsignup.com/Race/TX/Houston/HeartoftheHouse5K?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH": {
     "run-for-the-house-ronald-mcdonald-house-charities-greater-houston-5k-and-kids-1-miler-2026": {
       "note": "RunSignUp page shows 'Heart of the House 5K' (short name). Full name 'Run for the House - Ronald McDonald House Charities Greater Houston' is descriptive variant.",
       "reviewer": "RunHouston",
       "date": "2026-09-24"
     }
   },
-  "https://runsignup.com/Race/TX/Houston/RunHoustonUH": {
+  "https://runsignup.com/Race/TX/Houston/RunHoustonUH?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH": {
     "run-houston-uh-2027": {
       "note": "RunSignUp page for Run Houston! at UH. Full official name includes '& 10K presented by Houston Methodist' not in short page title.",
       "reviewer": "RunHouston",
       "date": "2026-09-24"
     }
   },
-  "https://runsignup.com/Race/TX/TexasCity/TexasCityHalfMarathon": {
+  "https://runsignup.com/Race/TX/TexasCity/TexasCityHalfMarathon?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH": {
     "texas-city-half-marathon-2026": {
       "note": "RunSignUp page for Texas City Half Marathon. Full name includes '10K, 5K & Family Mile' distances not in short page title.",
       "reviewer": "RunHouston",
       "date": "2026-09-24"
     }
   },
-  "https://runsignup.com/Race/TX/Kingwood/TheRadRace": {
+  "https://runsignup.com/Race/TX/Kingwood/TheRadRace?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH": {
     "the-rad-race-oct-2026": {
       "note": "RunSignUp page for The Rad Race. Race name includes '& Rad Fest (Fall Edition)' variant not in page text.",
       "reviewer": "RunHouston",
       "date": "2026-09-24"
     }
   },
-  "https://runsignup.com/Race/TX/Rosharon/ZealRumRunnersRaceSeries": {
+  "https://runsignup.com/Race/TX/Rosharon/ZealRumRunnersRaceSeries?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH": {
     "zeal-rumrunners-race-series-2026": {
       "note": "RunSignUp page for Zeal RumRunners Race Series. Page shows series info, race name matches.",
       "reviewer": "RunHouston",
@@ -582,21 +582,21 @@
       "date": "2026-09-24"
     }
   },
-  "https://runsignup.com/Race/TX/Rosharon/ZealRumRunnersRaceSeries?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH": {
+  "https://runsignup.com/Race/TX/Rosharon/ZealRumRunnersRaceSeries?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH": {
     "zeal-rumrunners-race-series-2026": {
       "note": "RunSignUp page for Zeal RumRunners Race Series (with affiliate token). Page shows series info, race name matches.",
       "reviewer": "RunHouston",
       "date": "2026-09-24"
     }
   },
-  "https://runsignup.com/Race/TX/Cypress/CypressTX46?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH": {
+  "https://runsignup.com/Race/TX/Cypress/CypressTX46?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH": {
     "gobbler-5k-10k-half-cypress-46-2026": {
       "note": "RunSignUp page for Gobbler race at Cypress, TX (with affiliate token). Race name includes '(46)' suffix not in page text.",
       "reviewer": "RunHouston",
       "date": "2026-09-24"
     }
   },
-  "https://runsignup.com/Race/TX/Houston/HeartoftheHouse5K?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH": {
+  "https://runsignup.com/Race/TX/Houston/HeartoftheHouse5K?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH": {
     "run-for-the-house-ronald-mcdonald-house-charities-greater-houston-5k-and-kids-1-miler-2026": {
       "note": "RunSignUp page shows 'Heart of the House 5K' (short name, with affiliate token). Full name is descriptive variant.",
       "reviewer": "RunHouston",
@@ -610,7 +610,7 @@
       "date": "2026-09-24"
     }
   },
-  "https://runsignup.com/Race/TX/Houston/RunAgainstBreastCancer5K10KHOUSTON?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH": {
+  "https://runsignup.com/Race/TX/Houston/RunAgainstBreastCancer5K10KHOUSTON?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH": {
     "run-against-breast-cancer-bayou-city-2027": {
       "note": "RunSignUp page for Run Against Breast Cancer Houston (with affiliate token). 'Bayou City' variant not in page text.",
       "reviewer": "RunHouston",

@@ -40,6 +40,14 @@ def make_id(name, date):
     return slug
 
 
+def add_affiliate_token(url):
+    """Ensure aflt_token is present in URL."""
+    if not url or "aflt_token=" in url:
+        return url
+    separator = "&" if "?" in url else "?"
+    return url + separator + f"aflt_token={AFFILIATE_TOKEN}"
+
+
 def fetch(start_date, end_date):
     """Fetch all Houston-area races from RunSignUp for the window."""
     all_races = []
@@ -84,8 +92,8 @@ def fetch(start_date, end_date):
                 "distance": ["5K"],  # default; merge-races.py won't overwrite existing
                 "surface": "road",
                 "kid_run": False,
-                "official_website_url": race.get("url", ""),
-                "source_url": race.get("url", ""),
+                "official_website_url": add_affiliate_token(race.get("url", "")),
+                "source_url": add_affiliate_token(race.get("url", "")),
                 "description": "A running race in "
                 + (addr.get("city") or "Houston")
                 + ", TX.",
