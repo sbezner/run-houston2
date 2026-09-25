@@ -93,7 +93,7 @@
     "id": "cypress-running-club",
     "club_name": "Cypress Running Club",
     "location": "Cypress",
-    "website_url": "https://cypressrunningclub.com/",
+    "website_url": "https://cypressrunning.com/",
     "description": "Promotes running as part of a healthy lifestyle with various activities and events.",
     "latitude": 29.9723,
     "longitude": -95.7335
@@ -381,7 +381,7 @@
     "id": "sigma-running-club",
     "club_name": "Sigma Running Club",
     "location": "East Downtown, Houston",
-    "website_url": "https://sagicorsigmarun.com/",
+    "website_url": null,
     "description": "A social club that meets for a weekly run and beer, typically in the East End/Second Ward.",
     "latitude": 29.7547,
     "longitude": -95.3414

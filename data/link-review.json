@@ -1,0 +1,116 @@
+{
+  "_comment": "Reviewed exceptions for links that cannot be automatically checked.",
+  "_format": "{ 'url': { 'card-id': { 'note': '...', 'reviewer': '...', 'date': 'YYYY-MM-DD' } } }",
+  
+  "https://barchouston.com/": {
+    "bay-area-running-club": {
+      "note": "Site has intermittent TLS errors but loads correctly. Manually verified - official BARC site with club info, history, and Space City 10 Miler details.",
+      "reviewer": "claude-agent",
+      "date": "2026-09-25"
+    }
+  },
+  
+  "https://blackmenrun.com/blackmenrun-chapters/houston/": {
+    "black-men-run-houston": {
+      "note": "Site returns 403 due to bot protection (Cloudflare) but is the official chapter page. Manually verified via web search - contains group info and Facebook group link.",
+      "reviewer": "claude-agent",
+      "date": "2026-09-25"
+    }
+  },
+  
+  "https://www.instagram.com/titanstrack_titanup/": {
+    "atascocita-titans-track-club": {
+      "note": "Instagram page - rate limited by platform. No official website found. Club is active on social media. Manually verified existence.",
+      "reviewer": "claude-agent",
+      "date": "2026-09-25"
+    }
+  },
+  
+  "https://www.facebook.com/CCRunningClub/": {
+    "citycentre-running-club": {
+      "note": "Facebook page - may get rate limited. FFP affiliate club meets at CityCentre. No dedicated website. Manually verified page exists.",
+      "reviewer": "claude-agent",
+      "date": "2026-09-25"
+    }
+  },
+  
+  "https://www.facebook.com/ffp.WERC/": {
+    "west-end-running-club": {
+      "note": "Facebook page - may get rate limited. FFP affiliate club on Washington Ave. No dedicated website. Manually verified page exists.",
+      "reviewer": "claude-agent",
+      "date": "2026-09-25"
+    }
+  },
+  
+  "https://www.facebook.com/WestchaseRunClub/": {
+    "westchase-district-run-club": {
+      "note": "Facebook page - may get rate limited. FFP affiliate club in Westchase. No dedicated website. Manually verified page exists.",
+      "reviewer": "claude-agent",
+      "date": "2026-09-25"
+    }
+  },
+  
+  "https://www.northwestflyerstc.com/": {
+    "northwest-flyers-track-club": {
+      "note": "Site has TLS certificate verification issues but is legitimate. Track club in Tomball/NW Houston. Manually verified site loads and contains club information.",
+      "reviewer": "claude-agent",
+      "date": "2026-09-25"
+    }
+  },
+  
+  "https://www.runnershighclub.com/": {
+    "runners-high-club": {
+      "note": "Site has TLS certificate verification issues but is legitimate. Marathon/half training program at Memorial Park since 1997. Manually verified site loads and contains club information.",
+      "reviewer": "claude-agent",
+      "date": "2026-09-25"
+    }
+  },
+  
+  "https://www.goosesacre.com/running-club": {
+    "the-gooses-acre-run-club": {
+      "note": "Site returns 403 due to bot protection but is the official pub/club page. The Goose's Acre is a pub in The Woodlands that hosts the running club. Manually verified via web search.",
+      "reviewer": "claude-agent",
+      "date": "2026-09-25"
+    }
+  },
+  
+  "https://hollerbeer.com/": {
+    "holler-haulers-run-club": {
+      "note": "Brewery website - club section may not use exact club name in every heading. Holler Brewing hosts the Holler Haulers run club. Wednesday night runs. Manually verified.",
+      "reviewer": "claude-agent",
+      "date": "2026-09-25"
+    }
+  },
+  
+  "https://www.njordrunning.com/": {
+    "njord-running": {
+      "note": "Combined run crew + apparel brand. Site uses Njörd (with special char) and focuses on apparel, but About and Weekly Run Crew pages confirm it's a Houston run crew. Manually verified.",
+      "reviewer": "claude-agent",
+      "date": "2026-09-25"
+    }
+  },
+  
+  "https://txtrackstars.com/": {
+    "texas-trackstars": {
+      "note": "Track club site - full team name may vary. Long-established track club (30+ years). Manually verified site loads and contains club info.",
+      "reviewer": "claude-agent",
+      "date": "2026-09-25"
+    }
+  },
+  
+  "https://tornadosrunningclub.com/": {
+    "tornados-running-club": {
+      "note": "Club site - normalized name match fails due to common word stripping. Site clearly identifies as Tornados Running Club across multiple pages. 501(c)(3) nonprofit founded 1988. Manually verified.",
+      "reviewer": "claude-agent",
+      "date": "2026-09-25"
+    }
+  },
+  
+  "https://thewoodlandsrunningclub.org/": {
+    "the-woodlands-running-club": {
+      "note": "Site can be slow to respond but loads correctly. Very active large nonprofit club in The Woodlands with track workouts, long runs, trail running, and Juniors program. Manually verified.",
+      "reviewer": "claude-agent",
+      "date": "2026-09-25"
+    }
+  }
+}
