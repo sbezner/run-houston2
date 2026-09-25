@@ -14,6 +14,9 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
+  schedule:
+    # Daily link check at 2 AM UTC (9 PM Central)
+    - cron: '0 2 * * *'
 
 jobs:
   check:
@@ -43,3 +46,29 @@ jobs:
 
       - name: Data contract
         run: python3 scripts/validate-data.py
+  
+  link-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for changed file detection
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip3 install requests beautifulsoup4 lxml
+
+      - name: Run link checks
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            # On PRs: check only changed cards (faster)
+            python3 scripts/check-links.py --only-changed
+          else
+            # On push to master or scheduled: full check
+            python3 scripts/check-links.py
+          fi
