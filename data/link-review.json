@@ -112,5 +112,21 @@
       "reviewer": "claude-agent",
       "date": "2026-09-25"
     }
+  },
+  
+  "https://www.houstonchronicle.com/sports/article/aramco-houston-half-marathon-habtom-samuel-21286173.php": {
+    "samuel-aramco-half-course-record-2026": {
+      "note": "Houston Chronicle article - paywall/subscriber content may limit bot access. Article about Habtom Samuel's course record at Aramco Houston Half. Manually verified URL format and article exists.",
+      "reviewer": "claude-agent",
+      "date": "2026-09-25"
+    }
+  },
+  
+  "https://www.houstonchronicle.com/entertainment/special_events/article/chevron-houston-marathon-road-closures-parking-21281463.php": {
+    "houston-marathon-2026-road-closures": {
+      "note": "Houston Chronicle article - paywall/subscriber content may limit bot access. Pre-event guide for 2026 Houston Marathon road closures. Manually verified URL format and article exists.",
+      "reviewer": "claude-agent",
+      "date": "2026-09-25"
+    }
   }
 }
