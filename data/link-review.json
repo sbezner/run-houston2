@@ -345,5 +345,37 @@
       "reviewer": "RunHouston",
       "date": "2026-09-24"
     }
+  },
+  
+  "https://alex5k.com/": {
+    "alexs-5k-2026": {
+      "note": "Dedicated race site; homepage names Alex's 5K, shows November 7, 2026 race date, registration info. News announcement links to race homepage.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://harra.org/": {
+    "harra-membership-2026-2027": {
+      "note": "Organization homepage; prominently features 2026-2027 membership year opening, join/renew links, member benefits. News announcement links to membership homepage.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://powerinmotion.org/": {
+    "power-in-motion-fall-2026": {
+      "note": "Training program homepage (https, club uses http); names Power In Motion fall 2026 program. News announcement links to program homepage.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://www.houstonhalf.com/": {
+    "uthealth-houston-half-2026": {
+      "note": "Dedicated race site; homepage names UTHealth Houston Half Marathon & 10K, shows October 25, 2026 date, registration. News announcement links to race homepage.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
   }
 }
