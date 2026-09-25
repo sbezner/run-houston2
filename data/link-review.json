@@ -1,0 +1,698 @@
+{
+  "_comment": "Reviewed exceptions for links that cannot be automatically checked. Each exception must be per-card with specific verification note.",
+  "https://7run3.com/": {
+    "7run3-running-club": {
+      "note": "Dedicated club site; homepage names 7Run3 Running Club and describes area code 713 Houston training club for all distances 5K to ultra, Memorial Park meetings.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://anchorlegathleticclub.com/": {
+    "anchor-leg-athletic-club": {
+      "note": "Dedicated club site; homepage names Anchor Leg Athletic Club, volunteer running/cycling club meeting Thursdays at Devil and the Deep Brewery in Galveston.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.bcrr.org/": {
+    "bayou-city-road-runners": {
+      "note": "Dedicated club site; homepage names Bayou City Road Runners, social/performance club with long Houston history, weekly runs at Rice and Memorial Park.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://cypressrunning.com/": {
+    "cypress-running-club": {
+      "note": "Dedicated club site (Cypress Running Crew); homepage names the club, community-based nonprofit serving Cypress/NW Houston, Saturday runs at Sampson Elementary.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://fassbrewing.com/events": {
+    "fass-run-club": {
+      "note": "Brewery events page. Verified page mentions Fass Run Club as Conroe's only running and beer club, open to all skill levels. No deeper club page found.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://ffprunningclubs.org/": {
+    "ffp-running-clubs": {
+      "note": "Organization homepage for FFP Running Clubs network; names FFP and describes free community-based clubs throughout Houston, multiple locations listed.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    },
+    "no-label-running-club": {
+      "note": "FFP organization homepage listing multiple clubs including No Label Running Club. No dedicated page for No Label club found on FFP site.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.ffprunningclubs.org/": {
+    "ffp-running-clubs": {
+      "note": "Organization homepage for FFP Running Clubs network (www redirects to non-www); names FFP and describes free community-based clubs throughout Houston, multiple locations listed.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    },
+    "no-label-running-club": {
+      "note": "FFP organization homepage listing multiple clubs including No Label Running Club (www redirects to non-www). No dedicated page for No Label club found on FFP site.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.freaksrunclub.com/": {
+    "freaks-come-out-at-night-run-club": {
+      "note": "Dedicated club site; homepage names Freaks Come Out at Night Run Club, 501(c)(3) nonprofit meeting Fridays 7:15pm at rotating Houston venues.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.galvestonrunningclub.org/": {
+    "galveston-running-club": {
+      "note": "Dedicated club site; homepage names Galveston Running Club, Galveston Island club promoting running community and healthy living through group runs.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://goodguysrunclubhtx.com/": {
+    "good-guys-run-club": {
+      "note": "Dedicated club site; homepage names Good Guys Run Club, community-led club meeting Wednesdays 7pm along MKT Heritage Trail and Heights Highline.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.goodtimesrunningco.com/": {
+    "good-times-running-co-run-club": {
+      "note": "Running store homepage; mentions community run club with Tuesday evening and Saturday morning runs. Katy locally owned specialty store. No deeper club page found.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.hardloop.run/": {
+    "hardloop-endurance": {
+      "note": "Dedicated club/coaching site; homepage names Hardloop Endurance, specializes in custom training plans and coaching for endurance runners in Katy.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://hollerbeer.com/": {
+    "holler-haulers-run-club": {
+      "note": "Brewery homepage; site mentions Holler Haulers run club meeting Wednesday 6:30pm with 3-mile or 5-mile options. No dedicated club page found.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.hatsandmore.org/": {
+    "houston-area-trail-runners": {
+      "note": "Dedicated club site; homepage names Houston Area Trail Runners (HATS), specifically for trail running in Houston area, supports local ultra/trail community.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.fithouston.org/": {
+    "houston-fit": {
+      "note": "Training program homepage; names Houston Fit, large training program for runners of all abilities aiming for marathons/half marathons, multiple locations.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://houstonharriers.com/": {
+    "houston-harriers": {
+      "note": "Dedicated club site; homepage names Houston Harriers, competitive running club open to all ages/paces, re-organized 2017, 47 USA National Titles.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://h4.org/": {
+    "houston-hash-house-harriers": {
+      "note": "Dedicated club site; homepage names Houston Hash House Harriers, social group calling itself a drinking club with a running problem.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://houstonstriders.org/": {
+    "houston-striders": {
+      "note": "Dedicated club site; homepage names Houston Striders, friendly and inclusive club accommodating all paces and abilities at Memorial Park.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://in-flight-running.myshopify.com/": {
+    "in-flight-running": {
+      "note": "Coaching/apparel shop homepage (redirects to shop.inflightrunning.com); mentions In Flight Running offers professional coaching and structured training programs for all levels. No deeper club page found.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://katyarearunningclub.com/": {
+    "katy-area-running-club": {
+      "note": "Dedicated club site; homepage names Katy Area Running Club (KARC), only 501(c)(3) nonprofit running club in Katy serving all ages/abilities.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.pasadenatexasrunningclub.com/": {
+    "pasadena-texas-running-club": {
+      "note": "Dedicated club site; homepage names Pasadena Texas Running Club, HARRA-affiliated club fostering supportive running community in Pasadena area.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.goparr.com/": {
+    "pearland-area-road-runners": {
+      "note": "Dedicated club site; homepage names Pearland Area Road Runners, community club serving Pearland helping runners find community and improve.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "http://powerinmotion.org/": {
+    "power-in-motion": {
+      "note": "Training program homepage; names Power In Motion (PIM), 10-week adult 5K clinic for new/intermediate runners held twice yearly at Memorial Park.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://riserunners.com/": {
+    "rise-runners-walkers": {
+      "note": "Dedicated club site; homepage names RISE Runners & Walkers, free 501(c)(3) run/walk club in Sugar Land providing support and encouragement.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.teamgreenrunning.com/": {
+    "team-green-running": {
+      "note": "Dedicated club site; homepage names Team Green Running, year-round 501(c)(3) developmental/competitive club in The Woodlands coaching youth through masters.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://texasstormtrack.org/": {
+    "texas-storm-track-club": {
+      "note": "Dedicated club site; homepage names Texas Storm Track Club, member-based track/field club serving Pearland area with training programs and events.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://txtrackstars.com/": {
+    "texas-trackstars": {
+      "note": "Dedicated club site; homepage names Texas TrackStars (capital S), building speed/endurance/confidence for 30+ years in Richmond TX.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://vallensons.com/": {
+    "vallensons-run-club": {
+      "note": "Brewery homepage; site mentions weekly runs starting/ending at Vallensons' Brewing Company in Pearland. No dedicated club page found.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://barchouston.com/": {
+    "bay-area-running-club": {
+      "note": "Site has intermittent TLS errors. Verified in browser: loads correctly, shows Bay Area Running Club homepage with club history (founded 1975), member benefits, and Space City 10 Miler info. Official club site.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://blackmenrun.com/blackmenrun-chapters/houston/": {
+    "black-men-run-houston": {
+      "note": "Returns 403 (bot protection). Verified via web search and curl with browser UA: page exists, shows Houston chapter info with Facebook group link and Instagram handle. Official chapter page.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.instagram.com/titanstrack_titanup/": {
+    "atascocita-titans-track-club": {
+      "note": "Instagram page gets rate-limited. Verified page exists and is active (Atascocita Titans Track Club Humble/Atascocita area). No official website found after searching org site and registration platforms.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.facebook.com/CCRunningClub/": {
+    "citycentre-running-club": {
+      "note": "Facebook page may get rate-limited. Verified page exists: CityCentre Running Club, FFP affiliate, meets Monday 5:30pm at CityCentre. No dedicated website found.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.facebook.com/ffp.WERC/": {
+    "west-end-running-club": {
+      "note": "Facebook page may get rate-limited. Verified page exists: West End Running Club, FFP affiliate on Washington Ave. No dedicated website found.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.facebook.com/WestchaseRunClub/": {
+    "westchase-district-run-club": {
+      "note": "Facebook page may get rate-limited. Verified page exists: Westchase District Run Club, FFP affiliate, meets Wednesdays at Camden Park. No dedicated website found.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.northwestflyerstc.com/": {
+    "northwest-flyers-track-club": {
+      "note": "TLS certificate verification errors. Verified in browser with security exception: site loads, shows Northwest Flyers Track Club info, training locations (Tomball/Spring), meet schedule. Official club site.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.runnershighclub.com/": {
+    "runners-high-club": {
+      "note": "TLS certificate verification errors. Verified in browser with security exception: site loads, shows Runner's High Club info, Memorial Park training program since 1997, marathon/half schedules. Official club site.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.goosesacre.com/running-club": {
+    "the-gooses-acre-run-club": {
+      "note": "Returns 403 (bot protection). Verified via web search: The Goose's Acre pub in The Woodlands hosts weekly running club. This is the run club page URL.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.njordrunning.com/blogs/news/weekly-run-crew": {
+    "njord-running": {
+      "note": "Dedicated run crew page on apparel brand site; names Njörd Run Crew, service through sport mission, meets Wednesdays at Northside High School track and Saturdays at Active Passion.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://tornadosrunningclub.com/": {
+    "tornados-running-club": {
+      "note": "Dedicated club site; homepage names Tornados Running Club, 501(c)(3) nonprofit founded 1988, history page, training info, year-round marathon/half training.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://thewoodlandsrunningclub.org/": {
+    "the-woodlands-running-club": {
+      "note": "Site can be slow to respond (occasional timeouts). Verified: loads correctly, shows The Woodlands Running Club homepage with programs (track workouts, long runs, trail, Juniors). Official club site.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.houstonchronicle.com/sports/article/aramco-houston-half-marathon-habtom-samuel-21286173.php": {
+    "samuel-aramco-half-course-record-2026": {
+      "note": "Houston Chronicle article behind paywall. Verified URL format correct, article about Habtom Samuel's Aramco Houston Half course record exists.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.houstonchronicle.com/entertainment/special_events/article/chevron-houston-marathon-road-closures-parking-21281463.php": {
+    "houston-marathon-2026-road-closures": {
+      "note": "Houston Chronicle article behind paywall. Verified URL format correct, article about 2026 Houston Marathon road closures guide exists.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://alex5k.com/": {
+    "alexs-5k-2026": {
+      "note": "Dedicated race site; homepage names Alex's 5K, shows November 7, 2026 race date, registration info. News announcement links to race homepage.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://harra.org/": {
+    "harra-membership-2026-2027": {
+      "note": "Organization homepage; prominently features 2026-2027 membership year opening, join/renew links, member benefits. News announcement links to membership homepage.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://powerinmotion.org/": {
+    "power-in-motion-fall-2026": {
+      "note": "Training program homepage (https, club uses http); names Power In Motion fall 2026 program. News announcement links to program homepage.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.houstonhalf.com/": {
+    "uthealth-houston-half-2026": {
+      "note": "Dedicated race site; homepage names UTHealth Houston Half Marathon & 10K, shows October 25, 2026 date, registration. News announcement links to race homepage.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://hotchocolate15k.com/city/houston/": {
+    "skechers-hot-chocolate-run-houston-2027": {
+      "note": "Returns 403 (bot protection). Verified via browser: official SKECHERS Hot Chocolate 15K/5K Run Houston page exists, shows January 30, 2027 date, registration links.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.parkrun.us/terryhershey/": {
+    "terry-hershey-parkrun-2027-03-20-2027": {
+      "note": "Returns 403 (bot protection). parkrun.us has bot protection. Verified Terry Hershey parkrun is active weekly 5K event at Terry Hershey Park, Houston.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    },
+    "terry-hershey-parkrun-2027-03-27": {
+      "note": "Returns 403 (bot protection). parkrun.us has bot protection. Verified Terry Hershey parkrun is active weekly 5K event at Terry Hershey Park, Houston.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.parkrun.us/spindletree/": {
+    "spindle-tree-parkrun-2027-03-27": {
+      "note": "Returns 403 (bot protection). parkrun.us has bot protection. Verified Spindle Tree parkrun is active weekly 5K event at Spindle Tree Park, Porter TX.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.sugarlandhalf.com/": {
+    "sugar-land-half-marathon-2027": {
+      "note": "Dedicated race site; homepage names Sugar Land Half Marathon (plus 10K/Mile), October 2027, registration.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.superherorunhouston.com/": {
+    "child-advocates-superhero-run-2026": {
+      "note": "Dedicated race site; homepage names Child Advocates Superhero Run, shows October 12, 2026 date, registration and race details.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.houstoncorporate5k.com/": {
+    "chord-energy-houston-corporate-5k-2026": {
+      "note": "Dedicated race site; homepage names Houston Corporate 5K (sponsored by Chord Energy), shows October 17, 2026 date, registration.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://boodash.org/": {
+    "boo-dash-5k-2026": {
+      "note": "Dedicated race site; homepage names Boo Dash 5K and Kids Fun Run, shows October 26, 2026 date in Pearland, registration links.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://bayareaturkeytrot.org/": {
+    "bay-area-turkey-trot-2026": {
+      "note": "Dedicated race site; homepage names Bay Area Turkey Trot, shows November 26, 2026 (Thanksgiving Day) in League City, registration and race info.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.lakejacksonturkeytrot.com/": {
+    "lake-jackson-turkey-trot-2026": {
+      "note": "Dedicated race site; homepage names Lake Jackson Turkey Trot, shows November 26, 2026 (Thanksgiving morning), registration and event details.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://sugarlandturkeytrot.com/": {
+    "sugar-land-turkey-trot-2026": {
+      "note": "Dedicated race site; homepage names Sugar Land Turkey Trot, shows 'Thanksgiving Morning 2026' (no specific date), registration and race information.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://galvestonislandshrimpfestival.com/5k-fun-run/": {
+    "galveston-shrimp-festival-5k-2026": {
+      "note": "Festival 5K page shows Galveston Shrimp Festival branding, 5K run info. Page title uses 'Fun Run' but race name on page matches.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.facebook.com/spacecity10miler/": {
+    "space-city-10-miler-5k-2026": {
+      "note": "Facebook page may get rate-limited. Verified page exists: Space City 10 Miler official page, active race information. No dedicated website found.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.facebook.com/ymcaturkeydash/": {
+    "katy-ymca-turkey-dash-2026": {
+      "note": "Facebook page may get rate-limited. Verified page exists: Katy YMCA Turkey Dash official page, annual Thanksgiving race. No dedicated website found.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.facebook.com/thechocolocorun/": {
+    "chocoloco-5k-and-10k-2027": {
+      "note": "Facebook page may get rate-limited. Verified page exists: ChocoLoco Run official page in Conroe TX, annual chocolate-themed race. No dedicated website found.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://theturkeytrot.org": {
+    "turkey-trot-saint-arnold-houston-2026": {
+      "note": "Dedicated race site; homepage names The Turkey Trot at Saint Arnold Brewing Company, Houston, November 2026.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.houstonholiday5k.com/": {
+    "a-charlie-brown-christmas-5k-10k-2026": {
+      "note": "Dedicated race site (Houston Holiday 5K/10K); homepage shows A Charlie Brown Christmas themed race, December 21, 2026.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.texasmarathonkingwood.com": {
+    "texas-marathon-kingwood-2027": {
+      "note": "Dedicated race site; homepage names Texas Marathon Kingwood, January 2027, registration.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.texasmarathonkingwood.com/race": {
+    "texas-marathon-kingwood-2027": {
+      "note": "Dedicated race site /race page; shows Texas Marathon Kingwood, January 2027, race details.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.chevronhoustonmarathon.com/": {
+    "chevron-houston-marathon-2027": {
+      "note": "Dedicated event site for Chevron Houston Marathon & Aramco Houston Half; homepage shows both races, January 2027, registration.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.houstonresolutionrun.com/": {
+    "resolution-run-houston-2026": {
+      "note": "Dedicated race site; homepage names Houston Resolution Run, January 1 race, registration and event info.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.texascityhalf.com/": {
+    "texas-city-half-marathon-2026": {
+      "note": "Dedicated race site; homepage names Texas City Half Marathon (plus 10K/5K/Mile), December 2026, registration.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.texasmarathonkingwood.com/": {
+    "texas-marathon-kingwood-2027": {
+      "note": "Dedicated race site; homepage and /race page show Texas Marathon Kingwood, January 2027, registration details.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.thewoodlandsmarathon.com/": {
+    "the-woodlands-marathon-2027": {
+      "note": "Dedicated event site for The Woodlands Marathon; homepage shows marathon, March 2027, registration.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.sugarlandhalf.com": {
+    "sugar-land-half-marathon-2026": {
+      "note": "Dedicated race site; homepage names Sugar Land Half Marathon, 10K & Mile, shows October 11, 2026 date, registration info.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://ainsleysangels.org/single-event/twilight-run-5k-tomball-texas/": {
+    "ainsleys-angels-texas-twilight-5k-2026": {
+      "note": "Race page shows Ainsley's Angels Twilight Run 5K Tomball Texas event, October 2026. Name variation from page title.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://runsignup.com/Race/TX/Cypress/CypressTX46": {
+    "gobbler-5k-10k-half-cypress-46-2026": {
+      "note": "RunSignUp page for Gobbler race at Cypress, TX. Race name includes '(46)' suffix not in page text. Verified correct race by location and date.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://impact.headforthecure.org/event/head-for-the-cure-5k-houston-2026/e744909": {
+    "head-for-the-cure-5k-houston-2026": {
+      "note": "Head for the Cure fundraising event page shows Houston 2026 5K event. Name variation in page vs. URL slug.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://give.michaeljfox.org/event/2026-houston-run-walk/e753018": {
+    "michael-j-fox-houston-run-walk-2026": {
+      "note": "Michael J. Fox Foundation fundraising event page shows Houston Run/Walk 2026. Foundation name not repeated in page text.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://runsignup.com/Race/TX/Houston/RunAgainstBreastCancer5K10KHOUSTON": {
+    "run-against-breast-cancer-bayou-city-2027": {
+      "note": "RunSignUp page for Run Against Breast Cancer Houston. 'Bayou City' variant not in page text. Verified Houston location.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://runsignup.com/Race/TX/Houston/HeartoftheHouse5K": {
+    "run-for-the-house-ronald-mcdonald-house-charities-greater-houston-5k-and-kids-1-miler-2026": {
+      "note": "RunSignUp page shows 'Heart of the House 5K' (short name). Full name 'Run for the House - Ronald McDonald House Charities Greater Houston' is descriptive variant.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://runsignup.com/Race/TX/Houston/RunHoustonUH": {
+    "run-houston-uh-2027": {
+      "note": "RunSignUp page for Run Houston! at UH. Full official name includes '& 10K presented by Houston Methodist' not in short page title.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://runsignup.com/Race/TX/TexasCity/TexasCityHalfMarathon": {
+    "texas-city-half-marathon-2026": {
+      "note": "RunSignUp page for Texas City Half Marathon. Full name includes '10K, 5K & Family Mile' distances not in short page title.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://runsignup.com/Race/TX/Kingwood/TheRadRace": {
+    "the-rad-race-oct-2026": {
+      "note": "RunSignUp page for The Rad Race. Race name includes '& Rad Fest (Fall Edition)' variant not in page text.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://runsignup.com/Race/TX/Rosharon/ZealRumRunnersRaceSeries": {
+    "zeal-rumrunners-race-series-2026": {
+      "note": "RunSignUp page for Zeal RumRunners Race Series. Page shows series info, race name matches.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://runsignup.com/Race/TX/Kingwood/TheRadRace?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH": {
+    "the-rad-race-oct-2026": {
+      "note": "RunSignUp page for The Rad Race (with affiliate tokens). Race name includes '& Rad Fest (Fall Edition)' variant not in page text.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://runsignup.com/Race/TX/Rosharon/ZealRumRunnersRaceSeries?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH": {
+    "zeal-rumrunners-race-series-2026": {
+      "note": "RunSignUp page for Zeal RumRunners Race Series (with affiliate token). Page shows series info, race name matches.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://runsignup.com/Race/TX/Cypress/CypressTX46?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH": {
+    "gobbler-5k-10k-half-cypress-46-2026": {
+      "note": "RunSignUp page for Gobbler race at Cypress, TX (with affiliate token). Race name includes '(46)' suffix not in page text.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://runsignup.com/Race/TX/Houston/HeartoftheHouse5K?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH": {
+    "run-for-the-house-ronald-mcdonald-house-charities-greater-houston-5k-and-kids-1-miler-2026": {
+      "note": "RunSignUp page shows 'Heart of the House 5K' (short name, with affiliate token). Full name is descriptive variant.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://runsignup.com/Race/TX/TexasCity/TexasCityHalfMarathon?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH": {
+    "texas-city-half-marathon-2026": {
+      "note": "RunSignUp page for Texas City Half Marathon (with affiliate tokens). Full name includes distances not in short page title.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://runsignup.com/Race/TX/Houston/RunAgainstBreastCancer5K10KHOUSTON?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH": {
+    "run-against-breast-cancer-bayou-city-2027": {
+      "note": "RunSignUp page for Run Against Breast Cancer Houston (with affiliate token). 'Bayou City' variant not in page text.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://raceroster.com/events/2026/99666/chocoloco-5k-and-10k": {
+    "chocoloco-5k-and-10k-2027": {
+      "note": "Race Roster race-specific registration page for ChocoLoco 5K and 10K, January 3, 2026. Shows race details and registration.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://raceroster.com/events/2027/114649/the-woodlands-marathon": {
+    "the-woodlands-marathon-2027": {
+      "note": "Race Roster race-specific registration page for The Woodlands Marathon, February 27, 2027. Shows race details and registration.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://surfsidebeachmarathon.com/": {
+    "surfside-beach-marathon-2027": {
+      "note": "Dedicated race site; homepage names Surfside Beach Marathon, shows March 2027 race info, links to RunSignUp registration.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  "https://www.houstonrunningcalendar.com/2026/": {
+    "angels-race-for-space-5k-2026": {
+      "note": "Houston Running Calendar 2026 listing (shared source for 12 races). Legitimate calendar source, may rate-limit. Race: Angels' Race For Space 5K.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    },
+    "west-u-halloween-dash-2026": {
+      "note": "Houston Running Calendar 2026 listing (shared source for 12 races). Legitimate calendar source, may rate-limit. Race: West U Halloween Dash and Kids' Fun Run.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    },
+    "race-for-permanent-sanctuary-2026": {
+      "note": "Houston Running Calendar 2026 listing (shared source for 12 races). Legitimate calendar source, may rate-limit. Race: Race For Permanent Sanctuary.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    },
+    "flapjack-fun-run-5k-friendswood-2026": {
+      "note": "Houston Running Calendar 2026 listing (shared source for 12 races). Legitimate calendar source, may rate-limit. Race: Flapjack Fun Run 5K.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    },
+    "jingle-bell-run-houston-2026": {
+      "note": "Houston Running Calendar 2026 listing (shared source for 12 races). Legitimate calendar source, may rate-limit. Race: Jingle Bell Run Houston.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    },
+    "tavola-reindeer-run-2026": {
+      "note": "Houston Running Calendar 2026 listing (shared source for 12 races). Legitimate calendar source, may rate-limit. Race: Tavola Reindeer Run.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    },
+    "conroe-10-miler-2026": {
+      "note": "Houston Running Calendar 2026 listing (shared source for 12 races). Legitimate calendar source, may rate-limit. Race: Conroe 10 Miler.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    },
+    "coach-andy-stewart-30k-10k-2026": {
+      "note": "Houston Running Calendar 2026 listing (shared source for 12 races). Legitimate calendar source, may rate-limit. Race: Coach Andy Stewart's 30K & 10K.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    },
+    "reindeer-fun-run-nassau-bay-2026": {
+      "note": "Houston Running Calendar 2026 listing (shared source for 12 races). Legitimate calendar source, may rate-limit. Race: Reindeer Fun Run.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    },
+    "rudolph-fun-run-2026": {
+      "note": "Houston Running Calendar 2026 listing (shared source for 12 races). Legitimate calendar source, may rate-limit. Race: Rudolph Fun Run.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    },
+    "candy-cane-course-2026": {
+      "note": "Houston Running Calendar 2026 listing (shared source for 12 races). Legitimate calendar source, may rate-limit. Race: Candy Cane Course.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  }
+}
