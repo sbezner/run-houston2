@@ -343,11 +343,15 @@ def check_link(
     """
     stats["checked"] += 1
     
-    # HARD REQUIREMENT: All RunSignUp URLs must have aflt_token
+    # HARD REQUIREMENT: All RunSignUp URLs must have the exact affiliate token
     # No exceptions or waivers allowed
-    if 'runsignup.com' in url.lower() and 'aflt_token=' not in url:
-        stats["hard_fail"] += 1
-        return ("hard_fail", "RunSignUp URL missing required aflt_token parameter")
+    parsed = urllib.parse.urlparse(url)
+    hostname = parsed.netloc.lower()
+    if hostname.endswith('runsignup.com') or hostname == 'runsignup.com':
+        required_token = 'aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH'
+        if required_token not in url:
+            stats["hard_fail"] += 1
+            return ("hard_fail", f"RunSignUp URL missing required {required_token}")
     
     # Check if this link is reviewed (per-card exceptions only)
     if url in reviewed and card_id in reviewed[url]:
@@ -650,6 +654,70 @@ def print_report():
     print(f"  Hard failures:         {stats['hard_fail']}")
     print(f"  Flagged (generic):     {stats['flagged_generic']}")
     print(f"  Flagged (context):     {stats['flagged_context']}")
+
+
+def static_scan_runsignup_tokens():
+    """
+    Static scan: check that all runsignup.com URLs in tracked files have the affiliate token.
+    This runs in all modes (including --only-changed) to catch hardcoded links.
+    Hard fails if any RunSignUp URLs lack the exact required token.
+    """
+    required_token = 'aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH'
+    violations = []
+    
+    # Scan HTML files (root level)
+    for html_file in REPO.glob("*.html"):
+        content = html_file.read_text(encoding='utf-8', errors='ignore')
+        # Find all RunSignUp URLs
+        urls = re.findall(r'https?://[^\s"\'<>]+runsignup\.com[^\s"\'<>]*', content)
+        for url in urls:
+            parsed = urllib.parse.urlparse(url)
+            hostname = parsed.netloc.lower()
+            if (hostname.endswith('runsignup.com') or hostname == 'runsignup.com'):
+                if required_token not in url:
+                    violations.append(f"{html_file.name}: {url}")
+    
+    # Scan JS files (assets/js/)
+    js_dir = REPO / "assets" / "js"
+    if js_dir.exists():
+        for js_file in js_dir.glob("*.js"):
+            content = js_file.read_text(encoding='utf-8', errors='ignore')
+            urls = re.findall(r'https?://[^\s"\'<>]+runsignup\.com[^\s"\'<>]*', content)
+            for url in urls:
+                parsed = urllib.parse.urlparse(url)
+                hostname = parsed.netloc.lower()
+                if (hostname.endswith('runsignup.com') or hostname == 'runsignup.com'):
+                    if required_token not in url:
+                        violations.append(f"assets/js/{js_file.name}: {url}")
+    
+    # Scan data/*.json files (exclude link-review.json)
+    data_dir = REPO / "data"
+    if data_dir.exists():
+        for json_file in data_dir.glob("*.json"):
+            if json_file.name == "link-review.json":
+                continue
+            content = json_file.read_text(encoding='utf-8', errors='ignore')
+            urls = re.findall(r'https?://[^\s"\'<>]+runsignup\.com[^\s"\'<>]*', content)
+            for url in urls:
+                parsed = urllib.parse.urlparse(url)
+                hostname = parsed.netloc.lower()
+                if (hostname.endswith('runsignup.com') or hostname == 'runsignup.com'):
+                    if required_token not in url:
+                        violations.append(f"data/{json_file.name}: {url}")
+    
+    if violations:
+        print("\n" + "=" * 70)
+        print("STATIC SCAN FAILURE: RunSignUp URLs without affiliate token")
+        print("=" * 70)
+        for v in violations:
+            print(f"  {v}")
+        print(f"\nRequired: {required_token}")
+        print("=" * 70)
+        stats["hard_fail"] += len(violations)
+        return False
+    
+    return True
+
     
     if failures:
         print(f"\n{len(failures)} FAILURE(S):\n")
@@ -700,6 +768,13 @@ def main():
     card_types = [args.type] if args.type else None
     
     try:
+        # Static scan: check all tracked files for RunSignUp URLs without token
+        # This runs in all modes (including --only-changed) to enforce hardcoded links
+        print("Running static scan for RunSignUp affiliate tokens...")
+        static_scan_passed = static_scan_runsignup_tokens()
+        if static_scan_passed:
+            print("✓ Static scan passed\n")
+        
         check_all_links(card_types, args.only_changed)
         print_report()
         
