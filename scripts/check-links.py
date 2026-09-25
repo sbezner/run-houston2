@@ -176,6 +176,19 @@ def fetch_url(url: str) -> Tuple[int, str, str, str]:
                 stream=True
             )
             
+            # Handle 429 with retry
+            if response.status_code == 429:
+                retry_after = response.headers.get("Retry-After")
+                if attempt < MAX_RETRIES:
+                    wait_time = int(retry_after) if retry_after and retry_after.isdigit() else (RETRY_DELAY * (attempt + 1))
+                    wait_time = min(wait_time, 30)  # Cap at 30s
+                    time.sleep(wait_time)
+                    continue
+                else:
+                    # Persistent 429 after retries
+                    error = "HTTP 429 (rate limited, persistent after retries)"
+                    break
+            
             # Read content with size limit
             content = b""
             for chunk in response.iter_content(chunk_size=8192):
@@ -237,7 +250,7 @@ def load_reviewed_exceptions() -> Dict[str, Dict]:
 def get_changed_cards(base_branch: str = "master") -> Dict[str, Set[str]]:
     """
     Get IDs of cards that were added or changed vs base branch.
-    Returns dict of {card_type: set(card_ids)}.
+    Returns dict of {card_type: set(card_ids)}, or None to check all.
     """
     import subprocess
     
@@ -249,6 +262,17 @@ def get_changed_cards(base_branch: str = "master") -> Dict[str, Set[str]]:
     }
     
     try:
+        # Check if check-links.py itself changed - if so, check all links
+        script_check = subprocess.run(
+            ["git", "diff", "--name-only", f"{base_branch}...HEAD", "scripts/check-links.py"],
+            capture_output=True,
+            text=True,
+            cwd=REPO
+        )
+        if script_check.returncode == 0 and script_check.stdout.strip():
+            print("Note: check-links.py changed, running full check")
+            return None
+        
         # Get list of changed JSON files
         result = subprocess.run(
             ["git", "diff", "--name-only", f"{base_branch}...HEAD", "data/"],

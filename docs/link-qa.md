@@ -59,11 +59,24 @@ If a link genuinely can't be checked automatically (JavaScript-only page, bot pr
 
 **Keep the reviewed list small.** Only use it for pages you've personally verified by hand.
 
+## Which fields are checked
+
+The check validates these URL fields across all data files:
+
+- **Clubs** (`data/clubs.json`): `official_website_url`, `facebook_url`, `instagram_url`, `strava_url`, `meetup_url`
+- **Races** (`data/races-upcoming.json`): `official_website_url`, `source_url`
+- **News** (`data/news.json`): `article_url`
+- **Race Reports** (`data/race_reports.json`): `link`
+
+### Why source_url is checked
+
+`source_url` in races is not just internal provenance — it's rendered on the site as a fallback registration link when `official_website_url` is null (see `scripts/generate-calendar.py` lines 87-90). Because it's user-facing, it must meet the same quality standards as `official_website_url`.
+
 ## CI and deployment
 
 The `link-qa` job runs:
 
-- On every pull request (full check)
+- On every pull request (`--only-changed` mode: checks only modified cards, unless the script itself changed)
 - On every push to `master` (full check)
 - Nightly at 2 AM UTC (full check)
 
