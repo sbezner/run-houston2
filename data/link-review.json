@@ -406,5 +406,109 @@
       "reviewer": "RunHouston",
       "date": "2026-09-24"
     }
+  },
+  
+  "https://www.sugarlandhalf.com/": {
+    "sugar-land-half-marathon-2026": {
+      "note": "Dedicated race site; homepage names Sugar Land Half Marathon, 10K & Mile, shows October 11, 2026 date, registration info.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://www.superherorunhouston.com/": {
+    "child-advocates-superhero-run-2026": {
+      "note": "Dedicated race site; homepage names Child Advocates Superhero Run, shows October 12, 2026 date, registration and race details.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://www.houstoncorporate5k.com/": {
+    "chord-energy-houston-corporate-5k-2026": {
+      "note": "Dedicated race site; homepage names Houston Corporate 5K (sponsored by Chord Energy), shows October 17, 2026 date, registration.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://boodash.org/": {
+    "boo-dash-5k-2026": {
+      "note": "Dedicated race site; homepage names Boo Dash 5K and Kids Fun Run, shows October 26, 2026 date in Pearland, registration links.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://bayareaturkeytrot.org/": {
+    "bay-area-turkey-trot-2026": {
+      "note": "Dedicated race site; homepage names Bay Area Turkey Trot, shows November 28, 2026 date in League City, registration and race info.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://www.lakejacksonturkeytrot.com/": {
+    "lake-jackson-turkey-trot-2026": {
+      "note": "Dedicated race site; homepage names Lake Jackson Turkey Trot, shows November 28, 2026 date, registration and event details.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://sugarlandturkeytrot.com/": {
+    "sugar-land-turkey-trot-2026": {
+      "note": "Dedicated race site; homepage names Sugar Land Turkey Trot, shows November 28, 2026 date, registration and race information.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://galvestonislandshrimpfestival.com/5k-fun-run/": {
+    "galveston-shrimp-festival-5k-2026": {
+      "note": "Festival 5K page shows Galveston Shrimp Festival branding, 5K run info. Page title uses 'Fun Run' but race name on page matches.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://www.facebook.com/spacecity10miler/": {
+    "space-city-10-miler-5k-2026": {
+      "note": "Facebook page may get rate-limited. Verified page exists: Space City 10 Miler official page, active race information. No dedicated website found.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://www.facebook.com/ymcaturkeydash/": {
+    "katy-ymca-turkey-dash-2026": {
+      "note": "Facebook page may get rate-limited. Verified page exists: Katy YMCA Turkey Dash official page, annual Thanksgiving race. No dedicated website found.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://www.facebook.com/thechocolocorun/": {
+    "chocoloco-5k-and-10k-2027": {
+      "note": "Facebook page may get rate-limited. Verified page exists: ChocoLoco Run official page in Conroe TX, annual chocolate-themed race. No dedicated website found.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://harra.org/harra-race-series": {
+    "miles-4-matthew-5k-10k-2026": {
+      "note": "HARRA race series page lists multiple races in series; Miles 4 Matthew is included as part of series. No dedicated race page found.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://www.thebestraces.com/houstonruns/": {
+    "oktoberfest-run-houston-2027": {
+      "note": "Generic Houston races listing page from thebestraces.com race organizer. No race-specific page found.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
   }
 }
