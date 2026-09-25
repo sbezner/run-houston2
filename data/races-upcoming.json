@@ -513,7 +513,7 @@
     "kid_run": false,
     "official_website_url": "https://runsignup.com/Race/TX/Houston/ArtCarIPA5KHalfwayishtoraceday?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://runsignup.com/Race/TX/Houston/ArtCarIPA5KHalfwayishtoraceday?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "description": "A running race in Houston, TX."
+    "description": "Three-mile run or walk through downtown Houston starting at Flying Saucer on Main Street."
   },
   {
     "id": "celebrate-life-survivors-5k-walkrun-gulf-coast-tx-2026",
@@ -828,13 +828,14 @@
     "latitude": 29.5585,
     "longitude": -95.3059,
     "distance": [
-      "5K"
+      "Kids",
+      "1 Mile"
     ],
     "surface": "road",
-    "kid_run": false,
+    "kid_run": true,
     "official_website_url": "https://runsignup.com/Race/TX/Pearland/HealthyKidsRunningSeriesPearlandTX?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://runsignup.com/Race/TX/Pearland/HealthyKidsRunningSeriesPearlandTX?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "description": "A running race in Pearland, TX."
+    "description": "Five-week running series for kids ages 2-14. Age-appropriate distances from 50-yard dash to one mile."
   },
   {
     "id": "healthy-kids-running-series-fall-2026-richmond-tx-2026",
@@ -849,10 +850,11 @@
     "latitude": 29.6415,
     "longitude": -95.7452,
     "distance": [
-      "5K"
+      "Kids",
+      "1 Mile"
     ],
     "surface": "road",
-    "kid_run": false,
+    "kid_run": true,
     "official_website_url": "https://runsignup.com/Race/TX/Richmond/HealthyKidsRunningSeriesRichmondTX?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://runsignup.com/Race/TX/Richmond/HealthyKidsRunningSeriesRichmondTX?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "A running race in Richmond, TX."
@@ -2461,14 +2463,17 @@
     "distance": [
       "5K",
       "10K",
-      "Half Marathon"
+      "Half Marathon",
+      "1 Mile"
     ],
     "surface": "trail",
     "kid_run": false,
-    "description": "Run or walk through Buffalo Bayou Park. Choose from 5K, 10K, or half marathon distances along scenic bayou trails.",
+    "description": "5K, 10K, half marathon, or 1-mile run through Buffalo Bayou Park.",
     "official_website_url": "https://runsignup.com/Race/TX/Houston/RunForMentalHealth5K10K131HOUSTON1114",
     "source_url": "https://runsignup.com/Race/TX/Houston/RunForMentalHealth5K10K131HOUSTON1114",
-    "tz": "America/Chicago"
+    "tz": "America/Chicago",
+    "address": "Buffalo Bayou Trails",
+    "zip": "77079"
   },
   {
     "id": "healthy-kids-running-series-fall-2026-cypress-tx-2026",
@@ -2483,8 +2488,8 @@
     "latitude": 29.831093,
     "longitude": -95.667266,
     "distance": [
-      "1 Mile",
-      "5K"
+      "Kids",
+      "1 Mile"
     ],
     "surface": "road",
     "kid_run": true,
@@ -2535,12 +2540,12 @@
     "description": "A running race in Houston, TX."
   },
   {
-    "id": "pnamh-5k-run-walk-2026-2026",
+    "id": "pnamh-5k-run-walk-2026",
     "name": "PNAMH 5K Run / Walk 2026",
     "date": "2026-11-21",
-    "start_time": null,
+    "start_time": "07:30",
     "tz": "America/Chicago",
-    "address": "15108 Cullen Blvd",
+    "address": "Tom Bass Park III, Pavilion 6",
     "city": "Houston",
     "state": "TX",
     "zip": "77047",
@@ -2551,9 +2556,9 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/PNAMH5KRunWalk2026",
-    "source_url": "https://runsignup.com/Race/TX/Houston/PNAMH5KRunWalk2026",
-    "description": "5K run or walk on the Prairie View A&M University campus. Supports the Panhandle-South Plains chapter of the National Alliance on Mental Health."
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/PNAMHKRunWalk",
+    "source_url": "https://runsignup.com/Race/TX/Houston/PNAMHKRunWalk",
+    "description": "5K run or walk at Tom Bass Park III. Hosted by the Philippine Nurses Association of Metro Houston to support medical mission outreach."
   },
   {
     "id": "tors-race-4-sugarland-2026",
@@ -2770,29 +2775,6 @@
     "official_website_url": "https://runsignup.com/Race/TX/Richmond/PecanGroveTurkeyTrot?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://runsignup.com/Race/TX/Richmond/PecanGroveTurkeyTrot?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "description": "A running race in Richmond, TX."
-  },
-  {
-    "id": "pearland-turkey-trot-2026",
-    "name": "Pearland Turkey Trot",
-    "date": "2026-11-26",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "3449 Pearland Pkwy",
-    "city": "Pearland",
-    "state": "TX",
-    "zip": "77581",
-    "latitude": 29.5636,
-    "longitude": -95.2861,
-    "distance": [
-      "1 Mile",
-      "5K",
-      "10K"
-    ],
-    "surface": "road",
-    "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Pearland/PearlandTurkeyTrot",
-    "source_url": "https://runsignup.com/Race/TX/Pearland/PearlandTurkeyTrot",
-    "description": "Thanksgiving morning tradition in Pearland featuring 4-mile and 6-mile running options."
   },
   {
     "id": "turkey-trot-saint-arnold-houston-2026",
@@ -3239,7 +3221,7 @@
     "kid_run": false,
     "official_website_url": "https://runsignup.com/Race/TX/Houston/JingleBellRun?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://www.houstonrunningcalendar.com/2026/",
-    "description": "A jingle-bell-themed holiday 5K at T.C. Jester Park in northwest Houston."
+    "description": "5K walk or run at T.C. Jester Park to benefit the Arthritis Foundation."
   },
   {
     "id": "tavola-reindeer-run-2026",
@@ -3398,7 +3380,7 @@
     "id": "run-for-breast-cancer-5k10k131-houston-2026",
     "name": "Run for Breast Cancer 5K/10K/13.1 HOUSTON",
     "date": "2026-12-12",
-    "start_time": null,
+    "start_time": "07:30",
     "tz": "America/Chicago",
     "address": "Eleanor Tinsley Park (Course Map will be emailed)",
     "city": "Houston",
@@ -3407,16 +3389,16 @@
     "latitude": 29.760184,
     "longitude": -95.377196,
     "distance": [
-      "1 Mile",
       "5K",
       "10K",
-      "Half Marathon"
+      "Half Marathon",
+      "1 Mile"
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/RunForBreastCancer5K10K131HOUSTON1212",
-    "source_url": "https://runsignup.com/Race/TX/Houston/RunForBreastCancer5K10K131HOUSTON1212",
-    "description": "Choose 5K, 10K, or half marathon through Eleanor Tinsley Park along Buffalo Bayou. Course details emailed before race day."
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/RunForBreastCancer5K10KHOUSTON1212",
+    "source_url": "https://runsignup.com/Race/TX/Houston/RunForBreastCancer5K10KHOUSTON1212",
+    "description": "5K, 10K, half marathon, or 1-mile run at Eleanor Tinsley Park on December 12."
   },
   {
     "id": "winter-run-through-the-preserve-2026",
@@ -3428,16 +3410,17 @@
     "city": "Conroe",
     "state": "TX",
     "zip": "77385",
-    "latitude": 30.3119,
-    "longitude": -95.456,
+    "latitude": 30.274142,
+    "longitude": -95.442086,
     "distance": [
-      "5K"
+      "5K",
+      "Kids"
     ],
     "surface": "road",
     "kid_run": true,
     "official_website_url": "https://runsignup.com/Race/TX/Conroe/WinterRunThroughthePreserve",
     "source_url": "https://runsignup.com/Race/TX/Conroe/WinterRunThroughthePreserve",
-    "description": "A 5K run/walk and 1K kids fun run through the Conroe preserve. Family-friendly winter event."
+    "description": "5K run or walk and 1K kids fun run through the preserve. Located in Conroe."
   },
   {
     "id": "coach-andy-stewart-30k-10k-2026",
@@ -3553,7 +3536,7 @@
     "id": "a-merry-christmas-run-5k10k131-houston-2026",
     "name": "A Merry Christmas Run 5K/10K/13.1 HOUSTON",
     "date": "2026-12-26",
-    "start_time": null,
+    "start_time": "07:30",
     "tz": "America/Chicago",
     "address": "Eleanor Tinsley Park (Course Map will be emailed)",
     "city": "Houston",
@@ -3562,22 +3545,22 @@
     "latitude": 29.760184,
     "longitude": -95.377196,
     "distance": [
-      "1 Mile",
       "5K",
       "10K",
-      "Half Marathon"
+      "Half Marathon",
+      "1 Mile"
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/AMerryChristmasRun5K10K131HOUSTON1226",
-    "source_url": "https://runsignup.com/Race/TX/Houston/AMerryChristmasRun5K10K131HOUSTON1226",
-    "description": "Holiday run on Christmas evening at Eleanor Tinsley Park. Three distance options along Buffalo Bayou trails. Course map provided via email."
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/AMerryChristmasRun5K10KHOUSTON1226",
+    "source_url": "https://runsignup.com/Race/TX/Houston/AMerryChristmasRun5K10KHOUSTON1226",
+    "description": "5K, 10K, half marathon, or 1-mile run on December 26 at Eleanor Tinsley Park. Small-group waves starting at 7:30 AM."
   },
   {
     "id": "new-years-run-5k10k131-houston-2026",
     "name": "New Year's Run 5K/10K/13.1 HOUSTON",
     "date": "2026-12-26",
-    "start_time": null,
+    "start_time": "07:30",
     "tz": "America/Chicago",
     "address": "Eleanor Tinsley Park (Course Map will be emailed)",
     "city": "Houston",
@@ -3586,16 +3569,16 @@
     "latitude": 29.760184,
     "longitude": -95.377196,
     "distance": [
-      "1 Mile",
       "5K",
       "10K",
-      "Half Marathon"
+      "Half Marathon",
+      "1 Mile"
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/NewYearsRun5K10K131HOUSTON1226",
-    "source_url": "https://runsignup.com/Race/TX/Houston/NewYearsRun5K10K131HOUSTON1226",
-    "description": "Ring in the new year with a 5K, 10K, or half marathon at Eleanor Tinsley Park. Buffalo Bayou course details sent by email."
+    "official_website_url": "https://runsignup.com/Race/TX/Houston/NewYearSRun5K10KHOUSTON1226",
+    "source_url": "https://runsignup.com/Race/TX/Houston/NewYearSRun5K10KHOUSTON1226",
+    "description": "5K, 10K, half marathon, or 1-mile run on December 26 at Eleanor Tinsley Park. Small-group event with optional timing."
   },
   {
     "id": "resolution-run-houston-2026",
