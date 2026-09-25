@@ -1,602 +1,5 @@
 [
   {
-    "id": "2026-galactic-gator-5k-run-2026",
-    "name": "2026 Galactic Gator 5K Run",
-    "date": "2026-09-12",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "1704 S Main St",
-    "city": "Anahuac",
-    "state": "TX",
-    "zip": "77514",
-    "latitude": 29.7396,
-    "longitude": -94.6895,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Anahuac/GalacticGator5KRun?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Anahuac/GalacticGator5KRun?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "description": "A running race in Anahuac, TX."
-  },
-  {
-    "id": "911-heroes-run-houston-texas-2026",
-    "name": "9/11 Heroes Run - Houston, Texas",
-    "date": "2026-09-12",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "Houston City Hall",
-    "city": "Houston",
-    "state": "TX",
-    "zip": "77002",
-    "latitude": 29.7602,
-    "longitude": -95.3694,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/911HeroesRunHouston?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Houston/911HeroesRunHouston?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "description": "A running race in Houston, TX."
-  },
-  {
-    "id": "chance-for-hope-going-gold-fun-run-2026",
-    "name": "Chance for Hope Going Gold Fun Run",
-    "date": "2026-09-12",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "Pearland Town Center",
-    "city": "Pearland",
-    "state": "TX",
-    "zip": "77584",
-    "latitude": 29.553,
-    "longitude": -95.3939,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Pearland/Chanceforhope?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Pearland/Chanceforhope?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "description": "A running race in Pearland, TX."
-  },
-  {
-    "id": "kanons-space-jam-2026",
-    "name": "Kanon's Space Jam",
-    "date": "2026-09-12",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "3831 Highway 36 S",
-    "city": "Rosenberg",
-    "state": "TX",
-    "zip": "77471",
-    "latitude": 29.558,
-    "longitude": -95.8068,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Rosenberg/AWalkThroughJurassicPark?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Rosenberg/AWalkThroughJurassicPark?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "description": "A running race in Rosenberg, TX."
-  },
-  {
-    "id": "medal-madness-cypress-37-2026",
-    "name": "Medal Madness 5K, 10K & 13.1M at Cypress, TX (37)",
-    "date": "2026-09-12",
-    "start_time": "08:00",
-    "tz": "America/Chicago",
-    "address": "24502 West Rd",
-    "city": "Cypress",
-    "state": "TX",
-    "zip": "77433",
-    "latitude": 29.9135,
-    "longitude": -95.6392,
-    "distance": [
-      "5K",
-      "10K",
-      "Half Marathon"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Cypress/CypressTX37?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://www.findtherun.com/races/the-woodlands-tx/5k/september",
-    "description": "Part of the US Road Running Medal Madness series at John Paul Landing Park in Cypress, offering 5K, 10K, and half marathon on a flat out-and-back course along a park trail. No on-site registration; chip-timed with themed finisher medals."
-  },
-  {
-    "id": "medal-madness-katy-37-2026",
-    "name": "Medal Madness 5K, 10K & 13.1M at Katy, TX (37)",
-    "date": "2026-09-12",
-    "start_time": "08:00",
-    "tz": "America/Chicago",
-    "address": "2500 Porter Road",
-    "city": "Katy",
-    "state": "TX",
-    "zip": "77493",
-    "latitude": 29.7644,
-    "longitude": -95.8104,
-    "distance": [
-      "5K",
-      "10K",
-      "Half Marathon"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Katy/CypressTX37?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Katy/CypressTX37",
-    "description": "Part of the US Road Running Medal Madness series, this race at Mason Creek Hike & Bike Trail in Katy offers 5K, 10K, and half marathon on a flat out-and-back course. No on-site registration; chip-timed with themed finisher medals and a 3.5-hour course limit."
-  },
-  {
-    "id": "national-chocolate-day-run-for-chocolates-5k10k131-houston-2026",
-    "name": "National Chocolate Day: Run for Chocolates 5K/10K/13.1 HOUSTON",
-    "date": "2026-09-12",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "Brays Bayou Greenway at Hermann Park (Course Map Emailed)",
-    "city": "Houston",
-    "state": "TX",
-    "zip": "77030",
-    "latitude": 29.7076,
-    "longitude": -95.4318,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/NationalChocolateDayRunForChocolates5K10KHOUSTON912?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Houston/NationalChocolateDayRunForChocolates5K10KHOUSTON912?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "description": "A running race in Houston, TX."
-  },
-  {
-    "id": "night-moves-trail-races-2026",
-    "name": "Night Moves Trail Races",
-    "date": "2026-09-12",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "Stephen F. Austin State Park",
-    "city": "San Felipe",
-    "state": "TX",
-    "zip": "77473",
-    "latitude": 29.7451,
-    "longitude": -96.0967,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/SanFelipe/NightMovesTrailRaces?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/SanFelipe/NightMovesTrailRaces?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "description": "A running race in San Felipe, TX."
-  },
-  {
-    "id": "run-for-mental-health-5k10k131-houston-2026",
-    "name": "Run for Mental Health 5K/10K/13.1 HOUSTON",
-    "date": "2026-09-12",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "Brays Bayou Greenway at Hermann Park (Course Map Emailed)",
-    "city": "Houston",
-    "state": "TX",
-    "zip": "77030",
-    "latitude": 29.7076,
-    "longitude": -95.4318,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/RunForMentalHealth5K10KHOUSTON912?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Houston/RunForMentalHealth5K10KHOUSTON912?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "description": "A running race in Houston, TX."
-  },
-  {
-    "id": "run-for-a-new-day-2026",
-    "name": "Run for a New Day",
-    "date": "2026-09-12",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "8423 Stewart Rd.",
-    "city": "Galveston",
-    "state": "TX",
-    "zip": "77554",
-    "latitude": 29.2557,
-    "longitude": -94.8493,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Galveston/RunForaNewDay?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Galveston/RunForaNewDay?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "description": "A running race in Galveston, TX."
-  },
-  {
-    "id": "sickle-cell-houstons-amazing-walk-5k1k-2026",
-    "name": "SICKLE CELL HOUSTON'S AMAZING WALK 5k/1k",
-    "date": "2026-09-12",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "2800 W Little York",
-    "city": "Houston",
-    "state": "TX",
-    "zip": "77091",
-    "latitude": 29.8713,
-    "longitude": -95.4035,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/SickleCellHoustonsAmazingRace?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Houston/SickleCellHoustonsAmazingRace?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "description": "A running race in Houston, TX."
-  },
-  {
-    "id": "st-jude-walk-run-houston-2026",
-    "name": "St. Jude Walk/Run Houston",
-    "date": "2026-09-12",
-    "start_time": "08:00",
-    "tz": "America/Chicago",
-    "address": "1 Stadium Drive",
-    "city": "Sugar Land",
-    "state": "TX",
-    "zip": "77498",
-    "latitude": 29.5876,
-    "longitude": -95.6403,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://fundraising.stjude.org/site/TR/Walk/Walk?pg=entry&fr_id=164557",
-    "source_url": "https://fundraising.stjude.org/site/TR/Walk/Walk?pg=entry&fr_id=164557",
-    "description": "Family-friendly 5K walk/run at Constellation Field during Childhood Cancer Awareness Month. All funds raised support St. Jude Children's Research Hospital, where families never receive a bill. Presented locally by KBR."
-  },
-  {
-    "id": "2026-cal-tri-houston-91326-2026",
-    "name": "2026 Cal Tri Houston - 9.13.26",
-    "date": "2026-09-13",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "555 Katy Fort Bend Rd",
-    "city": "Katy",
-    "state": "TX",
-    "zip": "77494",
-    "latitude": 29.7794,
-    "longitude": -95.804,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Katy/CalTriHouston?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Katy/CalTriHouston?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "description": "A running race in Katy, TX."
-  },
-  {
-    "id": "captain-kids-triathlon-2026",
-    "name": "Captain Kids Triathlon",
-    "date": "2026-09-13",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "Moody Gardens",
-    "city": "Galveston",
-    "state": "TX",
-    "zip": "77554",
-    "latitude": 29.2746,
-    "longitude": -94.8524,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Galveston/CaptainKidsTri?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Galveston/CaptainKidsTri?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "description": "A running race in Galveston, TX."
-  },
-  {
-    "id": "heroes-and-villains-half-marathon-houston-2026",
-    "name": "Heroes and Villains Half Marathon - Houston",
-    "date": "2026-09-13",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "Brazos River Park",
-    "city": "Sugarland",
-    "state": "TX",
-    "zip": "77479",
-    "latitude": 29.5774,
-    "longitude": -95.6356,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Sugarland/HeroesAndVillainsHouston?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Sugarland/HeroesAndVillainsHouston?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "description": "A running race in Sugarland, TX."
-  },
-  {
-    "id": "toughest-10k-kemah-2026",
-    "name": "Toughest 10k Kemah",
-    "date": "2026-09-13",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "215 Kipp Ave",
-    "city": "Kemah",
-    "state": "TX",
-    "zip": "77565",
-    "latitude": 29.547,
-    "longitude": -95.0179,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Kemah/Toughest10Kemah?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Kemah/Toughest10Kemah?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "description": "A running race in Kemah, TX."
-  },
-  {
-    "id": "16th-annual-woodforest-charity-run-2026",
-    "name": "16th Annual Woodforest Charity Run",
-    "date": "2026-09-19",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "Heritage Place Park",
-    "city": "Conroe",
-    "state": "TX",
-    "zip": "77301",
-    "latitude": 30.3116,
-    "longitude": -95.4568,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Conroe/WoodforestCharityRun?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Conroe/WoodforestCharityRun?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "description": "A running race in Conroe, TX."
-  },
-  {
-    "id": "5k-walkrun-for-fibroid-awareness-2026",
-    "name": "5K Walk/Run for Fibroid Awareness",
-    "date": "2026-09-19",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "15108 Cullen Blvd Section 3",
-    "city": "Houston",
-    "state": "TX",
-    "zip": "77047",
-    "latitude": 29.7589,
-    "longitude": -95.3677,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/5KWalkRunForFibroidAwareness?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Houston/5KWalkRunForFibroidAwareness?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "description": "A running race in Houston, TX."
-  },
-  {
-    "id": "lifegift-2nd-chance-run-houston-2026",
-    "name": "LifeGift 2nd Chance Run Houston",
-    "date": "2026-09-19",
-    "start_time": "07:30",
-    "tz": "America/Chicago",
-    "address": "5300 Dryad Dr",
-    "city": "Houston",
-    "state": "TX",
-    "zip": "77035",
-    "latitude": 29.6471103,
-    "longitude": -95.4721584,
-    "distance": [
-      "5K",
-      "1 Mile"
-    ],
-    "surface": "road",
-    "kid_run": true,
-    "official_website_url": "https://www.lifegift.org/get-involved/2nd-chance-run/",
-    "source_url": "https://raceroster.com/events/2026/115543/2026-2nd-chance-run-houston",
-    "description": "LifeGift's 2nd Chance Run honors organ, eye, and tissue donors with a 5K and 1-mile option at Willow Waterhole Greenway. It raises awareness for the more than 10,000 Texans still waiting for a transplant and supports donor family programs."
-  },
-  {
-    "id": "manup-prostate-cancer-5k-awareness-runwalk-2026",
-    "name": "ManUp - Prostate Cancer 5K Awareness Run/Walk",
-    "date": "2026-09-19",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "1122 Buffalo Run Park",
-    "city": "Missouri City",
-    "state": "TX",
-    "zip": "77489",
-    "latitude": 29.6186,
-    "longitude": -95.5377,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/MissouriCity/ManUpProstateCancer5KAwarenessRunWalk?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/MissouriCity/ManUpProstateCancer5KAwarenessRunWalk?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "description": "A running race in Missouri City, TX."
-  },
-  {
-    "id": "medal-madness-5k-10k-131m-at-deer-park-tx-38-2026",
-    "name": "Medal Madness 5K, 10K, & 13.1M at Deer Park, TX (38)",
-    "date": "2026-09-19",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "801 E P St",
-    "city": "Deer Park",
-    "state": "TX",
-    "zip": "77536",
-    "latitude": 29.6846,
-    "longitude": -95.1158,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/DeerPark/DeerParkTX38?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/DeerPark/DeerParkTX38?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "description": "A running race in Deer Park, TX."
-  },
-  {
-    "id": "niekro-foundation-aneurysm-avm-awareness-virtual-5k-and-houston-5k-2026",
-    "name": "Niekro Foundation Aneurysm & AVM Awareness Virtual 5K and Houston 5K",
-    "date": "2026-09-19",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "2401 Fountain View Dr",
-    "city": "Houston",
-    "state": "TX",
-    "zip": "77057",
-    "latitude": 29.7417,
-    "longitude": -95.4847,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/NiekroFoundationAneurysmAVMAwarenessVirtual5K?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Houston/NiekroFoundationAneurysmAVMAwarenessVirtual5K?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "description": "A running race in Houston, TX."
-  },
-  {
-    "id": "run-houston-at-university-of-houston-5k-10k-presented-by-houston-methodist-2026",
-    "name": "Run Houston! at University of Houston 5K & 10K presented by Houston Methodist",
-    "date": "2026-09-19",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "4235 Cullen Blvd.",
-    "city": "Houston",
-    "state": "TX",
-    "zip": "77204",
-    "latitude": 29.7166,
-    "longitude": -95.349,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/Houston/RunHoustonUH?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Houston/RunHoustonUH?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "description": "A running race in Houston, TX."
-  },
-  {
-    "id": "sugar-land-space-cowboys-5k-2026",
-    "name": "SUGAR LAND SPACE COWBOYS 5K",
-    "date": "2026-09-19",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "Start Line Location: Space Cowboys Stadium (Parking Lot)",
-    "city": "Sugar Land",
-    "state": "TX",
-    "zip": "77498",
-    "latitude": 29.6039,
-    "longitude": -95.6356,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/SugarLand/SUGARLANDSPACECOWBOYS5K10KKIDSDASH?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/SugarLand/SUGARLANDSPACECOWBOYS5K10KKIDSDASH?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "description": "A running race in Sugar Land, TX."
-  },
-  {
-    "id": "texas-city-triathlon-duathlon-aquabike-2026",
-    "name": "Texas City Triathlon, Duathlon, & Aquabike",
-    "date": "2026-09-19",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "600 Dike Rd",
-    "city": "Texas City",
-    "state": "TX",
-    "zip": "77590",
-    "latitude": 29.3925,
-    "longitude": -94.8915,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runsignup.com/Race/TX/TexasCity/TexasCityTriathlon?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/TexasCity/TexasCityTriathlon?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "description": "A running race in Texas City, TX."
-  },
-  {
-    "id": "tunnel-to-towers-5k-cypress-nw-houston-2026",
-    "name": "Tunnel to Towers 5K Run & Walk \u2013 Cypress / NW Houston",
-    "date": "2026-09-19",
-    "start_time": "07:30",
-    "tz": "America/Chicago",
-    "address": "9950 Katy Hockley Rd",
-    "city": "Cypress",
-    "state": "TX",
-    "zip": "77433",
-    "latitude": 29.9119842,
-    "longitude": -95.7863797,
-    "distance": [
-      "5K"
-    ],
-    "surface": "road",
-    "kid_run": false,
-    "official_website_url": "https://runwalkcypressnorthwesthouston.t2t.org/",
-    "source_url": "https://runwalkcypressnorthwesthouston.t2t.org/",
-    "description": "Tunnel to Towers 5K Run & Walk at John Paul Landing Park in Cypress supports the Tunnel to Towers Foundation, which helps fallen and catastrophically injured first responders, military members, and their families."
-  },
-  {
-    "id": "woodforest-charity-run-2026",
-    "name": "16th Annual Woodforest Charity Run",
-    "date": "2026-09-20",
-    "start_time": null,
-    "tz": "America/Chicago",
-    "address": "500 Collins St",
-    "city": "Conroe",
-    "state": "TX",
-    "zip": "77301",
-    "latitude": 30.3119,
-    "longitude": -95.4561,
-    "distance": [
-      "5K",
-      "10K",
-      "Kids"
-    ],
-    "surface": "road",
-    "kid_run": true,
-    "official_website_url": "https://runsignup.com/Race/TX/Conroe/WoodforestCharityRun?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
-    "source_url": "https://runsignup.com/Race/TX/Conroe/WoodforestCharityRun",
-    "description": "A 5K, 10K, and kids' dash at Heritage Place Park in downtown Conroe benefiting the Woodforest Charitable Foundation. All net proceeds support the foundation's community programs."
-  },
-  {
-    "id": "university-run-rice-2026",
-    "name": "University Run at Rice University",
-    "date": "2026-09-20",
-    "start_time": "08:00",
-    "tz": "America/Chicago",
-    "address": "6100 Main St",
-    "city": "Houston",
-    "state": "TX",
-    "zip": "77005",
-    "latitude": 29.7163,
-    "longitude": -95.4093,
-    "distance": [
-      "10K",
-      "5K",
-      "Kids"
-    ],
-    "surface": "road",
-    "kid_run": true,
-    "official_website_url": "https://www.raceentry.com/university-run/race-information",
-    "source_url": "https://www.houstonrunningcalendar.com/2026/",
-    "description": "Formerly the Bayou Bucket, this annual race hosted by Rice University Athletics takes runners through the scenic Rice campus with a jumbotron finish inside Rice Stadium. Includes a 10K, 5K, and Kids K with a post-race pancake breakfast."
-  },
-  {
     "id": "bisd-family-5k-kids-fun-run-2026",
     "name": "BISD Family 5K & Kids Fun Run",
     "date": "2026-09-26",
@@ -1648,7 +1051,7 @@
     "kid_run": true,
     "official_website_url": "https://runsignup.com/Race/TX/Houston/DayoftheDeadHalfMarathonHouston?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://runsignup.com/Race/TX/Houston/DayoftheDeadHalfMarathonHouston",
-    "description": "A D\u00eda de los Muertos\u2013themed half marathon hosted by Bigfoot Running Company at Brazos River Park in Sugar Land, offering kids' dash, 1-mile, 5K, quarter marathon, and half marathon. Features a pre-race costume contest, DJ, Bigfoot trophies for top finishers, and a festive post-race celebration at the Race Rally Tent."
+    "description": "A Día de los Muertos–themed half marathon hosted by Bigfoot Running Company at Brazos River Park in Sugar Land, offering kids' dash, 1-mile, 5K, quarter marathon, and half marathon. Features a pre-race costume contest, DJ, Bigfoot trophies for top finishers, and a festive post-race celebration at the Race Rally Tent."
   },
   {
     "id": "friends-of-mae-s-bruce-library-fun-run-2026",
@@ -2398,7 +1801,7 @@
     "kid_run": false,
     "official_website_url": "https://runsignup.com/Race/TX/Baytown/Xracersrideatthepark?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://runsignup.com/Race/TX/Baytown/Xracersrideatthepark",
-    "description": "A D\u00eda de los Muertos\u2013themed hybrid event at the beautiful Baytown Nature Center, combining a 5K trail run and a 10K bike-and-run distance. Participants enjoy the park's wildlife, trails, and waterfront scenery; all finishers receive a shirt and medal at the finish line."
+    "description": "A Día de los Muertos–themed hybrid event at the beautiful Baytown Nature Center, combining a 5K trail run and a 10K bike-and-run distance. Participants enjoy the park's wildlife, trails, and waterfront scenery; all finishers receive a shirt and medal at the finish line."
   },
   {
     "id": "art-car-ipa-5k-social-runwalk-at-flying-saucer-novembeer-2026",
@@ -2535,7 +1938,7 @@
     "date": "2026-11-07",
     "start_time": null,
     "tz": "America/Chicago",
-    "address": "3737 O\u2019Meara Drive",
+    "address": "3737 O’Meara Drive",
     "city": "Houston",
     "state": "TX",
     "zip": "77025",
@@ -2722,7 +2125,7 @@
   },
   {
     "id": "whataburger-whatarun-5k10k-houston-tx-2026",
-    "name": "WHATABURGER \u2018WHATARUN 5K/10K\u2019 (Houston, TX)",
+    "name": "WHATABURGER ‘WHATARUN 5K/10K’ (Houston, TX)",
     "date": "2026-11-07",
     "start_time": null,
     "tz": "America/Chicago",
@@ -3392,7 +2795,7 @@
     "kid_run": false,
     "official_website_url": "https://theturkeytrot.org",
     "source_url": "https://runsignup.com/Race/TX/Houston/CoolxDad5kRun",
-    "description": "Downtown Houston's Thanksgiving morning tradition at Saint Arnold Brewing Company, featuring a chip-timed 5K and 10K course with views of the Downtown skyline plus an inclusive 1-mile walk. Multiple wave starts run from 7:00\u20139:30 AM; proceeds benefit CoolxDad, a Houston nonprofit uplifting fathers and families."
+    "description": "Downtown Houston's Thanksgiving morning tradition at Saint Arnold Brewing Company, featuring a chip-timed 5K and 10K course with views of the Downtown skyline plus an inclusive 1-mile walk. Multiple wave starts run from 7:00–9:30 AM; proceeds benefit CoolxDad, a Houston nonprofit uplifting fathers and families."
   },
   {
     "id": "ymca-run-thru-the-woods-2026",
@@ -3686,7 +3089,7 @@
     "kid_run": false,
     "official_website_url": "https://runsignup.com/Race/TX/TexasCity/TexasCityHalfMarathon?aflt_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH&affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://www.texascityhalf.com/",
-    "description": "The December finale of the Lone Star Race Series, run on the traffic-free Texas City Dike with panoramic Galveston Bay views. The half marathon course traces the full 5-mile dike as an out-and-back, then finishes with a 3.1-mile loop through Texas City's shoreline park \u2014 flat and fast throughout."
+    "description": "The December finale of the Lone Star Race Series, run on the traffic-free Texas City Dike with panoramic Galveston Bay views. The half marathon course traces the full 5-mile dike as an out-and-back, then finishes with a 3.1-mile loop through Texas City's shoreline park — flat and fast throughout."
   },
   {
     "id": "flapjack-fun-run-5k-friendswood-2026",
@@ -3838,7 +3241,7 @@
     "kid_run": true,
     "official_website_url": "https://runsignup.com/Race/TX/Kingwood/KingwoodChristmasCookieDash?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://runsignup.com/Race/TX/Kingwood/KingwoodChristmasCookieDash",
-    "description": "The 3rd Annual Kingwood Christmas Cookie Dash on the trails of Kingwood Country Club, co-located with the Kingwood Christmas Market. Offers 5K, 10K, a unique 10K relay (4 legs of 1.5 miles each \u2014 runners decorate a cookie before tagging off), and Kids Dash. Benefiting Lily's Toy Box, Toys for Tots, and Angel Tree Houston. NOTE: The 2026 edition is already sold out."
+    "description": "The 3rd Annual Kingwood Christmas Cookie Dash on the trails of Kingwood Country Club, co-located with the Kingwood Christmas Market. Offers 5K, 10K, a unique 10K relay (4 legs of 1.5 miles each — runners decorate a cookie before tagging off), and Kids Dash. Benefiting Lily's Toy Box, Toys for Tots, and Angel Tree Houston. NOTE: The 2026 edition is already sold out."
   },
   {
     "id": "coach-andy-stewart-30k-10k-2026",
@@ -3885,7 +3288,7 @@
   {
     "id": "rudolph-fun-run-2026",
     "name": "Rudolph Fun Run",
-    "date": "2026-12-13",
+    "date": "2026-12-12",
     "start_time": null,
     "tz": "America/Chicago",
     "address": "CityCentre",
@@ -3972,9 +3375,9 @@
     "description": "Holiday-themed race along the Galveston Seawall featuring half marathon, 10K, 5K, and kids dash distances. Participants run in Santa gear with holiday music, Christmas decorations, and cookies and hot cocoa at the finish line."
   },
   {
-    "id": "resolution-run-houston-2026",
+    "id": "resolution-run-houston-2027",
     "name": "Houston Resolution Run",
-    "date": "2026-12-28",
+    "date": "2027-01-01",
     "start_time": null,
     "tz": "America/Chicago",
     "address": "Fish Plaza",
@@ -4038,7 +3441,7 @@
     "kid_run": true,
     "official_website_url": "https://runsignup.com/Race/TX/SugarLand/2022LoneStarStampedeTexasExesHoustonChapter?affiliate_token=uOWL1MZWQ2qYNlFuqMcOEfxgn0WZFSyH",
     "source_url": "https://runsignup.com/Race/TX/SugarLand/2022LoneStarStampedeTexasExesHoustonChapter",
-    "description": "The 48th annual Texas Exes Houston Chapter scholarship run at Brazos River Park, featuring a 5K, 10K, kids dash, and \u2014 new for 2027 \u2014 a first-ever half marathon. A Houston tradition for UT Austin alumni and supporters, with proceeds funding college scholarships for Houston-area students."
+    "description": "The 48th annual Texas Exes Houston Chapter scholarship run at Brazos River Park, featuring a 5K, 10K, kids dash, and — new for 2027 — a first-ever half marathon. A Houston tradition for UT Austin alumni and supporters, with proceeds funding college scholarships for Houston-area students."
   },
   {
     "id": "bigfoot-classic-houston-2027",
@@ -4566,7 +3969,7 @@
   },
   {
     "id": "running-with-my-peeps-5k10k-houston-tx-2027",
-    "name": "\u2018RUNNING WITH MY PEEPS 5K/10K\u2019 (Houston, TX)",
+    "name": "‘RUNNING WITH MY PEEPS 5K/10K’ (Houston, TX)",
     "date": "2027-03-27",
     "start_time": null,
     "tz": "America/Chicago",
@@ -4828,7 +4231,7 @@
   },
   {
     "id": "uncf-houston-walk-run-2027",
-    "name": "UNCF South Texas \u2013 Houston Walk/Run for Education",
+    "name": "UNCF South Texas – Houston Walk/Run for Education",
     "date": "2027-09-26",
     "start_time": "08:00",
     "tz": "America/Chicago",
@@ -4933,7 +4336,7 @@
     "kid_run": false,
     "official_website_url": "https://harra.org/harra-race-series",
     "source_url": "https://www.findtherun.com/race/98600/space-city-10-miler-and-5k",
-    "description": "Annual HARRA Fall Marathon Warm-Up Series race through the scenic Clear Lake area, starting and finishing at the University of Houston\u2013Clear Lake campus. The certified 10-mile loop course is popular with runners building mileage for the January Houston Marathon."
+    "description": "Annual HARRA Fall Marathon Warm-Up Series race through the scenic Clear Lake area, starting and finishing at the University of Houston–Clear Lake campus. The certified 10-mile loop course is popular with runners building mileage for the January Houston Marathon."
   },
   {
     "id": "sugar-land-half-marathon-2027",
