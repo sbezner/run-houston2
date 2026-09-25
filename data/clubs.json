@@ -192,7 +192,7 @@
     "id": "holler-haulers-run-club",
     "club_name": "Holler Haulers Run Club",
     "location": "Sawyer Yards, Houston",
-    "website_url": "https://hollerbeer.com/events/",
+    "website_url": "https://hollerbeer.com/",
     "description": "A social run club meeting Wednesday nights at Holler Brewing with a Short Haul (3 miles) and Long Haul (5 miles) route option, both departing at 6:30\u20137 PM.",
     "latitude": 29.7693,
     "longitude": -95.381
@@ -408,7 +408,7 @@
     "id": "texas-trackstars",
     "club_name": "Texas Trackstars",
     "location": "Richmond, Texas",
-    "website_url": "https://txtrackstars.com/about",
+    "website_url": "https://txtrackstars.com/",
     "description": "A track and field club that has been training athletes for over 30 years.",
     "latitude": 29.5801,
     "longitude": -95.761

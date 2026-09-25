@@ -1,6 +1,230 @@
 {
   "_comment": "Reviewed exceptions for links that cannot be automatically checked. Each exception must be per-card with specific verification note.",
   
+  "https://7run3.com/": {
+    "7run3-running-club": {
+      "note": "Dedicated club site; homepage names 7Run3 Running Club and describes area code 713 Houston training club for all distances 5K to ultra, Memorial Park meetings.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://anchorlegathleticclub.com/": {
+    "anchor-leg-athletic-club": {
+      "note": "Dedicated club site; homepage names Anchor Leg Athletic Club, volunteer running/cycling club meeting Thursdays at Devil and the Deep Brewery in Galveston.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://www.bcrr.org/": {
+    "bayou-city-road-runners": {
+      "note": "Dedicated club site; homepage names Bayou City Road Runners, social/performance club with long Houston history, weekly runs at Rice and Memorial Park.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://cypressrunning.com/": {
+    "cypress-running-club": {
+      "note": "Dedicated club site (Cypress Running Crew); homepage names the club, community-based nonprofit serving Cypress/NW Houston, Saturday runs at Sampson Elementary.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://fassbrewing.com/events": {
+    "fass-run-club": {
+      "note": "Brewery events page. Verified page mentions Fass Run Club as Conroe's only running and beer club, open to all skill levels. No deeper club page found.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://ffprunningclubs.org/": {
+    "ffp-running-clubs": {
+      "note": "Organization homepage for FFP Running Clubs network; names FFP and describes free community-based clubs throughout Houston, multiple locations listed.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://www.freaksrunclub.com/": {
+    "freaks-come-out-at-night-run-club": {
+      "note": "Dedicated club site; homepage names Freaks Come Out at Night Run Club, 501(c)(3) nonprofit meeting Fridays 7:15pm at rotating Houston venues.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://www.galvestonrunningclub.org/": {
+    "galveston-running-club": {
+      "note": "Dedicated club site; homepage names Galveston Running Club, Galveston Island club promoting running community and healthy living through group runs.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://goodguysrunclubhtx.com/": {
+    "good-guys-run-club": {
+      "note": "Dedicated club site; homepage names Good Guys Run Club, community-led club meeting Wednesdays 7pm along MKT Heritage Trail and Heights Highline.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://www.goodtimesrunningco.com/": {
+    "good-times-running-co-run-club": {
+      "note": "Running store homepage; mentions community run club with Tuesday evening and Saturday morning runs. Katy locally owned specialty store. No deeper club page found.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://www.hardloop.run/": {
+    "hardloop-endurance": {
+      "note": "Dedicated club/coaching site; homepage names Hardloop Endurance, specializes in custom training plans and coaching for endurance runners in Katy.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://hollerbeer.com/": {
+    "holler-haulers-run-club": {
+      "note": "Brewery homepage; site mentions Holler Haulers run club meeting Wednesday 6:30pm with 3-mile or 5-mile options. No dedicated club page found.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://www.hatsandmore.org/": {
+    "houston-area-trail-runners": {
+      "note": "Dedicated club site; homepage names Houston Area Trail Runners (HATS), specifically for trail running in Houston area, supports local ultra/trail community.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://www.fithouston.org/": {
+    "houston-fit": {
+      "note": "Training program homepage; names Houston Fit, large training program for runners of all abilities aiming for marathons/half marathons, multiple locations.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://houstonharriers.com/": {
+    "houston-harriers": {
+      "note": "Dedicated club site; homepage names Houston Harriers, competitive running club open to all ages/paces, re-organized 2017, 47 USA National Titles.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://h4.org/": {
+    "houston-hash-house-harriers": {
+      "note": "Dedicated club site; homepage names Houston Hash House Harriers, social group calling itself a drinking club with a running problem.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://houstonstriders.org/": {
+    "houston-striders": {
+      "note": "Dedicated club site; homepage names Houston Striders, friendly and inclusive club accommodating all paces and abilities at Memorial Park.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://shop.inflightrunning.com/": {
+    "in-flight-running": {
+      "note": "Coaching/apparel shop homepage; mentions In Flight Running offers professional coaching and structured training programs for all levels. No deeper club page found.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://www.katyarearunningclub.com/": {
+    "katy-area-running-club": {
+      "note": "Dedicated club site; homepage names Katy Area Running Club (KARC), only 501(c)(3) nonprofit running club in Katy serving all ages/abilities.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://ffprunningclubs.org/": {
+    "no-label-running-club": {
+      "note": "FFP organization homepage listing multiple clubs including No Label Running Club. No dedicated page for No Label club found on FFP site.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://www.pasadenatexasrunningclub.com/": {
+    "pasadena-texas-running-club": {
+      "note": "Dedicated club site; homepage names Pasadena Texas Running Club, HARRA-affiliated club fostering supportive running community in Pasadena area.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://www.goparr.com/": {
+    "pearland-area-road-runners": {
+      "note": "Dedicated club site; homepage names Pearland Area Road Runners, community club serving Pearland helping runners find community and improve.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://powerinmotion.org/": {
+    "power-in-motion": {
+      "note": "Training program homepage; names Power In Motion (PIM), 10-week adult 5K clinic for new/intermediate runners held twice yearly at Memorial Park.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://riserunners.com/": {
+    "rise-runners-walkers": {
+      "note": "Dedicated club site; homepage names RISE Runners & Walkers, free 501(c)(3) run/walk club in Sugar Land providing support and encouragement.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://www.teamgreenrunning.com/": {
+    "team-green-running": {
+      "note": "Dedicated club site; homepage names Team Green Running, year-round 501(c)(3) developmental/competitive club in The Woodlands coaching youth through masters.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://texasstormtrack.org/": {
+    "texas-storm-track-club": {
+      "note": "Dedicated club site; homepage names Texas Storm Track Club, member-based track/field club serving Pearland area with training programs and events.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://txtrackstars.com/": {
+    "texas-trackstars": {
+      "note": "Dedicated club site; homepage names Texas TrackStars (capital S), building speed/endurance/confidence for 30+ years in Richmond TX.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
+  "https://vallensons.com/": {
+    "vallensons-run-club": {
+      "note": "Brewery homepage; site mentions weekly runs starting/ending at Vallensons' Brewing Company in Pearland. No dedicated club page found.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
   "https://barchouston.com/": {
     "bay-area-running-club": {
       "note": "Site has intermittent TLS errors. Verified in browser: loads correctly, shows Bay Area Running Club homepage with club history (founded 1975), member benefits, and Space City 10 Miler info. Official club site.",
@@ -73,9 +297,17 @@
     }
   },
   
+  "https://www.njordrunning.com/blogs/news/weekly-run-crew": {
+    "njord-running": {
+      "note": "Dedicated run crew page on apparel brand site; names Njörd Run Crew, service through sport mission, meets Wednesdays at Northside High School track and Saturdays at Active Passion.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
+    }
+  },
+  
   "https://tornadosrunningclub.com/": {
     "tornados-running-club": {
-      "note": "Site homepage is about Tornados Running Club (entire site dedicated to this club). Verified: 501(c)(3) nonprofit founded 1988, history page, training info. Club-specific homepage allowed.",
+      "note": "Dedicated club site; homepage names Tornados Running Club, 501(c)(3) nonprofit founded 1988, history page, training info, year-round marathon/half training.",
       "reviewer": "RunHouston",
       "date": "2026-09-24"
     }
