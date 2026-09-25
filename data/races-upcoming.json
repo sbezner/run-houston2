@@ -1734,7 +1734,7 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://harra.org/harra-race-series",
+    "official_website_url": null,
     "source_url": null,
     "description": "Charity race at No Label Brewing in Katy honoring Matthew, a young boy who fought leukemia. Proceeds provide financial assistance to families facing pediatric cancer."
   },
@@ -3301,7 +3301,7 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://houstonmom.com/houston-area-turkey-trots/",
+    "official_website_url": null,
     "source_url": null,
     "description": "10th annual Thanksgiving morning fun run at Kingwood Town Center Park benefiting the L3 Foundation, a nonprofit supporting pediatric cancer patients and their families founded in honor of Landon Ahrendt."
   },
@@ -4128,7 +4128,7 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://www.chevronhoustonmarathon.com/",
+    "official_website_url": "https://www.chevronhoustonmarathon.com/race-weekend/schedule/",
     "source_url": "https://www.chevronhoustonmarathon.com/race-weekend/schedule/",
     "description": "The We Are Houston 5K presented by Aramco and Chevron is the Saturday kickoff to Houston Marathon weekend, starting at McKinney and Crawford near the George R. Brown Convention Center. Runners who complete this 5K plus the Sunday marathon or half earn the Houston Double and receive three finisher medals."
   },
@@ -4348,7 +4348,7 @@
     ],
     "surface": "road",
     "kid_run": true,
-    "official_website_url": "https://www.thewoodlandsmarathon.com/",
+    "official_website_url": "https://www.thewoodlandsmarathon.com/5k-run",
     "source_url": "https://www.thewoodlandsmarathon.com/schedule",
     "description": "Companion 5K and family 2K Fun Run held one week before The Woodlands Marathon. Both events start and finish on the south side of the Cynthia Woods Mitchell Pavilion along the Woodlands Waterway."
   },
@@ -4799,7 +4799,7 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://www.thebestraces.com/houstonruns/",
+    "official_website_url": null,
     "source_url": "https://runsignup.com/Race/TX/Houston/OktoberfestRun5K10KHOUSTON",
     "description": "An annual fall-themed road race held at Eleanor Tinsley Park along Buffalo Bayou in midtown Houston, organized by The Best Races and offering 5K, 10K, and half marathon distances. The 2026 edition was held on September 26; the 2027 edition is expected on or around September 25 (last Saturday of September). Participants receive course details by email the week before the event."
   },
@@ -4886,8 +4886,8 @@
     ],
     "surface": "road",
     "kid_run": false,
-    "official_website_url": "https://www.texas10series.com/",
-    "source_url": "https://runsignup.com/Race/TX/Cypress/Cypress10Miler",
+    "official_website_url": "https://runsignup.com/Race/TX/Cypress/Cypress10Miler",
+    "source_url": null,
     "description": "The Cypress 10 Miler opens the annual Texas 10 Series on the first Sunday of October at Houston Premium Outlets along US-290. The entirely flat course offers 10-mile, 5-mile, and 5K options, including a Run the Pink 5K supporting breast cancer awareness."
   },
   {
