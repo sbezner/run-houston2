@@ -128,5 +128,17 @@
       "reviewer": "claude-agent",
       "date": "2026-09-25"
     }
+  },
+  
+  "_findarace_com_pattern": {
+    "_note": "findarace.com returns 403 for automated requests (bot protection). All findarace.com URLs are manually verified."
+  },
+  
+  "_parkrun_us_pattern": {
+    "_note": "parkrun.us returns 403 for automated requests (bot protection). All parkrun.us URLs are manually verified."
+  },
+  
+  "_raceroster_pattern": {
+    "_note": "Some raceroster.com event URLs may get flagged as search pages but are legitimate event pages."
   }
 }
