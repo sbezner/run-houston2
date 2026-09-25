@@ -192,7 +192,7 @@
     "id": "holler-haulers-run-club",
     "club_name": "Holler Haulers Run Club",
     "location": "Sawyer Yards, Houston",
-    "website_url": "https://hollerbeer.com/",
+    "website_url": "https://hollerbeer.com/events/",
     "description": "A social run club meeting Wednesday nights at Holler Brewing with a Short Haul (3 miles) and Long Haul (5 miles) route option, both departing at 6:30\u20137 PM.",
     "latitude": 29.7693,
     "longitude": -95.381
@@ -300,7 +300,7 @@
     "id": "njord-running",
     "club_name": "Njord Running",
     "location": "Montrose/Houston Heights",
-    "website_url": "https://www.njordrunning.com/",
+    "website_url": "https://www.njordrunning.com/blogs/news/weekly-run-crew",
     "description": "A Houston run crew founded in 2020 that brings competitive runners together with a mission to aid underserved communities; meets Wednesdays at Heights High School Track and Saturdays at A 2nd Cup.",
     "latitude": 29.7619,
     "longitude": -95.3935
@@ -408,7 +408,7 @@
     "id": "texas-trackstars",
     "club_name": "Texas Trackstars",
     "location": "Richmond, Texas",
-    "website_url": "https://txtrackstars.com/",
+    "website_url": "https://txtrackstars.com/about",
     "description": "A track and field club that has been training athletes for over 30 years.",
     "latitude": 29.5801,
     "longitude": -95.761

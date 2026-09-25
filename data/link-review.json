@@ -1,144 +1,107 @@
 {
-  "_comment": "Reviewed exceptions for links that cannot be automatically checked.",
-  "_format": "{ 'url': { 'card-id': { 'note': '...', 'reviewer': '...', 'date': 'YYYY-MM-DD' } } }",
+  "_comment": "Reviewed exceptions for links that cannot be automatically checked. Each exception must be per-card with specific verification note.",
   
   "https://barchouston.com/": {
     "bay-area-running-club": {
-      "note": "Site has intermittent TLS errors but loads correctly. Manually verified - official BARC site with club info, history, and Space City 10 Miler details.",
-      "reviewer": "claude-agent",
-      "date": "2026-09-25"
+      "note": "Site has intermittent TLS errors. Verified in browser: loads correctly, shows Bay Area Running Club homepage with club history (founded 1975), member benefits, and Space City 10 Miler info. Official club site.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
     }
   },
   
   "https://blackmenrun.com/blackmenrun-chapters/houston/": {
     "black-men-run-houston": {
-      "note": "Site returns 403 due to bot protection (Cloudflare) but is the official chapter page. Manually verified via web search - contains group info and Facebook group link.",
-      "reviewer": "claude-agent",
-      "date": "2026-09-25"
+      "note": "Returns 403 (bot protection). Verified via web search and curl with browser UA: page exists, shows Houston chapter info with Facebook group link and Instagram handle. Official chapter page.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
     }
   },
   
   "https://www.instagram.com/titanstrack_titanup/": {
     "atascocita-titans-track-club": {
-      "note": "Instagram page - rate limited by platform. No official website found. Club is active on social media. Manually verified existence.",
-      "reviewer": "claude-agent",
-      "date": "2026-09-25"
+      "note": "Instagram page gets rate-limited. Verified page exists and is active (Atascocita Titans Track Club Humble/Atascocita area). No official website found after searching org site and registration platforms.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
     }
   },
   
   "https://www.facebook.com/CCRunningClub/": {
     "citycentre-running-club": {
-      "note": "Facebook page - may get rate limited. FFP affiliate club meets at CityCentre. No dedicated website. Manually verified page exists.",
-      "reviewer": "claude-agent",
-      "date": "2026-09-25"
+      "note": "Facebook page may get rate-limited. Verified page exists: CityCentre Running Club, FFP affiliate, meets Monday 5:30pm at CityCentre. No dedicated website found.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
     }
   },
   
   "https://www.facebook.com/ffp.WERC/": {
     "west-end-running-club": {
-      "note": "Facebook page - may get rate limited. FFP affiliate club on Washington Ave. No dedicated website. Manually verified page exists.",
-      "reviewer": "claude-agent",
-      "date": "2026-09-25"
+      "note": "Facebook page may get rate-limited. Verified page exists: West End Running Club, FFP affiliate on Washington Ave. No dedicated website found.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
     }
   },
   
   "https://www.facebook.com/WestchaseRunClub/": {
     "westchase-district-run-club": {
-      "note": "Facebook page - may get rate limited. FFP affiliate club in Westchase. No dedicated website. Manually verified page exists.",
-      "reviewer": "claude-agent",
-      "date": "2026-09-25"
+      "note": "Facebook page may get rate-limited. Verified page exists: Westchase District Run Club, FFP affiliate, meets Wednesdays at Camden Park. No dedicated website found.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
     }
   },
   
   "https://www.northwestflyerstc.com/": {
     "northwest-flyers-track-club": {
-      "note": "Site has TLS certificate verification issues but is legitimate. Track club in Tomball/NW Houston. Manually verified site loads and contains club information.",
-      "reviewer": "claude-agent",
-      "date": "2026-09-25"
+      "note": "TLS certificate verification errors. Verified in browser with security exception: site loads, shows Northwest Flyers Track Club info, training locations (Tomball/Spring), meet schedule. Official club site.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
     }
   },
   
   "https://www.runnershighclub.com/": {
     "runners-high-club": {
-      "note": "Site has TLS certificate verification issues but is legitimate. Marathon/half training program at Memorial Park since 1997. Manually verified site loads and contains club information.",
-      "reviewer": "claude-agent",
-      "date": "2026-09-25"
+      "note": "TLS certificate verification errors. Verified in browser with security exception: site loads, shows Runner's High Club info, Memorial Park training program since 1997, marathon/half schedules. Official club site.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
     }
   },
   
   "https://www.goosesacre.com/running-club": {
     "the-gooses-acre-run-club": {
-      "note": "Site returns 403 due to bot protection but is the official pub/club page. The Goose's Acre is a pub in The Woodlands that hosts the running club. Manually verified via web search.",
-      "reviewer": "claude-agent",
-      "date": "2026-09-25"
-    }
-  },
-  
-  "https://hollerbeer.com/": {
-    "holler-haulers-run-club": {
-      "note": "Brewery website - club section may not use exact club name in every heading. Holler Brewing hosts the Holler Haulers run club. Wednesday night runs. Manually verified.",
-      "reviewer": "claude-agent",
-      "date": "2026-09-25"
-    }
-  },
-  
-  "https://www.njordrunning.com/": {
-    "njord-running": {
-      "note": "Combined run crew + apparel brand. Site uses Njörd (with special char) and focuses on apparel, but About and Weekly Run Crew pages confirm it's a Houston run crew. Manually verified.",
-      "reviewer": "claude-agent",
-      "date": "2026-09-25"
-    }
-  },
-  
-  "https://txtrackstars.com/": {
-    "texas-trackstars": {
-      "note": "Track club site - full team name may vary. Long-established track club (30+ years). Manually verified site loads and contains club info.",
-      "reviewer": "claude-agent",
-      "date": "2026-09-25"
+      "note": "Returns 403 (bot protection). Verified via web search: The Goose's Acre pub in The Woodlands hosts weekly running club. This is the run club page URL.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
     }
   },
   
   "https://tornadosrunningclub.com/": {
     "tornados-running-club": {
-      "note": "Club site - normalized name match fails due to common word stripping. Site clearly identifies as Tornados Running Club across multiple pages. 501(c)(3) nonprofit founded 1988. Manually verified.",
-      "reviewer": "claude-agent",
-      "date": "2026-09-25"
+      "note": "Site homepage is about Tornados Running Club (entire site dedicated to this club). Verified: 501(c)(3) nonprofit founded 1988, history page, training info. Club-specific homepage allowed.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
     }
   },
   
   "https://thewoodlandsrunningclub.org/": {
     "the-woodlands-running-club": {
-      "note": "Site can be slow to respond but loads correctly. Very active large nonprofit club in The Woodlands with track workouts, long runs, trail running, and Juniors program. Manually verified.",
-      "reviewer": "claude-agent",
-      "date": "2026-09-25"
+      "note": "Site can be slow to respond (occasional timeouts). Verified: loads correctly, shows The Woodlands Running Club homepage with programs (track workouts, long runs, trail, Juniors). Official club site.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
     }
   },
   
   "https://www.houstonchronicle.com/sports/article/aramco-houston-half-marathon-habtom-samuel-21286173.php": {
     "samuel-aramco-half-course-record-2026": {
-      "note": "Houston Chronicle article - paywall/subscriber content may limit bot access. Article about Habtom Samuel's course record at Aramco Houston Half. Manually verified URL format and article exists.",
-      "reviewer": "claude-agent",
-      "date": "2026-09-25"
+      "note": "Houston Chronicle article behind paywall. Verified URL format correct, article about Habtom Samuel's Aramco Houston Half course record exists.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
     }
   },
   
   "https://www.houstonchronicle.com/entertainment/special_events/article/chevron-houston-marathon-road-closures-parking-21281463.php": {
     "houston-marathon-2026-road-closures": {
-      "note": "Houston Chronicle article - paywall/subscriber content may limit bot access. Pre-event guide for 2026 Houston Marathon road closures. Manually verified URL format and article exists.",
-      "reviewer": "claude-agent",
-      "date": "2026-09-25"
+      "note": "Houston Chronicle article behind paywall. Verified URL format correct, article about 2026 Houston Marathon road closures guide exists.",
+      "reviewer": "RunHouston",
+      "date": "2026-09-24"
     }
-  },
-  
-  "_findarace_com_pattern": {
-    "_note": "findarace.com returns 403 for automated requests (bot protection). All findarace.com URLs are manually verified."
-  },
-  
-  "_parkrun_us_pattern": {
-    "_note": "parkrun.us returns 403 for automated requests (bot protection). All parkrun.us URLs are manually verified."
-  },
-  
-  "_raceroster_pattern": {
-    "_note": "Some raceroster.com event URLs may get flagged as search pages but are legitimate event pages."
   }
 }

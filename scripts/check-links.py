@@ -234,6 +234,77 @@ def load_reviewed_exceptions() -> Dict[str, Dict]:
 # --- Link checking logic ---
 
 
+def get_changed_cards(base_branch: str = "master") -> Dict[str, Set[str]]:
+    """
+    Get IDs of cards that were added or changed vs base branch.
+    Returns dict of {card_type: set(card_ids)}.
+    """
+    import subprocess
+    
+    changed_cards = {
+        "clubs": set(),
+        "races": set(),
+        "news": set(),
+        "reports": set()
+    }
+    
+    try:
+        # Get list of changed JSON files
+        result = subprocess.run(
+            ["git", "diff", "--name-only", f"{base_branch}...HEAD", "data/"],
+            capture_output=True,
+            text=True,
+            cwd=REPO
+        )
+        
+        if result.returncode != 0:
+            print(f"Warning: git diff failed, checking all cards")
+            return None
+        
+        changed_files = result.stdout.strip().split('\n')
+        
+        for filepath in changed_files:
+            if not filepath or not filepath.endswith('.json'):
+                continue
+            
+            # Determine card type from filename
+            card_type = None
+            if 'clubs.json' in filepath:
+                card_type = 'clubs'
+            elif 'races-upcoming.json' in filepath:
+                card_type = 'races'
+            elif 'news.json' in filepath:
+                card_type = 'news'
+            elif 'race_reports.json' in filepath:
+                card_type = 'reports'
+            else:
+                continue
+            
+            # Get the diff to find changed card IDs
+            diff_result = subprocess.run(
+                ["git", "diff", f"{base_branch}...HEAD", "--", filepath],
+                capture_output=True,
+                text=True,
+                cwd=REPO
+            )
+            
+            if diff_result.returncode != 0:
+                continue
+            
+            # Extract IDs from diff (look for "id": "..." in added/changed lines)
+            for line in diff_result.stdout.split('\n'):
+                if line.startswith('+') and '"id"' in line:
+                    match = re.search(r'"id"\s*:\s*"([^"]+)"', line)
+                    if match:
+                        changed_cards[card_type].add(match.group(1))
+        
+        return changed_cards
+    
+    except Exception as e:
+        print(f"Warning: Failed to get changed cards: {e}")
+        return None
+
+
 def check_link(
     card_type: str,
     card_id: str,
@@ -248,42 +319,33 @@ def check_link(
     """
     stats["checked"] += 1
     
-    # Check if this link is reviewed
+    # Check if this link is reviewed (per-card exceptions only)
     if url in reviewed and card_id in reviewed[url]:
         review = reviewed[url][card_id]
         stats["reviewed_ok"] += 1
         return ("pass", f"Reviewed exception: {review.get('note', 'manually verified')}")
     
-    # Known bot-protected domains - treat as reviewed if they return 403
-    bot_protected_domains = ['findarace.com', 'parkrun.us']
-    is_bot_protected = any(domain in url.lower() for domain in bot_protected_domains)
-    
     # Fetch the URL
     status_code, final_url, text, error = fetch_url(url)
     
-    # Hard fail conditions (but be lenient with bot-protected sites)
+    # Hard fail conditions - no auto-pass, no exceptions in code
     if status_code == 0:
         stats["hard_fail"] += 1
         return ("hard_fail", error)
-    
-    if status_code == 403 and is_bot_protected:
-        # Treat as reviewed - these sites block bots but are likely legitimate
-        stats["reviewed_ok"] += 1
-        return ("pass", f"Bot-protected site (403 expected): {url.split('/')[2]}")
     
     if status_code >= 400:
         stats["hard_fail"] += 1
         return ("hard_fail", f"HTTP {status_code}")
     
-    # Flag generic pages (but be lenient with club homepages - those are OK)
-    # Also be lenient with news linking to event/org homepages - those are announcements
-    # For races, event-specific homepages (like sugarlandhalf.com) are OK - only flag
-    # if it's clearly a search page or generic events calendar
-    if card_type == "race":
-        # Only flag registration search pages - don't flag event-specific homepages
-        if is_registration_search(final_url):
-            stats["flagged_generic"] += 1
-            return ("flag_generic", f"Registration search page: {final_url}")
+    # Flag generic pages - every card type must land on specific page
+    if is_generic_path(final_url):
+        stats["flagged_generic"] += 1
+        return ("flag_generic", f"Generic page (homepage/events listing): {final_url}")
+    
+    # For all card types, flag registration search pages
+    if is_registration_search(final_url):
+        stats["flagged_generic"] += 1
+        return ("flag_generic", f"Registration search page: {final_url}")
     
     # Context check
     anchor = None
@@ -313,13 +375,13 @@ def check_link(
             stats["flagged_context"] += 1
             return ("flag_context", f"Race name not found on landing page")
         
-        # Race date or year should appear (but be lenient for future races)
+        # Race date or year must appear
         race_date = card_data.get("date", "")
         if race_date:
             year = race_date.split("-")[0]
-            # For 2027+ races, don't require year match (pages may not be updated yet)
-            # For 2026 races, require year
-            if year == "2026" and year not in page_text:
+            # Only 2027+ races can skip year check (pages may not be updated yet)
+            # 2026 and earlier races MUST show the year
+            if int(year) <= 2026 and year not in page_text:
                 stats["flagged_context"] += 1
                 return ("flag_context", f"Race year '{year}' not found on landing page")
     
@@ -438,15 +500,25 @@ def check_all_links(
         "reports": load_reports() if "reports" in card_types else [],
     }
     
-    # TODO: Implement --only-changed by using git diff
-    # For now, check all
+    # Get changed cards if requested
+    changed_filter = None
+    if only_changed:
+        changed_filter = get_changed_cards()
+        if changed_filter is None:
+            print("Warning: Could not determine changed cards, checking all")
+        else:
+            total_changed = sum(len(ids) for ids in changed_filter.values())
+            print(f"Only checking {total_changed} changed cards")
     
     print(f"Starting link check (types: {', '.join(card_types)})...\n")
     
     # Check clubs
     if "clubs" in card_types:
-        print(f"Checking {len(data_map['clubs'])} clubs...")
-        for club in data_map["clubs"]:
+        clubs_to_check = data_map["clubs"]
+        if changed_filter:
+            clubs_to_check = [c for c in clubs_to_check if c["id"] in changed_filter["clubs"]]
+        print(f"Checking {len(clubs_to_check)} clubs...")
+        for club in clubs_to_check:
             url = club.get("website_url")
             if not url:
                 continue
@@ -468,8 +540,11 @@ def check_all_links(
     
     # Check races
     if "races" in card_types:
-        print(f"Checking {len(data_map['races'])} races...")
-        for race in data_map["races"]:
+        races_to_check = data_map["races"]
+        if changed_filter:
+            races_to_check = [r for r in races_to_check if r["id"] in changed_filter["races"]]
+        print(f"Checking {len(races_to_check)} races...")
+        for race in races_to_check:
             for field in ["official_website_url", "source_url"]:
                 url = race.get(field)
                 if not url:
@@ -492,8 +567,11 @@ def check_all_links(
     
     # Check news
     if "news" in card_types:
-        print(f"Checking {len(data_map['news'])} news items...")
-        for item in data_map["news"]:
+        news_to_check = data_map["news"]
+        if changed_filter:
+            news_to_check = [n for n in news_to_check if n["id"] in changed_filter["news"]]
+        print(f"Checking {len(news_to_check)} news items...")
+        for item in news_to_check:
             url = item.get("url")
             if not url:
                 continue
