@@ -34,6 +34,56 @@
     }
   }
   </script>
+  <style>
+    .about-stats-section {
+      max-width: var(--max-w);
+      margin: 2rem auto;
+      padding: 0 1.25rem;
+    }
+    #about-stats {
+      display: none;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1.5rem;
+      padding: 1.5rem;
+      background: var(--tyvek);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+    .about-stat {
+      text-align: center;
+    }
+    .about-stat__value {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--heat);
+    }
+    .about-stat__label {
+      margin-top: 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--mute);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    @media (max-width: 640px) {
+      .about-stats-section {
+        padding: 0 1rem;
+      }
+      #about-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        padding: 1rem;
+      }
+      .about-stat__value {
+        font-size: 1.5rem;
+      }
+      .about-stat__label {
+        font-size: 0.75rem;
+      }
+    }
+  </style>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-0HSJBPL4J0"></script>
   <script>
@@ -66,6 +116,10 @@
       </p>
     </div>
   </section>
+
+  <div class="about-stats-section">
+    <div id="about-stats"></div>
+  </div>
 
   <main>
     <article class="prose">
@@ -148,5 +202,7 @@
         Run Houston &middot; Made by runners, for Houston runners.
       </div>
     </div>
-  </footer></body>
+  </footer>
+  <script src="assets/js/about-stats.js?v=2"></script>
+</body>
 </html>
